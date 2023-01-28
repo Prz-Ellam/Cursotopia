@@ -1,0 +1,18 @@
+DirectoryIndex public/index.php
+
+RewriteEngine on
+RewriteBase /
+
+# Find multimedia resources and redirect to folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.+\.(js|css|html|jpeg|jpg|png|svg|mp4)) public/$1 [QSA]
+
+# Delete trailing slash in url
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^(.+)/+$
+RewriteRule ^ %1 [R,NE,L]
+
+# Redirect everything else to public/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA]

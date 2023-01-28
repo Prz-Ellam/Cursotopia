@@ -23,6 +23,8 @@
   "homepage": "https://github.com/Prz-Ellam/Cursotopia#readme",
   "dependencies": {
     "bootstrap": "^5.2.3",
-    "jquery": "^3.6.3"
+    "boxicons": "^2.1.4",
+    "jquery": "^3.6.3",
+    "multiple-select": "^1.5.2"
   }
 }

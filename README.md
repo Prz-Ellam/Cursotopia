@@ -82,7 +82,7 @@ npm install
 ```
 
 ```
-composer update
+composer install
 ```
 
 # Features
