@@ -76,6 +76,15 @@ Clone the repository
 git clone https://github.com/Prz-Ellam/Cursotopia
 ```
 
+Initialize the dependencies for frontend and backend
+```
+npm install
+```
+
+```
+composer update
+```
+
 # Features
 - [ ] Auth
 - [ ] Users and roles

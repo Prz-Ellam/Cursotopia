@@ -1,0 +1,23 @@
+{
+    "name": "prz-ellam/cursotopia",
+    "description": "Web application for online courses",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Cursotopia\\": "server/",
+            "Bloom\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Prz-Ellam",
+            "email": "PerezAlex088@outlook.com"
+        },
+        {
+            "name": "DenisseCardozaP",
+            "email": "denisse_cardoza@hotmail.com"
+        }
+    ],
+    "require": {}
+}
