@@ -1,5 +1,9 @@
 <?php
 
+use Bloom\Application;
+
 require_once "../vendor/autoload.php";
 
-echo "Hello World!";
+$app = Application::app();
+
+var_dump($_SERVER);
