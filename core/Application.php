@@ -2,6 +2,7 @@
 
 namespace Bloom;
 
+use Bloom\http\request\Request;
 use Bloom\router\Router;
 use Closure;
 
@@ -10,9 +11,11 @@ use Closure;
  */
 class Application {
 
-    private static self $instance;
+    private static ?self $instance = null;
 
     private Router $router;
+
+    private Request $request;
 
     private function __construct() {
         $this->router = new Router();
@@ -26,23 +29,27 @@ class Application {
     }
 
     public function get(string $uri, Closure $callable) {
-        $this->router->get();
+        $this->router->get($uri, $callable);
     }
 
     public function post(string $uri, Closure $callable) {
-        $this->router->post();
+        $this->router->post($uri, $callable);
     }
 
     public function put(string $uri, Closure $callable) {
-        $this->router->put();
+        $this->router->put($uri, $callable);
     }
 
     public function patch(string $uri, Closure $callable) {
-        $this->router->patch();
+        $this->router->patch($uri, $callable);
     }
 
     public function delete(string $uri, Closure $callable) {
-        $this->router->delete();
+        $this->router->delete($uri, $callable);
+    }
+
+    public function run() {
+        var_dump($this->router);
     }
 
 }
