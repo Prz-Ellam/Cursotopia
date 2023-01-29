@@ -5,11 +5,18 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cursotopia</title>
-	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
+  
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
 </head>
 <body>
 	<nav class="sticky-top navbar navbar-expand-lg bg-white shadow-sm">
@@ -72,20 +79,56 @@
 		<h2>Categorías</h2>
 	</section>
 
-	<section>
-		<h2>Cursos más vendidos</h2>
+  <h2>Cursos mejor vendidos</h2>
+	<section class="owl-carousel">
+    <div class="d-flex justify-content-center">
+      <div class="card" style="width: 15rem;">
+        <img src="https://www.smartpassiveincome.com/wp-content/uploads/2020/04/How-to-Create-an-Online-Course.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+		<div class="d-flex justify-content-center">
+      <div class="card" style="width: 15rem;">
+        <img src="https://www.smartpassiveincome.com/wp-content/uploads/2020/04/How-to-Create-an-Online-Course.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+	</section>
+  
+  <h2>Últimos cursos publicados</h2>
+	<section class="owl-carousel">
+    <div class="d-flex justify-content-center">
+      <div class="card" style="width: 15rem;">
+        <img src="https://www.smartpassiveincome.com/wp-content/uploads/2020/04/How-to-Create-an-Online-Course.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
 	</section>
 
-	<section>
-		<h2>Últimos cursos publicados</h2>
-	</section>
-
-	<section>
-		<h2>Cursos mejor calificados</h2>
-	</section>
-
-	<section>
-
+  <h2>Cursos mejor calificados</h2>
+	<section class="owl-carousel">
+    <div class="d-flex justify-content-center">
+      <div class="card" style="width: 15rem;">
+        <img src="https://www.smartpassiveincome.com/wp-content/uploads/2020/04/How-to-Create-an-Online-Course.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
 	</section>
 
 	<footer class="page-footer p-5 bg-light">
@@ -150,5 +193,27 @@
 			</div>
 		</div>
 	</footer>
+
+  <script>
+    $(document).ready(() => {
+      $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:false,
+        dots: true,
+        responsive:{
+          0:{
+            items:1
+          },
+          600:{
+            items:3
+          },
+          1000:{
+            items:4
+          }
+        }
+      });
+    })
+  </script>
 </body>
 </html>
