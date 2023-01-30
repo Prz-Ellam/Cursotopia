@@ -10,29 +10,35 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Lato', 'Courier New', Courier, monospace;
+    }
+  </style>
 </head>
 <body>
 	<header>
-
+    
 	</header>
 	<main class="container">
     <section class="row d-flex align-items-center justify-content-center vh-100">
-      <form action="" method="get" class="bg-light rounded-1 p-5 col-lg-5 col-md-7">
+      <form action="" method="get" class="rounded-1 p-5 col-lg-5 col-md-7">
         <h1 class="text-center">Inicia sesión</h1>
         <hr>
         <div class="mb-4">
-          <label for="email" role="button" class="form-label">Correo electrónico</label>
-          <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com">
+          <label for="email" role="button" class="form-label">Correo electrónico:</label>
+          <input type="email" name="email" id="email" class="border-0 form-control bg-light" placeholder="example@domain.com">
         </div>
+
         <div class="mb-4">
           <label for="password" role="button" class="form-label">Contraseña</label>
           <div class="input-group">
-            <input type="password" name="password" id="password" class="form-control">
-            <button type="button" class="input-group-text">@</button>
+            <input type="password" name="password" id="password" class="border-0 form-control bg-light">
+            <button type="button" class="btn btn-primary input-group-text">@</button>
           </div>
         </div>
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-1">Iniciar sesión</button>
+          <button type="submit" class="btn btn-primary rounded-5">Iniciar sesión</button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes cuenta?</p>
         <a href="" class="d-block text-center text-decoration-none">¡Registrate aquí!</a>
