@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursotopia</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+
+    <nav class="navbar py-3 border-bottom">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+          <div class="col-2">
+                <a href="#" class="navbar-brand col-4 link-dark text-decoration-none">Cursotopia
+                </a>
+          </div>
+    
+          <div class="d-flex align-items-center col-10">
+                <form class="w-100 d-flex " role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-primary ms-3" type="button">Buscar</button>
+                </form>
+
+                <div class="dropdown col-2 ms-auto">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="..." alt="mdo" width="32" height="32" class="rounded-circle">
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container">
+        <div class="row">
+        <form class="col-sm-6 col-xs-12">
+                <div class="row mt-3 mb-3 text-center">
+                    <div class="col-12">
+                        <h4>Método de pago</h4>
+                    </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio">
+                    <label class="form-check-label" for="">Tarjeta de crédito/debito</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio">
+                    <label class="form-check-label" for="">Paypal</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label for="inputEmail4" class="form-label">Nombre de la tarjeta</label>
+                <input type="email" class="form-control" id="inputEmail4">
+            </div>
+            <div class="col-6">
+                <label for="inputEmail4" class="form-label">CURP</label>
+                <input type="email" class="form-control" id="inputEmail4">
+            </div>
+        </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <label for="inputEmail4" class="form-label">Número de tarjeta</label>
+                    <input type="email" class="form-control" id="inputEmail4">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="inputEmail4" class="form-label">CVC/CVV</label>
+                    <input type="email" class="form-control" id="inputEmail4">
+                </div>
+                <div class="col-6">
+                    <label for="inputEmail4" class="form-label">Fecha de vencimiento</label>
+                    <input type="email" class="form-control" id="inputEmail4">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h4>Detalles del pedido</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" alt="" style="max-width:40px;">
+                </div>
+                <div class="col-8">
+                    <label for="inputEmail4" class="form-label">Nombre del curso</label>
+                </div>
+                <div class="col-2 ms-auto">
+                    <label for="inputEmail4" class="form-label">$$$</label>
+                </div>
+            </div>
+                <div class="row mt-3 mb-3 align-items-center">
+                    <div class="col-12">
+                        <button class="btn btn-primary">Hacer pago</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-sm-6 col-xs-12">
+                <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" alt="" style="max-width:400px;">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+  <footer class="page-footer p-5 bg-light">
+    <div class="container-fluid">
+        <div class="row text-md-start text-center">
+            <div class="col-md-3 mx-auto mb-3">
+                <ul class="list-unstyled">
+                    <li class="my-2">
+                        <a href=""><img src="" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 mx-auto mb-3">
+                <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+                <ul class="list-unstyled">
+                    <li class="my-2"><a href="#" class="text-cream text-decoration-none">Acerca de nosotros</a><br></li>
+                    <li class="my-2"><a href="#" class="text-cream text-decoration-none">Contáctanos</a><br></li>
+                    <li class="my-2"><a href="#" class="text-cream text-decoration-none">Preguntas frecuentes</a><br></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mx-auto mb-3">
+                <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+                <ul class="list-unstyled">
+                    <li class="my-2"><a href="#" class="text-decoration-none">Política de privacidad</a><br></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mx-auto mb-3">
+                <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+                <ul class="list-unstyled">
+                    <li class="my-2">
+                        <a href="https://www.facebook.com" target="_blank" class="text-cream text-decoration-none">
+                            <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
+                        </a>
+                    </li>
+                    <li class="my-2">
+                        <a href="https://www.instagram.com" target="_blank" class="text-cream text-decoration-none">
+                            <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
+                        </a>
+                    </li>
+                    <li class="my-2">
+                        <a href="tel:(00)00000000" class="text-cream text-decoration-none">
+                            <i class="fa fa-phone text-cream me-3 h4"></i>(00)-0000-0000
+                        </a>
+                    </li>
+                    <li class="my-2">
+                        <a href="mailto:cursotopia@gmail.com.mx" class="text-cream text-decoration-none">
+                            <i class="fa fa-envelope text-cream me-3 h4"></i>Correo electrónico
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row pt-5 pb-3 d-flex align-items-center">
+                <div class="col-md-12  text-center">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="container text-center img-responsive">
+            <p class="text-cream mb-0">© 2023 Curstopia. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+
+</body>
+</html>
