@@ -85,6 +85,18 @@ npm install
 composer install
 ```
 
+If you use Apache, set the root of the project in the `httpd.conf`
+```
+DocumentRoot <This is where you root goes>
+
+<Directory "<This is where you root goes>">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+    Allow from all
+</Directory>
+```
+
 # Features
 - [ ] Auth
 - [ ] Users and roles
