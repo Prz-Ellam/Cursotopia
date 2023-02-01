@@ -3,3 +3,11 @@
 @import url('../partials/navbar.css');
 @import url('../partials/card.css');
 @import url('../partials/footer.css');
+
+#hero-section {
+    width: 100%;
+    /* TODO: This can be better */
+    height: calc(100vh - 56px);
+    background: url(../../assets/images/hero-bg.png) top center no-repeat;
+    background-size: cover;
+}
