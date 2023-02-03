@@ -1,0 +1,28 @@
+/*
+    Estados de Bootstrap para cambiar el color de los botones
+*/
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #6059F7;
+    --bs-btn-border-color: #6059F7;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #524cd2;
+    --bs-btn-hover-border-color: #4d47c6;
+    --bs-btn-focus-shadow-rgb: 120, 114, 248;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #4d47c6;
+    --bs-btn-active-border-color: #4843b9;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6059F7;
+    --bs-btn-disabled-border-color: #6059F7;
+}
+
+button {
+    background-color: #6059F7;
+    filter: brightness(90%);
+}
+  
+  button:hover {
+      filter: brightness(60%);
+  }
