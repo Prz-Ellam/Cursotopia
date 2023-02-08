@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../client/styles/configuration/colors.css">
+  <link rel="stylesheet" href="../client/styles/pages/signup.css">
 </head>
 <body>
   <header>
@@ -18,7 +20,7 @@
   <section class="container">
     <div class="row d-flex justify-content-center">
       <form action="" class="bg-light p-5 col-lg-8 col-md-8">
-        <h1 class="text-center">Registrate</h1>
+        <h1 class="text-center">Crea una nueva cuenta</h1>
         <hr>
 
         <!-- TODO: Remove this src link -->
@@ -36,7 +38,12 @@
           </div>
   
           <div class="col-6 mb-4">
-            <label for="last-name" role="button" class="form-label">Apellido(s)</label>
+            <label for="last-name" role="button" class="form-label">Apellido Paterno</label>
+            <input type="text" name="last-name" id="last-name" class="form-control">
+          </div>
+
+          <div class="col-12 mb-4">
+            <label for="last-name" role="button" class="form-label">Apellido Materno</label>
             <input type="text" name="last-name" id="last-name" class="form-control">
           </div>
 
@@ -75,8 +82,6 @@
           <input type="email" name="email" id="email" class="form-control">
         </div>
 
-        
-
         <div class="mb-4">
           <label for="password" role="button" class="form-label">Contraseña</label>
           <input type="password" name="password" id="password" class="form-control">
@@ -91,8 +96,8 @@
           <button type="submit" class="btn btn-primary rounded-1">Registrarse</button>
         </div>
 
-        <p>¿Ya tienes cuenta?</p>
-        <a>¡Inicia sesión aquí!</a>
+        <p class="text-center">¿Ya tienes cuenta?</p>
+        <a class="d-block" href="/login">¡Inicia sesión aquí!</a>
       </form>
     </div>
   </section>

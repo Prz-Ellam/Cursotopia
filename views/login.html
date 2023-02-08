@@ -18,14 +18,13 @@
 	</header>
 	<main class="container">
     <section class="row d-flex align-items-center justify-content-center vh-100">
-      <form action="" method="get" class="rounded-1 p-5 col-lg-5 col-md-7">
+      <form action="" method="get" class="bg-light rounded-1 p-5 col-lg-5 col-md-7 shadow-lg">
         <h1 class="text-center">Inicia sesión</h1>
         <hr>
         <div class="mb-4">
           <label for="email" role="button" class="form-label">Correo electrónico:</label>
           <input type="email" name="email" id="email" class="border-0 form-control shadow-none" placeholder="example@domain.com">
         </div>
-
         <div class="mb-4">
           <label for="password" role="button" class="form-label">Contraseña</label>
           <div class="input-group">
@@ -33,11 +32,15 @@
             <button type="button" class="btn btn-primary input-group-text">@</button>
           </div>
         </div>
+        <div class="form-check mb-4">
+          <input class="form-check-input shadow-none rounded-1" type="checkbox" name="remember" id="remember">
+          <label class="form-check-label" for="flexCheckDefault">Recuérdame</label>
+        </div>
         <div class="d-grid mb-4">
           <button type="submit" class="btn btn-primary border-0 shadow-none rounded-5">Iniciar sesión</button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes cuenta?</p>
-        <a href="" class="d-block text-center text-decoration-none">¡Registrate aquí!</a>
+        <a href="" class="d-block text-center text-decoration-none text-primary">¡Registrate aquí!</a>
       </form>
     </section>
 	</main>

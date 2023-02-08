@@ -1,23 +1,32 @@
-@import url('../configuration/colors.css');
-@import url('../third-party/button.css');
+@import '../configuration/colors.css';
+@import '../third-party/button.css';
 
 input[type="text"],
 input[type="text"]:focus,
 input[type="email"],
 input[type="email"]:focus,
 input[type="password"],
-input[type="password"]:focus {
+input[type="password"]:focus,
+select {
     background-color: var(--light-color);
     box-shadow: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
     outline: solid 1px var(--light-color);
     outline-offset: -1px;
+    transition: outline .2s;
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+select {
     outline: solid 1px var(--primary-color);
-    transition: outline .7s;
+    transition: outline .3s;
 }
 
 /* .btn, .btn:hover, .btn:active {
