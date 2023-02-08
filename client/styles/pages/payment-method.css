@@ -1,0 +1,30 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/footer.css');
+@import url('../partials/body.css');
+@import url('../third-party/background.css');
+@import url('../configuration/breakpoints.css');
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+.img-pay{
+    width: 100%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-img{
+    max-width: 40px;
+}

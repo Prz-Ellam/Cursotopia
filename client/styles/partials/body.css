@@ -1,0 +1,14 @@
+.main{
+    padding-bottom: 100px;
+}
+
+body{
+    background-image: url('/client/assets/images/hero-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

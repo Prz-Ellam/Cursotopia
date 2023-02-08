@@ -1,0 +1,65 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/card.css');
+@import url('../partials/footer.css');
+@import url('../partials/body.css');
+@import url('../third-party/background.css');
+@import url('../configuration/breakpoints.css');
+@import url('../partials/hero.css');
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.card-body{
+    background-color: transparent;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+.card{
+    width: 1200px;
+}
+
+.img-card{
+    border-radius: 50%;
+    max-height:100px;
+    max-width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 14px;
+   
+}
+
+@media((min-width:576px) and (max-width:767px)){
+    .img-card{
+        margin-top: 20px;
+        max-height:150px;
+        max-width:150px;
+    }
+    .sm-mt-2{
+        margin-top: 15px;
+    }
+}
+
+@media((max-width:576px)){
+    .img-card{
+        max-height:150px;
+        max-width:150px;
+    }
+    .xs-mt-2{
+        margin-top: 15px;
+    }
+}

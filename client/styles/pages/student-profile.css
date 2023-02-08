@@ -1,0 +1,66 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/footer.css');
+@import url('../third-party/background.css');
+@import url('../partials/body.css');
+@import url('../configuration/breakpoints.css');
+@import url('../partials/hero.css');
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+
+@media only screen and (max-width:800px){
+    #no-more-tables tbody, 
+    #no-more-tables tr,
+    #no-more-tables td{
+        display:block;
+        background-color: white;
+    }
+    #no-more-tables thead tr{
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+        
+    }
+    #no-more-tables td{
+        position: relative;
+        padding-left: 50%;
+    }
+    #no-more-tables td:before{
+        content: attr(data-title);
+        position: absolute;
+        left: 6px;
+        font-weight: bold;
+        
+    }
+}
+
+@media((min-width:576px) and (max-width:992px)){
+    .select-box{
+        margin-top: 20px;
+    }
+}
+
+@media((max-width:576px)){
+    .select-date{
+        margin-top: 20px;
+    }
+    input[type=date]{
+        width: 77%!important;
+        
+    }
+    .select-box{
+        margin-top: 20px;
+    }
+}

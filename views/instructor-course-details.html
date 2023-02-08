@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursotopia</title>
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../client/styles/pages/instructor-course-details.css">
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
@@ -13,29 +15,23 @@
 <body>
   <!-- Navbar -->
 
-  <nav class="sticky-top navbar bg-white shadow-sm">
+  <nav class="py-3 border-bottom">
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <div class="col-2">
-        <a href="#" class="navbar-brand col-4 link-dark text-decoration-none">Cursotopia
-        </a>
-      </div>
-
-      <div class="d-flex align-items-center col-10">
-        <form class="w-100 d-flex " role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-primary ms-3" type="button">Buscar</button>
+      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
+        Cursotopia
+      </a>
+      <div class="d-flex align-items-center">
+        <form class="w-100 me-3" role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
         </form>
-
-        <div class="dropdown col-2 ms-auto">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="..." alt="mdo" width="32" height="32" class="rounded-circle">
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+        <div class="flex-shrink-0 dropdown">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+            <!-- <li><hr class="dropdown-divider"></li> -->
+            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
           </ul>
         </div>
       </div>
@@ -43,132 +39,135 @@
   </nav>
 
   <!-- Hero -->
-  <div class="Hero">
-    <div class="container-fluid bg-dark-subtle">
-      <div class="row">
-        <div class="col-xl-2 col-md-3 col-sm-4 col-xs-12">
-          <img
-            src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
-            class="rounded float-start" alt="" style="max-width:200px;">
+  
+  <div class="Hero container-fluid bg-tertiary">
+    <div class="row p-4">
+        <div class="col-xl-2 col-md-4 col-sm-5 col-xs-12">
+            <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-hero" alt="">
         </div>
-        <div class="col-xl-10 col-md-9 col-sm-8 col-xs-12 m-auto">
+        <div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto">
+            <div class="container text-xs-center">
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Nombre del curso</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Fecha creación</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Descripción</h6>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-secondary">Editar curso</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProfile">Deshabilitar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Contenido -->
+<!-- Cards -->
+
+<div class="container mt-5">
+<div class="row">
+<h4 class="ms-5">Alumnos</h4>
+</div>
+</div>
+
+<section class="cards" id="cards">
+<div class="card mb-3 mt-3 ms-auto me-auto">
+    <div class="row g-0">
+      <div class="col-sm-4 col-md-2 col-xs-12">
+        <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-card" alt="...">
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        <div class="card-body">
+          <h5 class="card-title text-xs-center">Nombre del alumno</h5>
           <div class="container">
             <div class="row">
-              <div class="col-12">
-                <h4>Nombre del curso</h4>
+              <div class="col-sm-12 col-md col-xs-12">
+                <p class="card-text">Fecha de inscripción</p>
+                <p class="card-text">Precio pagado:</p>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xs-12 sm-mt-2 xs-mt-2">
+                <p class="card-text">Progreso:</p>
+                <p class="card-text">Forma de pago</p>
               </div>
             </div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Fecha creación</h6>
-              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="card mb-3 mt-3 ms-auto me-auto">
+  <div class="row g-0">
+    <div class="col-sm-4 col-md-2 col-xs-12">
+      <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-card" alt="...">
+    </div>
+    <div class="col-sm-8 col-xs-12">
+      <div class="card-body">
+        <h5 class="card-title text-xs-center">Nombre del alumno</h5>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md col-xs-12">
+              <p class="card-text">Fecha de inscripción</p>
+              <p class="card-text">Precio pagado:</p>
             </div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Descripción</h6>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-primary">Editar curso</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                  data-bs-target="#editProfile">Deshabilitar</button>
-              </div>
+            <div class="col-sm-12 col-md-6 col-xs-12 sm-mt-2 xs-mt-2">
+              <p class="card-text">Progreso:</p>
+              <p class="card-text">Forma de pago</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Contenido -->
-  <!-- Cards -->
-  <section class="cards" id="cards">
-    <div class="card mb-3 mt-3 ms-auto me-auto" style="max-width: 1200px;">
-      <div class="row g-0">
-        <div class="col-sm-2 col-xs-12">
-          <img src="..." class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-sm-10 col-xs-12">
-          <div class="card-body">
-            <h5 class="card-title">Nombre del alumno</h5>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Fecha de inscripción</p>
-                  <p class="card-text">Precio pagado:</p>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Progreso:</p>
-                  <p class="card-text">Forma de pago</p>
-                </div>
-              </div>
+</div>
+<div class="card mb-3 mt-3 ms-auto me-auto">
+  <div class="row g-0">
+    <div class="col-sm-4 col-md-2 col-xs-12">
+      <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-card" alt="...">
+    </div>
+    <div class="col-sm-8 col-xs-12">
+      <div class="card-body">
+        <h5 class="card-title text-xs-center">Nombre del alumno</h5>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md col-xs-12">
+              <p class="card-text">Fecha de inscripción</p>
+              <p class="card-text">Precio pagado:</p>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xs-12 sm-mt-2 xs-mt-2">
+              <p class="card-text">Progreso:</p>
+              <p class="card-text">Forma de pago</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="card mb-3 mt-3 ms-auto me-auto" style="max-width: 1200px;">
-      <div class="row g-0">
-        <div class="col-sm-2 col-xs-12">
-          <img src="..." class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-sm-10 col-xs-12">
-          <div class="card-body">
+  </div>
+</div>
+</section>
 
-            <h5 class="card-title">Nombre del alumno</h5>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Fecha de inscripción</p>
-                  <p class="card-text">Precio pagado:</p>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Progreso:</p>
-                  <p class="card-text">Forma de pago</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card mb-3 mt-3 ms-auto me-auto" style="max-width: 1200px;">
-      <div class="row g-0">
-        <div class="col-sm-2 col-xs-12">
-          <img src="..." class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-sm-10 col-xs-12">
-          <div class="card-body">
-            <h5 class="card-title">Nombre del alumno</h5>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Fecha de inscripción</p>
-                  <p class="card-text">Precio pagado:</p>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                  <p class="card-text">Progreso:</p>
-                  <p class="card-text">Forma de pago</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Ingresos -->
 
-  <!-- Ingresos -->
-
-  <div class="container">
-    <div class="row p-5">
-      <div class="col-lg-12">
-        <h4 class="ms-5">Total de ingresos</h4>
-      </div>
-    </div>
-    <div class="row">
-      <table class="table">
+<div class="container mb-4">
+<div class="row pt-4 pb-3">
+  <div class="col-lg-12">
+    <h4 class="ms-5">Total de ingresos</h4>
+</div>
+</div>
+<div class="row ms-5 pe-4">
+    <table class="table">
         <thead>
           <tr>
             <th scope="col">Método de pago</th>
@@ -186,75 +185,18 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
+</div>
+</div>
 
 
-  <!-- Footer -->
-  <footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Acerca de nosotros</a><br></li>
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Preguntas frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="text-cream text-decoration-none">
-                <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="text-cream text-decoration-none">
-                <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="text-cream text-decoration-none">
-                <i class="fa fa-phone text-cream me-3 h4"></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="text-cream text-decoration-none">
-                <i class="fa fa-envelope text-cream me-3 h4"></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
-
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">© 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Footer -->
+<div class="container-fluid mt-auto bg-primary">
+<footer class="py-3 footer">
+<div class="col-md-4 d-flex align-items-center">
+  <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+</div>
+</footer>
+</div>
 
 </body>
 </html>
