@@ -1,0 +1,101 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/card.css');
+@import url('../partials/footer.css');
+@import url('../third-party/background.css');
+@import url('../partials/body.css');
+@import url('../configuration/breakpoints.css');
+
+.card-body{
+    background-color: transparent;
+}
+
+.card i{
+    font-size: 20px;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+#level-cost-input{
+    width: 80px; 
+    height: 30px;
+}
+
+.img-container{
+    max-width:444px;
+    width: 100%;
+    max-height: 250px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 30px;
+}
+
+.img-area{
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: #f2f2f2;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.img-area .icon{
+    font-size:100px;
+}
+
+.img-area h3{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.img-area p{
+    color: #999;
+}
+
+.img-area p span{
+    font-weight: 600;
+}
+
+.img-area img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    object-position: center;
+    max-height: 250px;
+}
+
+@media((max-width:767px)){
+    input[type="file"]{
+        margin-bottom: 15px;
+    }
+}
+
+@media(max-width:575px){
+    .container{
+        margin-left: 15px;
+    }
+}

@@ -1,0 +1,75 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/card.css');
+@import url('../partials/footer.css');
+@import url('../partials/body.css');
+@import url('../third-party/background.css');
+@import url('../configuration/breakpoints.css');
+@import url('../partials/hero.css');
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.card-body{
+    background-color: transparent;
+}
+
+.img-card{
+    width: 100%;
+    height: 100%;
+}
+
+.card{
+    padding-left: 0;
+}
+
+.card i{
+    font-size: 20px;
+}
+
+@media((min-width:576px) and (max-width:992px)){
+    .select-box{
+        margin-top: 20px;
+    }
+
+    .card-body{
+        margin-bottom: 10px;
+    }
+}
+
+@media((min-width:576px) and (max-width:768px)){
+    .card-button{
+        margin-bottom: 20px!important;
+        margin-left: 195px!important;
+    }
+}
+
+@media((max-width:576px)){
+    .select-date{
+        margin-top: 20px;
+    }
+    input[type=date]{
+        width: 77%!important;
+        
+    }
+    .select-box{
+        margin-top: 20px;
+    }
+    .card-body{
+        margin-bottom: 10px;
+    }
+    .card-button{
+        margin-bottom: 20px!important;
+        margin-left: 170px!important;
+    }
+}

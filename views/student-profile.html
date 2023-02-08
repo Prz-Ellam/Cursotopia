@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursotopia</title>
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../client/styles/pages/student-profile.css">
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
@@ -13,29 +15,23 @@
 <body>
   <!-- Navbar -->
 
-  <nav class="navbar py-3 border-bottom">
+  <nav class="py-3 border-bottom">
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <div class="col-2">
-        <a href="#" class="navbar-brand col-4 link-dark text-decoration-none">Cursotopia
-        </a>
-      </div>
-
-      <div class="d-flex align-items-center col-10">
-        <form class="w-100 d-flex " role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-primary ms-3" type="button">Buscar</button>
+      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
+        Cursotopia
+      </a>
+      <div class="d-flex align-items-center">
+        <form class="w-100 me-3" role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
         </form>
-
-        <div class="dropdown col-2 ms-auto">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="..." alt="mdo" width="32" height="32" class="rounded-circle">
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+        <div class="flex-shrink-0 dropdown">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+            <!-- <li><hr class="dropdown-divider"></li> -->
+            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
           </ul>
         </div>
       </div>
@@ -44,240 +40,174 @@
 
   <!-- Hero -->
   <div class="Hero">
-    <div class="container-fluid bg-dark-subtle">
-      <div class="row">
-        <div class="col-xl-2 col-md-3 col-sm-4 col-xs-12">
-          <img
-            src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
-            class="rounded float-start" alt="" style="max-width:200px;">
+    <div class="container-fluid bg-tertiary">
+        <div class="row p-4">
+            <div class="col-xl-2 col-md-4 col-sm-5 col-xs-12 ml-4">
+                <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-hero" alt="">
+            </div>
+            <div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto ">
+                <div class="container text-xs-center">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Nombre completo</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Usuario</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Fecha de nacimiento</h6>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-secondary">Cambiar foto</button>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProfile">Editar perfil</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xl-10 col-md-9 col-sm-8 col-xs-12 m-auto">
-          <div class="container">
-            <div class="row">
-              <div class="col-12">
-                <h4>Nombre completo</h4>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Usuario</h6>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Fecha de nacimiento</h6>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-primary">Cambiar foto</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                  data-bs-target="#editProfile">Editar perfil</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <!-- Contenido -->
-  <div class="container">
+<!-- Contenido -->
+<div class="container">
     <div class="row">
-      <div class="col-12 mt-3">
-        <h4>Kardex</h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 mt-3">
-        <h6>Filtros</h6>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-        <label for="" class="form-label">Fecha inicial:</label>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-        <input type="date" class="form-control">
-      </div>
-      <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1">
-        <label for="" class="form-label">Fecha final:</label>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-        <input type="date" class="form-control">
-      </div>
-      <div class="col-lg-1 col-md-2">
-        <label for="" class="form-label">Categoria:</label>
-      </div>
-      <div class="col-lg-3 col-md-4">
-        <select class="form-select">
-          <option selected>Categorias</option>
-          <option value="1">Música</option>
-          <option value="2">Arte</option>
-          <option value="3">Programación</option>
-        </select>
-      </div>
-      <div class="col-lg-2 col-md-4">
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-          <label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
+        <div class="col-12 mt-3">
+            <h4>Kardex</h4>
         </div>
-      </div>
-      <div class="col-lg-2 col-md-4">
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-          <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
-        </div>
-      </div>
     </div>
     <div class="row">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Curso</th>
-            <th>Progreso</th>
-            <th>Fecha de inscripción</th>
-            <th>Último ingreso</th>
-            <th>Terminado el</th>
-            <th>Estado</th>
-            <th>Certificado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="col-12 mt-3">
+            <h6>Filtros</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
+            <label for="" class="form-label me-3">Fecha inicial:</label>
+            <input type="date" class="form-control w-50">
+        </div>
+        <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
+            <label for="" class="form-label me-3">Fecha final:</label>
+            <input type="date" class="form-control w-50">
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
+            <label for="" class="form-label">Categoria:</label>
+        </div>
+        <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
+            <select class="form-select">
+                <option selected>Categorias</option>
+                <option value="1">Música</option>
+                <option value="2">Arte</option>
+                <option value="3">Programación</option>
+            </select>
+        </div>
+        <div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                <label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
+              </div>
+        </div>
+        <div class="col-lg-2 col-sm-4 mt-3 col-xs-6">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3" id="no-more-tables">
+        <table class="table table-bordered">
+            <thead class="bg-secondary text-light">
+                <tr>
+                    <th>Curso</th>
+                    <th>Progreso</th>
+                    <th>Fecha de inscripción</th>
+                    <th>Último ingreso</th>
+                    <th>Terminado el</th>
+                    <th>Estado</th>
+                    <th>Certificado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Curso"></td>
+                    <td data-title="Progreso"></td>
+                    <td data-title="Fecha de inscripción"></td>
+                    <td data-title="Último ingreso"></td>
+                    <td data-title="Terminado el"></td>
+                    <td data-title="Estado"></td>
+                    <td data-title="Certificado"></td>
+                </tr>
+                <tr>
+                    <td data-title="Curso"></td>
+                    <td data-title="Progreso"></td>
+                    <td data-title="Fecha de inscripción"></td>
+                    <td data-title="Último ingreso"></td>
+                    <td data-title="Terminado el"></td>
+                    <td data-title="Estado"></td>
+                    <td data-title="Certificado"></td>
+                </tr>
+                <tr>
+                    <td data-title="Curso"></td>
+                    <td data-title="Progreso"></td>
+                    <td data-title="Fecha de inscripción"></td>
+                    <td data-title="Último ingreso"></td>
+                    <td data-title="Terminado el"></td>
+                    <td data-title="Estado"></td>
+                    <td data-title="Certificado"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div class="row mt-4 me-5">
-      <div class="col-lg-12 col-md-6">
-
-      </div>
-
+        <div class="col-lg-12 col-md-6">
+         
+        </div>
+        
     </div>
-  </div>
+</div>
 
-  <!-- Modal editar perfil-->
-  <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal editar perfil-->
+<div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+    <div class="modal-content">
         <div class="modal-header">
-          <h4>Editar perfil</h4>
+        <h4>Editar perfil</h4>
         </div>
         <div class="modal-body">
-          <label for="Nombre" class="form-label">Nombres</label>
-          <input type="text" class="form-control" id="nombre">
-          <label for="Nombre" class="form-label">Apellidos</label>
-          <input type="text" class="form-control" id="apellidos">
-          <label for="Nombre" class="form-label">Correo electrónico</label>
-          <input type="email" class="form-control" id="email">
-          <label for="Nombre" class="form-label">Usuario</label>
-          <input type="text" class="form-control" id="user">
-          <label for="Nombre" class="form-label">Contraseña</label>
-          <input type="email" class="form-control" id="password">
-          <label for="Nombre" class="form-label">Confirmar contraserña</label>
-          <input type="email" class="form-control" id="pass">
+            <label for="Nombre" class="form-label">Nombres</label>
+            <input type="text" class="form-control" id="nombre">
+            <label for="Nombre" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos">
+            <label for="Nombre" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="email">
+            <label for="Nombre" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="user">
+            <label for="Nombre" class="form-label">Contraseña</label>
+            <input type="email" class="form-control" id="password">
+            <label for="Nombre" class="form-label">Confirmar contraserña</label>
+            <input type="email" class="form-control" id="pass">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary">Save changes</button>
         </div>
-      </div>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Acerca de nosotros</a><br>
-            </li>
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-cream text-decoration-none">Preguntas
-                frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="text-cream text-decoration-none">
-                <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="text-cream text-decoration-none">
-                <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="text-cream text-decoration-none">
-                <i class="fa fa-phone text-cream me-3 h4"></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="text-cream text-decoration-none">
-                <i class="fa fa-envelope text-cream me-3 h4"></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
-
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">© 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
     </div>
-  </footer>
+</div>
 
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Footer -->
+<div class="container-fluid mt-auto bg-primary">
+    <footer class="py-3 footer">
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+</div>
 
 </body>
 </html>

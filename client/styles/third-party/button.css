@@ -23,6 +23,7 @@ button {
     filter: brightness(90%);
 }
 
+  
 button:hover {
     filter: brightness(60%);
 }
@@ -118,4 +119,9 @@ button:hover {
 /* Los textos */
 .text-primary {
     color: var(--primary-color) !important;
+}
+
+.btn-secondary{
+    background-color:var(#6592FE);
+    border: none;
 }
