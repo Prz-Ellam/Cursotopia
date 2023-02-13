@@ -4,9 +4,83 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../client/styles/pages/admin-home.css">
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <title>Cursotopia</title>
 </head>
+
 <body>
-  <h1>Aquí irá para desbloquear usuarios, reportes, categorías etc</h1>
+
+  <nav class="py-3 border-bottom">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
+        Cursotopia
+      </a>
+      <div class="d-flex align-items-center">
+        <form class="w-100 me-3" role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
+        </form>
+        <div class="flex-shrink-0 dropdown">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+            <!-- <li><hr class="dropdown-divider"></li> -->
+            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="d-flex flex-nowrap">
+
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link active" aria-current="page">
+            <i class='bx bxs-home'></i>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <i class='bx bxs-videos'></i>
+            Cursos
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <i class='bx bxs-category'></i>
+            Categorias
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <i class='bx bxs-group' ></i>
+            Usuarios
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <!-- Aquí va el contenido del home -->
+    </div>
+  </main>
+
+      <!-- Footer -->
+      <div class="container-fluid mt-auto bg-primary">
+        <footer class="py-3 footer">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+        </div>
+        </footer>
+        </div>
+  
+      </div>
+
 </body>
 </html>

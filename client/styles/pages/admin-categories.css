@@ -1,0 +1,55 @@
+@import url("../configuration/colors.css");
+@import url('../partials/navbar.css');
+@import url('../partials/footer.css');
+@import url('../partials/body.css');
+@import url('../third-party/background.css');
+@import url('../configuration/breakpoints.css');
+@import url('../partials/sidebar.css');
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+footer{
+    margin-left: 310px;
+}
+
+.content{
+    width:100%;
+    margin-left: 310px;
+    margin-right: 30px;
+}
+
+.table{
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.categories-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.disabled-categories-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.categories{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.bxs-check-circle{
+    color: green;
+    font-size: 20px;
+}
+
+.bxs-x-circle{
+    color: red;
+    font-size: 20px;
+}

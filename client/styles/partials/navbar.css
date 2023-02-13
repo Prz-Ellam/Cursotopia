@@ -2,6 +2,9 @@
 
 nav {
     background-color: var(--primary-color);
+    position: fixed;
+    width: 100%;
+    z-index: 3;
 }
 
 .navbar-brand{

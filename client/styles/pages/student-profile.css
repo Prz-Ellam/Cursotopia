@@ -19,6 +19,13 @@
     font-size: 16px;
 }
 
+#no-more-tables{
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
 
 @media only screen and (max-width:800px){
     #no-more-tables tbody, 
@@ -46,6 +53,28 @@
     }
 }
 
+.uploadlabel{
+    width: 100%;
+    min-height: 100px;
+    background: #f2f2f2;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.uploadlabel i{
+    font-size: 70px;
+    color:var(--dark-color);
+}
+
+.uploadlabel p{
+    color:var(--dark-color);
+    font-size: 20px;
+    font-weight: 800;
+}
 @media((min-width:576px) and (max-width:992px)){
     .select-box{
         margin-top: 20px;

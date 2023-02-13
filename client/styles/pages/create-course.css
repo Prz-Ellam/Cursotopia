@@ -1,3 +1,4 @@
+@import url('../configuration/colors.css');
 @import url('../configuration/fonts.css');
 @import url('../partials/navbar.css');
 @import url('../partials/card.css');
@@ -49,7 +50,7 @@
     position: relative;
     width: 100%;
     height: 240px;
-    background: #f2f2f2;
+    background: #fff;
     margin-bottom: 30px;
     border-radius: 15px;
     overflow: hidden;
@@ -86,6 +87,92 @@
     object-fit:cover;
     object-position: center;
     max-height: 250px;
+}
+
+#link-input{
+    width: 348px;
+}
+
+.uploadlabel{
+    width: 100%;
+    min-height: 100px;
+    background: #f2f2f2;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.uploadbtn{
+    width: 100%;
+    padding: 0;
+ }
+ 
+ .uploadbtn p{
+     font-size: 16px;
+     margin: 5px;
+     padding: 0;
+ }
+
+.uploadlabel i{
+    font-size: 70px;
+    color:var(--dark-color);
+}
+
+.uploadlabel p{
+    color:var(--dark-color);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.uploaded{
+    margin: 20px 10px 0 0;
+    font-size: 16px;
+}
+
+.showfilebox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding:2px 6px;
+}
+
+.showfilebox .left{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filetype{
+    background: var(--primary-color);
+    color: #fff;
+    padding:0px 10px;
+    font-size: 15px;
+    text-transform: capitalize;
+    font-weight: 700;
+    border-radius: 3px;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    -o-border-radius:3px;
+}
+
+.left h4{
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--dark-color);
+    margin-top: 6px;
+}
+
+.right i{
+    color: var(--primary-color);
+    font-size: 20px;
+    margin-top: 3px;
 }
 
 @media((max-width:767px)){
