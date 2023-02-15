@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/admin-categories.css">
+  <link rel="stylesheet" href="../client/styles/pages/admin-courses.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <title>Cursotopia</title>
 </head>
 
@@ -42,26 +41,29 @@
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
           <a href="#" class="nav-link" aria-current="page">
-            <i class='bx bxs-home'></i>
-            Home
+            <i class='bx bxs-home hidden'></i>
+            <small>Home</small>
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link ">
+          <a href="#" class="nav-link active ">
             <i class='bx bxs-videos'></i>
-            Cursos
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link active">
-            <i class='bx bxs-category'></i>
-            Categorias
+            <small>Cursos</small>
+            
           </a>
         </li>
         <li>
           <a href="#" class="nav-link">
-            <i class='bx bxs-group' ></i>
-            Usuarios
+            <i class='bx bxs-category hidden'></i>
+            <small>Categorias</small>
+            
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link">
+            <i class='bx bxs-group hidden'></i>
+            <small>Usuarios</small>
+            
           </a>
         </li>
       </ul>
@@ -70,12 +72,54 @@
     <div class="content">
       <div class="container mt-3">
         <div class="row">
-          <h2>Categorias</h2>
+          <h2>Información general</h2>
+        </div>
+  
+        <div class="row d-flex mt-3">
+          <div class="card d-flex w-50 me-3 col">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4  text-center">
+                  <i class='bx bxs-videos'></i>
+                </div>
+                <div class="col-8">
+                  <h5 class="card-title">Cursos</h5>
+                  <h5 class="card-text">673</h5>
+                </div>
+              </div>
+              </div>
+          </div>
+          <div class="card d-flex w-50 me-3 col">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4  text-center">
+                  <i class='bx bxs-graduation'></i>
+                </div>
+                <div class="col-8">
+                  <h5 class="card-title">Estudiantes</h5>
+                  <h5 class="card-text">5640</h5>
+                </div>
+              </div>
+              </div>
+          </div>
+          <div class="card d-flex w-50 me-3 col">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4  text-center">
+                  <i class='bx bxs-face'></i>
+                </div>
+                <div class="col-8">
+                  <h5 class="card-title">Instructores</h5>
+                  <h5 class="card-text">1000</h5>
+                </div>
+              </div>
+              </div>
+          </div>
         </div>
 
         <div class="row">
-          <div class="categories-table col-8 me-3 mt-4">
-            <h4>Categorias pendientes de revisión</h4>
+          <div class="course-table col-12 me-3 mt-4">
+            <h4>Cursos pendientes de revisión</h4>
             <div class="row pt-3" id="no-more-tables">
                 <table class="table table-borderless">
                     <thead class="border-bottom text-center">
@@ -90,40 +134,28 @@
                         <tr class="text-center">
                             <td data-title="Curso">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary"  data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
                         </tr>
                         <tr class="text-center">
                           <td data-title="Curso">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
                         </tr>
                         <tr class="text-center">
                           <td data-title="Curso">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
           </div>
-          <div class="categories col-3 mt-4">
-            <h4 class="text-center mb-4">Categorias</h4>
-            <div class="d-flex">
-              <p class="">Programación</p>
-              <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#editCategory"><i class='bx bxs-pencil'></i></button>
-              <button class="btn p-0"><i class='bx bxs-x-circle'></i></button>
-            </div>
-            <div class="d-flex">
-              <p class="">Cocina</p>
-              <button class="btn ms-auto" data-bs-toggle="modal" data-bs-target="#editCategory"><i class='bx bxs-pencil'></i></button>
-              <button class="btn p-0"><i class='bx bxs-x-circle'></i></button>
-            </div>
-          </div>
-          <div class="disabled-categories-table col-11 me-3 mt-4 mb-4">
-            <h4>Categorias desactivadas</h4>
+         
+          <div class="disabled-course-table col-12 me-3 mt-4 mb-4">
+            <h4>Cursos desactivados</h4>
             <div class="row pt-3" id="no-more-tables">
                 <table class="table table-borderless">
                     <thead class="border-bottom text-center">
@@ -138,19 +170,19 @@
                         <tr class="text-center">
                             <td data-title="Categoría">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
                         </tr>
                         <tr class="text-center">
                           <td data-title="Categoría">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
                         </tr>
                         <tr class="text-center">
                           <td data-title="Categoría">BDM</td>
                             <td data-title="Usuario">Denisse Cardoza</td>
-                            <td data-title="Detalle"><button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#seeCategory">Ver detalles</button></td>
+                            <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
                             <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
                         </tr>
                     </tbody>
@@ -159,51 +191,9 @@
           </div>
         </div>
         
-        
       </div>
     </div>
   </main>
-
-  <!-- Modal categoria ver detalles-->
-  <div class="modal fade" id="seeCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>Añadir categoría</h4>
-        </div>
-        <div class="modal-body">
-            <label for="category-name-input" class="form-label">Nombre</label>
-            <input readonly type="text" class="form-control" id="category-name-input">
-            <label for="category-description-input" class="form-label">Descripción</label>
-            <textarea readonly class="form-control" id="category-description-input" rows="3"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal editar categoria-->
-  <div class="modal fade" id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>Categoría</h4>
-        </div>
-        <div class="modal-body">
-            <label for="category-name-input" class="form-label">Nombre</label>
-            <input type="read" class="form-control" id="category-name-input">
-            <label for="category-description-input" class="form-label">Descripción</label>
-            <textarea class="form-control" id="category-description-input" rows="3"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
       <!-- Footer -->
       <div class="container-fluid mt-auto bg-primary">
