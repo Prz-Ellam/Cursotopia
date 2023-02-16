@@ -20,8 +20,8 @@
     ],
     "repositories": [
         {
-            "type": "path",
-            "url": "core"
+            "type": "git",
+            "url": "https://github.com/Prz-Ellam/Bloom"
         }
     ],
     "require": {
