@@ -5,8 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Cursotopia\\": "server/",
-            "Bloom\\": "core/"
+            "Cursotopia\\": "server/"
         }
     },
     "authors": [
@@ -19,5 +18,13 @@
             "email": "denisse_cardoza@hotmail.com"
         }
     ],
-    "require": {}
+    "repositories": [
+        {
+            "type": "path",
+            "url": "core"
+        }
+    ],
+    "require": {
+        "prz-ellam/bloom": "@dev"
+    }
 }
