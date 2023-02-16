@@ -1,126 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursotopia</title>
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/payment-method.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cursotopia</title>
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../client/styles/pages/payment-method.css">
+	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <!-- Navbar -->
-  <nav class="py-3 mb-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
-        Cursotopia
-      </a>
-      <div class="d-flex align-items-center">
-        <form class="w-100 me-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
-        </form>
-        <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-            <!-- <li><hr class="dropdown-divider"></li> -->
-            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
+	<!-- Navbar -->
+	<nav class="py-3 mb-3 border-bottom">
+		<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+			<a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand"
+				id="navbar-logo">
+				Cursotopia
+			</a>
+			<div class="d-flex align-items-center">
+				<form class="w-100 me-3" role="search">
+					<input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
+				</form>
+				<div class="flex-shrink-0 dropdown">
+					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						<img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle"
+							id="profile-img">
+					</a>
+					<ul class="dropdown-menu text-small shadow">
+						<li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+						<!-- <li><hr class="dropdown-divider"></li> -->
+						<li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-  <!-- Contenido -->
-  <div class="container mt-5">
-    <div class="row">
-        <form class="col-xxl-6 col-lg-5 col-md-12 col-sm-12">
-            <div class="row mt-3 mb-3 text-center">
-                <div class="col-12">
-                    <h4>Método de pago</h4>
-                </div>
-            </div>
-            <div class="row mt-3 mb-3">
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio">
-                        <label class="form-check-label" for="">Tarjeta de crédito/debito</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio">
-                        <label class="form-check-label" for="">Paypal</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-6">
-                    <label for="inputEmail4" class="form-label">Nombre de la tarjeta</label>
-                    <input type="email" class="form-control" id="inputEmail4">
-                </div>
-                <div class="col-6">
-                    <label for="inputEmail4" class="form-label">CURP</label>
-                    <input type="email" class="form-control" id="inputEmail4">
-                </div>
-            </div>
-                <div class="row mb-2">
-                    <div class="col-12">
-                        <label for="inputEmail4" class="form-label">Número de tarjeta</label>
-                        <input type="email" class="form-control" id="inputEmail4">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="inputEmail4" class="form-label">CVC/CVV</label>
-                        <input type="email" class="form-control" id="inputEmail4">
-                    </div>
-                    <div class="col-6">
-                        <label for="inputEmail4" class="form-label">Fecha de vencimiento</label>
-                        <input type="email" class="form-control" id="inputEmail4">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <h4>Detalles del pedido</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2">
-                        <img class="product-img" src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" alt="">
-                    </div>
-                    <div class="col-8">
-                        <label for="inputEmail4" class="form-label">Nombre del curso</label>
-                    </div>
-                    <div class="col-2 ms-auto">
-                        <label for="inputEmail4" class="form-label">$$$</label>
-                    </div>
-                </div>
-                    <div class="row mt-3 mb-3 align-items-center">
-                        <div class="col-12">
-                            <button class="btn btn-secondary">Hacer pago</button>
-                        </div>
-                </div>
-        </form>
-        <div class="col-lg-7 col-xxl-6 col-md-12">
-            <img src="../client/assets/images/online-shopping.png" class="img-pay" alt="">
-        </div>
-    </div>
-</div>
+	<!-- Contenido -->
+	<div class="container mt-5">
+		<div class="row">
+			<form class="col-xxl-6 col-lg-5 col-md-12 col-sm-12">
+				<div class="row mt-3 mb-3 text-center">
+					<div class="col-12">
+						<h4>Método de pago</h4>
+					</div>
+				</div>
+				<div class="row mt-3 mb-3">
+					<div class="col-12">
+						<div class="form-check">
+							<input class="form-check-input" type="radio">
+							<label class="form-check-label" for="">Tarjeta de crédito/debito</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio">
+							<label class="form-check-label" for="">Paypal</label>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-6">
+						<label for="inputEmail4" class="form-label">Nombre de la tarjeta</label>
+						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					</div>
+					<div class="col-6">
+						<label for="inputEmail4" class="form-label">CURP</label>
+						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-12">
+						<label for="inputEmail4" class="form-label">Número de tarjeta</label>
+						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-6">
+						<label for="inputEmail4" class="form-label">CVC/CVV</label>
+						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					</div>
+					<div class="col-6">
+						<label for="inputEmail4" class="form-label">Fecha de vencimiento</label>
+						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-md-12">
+						<h4>Detalles del pedido</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-2">
+						<img class="product-img"
+							src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+							alt="">
+					</div>
+					<div class="col-8">
+						<label for="inputEmail4" class="form-label">Nombre del curso</label>
+					</div>
+					<div class="col-2 ms-auto">
+						<label for="inputEmail4" class="form-label">$$$</label>
+					</div>
+				</div>
+				<div class="row mt-3 mb-3 align-items-center">
+					<div class="col-12">
+						<button class="btn btn-secondary">Hacer pago</button>
+					</div>
+				</div>
+			</form>
+			<div class="col-lg-7 col-xxl-6 col-md-12">
+				<img src="../client/assets/images/online-shopping.png" class="img-pay" alt="">
+			</div>
+		</div>
+	</div>
 
 
-<!-- Footer -->
-<div class="container-fluid mt-auto bg-primary">
-    <footer class="py-3 footer">
-      <div class="col-md-4 d-flex align-items-center">
-        <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
-      </div>
-    </footer>
-</div>
+	<!-- Footer -->
+	<div class="container-fluid mt-auto bg-primary">
+		<footer class="py-3 footer">
+			<div class="col-md-4 d-flex align-items-center">
+				<span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+			</div>
+		</footer>
+	</div>
 
 </body>
+
 </html>

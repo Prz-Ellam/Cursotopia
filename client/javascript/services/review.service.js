@@ -1,11 +1,15 @@
-const createReview = () => {
+export const createReview = async () => {
 
 };
 
-const updateReview = () => {
+export const updateReview = async () => {
 
 };
 
-const deleteReview = () => {
+export const deleteReview = async () => {
 
 };
+
+export const findAllCourseReviews = async () => {
+
+}

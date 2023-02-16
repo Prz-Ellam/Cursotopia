@@ -1,404 +1,405 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursotopia</title>
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/create-course.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cursotopia</title>
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../client/styles/pages/create-course.css">
+	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Navbar -->
+	<!-- Navbar -->
 
-<nav class="py-3 mb-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
-        Cursotopia
-      </a>
-      <div class="d-flex align-items-center">
-        <form class="w-100 me-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
-        </form>
-        <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-            <!-- <li><hr class="dropdown-divider"></li> -->
-            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
+	<nav class="py-3 mb-3 border-bottom">
+		<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+			<a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand"
+				id="navbar-logo">
+				Cursotopia
+			</a>
+			<div class="d-flex align-items-center">
+				<form class="w-100 me-3" role="search">
+					<input type="search" class="form-control border-0" placeholder="Search..." aria-label="Search" id="searchbar">
+				</form>
+				<div class="flex-shrink-0 dropdown">
+					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						<img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle"
+							id="profile-img">
+					</a>
+					<ul class="dropdown-menu text-small shadow">
+						<li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+						<!-- <li><hr class="dropdown-divider"></li> -->
+						<li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<!-- Contenido -->
+		<div class="container mt-3 mb-3">
+			<div class="row border-3 border-bottom border-primary text-center mb-3">
+				<div class="col">
+					<h4>Añadir curso</h4>
+				</div>
+			</div>
+			<form action="" class="row">
+				<div class="row">
+					<div class="col-md-6 col-sm-12 col-xs-12">
+						<div class="mb-4">
+							<label for="name-input" class="form-label">Nombre</label>
+							<input type="text" class="bg-light form-control border-0 shadow-none" id="name">
+						</div>
+						<div class="mb-4">
+							<label for="description-input" class="form-label">Descripción</label>
+							<textarea class="bg-light form-control border-0 shadow-none" id="description" rows="3"></textarea>
+						</div>
+						<div class="row">
+							<div class="col-xl-8 col-xs-8 col-sm-8 col-md-7 mb-3">
+								<label class="form-label">Categorías</label>
+								<select class="bg-light form-select border-0 shadow-none" id="categories">
+									<option selected>Seleccionar</option>
+									<option value="1">Música</option>
+									<option value="2">Arte</option>
+									<option value="3">Programación</option>
+								</select>
+							</div>
+							<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
+								<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto"
+									data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5 col-xs-5 col-sm-5">
+								
+								<label class="form-label pt-2" for="">Precio:</label>
+								<input id="price" class="bg-light form-control border-0 shadow-none" type="text">
+									
+								
+							</div>
+							<div class="form-check col-md-5 col-xs-5 col-sm-5 ms-5">
+								<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+								<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+							</div>
+						</div>
+					</div>
+					<label for="upload-img-input" class="center col-md-6 col-sm-12 col-xs-12 image-container">
+						<label class="form-label">Portada</label>
+						<div class="img-area text-center" role="button">
+							<i class="bx bxs-cloud-upload icon"></i>
+							<h3>Upload Image</h3>
+							<!-- <img src="../../css/hero-bg.png" alt=""> -->
+						</div>
+						<input id="upload-img-input" type="file" class="d-none form-control mt-3">
+					</label>
+				</div>
 
-  <main>
-    <!-- Contenido -->
-    <div class="container mt-3 mb-3">
-        <div class="row border-3 border-bottom border-primary text-center mb-3">
-            <div class="col">
-                <h4>Añadir curso</h4>
-            </div>
-        </div>
-        <form action="" class="row">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12"> 
-                    <div class="mb-3">
-                        <label for="name-input" class="form-label">Nombre</label>
-                        <input type="text" id="name-input" class="form-control" id="nombre">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description-input" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="description-input" rows="3"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-8 col-xs-8 col-sm-8 col-md-7 mb-3">
-                            <select class="form-select" id="category-select">
-                                <option selected>Categorias</option>
-                                <option value="1">Música</option>
-                                <option value="2">Arte</option>
-                                <option value="3">Programación</option>
-                            </select>
-                        </div>
-                            <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-                                <button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
-                            </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5 col-xs-5 col-sm-5">
-                            <div class="row">
-                                <div class="col-md-4 col-xs-4 col-sm-4">
-                                    <label class="form-label pt-2" for="">Costo:</label>
-                                </div>
-                                <div class="col-md-8 col-xs-8 col-sm-8">
-                                    <input id="cost-input" class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-check col-md-5 col-xs-5 col-sm-5 ms-5">
-                            <input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-                            <label class="form-check-label" for="free-level-checkbox">Gratis</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="center mt-2 col-md-6 col-sm-12 col-xs-12 image-container"> 
-                        <div class="img-area text-sm-center text-xs-center">
-                            <i class="bx bxs-cloud-upload icon"></i>
-                            <h3>Upload Image</h3>
-                            <!-- <img src="../../css/hero-bg.png" alt=""> -->
-                        </div>
-                        <input id="upload-img-input" type="file" class="form-control mt-3">
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-12 p-2 d-flex"> 
-                    <h4 class="pe-4">Niveles</h4>
-                    <button id="add-level-btn" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addLevel">Añadir nivel</button>
-                </div>
-            </div>
-             <div class="row">
-                <div class="col-md-8 col-sm-12 col-xs-12 pb-2"> 
-                    <div class="card">
-                        <div class="card-body d-flex">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-                                    </div>
-                                    <div class="col-3 text-end">
-                                        <a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal" data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-                                        <a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt' ></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
-                </div>
-                <div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-                                    <label class="form-check-label" for="free-level-checkbox">Gratis</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-                                <label for="level-cost-input" class="form-label me-3">Costo:</label>
-                                <input type="text" class="form-control" id="level-cost-input">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-              <div class="col-md-8 col-sm-12 col-xs-12 pb-2"> 
-                  <div class="card">
-                      <div class="card-body d-flex">
-                          <div class="container">
-                              <div class="row">
-                                  <div class="col-9">
-                                      <label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-                                  </div>
-                                  <div class="col-3 text-end">
-                                      <a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal" data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-                                      <a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt' ></i></a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>  
-              </div>
-              <div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-                              <div class="form-check ">
-                                  <input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-                                  <label class="form-check-label" for="free-level-checkbox">Gratis</label>
-                              </div>
-                          </div>
-                          <div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-                              <label for="level-cost-input" class="form-label me-3">Costo:</label>
-                              <input type="text" class="form-control" id="level-cost-input">
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8 col-sm-12 col-xs-12 pb-2"> 
-                <div class="card">
-                    <div class="card-body d-flex">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-9">
-                                    <label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-                                </div>
-                                <div class="col-3 text-end">
-                                    <a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal" data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-                                    <a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt' ></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-            <div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-                            <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-                                <label class="form-check-label" for="free-level-checkbox">Gratis</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-                            <label for="level-cost-input" class="form-label me-3">Costo:</label>
-                            <input type="text" class="form-control" id="level-cost-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </form>
-    </div>
+				<div class="row">
+					<div class="col-lg-12 p-2 d-flex">
+						<h4 class="pe-4">Niveles</h4>
+						<button id="add-level-btn" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+							data-bs-target="#addLevel">Añadir nivel</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
+						<div class="card">
+							<div class="card-body d-flex">
+								<div class="container">
+									<div class="row">
+										<div class="col-9">
+											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
+										</div>
+										<div class="col-3 text-end">
+											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+											<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
+						<div class="container">
+							<div class="row">
+								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
+									<div class="form-check ">
+										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+									</div>
+								</div>
+								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
+									<label for="level-cost-input" class="form-label me-3">Costo:</label>
+									<input type="text" class="form-control" id="level-cost-input">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
+						<div class="card">
+							<div class="card-body d-flex">
+								<div class="container">
+									<div class="row">
+										<div class="col-9">
+											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
+										</div>
+										<div class="col-3 text-end">
+											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+											<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
+						<div class="container">
+							<div class="row">
+								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
+									<div class="form-check ">
+										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+									</div>
+								</div>
+								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
+									<label for="level-cost-input" class="form-label me-3">Costo:</label>
+									<input type="text" class="form-control" id="level-cost-input">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
+						<div class="card">
+							<div class="card-body d-flex">
+								<div class="container">
+									<div class="row">
+										<div class="col-9">
+											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
+										</div>
+										<div class="col-3 text-end">
+											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+											<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
+						<div class="container">
+							<div class="row">
+								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
+									<div class="form-check ">
+										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+									</div>
+								</div>
+								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
+									<label for="level-cost-input" class="form-label me-3">Costo:</label>
+									<input type="text" class="form-control" id="level-cost-input">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 
-    <!-- Modal añadir nivel-->
-  <div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>Añadir nivel</h4>
-        </div>
-        <div class="modal-body">
+		<!-- Modal añadir nivel-->
+		<div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Añadir nivel</h4>
+					</div>
+					<div class="modal-body">
 
-            <div class="wrapper">
-                <div class="box">
-                    <div class="mb-3">
-                        <h5 >Nombre del nivel</h5>
-                        <input type="text" class="form-control">
-                    </div>
+						<div class="wrapper">
+							<div class="box">
+								<div class="mb-3">
+									<h5>Nombre del nivel</h5>
+									<input type="text" class="form-control">
+								</div>
 
-                    <div class="input-bx">
-                        <h5 class="upload-area-title mb-2">Subir video</h5>
-                        <form action="">
-                            <input type="file" id="Upload" hidden>
-                            <label for="Upload" class="uploadlabel">
-                                <span class=""><i class='bx bxs-cloud-upload'></i></span>
-                                <p>Oprime para añadir</p>
-                            </label>
-                        </form>
-                    </div>
+								<div class="input-bx">
+									<h5 class="upload-area-title mb-2">Subir video</h5>
+									<form action="">
+										<input type="file" id="Upload" hidden>
+										<label for="Upload" class="uploadlabel">
+											<span class=""><i class='bx bxs-cloud-upload'></i></span>
+											<p>Oprime para añadir</p>
+										</label>
+									</form>
+								</div>
 
-                    <div id="filewrapper">
-                        <h4 class="uploaded">Videos</h4>
-                        <div class="showfilebox">
-                            <div class="left">
-                                <span class="filetype">Pdf</span>
-                                <h4>Ravi Web.pdf</h4>
-                            </div>
-                            <div class="right">
-                                <i class='bx bxs-x-circle'></i>
-                            </div>
-                        </div>
-                    </div>
+								<div id="filewrapper">
+									<h4 class="uploaded">Videos</h4>
+									<div class="showfilebox">
+										<div class="left">
+											<span class="filetype">Pdf</span>
+											<h4>Ravi Web.pdf</h4>
+										</div>
+										<div class="right">
+											<i class='bx bxs-x-circle'></i>
+										</div>
+									</div>
+								</div>
 
-                    <div class="input-bx">
-                        <h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
-                        <form action="">
-                            <input type="file" id="Upload" hidden>
-                            <label for="Upload" class="uploadbtn btn btn-secondary">
-                                <p>Añadir archivo</p>
-                            </label>
-                        </form>
-                    </div>
+								<div class="input-bx">
+									<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
+									<form action="">
+										<input type="file" id="Upload" hidden>
+										<label for="Upload" class="uploadbtn btn btn-secondary">
+											<p>Añadir archivo</p>
+										</label>
+									</form>
+								</div>
 
-                    <div class="d-flex mt-2 mb-2">
-                        <input type="text" class="form-control me-2" id="link-input">
-                        <button class="btn btn-secondary">Agregar link</button>
-                    </div>
+								<div class="d-flex mt-2 mb-2">
+									<input type="text" class="form-control me-2" id="link-input">
+									<button class="btn btn-secondary">Agregar link</button>
+								</div>
 
-                    <div id="filewrapper">
-                        <h4 class="uploaded">Archivos</h4>
-                        <div class="showfilebox">
-                            <div class="left">
-                                <span class="filetype">Pdf</span>
-                                <h4>Ravi Web.pdf</h4>
-                            </div>
-                            <div class="right">
-                                <i class='bx bxs-x-circle'></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+								<div id="filewrapper">
+									<h4 class="uploaded">Archivos</h4>
+									<div class="showfilebox">
+										<div class="left">
+											<span class="filetype">Pdf</span>
+											<h4>Ravi Web.pdf</h4>
+										</div>
+										<div class="right">
+											<i class='bx bxs-x-circle'></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-   <!-- Modal editar nivel-->
-   <div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>Editar nivel</h4>
-        </div>
-        <div class="modal-body">
+		<!-- Modal editar nivel-->
+		<div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Editar nivel</h4>
+					</div>
+					<div class="modal-body">
 
-            <div class="wrapper">
-                <div class="box">
-                    <div class="mb-3">
-                        <h5 >Nombre del nivel</h5>
-                        <input type="text" class="form-control">
-                    </div>
+						<div class="wrapper">
+							<div class="box">
+								<div class="mb-3">
+									<h5>Nombre del nivel</h5>
+									<input type="text" class="form-control">
+								</div>
 
-                    <div class="input-bx">
-                        <h5 class="upload-area-title mb-2">Subir video</h5>
-                        <form action="">
-                            <input type="file" id="Upload" hidden>
-                            <label for="Upload" class="uploadlabel">
-                                <span class=""><i class='bx bxs-cloud-upload'></i></span>
-                                <p>Oprime para añadir</p>
-                            </label>
-                        </form>
-                    </div>
+								<div class="input-bx">
+									<h5 class="upload-area-title mb-2">Subir video</h5>
+									<form action="">
+										<input type="file" id="Upload" hidden>
+										<label for="Upload" class="uploadlabel">
+											<span class=""><i class='bx bxs-cloud-upload'></i></span>
+											<p>Oprime para añadir</p>
+										</label>
+									</form>
+								</div>
 
-                    <div id="filewrapper">
-                        <h4 class="uploaded">Videos</h4>
-                        <div class="showfilebox">
-                            <div class="left">
-                                <span class="filetype">Pdf</span>
-                                <h4>Ravi Web.pdf</h4>
-                            </div>
-                            <div class="right">
-                                <i class='bx bxs-x-circle'></i>
-                            </div>
-                        </div>
-                    </div>
+								<div id="filewrapper">
+									<h4 class="uploaded">Videos</h4>
+									<div class="showfilebox">
+										<div class="left">
+											<span class="filetype">Pdf</span>
+											<h4>Ravi Web.pdf</h4>
+										</div>
+										<div class="right">
+											<i class='bx bxs-x-circle'></i>
+										</div>
+									</div>
+								</div>
+								<div class="input-bx">
+									<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
+									<form action="">
+										<input type="file" id="Upload" hidden>
+										<label for="Upload" class="uploadbtn btn btn-secondary">
+											<p>Añadir archivo</p>
+										</label>
+									</form>
+								</div>
+								<div class="d-flex mt-2 mb-2">
+									<input type="text" class="form-control me-2" id="link-input">
+									<button class="btn btn-secondary">Agregar link</button>
+								</div>
+								<div id="filewrapper">
+									<h4 class="uploaded">Archivos</h4>
+									<div class="showfilebox">
+										<div class="left">
+											<span class="filetype">Pdf</span>
+											<h4>Ravi Web.pdf</h4>
+										</div>
+										<div class="right">
+											<i class='bx bxs-x-circle'></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                    <div class="input-bx">
-                        <h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
-                        <form action="">
-                            <input type="file" id="Upload" hidden>
-                            <label for="Upload" class="uploadbtn btn btn-secondary">
-                                <p>Añadir archivo</p>
-                            </label>
-                        </form>
-                    </div>
+		<!-- Modal categoria-->
+		<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Añadir categoría</h4>
+					</div>
+					<div class="modal-body">
+						<label for="category-name-input" class="form-label">Nombre</label>
+						<input type="text" class="form-control" id="category-name-input">
+						<label for="category-description-input" class="form-label">Descripción</label>
+						<textarea class="form-control" id="category-description-input" rows="3"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                    <div class="d-flex mt-2 mb-2">
-                        <input type="text" class="form-control me-2" id="link-input">
-                        <button class="btn btn-secondary">Agregar link</button>
-                    </div>
-
-                    <div id="filewrapper">
-                        <h4 class="uploaded">Archivos</h4>
-                        <div class="showfilebox">
-                            <div class="left">
-                                <span class="filetype">Pdf</span>
-                                <h4>Ravi Web.pdf</h4>
-                            </div>
-                            <div class="right">
-                                <i class='bx bxs-x-circle'></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal categoria-->
-  <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>Añadir categoría</h4>
-        </div>
-        <div class="modal-body">
-            <label for="category-name-input" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="category-name-input">
-            <label for="category-description-input" class="form-label">Descripción</label>
-            <textarea class="form-control" id="category-description-input" rows="3"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <!-- Footer -->
-    <div class="container-fluid mt-auto bg-primary">
-        <footer class="py-3 footer">
-          <div class="col-md-4 d-flex align-items-center">
-            <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
-          </div>
-        </footer>
-    </div>
-  </main>
-
+		<!-- Footer -->
+		<div class="container-fluid mt-auto bg-primary">
+			<footer class="py-3 footer">
+				<div class="col-md-4 d-flex align-items-center">
+					<span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+				</div>
+			</footer>
+		</div>
+	</main>
 </body>
-
 </html>

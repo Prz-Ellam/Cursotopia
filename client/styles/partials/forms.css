@@ -1,15 +1,8 @@
 @import '../configuration/colors.css';
 @import '../third-party/button.css';
 
-input[type="text"],
-input[type="text"]:focus,
-input[type="email"],
-input[type="email"]:focus,
-input[type="password"],
-input[type="password"]:focus,
-select {
+input[type="checkbox"] {
     background-color: var(--light-color);
-    box-shadow: none;
 }
 
 input[type="text"],
@@ -24,7 +17,7 @@ select {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
-select {
+select:hover {
     outline: solid 1px var(--primary-color);
     transition: outline .3s;
 }

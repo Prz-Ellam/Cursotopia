@@ -2,6 +2,9 @@
 @import url('../configuration/fonts.css');
 @import url('../partials/navbar.css');
 @import url('../partials/card.css');
+
+@import '../partials/forms.css';
+
 @import url('../partials/footer.css');
 @import url('../third-party/background.css');
 @import url('../partials/body.css');
@@ -46,11 +49,11 @@
     border-radius: 30px;
 }
 
-.img-area{
+.img-area {
+    background-color: var(--light-color);
     position: relative;
     width: 100%;
     height: 240px;
-    background: #fff;
     margin-bottom: 30px;
     border-radius: 15px;
     overflow: hidden;
@@ -58,6 +61,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.img-area:hover {
+    background-color: var(--primary-color);
 }
 
 .img-area .icon{

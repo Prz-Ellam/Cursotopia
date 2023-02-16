@@ -1,9 +1,10 @@
-@import url('../configuration/fonts.css');
-@import url('../partials/navbar.css');
-@import url('../partials/footer.css');
-@import url('../partials/body.css');
-@import url('../third-party/background.css');
-@import url('../configuration/breakpoints.css');
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../third-party/background.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/forms.css';
 
 .btn-secondary{
     background-color:var(--secondary-color);
