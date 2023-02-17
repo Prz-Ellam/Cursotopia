@@ -16,6 +16,7 @@
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: #6059F7;
     --bs-btn-disabled-border-color: #6059F7;
+    font-weight: bolder;
 }
 
 button {

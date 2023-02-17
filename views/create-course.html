@@ -12,53 +12,60 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<script type="module" src="../dist/javascript/create-course.js"></script>
 </head>
 <body>
 	<!-- Navbar -->
+	<nav class="sticky-top navbar shadow-sm">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+      <div class="col-2">
+        <a href="#" class="navbar-brand col-4 link-white text-decoration-none">Cursotopia
+        </a>
+      </div>
 
-	<nav class="py-3 mb-3 border-bottom">
-		<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-			<a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand"
-				id="navbar-logo">
-				Cursotopia
-			</a>
-			<div class="d-flex align-items-center">
-				<form class="w-100 me-3" role="search">
-					<input type="search" class="form-control border-0" placeholder="Search..." aria-label="Search" id="searchbar">
-				</form>
-				<div class="flex-shrink-0 dropdown">
-					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">
-						<img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle"
-							id="profile-img">
-					</a>
-					<ul class="dropdown-menu text-small shadow">
-						<li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-						<!-- <li><hr class="dropdown-divider"></li> -->
-						<li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</nav>
+      <div class="d-flex align-items-center col-10">
+        <form class="w-100 d-flex " role="search">
+          <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
+          <button class="btn btn-primary ms-3" type="button">Buscar</button>
+        </form>
+
+        <div class="dropdown col-2 ms-auto">
+          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img 
+              src="../client/assets/images/perfil.png"
+              alt="mdo"
+              width="36"
+              class="rounded-circle">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
 	<main>
 		<!-- Contenido -->
-		<div class="container mt-3 mb-3">
+		<div class="container mb-3">
 			<div class="row border-3 border-bottom border-primary text-center mb-3">
 				<div class="col">
 					<h4>Añadir curso</h4>
 				</div>
 			</div>
-			<form action="" class="row">
+			<form action="#" class="row" id="create-course-form">
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="mb-4">
-							<label for="name-input" class="form-label">Nombre</label>
-							<input type="text" class="bg-light form-control border-0 shadow-none" id="name">
+							<label for="name-input" class="form-label">Título</label>
+							<input type="text" class="bg-light form-control border-0 shadow-none" id="title" name="title">
 						</div>
 						<div class="mb-4">
 							<label for="description-input" class="form-label">Descripción</label>
-							<textarea class="bg-light form-control border-0 shadow-none" id="description" rows="3"></textarea>
+							<textarea class="bg-light form-control border-0 shadow-none" id="description" rows="3" name="description"></textarea>
 						</div>
 						<div class="row">
 							<div class="col-xl-8 col-xs-8 col-sm-8 col-md-7 mb-3">
@@ -215,6 +222,7 @@
 						</div>
 					</div>
 				</div>
+				<button type="submit" class="btn btn-primary">Crear curso</button>
 			</form>
 		</div>
 

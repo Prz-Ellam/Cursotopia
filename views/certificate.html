@@ -7,6 +7,30 @@
   <title>Cursotopia</title>
 </head>
 <body>
-
+  <nav class="sticky-top navbar shadow-sm">
+		<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+			<a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand"
+				id="navbar-logo">
+				Cursotopia
+			</a>
+			<div class="d-flex align-items-center">
+				<form class="w-100 me-3" role="search">
+					<input type="search" class="form-control border-0" placeholder="Search..." aria-label="Search" id="searchbar">
+				</form>
+				<div class="flex-shrink-0 dropdown">
+					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						<img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle"
+							id="profile-img">
+					</a>
+					<ul class="dropdown-menu text-small shadow">
+						<li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
+						<!-- <li><hr class="dropdown-divider"></li> -->
+						<li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
 </body>
 </html>

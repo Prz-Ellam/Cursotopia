@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,33 +10,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
 
-  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="../node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
   <link rel="stylesheet" href="../client/styles/pages/home.css">
+
+  <script defer type="module" src="../dist/javascript/home.js"></script>
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
-
 <body>
-  <nav class="sticky-top navbar shadow-sm">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <div class="col-2">
-        <a href="#" class="navbar-brand col-4 link-dark text-decoration-none">Cursotopia
-        </a>
+  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+    <div class="container-fluid">
+      <div class="col-3">
+        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
       </div>
-
-      <div class="d-flex align-items-center col-10">
-        <form class="w-100 d-flex " role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-primary ms-3" type="button">Buscar</button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+          <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
+        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
+          <div class="input-group w-100">
+            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+          </div>
         </form>
-
         <div class="dropdown col-2 ms-auto">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="..." alt="mdo" width="32" height="32" class="rounded-circle">
+          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img 
+              src="../client/assets/images/perfil.png"
+              alt="mdo"
+              width="36"
+              class="rounded-circle">
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -52,56 +56,35 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="d-flex flex-column justify-content-center" id="hero-section">
+  <section class="d-flex flex-column justify-content-center mb-5" id="hero-section">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 class="fw-bold" style="font-size: 48px">Cursotopia</h1>
-          <h5 class="mb-4">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
+        <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up">
+          <h1 class="fw-bolder text-center text-lg-start" style="font-size: 48px">Cursotopia</h1>
+          <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
+          <h5 class="mb-4 text-center text-lg-start">¡No tienes que salir de casa!</h5>
           <div class="text-center text-lg-start">
-            <button class="btn btn-primary rounded-5 w-50">¡Crea una cuenta gratis!</button>
+            <button class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</button>
           </div>
         </div>
-        <div class="col-lg-6">
-          <!-- TODO: Change link -->
+        <div class="col-lg-6" data-aos="zoom-in-up">
           <img
-            src="https://thumbs.dreamstime.com/b/education-training-course-online-study-tutorials-e-learning-smart-knowledge-cartoon-miniature-illustration-vector-graphic-white-135075905.jpg"
-            class="img-fluid w-100" alt="">
+            src="../client/assets/images/hero-banner.svg"
+            class="img-fluid w-100 d-none d-lg-block" alt="">
         </div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="mb-5" data-aos="fade-up" id="section-categories">
     <h2 class="text-center fw-bold">Categorías</h2>
   </section>
 
-  <section class="container mb-5">
-    <h2 class="text-center fw-bold">Cursos mejor vendidos</h2>
-    <hr>
-    <div class="owl-carousel">
-      <div class="card bg-light border-0" role="button">
-        <div class="ratio ratio-16x9">
-          <img 
-            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
-            class="card-img-top img-cover"
-            alt="Curso">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Título del curso</h5>
-          <p class="card-text">Nombre del instructor</p>
-          <hr>
-          <p>Cantidad de níveles</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="container mb-5">
-    <h2 class="text-center fw-bold">Últimos cursos publicados</h2>
+  <section class="container mb-5" data-aos="fade-up">
+    <h2 class="text-center fw-bolder">Últimos cursos publicados</h2>
     <hr>
     <div class="owl-carousel mb-4">
-      <div class="card bg-light border-0" role="button">
+      <div class="card bg-light border-0 shadow-none" role="button">
         <div class="ratio ratio-16x9">
           <img 
             src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
@@ -118,8 +101,8 @@
     </div>
   </section>
 
-  <section class="container mb-5">
-    <h2 class="text-center fw-bold">Cursos mejor valorados</h2>
+  <section class="container mb-5" data-aos="fade-up">
+    <h2 class="text-center fw-bolder">Los cursos mejor valorados</h2>
     <hr>
     <div class="owl-carousel">
       <div class="card bg-light border-0" role="button">
@@ -139,7 +122,90 @@
     </div>
   </section>
 
-  <section>
+  <section class="container mb-5" data-aos="fade-up">
+    <h2 class="text-center fw-bolder">Los cursos mejor vendidos</h2>
+    <hr>
+    <div class="owl-carousel">
+      <div class="card bg-light border-0 shadow-none" role="button">
+        <div class="ratio ratio-16x9">
+          <img 
+            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
+            class="card-img-top img-cover"
+            alt="Curso">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Título del curso</h5>
+          <p class="card-text">Nombre del instructor</p>
+          <hr>
+          <p>Cantidad de níveles</p>
+        </div>
+      </div>
+      <div class="card bg-light border-0 shadow-none" role="button">
+        <div class="ratio ratio-16x9">
+          <img 
+            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
+            class="card-img-top img-cover"
+            alt="Curso">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Título del curso</h5>
+          <p class="card-text">Nombre del instructor</p>
+          <hr>
+          <p>Cantidad de níveles</p>
+        </div>
+      </div>
+      <div class="card bg-light border-0 shadow-none" role="button">
+        <div class="ratio ratio-16x9">
+          <img 
+            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
+            class="card-img-top img-cover"
+            alt="Curso">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Título del curso</h5>
+          <p class="card-text">Nombre del instructor</p>
+          <hr>
+          <p>Cantidad de níveles</p>
+        </div>
+      </div>
+      <div class="card bg-light border-0 shadow-none" role="button">
+        <div class="ratio ratio-16x9">
+          <img 
+            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
+            class="card-img-top img-cover"
+            alt="Curso">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Título del curso</h5>
+          <p class="card-text">Nombre del instructor</p>
+          <hr>
+          <p>Cantidad de níveles</p>
+        </div>
+      </div>
+      <div class="card bg-light border-0 shadow-none" role="button">
+        <div class="ratio ratio-16x9">
+          <img 
+            src="https://i.pinimg.com/736x/df/92/eb/df92eb0035b8ce6381d93a0e93544b31.jpg"
+            class="card-img-top img-cover"
+            alt="Curso">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">Título del curso</h5>
+          <p class="card-text">Nombre del instructor</p>
+          <hr>
+          <p>Cantidad de níveles</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mb-5" data-aos="fade-up">
+    <div class="d-grid justify-content-center">
+      <button class="btn btn-primary rounded-5 shadow-none border-0">Ver todos los cursos</button>
+    </div>
+  </section>
+
+  <section data-aos="fade-up">
     Los mejores profesores están deseando enseñarte
   </section>
 
@@ -205,28 +271,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    $(document).ready(() => {
-      $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        nav: false,
-        dots: true,
-        responsive: {
-          0: {
-            items: 1
-          },
-          600: {
-            items: 3
-          },
-          1000: {
-            items: 3
-          }
-        }
-      });
-    })
-  </script>
 </body>
-
 </html>

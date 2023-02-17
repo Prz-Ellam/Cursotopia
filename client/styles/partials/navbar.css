@@ -1,13 +1,14 @@
-@import url('../configuration/colors.css');
+@import '../configuration/colors.css';
 
-nav {
+.navbar {
     background-color: var(--primary-color);
-    position: fixed;
+    /* Esto le afecta a la vista de chat */
+    /* position: fixed; */
     width: 100%;
     z-index: 3;
 }
 
-.navbar-brand{
+.navbar-brand {
     color: var(--light-color);
     font-size: 25px;
     font-weight: 500;
