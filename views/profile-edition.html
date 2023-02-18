@@ -1,12 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursotopia</title>
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/assets/profile-edition.css">
 </head>
+
 <body>
-  
+  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+    <div class="container-fluid">
+      <div class="col-3">
+        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
+        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
+          <div class="input-group w-100">
+            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+          </div>
+        </form>
+        <div class="dropdown col-2 ms-auto">
+          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="instructor-profile.html">Perfil</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="col-6 mb-4">
+      <label for="name" role="button" class="form-label">Nombre</label>
+      <input type="text" name="name" id="name" class="bg-light form-control border-0 shadow-none">
+    </div>
+
+    <div class="col-6 mb-4">
+      <label for="last-name" role="button" class="form-label">Apellido</label>
+      <input type="text" name="last-name" id="last-name" class="bg-light form-control border-0 shadow-none">
+    </div>
+
+    <div class="col-4 mb-4">
+      <label for="gender" role="button" class="form-label">Género</label>
+      <select name="gender" id="gender" class="bg-light form-select border-0 shadow-none">
+        <option value="0" selected>Seleccionar</option>
+        <option value="1">Másculino</option>
+        <option value="2">Femenino</option>
+        <option value="3">Otro</option>
+      </select>
+    </div>
+
+    <div class="col-4 mb-4">
+      <label for="birth-date" role="button" class="form-label">Fecha de nacimiento</label>
+      <input type="date" name="birth-date" id="birth-date" class="bg-light form-control border-0 shadow-none">
+    </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="email" role="button" class="form-label">Correo electrónico</label>
+      <input type="email" name="email" id="email" class="bg-light form-control border-0 shadow-none">
+    </div>
+
+    <div class="d-grid mb-4">
+      <button type="submit" class="btn btn-primary rounded-5">Registrarse</button>
+    </div>
+  </main>
 </body>
 </html>

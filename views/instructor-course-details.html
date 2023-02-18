@@ -14,24 +14,31 @@
 </head>
 <body>
   <!-- Navbar -->
-
-  <nav class="py-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
-        Cursotopia
-      </a>
-      <div class="d-flex align-items-center">
-        <form class="w-100 me-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
+  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+    <div class="container-fluid">
+      <div class="col-3">
+        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
+        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
+          <div class="input-group w-100">
+            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+          </div>
         </form>
-        <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-            <!-- <li><hr class="dropdown-divider"></li> -->
-            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+        <div class="dropdown col-2 ms-auto">
+          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="instructor-profile.html">Perfil</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
           </ul>
         </div>
       </div>
