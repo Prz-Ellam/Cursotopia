@@ -1,0 +1,17 @@
+@import '../configuration/colors.css';
+@import '../third-party/background.css';
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+
+.justify-text {
+    text-align: justify;
+}
+
+.rating-star {
+    cursor: pointer;
+    color: #dabd18b2;
+}
+
+img {
+    object-fit: cover;
+}

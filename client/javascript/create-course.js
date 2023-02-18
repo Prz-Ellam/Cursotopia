@@ -1,4 +1,4 @@
-import $ from './jquery';
+import $ from 'jquery';
 import 'jquery-validation';
 import createCourseValidator from './validators/create-course.validator';
 import { createCourse } from './controllers/course.controller';

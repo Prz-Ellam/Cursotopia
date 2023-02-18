@@ -1,4 +1,4 @@
-import $ from './jquery';
+import $ from './jquery-global';
 import 'owl.carousel';
 import 'bootstrap';
 import AOS from 'aos';
@@ -15,6 +15,8 @@ $('.owl-carousel').owlCarousel({
     margin: 10,
     dots: true,
     autoplay: true,
+    nav: true,
+    navText: [ '<i class="bx bx-chevron-left"></i>', '<i class="bx bx-chevron-right"></i>' ],
     autoplayTimeout: 10000,
     autoplayHoverPause: true, // Es molesto ver un curso y que el carousel se mueva
     responsive: {

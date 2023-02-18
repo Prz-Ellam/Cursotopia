@@ -1,6 +1,7 @@
 import path from 'path';
 import glob from 'glob';
 import { defineConfig } from 'vite';
+import inject from '@rollup/plugin-inject';
 
 const root = path.resolve(__dirname, 'client');
 export default defineConfig({

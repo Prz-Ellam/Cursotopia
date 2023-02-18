@@ -2,10 +2,21 @@ import $ from 'jquery';
 import 'jquery-validation';
 
 import User from '../models/user.model';
-import { createUser } from '../services/user.service';
+import { createUser, loginUser } from '../services/user.service';
 
-export const login = function(event) {
+export const login = async function(event) {
+    event.preventDefault();
+    let validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
 
+    const auth = {
+        email: 'PerezAlex088@outlook.com',
+        password: '123Abc!!'
+    };
+
+    const response = await loginUser(auth);
 }
 
 export const signup = async function(event) {
