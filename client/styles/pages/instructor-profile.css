@@ -1,3 +1,5 @@
+@import '../third-party/button.css';
+
 @import url('../configuration/fonts.css');
 @import url('../partials/navbar.css');
 @import url('../partials/card.css');
@@ -12,10 +14,6 @@ main {
     margin: 0;
 }
 
-.btn-secondary{
-    background-color:var(--secondary-color);
-    border: none;
-}
 
 .form-label{
     font-size: 16px;

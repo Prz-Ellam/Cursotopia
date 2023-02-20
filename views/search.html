@@ -48,10 +48,10 @@
     </div>
   </nav>
 
-  <main class="container">
+  <main class="container my-5">
     <input type="search" name="search" id="search">
 
-    <select name="" id="">
+    <select name="categories" id="categories">
       <option value="">Categoría</option>
     </select>
 
@@ -59,8 +59,25 @@
       <option value="">Instructor</option>
     </select>
 
-    <input type="date" name="from" id="from">
-    <input type="date" name="to" id="to">
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <label for="from" class="col-form-label">Desde:</label>
+      </div>
+      <div class="col-auto">
+        <input type="date" name="from" id="from" class="form-control">
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <label for="to" class="col-form-label">Hasta:</label>
+      </div>
+      <div class="col-auto">
+        <input type="date" name="to" id="to" class="form-control">
+      </div>
+    </div>
+
+
 
     <h1>Resultados de busqueda</h1>
     <div class="row">
@@ -252,7 +269,7 @@
           <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">3</a></li>
           <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-right'></i></a></li>
         </ul>
-      </nav>
+      </div>
     </div>
 </body>
 </html>

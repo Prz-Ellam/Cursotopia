@@ -8,6 +8,7 @@ input[type="checkbox"] {
 input[type="text"],
 input[type="email"],
 input[type="password"],
+textarea,
 select {
     outline: solid 1px var(--light-color);
     outline-offset: -1px;
@@ -17,6 +18,7 @@ select {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
+textarea:focus,
 select:hover {
     outline: solid 1px var(--primary-color);
     transition: outline .3s;
@@ -34,3 +36,28 @@ button[type="submit"]:visited {
     background-color: var(--primary-color);
     border: none;
 } */
+
+
+.img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+}
+
+.profile-picture-label {
+    width: 128px; 
+    height: 128px;
+    line-height: 128px;
+}
+
+.profile-picture-label:hover::after {
+    content: 'Foto de perfil'
+}
+
+.profile-picture-label:hover {
+    background-color: rgba(48, 133, 214, 0.5);
+}
+
+#profile-picture, #edit-profile-picture {
+    scale: 0.01;
+}

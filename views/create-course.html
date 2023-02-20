@@ -1,413 +1,528 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cursotopia</title>
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../client/styles/pages/create-course.css">
-	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../client/styles/pages/create-course.css">
 	<script type="module" src="../dist/javascript/create-course.js"></script>
 </head>
+
 <body>
 	<!-- Navbar -->
-	<nav class="sticky-top navbar shadow-sm">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <div class="col-2">
-        <a href="#" class="navbar-brand col-4 link-white text-decoration-none">Cursotopia
-        </a>
-      </div>
-
-      <div class="d-flex align-items-center col-10">
-        <form class="w-100 d-flex " role="search">
-          <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-primary ms-3" type="button">Buscar</button>
-        </form>
-
-        <div class="dropdown col-2 ms-auto">
-          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img 
-              src="../client/assets/images/perfil.png"
-              alt="mdo"
-              width="36"
-              class="rounded-circle">
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
-	<main>
-		<!-- Contenido -->
-		<div class="container mb-3">
-			<div class="row border-3 border-bottom border-primary text-center mb-3">
-				<div class="col">
-					<h4>Añadir curso</h4>
-				</div>
-			</div>
-			<form action="#" class="row" id="create-course-form">
-				<div class="row">
-					<div class="col-md-6 col-sm-12 col-xs-12">
-						<div class="mb-4">
-							<label for="name-input" class="form-label">Título</label>
-							<input type="text" class="bg-light form-control border-0 shadow-none" id="title" name="title">
-						</div>
-						<div class="mb-4">
-							<label for="description-input" class="form-label">Descripción</label>
-							<textarea class="bg-light form-control border-0 shadow-none" id="description" rows="3" name="description"></textarea>
-						</div>
-						<div class="row">
-							<div class="col-xl-8 col-xs-8 col-sm-8 col-md-7 mb-3">
-								<label class="form-label">Categorías</label>
-								<select class="bg-light form-select border-0 shadow-none" id="categories">
-									<option selected>Seleccionar</option>
-									<option value="1">Música</option>
-									<option value="2">Arte</option>
-									<option value="3">Programación</option>
-								</select>
-							</div>
-							<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-								<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto"
-									data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-5 col-xs-5 col-sm-5">
-								
-								<label class="form-label pt-2" for="">Precio:</label>
-								<input id="price" class="bg-light form-control border-0 shadow-none" type="text">
-									
-								
-							</div>
-							<div class="form-check col-md-5 col-xs-5 col-sm-5 ms-5">
-								<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-								<label class="form-check-label" for="free-level-checkbox">Gratis</label>
-							</div>
-						</div>
+	<nav class="sticky-top navbar navbar-expand-lg bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="text-white navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<form class="col-auto col-lg-7" role="search">
+					<div class="input-group">
+						<input class="form-control border-0 shadow-none" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
 					</div>
-					<label for="upload-img-input" class="center col-md-6 col-sm-12 col-xs-12 image-container">
-						<label class="form-label">Portada</label>
-						<div class="img-area text-center" role="button">
-							<i class="bx bxs-cloud-upload icon"></i>
-							<h3>Upload Image</h3>
-							<!-- <img src="../../css/hero-bg.png" alt=""> -->
+				</form>
+				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+					<li class="nav-item dropdown">
+						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Categorías
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="search.html">Arte</a></li>
+							<li><a class="dropdown-item" href="search.html">Música</a></li>
+							<li><a class="dropdown-item" href="search.html">Programación</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-light" aria-current="page" href="chat.html">
+							<i class="bx-sm bx bxs-bell position-relative">
+								<span class="badge rounded-pill badge-notification bg-danger">1</span>
+							</i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<div class="nav-link dropdown">
+							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+							</ul>
 						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Contenido -->
+	<section class="container my-4 mb-3">
+		<div class="row border-3 border-bottom border-primary text-center mb-3">
+			<div class="col">
+				<h4>Añadir curso</h4>
+			</div>
+		</div>
+		<form action="#" class="row" id="create-course-form">
+			<div class="row mx-0">
+
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div class="mb-4">
+						<label for="name-input" class="form-label">Título</label>
+						<input type="text" class="bg-light form-control border-0 shadow-none" id="title" name="title">
+					</div>
+					<div class="mb-4">
+						<label for="description-input" class="form-label">Descripción</label>
+						<textarea class="bg-light form-control border-0 shadow-none" id="description" rows="3"
+							name="description"></textarea>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox">
+						<label class="form-check-label" for="free-course-checkbox">El curso será gratis</label>
+					</div>
+					<div class="mb-4" id="price-group">
+						<label class="form-label pt-2" for="">Precio:</label>
+						<input id="price" class="form-control" type="number">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Categorías</label>
+						<select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
+							<option value="1">Música</option>
+							<option value="2">Arte</option>
+							<option value="3">Programación</option>
+						</select>
+					</div>
+					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
+						<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto" data-bs-toggle="modal"
+							data-bs-target="#addCategory">Añadir categoria</button>
+					</div>
+				</div>
+
+				<label for="upload-img-input" class="center col-md-6 col-sm-12 col-xs-12 image-container">
+					<label class="form-label">Portada</label>
+					<div class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
+						<!--
+							<div class="d-flex justify-content-center align-items-center">
+								<div>
+									<i class="bx bxs-cloud-upload icon"></i>
+									<h3>Subir imagen</h3>
+								</div>
+							</div>
+							-->
+						<img src="../client/assets/images/city.jpg" alt="" class="img-fluid rounded-3">
 						<input id="upload-img-input" type="file" class="d-none form-control mt-3">
-					</label>
-				</div>
+					</div>
+				</label>
 
-				<div class="row">
-					<div class="col-lg-12 p-2 d-flex">
-						<h4 class="pe-4">Niveles</h4>
-						<button id="add-level-btn" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-							data-bs-target="#addLevel">Añadir nivel</button>
-					</div>
+			</div>
+
+
+			<section class="my-5">
+				<div class="py-2 d-flex">
+					<h4 class="pe-4">Niveles</h4>
+					<button id="add-level-btn" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+						data-bs-target="#addLevel">Añadir nivel</button>
 				</div>
-				<div class="row">
-					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
-						<div class="card">
-							<div class="card-body d-flex">
-								<div class="container">
-									<div class="row">
-										<div class="col-9">
-											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-										</div>
-										<div class="col-3 text-end">
-											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-											<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
-										</div>
-									</div>
-								</div>
+				<div class="border-0 card shadow-none">
+					<div class="rounded-top bg-light card-header">
+						<div class="row align-items-center">
+							<div class="col-9">
+								<label for="">Nivel 1: Introducción</label>
 							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-						<div class="container">
-							<div class="row">
-								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-									<div class="form-check ">
-										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
-									</div>
-								</div>
-								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-									<label for="level-cost-input" class="form-label me-3">Costo:</label>
-									<input type="text" class="form-control" id="level-cost-input">
-								</div>
+							<div class="col-3 text-lg-end text-center">
+								<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
+									data-bs-target="#add-lesson">Añadir lección</button>
+								<span class="d-lg-inline d-block text-lg-end text-center">
+									<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1" data-bs-toggle="modal"
+										data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+									<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
+											class='bx bxs-trash-alt'></i></a>
+									<a class="btn text-primary m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
+										role="button" aria-expanded="false" aria-controls="collapseExample">
+										<i class='bx bxs-chevron-down'></i>
+								</span>
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
-						<div class="card">
-							<div class="card-body d-flex">
-								<div class="container">
-									<div class="row">
-										<div class="col-9">
-											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-										</div>
-										<div class="col-3 text-end">
-											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-											<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+
+				<div class="collapse" id="collapseExample1">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item d-flex align-items-center justify-content-between">
+							<span>Lección 1: Introducción al curso
+							</span>
+							<span>
+								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
+										class='bx bxs-trash-alt'></i></a>
+							</span>
+						</li>
+						<li class="list-group-item d-flex align-items-center justify-content-between">
+							<span>Lección 1: Sobre Java
+							</span>
+							<span>
+								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
+										class='bx bxs-trash-alt'></i></a>
+							</span>
+						</li>
+						<li class="list-group-item d-flex align-items-center justify-content-between">
+							<span>Lección 3: Sobre POO
+							</span>
+							<span>
+								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
+										class='bx bxs-trash-alt'></i></a>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<div class="d-flex">
+				<button type="submit" class="btn btn-primary w-100">Crear curso</button>
+			</div>
+		</form>
+	</section>
+
+
+
+	<!--
+
+
+	<div class="row">
+		<div class="pb-2">
+			<div class="card">
+				<div class="card-body row align-items-center">
+					<div class="col-9">
+						<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
 					</div>
-					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-						<div class="container">
-							<div class="row">
-								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-									<div class="form-check ">
-										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
-									</div>
-								</div>
-								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-									<label for="level-cost-input" class="form-label me-3">Costo:</label>
-									<input type="text" class="form-control" id="level-cost-input">
-								</div>
-							</div>
-						</div>
+					<div class="col-3 text-end">
+						<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal" data-bs-target="#editLevel"><i
+								class='bx bxs-pencil'></i></a>
+						<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+						<a href="#collapseExample" data-bs-toggle="collapse" role="button" aria-expanded="false"
+							aria-controls="collapseExample">
+							<i class='bx bx-chevron-down'></i>
+						</a>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
-						<div class="card">
-							<div class="card-body d-flex">
-								<div class="container">
-									<div class="row">
-										<div class="col-9">
-											<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
-										</div>
-										<div class="col-3 text-end">
-											<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-												data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-											<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
-						<div class="container">
-							<div class="row">
-								<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
-									<div class="form-check ">
-										<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
-										<label class="form-check-label" for="free-level-checkbox">Gratis</label>
-									</div>
-								</div>
-								<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
-									<label for="level-cost-input" class="form-label me-3">Costo:</label>
-									<input type="text" class="form-control" id="level-cost-input">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Crear curso</button>
-			</form>
-		</div>
-
-		<!-- Modal añadir nivel-->
-		<div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4>Añadir nivel</h4>
-					</div>
-					<div class="modal-body">
-
-						<div class="wrapper">
-							<div class="box">
-								<div class="mb-3">
-									<h5>Nombre del nivel</h5>
-									<input type="text" class="form-control">
-								</div>
-
-								<div class="input-bx">
-									<h5 class="upload-area-title mb-2">Subir video</h5>
-									<form action="">
-										<input type="file" id="Upload" hidden>
-										<label for="Upload" class="uploadlabel">
-											<span class=""><i class='bx bxs-cloud-upload'></i></span>
-											<p>Oprime para añadir</p>
-										</label>
-									</form>
-								</div>
-
-								<div id="filewrapper">
-									<h4 class="uploaded">Videos</h4>
-									<div class="showfilebox">
-										<div class="left">
-											<span class="filetype">Pdf</span>
-											<h4>Ravi Web.pdf</h4>
-										</div>
-										<div class="right">
-											<i class='bx bxs-x-circle'></i>
-										</div>
-									</div>
-								</div>
-
-								<div class="input-bx">
-									<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
-									<form action="">
-										<input type="file" id="Upload" hidden>
-										<label for="Upload" class="uploadbtn btn btn-secondary">
-											<p>Añadir archivo</p>
-										</label>
-									</form>
-								</div>
-
-								<div class="d-flex mt-2 mb-2">
-									<input type="text" class="form-control me-2" id="link-input">
-									<button class="btn btn-secondary">Agregar link</button>
-								</div>
-
-								<div id="filewrapper">
-									<h4 class="uploaded">Archivos</h4>
-									<div class="showfilebox">
-										<div class="left">
-											<span class="filetype">Pdf</span>
-											<h4>Ravi Web.pdf</h4>
-										</div>
-										<div class="right">
-											<i class='bx bxs-x-circle'></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-					</div>
+			</div>
+			<div class="collapse" id="collapseExample">
+				<div class="card card-body">
+					Some placeholder content for the collapse component. This panel is hidden by default but revealed when
+					the user activates the relevant trigger.
 				</div>
 			</div>
 		</div>
 
-		<!-- Modal editar nivel-->
-		<div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4>Editar nivel</h4>
+	</div>
+
+
+
+	<div class="row">
+		<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
+			<div class="card">
+				<div class="card-body d-flex">
+					<div class="container">
+						<div class="row">
+							<div class="col-9">
+								<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
+							</div>
+							<div class="col-3 text-end">
+								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+								<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+							</div>
+						</div>
 					</div>
-					<div class="modal-body">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
+						<div class="form-check ">
+							<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+							<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
+						<label for="level-cost-input" class="form-label me-3">Costo:</label>
+						<input type="text" class="form-control" id="level-cost-input">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-sm-12 col-xs-12 pb-2">
+			<div class="card">
+				<div class="card-body d-flex">
+					<div class="container">
+						<div class="row">
+							<div class="col-9">
+								<label for="descripcion" class="form-label card-title pe-5">Nivel 1: Nombre del nivel </label>
+							</div>
+							<div class="col-3 text-end">
+								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+								<a id="delete-level-btn" href="#" class="btn m-auto p-1"><i class='bx bxs-trash-alt'></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-3 col-lg-3  mt-auto mb-auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-3 col-lg-4 col-md-12 col-sm-2 col-xs-2 mb-3 me-3">
+						<div class="form-check ">
+							<input class="form-check-input" type="checkbox" value="" id="free-level-checkbox">
+							<label class="form-check-label" for="free-level-checkbox">Gratis</label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-12 col-sm-5 col-xs-5 d-flex">
+						<label for="level-cost-input" class="form-label me-3">Costo:</label>
+						<input type="text" class="form-control" id="level-cost-input">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</div>
+-->
 
-						<div class="wrapper">
-							<div class="box">
-								<div class="mb-3">
-									<h5>Nombre del nivel</h5>
-									<input type="text" class="form-control">
-								</div>
+	<!-- Modal añadir nivel-->
+	<div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg rounded-1 border-0 shadow-none">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Añadir nivel</h4>
+				</div>
+				<div class="modal-body">
 
-								<div class="input-bx">
-									<h5 class="upload-area-title mb-2">Subir video</h5>
-									<form action="">
-										<input type="file" id="Upload" hidden>
-										<label for="Upload" class="uploadlabel">
-											<span class=""><i class='bx bxs-cloud-upload'></i></span>
-											<p>Oprime para añadir</p>
-										</label>
-									</form>
-								</div>
+					<div class="mb-4">
+						<label class="form-label">Nombre</label>
+						<input type="text" class="form-control">
+					</div>
 
-								<div id="filewrapper">
-									<h4 class="uploaded">Videos</h4>
-									<div class="showfilebox">
-										<div class="left">
-											<span class="filetype">Pdf</span>
-											<h4>Ravi Web.pdf</h4>
-										</div>
-										<div class="right">
-											<i class='bx bxs-x-circle'></i>
-										</div>
+					<div class="mb-4">
+						<label for="section-description" class="form-label">Descripción</label>
+						<textarea name="description" id="section-description" cols="30" rows="5" class="form-control"
+							placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
+					</div>
+
+					<div class="form-check">
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-lesson-checkbox">
+						<label class="form-check-label" for="free-lesson-checkbox">El nivel será gratis</label>
+					</div>
+
+					<div class="mb-4">
+						<label for="" class="form-label">Precio</label>
+						<input type="number" name="price" id="price" class="form-control">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="close-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="button" class="btn btn-primary">Agregar nivel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal editar nivel-->
+	<div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Editar nivel</h4>
+				</div>
+				<div class="modal-body">
+
+					<div class="wrapper">
+						<div class="box">
+							<div class="mb-3">
+								<h5>Nombre del nivel</h5>
+								<input type="text" class="form-control">
+							</div>
+
+							<div class="input-bx">
+								<h5 class="upload-area-title mb-2">Subir video</h5>
+								<form action="">
+									<input type="file" id="Upload" hidden>
+									<label for="Upload" class="uploadlabel">
+										<span class=""><i class='bx bxs-cloud-upload'></i></span>
+										<p>Oprime para añadir</p>
+									</label>
+								</form>
+							</div>
+
+							<div id="filewrapper">
+								<h4 class="uploaded">Videos</h4>
+								<div class="showfilebox">
+									<div class="left">
+										<span class="filetype">Pdf</span>
+										<h4>Ravi Web.pdf</h4>
+									</div>
+									<div class="right">
+										<i class='bx bxs-x-circle'></i>
 									</div>
 								</div>
-								<div class="input-bx">
-									<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
-									<form action="">
-										<input type="file" id="Upload" hidden>
-										<label for="Upload" class="uploadbtn btn btn-secondary">
-											<p>Añadir archivo</p>
-										</label>
-									</form>
-								</div>
-								<div class="d-flex mt-2 mb-2">
-									<input type="text" class="form-control me-2" id="link-input">
-									<button class="btn btn-secondary">Agregar link</button>
-								</div>
-								<div id="filewrapper">
-									<h4 class="uploaded">Archivos</h4>
-									<div class="showfilebox">
-										<div class="left">
-											<span class="filetype">Pdf</span>
-											<h4>Ravi Web.pdf</h4>
-										</div>
-										<div class="right">
-											<i class='bx bxs-x-circle'></i>
-										</div>
+							</div>
+							<div class="input-bx">
+								<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
+								<form action="">
+									<input type="file" id="Upload" hidden>
+									<label for="Upload" class="uploadbtn btn btn-secondary">
+										<p>Añadir archivo</p>
+									</label>
+								</form>
+							</div>
+							<div class="d-flex mt-2 mb-2">
+								<input type="text" class="form-control me-2" id="link-input">
+								<button class="btn btn-secondary">Agregar link</button>
+							</div>
+							<div id="filewrapper">
+								<h4 class="uploaded">Archivos</h4>
+								<div class="showfilebox">
+									<div class="left">
+										<span class="filetype">Pdf</span>
+										<h4>Ravi Web.pdf</h4>
+									</div>
+									<div class="right">
+										<i class='bx bxs-x-circle'></i>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Modal categoria-->
-		<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4>Añadir categoría</h4>
+	<!-- Modal añadir categoria -->
+	<div class="modal fade" id="add-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg rounded-1 border-0 shadow-none">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Añadir lección</h4>
+				</div>
+				<div class="modal-body">
+
+					<div class="mb-4">
+						<label class="form-label">Título</label>
+						<input type="text" class="form-control">
 					</div>
-					<div class="modal-body">
-						<label for="category-name-input" class="form-label">Nombre</label>
-						<input type="text" class="form-control" id="category-name-input">
-						<label for="category-description-input" class="form-label">Descripción</label>
-						<textarea class="form-control" id="category-description-input" rows="3"></textarea>
+
+					<div class="mb-4">
+						<label for="">Información adicional</label>
+						<textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
 					</div>
-					<div class="modal-footer">
-						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+
+					<div class="mb-4">
+						<label for="">Video</label>
+						<input type="file" name="" id="" class="form-control">
 					</div>
+
+					<div class="mb-4">
+						<label for="">Imágen</label>
+						<input type="file" name="" id="" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="">PDF</label>
+						<input type="file" name="" id="" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="" class="form-label">Enlace</label>
+						<div class="mb-4">
+							<label for="">Título</label>
+							<input type="text" name="" id="" class="form-control" placeholder="Título descriptivo">
+						</div>
+						<div class="mb-4">
+							<label for="">URL</label>
+							<input type="url" name="" id="" class="form-control" placeholder="https://example.com">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="button" class="btn btn-secondary">Agregar lección</button>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Footer -->
-		<div class="container-fluid mt-auto bg-primary">
-			<footer class="py-3 footer">
-				<div class="col-md-4 d-flex align-items-center">
-					<span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+	<!-- Category Modal -->
+	<div class="modal fade animate__animated animate__bounceInDown" id="addCategory" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-1 border-0 shadow-sm">
+				<div class="modal-header">
+					<h4>Añadir categoría</h4>
 				</div>
-			</footer>
+				<div class="modal-body">
+					<div class="mb-4">
+						<label for="category-name" class="form-label" role="button">Nombre</label>
+						<div class="input-group">
+							<input type="text" class="form-control shadow-none rounded-1" id="category-name" name="name"
+								autocomplete="off">
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<label for="category-description" class="form-label" role="button">Descripción</label>
+						<div class="input-group">
+							<textarea class="form-control shadow-none rounded-1" id="category-description" name="description" rows="5"
+								placeholder="¿Qué clase de cursos contendrá?"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+				</div>
+			</div>
 		</div>
-	</main>
+	</div>
+
+	<!-- Footer -->
+	<div class="container-fluid mt-auto bg-primary">
+		<footer class="py-3 footer">
+			<div class="col-md-4 d-flex align-items-center">
+				<span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
+			</div>
+		</footer>
+	</div>
+	</section>
 </body>
+
 </html>

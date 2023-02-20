@@ -1,0 +1,11 @@
+@import url('../configuration/fonts.css');
+@import url('../partials/navbar.css');
+@import url('../partials/footer.css');
+@import url('../third-party/background.css');
+@import url('../partials/body.css');
+@import url('../configuration/breakpoints.css');
+@import url('../partials/hero.css');
+
+main {
+    margin: 0 !important;
+}

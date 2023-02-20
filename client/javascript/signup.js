@@ -3,8 +3,12 @@ import 'jquery-validation';
 import { signup, uploadProfilePicture } from './controllers/user.controller';
 import signupValidator from './validators/signup.validator';
 
-$('#birth-date').val('2022-10-10');
+const birthDate = document.getElementById('birth-date');
+birthDate.value = '2022-10-26';
 
-$('#profile-picture').on('change', uploadProfilePicture);
-$('#signup-form').validate(signupValidator);
-$('#signup-form').on('submit', signup);
+const profilePicture = document.getElementById('profile-picture');
+const signupForm = document.getElementById('signup-form');
+
+profilePicture.addEventListener('change', uploadProfilePicture);
+$(signupForm).validate(signupValidator);
+signupForm.addEventListener('submit', signup);

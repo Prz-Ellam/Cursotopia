@@ -4,7 +4,7 @@
     background-color: var(--primary-color);
     /* Esto le afecta a la vista de chat */
     /* position: fixed; */
-    width: 100%;
+    min-height: 68px;
     z-index: 3;
 }
 
@@ -13,4 +13,12 @@
     font-size: 25px;
     font-weight: 500;
     margin-left: 30px;
+    margin-right: 70px;
+}
+
+.badge {
+    position: absolute;
+    top: -20%;
+    right: -20%;
+    font-size: 10px
 }

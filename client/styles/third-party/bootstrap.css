@@ -1,0 +1,15 @@
+.form-control, .form-select {
+    background-color: var(--light-color);
+    border: none;
+    border-radius: 0.25rem;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--light-color);
+    box-shadow: none;
+}
+
+.placeholder {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0);
+}

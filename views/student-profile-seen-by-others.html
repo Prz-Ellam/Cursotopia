@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,160 +12,177 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/assets/instructor-profile-seen-by-others.css">
 </head>
+
 <body>
 
   <!-- Navbar -->
-
-  <nav class="py-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
-        Cursotopia
-      </a>
-      <div class="d-flex align-items-center">
-        <form class="w-100 me-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
+  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+    <div class="container-fluid">
+      <div class="col-3">
+        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
+        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
+          <div class="input-group w-100">
+            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..."
+              aria-label="Search" />
+            <button class="btn btn-secondary" type="button">
+              <i class="bx bx-search-alt-2"></i>
+            </button>
+          </div>
         </form>
-        <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-            <!-- <li><hr class="dropdown-divider"></li> -->
-            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
+        <div class="dropdown col-2 ms-auto">
+          <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle" />
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="instructor-profile.html">Perfil</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
           </ul>
         </div>
       </div>
     </div>
   </nav>
 
-  <main>
+  <div>
     <!-- Hero -->
-  <div class="Hero">
-    <div class="container-fluid bg-white shadow">
+    <div class="Hero">
+      <div class="container-fluid bg-white shadow">
         <div class="row p-4">
-            <div class="col-xl-2 col-md-4 col-sm-5 col-xs-12 ml-4">
-                <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=" class="img-hero" alt="">
-            </div>
-            <div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto ">
-                <div class="container text-xs-center">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Nombre completo</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6>Usuario</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6>Fecha de nacimiento</h6>
-                        </div>
-                    </div>
-                    <!-- Solo aparece si lo está viendo el administrador -->
-                    <!-- <div class="row mt-3">
+          <div class="col-xl-2 col-md-4 col-sm-5 col-xs-12 ml-4">
+            <img
+              src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+              class="img-hero" alt="">
+          </div>
+          <div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto ">
+            <div class="container text-xs-center">
+              <div class="row">
+                <div class="col-12">
+                  <h4>Nombre completo</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <h6>Usuario</h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <h6>Fecha de nacimiento</h6>
+                </div>
+              </div>
+              <!-- Solo aparece si lo está viendo el administrador -->
+              <!-- <div class="row mt-3">
                         <div class="col-12">
                             <button class="btn btn-secondary">Bloquear usuario</button>
                         </div>
                     </div> -->
-                </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Contenido -->
-<div class="container">
-    <div class="row mt-4">
-        <div class="col-12">
-            <h4>Cursos a los que está inscrito</h4>
-        </div>
-    </div>
-
-  <!-- Cards -->
-  <div class="container mt-4">
-      <div class="row">
-          <div class="col-12 pb-2">
-              <div class="container">
-                  <div class="row">
-                      <div class="container card mb-3" >
-                          <div class="row ">
-                            <div class="col-md-4 col-sm-12">
-                              <img src="../../Styles/hero-bg.png" class="img-card rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-5 col-sm-12 col-xs-12">
-                              <div class="card-body">
-                                <h5 class="card-title">Nombre del curso</h5>
-                                <p class="card-text">Instructor:</p>
-                                <p class="card-text">Puntuación:</p>
-                                <p class="card-text">Precio:</p>
-                              </div>
-                            </div>
-                            <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
-                              <button class="btn btn-secondary">Ver detalles</button>
-                            </div>
-                          </div>
-                      </div> 
-                  </div>
-                  <div class="row">
-                      <div class="container card mb-3" >
-                          <div class="row ">
-                            <div class="col-md-4 col-sm-12">
-                              <img src="..." class="img-card rounded-start" alt="...">
-                            </div>
-                            <div class="col-xs-12 col-md-5 col-sm-12">
-                              <div class="card-body">
-                                <h5 class="card-title">Nombre del curso</h5>
-                                <p class="card-text">Instructor:</p>
-                                <p class="card-text">Puntuación:</p>
-                                <p class="card-text">Precio:</p>
-                              </div>
-                            </div>
-                            <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
-                              <button class="btn btn-secondary">Ver detalles</button>
-                            </div>
-                          </div>
-                      </div> 
-                  </div>
-                  <div class="row">
-                      <div class="container card mb-3" >
-                          <div class="row ">
-                            <div class="col-md-4 col-sm-12">
-                              <img src="..." class="img-card rounded-start" alt="...">
-                            </div>
-                            <div class="col-xs-12 col-md-5 col-sm-12">
-                              <div class="card-body">
-                                <h5 class="card-title">Nombre del curso</h5>
-                                <p class="card-text">Instructor:</p>
-                                <p class="card-text">Puntuación:</p>
-                                <p class="card-text">Precio:</p>
-                              </div>
-                            </div>
-                            <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
-                              <button class="btn btn-secondary">Ver detalles</button>
-                            </div>
-                          </div>
-                      </div> 
-                  </div>
-              </div> 
           </div>
+        </div>
       </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-12">
+          <h4>Cursos a los que está inscrito</h4>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-12 pb-2">
+            <div class="container">
+              <div class="row">
+                <div class="container card mb-3">
+                  <div class="row ">
+                    <div class="col-md-4 col-sm-12">
+                      <img src="../../Styles/hero-bg.png" class="img-card rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-5 col-sm-12 col-xs-12">
+                      <div class="card-body">
+                        <h5 class="card-title">Nombre del curso</h5>
+                        <p class="card-text">Instructor:</p>
+                        <p class="card-text">Puntuación:</p>
+                        <p class="card-text">Precio:</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
+                      <button class="btn btn-secondary">Ver detalles</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="container card mb-3">
+                  <div class="row ">
+                    <div class="col-md-4 col-sm-12">
+                      <img src="..." class="img-card rounded-start" alt="...">
+                    </div>
+                    <div class="col-xs-12 col-md-5 col-sm-12">
+                      <div class="card-body">
+                        <h5 class="card-title">Nombre del curso</h5>
+                        <p class="card-text">Instructor:</p>
+                        <p class="card-text">Puntuación:</p>
+                        <p class="card-text">Precio:</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
+                      <button class="btn btn-secondary">Ver detalles</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="container card mb-3">
+                  <div class="row ">
+                    <div class="col-md-4 col-sm-12">
+                      <img src="..." class="img-card rounded-start" alt="...">
+                    </div>
+                    <div class="col-xs-12 col-md-5 col-sm-12">
+                      <div class="card-body">
+                        <h5 class="card-title">Nombre del curso</h5>
+                        <p class="card-text">Instructor:</p>
+                        <p class="card-text">Puntuación:</p>
+                        <p class="card-text">Precio:</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 col-sm-12 m-auto card-button">
+                      <button class="btn btn-secondary">Ver detalles</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
 
-  </main>
-
-<!-- Footer -->
-<div class="container-fluid mt-auto bg-primary">
+  <!-- Footer -->
+  <div class="container-fluid mt-auto bg-primary">
     <footer class="py-3 footer">
       <div class="col-md-4 d-flex align-items-center">
         <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
       </div>
     </footer>
-</div>
+  </div>
 
 </body>
+
 </html>

@@ -1,42 +1,63 @@
+import $ from 'jquery';
+
+$.validator.addMethod('regex', function (value, element, parameter) {
+    var regexp = new RegExp(parameter);
+    return this.optional(element) || regexp.test(value);
+}, 'Please enter a valid input');
+
 export default {
     rules: {
         'name': {
-            required: true
+            required: true,
+            regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
+            maxlength: 255
         },
         'last-name': {
-            required: true
+            required: true,
+            regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
+            maxlength: 255
         },
         'user-role': {
             required: true
         },
         'email': {
-            required: true
+            required: true,
+            maxlength: 255
         },
         'password': {
-            required: true
+            required: true,
+            maxlength: 255
         },
         'confirm-password': {
-            required: true
+            required: true,
+            maxlength: 255
         }
     },
     messages: {
         'name': {
-            required: 'El nombre es requerido'
+            required: 'El nombre es requerido',
+            regex: 'El nombre no tiene el formato requerido',
+            maxlength: 'El nombre es demasiado largo'
         },
         'last-name': {
-            required: 'El apellido es requerido'
+            required: 'El apellido es requerido',
+            regex: 'El nombre no tiene el formato requerido',
+            maxlength: 'El nombre es demasiado largo'
         },
         'user-role': {
             required: 'El rol de usuario es requerido'
         },
         'email': {
-            required: 'El correo electrónico es requerido'
+            required: 'El correo electrónico es requerido',
+            maxlength: 'El correo electrónico es demasiado largo'
         },
         'password': {
-            required: 'La contraseña es requerida'
+            required: 'La contraseña es requerida',
+            maxlength: 'La contraseña es demasiado larga'
         },
         'confirm-password': {
-            required: 'Confirmar contraseña es requerido'
+            required: 'La confirmación de contraseña es requerido',
+            maxlength: 'La confirmación de contraseña es demasiado larga'
         }
     },
     errorElement: 'small',

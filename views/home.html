@@ -9,57 +9,78 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
-
   <link rel="stylesheet" href="../client/styles/pages/home.css">
-
   <script defer type="module" src="../dist/javascript/home.js"></script>
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
 <body>
-  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+  <!-- Navbar -->
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary">
     <div class="container-fluid">
-      <div class="col-3">
-        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
-      </div>
-      <button class="navbar-toggler shadow-none border-0 " type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
-        <i class="text-white bx bx-menu"></i>
+      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="text-white navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
-        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
-          <div class="input-group w-100">
-            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
-            <button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="col-auto col-lg-7" role="search">
+          <div class="input-group">
+            <input class="form-control border-0 shadow-none" type="search" placeholder="Buscar cursos..." aria-label="Search">
+            <button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
           </div>
         </form>
-        <div class="dropdown col-2 ms-auto">
-          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img 
-              src="../client/assets/images/perfil.png"
-              alt="mdo"
-              width="36"
-              class="rounded-circle">
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="instructor-profile.html">Perfil</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="create-course.html" class="nav-link text-light fw-bold">
+              Crear curso
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img 
+                  src="../client/assets/images/perfil.png"
+                  alt="mdo"
+                  width="36"
+                  class="rounded-circle">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
-
   <!-- Hero Section -->
-  <section class="d-flex flex-column justify-content-center mb-5" id="hero-section">
+  <section class="position-relative d-flex flex-column justify-content-center mb-5" id="hero-section">
     <div class="container">
-      <div class="row">
+      <div class="row g-0">
         <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up">
-          <h1 class="fw-bolder text-center text-lg-start" style="font-size: 48px">Cursotopia</h1>
+          <h1 class="fw-bolder text-center text-lg-start">Cursotopia</h1>
           <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
           <h5 class="mb-4 text-center text-lg-start">¡No tienes que salir de casa!</h5>
           <div class="d-flex justify-content-lg-start justify-content-center">
@@ -72,11 +93,8 @@
             class="img-fluid w-100 d-none d-lg-block" alt="">
         </div>
       </div>
+      <button id="a" class="btn btn-primary position-absolute rounded-5" style="width: 42px; height: 42px; bottom: 5%; left: calc(50% - 21px)"><i class='bx bx-chevron-down'></i></button>
     </div>
-  </section>
-
-  <section class="mb-5" data-aos="fade-up" id="section-categories">
-    <h2 class="text-center fw-bold">Categorías</h2>
   </section>
 
   <section class="container mb-5" data-aos="fade-up" id="section-recent-courses">

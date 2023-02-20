@@ -1,0 +1,4 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../../../node_modules/boxicons/css/boxicons.min.css';
+@import '../third-party/background.css';
+@import '../partials/navbar.css';

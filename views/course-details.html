@@ -13,39 +13,62 @@
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 
-  <link rel="stylesheet" href="../dist/assets/course-details.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../dist/assets/course-details.css">
+
+  <script defer type="module" src="../dist/javascript/course-details.js"></script>
 </head>
 
 <body>
-  <nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary">
     <div class="container-fluid">
-      <div class="col-3">
-        <a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
-      </div>
-      <button class="navbar-toggler shadow-none border-0 " type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbar-collapse">
-        <i class="text-white bx bx-menu"></i>
+      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="text-white navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse me-auto" id="navbar-collapse">
-        <form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
-          <div class="input-group w-100">
-            <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
-            <button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="col-auto col-lg-7" role="search">
+          <div class="input-group">
+            <input class="form-control border-0 shadow-none" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
           </div>
         </form>
-        <div class="dropdown col-2 ms-auto">
-          <button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="instructor-profile.html">Perfil</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -89,10 +112,10 @@
         <a href="search.html" class="p-2 d-block bg-danger">Programación</a>
       </div>
     </section>
+
+
     <section class="container my-5">
       <h2 class="fw-bold text-center">Contenido del curso</h2>
-
-
 
       <div class="border-0 card">
         <div role="button" class="rounded-top bg-light card-header" data-bs-toggle="collapse"
@@ -270,23 +293,32 @@
         <input type="hidden" name="rate" id="rate">
         <textarea class="bg-light form-control rounded-1 border-0 shadow-none mb-3" name="message" id="message-box"
           placeholder="Escribe un comentario"></textarea>
-        <button type="submit" class="btn btn-primary rounded-1 shadow-none mb-4" id="send-message">Publicar</button>
+        <button type="submit" class="btn btn-primary rounded-5 border-0 shadow-none mb-4"
+          id="send-message">Publicar</button>
         <div id="comment-section"></div>
       </form>
     </section>
 
 
-    <div class="container">
-      
-        <h4 class="mb-4">Comentarios recientes</h4>
+    <section class="container">
+      <h4 class="mb-4">Comentarios recientes</h4>
+      <div id="review-section">
+
         <div class="card-body p-4">
           <div class="d-flex flex-start">
-            <img class="rounded-circle shadow-1-strong me-3"
-              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60" height="60" />
+            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
+              alt="avatar" width="60" height="60" />
             <div>
               <a class="fw-bold mb-1">Maggie Marsh</a>
-              <div class="d-flex align-items-center mb-1">
-                <small class="mb-0">March 07, 2021</small>
+              <div class="d-flex align-items-center mb-1 gap-2">
+                <small class="mb-0">07 de marzo de 2021 a las 8:21</small>
+                <span>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                </span>
               </div>
               <p class="mb-0">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -302,12 +334,19 @@
 
         <div class="card-body p-4">
           <div class="d-flex flex-start">
-            <img class="rounded-circle shadow-1-strong me-3"
-              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp" alt="avatar" width="60" height="60" />
+            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp"
+              alt="avatar" width="60" height="60" />
             <div>
               <a class="fw-bold mb-1">Lara Stewart</a>
-              <div class="d-flex align-items-center mb-1">
-                <small class="mb-0">March 15, 2021</small>
+              <div class="d-flex align-items-center mb-1 gap-2">
+                <small class="mb-0">15 de marzo de 2021 a las 2:21</small>
+                <span>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx bxs-star rate-star rating-star"></i>
+                </span>
               </div>
               <p class="mb-0">
                 Contrary to popular belief, Lorem Ipsum is not simply random text. It
@@ -321,16 +360,16 @@
           </div>
         </div>
 
-        <hr class="my-0" style="height: 1px;" />
+        <hr class="my-0">
 
         <div class="card-body p-4">
           <div class="d-flex flex-start">
-            <img class="rounded-circle shadow-1-strong me-3"
-              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(33).webp" alt="avatar" width="60" height="60" />
+            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(33).webp"
+              alt="avatar" width="60" height="60" />
             <div>
               <a class="fw-bold mb-1">Alexa Bennett</a>
               <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">March 24, 2021</small>
+                <small class="mb-0">24 de marzo de 2021 a las 13:43</small>
                 <span>
                   <i class="bx bxs-star rate-star rating-star"></i>
                   <i class="bx bxs-star rate-star rating-star"></i>
@@ -349,16 +388,23 @@
           </div>
         </div>
 
-        <hr class="my-0" />
+        <hr class="my-0">
 
         <div class="card-body p-4">
           <div class="d-flex flex-start">
-            <img class="rounded-circle shadow-1-strong me-3"
-              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(24).webp" alt="avatar" width="60" height="60" />
+            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(24).webp"
+              alt="avatar" width="60" height="60" />
             <div>
               <a class="fw-bold mb-1">Betty Walker</a>
-              <div class="d-flex align-items-center mb-1">
-                <small class="mb-0">March 30, 2021</small>
+              <div class="d-flex align-items-center mb-1 gap-2">
+                <small class="mb-0">30 de marzo de 2021 a las 00:34</small>
+                <span>
+                  <i class="bx bx-star rate-star rating-star"></i>
+                  <i class="bx bx-star rate-star rating-star"></i>
+                  <i class="bx bx-star rate-star rating-star"></i>
+                  <i class="bx bx-star rate-star rating-star"></i>
+                  <i class="bx bx-star rate-star rating-star"></i>
+                </span>
               </div>
               <p class="mb-0">
                 It uses a dictionary of over 200 Latin words, combined with a handful of
@@ -369,7 +415,8 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
+    </section>
 
 
 

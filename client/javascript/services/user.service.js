@@ -1,10 +1,15 @@
 export const createUser = async (user) => {
-    const response = await fetch('/api/v1/users', {
-        method: 'POST',
-        body: user
-    });
-    const json = await response.json();
-    return json;
+    try {
+        const response = await fetch('/api/v1/users', {
+            method: 'POST',
+            body: user
+        });
+        const json = await response.json();
+        return json;
+    }
+    catch (exception) {
+        console.error(exception);
+    }
 }
 
 export const updateUser = async (user) => {
@@ -17,12 +22,17 @@ export const updateUser = async (user) => {
 }
 
 export const loginUser = async (auth) => {
-    const response = await fetch('/api/v1/auth', {
-        method: 'POST',
-        body: auth
-    });
-    const json = await response.json();
-    return json;
+    try {
+        const response = await fetch('/api/v1/auth', {
+            method: 'POST',
+            body: auth
+        });
+        const json = await response.json();
+        return json;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
 }
 
 export const logoutUser = async (auth) => {
