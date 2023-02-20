@@ -1,4 +1,18 @@
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '../../../node_modules/boxicons/css/boxicons.min.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
+@import '../configuration/fonts.css';
+
 @import '../third-party/background.css';
 @import '../partials/navbar.css';
+
+section {
+    height: calc(100vh - 68px);
+}
+
+#certificate {
+    object-fit: cover;
+}
