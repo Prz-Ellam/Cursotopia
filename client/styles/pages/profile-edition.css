@@ -1,8 +1,8 @@
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-@import url('../third-party/background.css');
-@import url('../configuration/fonts.css');
-@import url('../partials/navbar.css');
+@import '../third-party/background.css';
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
 
 main {
     margin: 0;

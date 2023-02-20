@@ -10,11 +10,11 @@ export default {
         },
     },
     messages: {
-        'name': {
+        'category-name': {
             required: 'El nombre de la categoría es requerido',
             maxlength:'El nombre de la categoría no puede contener más de 255 caracteres'
         },
-        'description': {
+        'category-description': {
             required: 'La de descripción es requerida',
             maxlength:'La descripción no puede contener más de 255 caracteres'
         }

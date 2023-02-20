@@ -1,8 +1,8 @@
 @import '../third-party/bootstrap.css';
 
 @import '../third-party/background.css';
-@import url('../configuration/fonts.css');
-@import url('../partials/forms.css');
+@import '../configuration/fonts.css';
+@import '../partials/forms.css';
 
 body {
     background: linear-gradient(#6059F7, #36C3FE);

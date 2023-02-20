@@ -7,7 +7,7 @@ export const sendMessage = () => {
         sender: 1
     }
 
-    if (message.content === '') return;
+    if (message.content.trim() === '') return;
 
     createComment(message);
     $('#message').val('');

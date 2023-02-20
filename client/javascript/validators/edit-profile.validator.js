@@ -82,8 +82,5 @@ export default {
     errorPlacement: function (error, element) {
         error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     }
-
-    
-
 }; 
 

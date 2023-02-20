@@ -1,3 +1,17 @@
 @import '../partials/forms.css';
 @import '../third-party/background.css';
 @import '../partials/navbar.css';
+
+.chat-section {
+    height: calc(100vh - 68px);
+}
+
+.user-image {
+    width: 64px;
+    height: 64px
+}
+
+.actual-chat-user-image {
+    width: 48px;
+    height: 48px
+}

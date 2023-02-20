@@ -1,9 +1,9 @@
 @import '../../../node_modules/aos/dist/aos.css';
 
-@import url('../configuration/colors.css');
-@import url('../configuration/fonts.css');
-@import url('../partials/navbar.css');
-@import url('../partials/card.css');
+@import '../configuration/colors.css';
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/card.css';
 
 @import '../partials/card.css';
 
