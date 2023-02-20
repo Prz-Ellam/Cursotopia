@@ -3,6 +3,7 @@
 @import '../third-party/background.css';
 @import '../configuration/fonts.css';
 @import '../partials/forms.css';
+@import '../partials/spinner.css';
 
 body {
     background: linear-gradient(#6059F7, #36C3FE);

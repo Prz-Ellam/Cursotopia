@@ -2,7 +2,7 @@
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../third-party/background.css';
 @import '../third-party/button.css';
-
+@import '../third-party/bootstrap.css';
 
 @import '../../../node_modules/aos/dist/aos.css';
 

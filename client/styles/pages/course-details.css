@@ -1,3 +1,5 @@
+@import '../third-party/bootstrap.css';
+
 @import '../configuration/colors.css';
 @import '../third-party/background.css';
 @import '../third-party/button.css';

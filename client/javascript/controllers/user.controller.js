@@ -12,12 +12,19 @@ export const login = async function(event) {
         return;
     }
 
+    const btnSubmit = document.getElementById('btn-login');
+    btnSubmit.disabled = true;
+    const loginSpinner = document.getElementById('login-spinner');
+    loginSpinner.classList.remove('d-none');
+
     const auth = {
         email: 'PerezAlex088@outlook.com',
         password: '123Abc!!'
     };
 
     const response = await loginUser(auth);
+    loginSpinner.classList.add('d-none');
+    btnSubmit.disabled = false;
 }
 
 export const signup = async function(event) {
