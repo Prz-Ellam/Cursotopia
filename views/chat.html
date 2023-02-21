@@ -14,7 +14,7 @@
   <script defer type="module" src="../dist/javascript/chat.js"></script>
 </head>
 <body>
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary">
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
       <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,11 +23,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="col-auto col-lg-7" role="search">
           <div class="input-group">
-            <input class="form-control border-0 shadow-none" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
             <button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
           </div>
         </form>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="course-creation.html" class="nav-link text-light fw-bold">
+              Crear curso
+            </a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Categorías
@@ -181,11 +186,15 @@
         </div>
       </section>
       <section class="rounded-0 col-12 col-md-9 card overflow-auto chat-section">
-        <div class="d-flex justify-content-between mt-3">
+        <div class="d-flex justify-content-between align-items-center mt-3">
           <div class="d-block text-decoration-none px-2 py-1">
             <img class="img-fluid rounded-circle actual-chat-user-image"
             src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
             <span class="ms-2 text-black"><b>Better Call Saul</b></span>
+          </div>
+          <div class="d-block d-md-none form-check form-switch shadow-none mx-2">
+            <input class="form-check-input shadow-none me-2" type="checkbox" id="chat-messages" checked>
+            <label class="form-check-label" for="chat-messages">Chats/Mensajes</label>
           </div>
         </div>
         <hr>
