@@ -29,8 +29,10 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<form class="col-auto col-lg-7" role="search">
 					<div class="input-group">
-						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
-						<button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
+						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..."
+							aria-label="Search">
+						<button class="btn btn-light border-0" type="submit"><i
+								class="fw-bold bx bx-search"></i></button>
 					</div>
 				</form>
 				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
@@ -40,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-							aria-expanded="false">
+						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
 							Categorías
 						</a>
 						<ul class="dropdown-menu">
@@ -59,8 +61,10 @@
 					</li>
 					<li class="nav-item">
 						<div class="nav-link dropdown">
-							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								<img src="../client/assets/images/perfil.png" alt="mdo" width="36"
+									class="rounded-circle">
 							</button>
 							<ul class="dropdown-menu dropdown-menu-end">
 								<li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
@@ -79,9 +83,7 @@
 	<!-- Contenido -->
 	<section class="container my-4 mb-3">
 		<div class="row border-3 border-bottom border-primary text-center mb-3">
-			<div class="col">
-				<h4>Añadir curso</h4>
-			</div>
+			<h1>Añadir curso</h1>
 		</div>
 		<form action="#" class="row" id="create-course-form">
 			<div class="row mx-0">
@@ -93,8 +95,7 @@
 					</div>
 					<div class="mb-4">
 						<label for="description" class="form-label" role="button">Descripción</label>
-						<textarea class="form-control" id="description" rows="3"
-							name="description"></textarea>
+						<textarea class="form-control" id="description" rows="3" name="description"></textarea>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox">
@@ -106,15 +107,16 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Categorías</label>
-						<select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
+						<select class="" id="categories" name="categories[]" multiple="multiple"
+							placeholder="Seleccionar">
 							<option value="1">Música</option>
 							<option value="2">Arte</option>
 							<option value="3">Programación</option>
 						</select>
 					</div>
 					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-						<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto" data-bs-toggle="modal"
-							data-bs-target="#addCategory">Añadir categoria</button>
+						<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto"
+							data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
 					</div>
 				</div>
 
@@ -136,7 +138,6 @@
 
 			</div>
 
-
 			<section class="my-5">
 				<div class="py-2 d-flex">
 					<h4 class="pe-4">Niveles</h4>
@@ -153,12 +154,14 @@
 								<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
 									data-bs-target="#add-lesson">Añadir lección</button>
 								<span class="d-lg-inline d-block text-lg-end text-center">
-									<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1" data-bs-toggle="modal"
-										data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
+									<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1"
+										data-bs-toggle="modal" data-bs-target="#editLevel"><i
+											class='bx bxs-pencil'></i></a>
 									<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
 											class='bx bxs-trash-alt'></i></a>
-									<a class="btn text-primary m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
-										role="button" aria-expanded="false" aria-controls="collapseExample">
+									<a class="btn text-primary m-auto p-1" href="#collapseExample1"
+										data-bs-toggle="collapse" role="button" aria-expanded="false"
+										aria-controls="collapseExample">
 										<i class='bx bxs-chevron-down'></i>
 								</span>
 								</a>
@@ -211,7 +214,7 @@
 
 	<!-- Modal añadir nivel-->
 	<div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg rounded-1 border-0 shadow-none">
+		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-level-form">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4>Añadir nivel</h4>
@@ -219,13 +222,13 @@
 				<div class="modal-body">
 
 					<div class="mb-4">
-						<label class="form-label">Nombre</label>
-						<input type="text" class="form-control">
+						<label for="level-name" class="form-label" role="button">Nombre</label>
+						<input type="text" name="name" id="level-name" class="form-control">
 					</div>
 
 					<div class="mb-4">
-						<label for="section-description" class="form-label">Descripción</label>
-						<textarea name="description" id="section-description" cols="30" rows="5" class="form-control"
+						<label for="level-description" class="form-label" role="button">Descripción</label>
+						<textarea name="description" id="level-description" cols="30" rows="5" class="form-control"
 							placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
 					</div>
 
@@ -241,10 +244,10 @@
 				</div>
 				<div class="modal-footer">
 					<button id="close-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="button" class="btn btn-primary">Agregar nivel</button>
+					<button id="save-btn" type="submit" class="btn btn-primary">Agregar nivel</button>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<!-- Modal editar nivel-->
@@ -315,7 +318,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="close-btn" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
 					<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
 				</div>
 			</div>
@@ -324,7 +328,7 @@
 
 	<!-- Modal añadir lección -->
 	<div class="modal fade" id="add-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg rounded-1 border-0 shadow-none">
+		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="add-lesson-form">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4>Añadir lección</h4>
@@ -332,80 +336,76 @@
 				<div class="modal-body">
 
 					<div class="mb-4">
-						<label class="form-label">Título</label>
+						<label class="form-label" role="button">Título</label>
 						<input type="text" class="form-control">
 					</div>
 
 					<div class="mb-4">
-						<label for="">Información adicional</label>
+						<label for="" role="button">Información adicional</label>
 						<textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
 					</div>
 
 					<div class="mb-4">
-						<label for="">Video</label>
+						<label for="" role="button">Video</label>
 						<input type="file" name="" id="" class="form-control">
 					</div>
 
 					<div class="mb-4">
-						<label for="">Imágen</label>
+						<label for="" role="button">Imágen</label>
 						<input type="file" name="" id="" class="form-control">
 					</div>
 
 					<div class="mb-4">
-						<label for="">PDF</label>
+						<label for="" role="button">PDF</label>
 						<input type="file" name="" id="" class="form-control">
 					</div>
 
 					<div class="mb-4">
-						<label for="" class="form-label">Enlace</label>
+						<label for="" class="form-label" role="button">Enlace</label>
 						<div class="mb-4">
-							<label for="">Título</label>
+							<label for="" role="button">Título</label>
 							<input type="text" name="" id="" class="form-control" placeholder="Título descriptivo">
 						</div>
 						<div class="mb-4">
-							<label for="">URL</label>
+							<label for="" role="button">URL</label>
 							<input type="url" name="" id="" class="form-control" placeholder="https://example.com">
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="close-btn" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
 					<button id="save-btn" type="button" class="btn btn-secondary">Agregar lección</button>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<!-- Category Modal -->
 	<div class="modal fade animate__animated animate__bounceInDown" id="addCategory" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content rounded-1 border-0 shadow-sm">
+			<form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
 				<div class="modal-header">
 					<h4>Añadir categoría</h4>
 				</div>
 				<div class="modal-body">
 					<div class="mb-4">
 						<label for="category-name" class="form-label" role="button">Nombre</label>
-						<div class="input-group">
-							<input type="text" class="form-control shadow-none rounded-1" id="category-name" name="name"
-								autocomplete="off">
-						</div>
+						<input type="text" class="form-control" id="category-name" name="name" autocomplete="off">
 					</div>
-
 					<div class="mb-4">
 						<label for="category-description" class="form-label" role="button">Descripción</label>
-						<div class="input-group">
-							<textarea class="form-control shadow-none rounded-1" id="category-description" name="description" rows="5"
-								placeholder="¿Qué clase de cursos contendrá?"></textarea>
-						</div>
+						<textarea class="form-control" id="category-description" name="description" rows="5"
+							placeholder="¿Qué clase de cursos contendrá?"></textarea>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					<button id="close-btn" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Cerrar</button>
+					<button id="save-btn" type="submit" class="btn btn-secondary">Agregar</button>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 
@@ -419,4 +419,5 @@
 	</div>
 	</section>
 </body>
+
 </html>

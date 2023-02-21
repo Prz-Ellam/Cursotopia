@@ -6,11 +6,7 @@
     object-fit: cover;
 }
 
-.card{
-    border: none;
-    box-shadow: 1px 1px 5px #dadce3;
-    width: 100%;
-}
+
 
 .card-title{
     font-weight: 500;

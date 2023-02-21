@@ -10,17 +10,13 @@ AOS.init({
     mirror: false
 });
 
-$('#a').on('click', () => {
-    console.log(window.innerHeight);
-    window.scrollTo(0, window.innerHeight - 68);
-});
-
 $('.owl-carousel').owlCarousel({
     loop: true,
     margin: 10,
     dots: true,
     autoplay: true,
     nav: true,
+    stagePadding: 5,
     navText: [ '<i class="text-white bx bx-chevron-left"></i>', '<i class="text-white bx bx-chevron-right"></i>' ],
     autoplayTimeout: 10000,
     autoplayHoverPause: true, // Es molesto ver un curso y que el carousel se mueva
@@ -53,4 +49,12 @@ $('.owl-carousel').owlCarousel({
             items: 8
         }
     }
+});
+
+const courseCards = document.getElementsByClassName('course-card');
+const arrayCourseCards = Array.from(courseCards);
+arrayCourseCards.forEach(courseCard => {
+    courseCard.addEventListener('click', () => {
+        window.location.href = '/views/course-details.html';
+    });
 });

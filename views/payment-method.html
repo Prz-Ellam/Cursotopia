@@ -7,43 +7,71 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cursotopia</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../client/styles/pages/payment-method.css">
 	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script defer type="module" src="../dist/javascript/payment-method.js"></script>
 </head>
 
 <body>
 	<!-- Navbar -->
-	<nav class="sticky-top navbar navbar-expand-lg shadow-sm">
+	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
 		<div class="container-fluid">
-			<div class="col-3">
-				<a href="#" class="navbar-brand col-4 text-white link-white text-decoration-none">Cursotopia</a>
-			</div>
-			<button class="navbar-toggler shadow-none border-0 " type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbar-collapse">
-				<i class="text-white bx bx-menu"></i>
+			<a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="text-white navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse me-auto" id="navbar-collapse">
-				<form class="form-inline ms-xl-5 me-lg-auto w-50" role="search">
-					<div class="input-group w-100">
-						<input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search">
-						<button class="btn btn-secondary" type="button"><i class='bx bx-search-alt-2'></i></button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<form class="col-auto col-lg-7" role="search">
+					<div class="input-group">
+						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
+						<button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
 					</div>
 				</form>
-				<div class="dropdown col-2 ms-auto">
-					<button class="btn  border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
-					</button>
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="instructor-profile.html">Perfil</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-						<li><a class="dropdown-item" href="#">Sign out</a></li>
-					</ul>
-				</div>
+				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+					<li class="nav-item">
+						<a href="course-creation.html" class="nav-link text-light fw-bold">
+							Crear curso
+						</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Categorías
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="search.html">Arte</a></li>
+							<li><a class="dropdown-item" href="search.html">Música</a></li>
+							<li><a class="dropdown-item" href="search.html">Programación</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-light" aria-current="page" href="chat.html">
+							<i class="bx-sm bx bxs-bell position-relative">
+								<span class="badge rounded-pill badge-notification bg-danger">1</span>
+							</i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<div class="nav-link dropdown">
+							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="../client/assets/images/perfil.png" alt="mdo" width="36" class="rounded-circle">
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
@@ -51,7 +79,7 @@
 	<!-- Contenido -->
 	<div class="container mt-5">
 		<div class="row">
-			<form class="col-xxl-6 col-lg-5 col-md-12 col-sm-12">
+			<form class="col-xxl-6 col-lg-5 col-md-12 col-sm-12" id="payment-method-form">
 				<div class="row mt-3 mb-3 text-center">
 					<div class="col-12">
 						<h4>Método de pago</h4>
@@ -69,30 +97,27 @@
 						</div>
 					</div>
 				</div>
-				<div class="row mb-2">
-					<div class="col-6">
-						<label for="inputEmail4" class="form-label">Nombre de la tarjeta</label>
-						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+				<div class="row">
+					<div class="col-6 mb-4">
+						<label for="name" class="form-label" role="button">Nombre de la tarjeta</label>
+						<input type="text" name="name" id="name" class="form-control">
 					</div>
-					<div class="col-6">
-						<label for="inputEmail4" class="form-label">CURP</label>
-						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					<div class="col-6 mb-4">
+						<label for="curp" class="form-label" role="button">Curp</label>
+						<input type="text" name="curp" id="curp" class="form-control">
 					</div>
-				</div>
-				<div class="row mb-2">
-					<div class="col-12">
-						<label for="inputEmail4" class="form-label">Número de tarjeta</label>
-						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					<div class="col-12 mb-4">
+						<label for="card-number" class="form-label" role="button">Número de tarjeta</label>
+						<input type="text" name="card-number" id="card-number" class="form-control">
 					</div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-6">
-						<label for="inputEmail4" class="form-label">CVC/CVV</label>
-						<input type="email" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+
+					<div class="col-6 mb-4">
+						<label for="cvv" class="form-label" role="button">CVC/CVV</label>
+						<input type="text" name="cvv" id="cvv" class="form-control">
 					</div>
-					<div class="col-6">
-						<label for="inputEmail4" class="form-label">Fecha de vencimiento</label>
-						<input type="date" class="bg-light form-control border-0 shadow-none" id="inputEmail4">
+					<div class="col-6 mb-4">
+						<label for="expiration" class="form-label" role="button">Fecha de vencimiento</label>
+						<input type="date" name="expiration" id="expiration" class="form-control">
 					</div>
 				</div>
 				<div class="row mb-3">

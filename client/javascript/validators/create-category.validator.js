@@ -1,14 +1,16 @@
 export default {
     rules: {
-        'title': {
-            required: true
+        'name': {
+            required: true,
+            maxlength:255
         },
         'description': {
-            required: true
+            required: true,
+            maxlength:255
         }
     },
     messages: {
-        'title': {
+        'name': {
             required: 'El título es requerido'
         },
         'description': {

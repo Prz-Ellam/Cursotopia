@@ -3,6 +3,8 @@
 @import '../partials/footer.css';
 @import '../partials/body.css';
 @import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
 @import '../configuration/breakpoints.css';
 @import '../partials/forms.css';
 

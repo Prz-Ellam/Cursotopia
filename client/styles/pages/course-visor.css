@@ -1,12 +1,15 @@
 @import '../../../node_modules/video.js/dist/video-js.min.css';
 
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
 @import '../configuration/colors.css';
 @import '../configuration/fonts.css';
 @import '../partials/navbar.css';
 @import '../partials/card.css';
 @import '../partials/footer.css';
 @import '../partials/body.css';
-@import '../third-party/background.css';
 @import '../configuration/breakpoints.css';
 
 .btn-secondary{
@@ -33,4 +36,27 @@
 video {
     width: 100%;
     height: auto;
+}
+
+.hoverable:hover {
+    color: #000;
+    background-color: #f2f2f2;
+}
+
+.selected-course-content {
+    background-color: #f2f2f2;
+}
+
+
+
+@media (min-width: 991px) {
+    .course-content {
+        height: calc(100vh - 68px);
+        overflow: auto;
+    }
+}
+  
+
+#lesson-description {
+    text-align: justify;
 }

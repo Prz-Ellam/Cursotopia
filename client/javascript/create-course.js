@@ -4,6 +4,8 @@ import 'multiple-select';
 import 'bootstrap';
 import createCourseValidator from './validators/create-course.validator';
 import { createCourse } from './controllers/course.controller';
+import createCategoryValidator from './validators/create-category.validator';
+import createLevelValidator from './validators/create-level.validator';
 
 const freeCourseCheckbox = document.getElementById('free-course-checkbox');
 freeCourseCheckbox.addEventListener('change', function(event) {
@@ -16,8 +18,16 @@ freeCourseCheckbox.addEventListener('change', function(event) {
     }
 });
 
+$('#create-category-form').validate(createCategoryValidator);
 $('#create-course-form').validate(createCourseValidator);
+$('#create-level-form').validate(createLevelValidator);
+
 $('#create-course-form').on('submit', createCourse);
+
+const createCategoryForm = document.getElementById('create-category-form');
+createCategoryForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+});
 
 $('#categories').multipleSelect({
     placeholder: 'Seleccionar',
