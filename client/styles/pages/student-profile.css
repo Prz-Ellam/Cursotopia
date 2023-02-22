@@ -1,15 +1,14 @@
 @import '../configuration/fonts.css';
 @import '../partials/navbar.css';
 @import '../partials/footer.css';
-@import '../third-party/background.css';
 @import '../partials/body.css';
 @import '../configuration/breakpoints.css';
 @import '../partials/hero.css';
 
-.btn-secondary{
-    background-color:var(--secondary-color);
-    border: none;
-}
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
 
 .form-label{
     font-size: 16px;

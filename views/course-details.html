@@ -289,17 +289,21 @@
           <h2 class="fw-bold text-center">Comentarios</h2>
         </div>
         <hr>
-        <label class="mb-2">Calificación: </label>
-        <div class="rating d-inline">
-          <i class="bx bx-star rate-star rating-star" star="1"></i>
-          <i class="bx bx-star rate-star rating-star" star="2"></i>
-          <i class="bx bx-star rate-star rating-star" star="3"></i>
-          <i class="bx bx-star rate-star rating-star" star="4"></i>
-          <i class="bx bx-star rate-star rating-star" star="5"></i>
+        <div>
+          <label>Calificación: </label>
+          <div class="rating d-inline">
+            <i class="bx bx-star rate-star rating-star" star="1"></i>
+            <i class="bx bx-star rate-star rating-star" star="2"></i>
+            <i class="bx bx-star rate-star rating-star" star="3"></i>
+            <i class="bx bx-star rate-star rating-star" star="4"></i>
+            <i class="bx bx-star rate-star rating-star" star="5"></i>
+          </div>
         </div>
-        <input type="hidden" name="rate" id="rate">
-        <textarea class="bg-light form-control rounded-1 border-0 shadow-none mb-3" name="message" id="message-box"
+        <input type="hidden" name="rate" id="rate" class="form-control" value="">
+        <div class="mt-3 mb-3">
+          <textarea class="bg-light form-control rounded-1 border-0 shadow-none" name="message" id="message-box"
           placeholder="Escribe un comentario"></textarea>
+        </div>
         <button type="submit" class="btn btn-primary rounded-5 border-0 shadow-none mb-4"
           id="send-message">Publicar</button>
         <div id="comment-section"></div>

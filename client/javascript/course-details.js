@@ -1,10 +1,12 @@
 import $ from 'jquery';
+import 'jquery-validation';
+import createReviewValidator from './validators/create-review.validator';
 import { createReview } from './views/review.view';
 
 const rateStars = document.getElementsByClassName('rate-star');
 const arrayRateStars = Array.from(rateStars);
 arrayRateStars.forEach(rateStar => {
-    rateStar.addEventListener('click', (event) => {
+    rateStar.addEventListener('click', (event) => {    
         const starNumber = event.target.getAttribute('star');
         arrayRateStars.forEach((rateStar, i) => {
             if(starNumber > i) {
@@ -17,12 +19,19 @@ arrayRateStars.forEach(rateStar => {
             }
         });
         const rate = document.getElementById('rate');
-        rate.value = starNumber + 1;
+        rate.value = parseInt(starNumber);
+        $('#rate').valid();
     });
 });
 
+$('#create-review-form').validate(createReviewValidator);
 $('#create-review-form').on('submit', function(event) {
     event.preventDefault();
+
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
 
     const review = {
         message: 'message'

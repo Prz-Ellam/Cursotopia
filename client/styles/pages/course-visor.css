@@ -12,11 +12,6 @@
 @import '../partials/body.css';
 @import '../configuration/breakpoints.css';
 
-.btn-secondary{
-    background-color:var(--secondary-color);
-    border: none;
-}
-
 .card-body{
     background-color: transparent;
 }

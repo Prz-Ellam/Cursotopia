@@ -8,10 +8,6 @@
 @import '../configuration/breakpoints.css';
 @import '../partials/forms.css';
 
-.btn-secondary{
-    background-color:var(--secondary-color);
-    border: none;
-}
 
 .form-label{
     font-size: 16px;

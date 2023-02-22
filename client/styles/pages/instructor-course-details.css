@@ -3,9 +3,12 @@
 @import '../partials/card.css';
 @import '../partials/footer.css';
 @import '../partials/body.css';
-@import '../third-party/background.css';
 @import '../configuration/breakpoints.css';
 @import '../partials/hero.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
 
 .btn-secondary{
     background-color:var(--secondary-color);
