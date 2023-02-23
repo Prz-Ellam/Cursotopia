@@ -5,11 +5,11 @@ export const createReview = (review) => {
         <div class="card-body p-4">
           <div class="d-flex flex-start">
             <img class="rounded-circle shadow-1-strong me-3"
-              src="${review.message}" alt="avatar" width="60" height="60">
+              src="${review.image}" alt="avatar" width="60" height="60">
             <div>
-              <a class="fw-bold mb-1">${ review.message }</a>
+              <a class="fw-bold mb-1">${ review.username }</a>
               <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">${ 2 }</small>
+                <small class="mb-0">${ new Date() }</small>
                 <span>
                   <i class="bx bxs-star rate-star rating-star"></i>
                   <i class="bx bxs-star rate-star rating-star"></i>
@@ -18,7 +18,7 @@ export const createReview = (review) => {
                   <i class="bx bxs-star rate-star rating-star"></i>
                 </span>
               </div>
-              <p class="mb-0">${ 3 }</p>
+              <p class="mb-0">${ review.message }</p>
             </div>
           </div>
         </div>

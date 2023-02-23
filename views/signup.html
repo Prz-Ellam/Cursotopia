@@ -15,12 +15,12 @@
   <header>
 
   </header>
-  <main class="container my-5">
+  <main class="container my-4">
     <section class="row d-flex justify-content-center">
       <div action="#" class="bg-white rounded-3 p-5 col-lg-8 col-md-8">
         <h1 class="text-center">Crea una nueva cuenta</h1>
         <hr>
-        <div class="form-group text-center mb-4">
+        <div class="form-group text-center">
           <div class="position-relative">
             <label for="profile-picture" role="button"
               class="profile-picture-label text-white position-absolute rounded-circle"></label>
@@ -32,7 +32,9 @@
           <label for="profile-picture" role="button">Foto de perfil</label>
         </div>
         <form action="#" id="signup-form">
-          <input type="hidden" name="profile-picture">
+          <div class="text-center mb-4">
+            <input type="hidden" name="profile-picture" id="profile-picture">
+          </div>
           <div class="row">
             <div class="col-sm-6 col-12 mb-4">
               <label for="name" role="button" class="form-label">Nombre</label>
@@ -63,41 +65,42 @@
               </select>
             </div>
   
-            <div class=" col-lg-4 col-12 mb-4">
+            <div class="col-lg-4 col-12 mb-4">
               <label for="birth-date" role="button" class="form-label">Fecha de nacimiento</label>
               <input type="date" name="birth-date" id="birth-date" class="form-control">
             </div>
-          </div>
-  
-          <div class="mb-4">
-            <label for="email" role="button" class="form-label">Correo electrónico</label>
-            <input type="email" name="email" id="email" class="form-control"
-              placeholder="example@domain.com">
-          </div>
-  
-          <div class="mb-4">
-            <label for="password" role="button" class="form-label">Contraseña</label>
-            <input type="password" name="password" id="password" class="form-control">
-            <ul>
-              <li>Una minuscula</li>
-              <li>Una mayuscula</li>
-              <li>Una número</li>
-              <li>Una signo especial</li>
-            </ul>
-          </div>
-  
-          <div class="mb-4">
-            <label for="confirm-password" role="button" class="form-label">Confirmar contraseña</label>
-            <input type="password" name="confirm-password" id="confirm-password"
-              class="form-control">
+
+            <div class="col-12 mb-4">
+              <label for="email" role="button" class="form-label">Correo electrónico</label>
+              <input type="email" name="email" id="email" class="form-control"
+                placeholder="example@domain.com">
+            </div>
+    
+            <div class="col-lg-6 col-12 mb-4">
+              <label for="password" role="button" class="form-label">Contraseña</label>
+              <input type="password" name="password" id="password" class="form-control">
+              <ul class="mt-1">
+                <!-- <li class="lower">Una minuscula</li> -->
+                <li id="password-length">Mínimo 8 caracteres</li>
+                <li id="password-mayus">Una mayuscula</li>
+                <li id="password-number">Un número</li>
+                <li id="password-specialchar">Una caracter especial</li>
+              </ul>
+            </div>
+    
+            <div class="col-lg-6 col-12 mb-4">
+              <label for="confirm-password" role="button" class="form-label">Confirmar contraseña</label>
+              <input type="password" name="confirm-password" id="confirm-password"
+                class="form-control">
+            </div>
           </div>
   
           <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-primary rounded-5" id="signup-btn">Registrarse</button>
+            <button type="submit" class="btn btn-primary rounded-pill" id="signup-btn">Registrarse</button>
           </div>
         </form>
         <p class="text-center mb-0">¿Ya tienes cuenta?</p>
-        <a class="d-block text-center text-decoration-none text-primary" href="/login">¡Inicia sesión aquí!</a>
+        <a class="d-block text-center text-decoration-none text-primary" href="login.html">¡Inicia sesión aquí!</a>
       </div>
     </section>
   </main>

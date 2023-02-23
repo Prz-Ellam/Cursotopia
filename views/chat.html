@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cursotopia</title>
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../dist/assets/chat.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../dist/assets/chat.css">
   <script defer type="module" src="../dist/javascript/chat.js"></script>
 </head>
 <body>
@@ -72,173 +72,303 @@
       </div>
     </div>
   </nav>
+  
   <main class="container-fluid">
-    <div class="row chat-section">
-      <section class="rounded-0 d-md-block card d-none col-12 col-md-3 overflow-auto chat-section" id="chat-section">
+    <div class="row no-gutters">
+      <section class="col-12 col-lg-4 rounded-0 d-md-block d-none overflow-auto chat-section border-end">
+        
         <input type="search" name="search" class="bg-light form-control border-0 shadow-none my-3" placeholder="Buscar personas...">
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+        
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 fw-bold mb-0">Kevin Gold</p>
+                <small class="text-primary fw-bold mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">0</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
+
+        <div class="chat-drawer p-2 border-bottom">
+          <div href="#" class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
+              <img
+                src="../client/assets/images/perfil.png"
+                alt="avatar"
+                class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+              >
+              <div class="overflow-hidden text-nowrap">
+                <p class="h5 mb-0">Kevin Gold</p>
+                <small class="text-muted mb-0">Hola, ¿cómo estas?</small>
+              </div>
+            </div>
+            <div>
+              <p class="small text-muted mb-1 text-end">23/02/21 04:00</p>
+              <span class="badge rounded-pill bg-danger float-end visibility-hidden">1</span>
+            </div>
           </div>
         </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
-          </div>
-        </div>
-        <div class="d-flex chat rounded-1 p-1" role="button">
-          <img class="img-fluid rounded-circle user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-          <div class="row ms-2 align-self-center"
-            style="white-space: nowrap; width: 75%; text-overflow: ellipsis; overflow: hidden;">
-            <span class="fw-bold">username</span>
-            <small>email</small>
-          </div>
-        </div>
+
       </section>
-      <section class="rounded-0 col-12 col-md-9 card overflow-auto chat-section">
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div class="d-block text-decoration-none px-2 py-1">
-            <img class="img-fluid rounded-circle actual-chat-user-image"
-            src="https://upload.wikimedia.org/wikipedia/commons/1/16/Saul_Goodman.jpg">
-            <span class="ms-2 text-black"><b>Better Call Saul</b></span>
-          </div>
-          <div class="d-block d-md-none form-check form-switch shadow-none mx-2">
-            <input class="form-check-input shadow-none me-2" type="checkbox" id="chat-messages" checked>
-            <label class="form-check-label" for="chat-messages">Chats/Mensajes</label>
-          </div>
+      <section class=" rounded-0 col-12 col-md-8 card border-0 overflow-auto chat-section">
+        <div class="d-flex justify-content-start align-items-center mt-3">
+          <button class="d-block d-md-none btn px-0 border-0 "><i class='bx-md bx bx-chevron-left'></i></button>
+          <img
+            class="img-fluid rounded-circle actual-chat-user-image"
+            src="../client/assets/images/perfil.png"
+            alt="Perfil"
+          >
+          <span class="h5 mb-0 ms-2 text-black"><b>Better Call Saul</b></span>
         </div>
         <hr>
         <div class="overflow-auto p-2 h-100" id="message-box">
+
           <div class="d-flex justify-content-end my-3">
-            <small class="bg-primary text-light p-2 rounded-2 overflow-auto"
-            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tooltip on left"
-            >message.content</small>
+            <small
+              class="bg-primary text-light p-2 rounded-pill overflow-auto"
+              data-bs-toggle="tooltip"
+              data-bs-placement="left"
+              data-bs-title="26 de enero de 2023 a las 02:21">
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-end my-3">
-            <small class="bg-primary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-primary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+          
           <div class="d-flex justify-content-end my-3">
-            <small class="bg-primary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-primary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-end my-3">
-            <small class="bg-primary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-primary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-secondary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-secondary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-secondary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-secondary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
+
           <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
+            <small
+              class="bg-secondary text-light p-2 rounded-pill overflow-auto"
+            >
+              message
+            </small>
           </div>
-          <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
-          </div>
-          <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
-          </div>
-          <div class="d-flex justify-content-start my-3">
-            <small class="bg-secondary text-light p-2 rounded-2 overflow-auto">message.content</small>
-          </div>
+
         </div>
-        <hr class="text-light">
+        <hr class="mb-1 text-light">
         <div class="input-group mb-3">
           <input type="text" id="message" type="text" class="bg-light form-control border-0 shadow-none" placeholder="Escribe un mensaje"
             aria-label="Enviar mensaje" aria-describedby="basic-addon2">

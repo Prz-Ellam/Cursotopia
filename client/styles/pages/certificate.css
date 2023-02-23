@@ -9,10 +9,7 @@
 @import '../third-party/background.css';
 @import '../partials/navbar.css';
 
-section {
-    height: calc(100vh - 68px);
-}
-
 #certificate {
+    height: calc(100vh - 68px);
     object-fit: cover;
 }

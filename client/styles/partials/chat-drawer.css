@@ -1,0 +1,24 @@
+.chat-drawer:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.chat-drawer div div img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.chat-drawer div div div {
+    text-overflow: ellipsis;
+}
+
+.chat-drawer div div div small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-drawer div div div p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

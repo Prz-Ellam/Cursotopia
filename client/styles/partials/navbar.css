@@ -4,7 +4,7 @@
     background-color: var(--primary-color);
     /* Esto le afecta a la vista de chat */
     /* position: fixed; */
-    min-height: 68px;
+    /* min-height: 68px; */
     z-index: 3;
 }
 
@@ -16,7 +16,7 @@
     margin-right: 70px;
 }
 
-.badge {
+.badge-notification {
     position: absolute;
     top: -20%;
     right: -20%;

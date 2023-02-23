@@ -20,5 +20,10 @@ export default defineConfig({
 				assetFileNames: 'assets/[name].[ext]'
 			}
 		}
+	},
+	resolve: {
+		alias: {
+		  	'css': path.resolve(__dirname, 'client', 'styles'),
+		},
 	}
 });

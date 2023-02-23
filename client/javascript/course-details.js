@@ -3,6 +3,9 @@ import 'jquery-validation';
 import createReviewValidator from './validators/create-review.validator';
 import { createReview } from './views/review.view';
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 const rateStars = document.getElementsByClassName('rate-star');
 const arrayRateStars = Array.from(rateStars);
 arrayRateStars.forEach(rateStar => {
@@ -34,7 +37,9 @@ $('#create-review-form').on('submit', function(event) {
     }
 
     const review = {
-        message: 'message'
+        image: '../client/assets/images/logo.png',
+        username: 'Test',
+        message: document.getElementById('message-box').value
     }
     
     createReview(review);

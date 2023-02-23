@@ -1,17 +1,23 @@
-@import '../partials/forms.css';
-@import '../third-party/background.css';
-@import '../partials/navbar.css';
+@import 'css/third-party/background.css';
+@import 'css/third-party/bootstrap.css';
+@import 'css/third-party/button.css';
+
+@import 'css/partials/navbar.css';
+@import 'css/partials/forms.css';
+@import 'css/partials/chat-drawer.css';
 
 .chat-section {
     height: calc(100vh - 68px);
 }
 
-.user-image {
-    width: 64px;
-    height: 64px
-}
 
 .actual-chat-user-image {
     width: 48px;
     height: 48px
+}
+
+
+
+.visibility-hidden {
+    visibility: hidden;
 }
