@@ -32,10 +32,10 @@
 }
 
 
-.img-card{
+.img-cover {
     border-radius: 50%;
-    max-height:100px;
-    max-width: 100px;
+    min-height:100px;
+    min-width: 100px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -44,7 +44,7 @@
 }
 
 @media((min-width:576px) and (max-width:767px)){
-    .img-card{
+    .img-cover {
         margin-top: 20px;
         max-height:150px;
         max-width:150px;
@@ -55,11 +55,29 @@
 }
 
 @media((max-width:576px)){
-    .img-card{
+    .img-cover {
         max-height:150px;
         max-width:150px;
     }
     .xs-mt-2{
         margin-top: 15px;
     }
+}
+
+.progress {
+    background-color: rgb(200,200,200);
+ }
+
+ .card {
+    border: none;
+    
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-12px);
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
 }

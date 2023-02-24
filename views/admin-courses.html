@@ -14,59 +14,267 @@
 </head>
 
 <body>
-
-  <nav class="py-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-      <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 text-decoration-none navbar-brand" id="navbar-logo">
-        Cursotopia
-      </a>
-      <div class="d-flex align-items-center">
-        <form class="w-100 me-3" role="search">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchbar">
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="text-white bx-sm bx bx-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="col-auto col-lg-6" role="search" action="search.html">
+          <div class="input-group">
+            <input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
+            <button class="btn btn-white border-0 search-btn" type="submit"><i class="fw-bold bx bx-search"></i></button>
+          </div>
         </form>
-        <div class="flex-shrink-0 dropdown">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../client/assets/images/perfil.png" alt="mdo" width="32" height="32" class="rounded-circle" id="profile-img">
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li><a class="dropdown-item" href="#" id="login-navbar-btn">Iniciar sesión</a></li>
-            <!-- <li><hr class="dropdown-divider"></li> -->
-            <li><a class="dropdown-item" href="#" id="register-navbar-btn">Registrarse</a></li>
-          </ul>
-        </div>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="course-creation.html" class="nav-link text-light">
+              Crear curso
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img 
+                  src="../client/assets/images/perfil.png"
+                  alt="mdo"
+                  width="32"
+                  class="rounded-circle">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
+
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto collapse d-lg-block col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
+        <div class="text-white" style="min-height: calc(100vh - 64px);">
+
+          <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
+            <li class="nav-item">
+              <a href="admin-home.html" class="nav-link text-white" aria-current="page">
+                <i class='bx bxs-home'></i>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="admin-courses.html" class="nav-link text-white">
+                <i class='bx bxs-videos'></i>
+                Cursos
+              </a>
+            </li>
+            <li>
+              <a href="admin-categories.html" class="nav-link text-white active">
+                <i class='bx bxs-category'></i>
+                Categorias
+              </a>
+            </li>
+            <li>
+              <a href="blocked-users.html" class="nav-link text-white">
+                <i class='bx bxs-group' ></i>
+                Usuarios
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col py-3">
+
+        <div class="content">
+          <div class="container mt-3">
+            <div class="row">
+              <h2>Información general</h2>
+            </div>
+      
+            <div class="row d-flex mt-3">
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-videos'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Cursos</h5>
+                      <h5 class="card-text">673</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-graduation'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Estudiantes</h5>
+                      <h5 class="card-text">5640</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-face'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Instructores</h5>
+                      <h5 class="card-text">1000</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="course-table col-12 me-3 mt-4">
+                <h4>Cursos pendientes de revisión</h4>
+                <div class="row pt-3" id="no-more-tables">
+                    <table class="table table-borderless">
+                        <thead class="border-bottom text-center">
+                            <tr>
+                                <th>Curso</th>
+                                <th>Usario</th>
+                                <th>Detalle</th>
+                                <th>Aceptar/Declinar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td data-title="Curso">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
+                            </tr>
+                            <tr class="text-center">
+                              <td data-title="Curso">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
+                            </tr>
+                            <tr class="text-center">
+                              <td data-title="Curso">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Aceptar/Declinar"><button class="btn"><i class='bx bxs-check-circle'></i></button><button class="btn"><i class='bx bxs-x-circle'></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+             
+              <div class="disabled-course-table col-12 me-3 mt-4 mb-4">
+                <h4>Cursos desactivados</h4>
+                <div class="row pt-3" id="no-more-tables">
+                    <table class="table table-borderless">
+                        <thead class="border-bottom text-center">
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Usario</th>
+                                <th>Detalle</th>
+                                <th>Activar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td data-title="Categoría">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
+                            </tr>
+                            <tr class="text-center">
+                              <td data-title="Categoría">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
+                            </tr>
+                            <tr class="text-center">
+                              <td data-title="Categoría">BDM</td>
+                                <td data-title="Usuario">Denisse Cardoza</td>
+                                <td data-title="Detalle"><button class="btn btn-secondary">Ver detalles</button></td>
+                                <td data-title="Activar"><button class="btn btn-secondary">Activar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
 
   <main class="d-flex flex-nowrap">
 
     <div class="sidebar d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <a href="#" class="nav-link" aria-current="page">
-            <i class='bx bxs-home hidden'></i>
-            <small>Home</small>
+          <a href="admin-home.html" class="nav-link text-white" aria-current="page">
+            <i class='bx bxs-home'></i>
+            Home
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link active ">
+          <a href="admin-courses.html" class="nav-link text-white">
             <i class='bx bxs-videos'></i>
-            <small>Cursos</small>
-            
+            Cursos
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link">
-            <i class='bx bxs-category hidden'></i>
-            <small>Categorias</small>
-            
+          <a href="admin-categories.html" class="nav-link text-white active">
+            <i class='bx bxs-category'></i>
+            Categorias
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link">
-            <i class='bx bxs-group hidden'></i>
-            <small>Usuarios</small>
-            
+          <a href="blocked-users.html" class="nav-link text-white">
+            <i class='bx bxs-group' ></i>
+            Usuarios
           </a>
         </li>
       </ul>

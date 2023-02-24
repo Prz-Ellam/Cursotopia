@@ -21,7 +21,7 @@
 #hero-section {
     width: 100%;
     /* TODO: This can be better */
-    height: calc(100vh - 68px);
+    height: calc(100vh - 64px);
     background: url(../../assets/images/hero-banner-background.svg) top center no-repeat;
     background-size: cover;
 }

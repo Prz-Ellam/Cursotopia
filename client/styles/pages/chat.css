@@ -21,3 +21,20 @@
 .visibility-hidden {
     visibility: hidden;
 }
+
+
+.chat-section::-webkit-scrollbar, .chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-section::-webkit-scrollbar-track, .chat-box::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+.chat-section::-webkit-scrollbar-thumb, .chat-box::-webkit-scrollbar-thumb {
+    background: rgb(147, 147, 147);
+}
+
+.chat-section::-webkit-scrollbar-thumb:hover, .chat-box::-webkit-scrollbar-thumb:hover {
+    background: rgb(128, 128, 128);
+}

@@ -58,3 +58,29 @@ arrayCourseCards.forEach(courseCard => {
         window.location.href = '/views/course-details.html';
     });
 });
+
+
+const observer = new IntersectionObserver(function(entries) {
+	if(entries[0].isIntersecting === true) {
+		const counters = document.getElementsByClassName('counter');
+        Array.from(counters).forEach(counter => {
+            const intervalValue = 5000;
+            let startValue = 0;
+            let endValue = parseInt(counter.getAttribute('data-val'));
+            let duration = Math.floor(intervalValue / endValue);
+            const interval = setInterval(() => {
+                startValue++;
+                counter.textContent = startValue;
+                if (startValue === endValue) {
+                    clearInterval(interval);
+                }
+            }, duration);
+        });
+        observer.unobserve(document.querySelector("#info-section"));
+    }
+}, { threshold: [0] });
+
+observer.observe(document.querySelector("#info-section"));
+
+
+

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@
 	<link rel="stylesheet" href="../client/styles/pages/create-course.css">
 	<script type="module" src="../dist/javascript/create-course.js"></script>
 </head>
+
 <body>
 	<!-- Navbar -->
 	<nav class="sticky-top navbar navbar-expand-lg bg-primary">
@@ -108,8 +110,8 @@
 						</select>
 					</div>
 					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-						<button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal"
-							data-bs-target="#addCategory">Añadir categoria</button>
+						<button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto"
+							data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
 					</div>
 				</div>
 
@@ -213,8 +215,8 @@
 				<div class="modal-body">
 
 					<div class="mb-4">
-						<label for="level-name" class="form-label" role="button">Nombre</label>
-						<input type="text" name="name" id="level-name" class="form-control">
+						<label for="level-name" class="form-label" role="button">Título</label>
+						<input type="text" name="title" id="level-title" class="form-control">
 					</div>
 
 					<div class="mb-4">
@@ -318,7 +320,7 @@
 
 	<!-- Modal añadir lección -->
 	<div class="modal fade" id="add-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="add-lesson-form">
+		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-lesson-form">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4>Añadir lección</h4>
@@ -327,12 +329,12 @@
 
 					<div class="mb-4">
 						<label class="form-label" role="button">Título</label>
-						<input type="text" class="form-control">
+						<input type="text" name="title" id="lesson-title" class="form-control">
 					</div>
 
 					<div class="mb-4">
 						<label for="" role="button">Información adicional</label>
-						<textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+						<textarea name="description" id="lesson-description" cols="30" rows="10" class="form-control"></textarea>
 					</div>
 
 					<div class="mb-4">
@@ -363,8 +365,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="button" class="btn btn-secondary">Agregar lección</button>
+					<button id="close-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="submit" class="btn btn-primary">Agregar lección</button>
 				</div>
 			</div>
 		</form>
@@ -399,67 +401,68 @@
 	</section>
 
 	<footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="text-primary text-decoration-none">
-                <i class="fa fa-phone text-primary me-3 h4"></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="text-primary text-decoration-none">
-                <i class="fa fa-envelope text-primary me-3 h4"></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
+		<div class="container-fluid">
+			<div class="row text-md-start text-center">
+				<div class="col-md-3 mx-auto mb-3">
+					<ul class="list-unstyled">
+						<li class="my-2">
+							<a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner"
+									alt="Logo Banner"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+					<ul class="list-unstyled">
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+					<ul class="list-unstyled">
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+					<ul class="list-unstyled">
+						<li class="my-2">
+							<a href="https://www.facebook.com" target="_blank" class="text-primary text-decoration-none">
+								<i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="https://www.instagram.com" target="_blank" class="text-primary text-decoration-none">
+								<i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="tel:(00)00000000" class="text-primary text-decoration-none">
+								<i class="fa fa-phone text-primary me-3 h4"></i>(00)-0000-0000
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="mailto:cursotopia@gmail.com.mx" class="text-primary text-decoration-none">
+								<i class="fa fa-envelope text-primary me-3 h4"></i>Correo electrónico
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row pt-5 pb-3 d-flex align-items-center">
+					<div class="col-md-12  text-center">
 
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+					</div>
+				</div>
+			</div>
+			<div class="container text-center img-responsive">
+				<p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
+			</div>
+		</div>
+	</footer>
 </body>
 
 </html>

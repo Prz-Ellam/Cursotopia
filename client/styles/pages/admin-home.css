@@ -10,16 +10,6 @@ footer{
     margin-left: 310px;
 }
 
-.sidebar{
-    position: fixed;
-    top:70px;
-    left:0;
-    width: 280px;
-    height: 100%;
-    z-index: 1000;
-    background-color: #fff;
-}
-
 .nav-link{
     color:var(--dark-color)
 }

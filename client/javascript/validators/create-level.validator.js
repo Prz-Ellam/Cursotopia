@@ -1,21 +1,29 @@
+$.validator.addMethod('trimming', function(value, element) {
+    return this.optional(element) || value.trim() !== '';
+}, 'Please enter a valid');
+
 export default {
     rules: {
-        'name': {
+        'title': {
             required: true,
+            trimming: true,
             maxlength: 255
         },
         'description': {
             required: true,
+            trimming: true,
             maxlength: 255
         }
     },
     messages: {
-        'name': {
-            required: 'El nombre del nivel es requerido',
+        'title': {
+            required: 'El título del nivel es requerido',
+            trimming: 'El título del nivel es requerido',
             maxlength: 'El nombre del nivel no puede contener más de 255 caracteres'
         },
         'description': {
             required: 'La descripción del nivel es requerida',
+            trimming: 'La descripción del nivel es requerida',
             maxlength: 'La descripción del nivel no puede contener más de 255 caracteres'
         }
     },

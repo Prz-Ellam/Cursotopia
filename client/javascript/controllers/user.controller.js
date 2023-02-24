@@ -29,8 +29,7 @@ export const login = async function(event) {
 
 export const signup = async function(event) {
 
-    console.log('Hola Mundo');
-    //event.preventDefault();
+    event.preventDefault();
 
     let validations = $(this).valid();
     if (!validations) {
@@ -78,7 +77,10 @@ export const uploadProfilePicture = async function(event) {
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
 
-        createImage();
+        const imageId = createImage();
+        const profilePictureId = document.getElementById('profile-picture-id');
+        profilePictureId.value = imageId;
+        $("#signup-form").validate().element('#profile-picture-id');
     }
     catch (exception) {
         pictureBox.src = defaultImage;

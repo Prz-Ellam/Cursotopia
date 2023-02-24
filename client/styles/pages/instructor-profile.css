@@ -10,9 +10,6 @@
 @import '../partials/hero.css';
 
 /* ¿De donde viene todo este padding? */
-main {
-    margin: 0;
-}
 
 
 .form-label{
@@ -72,6 +69,10 @@ main {
         margin-bottom: 20px!important;
         margin-left: 170px!important;
     }
+}
+
+.progress {
+   background-color: rgb(200,200,200);
 }
 
 

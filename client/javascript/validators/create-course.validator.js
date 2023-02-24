@@ -1,6 +1,6 @@
 export default {
     rules: {
-        'name': {
+        'title': {
             required: true,
             maxlength:255
         },
@@ -8,10 +8,10 @@ export default {
             required: true,
             maxlength:255
         },
-        'categories': {
+        'categories[]': {
             required: true
         },
-        'cost': {
+        'price': {
             required: true,
             number:true
         },
@@ -20,7 +20,7 @@ export default {
         }
     },
     messages: {
-        'name': {
+        'title': {
             required: 'El nombre del curso es requerido',
             maxlength:'El nombre del curso no puede contener más de 255 caracteres'
         },
@@ -28,12 +28,12 @@ export default {
             required: 'La descripción es requerida',
             maxlength:'La descripción no puede contener más de 255 caracteres'
         },
-        'categories': {
+        'categories[]': {
             required: 'La categoria es requerida'
         },
-        'cost': {
-            required: 'EL costo es requerido',
-            number:'El costo no es válido'
+        'price': {
+            required: 'El precio es requerido',
+            number:'El precio no es válido'
         },
         'level-img': {
             required: 'La imagen es requerida'

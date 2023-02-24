@@ -166,22 +166,38 @@ export default {
             maxlength: 'El nombre es demasiado largo'
         },
         'user-role': {
-            required: 'El rol de usuario es requerido'
+            required: 'El rol de usuario es requerido',
+            range: 'El rol de usuario es requerido'
+        },
+        'gender': {
+            required: 'El genero es requerido',
+            range: 'El genero es requerido'
+        },
+        'birth-date': {
+            required: 'La fecha de nacimiento es requerida',
+            date: 'La fecha de nacimiento no tiene el formato requerido',
+            dateRange: 'La fecha de nacimiento seleccionada no es válida'
         },
         'email': {
             required: 'El correo electrónico es requerido',
-            email5322: 'El correo electrónico no tiene el formato correcto',
+            trimming: 'El correo electrónico es requerido',
+            email5322: 'El correo electrónico no tiene el formato requerido',
             maxlength: 'El correo electrónico es demasiado largo'
         },
         'password': {
             required: 'La contraseña es requerida',
             trimming: 'La contraseña es requerida',
+            containsMayus: 'La contraseña no tiene el formato requerido',
+            containsSpecialCharacter: 'La contraseña no tiene el formato requerido',
+            containsNumber: 'La contraseña no tiene el formato requerido',
+            minlength: 'La contraseña no tiene el formato requerido',
             maxlength: 'La contraseña es demasiado larga'
         },
         'confirm-password': {
             required: 'La confirmación de contraseña es requerido',
             trimming: 'La confirmación de contraseña es requerida',
-            maxlength: 'La confirmación de contraseña es demasiado larga'
+            maxlength: 'La confirmación de contraseña es demasiado larga',
+            equalTo: 'La confirmación de contraseña no coincide con la contraseña'
         }
     },
     errorElement: 'small',

@@ -20,24 +20,44 @@
   <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
-      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button 
+        class="border-0 shadow-none navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-content"
+        aria-controls="navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="text-white bx-sm bx bx-menu"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="col-auto col-lg-7" role="search" action="search.html">
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-auto col-lg-6" role="search" action="search.html">
           <div class="input-group">
-            <input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
-            <button class="btn btn-white border-0 search-btn" type="submit"><i class="fw-bold bx bx-search"></i></button>
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Buscar cursos..."
+              aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
           </div>
         </form>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
-            <a href="course-creation.html" class="nav-link text-light fw-bold">
+            <a href="course-creation.html" class="nav-link fw-bold text-light">
               Crear curso
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               Categorías
             </a>
             <ul class="dropdown-menu">
@@ -55,19 +75,28 @@
           </li>
           <li class="nav-item">
             <div class="nav-link dropdown">
-              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <img 
                   src="../client/assets/images/perfil.png"
                   alt="mdo"
-                  width="36"
-                  class="rounded-circle">
+                  width="32"
+                  class="rounded-circle profile-picture">
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+                <li>
+                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+                </li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -75,6 +104,7 @@
       </div>
     </div>
   </nav>
+  
   <!-- Hero Section -->
   <section class="position-relative d-flex flex-column justify-content-center mb-5" id="hero-section">
     <div class="container">
@@ -93,7 +123,7 @@
         <div class="col-lg-6" data-aos="zoom-in-up">
           <img
             src="../client/assets/images/hero-banner.svg"
-            class="img-fluid w-100 d-none d-lg-block" alt="">
+            class="img-fluid w-100 d-none d-lg-block" alt="Hero Banner">
         </div>
       </div>
     </div>
@@ -105,7 +135,7 @@
     <div class="px-5 owl-carousel owl-theme">
 
       <div class="card my-3 course-card" role="button">
-        <div class="ratio ratio-16x9" href="#">
+        <div class="ratio ratio-16x9">
           <img 
             src="https://import.cdn.thinkific.com/220744/courses/1948561/HVgczjlDQjK5CIXpb57p_desarrollo-web-con-html-css-min.png"
             class="card-img-top img-cover"
@@ -513,6 +543,32 @@
     </div>
   </section>
 
+  <section class="container-fluid bg-secondary mb-5" data-aos="fade-up" id="info-section">
+    <div class="row text-light text-center py-5">
+      <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
+        + de
+        <p class="h1 fw-bold mb-0">
+          <i class='bx bxs-group'></i><span class="counter" data-val="1000">0</span>
+        </p>
+        alumnos
+      </div>
+      <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
+        + de
+        <p class="h1 fw-bold mb-0">
+          <i class='bx bxs-chalkboard'></i><span class="counter" data-val="500">0</span>
+        </p>
+        instructores
+      </div>
+      <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
+        + de
+        <p class="h1 fw-bold mb-0">
+          <i class='bx bxs-graduation' ></i><span class="counter" data-val="45">0</span>
+        </p>
+        cursos
+      </div>
+    </div>
+  </section>
+
   <section class="container mb-5">
     <div class="row" data-aos="fade-up">
       <div class="col-lg-6 text-lg-start text-center">
@@ -560,23 +616,23 @@
           <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
           <ul class="list-unstyled">
             <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
+              <a href="https://www.facebook.com" target="_blank" class="d-flex align-items-center text-primary text-decoration-none">
+                <i class='text-dark bx-sm bx bxl-facebook-square me-2'></i>Facebook
               </a>
             </li>
             <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
+              <a href="https://www.instagram.com" target="_blank" class="d-flex align-items-center text-primary text-decoration-none">
+                <i class='text-dark bx-sm bx bxl-instagram-alt me-2' ></i>Instagram
               </a>
             </li>
             <li class="my-2">
-              <a href="tel:(00)00000000" class="text-primary text-decoration-none">
-                <i class="fa fa-phone text-primary me-3 h4"></i>(00)-0000-0000
+              <a href="tel:(00)00000000" class="d-flex align-items-center text-primary text-decoration-none">
+                <i class='text-dark bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
               </a>
             </li>
             <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="text-primary text-decoration-none">
-                <i class="fa fa-envelope text-primary me-3 h4"></i>Correo electrónico
+              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex align-items-center text-primary text-decoration-none">
+                <i class='text-dark bx-sm bx bxs-envelope me-2' ></i>Correo electrónico
               </a>
             </li>
           </ul>

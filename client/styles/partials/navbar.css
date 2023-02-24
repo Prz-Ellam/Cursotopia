@@ -23,3 +23,10 @@
     font-size: 10px
 }
 
+.nav-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.profile-picture:hover {
+    filter: brightness(50%);
+}
