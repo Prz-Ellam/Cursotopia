@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import Swal from 'sweetalert2';
 
 import User from '../models/user.model';
 import { createImage } from '../services/image.service';
@@ -31,21 +32,42 @@ export const signup = async function(event) {
 
     event.preventDefault();
 
-    let validations = $(this).valid();
+    const validations = $(this).valid();
     if (!validations) {
         return;
     }
 
     const user = new User();
-    user.name = 'Eliam';
-    user.lastName = 'Rodríguez Pérez';
-    user.userRole = '1';
-    user.gender = '1';
-    user.birthDate = '2001-10-26';
-    user.email = 'PerezAlex088@outlook.com';
-    user.password = '123Abc!!';
-
     const response = await createUser(user);
+    if (response.ok) {
+        
+        await Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido a Cursotopia! 😊',
+            text: 'Cuna de los mejores cursos de la tierra',
+            confirmButtonText: 'Comencemos',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
+        // TODO: uri estatica
+        window.location.href = "home.html";
+    }
+    else {
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Parece que algo salió mal',
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+    }
 }
 
 function readFileAsync(file) {
@@ -61,32 +83,76 @@ function readFileAsync(file) {
 
 export const uploadProfilePicture = async function(event) {
     const pictureBox = document.getElementById('picture-box');
+    const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
             pictureBox.src = defaultImage;
+            profilePictureId.value = '';
+            $("#signup-form").validate().element('#profile-picture-id');
             return;
         }
         const file = files[0];
         const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
         if (!allowedExtensions.exec(file.type)) {
             pictureBox.src = defaultImage;
+            profilePictureId.value = '';
+            $("#signup-form").validate().element('#profile-picture-id');
             return;
         }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
 
         const imageId = createImage();
-        const profilePictureId = document.getElementById('profile-picture-id');
         profilePictureId.value = imageId;
-        $("#signup-form").validate().element('#profile-picture-id');
     }
     catch (exception) {
         pictureBox.src = defaultImage;
+        profilePictureId.value = '';
     }
+    $("#signup-form").validate().element('#profile-picture-id');
 }
 
 export const updateUser = function(event) {
 
+}
+
+export const updatePassword = async function(event) {
+    
+    event.preventDefault();
+
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
+
+    if (true) {
+        
+        await Swal.fire({
+            icon: 'success',
+            title: 'Tú contraseña se actualizó exitosamente',
+            confirmButtonText: 'Continuar',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
+        // TODO: uri estatica
+        window.location.href = "home.html";
+    }
+    else {
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Parece que algo salió mal',
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+    }
 }

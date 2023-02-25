@@ -5,6 +5,8 @@
 @import '../partials/forms.css';
 @import '../partials/spinner.css';
 
+@import '../partials/password-button.css';
+
 body {
     background: linear-gradient(#6059F7, #36C3FE);
 }

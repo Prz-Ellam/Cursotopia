@@ -1,20 +1,30 @@
+$.validator.addMethod('trimming', function(value, element) {
+    return this.optional(element) || value.trim() !== '';
+}, 'Please enter a valid');
+
 export default {
     rules: {
         'name': {
             required: true,
+            trimming: true,
             maxlength:255
         },
         'description': {
             required: true,
+            trimming: true,
             maxlength:255
         }
     },
     messages: {
         'name': {
-            required: 'El título es requerido'
+            required: 'El título es requerido',
+            trimming: 'El título es requerido',
+            maxlength: 'El título es demasiado largo'
         },
         'description': {
-            required: 'La descripción es requerida'
+            required: 'La descripción es requerida',
+            trimming: 'La descripción es requerida',
+            maxlength: 'La descripción es demasiado larga'
         }
     },
     errorElement: 'small',

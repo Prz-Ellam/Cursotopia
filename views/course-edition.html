@@ -15,67 +15,94 @@
 </head>
 
 <body>
-	<nav class="sticky-top navbar navbar-expand-lg bg-primary">
-		<div class="container-fluid">
-			<a class="navbar-brand text-light" href="home.html">Cursotopia</a>
-			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="text-white navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<form class="col-auto col-lg-7" role="search">
-					<div class="input-group">
-						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..."
-							aria-label="Search">
-						<button class="btn btn-light border-0" type="submit"><i
-								class="fw-bold bx bx-search"></i></button>
-					</div>
-				</form>
-				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-					<li class="nav-item">
-						<a href="course-creation.html" class="nav-link text-light fw-bold">
-							Crear curso
-						</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false">
-							Categorías
-						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="search.html">Arte</a></li>
-							<li><a class="dropdown-item" href="search.html">Música</a></li>
-							<li><a class="dropdown-item" href="search.html">Programación</a></li>
-						</ul>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-light" aria-current="page" href="chat.html">
-							<i class="bx-sm bx bxs-bell position-relative">
-								<span class="badge rounded-pill badge-notification bg-danger">1</span>
-							</i>
-						</a>
-					</li>
-					<li class="nav-item">
-						<div class="nav-link dropdown">
-							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown"
-								aria-expanded="false">
-								<img src="../client/assets/images/perfil.png" alt="mdo" width="36"
-									class="rounded-circle">
-							</button>
-							<ul class="dropdown-menu dropdown-menu-end">
-								<li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
-								<li>
-									<hr class="dropdown-divider">
-								</li>
-								<li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<!-- Navbar -->
+	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+      <button 
+        class="border-0 shadow-none navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-content"
+        aria-controls="navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="text-white bx-sm bx bx-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-auto col-lg-6" role="search" action="search.html">
+          <div class="input-group">
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Buscar cursos..."
+              aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="course-creation.html" class="nav-link fw-bold text-light">
+              Crear curso
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img 
+                  src="../client/assets/images/perfil.png"
+                  alt="mdo"
+                  width="32"
+                  class="rounded-circle profile-picture">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 	<!-- Main section -->
 	<section class="container my-4">
 		<div class="row border-3 border-bottom border-primary text-center mb-3">
@@ -90,8 +117,7 @@
 					</div>
 					<div class="mb-4">
 						<label for="description" class="form-label" role="button">Descripción</label>
-						<textarea name="description" id="description" cols="30" rows="3"
-							class="form-control"></textarea>
+						<textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
 					</div>
 
 					<div class="form-check">
@@ -105,16 +131,15 @@
 
 					<div class="mb-3">
 						<label class="form-label">Categorías</label>
-						<select class="" id="categories" name="categories[]" multiple="multiple"
-							placeholder="Seleccionar">
+						<select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
 							<option value="1">Música</option>
 							<option value="2">Arte</option>
 							<option value="3">Programación</option>
 						</select>
 					</div>
 					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-						<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto"
-							data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
+						<button type="button" id="add-category-btn" class="btn btn-secondary btn-sm m-auto" data-bs-toggle="modal"
+							data-bs-target="#addCategory">Añadir categoria</button>
 					</div>
 				</div>
 
@@ -152,14 +177,12 @@
 									<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
 										data-bs-target="#add-lesson">Añadir lección</button>
 									<span class="d-lg-inline d-block text-lg-end text-center">
-										<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1"
-											data-bs-toggle="modal" data-bs-target="#editLevel"><i
-												class='bx bxs-pencil'></i></a>
+										<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1" data-bs-toggle="modal"
+											data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
 										<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
 												class='bx bxs-trash-alt'></i></a>
-										<a class="btn text-primary m-auto p-1" href="#collapseExample1"
-											data-bs-toggle="collapse" role="button" aria-expanded="false"
-											aria-controls="collapseExample">
+										<a class="btn text-primary m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
+											role="button" aria-expanded="false" aria-controls="collapseExample">
 											<i class='bx bxs-chevron-down'></i>
 									</span>
 									</a>
@@ -213,14 +236,12 @@
 									<button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
 										data-bs-target="#add-lesson">Añadir lección</button>
 									<span class="d-lg-inline d-block text-lg-end text-center">
-										<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1"
-											data-bs-toggle="modal" data-bs-target="#editLevel"><i
-												class='bx bxs-pencil'></i></a>
+										<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1" data-bs-toggle="modal"
+											data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
 										<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
 												class='bx bxs-trash-alt'></i></a>
-										<a class="btn text-primary m-auto p-1" href="#collapseExample1"
-											data-bs-toggle="collapse" role="button" aria-expanded="false"
-											aria-controls="collapseExample">
+										<a class="btn text-primary m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
+											role="button" aria-expanded="false" aria-controls="collapseExample">
 											<i class='bx bxs-chevron-down'></i>
 									</span>
 									</a>

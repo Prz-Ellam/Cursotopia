@@ -37,7 +37,6 @@ $.validator.addMethod('containsMinus',function(value,element){
     return this.optional(element) || pattern.test(value);
 });
 
-
 $.validator.addMethod('containsSpecialCharacter',function(value,element){
     let pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@\\])/;
     return this.optional(element) || pattern.test(value);
@@ -202,7 +201,11 @@ export default {
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {
-        error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
+        let targetElement = element;
+        if (element.attr('id') === 'password' || element.attr('id') === 'confirm-password') {
+            targetElement = element.parent();
+        }
+        error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     },
     ignore: []
 };

@@ -39,7 +39,8 @@ $('#create-review-form').on('submit', function(event) {
     const review = {
         image: '../client/assets/images/logo.png',
         username: 'Test',
-        message: document.getElementById('message-box').value
+        message: document.getElementById('message-box').value,
+        rate: document.getElementById('rate').value
     }
     
     createReview(review);

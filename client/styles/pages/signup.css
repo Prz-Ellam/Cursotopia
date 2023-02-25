@@ -6,6 +6,8 @@
 @import '../configuration/fonts.css';
 @import '../partials/forms.css';
 
+@import '../partials/password-button.css';
+
 body {
     background: linear-gradient(#6059F7, #36C3FE);
 }

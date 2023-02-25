@@ -11,11 +11,11 @@ export const createReview = (review) => {
               <div class="d-flex align-items-center mb-1 gap-2">
                 <small class="mb-0">${ new Date() }</small>
                 <span>
-                  <i class="bx bxs-star rate-star rating-star"></i>
-                  <i class="bx bxs-star rate-star rating-star"></i>
-                  <i class="bx bxs-star rate-star rating-star"></i>
-                  <i class="bx bxs-star rate-star rating-star"></i>
-                  <i class="bx bxs-star rate-star rating-star"></i>
+                  <i class="bx ${ review.rate >= 1 ? 'bxs-star' : 'bx-star' } rate-star rating-star"></i>
+                  <i class="bx ${ review.rate >= 2 ? 'bxs-star' : 'bx-star' } rate-star rating-star"></i>
+                  <i class="bx ${ review.rate >= 3 ? 'bxs-star' : 'bx-star' } rate-star rating-star"></i>
+                  <i class="bx ${ review.rate >= 4 ? 'bxs-star' : 'bx-star' } rate-star rating-star"></i>
+                  <i class="bx ${ review.rate >= 5 ? 'bxs-star' : 'bx-star' } rate-star rating-star"></i>
                 </span>
               </div>
               <p class="mb-0">${ review.message }</p>

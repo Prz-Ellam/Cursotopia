@@ -1,10 +1,18 @@
+import $ from 'jquery';
+
+$.validator.addMethod('trimming', function(value, element) {
+    return this.optional(element) || value.trim() !== '';
+}, 'Please enter a valid');
+
 export default {
     rules: {
         'rate': {
             required: true
         },
         'message': {
-            required: true
+            required: true,
+            trimming: true,
+            maxlength: 255
         }
     },
     messages: {
@@ -12,7 +20,9 @@ export default {
             required: 'La calificación es requerida'
         },
         'message': {
-            required: 'La reseña es requerida'
+            required: 'La reseña es requerida',
+            trimming: 'La reseña es requerida',
+            maxlength: 'La reseña es demasiado larga'
         }
     },
     errorElement: 'small',

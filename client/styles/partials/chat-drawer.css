@@ -3,22 +3,22 @@
     cursor: pointer;
 }
 
-.chat-drawer div div img {
+.chat-drawer a div img {
     width: 60px;
     height: 60px;
     object-fit: cover;
 }
 
-.chat-drawer div div div {
+.chat-drawer a div div {
     text-overflow: ellipsis;
 }
 
-.chat-drawer div div div small {
+.chat-drawer adiv div small {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.chat-drawer div div div p {
+.chat-drawer a div div p {
     overflow: hidden;
     text-overflow: ellipsis;
 }

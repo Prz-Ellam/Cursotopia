@@ -27,6 +27,13 @@
     color: var(--accent-color) !important;
 }
 
+.profile-picture {
+    transition: all 200ms ease;
+    transition-property: filter;
+}
+
 .profile-picture:hover {
     filter: brightness(50%);
+    transition: all 200ms ease;
+    transition-property: filter;
 }

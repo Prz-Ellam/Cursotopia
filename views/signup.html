@@ -8,6 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
+  
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  
   <link rel="stylesheet" href="../dist/assets/signup.css">
   <script defer type="module" src="../dist/javascript/signup.js"></script>
 </head>
@@ -31,18 +35,19 @@
             class="form-control shadow-none rounded-1 position-absolute" name="profile-picture" id="profile-picture">
           <label for="profile-picture" role="button">Foto de perfil</label>
         </div>
+
         <form action="#" id="signup-form">
           <div class="text-center mb-4">
             <input type="hidden" name="profile-picture" id="profile-picture-id">
           </div>
           <div class="row">
             <div class="col-sm-6 col-12 mb-4">
-              <label for="name" role="button" class="form-label">Nombre</label>
+              <label for="name" role="button" class="form-label">Nombre(s)</label>
               <input type="text" name="name" id="name" class="form-control"
                 placeholder="Jon">
             </div>
             <div class="col-sm-6 col-12 mb-4">
-              <label for="last-name" role="button" class="form-label">Apellido</label>
+              <label for="last-name" role="button" class="form-label">Apellido(s)</label>
               <input type="text" name="last-name" id="last-name" class="form-control"
                 placeholder="Doe">
             </div>
@@ -78,7 +83,10 @@
     
             <div class="col-lg-6 col-12 mb-4">
               <label for="password" role="button" class="form-label">Contraseña</label>
-              <input type="password" name="password" id="password" class="form-control">
+              <div class="input-group">
+                <input type="password" name="password" id="password" class="form-control">
+                <button type="button" class="btn btn-primary btn-password" id="password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
+              </div>
               <ul class="mt-1">
                 <!-- <li class="lower">Una minuscula</li> -->
                 <li id="password-length">Mínimo 8 caracteres</li>
@@ -90,8 +98,11 @@
     
             <div class="col-lg-6 col-12 mb-4">
               <label for="confirm-password" role="button" class="form-label">Confirmar contraseña</label>
-              <input type="password" name="confirm-password" id="confirm-password"
+              <div class="input-group">
+                <input type="password" name="confirm-password" id="confirm-password"
                 class="form-control">
+                <button type="button" class="btn btn-primary btn-password" id="confirm-password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
+              </div>
             </div>
           </div>
   

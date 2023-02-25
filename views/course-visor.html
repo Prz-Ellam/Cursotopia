@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,73 +14,98 @@
 	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 	<script defer type="module" src="../dist/javascript/course-visor.js"></script>
 </head>
-
 <body>
 	<!-- Navbar -->
 	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-		<div class="container-fluid">
-			<a class="navbar-brand text-light" href="home.html">Cursotopia</a>
-			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="text-white navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<form class="col-auto col-lg-7" role="search">
-					<div class="input-group">
-						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..."
-							aria-label="Search">
-						<button class="btn btn-light border-0" type="submit"><i
-								class="fw-bold bx bx-search"></i></button>
-					</div>
-				</form>
-				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-					<li class="nav-item">
-						<a href="course-creation.html" class="nav-link text-light fw-bold">
-							Crear curso
-						</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false">
-							Categorías
-						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="search.html">Arte</a></li>
-							<li><a class="dropdown-item" href="search.html">Música</a></li>
-							<li><a class="dropdown-item" href="search.html">Programación</a></li>
-						</ul>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-light" aria-current="page" href="chat.html">
-							<i class="bx-sm bx bxs-bell position-relative">
-								<span class="badge rounded-pill badge-notification bg-danger">1</span>
-							</i>
-						</a>
-					</li>
-					<li class="nav-item">
-						<div class="nav-link dropdown">
-							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown"
-								aria-expanded="false">
-								<img src="../client/assets/images/perfil.png" alt="mdo" width="36"
-									class="rounded-circle">
-							</button>
-							<ul class="dropdown-menu dropdown-menu-end">
-								<li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
-								<li>
-									<hr class="dropdown-divider">
-								</li>
-								<li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
+      <button 
+        class="border-0 shadow-none navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-content"
+        aria-controls="navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="text-white bx-sm bx bx-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-auto col-lg-6" role="search" action="search.html">
+          <div class="input-group">
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Buscar cursos..."
+              aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="course-creation.html" class="nav-link fw-bold text-light">
+              Crear curso
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img 
+                  src="../client/assets/images/perfil.png"
+                  alt="mdo"
+                  width="32"
+                  class="rounded-circle profile-picture">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-	<!-- Contenido -->
-	<section class="container-fluid">
+	<!-- Main -->
+	<main class="container-fluid">
 		<div class="row mb-3">
 			<div class="col-lg-8 col-sm-12 course-content mb-5">
 				<h4 class="mt-3">Introducción y conocimientos previos</h4>
@@ -99,22 +123,19 @@
 				<img src="../client/assets/images/city.jpg" alt="" class="img-fluid">
 				<h5 class="mt-3">Documento</h5>
 				<div class="d-flex">
-					<a href="" class="btn btn-primary rounded-pill w-25">Descargar PDF</a>
+					<a href="#" class="text-primary d-flex align-items-center text-decoration-none"><i class='bx-sm bx bxs-file-pdf'></i>Archivo PDF</a>
 				</div>
 				<h5 class="mt-3">Enlace</h5>
-				<a href="https://www.google.com">Nombre del enlace</a>
+				<a href="https://www.google.com" class="text-primary">Nombre del enlace</a>
 				<br><br>
 			</div>
 			<div class="col-lg-4 col-sm-12 course-content">
-				
+
 				<h4 class="text-center mt-3">Contenido del curso</h4>
-				
+
 				<div class="border-0 card shadow-none">
-					<h5 type="button" class="rounded-top bg-light card-header" 
-						data-bs-toggle="collapse"
-						data-bs-target="#level-1-collapse" 
-						aria-expanded="true"
-						aria-controls="level-1-collapse">
+					<h5 type="button" class="rounded-top bg-light card-header" data-bs-toggle="collapse"
+						data-bs-target="#level-1-collapse" aria-expanded="true" aria-controls="level-1-collapse">
 						1. Introducción
 					</h5>
 					<div class="collapse" id="level-1-collapse">
@@ -202,72 +223,71 @@
 
 			</div>
 		</div>
-	</section>
+	</main>
 
 	<!-- Footer -->
 	<footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="text-primary text-decoration-none">
-                <i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="text-primary text-decoration-none">
-                <i class="fa fa-phone text-primary me-3 h4"></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="text-primary text-decoration-none">
-                <i class="fa fa-envelope text-primary me-3 h4"></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
+		<div class="container-fluid">
+			<div class="row text-md-start text-center">
+				<div class="col-md-3 mx-auto mb-3">
+					<ul class="list-unstyled">
+						<li class="my-2">
+							<a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner"
+									alt="Logo Banner"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+					<ul class="list-unstyled">
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+					<ul class="list-unstyled">
+						<li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+					</ul>
+				</div>
+				<div class="col-md-3 mx-auto mb-3">
+					<h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+					<ul class="list-unstyled">
+						<li class="my-2">
+							<a href="https://www.facebook.com" target="_blank" class="text-primary text-decoration-none">
+								<i class="fab fa-facebook-f text-cream me-3 h4"></i>Facebook
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="https://www.instagram.com" target="_blank" class="text-primary text-decoration-none">
+								<i class="fa fa-instagram text-cream me-3 h4" aria-hidden="true"></i>Instagram
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="tel:(00)00000000" class="text-primary text-decoration-none">
+								<i class="fa fa-phone text-primary me-3 h4"></i>(00)-0000-0000
+							</a>
+						</li>
+						<li class="my-2">
+							<a href="mailto:cursotopia@gmail.com.mx" class="text-primary text-decoration-none">
+								<i class="fa fa-envelope text-primary me-3 h4"></i>Correo electrónico
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row pt-5 pb-3 d-flex align-items-center">
+					<div class="col-md-12  text-center">
 
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
-
+					</div>
+				</div>
+			</div>
+			<div class="container text-center img-responsive">
+				<p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
+			</div>
+		</div>
+	</footer>
 </body>
-
 </html>

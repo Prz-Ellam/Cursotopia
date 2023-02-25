@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
+  <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../dist/assets/login.css">
   <script defer type="module" src="../dist/javascript/login.js"></script>
 </head>
@@ -26,15 +26,18 @@
         <h1 class="text-center">Inicia sesión</h1>
         <hr>
         <div class="mb-4">
-          <label for="email" role="button" class="form-label"><i class='bx bxs-envelope position-relative'></i> 
-            Correo electrónico:</label>
+          <label for="email" role="button" class="form-label d-flex align-items-center">
+            <i class='bx bxs-envelope me-1'></i>Correo electrónico
+          </label>
           <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com">
         </div>
         <div class="mb-4">
-          <label for="password" role="button" class="form-label"><i class='bx bxs-key'></i> Contraseña</label>
+          <label for="password" role="button" class="form-label d-flex align-items-center">
+            <i class='bx bxs-key me-1'></i> Contraseña
+          </label>
           <div class="input-group">
             <input type="password" name="password" id="password" class="form-control">
-            <button type="button" class="btn btn-primary input-group-text"><i class='bx bxs-low-vision'></i></button>
+            <button type="button" class="btn btn-primary btn-password" id="password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
           </div>
         </div>
         <div class="form-check mb-4">
@@ -47,8 +50,10 @@
             <div class="spinner me-2 d-none" id="login-spinner"></div>Iniciar sesión
           </button>
         </div>
-        <p class="text-center mb-0">¿Aún no tienes cuenta?</p>
+        <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>
         <a href="signup.html" class="d-block text-center text-decoration-none text-primary">¡Registrate aquí!</a>
+        <!-- <hr>
+        <a href="" class="d-block text-center text-decoration-none text-primary mt-3">¿Olvidaste tu contraseña?</a> -->
       </form>
     </section>
   </main>

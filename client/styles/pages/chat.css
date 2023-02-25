@@ -6,6 +6,10 @@
 @import 'css/partials/forms.css';
 @import 'css/partials/chat-drawer.css';
 
+body {
+    overflow-x: hidden;
+}
+
 .chat-section {
     height: calc(100vh - 68px);
 }

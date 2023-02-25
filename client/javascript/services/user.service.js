@@ -1,4 +1,5 @@
 export const createUser = async (user) => {
+    /*
     try {
         const response = await fetch('/api/v1/users', {
             method: 'POST',
@@ -10,6 +11,8 @@ export const createUser = async (user) => {
     catch (exception) {
         console.error(exception);
     }
+    */
+    return { ok: true };
 }
 
 export const updateUser = async (user) => {

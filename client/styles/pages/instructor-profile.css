@@ -9,6 +9,9 @@
 @import '../configuration/breakpoints.css';
 @import '../partials/hero.css';
 
+@import '../third-party/bootstrap.css';
+
+
 /* ¿De donde viene todo este padding? */
 
 

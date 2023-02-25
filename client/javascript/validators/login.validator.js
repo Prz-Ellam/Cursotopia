@@ -12,6 +12,7 @@ export default {
     rules: {
         'email': {
             required: true,
+            trimming: true,
             email5322: true,
             email: false,
             maxlength: 255
@@ -25,11 +26,13 @@ export default {
     messages: {
         'email': {
             required: 'El correo electrónico es requerido',
+            trimming: 'El correo electrónico es requerido',
             email5322: 'El correo electrónico no tiene el formato correcto',
             maxlength: 'El correo electrónico es demasiado largo'
         },
         'password': {
             required: 'La contraseña es requerida',
+            trimming: 'La contraseña es requerida',
             maxlength: 'La contraseña es demasiado larga'
         }
     },

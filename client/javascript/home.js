@@ -51,13 +51,6 @@ $('.owl-carousel').owlCarousel({
     }
 });
 
-const courseCards = document.getElementsByClassName('course-card');
-const arrayCourseCards = Array.from(courseCards);
-arrayCourseCards.forEach(courseCard => {
-    courseCard.addEventListener('click', () => {
-        window.location.href = '/views/course-details.html';
-    });
-});
 
 
 const observer = new IntersectionObserver(function(entries) {

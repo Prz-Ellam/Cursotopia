@@ -19,27 +19,51 @@
   <script defer type="module" src="../dist/javascript/course-details.js"></script>
 </head>
 <body>
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary">
+  <!-- Navbar -->
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
-      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
-      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="text-white navbar-toggler-icon"></span>
+      <a class="navbar-brand text-white" href="home.html">
+        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
+        <span class="align-middle">Cursotopia</span>
+      </a>
+      <button 
+        class="border-0 shadow-none navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-content"
+        aria-controls="navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="text-white bx-sm bx bx-menu"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="col-auto col-lg-7" role="search">
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search.html">
           <div class="input-group">
-            <input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
-            <button class="btn btn-light border-0" type="submit"><i class="fw-bold bx bx-search"></i></button>
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Buscar cursos..."
+              aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
           </div>
         </form>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
-            <a href="course-creation.html" class="nav-link text-light fw-bold">
+            <a href="course-creation.html" class="nav-link fw-bold text-light">
               Crear curso
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               Categorías
             </a>
             <ul class="dropdown-menu">
@@ -57,19 +81,28 @@
           </li>
           <li class="nav-item">
             <div class="nav-link dropdown">
-              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <img 
                   src="../client/assets/images/perfil.png"
                   alt="mdo"
-                  width="36"
-                  class="rounded-circle">
+                  width="32"
+                  class="rounded-circle profile-picture">
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="instructor-profile.html">Mi perfil</a></li>
+                <li>
+                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+                </li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -78,6 +111,7 @@
     </div>
   </nav>
 
+  <!-- Main -->
   <main class="my-5 container">
     <section class="row">
       <div class="col-lg-8 col-12">
@@ -96,12 +130,22 @@
           molestiae dolorum perferendis autem eveniet ipsum.</p>
 
       </div>
-      <div class="rounded-3 bg-primary col-lg-4 col-12 p-4">
+      <div class="rounded-3 bg-primary col-lg-4 col-12 p-4 pt-5">
         <h3 class="text-center text-white">$1,000.00 MXN</h3>
-        <!--
-        <a href="payment-method.html" class="btn btn-primary w-100">Comprar este curso</a>
+        <!-- Sin comprar -->
+        
+        <a href="payment-method.html" class="btn btn-secondary w-100">Comprar este curso</a>
+        
+
+        <!-- Gratis -->
+        <!--         
+        <a href="course-visor.html" class="btn btn-secondary w-100">Conseguir este curso</a>
         -->
-        <a href="course-visor.html" class="btn btn-secondary w-100">Reanudar el curso</a>
+
+        <!-- Comprado -->
+        <!--
+          <a href="course-visor.html" class="btn btn-secondary w-100">Reanudar el curso</a>
+        -->
         <hr>
 
         <div class="mb-4">
@@ -326,7 +370,7 @@
         </div>
         <input type="hidden" name="rate" id="rate" class="form-control" value="">
         <div class="mt-3 mb-3">
-          <textarea class="bg-light form-control rounded-1 border-0 shadow-none" name="message" id="message-box"
+          <textarea class="bg-light form-control rounded-1 border-0 shadow-none" name="message" id="message-box" rows="5"
           placeholder="Escribe un comentario"></textarea>
         </div>
         <button type="submit" class="btn btn-primary rounded-5 border-0 shadow-none mb-4"
@@ -461,6 +505,8 @@
 
 
   </main>
+
+  <!-- Footer -->
   <footer class="page-footer p-5 bg-light">
     <div class="container-fluid">
       <div class="row text-md-start text-center">
