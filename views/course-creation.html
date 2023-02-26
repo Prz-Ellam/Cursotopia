@@ -6,111 +6,98 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cursotopia</title>
-	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+	<!-- Boxicons -->
+	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
+	<!-- SweetAlert -->
+	<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
 	<link rel="stylesheet" href="../client/styles/pages/create-course.css">
-	<script type="module" src="../dist/javascript/create-course.js"></script>
+	<script defer type="module" src="../dist/javascript/course-creation.js"></script>
 </head>
 
 <body>
 	<!-- Navbar -->
 	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light" href="home.html">Cursotopia</a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-auto col-lg-6" role="search" action="search.html">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-          <li class="nav-item">
-            <a href="course-creation.html" class="nav-link fw-bold text-light">
-              Crear curso
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link fw-bold text-light dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Categorías
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="search.html">Arte</a></li>
-              <li><a class="dropdown-item" href="search.html">Música</a></li>
-              <li><a class="dropdown-item" href="search.html">Programación</a></li>
-            </ul>
-          </li>    
-          <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat.html">
-              <i class="bx-sm bx bxs-bell position-relative">
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
-              </i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link dropdown">
-              <button
-                class="btn border-0 p-0"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img 
-                  src="../client/assets/images/perfil.png"
-                  alt="mdo"
-                  width="32"
-                  class="rounded-circle profile-picture">
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Cerrar sesión</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+		<div class="container-fluid">
+			<a href="home.html" class="navbar-brand text-light">Cursotopia</a>
+			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="text-white bx-sm bx bx-menu"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbar-content">
+				<form class="col-auto col-lg-6" role="search" action="search.html">
+					<div class="input-group">
+						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
+						<button class="btn btn-white border-0 text-dark search-btn" type="submit">
+							<i class="fw-bold bx bx-search"></i>
+						</button>
+					</div>
+				</form>
+				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+					<li class="nav-item">
+						<a href="course-creation.html" class="nav-link fw-bold text-light">
+							Crear curso
+						</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link fw-bold text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Categorías
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="search.html">Arte</a></li>
+							<li><a class="dropdown-item" href="search.html">Música</a></li>
+							<li><a class="dropdown-item" href="search.html">Programación</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-light" aria-current="page" href="chat.html">
+							<i class="bx-sm bx bxs-bell position-relative">
+								<span class="badge rounded-pill badge-notification bg-danger">1</span>
+							</i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<div class="nav-link dropdown">
+							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="../client/assets/images/perfil.png" alt="mdo" width="32"
+									class="rounded-circle profile-picture">
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li>
+									<a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">Cerrar sesión</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
 	<!-- Contenido -->
 	<section class="container my-4 mb-3">
 		<div class="row border-3 border-bottom border-primary text-center mb-3">
 			<h1>Añadir curso</h1>
 		</div>
-		<form action="#" class="row" id="create-course-form">
+		<form action="#" class="row" id="course-creation-form">
 			<div class="row mx-0">
 
 				<div class="col-md-6 col-sm-12 col-xs-12">
@@ -123,12 +110,12 @@
 						<textarea class="form-control" id="description" rows="3" name="description"></textarea>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox">
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox" autocomplete="off">
 						<label class="form-check-label" for="free-course-checkbox">El curso será gratis</label>
 					</div>
 					<div class="mb-4" id="price-group">
 						<label class="form-label pt-2" for="price" role="button">Precio</label>
-						<input type="number" name="price" id="price" class="form-control">
+						<input type="number" name="price" id="price" class="form-control" autocomplete="off">
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Categorías</label>
@@ -144,30 +131,37 @@
 					</div>
 				</div>
 
-				<label for="upload-img-input" class="center col-md-6 col-sm-12 col-xs-12 image-container">
+				<div class="center col-md-6 col-sm-12 col-xs-12 image-container">
 					<label class="form-label">Portada</label>
-					<div class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
-						<!--
-							<div class="d-flex justify-content-center align-items-center">
-								<div>
-									<i class="bx bxs-cloud-upload icon"></i>
-									<h3>Subir imagen</h3>
-								</div>
-							</div>
-							-->
-						<img src="../client/assets/images/city.jpg" alt="" class="img-fluid rounded-3">
-						<input id="upload-img-input" type="file" class="d-none form-control mt-3">
-					</div>
-				</label>
+					<label for="upload-image" class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
 
+						<div class="d-flex justify-content-center align-items-center">
+							<div>
+								<i class="bx bxs-cloud-upload icon"></i>
+								<h3>Subir imagen</h3>
+							</div>
+						</div>
+						<img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
+						<input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg"
+							class="d-none form-control mt-3">
+					</label>
+					<input type="text" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
+				</div>
 			</div>
 
-			<section class="my-5">
+			<div id="levels-list">
+				<input type="hidden" name="levels[]" autocomplete="off">
+			</div>
+
+			<section class="my-5" id="levels-section">
 				<div class="py-2 d-flex">
 					<h4 class="pe-4">Niveles</h4>
-					<button id="add-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm" data-bs-toggle="modal"
-						data-bs-target="#addLevel">Añadir nivel</button>
+					<button id="add-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">Añadir nivel</button>
 				</div>
+				<ul class="list-unstyled" id="levels-container">
+
+				</ul>
+				<!--
 				<div class="border-0 card shadow-none">
 					<div class="rounded-top bg-light card-header">
 						<div class="row align-items-center">
@@ -178,54 +172,56 @@
 								<button type="button" class="btn btn-sm btn-secondary rounded-pill" data-bs-toggle="modal"
 									data-bs-target="#add-lesson">Añadir lección</button>
 								<span class="d-lg-inline d-block text-lg-end text-center">
-									<a id="edit-level-btn" href="#" class="btn text-success m-auto p-1" data-bs-toggle="modal"
+									<a id="edit-level-btn" href="#" class="btn text-success border-0 m-auto p-1" data-bs-toggle="modal"
 										data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-									<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
-											class='bx bxs-trash-alt'></i></a>
-									<a class="btn text-primary m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
+									<button type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
+										<i class='bx bxs-trash-alt'></i>
+									</button>
+									<a class="btn text-primary border-0 m-auto p-1" href="#collapseExample1" data-bs-toggle="collapse"
 										role="button" aria-expanded="false" aria-controls="collapseExample">
 										<i class='bx bxs-chevron-down'></i>
+									</a>
 								</span>
-								</a>
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<div class="collapse" id="collapseExample1">
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item d-flex align-items-center justify-content-between">
 							<span>Lección 1: Introducción al curso
 							</span>
 							<span>
-								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
-										class='bx bxs-trash-alt'></i></a>
+								<a href="#" class="edit-lesson-btn btn text-success border-0 m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#edit-lesson"><i class='bx bxs-pencil'></i></a>
+								<button type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1">
+									<i class='bx bxs-trash-alt'></i>
+								</button>
 							</span>
 						</li>
 						<li class="list-group-item d-flex align-items-center justify-content-between">
 							<span>Lección 1: Sobre Java
 							</span>
 							<span>
-								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
-										class='bx bxs-trash-alt'></i></a>
+								<a href="#" class="edit-lesson-btn btn text-success border-0 m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#edit-lesson"><i class='bx bxs-pencil'></i></a>
+								<button type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1"><i
+										class='bx bxs-trash-alt'></i></button>
 							</span>
 						</li>
 						<li class="list-group-item d-flex align-items-center justify-content-between">
 							<span>Lección 3: Sobre POO
 							</span>
 							<span>
-								<a id="edit-level-btn" href="#" class="btn m-auto p-1" data-bs-toggle="modal"
-									data-bs-target="#editLevel"><i class='bx bxs-pencil'></i></a>
-								<a id="delete-level-btn" href="#" class="btn text-danger m-auto p-1"><i
-										class='bx bxs-trash-alt'></i></a>
+								<a href="#" class="edit-lesson-btn btn text-success border-0 m-auto p-1" data-bs-toggle="modal"
+									data-bs-target="#edit-lesson"><i class='bx bxs-pencil'></i></a>
+								<button type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1"><i
+										class='bx bxs-trash-alt'></i></button>
 							</span>
 						</li>
 					</ul>
 				</div>
+				-->
 			</section>
 			<div class="d-flex mb-5">
 				<button type="submit" class="btn btn-primary rounded-pill w-100">Crear curso</button>
@@ -233,118 +229,85 @@
 		</form>
 	</section>
 
-
 	<!-- Modal añadir nivel-->
-	<div class="modal fade" id="addLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-level-form">
-			<div class="modal-content">
+	<div class="modal fade" id="add-level" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form class="modal-dialog rounded-1 border-0 shadow-none" id="create-level-form">
+			<div class="modal-content rounded-1 border-0 shadow-sm">
 				<div class="modal-header">
 					<h4>Añadir nivel</h4>
+					<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-
 					<div class="mb-4">
 						<label for="level-name" class="form-label" role="button">Título</label>
-						<input type="text" name="title" id="level-title" class="form-control">
+						<input type="text" name="title" id="create-level-title" class="form-control">
 					</div>
 
 					<div class="mb-4">
 						<label for="level-description" class="form-label" role="button">Descripción</label>
-						<textarea name="description" id="level-description" cols="30" rows="5" class="form-control"
+						<textarea name="description" id="create-level-description" cols="30" rows="5" class="form-control"
 							placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
 					</div>
 
 					<div class="form-check">
-						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-lesson-checkbox">
-						<label class="form-check-label" for="free-lesson-checkbox">El nivel será gratis</label>
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-level-checkbox"
+							autocomplete="off">
+						<label class="form-check-label" for="free-level-checkbox">El nivel será gratis</label>
 					</div>
 
-					<div class="mb-4">
+					<div class="mb-4 " id="level-price-group">
 						<label for="" class="form-label">Precio</label>
-						<input type="number" name="price" id="price" class="form-control">
+						<input type="number" name="price" id="level-price" class="form-control">
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="submit" class="btn btn-primary">Agregar nivel</button>
+					<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+						data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar nivel</button>
 				</div>
 			</div>
 		</form>
 	</div>
 
 	<!-- Modal editar nivel-->
-	<div class="modal fade" id="editLevel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
+	<div class="modal fade animate__animated animate__bounceInDown" id="editLevel" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form class="modal-dialog rounded-1 border-0 shadow-none" id="edit-level-form">
+			<div class="modal-content rounded-1 border-0 shadow-sm">
 				<div class="modal-header">
 					<h4>Editar nivel</h4>
+					<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 
-					<div class="wrapper">
-						<div class="box">
-							<div class="mb-3">
-								<h5>Nombre del nivel</h5>
-								<input type="text" class="form-control">
-							</div>
+					<div class="mb-4">
+						<label for="level-name" class="form-label" role="button">Título</label>
+						<input type="text" name="title" id="edit-level-title" class="form-control">
+					</div>
 
-							<div class="input-bx">
-								<h5 class="upload-area-title mb-2">Subir video</h5>
-								<form action="">
-									<input type="file" id="Upload" hidden>
-									<label for="Upload" class="uploadlabel">
-										<span class=""><i class='bx bxs-cloud-upload'></i></span>
-										<p>Oprime para añadir</p>
-									</label>
-								</form>
-							</div>
+					<div class="mb-4">
+						<label for="level-description" class="form-label" role="button">Descripción</label>
+						<textarea name="description" id="edit-level-description" cols="30" rows="5" class="form-control"
+							placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
+					</div>
 
-							<div id="filewrapper">
-								<h4 class="uploaded">Videos</h4>
-								<div class="showfilebox">
-									<div class="left">
-										<span class="filetype">Pdf</span>
-										<h4>Ravi Web.pdf</h4>
-									</div>
-									<div class="right">
-										<i class='bx bxs-x-circle'></i>
-									</div>
-								</div>
-							</div>
-							<div class="input-bx">
-								<h5 class="upload-area-title mt-3 mb-2">Archivos y links</h5>
-								<form action="">
-									<input type="file" id="Upload" hidden>
-									<label for="Upload" class="uploadbtn btn btn-secondary">
-										<p>Añadir archivo</p>
-									</label>
-								</form>
-							</div>
-							<div class="d-flex mt-2 mb-2">
-								<input type="text" class="form-control me-2" id="link-input">
-								<button class="btn btn-secondary">Agregar link</button>
-							</div>
-							<div id="filewrapper">
-								<h4 class="uploaded">Archivos</h4>
-								<div class="showfilebox">
-									<div class="left">
-										<span class="filetype">Pdf</span>
-										<h4>Ravi Web.pdf</h4>
-									</div>
-									<div class="right">
-										<i class='bx bxs-x-circle'></i>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="form-check">
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-edit-level-checkbox">
+						<label class="form-check-label" for="free-lesson-checkbox">El nivel será gratis</label>
+					</div>
+
+					<div class="mb-4" id="edit-level-price-group">
+						<label for="" class="form-label">Precio</label>
+						<input type="number" name="price" id="edit-level-price" class="form-control">
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					<button id="edit-level-close-btn" type="button" class="btn btn-danger rounded-pill"
+						data-bs-dismiss="modal">Close</button>
+					<button id="edit-level-save-btn" type="submit" class="btn btn-primary rounded-pill">Guardar cambios</button>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<!-- Modal añadir lección -->
@@ -353,61 +316,134 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4>Añadir lección</h4>
+					<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 
+					<input type="hidden" name="level" id="create-lesson-level">
+
 					<div class="mb-4">
 						<label class="form-label" role="button">Título</label>
-						<input type="text" name="title" id="lesson-title" class="form-control">
+						<input type="text" name="title" id="create-lesson-title" class="form-control">
 					</div>
 
 					<div class="mb-4">
 						<label for="" role="button">Información adicional</label>
-						<textarea name="description" id="lesson-description" cols="30" rows="10" class="form-control"></textarea>
+						<textarea name="description" id="create-lesson-description" cols="30" rows="5"
+							class="form-control"></textarea>
 					</div>
+
+					<h5>Recursos</h5>
+					<input type="hidden" name="resource">
 
 					<div class="mb-4">
 						<label for="" role="button">Video</label>
-						<input type="file" name="" id="" class="form-control">
+						<input type="file" name="video" id="create-lesson-video" class="form-control" autocomplete="off"
+							accept="video/mp4">
 					</div>
 
 					<div class="mb-4">
 						<label for="" role="button">Imágen</label>
-						<input type="file" name="" id="" class="form-control">
+						<input type="file" name="image" id="create-lesson-image" class="form-control" autocomplete="off"
+							accept="image/png, image/gif, image/jpeg, image/jpg">
 					</div>
 
 					<div class="mb-4">
 						<label for="" role="button">PDF</label>
-						<input type="file" name="" id="" class="form-control">
+						<input type="file" name="pdf" id="create-lesson-pdf" class="form-control" autocomplete="off"
+							accept="application/pdf">
 					</div>
 
 					<div class="mb-4">
 						<label for="" class="form-label" role="button">Enlace</label>
 						<div class="mb-4">
 							<label for="" role="button">Título</label>
-							<input type="text" name="" id="" class="form-control" placeholder="Título descriptivo">
+							<input type="text" name="link-title" id="create-lesson-link-title" class="form-control"
+								placeholder="Título descriptivo">
 						</div>
 						<div class="mb-4">
 							<label for="" role="button">URL</label>
-							<input type="url" name="" id="" class="form-control" placeholder="https://example.com">
+							<input type="url" name="link-url" id="create-lesson-link-url" class="form-control"
+								placeholder="https://example.com">
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-					<button id="save-btn" type="submit" class="btn btn-primary">Agregar lección</button>
+					<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+						data-bs-dismiss="modal">Close</button>
+					<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar lección</button>
 				</div>
 			</div>
 		</form>
 	</div>
 
-	<!-- Category Modal -->
+	<!-- Modal editar lección -->
+	<div class="modal fade" id="edit-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="edit-lesson-form">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Editar lección</h4>
+					<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="mb-4">
+						<label class="form-label" role="button">Título</label>
+						<input type="text" name="title" id="edit-lesson-title" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="" role="button">Información adicional</label>
+						<textarea name="description" id="edit-lesson-description" cols="30" rows="5"
+							class="form-control"></textarea>
+					</div>
+
+					<div class="mb-4">
+						<label for="" role="button">Video</label>
+						<input type="file" name="video" id="edit-lesson-video" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="" role="button">Imágen</label>
+						<input type="file" name="image" id="edit-lesson-img" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="" role="button">PDF</label>
+						<input type="file" name="pdf" id="edit-lesson-pdf" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="" class="form-label" role="button">Enlace</label>
+						<div class="mb-4">
+							<label for="" role="button">Título</label>
+							<input type="text" name="link-title" id="edit-lesson-link-title" class="form-control"
+								placeholder="Título descriptivo">
+						</div>
+						<div class="mb-4">
+							<label for="" role="button">URL</label>
+							<input type="url" name="link" id="edit-lesson-link" class="form-control"
+								placeholder="https://example.com">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="edit-lesson-close-btn" type="button" class="btn btn-danger rounded-pill"
+						data-bs-dismiss="modal">Close</button>
+					<button id="edit-lesson-save-btn" type="submit" class="btn btn-primary rounded-pill">Guardar cambios</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- Modal añadir categoría -->
 	<div class="modal fade animate__animated animate__bounceInDown" id="addCategory" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
 				<div class="modal-header">
 					<h4>Añadir categoría</h4>
+					<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-4">
@@ -421,8 +457,9 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button id="save-btn" type="submit" class="btn btn-secondary">Agregar</button>
+					<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+						data-bs-dismiss="modal">Cerrar</button>
+					<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar</button>
 				</div>
 			</form>
 		</div>
@@ -493,5 +530,6 @@
 		</div>
 	</footer>
 </body>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </html>

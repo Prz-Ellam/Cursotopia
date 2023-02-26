@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../client/styles/pages/admin-home.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="../client/javascript/admin-home.js"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -109,7 +111,7 @@
 
           <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
             <li class="nav-item">
-              <a href="admin-home.html" class="nav-link text-white" aria-current="page">
+              <a href="admin-home.html" class="nav-link text-white active">
                 <i class='bx bxs-home'></i>
                 Home
               </a>
@@ -121,7 +123,7 @@
               </a>
             </li>
             <li>
-              <a href="admin-categories.html" class="nav-link text-white active">
+              <a href="admin-categories.html" class="nav-link text-white">
                 <i class='bx bxs-category'></i>
                 Categorias
               </a>
@@ -137,10 +139,58 @@
       </div>
       <div class="col py-3">
 
+        <div class="content">
+          <div class="container mt-3">
+            <div class="row">
+              <h2>Información general</h2>
+            </div>
+      
+            <div class="row d-flex mt-3">
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-videos'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Cursos</h5>
+                      <h5 class="card-text">673</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-graduation'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Estudiantes</h5>
+                      <h5 class="card-text">5640</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              <div class="card d-flex w-50 me-3 col">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4  text-center">
+                      <i class='bx bxs-face'></i>
+                    </div>
+                    <div class="col-8">
+                      <h5 class="card-title">Instructores</h5>
+                      <h5 class="card-text">1000</h5>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+            </div>   
 
-        
-        
+            <!-- Gráficas -->
 
+          </div>
+        </div>
       </div>
     </div>
   </div>

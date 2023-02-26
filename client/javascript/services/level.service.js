@@ -1,5 +1,6 @@
-export const createLevel = async () => {
-
+export const createLevelService = async () => {
+    // TODO: Dummy
+    return { id: new Date().getTime() };
 }
 
 export const updateLevel = async () => {

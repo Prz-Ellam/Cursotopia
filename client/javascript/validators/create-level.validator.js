@@ -13,6 +13,11 @@ export default {
             required: true,
             trimming: true,
             maxlength: 255
+        },
+        'price': {
+            required: true,
+            trimming: true,
+            maxlength: 255
         }
     },
     messages: {
@@ -25,6 +30,11 @@ export default {
             required: 'La descripción del nivel es requerida',
             trimming: 'La descripción del nivel es requerida',
             maxlength: 'La descripción del nivel no puede contener más de 255 caracteres'
+        },
+        'price': {
+            required: 'El precio del nivel es requerido',
+            trimming: 'El precio del nivel es requerido',
+            maxlength: 'El precio del nivel no puede contener más de 255 caracteres'
         }
     },
     errorElement: 'small',
