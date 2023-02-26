@@ -19,10 +19,34 @@ freeCourseCheckbox.addEventListener('change', function(event) {
     }
 });
 
+const freeLevelCheckbox = document.getElementById('free-level-checkbox');
+freeLevelCheckbox.addEventListener('change', function(event) {
+    const levelPriceGroup = document.getElementById('level-price-group');
+    if (event.target.checked) {
+        levelPriceGroup.classList.add('d-none');
+    }
+    else {
+        levelPriceGroup.classList.remove('d-none');
+    }
+});
+
+const freeEditLevelCheckbox = document.getElementById('free-edit-level-checkbox');
+freeEditLevelCheckbox.addEventListener('change', function(event) {
+    const EditLevelPriceGroup = document.getElementById('edit-level-price-group');
+    if (event.target.checked) {
+        EditLevelPriceGroup.classList.add('d-none');
+    }
+    else {
+        EditLevelPriceGroup.classList.remove('d-none');
+    }
+});
+
 $('#create-category-form').validate(createCategoryValidator);
-$('#create-course-form').validate(createCourseValidator);
+$('#edit-course-form').validate(createCourseValidator);
 $('#create-level-form').validate(createLevelValidator);
+$('#edit-level-form').validate(createLevelValidator);
 $('#create-lesson-form').validate(createLessonValidator);
+$('#edit-lesson-form').validate(createLessonValidator);
 
 $('#create-course-form').on('submit', createCourse);
 
@@ -31,6 +55,7 @@ console.log(createCategoryForm);
 createCategoryForm.addEventListener('submit', function(event) {
     event.preventDefault();
 });
+
 
 $('#create-lesson-form').on('submit', function(event) {
     event.preventDefault();

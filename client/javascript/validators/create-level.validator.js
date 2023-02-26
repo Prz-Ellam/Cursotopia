@@ -13,6 +13,11 @@ export default {
             required: true,
             trimming: true,
             maxlength: 255
+        },
+        'price': {
+            required: true,
+            trimming: true,
+            maxlength: 255
         }
     },
     messages: {
