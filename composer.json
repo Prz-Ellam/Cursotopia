@@ -25,6 +25,7 @@
         }
     ],
     "require": {
-        "prz-ellam/bloom": "@dev"
+        "prz-ellam/bloom": "@dev",
+        "vlucas/phpdotenv": "^5.5"
     }
 }

@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../dist/assets/login.css">
   <script defer type="module" src="../dist/javascript/login.js"></script>
@@ -37,7 +39,10 @@
           </label>
           <div class="input-group">
             <input type="password" name="password" id="password" class="form-control">
-            <button type="button" class="btn btn-primary btn-password" id="password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
+            <button type="button" class="btn btn-primary btn-password" id="password-button"
+              ct-target="password">
+              <i class="fa-solid fa-eye-slash fa-eye"></i>
+            </button>
           </div>
         </div>
         <div class="form-check mb-4">

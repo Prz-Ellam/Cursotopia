@@ -8,8 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
+  <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   
   <link rel="stylesheet" href="../dist/assets/signup.css">
@@ -21,7 +24,7 @@
   </header>
   <main class="container my-4">
     <section class="row d-flex justify-content-center">
-      <div action="#" class="bg-white rounded-3 p-5 col-lg-8 col-md-8">
+      <div class="bg-white rounded-3 p-5 col-lg-8 col-md-8">
         <h1 class="text-center">Crea una nueva cuenta</h1>
         <hr>
         <div class="form-group text-center">
@@ -36,7 +39,7 @@
           <label for="profile-picture" role="button">Foto de perfil</label>
         </div>
 
-        <form action="#" id="signup-form">
+        <form action="#" id="signup-form" class="user-form">
           <div class="text-center mb-4">
             <input type="hidden" name="profile-picture" id="profile-picture-id">
           </div>
@@ -59,7 +62,6 @@
                 <option value="2">Alumno</option>
               </select>
             </div>
-  
             <div class="col-lg-4 col-12 mb-4">
               <label for="gender" role="button" class="form-label">Género</label>
               <select name="gender" id="gender" class="form-select">
@@ -69,23 +71,23 @@
                 <option value="3">Otro</option>
               </select>
             </div>
-  
             <div class="col-lg-4 col-12 mb-4">
               <label for="birth-date" role="button" class="form-label">Fecha de nacimiento</label>
               <input type="date" name="birth-date" id="birth-date" class="form-control">
             </div>
-
             <div class="col-12 mb-4">
               <label for="email" role="button" class="form-label">Correo electrónico</label>
               <input type="email" name="email" id="email" class="form-control"
                 placeholder="example@domain.com">
             </div>
-    
             <div class="col-lg-6 col-12 mb-4">
               <label for="password" role="button" class="form-label">Contraseña</label>
               <div class="input-group">
                 <input type="password" name="password" id="password" class="form-control">
-                <button type="button" class="btn btn-primary btn-password" id="password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
+                <button type="button" class="btn btn-primary btn-password" id="password-button"
+                  ct-target="password">
+                  <i class="fa-solid fa-eye-slash fa-eye"></i>
+                </button>
               </div>
               <ul class="mt-1">
                 <!-- <li class="lower">Una minuscula</li> -->
@@ -95,13 +97,15 @@
                 <li id="password-specialchar">Una caracter especial</li>
               </ul>
             </div>
-    
             <div class="col-lg-6 col-12 mb-4">
               <label for="confirm-password" role="button" class="form-label">Confirmar contraseña</label>
               <div class="input-group">
                 <input type="password" name="confirm-password" id="confirm-password"
-                class="form-control">
-                <button type="button" class="btn btn-primary btn-password" id="confirm-password-button"><i class="fa-solid fa-eye-slash fa-eye"></i></button>
+                  class="form-control">
+                <button type="button" class="btn btn-primary btn-password" id="confirm-password-button"
+                  ct-target="confirm-password">
+                  <i class="fa-solid fa-eye-slash fa-eye"></i>
+                </button>
               </div>
             </div>
           </div>

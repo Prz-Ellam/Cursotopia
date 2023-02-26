@@ -24,7 +24,12 @@ export const updateUser = async (user) => {
     return json;
 }
 
+export const updateUserPassword = async (user) => {
+    return { ok: true };
+}
+
 export const loginUser = async (auth) => {
+    /*
     try {
         const response = await fetch('/api/v1/auth', {
             method: 'POST',
@@ -36,6 +41,8 @@ export const loginUser = async (auth) => {
     catch (exception) {
         console.log(exception);
     }
+    */
+    return { ok: true };
 }
 
 export const logoutUser = async (auth) => {

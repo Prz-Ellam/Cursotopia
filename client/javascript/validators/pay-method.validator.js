@@ -6,23 +6,17 @@ $.validator.addMethod('latinos',function(value,element){
 $.validator.addMethod('curp',function(value,element){
     var pattern=/^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
     return this.optional(element) || pattern.test(value);
-})
+});
 
 $.validator.addMethod('validMonth',function(value,element){
     var pattern=/^01|02|03|04|05|06|07|08|09|10|11|12$/;
     return this.optional(element) || pattern.test(value);
-})
-
-$.validator.addMethod('validDate',function(value,element){
-    var month=$("#exp-month").val();
-    var year=$("#exp-year").val();
-    return this.optional(element) || year==="2023"&&month>2;
-})
+});
 
 $.validator.addMethod('validYear',function(value,element){
-    var pattern=/^2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
+    var pattern=/^23|24|25|26|27|28|29|30|31$/;
     return this.optional(element) || pattern.test(value);
-})
+});
 
 export default {
     rules: {
@@ -49,15 +43,13 @@ export default {
             minlength:3,
             maxlength:4
         },
-        'exp-month': {
+        'month': {
             required: true,
-            validMonth:true,
-            validDate:true
+            validMonth:true
         },
-        'exp-year': {
+        'year': {
             required: true,
-            validYear:true,
-            validDate:true
+            validYear:true
         }
     },
     messages: {
@@ -84,19 +76,21 @@ export default {
             minlength:'El CVC/CVV no puede contener menos de 3 caracteres',
             maxlength:'El CVC/CVV no puede contener más de 4 caracteres'
         },
-        'exp-month': {
+        'month': {
             required: 'El mes de expiración es requerido',
-            validMonth:'El mes no es válido',
-            validDate:'La fecha no es válida',
+            validMonth:'El mes no es válido'
         },
-        'exp-year': {
+        'year': {
             required: 'El año de expiración es requerido',
-            validYear:'El año no es válido',
-            validDate:'La fecha no es válida'
+            validYear:'El año no es válido'
         }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {
-        error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
+        let targetElement = element;
+        if (element.attr('id') === 'month' || element.attr('id') === 'year') {
+            targetElement = element.parent();
+        }
+        error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').addClass('d-block').attr('id', element[0].id + '-error-label');
     }
 }; 

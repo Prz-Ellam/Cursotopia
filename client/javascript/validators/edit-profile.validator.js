@@ -1,86 +1,101 @@
+import $ from 'jquery';
+import 'jquery-validation';
+
+$.validator.addMethod('trimming', function(value, element) {
+    return this.optional(element) || value.trim() !== '';
+}, 'Please enter a valid');
+
+$.validator.addMethod("dateRange", function (value, element, parameter) {
+    return this.optional(element) ||
+        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
+}, 'Please enter a valid date');
+
+$.validator.addMethod('regex', function (value, element, parameter) {
+    var regexp = new RegExp(parameter);
+    return this.optional(element) || regexp.test(value);
+}, 'Please enter a valid input');
+
+$.validator.addMethod('range', function(value, element, parameter) {
+    return this.optional(element) || value >= parameter[0] && value <= parameter[1];
+});
+
+$.validator.addMethod('email5322', function (value, element) {
+    return this.optional(element) || /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(value);
+}, 'Please enter a valid email');
+
+const date = new Date();
+const dateFormat = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+
 export default {
     rules: {
-        'edit-name': {
-            required: true,
-            maxlength:255,
-            latinos:true
-        },
-        'edit-last-name': {
-            required: true,
-            maxlength:255,
-            latinos:true
-        },
-        'edit-gender': {
+        'profile-picture': {
             required: true
         },
-        'edit-birthday': {
+        'name': {
             required: true,
-            validDate:true,
-            date:true
+            trimming: true,
+            regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
+            maxlength:255
         },
-        'edit-email': {
+        'last-name': {
             required: true,
-            validEmail:true
+            trimming: true,
+            regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
+            maxlength:255
         },
-        'edit-user': {
+        'gender': {
             required: true,
-            noSpace:true
+            range: [ 1, 3 ]
         },
-        'edit-password': {
+        'birth-date': {
             required: true,
-            containsNumber:true,
-            containsMayus:true,
-            containsSpecialCharacter:true,
-            minlength:8
+            date: true,
+            dateRange: [ '1900-01-01', dateFormat ]
         },
-        'retype-password': {
+        'email': {
             required: true,
-            equalTo:"#edit-password"
+            email: false,
+            email5322: true,
+            trimming: true,
+            maxlength: 255
         }
     },
     messages: {
-        'edit-name': {
+        'profile-picture': {
+            required: 'La foto de perfil es requerida'
+        },
+        'name': {
             required: 'El nombre es requerido',
-            maxlength:'El nombre no puede contener más de 255 caracteres',
-            latinos:'El nombre contienen caracteres invalidos'
+            trimming: 'El nombre es requerido',
+            regex: 'El nombre no tiene el formato requerido',
+            maxlength: 'El nombre es demasiado largo'
         },
-        'edit-last-name': {
+        'last-name': {
             required: 'El apellido es requerido',
-            maxlength:'El apellido no puede contener más de 255 caracteres',
-            latinos:'El apellido contiene caracteres invalidos'
+            trimming: 'El apellido es requerido',
+            regex: 'El nombre no tiene el formato requerido',
+            maxlength: 'El nombre es demasiado largo'
         },
-        'edit-gender': {
-            required: 'El género de usuario es requerido'
+        'gender': {
+            required: 'El genero es requerido',
+            range: 'El genero es requerido'
         },
-        'edit-birthday': {
-            required:'La fecha de nacimiento es requerida',
-            validDate:'La fecha de nacimiento no es válida',
-            date:'La fecha de nacimiento no es válida'
+        'birth-date': {
+            required: 'La fecha de nacimiento es requerida',
+            date: 'La fecha de nacimiento no tiene el formato requerido',
+            dateRange: 'La fecha de nacimiento seleccionada no es válida'
         },
-        'edit-email': {
+        'email': {
             required: 'El correo electrónico es requerido',
-            validEmail:'El correo electrónico no es válido',
-            email:'El correo electrónico no es válido'
-        },
-        'edit-user': {
-            required:'El nombre de usuario es requerido',
-            noSpace:'El nombre de usuario no debe contener espacio'
-        },
-        'edit-password': {
-            required: 'La contraseña es requerida',
-            containsNumber:'La contraseña debe contener al menos un dígito',
-            containsMayus:'La contraseña de contener al menos una mayúscula',
-            containsSpecialCharacter:'La contraseña debe contener al menos un carácter especial',
-            minlength:'La contraseña debe contener al menos 8 caracteres'
-        },
-        'retype-password': {
-            required: 'Confirmar contraseña es requerido',
-            equalTo:'Las contraseñas no concuerdan'
+            trimming: 'El correo electrónico es requerido',
+            email5322: 'El correo electrónico no tiene el formato requerido',
+            maxlength: 'El correo electrónico es demasiado largo'
         }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {
         error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
-    }
+    },
+    ignore: []
 }; 
 

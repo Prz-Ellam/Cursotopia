@@ -38,7 +38,7 @@ $.validator.addMethod('containsMinus',function(value,element){
 });
 
 $.validator.addMethod('containsSpecialCharacter',function(value,element){
-    let pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@\\])/;
+    let pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a special character');
 
@@ -77,7 +77,7 @@ $('#password').on('input', function() {
         $('#password-number').addClass('text-danger').removeClass('text-success')
     }
 
-    if (/[¡”"#$%&;/=’¿?!:;,.\-_+*{}\[\]]/g.test(value)) {
+    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
         $('#password-specialchar').addClass('text-success').removeClass('text-danger');
     }
     else {
@@ -93,8 +93,8 @@ $('#password').on('input', function() {
 
 });
 
-let date = new Date();
-let dateFormat = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+const date = new Date();
+const dateFormat = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
 
 export default {
     rules: {
@@ -139,7 +139,7 @@ export default {
             containsMayus: true,
             containsSpecialCharacter: true,
             containsNumber: true,
-            minlength:8,
+            minlength: 8,
             maxlength: 255
         },
         'confirm-password': {
@@ -161,6 +161,7 @@ export default {
         },
         'last-name': {
             required: 'El apellido es requerido',
+            trimming: 'El apellido es requerido',
             regex: 'El nombre no tiene el formato requerido',
             maxlength: 'El nombre es demasiado largo'
         },

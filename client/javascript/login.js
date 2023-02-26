@@ -1,17 +1,14 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import { login } from './controllers/user.controller';
+import { passwordToggle } from './utilities/password-toggle';
 import loginValidator from './validators/login.validator';
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    const loginForm = document.getElementById('login-form');
     const passwordButton = document.getElementById('password-button');
-    passwordButton.addEventListener('click', function() {
-        this.children[0].classList.toggle('fa-eye');
-        const password = document.getElementById('password');
-        password.type = (password.type === 'password') ? 'text' : 'password';
-    });
-
-    $('#login-form').validate(loginValidator);
-    $('#login-form').on('submit', login);
+    
+    passwordButton.addEventListener('click', passwordToggle);
+    $(loginForm).validate(loginValidator);
+    loginForm.addEventListener('submit', login);
 });

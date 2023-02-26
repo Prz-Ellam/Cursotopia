@@ -8,7 +8,7 @@ import { createUser, loginUser } from '../services/user.service';
 
 export const login = async function(event) {
     event.preventDefault();
-    let validations = $(this).valid();
+    const validations = $(this).valid();
     if (!validations) {
         return;
     }
@@ -18,14 +18,36 @@ export const login = async function(event) {
     const loginSpinner = document.getElementById('login-spinner');
     loginSpinner.classList.remove('d-none');
 
-    const auth = {
-        email: 'PerezAlex088@outlook.com',
-        password: '123Abc!!'
-    };
-
-    const response = await loginUser(auth);
+    const response = await loginUser({});
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
+
+    if (response.ok) {
+        await Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido de vuelta a Cursotopia! 😊',
+            confirmButtonText: 'Avanzar',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
+        window.location.href = 'home.html';
+    }
+    else {
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Parece que algo salió mal',
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+    }
 }
 
 export const signup = async function(event) {
@@ -90,7 +112,7 @@ export const uploadProfilePicture = async function(event) {
         if (files.length === 0) {
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
-            $("#signup-form").validate().element('#profile-picture-id');
+            $(".user-form").validate().element('#profile-picture-id');
             return;
         }
         const file = files[0];
@@ -98,7 +120,7 @@ export const uploadProfilePicture = async function(event) {
         if (!allowedExtensions.exec(file.type)) {
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
-            $("#signup-form").validate().element('#profile-picture-id');
+            $(".user-form").validate().element('#profile-picture-id');
             return;
         }
         const dataUrl = await readFileAsync(file);
@@ -111,11 +133,45 @@ export const uploadProfilePicture = async function(event) {
         pictureBox.src = defaultImage;
         profilePictureId.value = '';
     }
-    $("#signup-form").validate().element('#profile-picture-id');
+    $(".user-form").validate().element('#profile-picture-id');
 }
 
-export const updateUser = function(event) {
+export const updateUser = async function(event) {
+    event.preventDefault();
 
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
+
+    if (true) {
+        
+        await Swal.fire({
+            icon: 'success',
+            title: 'Tú perfil se actualizó exitosamente',
+            confirmButtonText: 'Continuar',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
+        // TODO: uri estatica
+        window.location.href = "home.html";
+    }
+    else {
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Parece que algo salió mal',
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+    }
 }
 
 export const updatePassword = async function(event) {

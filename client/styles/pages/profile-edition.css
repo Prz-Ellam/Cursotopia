@@ -6,6 +6,7 @@
 
 @import '../configuration/fonts.css';
 @import '../partials/navbar.css';
+@import '../partials/forms.css';
 
 main {
     margin: 0;

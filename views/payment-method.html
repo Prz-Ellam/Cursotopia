@@ -11,6 +11,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 	<link rel="stylesheet" href="../client/styles/pages/payment-method.css">
 	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script defer type="module" src="../dist/javascript/payment-method.js"></script>
@@ -107,26 +108,39 @@
   </nav>
 
 	<!-- Contenido -->
-	<div class="container my-4">
+	<main class="container my-4">
 		<div class="row">
 			<div class="border-3 border-bottom border-primary text-center mb-3">
 				<h1>Método de pago</h1>
 			</div>
 			<form class="col-xxl-6 col-lg-5 col-md-12 col-sm-12" id="payment-method-form">
-				
 				<div class="row mt-3 mb-3">
 					<div class="col-12">
 						<div class="form-check">
-							<input class="form-check-input" name="method" type="radio">
-							<label class="form-check-label" for="">Tarjeta de crédito/debito</label>
+							<input
+								checked
+								autocomplete="off"
+								class="form-check-input"
+								name="method" type="radio" id="chk-card"
+								data-bs-toggle="collapse"
+								data-bs-target=".checkout-section"
+								aria-expanded="false" aria-controls="checkout-section"
+							>
+							<label class="form-check-label" for="chk-card">Tarjeta de crédito/debito</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" name="method" type="radio">
-							<label class="form-check-label" for="">Paypal</label>
+							<input class="form-check-input"
+								name="method" type="radio" id="chk-paypal"
+								autocomplete="off"
+								data-bs-toggle="collapse"
+								data-bs-target=".checkout-section"
+								aria-expanded="false" aria-controls="checkout-section"
+							>
+							<label class="form-check-label" for="chk-paypal">Paypal</label>
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row collapse show checkout-section">
 					<div class="col-6 mb-4">
 						<label for="name" class="form-label" role="button">Nombre de la tarjeta</label>
 						<input type="text" name="name" id="name" class="form-control">
@@ -146,8 +160,18 @@
 					</div>
 					<div class="col-6 mb-4">
 						<label for="expiration" class="form-label" role="button">Fecha de vencimiento</label>
-						<input type="date" name="expiration" id="expiration" class="form-control">
+						<div class="form-control exp-wrapper">
+							<input autocomplete="off" class="bg-light exp" id="month" maxlength="2" pattern="[0-9]*" inputmode="numerical"
+								placeholder="MM" type="text" data-pattern-validate
+								name="month">
+							<input autocomplete="off" class="bg-light exp" id="year" maxlength="2" pattern="[0-9]*" inputmode="numerical"
+								placeholder="YY" type="text" data-pattern-validate
+								name="year">
+						</div>
 					</div>
+				</div>
+				<div class="row collapse checkout-section">
+					<button type="button" class="btn btn-warning mb-4">PayPal</button>
 				</div>
 				<div class="row mb-3">
 					<div class="col-md-12">
@@ -179,7 +203,7 @@
 				>
 			</div>
 		</div>
-	</div>
+	</main>
 
 	<!-- Footer -->
 	<footer class="page-footer p-5 bg-light">
