@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-validation';
 
 $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';
@@ -43,5 +44,6 @@ export default {
             targetElement = element.parent();
         }
         error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
-    }
+    },
+    ignore: []
 }

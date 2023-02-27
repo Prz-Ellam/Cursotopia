@@ -5,7 +5,7 @@ RewriteBase /
 
 # Find multimedia resources and redirect to folder
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule (.+\.(js|css|html|jpeg|jpg|png|svg|mp4)) public/$1 [QSA]
+RewriteRule (.+\.(js|css|jpeg|jpg|png|svg|mp4)) public/$1 [QSA]
 
 # Delete trailing slash in url
 RewriteCond %{REQUEST_FILENAME} !-d
