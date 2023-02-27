@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../client/styles/pages/admin-categories.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer type="module" src="../dist/javascript/admin-categories.js"></script>
 </head>
 
 <body>
@@ -276,16 +277,18 @@
         <div class="modal-header">
           <h4>Categoría</h4>
         </div>
-        <div class="modal-body">
-          <label for="category-name-input" class="form-label">Nombre</label>
-          <input type="read" class="form-control" id="category-name-input">
-          <label for="category-description-input" class="form-label">Descripción</label>
-          <textarea class="form-control" id="category-description-input" rows="3"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
-        </div>
+        <form action="" id="edit-category">
+          <div class="modal-body">
+            <label for="category-name-input" class="form-label">Nombre</label>
+            <input type="read" class="form-control" name="name" id="category-name-input"><br>
+            <label for="category-description-input" class="form-label">Descripción</label>
+            <textarea class="form-control" id="category-description-input" name="description" rows="3"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="save-btn" type="submit" class="btn btn-secondary">Save changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
