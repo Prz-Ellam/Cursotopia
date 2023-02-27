@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
+  
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <link rel="stylesheet" href="../dist/assets/course-details.css">
 
@@ -359,16 +361,30 @@
             <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
               alt="avatar" width="60" height="60" />
             <div>
-              <a class="fw-bold mb-1">Maggie Marsh</a>
-              <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">07 de marzo de 2021 a las 8:21</small>
-                <span>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                </span>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <a class="fw-bold mb-1">Maggie Marsh</a>
+                  <div class="d-flex align-items-center mb-1 gap-2">
+                    <small class="mb-0">07 de marzo de 2021 a las 8:21</small>
+                    <span>
+                      <i class="bx bxs-star rating-star"></i>
+                      <i class="bx bxs-star rating-star"></i>
+                      <i class="bx bxs-star rating-star"></i>
+                      <i class="bx bxs-star rating-star"></i>
+                      <i class="bx bxs-star rating-star"></i>
+                    </span>
+                  </div>
+                </div>
+                <a href="#"
+                  class="nav-link"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                </ul>
               </div>
               <p class="mb-0">
                 Lorem Ipsum is simply dummy text of the printing and typesetting

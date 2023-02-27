@@ -1,7 +1,6 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import 'bootstrap';
 import { updateCourse } from './controllers/course.controller';
 import updateCourseValidator from './validators/update-course.validator';
 import { courseEditionCreateLevel, courseEditionUpdateLevel } from './controllers/level.controller';
@@ -12,7 +11,7 @@ import createLessonValidator from './validators/create-lesson.validator';
 import { courseEditionCreateLesson } from './controllers/lesson.controller';
 
 // Update Course
-const updateCourseForm = document.getElementById('update-course-form');
+const updateCourseForm = document.getElementById('update-course-form-a');
 $(updateCourseForm).validate(updateCourseValidator);
 updateCourseForm.addEventListener('submit', updateCourse);
 
@@ -118,7 +117,7 @@ freeEditLevelCheckbox.addEventListener('change', function(event) {
     }
 });
 
-$('#update-course-categories').multipleSelect({
+$('#categories').multipleSelect({
     placeholder: 'Seleccionar',
     selectAll: false,
     width: '100%',

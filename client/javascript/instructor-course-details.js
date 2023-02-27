@@ -1,13 +1,19 @@
 import Swal from 'sweetalert2';
 
 document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+        duration: 1000,
+        easing: "ease-in-out",
+        once: true,
+        mirror: false
+    });
 
     const btnDeleteCourse = document.querySelector('.btn-delete-course');
     console.log(btnDeleteCourse);
     btnDeleteCourse.addEventListener('click', async function() {
         const feedback = await Swal.fire({
             title: '¿Estás seguro?',
-            text: '¿Estás seguro que deseas eliminar este nivel?',
+            text: '¿Estás seguro que deseas deshabilitar este curso?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',

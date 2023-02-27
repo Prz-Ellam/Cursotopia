@@ -81,7 +81,6 @@
 
 .card {
     border: none;
-    
     transition: all 200ms ease;
     transition-property: transform, box-shadow;
 }
