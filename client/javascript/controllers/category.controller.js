@@ -53,6 +53,20 @@ export const updateCourseCreateCategory = async function(event) {
 
 export const updateCategory = function(event) {
     event.preventDefault();
+
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
+
+    const modal = document.getElementById('update-category-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
+    Toast.fire({
+        icon: 'success',
+        title: 'La categoría ha sido actualizada con éxito'
+    });
 }
 
 export const deleteCategory = function(event) {

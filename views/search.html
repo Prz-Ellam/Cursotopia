@@ -82,35 +82,36 @@
   <main class="container my-5">
     <h2 class="fw-bold">Resultados de busqueda</h2>
     
-    <form class="row" action="#">
+    <form class="row" action="#" id="search-form">
       <div class="col-12 mb-4">
-        <label for="course-title" class="form-label">Buscar por título de curso:</label>
-        <input type="text" name="course-title" id="course-title" class="form-control" placeholder="Buscar el nombre de un curso...">
+        <label for="course-title" class="form-label" role="button">Buscar por título de curso:</label>
+        <input type="search" name="title" id="course-title" class="form-control" placeholder="Buscar el nombre de un curso...">
       </div>
 
-      <div class="col-3 mb-4">
-        <label for="categories">Filtrar por categorías</label>
+      <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+        <label for="categories" role="button">Filtrar por categorías</label>
         <select name="categories" id="categories" class="form-select">
           <option value="0">Seleccionar</option>
           <option value="1">Programación</option>
+          <option value="2">Arte</option>
+          <option value="3">Cine</option>
         </select>
       </div>
       
-      <div class="col-3 mb-4">
-        <label for="instructors">Filtrar por instructores</label>
+      <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+        <label for="instructors" role="button">Filtrar por instructores</label>
         <input type="text" name="instructors" id="instructors" class="form-control" placeholder="Ej. Jon Doe">
       </div>
 
-      <div class="col-3 mb-4">
-        <label for="date-from">Desde</label>
+      <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+        <label for="date-from" role="button">Desde</label>
         <input type="date" name="date-from" id="date-from" class="form-control">
       </div>
 
-      <div class="col-3 mb-4">
-        <label for="date-to">Hasta</label>
+      <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+        <label for="date-to" role="button">Hasta</label>
         <input type="date" name="date-to" id="date-to" class="form-control">
       </div>
-      
     </form>
     
     <br>

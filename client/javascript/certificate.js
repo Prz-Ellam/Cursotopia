@@ -1,3 +1,5 @@
+import 'bootstrap';
+
 window.fbAsyncInit = function () {
     FB.init({
         appId: '447339420703828',
