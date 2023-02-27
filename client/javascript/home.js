@@ -51,8 +51,6 @@ $('.owl-carousel').owlCarousel({
     }
 });
 
-
-
 const observer = new IntersectionObserver(function(entries) {
 	if(entries[0].isIntersecting === true) {
 		const counters = document.getElementsByClassName('counter');

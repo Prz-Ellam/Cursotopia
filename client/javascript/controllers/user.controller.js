@@ -51,7 +51,6 @@ export const login = async function(event) {
 }
 
 export const signup = async function(event) {
-
     event.preventDefault();
 
     const validations = $(this).valid();
@@ -62,7 +61,6 @@ export const signup = async function(event) {
     const user = new User();
     const response = await createUser(user);
     if (response.ok) {
-        
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido a Cursotopia! 😊',
@@ -116,6 +114,21 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
         const file = files[0];
+
+        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
+        if (size > 8.0) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+            });
+            pictureBox.src = defaultImage;
+            profilePictureId.value = '';
+            $(".user-form").validate().element('#profile-picture-id');
+            return;
+        }
+
         const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
         if (!allowedExtensions.exec(file.type)) {
             pictureBox.src = defaultImage;

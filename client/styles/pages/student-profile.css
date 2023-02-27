@@ -18,18 +18,16 @@
     font-size: 16px;
 }
 
-.card i{
-    font-size: 50px;
-    background-color:var(--secondary-color);
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 10px;
+.card{
+    padding-left: 0;
 }
 
-.card{
-    border: none;
-    border-radius: 10px;
+.card i{
+    font-size: 20px;
+}
+
+img {
+    object-fit: cover;
 }
 
 #no-more-tables{
@@ -64,9 +62,4 @@
         font-weight: bold;
         
     }
-}
-
-
-main {
-    margin: 0;
 }

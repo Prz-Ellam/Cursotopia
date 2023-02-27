@@ -100,5 +100,5 @@ export default {
         }
         error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     },
-    ignore: ".ignore"
+    ignore: []
 };

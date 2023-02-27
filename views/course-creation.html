@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,14 +29,18 @@
 	<!-- Navbar -->
 	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
 		<div class="container-fluid">
-			<a href="home.html" class="navbar-brand text-light">Cursotopia</a>
+			<a class="navbar-brand text-white" href="home.html">
+				<img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34"
+					class="d-inline-block align-text-top">
+				<span class="align-middle">Cursotopia</span>
+			</a>
 			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="text-white bx-sm bx bx-menu"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbar-content">
-				<form class="col-auto col-lg-6" role="search" action="search.html">
+				<form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search.html">
 					<div class="input-group">
 						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
 						<button class="btn btn-white border-0 text-dark search-btn" type="submit">
@@ -96,9 +101,8 @@
 		<div class="row border-3 border-bottom border-primary text-center mb-3">
 			<h1>Añadir curso</h1>
 		</div>
-		<form action="#" class="row" id="course-creation-form">
+		<form action="#" class="row" id="create-course-form">
 			<div class="row mx-0">
-
 				<div class="col-md-6 col-sm-12 col-xs-12">
 					<div class="mb-4">
 						<label for="title" class="form-label" role="button">Título</label>
@@ -106,7 +110,7 @@
 					</div>
 					<div class="mb-4">
 						<label for="description" class="form-label" role="button">Descripción</label>
-						<textarea class="form-control" id="description" rows="3" name="description"></textarea>
+						<textarea class="form-control" id="description" cols="30" rows="3" name="description"></textarea>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox"
@@ -127,14 +131,13 @@
 					</div>
 					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
 						<button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto"
-							data-bs-toggle="modal" data-bs-target="#addCategory">Añadir categoria</button>
+							data-bs-toggle="modal" data-bs-target="#create-category-modal">Añadir categoria</button>
 					</div>
 				</div>
 
 				<div class="center col-md-6 col-sm-12 col-xs-12 image-container">
 					<label class="form-label">Portada</label>
 					<label for="upload-image" class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
-
 						<div class="d-flex justify-content-center align-items-center">
 							<div>
 								<i class="bx bxs-cloud-upload icon"></i>
@@ -156,8 +159,9 @@
 			<section class="my-5" id="levels-section">
 				<div class="py-2 d-flex">
 					<h4 class="pe-4">Niveles</h4>
-					<button id="add-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">Añadir
-						nivel</button>
+					<button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
+						Añadir nivel
+					</button>
 				</div>
 				<ul class="list-unstyled" id="levels-container">
 
@@ -231,7 +235,7 @@
 	</section>
 
 	<!-- Modal añadir nivel-->
-	<div class="modal fade" id="add-level" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="create-level-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<form class="modal-dialog rounded-1 border-0 shadow-none" id="create-level-form">
 			<div class="modal-content rounded-1 border-0 shadow-sm">
 				<div class="modal-header">
@@ -271,9 +275,9 @@
 	</div>
 
 	<!-- Modal editar nivel-->
-	<div class="modal fade animate__animated animate__bounceInDown" id="editLevel" tabindex="-1"
+	<div class="modal fade animate__animated animate__bounceInDown" id="update-level-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<form class="modal-dialog rounded-1 border-0 shadow-none" id="edit-level-form">
+		<form class="modal-dialog rounded-1 border-0 shadow-none" id="update-level-form">
 			<div class="modal-content rounded-1 border-0 shadow-sm">
 				<div class="modal-header">
 					<h4>Editar nivel</h4>
@@ -313,7 +317,7 @@
 	</div>
 
 	<!-- Modal añadir lección -->
-	<div class="modal fade" id="add-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="create-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-lesson-form">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -380,8 +384,8 @@
 	</div>
 
 	<!-- Modal editar lección -->
-	<div class="modal fade" id="edit-lesson" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="edit-lesson-form">
+	<div class="modal fade" id="update-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="update-lesson-form">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4>Editar lección</h4>
@@ -440,7 +444,7 @@
 	</div>
 
 	<!-- Modal añadir categoría -->
-	<div class="modal fade animate__animated animate__bounceInDown" id="addCategory" tabindex="-1"
+	<div class="modal fade animate__animated animate__bounceInDown" id="create-category-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
@@ -467,7 +471,6 @@
 			</form>
 		</div>
 	</div>
-	</section>
 
 	<footer class="page-footer p-5 bg-light">
 		<div class="container-fluid">

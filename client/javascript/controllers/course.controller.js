@@ -38,6 +38,21 @@ export const createCourseImage = async function(event) {
             return;
         }
         const file = files[0];
+
+        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
+        if (size > 8.0) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+            });
+            pictureBox.src = defaultImage;
+            courseCoverId.value = '';
+            $("#course-creation-form").validate().element('#course-cover-id');
+            return;
+        }
+
         const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
         if (!allowedExtensions.exec(file.type)) {
             pictureBox.src = defaultImage;
@@ -58,8 +73,25 @@ export const createCourseImage = async function(event) {
     $("#course-creation-form").validate().element('#course-cover-id');
 }
 
-export const updateCourse = function(event) {
+export const updateCourse = async function(event) {
+    event.preventDefault();
 
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: '¡El curso fue actualizado con éxito!',
+        confirmButtonText: 'Avanzar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+    window.location.href = 'home.html';
 }
 
 export const deleteCourse = function(event) {

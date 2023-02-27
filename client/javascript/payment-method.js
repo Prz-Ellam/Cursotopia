@@ -1,18 +1,11 @@
 import $ from './jquery-global';
 import 'jquery-validation';
-import { Datepicker } from 'vanillajs-datepicker';
 import { payment } from './controllers/payment-method.controller';
 import payMethodValidator from './validators/pay-method.validator';
 
-$('#payment-method-form').validate(payMethodValidator);
-
-
-
 const paymentMethodForm = document.getElementById('payment-method-form');
+$(paymentMethodForm).validate(payMethodValidator);
 paymentMethodForm.addEventListener('submit', payment);
-
-
-
 
 
 const monthInput = document.querySelector('#month');
@@ -76,3 +69,28 @@ document.querySelectorAll('input[data-pattern-validate]').forEach(el => el.addEv
     return e.preventDefault();
   }
 }));
+
+
+paypal.Button.render({
+  env: 'sandbox',
+  client: {
+      sandbox: '<secreto>'
+  },
+  payment: function (data, actions) {
+      return actions.payment.create({
+          transactions: [{
+              amount: {
+                  total: 100,
+                  currency: 'MXN'
+              }
+          }]
+      });
+  },
+  onAuthorize: function (data, actions) {
+    return actions.payment.execute()
+      .then(function() {
+        //$('#msform').submit();
+        //window.location = "<?php echo PayPalBaseUrl ?>orderDetails.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=<?php echo $productId; ?>";
+    });
+  }
+}, '#paypal-section');

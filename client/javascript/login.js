@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const loginForm = document.getElementById('login-form');
-    const passwordButton = document.getElementById('password-button');
-    
-    passwordButton.addEventListener('click', passwordToggle);
     $(loginForm).validate(loginValidator);
     loginForm.addEventListener('submit', login);
+    
+    const passwordButton = document.getElementById('password-button');
+    passwordButton.addEventListener('click', passwordToggle);
 });

@@ -1,14 +1,90 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import createCourseValidator from './validators/course-creation.validator';
+import createCourseValidator from './validators/create-course.validator';
 import { createCourse, createCourseImage } from './controllers/course.controller';
-import { createLevel } from './controllers/level.controller';
+import { courseCreationUpdateLevel, createLevel } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
 import createLevelValidator from './validators/create-level.validator';
 import createLessonValidator from './validators/create-lesson.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
+import { createCourseCreateCategory } from './controllers/category.controller';
+import { updateLevel } from './services/level.service';
+
+// Create Course
+const createCourseForm = document.getElementById('create-course-form');
+$(createCourseForm).validate(createCourseValidator);
+createCourseForm.addEventListener('submit', createCourse);
+
+
+// Create Category
+$('#create-category-btn').on('click', function() {
+    const modal = document.getElementById('create-category-modal');
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+});
+
+const createCategoryForm = document.getElementById('create-category-form');
+$(createCategoryForm).validate(createCategoryValidator);
+createCategoryForm.addEventListener('submit', createCourseCreateCategory);
+
+
+// Create Level
+$('#create-level-btn').on('click', function() {
+    const modal = document.getElementById('create-level-modal');
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+});
+
+const createLevelForm = document.getElementById('create-level-form');
+$(createLevelForm).validate(createLevelValidator);
+createLevelForm.addEventListener('submit', createLevel);
+
+
+// Update Level
+$(document).on('click', '.update-level-btn', function() {
+    const modal = document.getElementById('update-level-modal');
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+});
+
+const updateLevelForm = document.getElementById('update-level-form');
+$(updateLevelForm).validate(createLevelValidator);
+updateLevelForm.addEventListener('submit', courseCreationUpdateLevel);
+
+
+// Delete Level
+
+
+// Create Lesson
+$(document).on('click', '.create-lesson-btn', function() {
+    const modal = document.getElementById('create-lesson-modal');
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+
+    const createLessonLevel = document.getElementById('create-lesson-level');
+    createLessonLevel.value = this.getAttribute('ct-target');
+});
+
+const createLessonForm = document.getElementById('create-lesson-form');
+$(createLessonForm).validate(createLessonValidator);
+createLessonForm.addEventListener('submit', createLesson);
+
+
+// Update Lesson
+$(document).on('click', '.update-lesson-btn', function() {
+    const modal = document.getElementById('update-lesson-modal');
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+});
+const updateLessonForm = document.getElementById('update-lesson-form');
+$(updateLessonForm).validate(createLessonValidator);
+updateLessonForm.addEventListener('submit', e => e.preventDefault());
+
+
+// Delete Lesson
+
 
 const freeCourseCheckbox = document.getElementById('free-course-checkbox');
 freeCourseCheckbox.addEventListener('change', function(event) {
@@ -46,25 +122,12 @@ freeEditLevelCheckbox.addEventListener('change', function(event) {
     }
 });
 
-$('#course-creation-form').validate(createCourseValidator);
-$('#create-category-form').validate(createCategoryValidator);
 
-$('#create-level-form').validate(createLevelValidator);
-$('#edit-level-form').validate(createLevelValidator);
-
-$('#create-lesson-form').validate(createLessonValidator);
-$('#edit-lesson-form').validate(createLessonValidator);
-
-$('#course-creation-form').on('submit', createCourse);
 
 const uploadImage = document.getElementById('upload-image');
 uploadImage.addEventListener('change', createCourseImage);
 
-const createCategoryForm = document.getElementById('create-category-form');
-console.log(createCategoryForm);
-createCategoryForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-});
+
 
 $(document).on('click', '.delete-level-btn', async function() {
     const feedback = await Swal.fire({
@@ -83,25 +146,6 @@ $(document).on('click', '.delete-level-btn', async function() {
     });
 });
 
-/*
-const deleteLevelBtn = document.getElementById('delete-level-btn');
-deleteLevelBtn.addEventListener('click', async function() {
-    const feedback = await Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¿Estás seguro que deseas eliminar este nivel?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#DD3333',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true,
-        customClass: {
-            confirmButton: 'btn btn-danger shadow-none rounded-pill',
-            cancelButton: 'btn btn-secondary shadow-none rounded-pill'
-        }
-    });
-});
-*/
 const deleteLessonsBtn = Array.from(document.getElementsByClassName('delete-lesson-btn'));
 deleteLessonsBtn.forEach(deleteLessonBtn => {
     deleteLessonBtn.addEventListener('click', async () => {
@@ -122,25 +166,6 @@ deleteLessonsBtn.forEach(deleteLessonBtn => {
     });
 });
     
-$('#add-level-btn').on('click', function() {
-    const modal = document.getElementById('add-level');
-    const modalInstance = new bootstrap.Modal(modal);
-    modalInstance.show();
-});
-
-$(document).on('click', '.add-lesson-btn', function() {
-    const modal = document.getElementById('add-lesson');
-    const modalInstance = new bootstrap.Modal(modal);
-    modalInstance.show();
-
-    const createLessonLevel = document.getElementById('create-lesson-level');
-    createLessonLevel.value = this.getAttribute('ct-target');
-});
-
-$('#create-lesson-form').on('submit', createLesson);
-$('#create-level-form').on('submit', createLevel);
-
-
 $('#categories').multipleSelect({
     placeholder: 'Seleccionar',
     selectAll: false,
