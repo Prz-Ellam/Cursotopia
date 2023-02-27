@@ -149,7 +149,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Prz-Ellam/Bloom",
-                "reference": "cf0d801c1d55d71a2355c1ed6317d86570aadfed"
+                "reference": "6d6b432a77cb6b2b841c6f604f404876d909e8b4"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.9",
@@ -185,7 +185,7 @@
                 }
             ],
             "description": "PHP minimalist web application framework",
-            "time": "2023-02-27T00:45:16+00:00"
+            "time": "2023-02-27T23:29:16+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

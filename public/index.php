@@ -10,6 +10,8 @@ $_ENV["VIEW_PATH"] = dirname(__DIR__, 1) . "/views";
 $app = Application::app();
 $app->getTemplateEngine()->setExtension("html");
 
+$app->setNotFound(fn($req, $res) => $res->render('404'));
+
 $app->get('/', fn($request, $response) => $response->redirect('/home.html'));
 $app->get('/admin-categories.html', fn($request, $response) => $response->render('admin-categories'));
 $app->get('/admin-courses.html', fn($request, $response) => $response->render('admin-courses'));
