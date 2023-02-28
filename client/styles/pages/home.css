@@ -1,0 +1,97 @@
+/* Libraries */
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../third-party/background.css';
+@import '../third-party/button.css';
+@import '../third-party/bootstrap.css';
+
+@import '../../../node_modules/aos/dist/aos.css';
+
+
+@import '../configuration/fonts.css';
+
+@import '../partials/navbar.css';
+@import '../partials/card.css';
+@import '../partials/footer.css';
+@import '../partials/star.css';
+
+:root {
+    scroll-behavior: smooth;
+}
+
+#hero-section {
+    width: 100%;
+    /* TODO: This can be better */
+    height: calc(100vh - 64px);
+    background: url(../../assets/images/hero-banner-background.svg) top center no-repeat;
+    background-size: cover;
+}
+
+.card .ratio {
+    overflow: hidden;
+}
+
+/* .card .ratio img {
+    transition: transform 1s;
+}
+
+.card .ratio img:hover {
+    transform: scale(1.1);
+    transition: transform 1s;
+} */
+
+h1 {
+    font-size: 60px;
+}
+
+
+
+.owl-prev {
+    background-color: var(--primary-color) !important;
+    position: absolute;
+    border-radius: 50% !important;
+    top: 40%;
+    left: -3px !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: block !important;
+    border: 0px solid black;
+}
+
+.owl-carousel .owl-stage { display: flex; }
+
+.card {
+    height: 95%;
+}
+
+.owl-prev:hover, .owl-next:hover {
+    background-color: #4d47c6 !important;
+}
+
+.owl-next {
+    background-color: var(--primary-color) !important;
+    position: absolute;
+    border-radius: 50% !important;
+    top: 40%;
+    right: -3px !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: block !important;
+    border: 0px solid black;
+}
+.owl-prev i, .owl-next i {
+    font-size: 48px; 
+    color: #000;
+}
+
+.card {
+    border: none;
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-12px);
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}

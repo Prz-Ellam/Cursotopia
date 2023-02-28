@@ -1,0 +1,20 @@
+@import '../third-party/background.css';
+@import '../third-party/button.css';
+@import '../third-party/bootstrap.css';
+
+@import '../configuration/fonts.css';
+
+@import '../partials/navbar.css';
+@import '../partials/footer.css';
+
+main {
+    height: calc(100vh - 64px);
+}
+
+h1 {
+    font-size: 128px;
+}
+
+h2 {
+    font-size: 64px;
+}

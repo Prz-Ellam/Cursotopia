@@ -1,0 +1,93 @@
+@import '../third-party/button.css';
+
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/card.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../third-party/background.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/hero.css';
+
+@import '../third-party/bootstrap.css';
+
+
+/* ¿De donde viene todo este padding? */
+
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.card-body{
+    background-color: transparent;
+}
+
+
+
+.card{
+    padding-left: 0;
+}
+
+.card i{
+    font-size: 20px;
+}
+
+@media((min-width:576px) and (max-width:992px)){
+    .select-box{
+        margin-top: 20px;
+    }
+
+    .card-body{
+        margin-bottom: 10px;
+    }
+}
+
+@media((min-width:576px) and (max-width:768px)){
+    .card-button{
+        margin-bottom: 20px!important;
+        margin-left: 195px!important;
+    }
+}
+
+@media((max-width:576px)){
+    .select-date{
+        margin-top: 20px;
+    }
+    input[type=date]{
+        width: 77%!important;
+        
+    }
+    .select-box{
+        margin-top: 20px;
+    }
+    .card-body{
+        margin-bottom: 10px;
+    }
+    .card-button{
+        margin-bottom: 20px!important;
+        margin-left: 170px!important;
+    }
+}
+
+.progress {
+   background-color: rgb(200,200,200);
+}
+
+
+.card {
+    border: none;
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-12px);
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}

@@ -1,0 +1,46 @@
+@import 'css/configuration/fonts.css';
+
+@import 'css/third-party/background.css';
+@import 'css/third-party/bootstrap.css';
+@import 'css/third-party/button.css';
+
+@import 'css/partials/navbar.css';
+@import 'css/partials/forms.css';
+@import 'css/partials/chat-drawer.css';
+
+body {
+    overflow-x: hidden;
+}
+
+.chat-section {
+    height: calc(100vh - 68px);
+}
+
+
+.actual-chat-user-image {
+    width: 48px;
+    height: 48px
+}
+
+
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+
+.chat-section::-webkit-scrollbar, .chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-section::-webkit-scrollbar-track, .chat-box::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+.chat-section::-webkit-scrollbar-thumb, .chat-box::-webkit-scrollbar-thumb {
+    background: rgb(147, 147, 147);
+}
+
+.chat-section::-webkit-scrollbar-thumb:hover, .chat-box::-webkit-scrollbar-thumb:hover {
+    background: rgb(128, 128, 128);
+}

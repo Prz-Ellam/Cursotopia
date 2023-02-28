@@ -1,0 +1,55 @@
+@import '../configuration/colors.css';
+@import '../partials/navbar.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/sidebar.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
+footer{
+    margin-left: 310px;
+}
+
+.table{
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.course-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.disabled-course-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.card{
+    border: none;
+    border-radius: 10px;
+}
+
+.bxs-check-circle{
+    color: #79b18f;
+    font-size: 20px;
+}
+
+.bxs-x-circle{
+    color: #de4f54;
+    font-size: 20px;
+}
+
+.card i{
+    font-size: 50px;
+    background-color:var(--secondary-color);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}

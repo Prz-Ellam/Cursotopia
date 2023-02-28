@@ -1,0 +1,11 @@
+.card-body {
+    background-color: #F2F2F2;
+}
+
+.img-cover {
+    object-fit: cover;
+}
+
+.card-title{
+    font-weight: 500;
+}

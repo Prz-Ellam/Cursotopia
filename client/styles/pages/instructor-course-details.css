@@ -1,0 +1,83 @@
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/card.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/hero.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
+.btn-secondary{
+    background-color:var(--secondary-color);
+    border: none;
+}
+
+.card-body{
+    background-color: transparent;
+}
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+
+.img-cover {
+    border-radius: 50%;
+    min-height:100px;
+    min-width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 14px;
+   
+}
+
+@media((min-width:576px) and (max-width:767px)){
+    .img-cover {
+        margin-top: 20px;
+        max-height:150px;
+        max-width:150px;
+    }
+    .sm-mt-2{
+        margin-top: 15px;
+    }
+}
+
+@media((max-width:576px)){
+    .img-cover {
+        max-height:150px;
+        max-width:150px;
+    }
+    .xs-mt-2{
+        margin-top: 15px;
+    }
+}
+
+.progress {
+    background-color: rgb(200,200,200);
+ }
+
+ .card {
+    border: none;
+    
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-12px);
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}

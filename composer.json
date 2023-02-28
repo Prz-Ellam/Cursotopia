@@ -1,0 +1,31 @@
+{
+    "name": "prz-ellam/cursotopia",
+    "description": "Web application for online courses",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Cursotopia\\": "server/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Prz-Ellam",
+            "email": "PerezAlex088@outlook.com"
+        },
+        {
+            "name": "DenisseCardozaP",
+            "email": "denisse_cardoza@hotmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Prz-Ellam/Bloom"
+        }
+    ],
+    "require": {
+        "prz-ellam/bloom": "@dev",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

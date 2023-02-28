@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursotopia</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  
+  <!-- AOS -->
+  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
+  <script src="../node_modules/aos/dist/aos.js"></script>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  
+  <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../dist/assets/login.css">
+  <script defer type="module" src="../dist/javascript/login.js"></script>
+</head>
+<body>
+  <header>
+
+  </header>
+  <main class="container">
+    <section class="row d-flex align-items-center justify-content-center vh-100">
+      <form action="#" class="bg-white rounded-3 p-5 col-lg-5 col-md-7 shadow-lg" id="login-form" data-aos="fade-up">
+        <h1 class="text-center">Inicia sesión</h1>
+        <hr>
+        <div class="mb-4">
+          <label for="email" role="button" class="form-label d-flex align-items-center">
+            <i class="bx bxs-envelope me-1"></i>
+            <span>Correo electrónico</span>
+          </label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com" autocomplete="off">
+        </div>
+        <div class="mb-4">
+          <label for="password" role="button" class="form-label d-flex align-items-center">
+            <i class="bx bxs-key me-1"></i>
+            <span>Contraseña</span>
+          </label>
+          <div class="input-group">
+            <input type="password" name="password" id="password" class="form-control">
+            <button type="button" class="btn btn-primary btn-password" id="password-button"
+              ct-target="password">
+              <i class="fa-solid fa-eye-slash fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-check mb-4">
+          <input type="checkbox" name="remember" id="remember" class="form-check-input shadow-none rounded-1">
+          <label for="remember" class="form-check-label" role="button">Recuérdame</label>
+        </div>
+        <div class="d-grid mb-4">
+          <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center"
+            id="btn-login">
+            <div class="spinner me-2 d-none" id="login-spinner"></div>Iniciar sesión
+          </button>
+        </div>
+        <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>
+        <a href="signup.html" class="d-block text-center text-decoration-none text-primary">¡Registrate aquí!</a>
+        <!-- <hr>
+        <a href="" class="d-block text-center text-decoration-none text-primary mt-3">¿Olvidaste tu contraseña?</a> -->
+      </form>
+    </section>
+  </main>
+</body>
+</html>

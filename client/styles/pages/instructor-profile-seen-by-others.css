@@ -1,0 +1,21 @@
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/card.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../third-party/background.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/hero.css';
+
+.card {
+    border: none;
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-12px);
+    transition: all 200ms ease;
+    transition-property: transform, box-shadow;
+}

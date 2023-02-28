@@ -1,0 +1,15 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
+@import '../configuration/fonts.css';
+
+@import '../third-party/background.css';
+@import '../partials/navbar.css';
+
+#certificate {
+    height: calc(100vh - 68px);
+    object-fit: cover;
+}

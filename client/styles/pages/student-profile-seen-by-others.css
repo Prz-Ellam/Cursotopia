@@ -1,0 +1,68 @@
+@import '../third-party/bootstrap.css';
+@import '../third-party/background.css';
+@import '../third-party/button.css';
+@import '../partials/hero.css';
+@import '../configuration/fonts.css';
+@import '../partials/navbar.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/hero.css';
+
+@import '../partials/star.css';
+
+
+
+.form-label{
+    font-size: 16px;
+}
+
+.form-check-label{
+    font-size: 16px;
+}
+
+.card{
+    padding-left: 0;
+}
+
+.card i{
+    font-size: 20px;
+}
+
+img {
+    object-fit: cover;
+}
+
+#no-more-tables{
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+
+@media only screen and (max-width:800px){
+    #no-more-tables tbody, 
+    #no-more-tables tr,
+    #no-more-tables td{
+        display:block;
+        background-color: white;
+    }
+    #no-more-tables thead tr{
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+        
+    }
+    #no-more-tables td{
+        position: relative;
+        padding-left: 50%;
+    }
+    #no-more-tables td:before{
+        content: attr(data-title);
+        position: absolute;
+        left: 6px;
+        font-weight: bold;
+        
+    }
+}

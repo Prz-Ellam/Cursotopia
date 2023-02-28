@@ -1,0 +1,13 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../third-party/bootstrap.css';
+
+@import '../third-party/background.css';
+@import '../configuration/colors.css';
+@import '../configuration/fonts.css';
+@import '../partials/forms.css';
+
+@import '../partials/password-button.css';
+
+body {
+    background: linear-gradient(#6059F7, #36C3FE);
+}

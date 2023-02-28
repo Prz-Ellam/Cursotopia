@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursotopia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../dist/assets/profile-edition.css">
+  <script defer type="module" src="../dist/javascript/profile-edition.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="home.html">
+        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34"
+          class="d-inline-block align-text-top">
+        <span class="align-middle">Cursotopia</span>
+      </a>
+      <button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="text-white bx-sm bx bx-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search.html">
+          <div class="input-group">
+            <input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="course-creation.html" class="nav-link fw-bold text-light">
+              Crear curso
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link fw-bold text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search.html">Arte</a></li>
+              <li><a class="dropdown-item" href="search.html">Música</a></li>
+              <li><a class="dropdown-item" href="search.html">Programación</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat.html">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="../client/assets/images/perfil.png" alt="mdo" width="32"
+                  class="rounded-circle profile-picture">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="instructor-profile.html">Mi perfil</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="row d-flex justify-content-center">
+      <div action="#" class="col-lg-7 col-md-7">
+        <div class="border-3 border-bottom border-primary text-center mb-3">
+          <h1>Editar perfil</h1>
+        </div>
+        <div class="form-group text-center">
+          <div class="position-relative">
+            <label for="profile-picture" role="button"
+              class="profile-picture-label text-white position-absolute rounded-circle"></label>
+            <img class="img img-fluid rounded-circle mb-1" id="picture-box" src="../client/assets/images/perfil.png"
+              alt="Profile picture">
+          </div>
+          <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"
+            class="form-control shadow-none rounded-1 position-absolute" name="profile-picture" id="profile-picture">
+          <label for="profile-picture" role="button">Foto de perfil</label>
+        </div>
+        <form action="#" id="profile-edition-form" class="user-form">
+          <div class="text-center mb-4">
+            <input type="hidden" name="profile-picture" id="profile-picture-id" autocomplete="off">
+          </div>
+          <div class="row">
+            <div class="col-6 mb-4">
+              <label for="name" role="button" class="form-label">Nombre</label>
+              <input type="text" name="name" id="name" class="form-control" placeholder="Jon">
+            </div>
+            
+            <div class="col-6 mb-4">
+              <label for="last-name" role="button" class="form-label">Apellido</label>
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Doe">
+            </div>
+            
+            <div class="col-6 mb-4">
+              <label for="gender" role="button" class="form-label">Género</label>
+              <select name="gender" id="gender" class="form-select">
+                <option value="0" selected>Seleccionar</option>
+                <option value="1">Másculino</option>
+                <option value="2">Femenino</option>
+                <option value="3">Otro</option>
+              </select>
+            </div>
+            
+            <div class="col-6 mb-4">
+              <label for="birth-date" role="button" class="form-label">Fecha de nacimiento</label>
+              <input type="date" name="birth-date" id="birth-date" class="bg-light form-control border-0 shadow-none">
+            </div>
+            
+            <div class="col-12 mb-4">
+              <label for="email" role="button" class="form-label">Correo electrónico</label>
+              <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com">
+            </div>
+          </div>
+          <div class="d-grid mb-4">
+            <button type="submit" class="btn btn-primary rounded-pill">Actualizar perfil</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer class="page-footer p-5 bg-light">
+    <div class="container-fluid">
+      <div class="row text-md-start text-center">
+        <div class="col-md-3 mx-auto mb-3">
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="https://www.facebook.com" target="_blank" class="d-flex justify-content-md-start justify-content-center align-items-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-facebook-square me-2'></i>Facebook
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="https://www.instagram.com" target="_blank" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-instagram-alt me-2' ></i>Instagram
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="tel:(00)00000000" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-envelope me-2' ></i>Correo electrónico
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row pt-5 pb-3 d-flex align-items-center">
+          <div class="col-md-12  text-center">
+
+          </div>
+        </div>
+      </div>
+      <div class="container text-center img-responsive">
+        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

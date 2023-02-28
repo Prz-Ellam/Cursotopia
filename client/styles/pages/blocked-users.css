@@ -1,0 +1,35 @@
+@import '../configuration/colors.css';
+@import '../partials/navbar.css';
+@import '../partials/footer.css';
+@import '../partials/body.css';
+@import '../configuration/breakpoints.css';
+@import '../partials/sidebar.css';
+
+@import '../third-party/background.css';
+@import '../third-party/bootstrap.css';
+@import '../third-party/button.css';
+
+footer{
+    margin-left: 310px;
+}
+
+.content{
+    width:100%;
+    margin-left: 310px;
+    margin-right: 30px;
+}
+
+.table{
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.blocked-users-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.img-course{
+    width: 600px;
+}
