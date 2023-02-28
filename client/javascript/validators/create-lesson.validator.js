@@ -16,6 +16,42 @@ $.validator.addMethod('filesize', function (value, element, parameter) {
     return this.optional(element) || result;
 }, 'Please enter a valid file');
 
+$.validator.addMethod('image', function (value, element) {
+    if (element.files.length === 0) {
+        return true;
+    }
+    const file = element.files[0];
+    const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
+    if (!allowedExtensions.exec(file.type)) {
+        return false;
+    }
+    return true;
+}, 'Please enter a valid file');
+
+$.validator.addMethod('document', function (value, element) {
+    if (element.files.length === 0) {
+        return true;
+    }
+    const file = element.files[0];
+    const allowedExtensions = /(pdf)$/i;
+    if (!allowedExtensions.exec(file.type)) {
+        return false;
+    }
+    return true;
+}, 'Please enter a valid file');
+
+$.validator.addMethod('video', function (value, element) {
+    if (element.files.length === 0) {
+        return true;
+    }
+    const file = element.files[0];
+    const allowedExtensions = /(mp4)$/i;
+    if (!allowedExtensions.exec(file.type)) {
+        return false;
+    }
+    return true;
+}, 'Please enter a valid file');
+
 $.validator.addMethod('resource', function(value, element) {
     const video = document.getElementById('create-lesson-video');
     const image = document.getElementById('create-lesson-image');
@@ -46,13 +82,16 @@ export default {
             trimming: true
         },
         'video': {
-            filesize: 4 * 1024
+            filesize: 4 * 1024,
+            video: true
         },
         'image': {
-            filesize: 8
+            filesize: 8,
+            image: true
         },
         'pdf': {
-            filesize: 8
+            filesize: 8,
+            document: true
         },
         'resource': {
             resource: true
@@ -68,13 +107,16 @@ export default {
             trimming: 'La descripción de la lección es requerida'
         },
         'video': {
-            filesize: 'El video no puede pesar más de 4GB'
+            filesize: 'El video no puede pesar más de 4GB',
+            video: 'El archivo seleccionado no cumple con el formato esperado'
         },
         'image': {
-            filesize: 'La imágen no puede pesar más de 8MB'
+            filesize: 'La imágen no puede pesar más de 8MB',
+            image: 'El archivo seleccionado no cumple con el formato esperado'
         },
         'pdf': {
-            filesize: 'El documento no puede pesar más de 8MB'
+            filesize: 'El documento no puede pesar más de 8MB',
+            document: 'El archivo seleccionado no cumple con el formato esperado'
         },
         'resource': {
             resource: 'Es requerido al menos un recurso'

@@ -10,6 +10,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 	<!-- SweetAlert -->
 	<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
@@ -20,14 +22,18 @@
 	<!-- Navbar -->
 	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
 		<div class="container-fluid">
-			<a href="home.html" class="navbar-brand text-light">Cursotopia</a>
+			<a class="navbar-brand text-white" href="home.html">
+				<img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34"
+					class="d-inline-block align-text-top">
+				<span class="align-middle">Cursotopia</span>
+			</a>
 			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="text-white bx-sm bx bx-menu"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbar-content">
-				<form class="col-auto col-lg-6" role="search" action="search.html">
+				<form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search.html">
 					<div class="input-group">
 						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
 						<button class="btn btn-white border-0 text-dark search-btn" type="submit">
@@ -111,7 +117,10 @@
 
 					<div class="mb-4" id="price-group">
 						<label class="form-label pt-2" for="price" role="button">Precio</label>
-						<input type="number" name="price" id="update-course-price" class="form-control">
+						<div class="input-group">
+							<span class="input-group-text border-0 bg-light pe-0">$</span>
+							<input type="number" name="price" id="update-course-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+						</div>
 					</div>
 
 					<div class="mb-3">
@@ -197,7 +206,10 @@
 
 						<div class="mb-4 " id="level-price-group">
 							<label for="create-level-price" class="form-label" role="button">Precio</label>
-							<input type="number" name="price" id="create-level-price" class="form-control">
+							<div class="input-group">
+								<span class="input-group-text border-0 bg-light pe-0">$</span>
+								<input type="number" name="price" id="create-level-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -238,7 +250,10 @@
 
 						<div class="mb-4" id="edit-level-price-group">
 							<label for="" class="form-label">Precio</label>
-							<input type="number" name="price" id="edit-level-price" class="form-control">
+							<div class="input-group">
+								<span class="input-group-text border-0 bg-light pe-0">$</span>
+								<input type="number" name="price" id="edit-level-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -471,5 +486,4 @@
     </div>
   </footer>
 </body>
-<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </html>

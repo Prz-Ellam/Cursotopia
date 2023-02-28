@@ -85,7 +85,8 @@ export default {
         },
         'price': {
             required: 'El precio es requerido',
-            number: 'El precio no es válido'
+            number: 'El precio no es válido',
+            min: 'El precio del producto no puede ser negativo'
         },
         'levels[]': {
             required: 'El curso necesita al menos un nivel',
@@ -96,7 +97,7 @@ export default {
     errorElement: 'small',
     errorPlacement: function (error, element) {
         let targetElement = element;
-        if (element.attr('name') === 'levels[]') {
+        if (element.attr('name') === 'levels[]' || element.attr('name') === 'price') {
             targetElement = element.parent();
         }
         error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');

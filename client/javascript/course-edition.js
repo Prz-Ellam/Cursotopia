@@ -1,7 +1,7 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import { updateCourse } from './controllers/course.controller';
+import { createCourseImage, updateCourse } from './controllers/course.controller';
 import updateCourseValidator from './validators/update-course.validator';
 import { courseEditionCreateLevel, courseEditionUpdateLevel } from './controllers/level.controller';
 import createLevelValidator from './validators/create-level.validator';
@@ -9,6 +9,7 @@ import createCategoryValidator from './validators/create-category.validator';
 import { updateCourseCreateCategory } from './controllers/category.controller';
 import createLessonValidator from './validators/create-lesson.validator';
 import { courseEditionCreateLesson } from './controllers/lesson.controller';
+import Swal from 'sweetalert2';
 
 // Update Course
 const updateCourseForm = document.getElementById('update-course-form-a');
@@ -51,6 +52,22 @@ $(updateLevelForm).validate(createLevelValidator);
 updateLevelForm.addEventListener('submit', courseEditionUpdateLevel);
 
 // Delete Level
+$(document).on('click', '.delete-level-btn', async function() {
+    const feedback = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Estás seguro que deseas eliminar este nivel?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#DD3333',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        customClass: {
+            confirmButton: 'btn btn-danger shadow-none rounded-pill',
+            cancelButton: 'btn btn-secondary shadow-none rounded-pill'
+        }
+    });
+});
 
 // Create Lesson
 $(document).on('click', '.create-lesson-btn', function() {
@@ -77,9 +94,25 @@ $(updateLessonForm).validate(createLessonValidator);
 updateLessonForm.addEventListener('submit', e => e.preventDefault());
 
 // Delete Lesson
+$(document).on('click', '.delete-lesson-btn', async function() {
+    const feedback = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Estás seguro que deseas eliminar este nivel?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#DD3333',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        customClass: {
+            confirmButton: 'btn btn-danger shadow-none rounded-pill',
+            cancelButton: 'btn btn-secondary shadow-none rounded-pill'
+        }
+    });
+});
 
-
-
+const uploadImage = document.getElementById('upload-image');
+uploadImage.addEventListener('change', createCourseImage);
 
 const freeCourseCheckbox = document.getElementById('free-course-checkbox');
 freeCourseCheckbox.addEventListener('change', function(event) {

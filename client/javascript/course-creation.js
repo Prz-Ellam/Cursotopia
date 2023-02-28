@@ -10,7 +10,6 @@ import createLessonValidator from './validators/create-lesson.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
-import { updateLevel } from './services/level.service';
 
 // Create Course
 const createCourseForm = document.getElementById('create-course-form');
@@ -146,23 +145,20 @@ $(document).on('click', '.delete-level-btn', async function() {
     });
 });
 
-const deleteLessonsBtn = Array.from(document.getElementsByClassName('delete-lesson-btn'));
-deleteLessonsBtn.forEach(deleteLessonBtn => {
-    deleteLessonBtn.addEventListener('click', async () => {
-        const feedback = await Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Estás seguro que deseas eliminar este nivel?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#DD3333',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true,
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill',
-                cancelButton: 'btn btn-secondary shadow-none rounded-pill'
-            }
-        });
+$(document).on('click', '.delete-lesson-btn', async function() {
+    const feedback = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Estás seguro que deseas eliminar este nivel?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#DD3333',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        customClass: {
+            confirmButton: 'btn btn-danger shadow-none rounded-pill',
+            cancelButton: 'btn btn-secondary shadow-none rounded-pill'
+        }
     });
 });
     

@@ -39,6 +39,10 @@ export default {
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {
-        error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
+        let targetElement = element;
+        if (element.attr('name') === 'price') {
+            targetElement = element.parent();
+        }
+        error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     }
 }

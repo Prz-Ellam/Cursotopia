@@ -17,6 +17,7 @@ export default {
         'price': {
             required: true,
             trimming: true,
+            number: true,
             maxlength: 255
         }
     },
@@ -34,11 +35,17 @@ export default {
         'price': {
             required: 'El precio del nivel es requerido',
             trimming: 'El precio del nivel es requerido',
+            number: 'El precio no es válido',
+            min: 'El precio del producto no puede ser negativo',
             maxlength: 'El precio del nivel no puede contener más de 255 caracteres'
         }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {
-        error.insertAfter(element).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
+        let targetElement = element;
+        if (element.attr('name') === 'price') {
+            targetElement = element.parent();
+        }
+        error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     }
 }
