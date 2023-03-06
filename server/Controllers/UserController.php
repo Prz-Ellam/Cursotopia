@@ -11,6 +11,13 @@ class UserController {
 
     }
 
+    /**
+     * Crea y guarda un nuevo usuario
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
     public function store(Request $request, Response $response) {
 
         $name = $request->getBody("name");

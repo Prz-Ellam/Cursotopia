@@ -2,7 +2,9 @@
 
 namespace Cursotopia\Repositories;
 
-class UserRepository {
+use Cursotopia\Contracts\UserRepositoryInterface;
+
+class UserRepository implements UserRepositoryInterface {
     public function create() {
 
     }

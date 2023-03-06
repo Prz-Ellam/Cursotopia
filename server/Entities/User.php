@@ -21,12 +21,27 @@ class User {
         return $this->id;
     }
 
+    public function setId(int $id): self {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): string {
         return $this->name;
     }
 
+    public function setName(string $name): self {
+        $this->name = $name;
+        return $this;
+    }
+
     public function getLastName(): string {
         return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self {
+        $this->lastName = $lastName;
+        return $this;
     }
 
     public function getBirthDate(): string {
