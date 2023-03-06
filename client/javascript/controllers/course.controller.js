@@ -22,7 +22,7 @@ export const createCourse = async function(event) {
             confirmButton: 'btn btn-primary shadow-none rounded-pill'
         },
     });
-    window.location.href = 'home.html';
+    window.location.href = 'home';
 }
 
 export const createCourseImage = async function(event) {
@@ -91,7 +91,7 @@ export const updateCourse = async function(event) {
             confirmButton: 'btn btn-primary shadow-none rounded-pill'
         },
     });
-    window.location.href = 'home.html';
+    window.location.href = 'home';
 }
 
 export const deleteCourse = function(event) {

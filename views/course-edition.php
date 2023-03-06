@@ -1,0 +1,490 @@
+<?php ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Cursotopia</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
+	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- SweetAlert -->
+	<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+	<link rel="stylesheet" href="../dist/assets/course-edition.css">
+	<script defer type="module" src="../dist/javascript/course-edition.js"></script>
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+		<div class="container-fluid">
+			<a class="navbar-brand text-white" href="home">
+				<img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34"
+					class="d-inline-block align-text-top">
+				<span class="align-middle">Cursotopia</span>
+			</a>
+			<button class="border-0 shadow-none navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="text-white bx-sm bx bx-menu"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbar-content">
+				<form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
+					<div class="input-group">
+						<input class="form-control bg-white" type="search" placeholder="Buscar cursos..." aria-label="Search">
+						<button class="btn btn-white border-0 text-dark search-btn" type="submit">
+							<i class="fw-bold bx bx-search"></i>
+						</button>
+					</div>
+				</form>
+				<ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+					<li class="nav-item">
+						<a href="course-creation" class="nav-link fw-bold text-light">
+							Crear curso
+						</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link fw-bold text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Categorías
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="search">Arte</a></li>
+							<li><a class="dropdown-item" href="search">Música</a></li>
+							<li><a class="dropdown-item" href="search">Programación</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-light" aria-current="page" href="chat">
+							<i class="bx-sm bx bxs-bell position-relative">
+								<span class="badge rounded-pill badge-notification bg-danger">1</span>
+							</i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<div class="nav-link dropdown">
+							<button class="btn border-0 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="../client/assets/images/perfil.png" alt="mdo" width="32"
+									class="rounded-circle profile-picture">
+							</button>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li>
+									<a class="dropdown-item" href="instructor-profile">Mi perfil</a>
+								</li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">Cerrar sesión</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Main section -->
+	<section class="container my-4">
+		<div class="row border-3 border-bottom border-primary text-center mb-3">
+			<h1>Editar curso</h1>
+		</div>
+		<form action="#" class="row" id="update-course-form-a">
+			<div class="row mx-0">
+				<div class="col-md-6 col-sm-12 col-xs-12">
+
+					<div class="mb-4">
+						<label for="update-course-title" class="form-label" role="button">Título</label>
+						<input type="text" name="title" id="update-course-title" class="form-control">
+					</div>
+
+					<div class="mb-4">
+						<label for="update-course-description" class="form-label" role="button">Descripción</label>
+						<textarea name="description" id="update-course-description" cols="30" rows="3"
+							class="form-control"></textarea>
+					</div>
+
+					<div class="form-check">
+						<input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox"
+							autocomplete="off">
+						<label class="form-check-label" for="free-course-checkbox" role="button">El curso será gratis</label>
+					</div>
+
+					<div class="mb-4" id="price-group">
+						<label class="form-label pt-2" for="price" role="button">Precio</label>
+						<div class="input-group">
+							<span class="input-group-text border-0 bg-light pe-0">$</span>
+							<input type="number" name="price" id="update-course-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="categories" class="form-label" role="button">Categorías</label>
+						<select class="" id="categories" name="categories[]" multiple="multiple"
+							placeholder="Seleccionar">
+							<option value="1">Música</option>
+							<option value="2">Arte</option>
+							<option value="3">Programación</option>
+						</select>
+					</div>
+					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
+						<button type="button" id="create-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto">Añadir
+							categoria</button>
+					</div>
+
+
+				</div>
+
+				<div class="center col-md-6 col-sm-12 col-xs-12 image-container">
+					<label class="form-label">Portada</label>
+					<label for="upload-image" class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
+						<div class="d-flex justify-content-center align-items-center">
+							<div>
+								<i class="bx bxs-cloud-upload icon"></i>
+								<h3>Subir imagen</h3>
+							</div>
+						</div>
+						<img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
+						<input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg"
+							class="d-none form-control mt-3" autocomplete="off">
+					</label>
+					<input type="text" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
+				</div>
+			</div>
+
+			<div id="levels-list">
+				<input type="hidden" name="levels[]" autocomplete="off">
+			</div>
+
+			<section class="my-5" id="levels-section">
+				<div class="pb-2 d-flex">
+					<h4 class="pe-4">Niveles</h4>
+					<button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
+						Añadir nivel
+					</button>
+				</div>
+				<ul class="list-unstyled" id="levels-container">
+
+				</ul>
+			</section>
+			<div class="d-flex">
+				<button type="submit" class="btn btn-primary rounded-pill w-100">Editar curso</button>
+			</div>
+		</form>
+
+		<!-- Modal añadir nivel-->
+		<div class="modal fade" id="create-level-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<form class="modal-dialog rounded-1 border-0 shadow-none" id="create-level-form">
+				<div class="modal-content rounded-1 border-0 shadow-sm">
+					<div class="modal-header">
+						<h4>Añadir nivel</h4>
+						<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-4">
+							<label for="level-name" class="form-label" role="button">Título</label>
+							<input type="text" name="title" id="create-level-title" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="level-description" class="form-label" role="button">Descripción</label>
+							<textarea name="description" id="create-level-description" cols="30" rows="5" class="form-control"
+								placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
+						</div>
+
+						<div class="form-check">
+							<input class="form-check-input shadow-none" type="checkbox" value="" id="free-level-checkbox"
+								autocomplete="off">
+							<label class="form-check-label" for="free-level-checkbox">El nivel será gratis</label>
+						</div>
+
+						<div class="mb-4 " id="level-price-group">
+							<label for="create-level-price" class="form-label" role="button">Precio</label>
+							<div class="input-group">
+								<span class="input-group-text border-0 bg-light pe-0">$</span>
+								<input type="number" name="price" id="create-level-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+							data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar nivel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Modal editar nivel-->
+		<div class="modal fade animate__animated animate__bounceInDown" id="update-level-modal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form class="modal-dialog rounded-1 border-0 shadow-none" id="update-level-form">
+				<div class="modal-content rounded-1 border-0 shadow-sm">
+					<div class="modal-header">
+						<h4>Editar nivel</h4>
+						<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+						<div class="mb-4">
+							<label for="level-name" class="form-label" role="button">Título</label>
+							<input type="text" name="title" id="edit-level-title" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="level-description" class="form-label" role="button">Descripción</label>
+							<textarea name="description" id="edit-level-description" cols="30" rows="5" class="form-control"
+								placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
+						</div>
+
+						<div class="form-check">
+							<input class="form-check-input shadow-none" type="checkbox" value="" id="free-edit-level-checkbox">
+							<label class="form-check-label" for="free-lesson-checkbox">El nivel será gratis</label>
+						</div>
+
+						<div class="mb-4" id="edit-level-price-group">
+							<label for="" class="form-label">Precio</label>
+							<div class="input-group">
+								<span class="input-group-text border-0 bg-light pe-0">$</span>
+								<input type="number" name="price" id="edit-level-price" class="form-control"  min="0.00" max="10000.00" step="0.01" value="0.00">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="edit-level-close-btn" type="button" class="btn btn-danger rounded-pill"
+							data-bs-dismiss="modal">Close</button>
+						<button id="edit-level-save-btn" type="submit" class="btn btn-primary rounded-pill">Guardar
+							cambios</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Modal añadir lección -->
+		<div class="modal fade" id="create-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-lesson-form">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Añadir lección</h4>
+						<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+						<input type="hidden" name="level" id="create-lesson-level">
+
+						<div class="mb-4">
+							<label class="form-label" role="button">Título</label>
+							<input type="text" name="title" id="create-lesson-title" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">Información adicional</label>
+							<textarea name="description" id="create-lesson-description" cols="30" rows="5"
+								class="form-control"></textarea>
+						</div>
+
+						<h5>Recursos</h5>
+						<input type="hidden" name="resource">
+
+						<div class="mb-4">
+							<label for="" role="button">Video</label>
+							<input type="file" name="video" id="create-lesson-video" class="form-control" autocomplete="off"
+								accept="video/mp4">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">Imágen</label>
+							<input type="file" name="image" id="create-lesson-image" class="form-control" autocomplete="off"
+								accept="image/png, image/gif, image/jpeg, image/jpg">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">PDF</label>
+							<input type="file" name="pdf" id="create-lesson-pdf" class="form-control" autocomplete="off"
+								accept="application/pdf">
+						</div>
+
+						<div class="mb-4">
+							<label for="" class="form-label" role="button">Enlace</label>
+							<div class="mb-4">
+								<label for="" role="button">Título</label>
+								<input type="text" name="link-title" id="create-lesson-link-title" class="form-control"
+									placeholder="Título descriptivo">
+							</div>
+							<div class="mb-4">
+								<label for="" role="button">URL</label>
+								<input type="url" name="link-url" id="create-lesson-link-url" class="form-control"
+									placeholder="https://example.com">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+							data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar lección</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Modal editar lección -->
+		<div class="modal fade" id="update-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="update-lesson-form">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Editar lección</h4>
+						<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+						<div class="mb-4">
+							<label class="form-label" role="button">Título</label>
+							<input type="text" name="title" id="edit-lesson-title" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">Información adicional</label>
+							<textarea name="description" id="edit-lesson-description" cols="30" rows="5"
+								class="form-control"></textarea>
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">Video</label>
+							<input type="file" name="video" id="edit-lesson-video" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">Imágen</label>
+							<input type="file" name="image" id="edit-lesson-img" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="" role="button">PDF</label>
+							<input type="file" name="pdf" id="edit-lesson-pdf" class="form-control">
+						</div>
+
+						<div class="mb-4">
+							<label for="" class="form-label" role="button">Enlace</label>
+							<div class="mb-4">
+								<label for="" role="button">Título</label>
+								<input type="text" name="link-title" id="edit-lesson-link-title" class="form-control"
+									placeholder="Título descriptivo">
+							</div>
+							<div class="mb-4">
+								<label for="" role="button">URL</label>
+								<input type="url" name="link" id="edit-lesson-link" class="form-control"
+									placeholder="https://example.com">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="edit-lesson-close-btn" type="button" class="btn btn-danger rounded-pill"
+							data-bs-dismiss="modal">Close</button>
+						<button id="edit-lesson-save-btn" type="submit" class="btn btn-primary rounded-pill">Guardar
+							cambios</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Modal añadir categoría -->
+		<div class="modal fade animate__animated animate__bounceInDown" id="create-category-modal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
+					<div class="modal-header">
+						<h4>Añadir categoría</h4>
+						<button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-4">
+							<label for="category-name" class="form-label" role="button">Nombre</label>
+							<input type="text" class="form-control" id="category-name" name="name" autocomplete="off">
+						</div>
+						<div class="mb-4">
+							<label for="category-description" class="form-label" role="button">Descripción</label>
+							<textarea class="form-control" id="category-description" name="description" rows="5"
+								placeholder="¿Qué clase de cursos contendrá?"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-danger rounded-pill"
+							data-bs-dismiss="modal">Cerrar</button>
+						<button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- Footer -->
+  <footer class="page-footer p-5 bg-light">
+    <div class="container-fluid">
+      <div class="row text-md-start text-center">
+        <div class="col-md-3 mx-auto mb-3">
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="https://www.facebook.com" target="_blank" class="d-flex justify-content-md-start justify-content-center align-items-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-facebook-square me-2'></i>Facebook
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="https://www.instagram.com" target="_blank" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-instagram-alt me-2' ></i>Instagram
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="tel:(00)00000000" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-envelope me-2' ></i>Correo electrónico
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row pt-5 pb-3 d-flex align-items-center">
+          <div class="col-md-12  text-center">
+
+          </div>
+        </div>
+      </div>
+      <div class="container text-center img-responsive">
+        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

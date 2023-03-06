@@ -1,0 +1,559 @@
+<?php ?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cursotopia</title>
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+
+	<!-- AOS -->
+	<link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
+	<script src="../node_modules/aos/dist/aos.js"></script>
+
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../dist/assets/student-profile.css">
+	<script defer src="../dist/javascript/instructor-profile.js"></script>
+</head>
+
+<body>
+	<!-- Navbar de estudiante -->
+  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="home">
+        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
+        <span class="align-middle">Cursotopia</span>
+      </a>
+      <button 
+        class="border-0 shadow-none navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar-content"
+        aria-controls="navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="text-white bx-sm bx bx-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
+          <div class="input-group">
+            <input
+              class="form-control bg-white"
+              type="search"
+              placeholder="Buscar cursos..."
+              aria-label="Search">
+            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+              <i class="fw-bold bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item">
+            <a href="student-profile" class="nav-link fw-bold text-light">
+              Mis cursos
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Categorías
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="search">Arte</a></li>
+              <li><a class="dropdown-item" href="search">Música</a></li>
+              <li><a class="dropdown-item" href="search">Programación</a></li>
+            </ul>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img 
+                  src="../client/assets/images/perfil.png"
+                  alt="mdo"
+                  width="32"
+                  class="rounded-circle profile-picture">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="instructor-profile">Mi perfil</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+	<main>
+		<!-- Hero -->
+		<div class="Hero">
+			<div class="container-fluid bg-light shadow-sm">
+				<div class="row p-4">
+					<div class="col-xl-2 col-md-4 col-sm-5 col-xs-12 ml-4">
+						<img
+							src="https://pbs.twimg.com/profile_images/1251100214926032896/MhdWgkD1_400x400.jpg"
+							class="img-hero"
+							width="180"
+							alt="Foto de perfil">
+					</div>
+					<div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto ">
+						<div class="container text-xs-center">
+							<div class="row">
+								<div class="col-12">
+									<h3 class="fw-bold">Nombre completo</h3>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<h6>Usuario</h6>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<h6>Fecha de nacimiento</h6>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-12">
+									<a href="profile-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+										Editar perfil
+									</a>
+									<a href="password-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+										Cambiar contraseña
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contenido -->
+		<div class="container">
+			<div class="row">
+				<div class="col-12 mt-4 d-flex">
+					<h3 class="fw-bold me-4">Kardex</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 mt-3">
+					<h6>Filtros</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
+					<label for="" class="form-label me-3">Fecha inicial:</label>
+					<input type="date" class="form-control w-50">
+				</div>
+				<div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
+					<label for="" class="form-label me-3">Fecha final:</label>
+					<input type="date" class="form-control w-50">
+				</div>
+				<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
+					<label for="" class="form-label">Categoria:</label>
+				</div>
+				<div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
+					<select class="form-select">
+						<option selected>Categorias</option>
+						<option value="1">Música</option>
+						<option value="2">Arte</option>
+						<option value="3">Programación</option>
+					</select>
+				</div>
+				<div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+						<label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
+					</div>
+				</div>
+				<div class="col-lg-2 col-sm-4 mt-3 col-xs-6">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+						<label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
+					</div>
+				</div>
+			</div>
+
+
+			<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="kardex-tab" data-bs-toggle="tab" data-bs-target="#kardex-tab-pane"
+						type="button" role="tab" aria-controls="kardex-tab-pane" aria-selected="true">Kardex</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-tab-pane" type="button"
+						role="tab" aria-controls="list-tab-pane" aria-selected="false">Lista de cursos</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="kardex-tab-pane" role="tabpanel" aria-labelledby="kardex-tab"
+					tabindex="0">
+
+					<div class="row pt-3" id="no-more-tables">
+						<table class="table w-auto">
+							<thead>
+								<tr>
+									<th>Curso</th>
+									<th>Progreso</th>
+									<th>Fecha de inscripción</th>
+									<th>Último ingreso</th>
+									<th>Terminado el</th>
+									<th>Estado</th>
+									<th>Certificado</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td data-title="Curso">Introducción a la Programación Orientada a Objetos</td>
+									<td data-title="Progreso">12.34%</td>
+									<td data-title="Fecha de inscripción">12 ago 2021</td>
+									<td data-title="Último ingreso">13 ago 2021</td>
+									<td data-title="Terminado el">13 ago 2021</td>
+									<td data-title="Estado">Acabado</td>
+									<td data-title="Certificado"><a href="certificate">Ver más</a></td>
+								</tr>
+								<tr>
+									<td data-title="Curso"></td>
+									<td data-title="Progreso"></td>
+									<td data-title="Fecha de inscripción"></td>
+									<td data-title="Último ingreso"></td>
+									<td data-title="Terminado el"></td>
+									<td data-title="Estado"></td>
+									<td data-title="Certificado"></td>
+								</tr>
+								<tr>
+									<td data-title="Curso"></td>
+									<td data-title="Progreso"></td>
+									<td data-title="Fecha de inscripción"></td>
+									<td data-title="Último ingreso"></td>
+									<td data-title="Terminado el"></td>
+									<td data-title="Estado"></td>
+									<td data-title="Certificado"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
+
+					<div class="container mt-4">
+
+						<div data-aos="fade-up">
+							<div class="card mb-4 bg-light border-0">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<div class="ratio ratio-16x9 h-100">
+											<img
+												src="https://import.cdn.thinkific.com/220744/courses/1948561/HVgczjlDQjK5CIXpb57p_desarrollo-web-con-html-css-min.png"
+												class="img-cover img-fluid rounded-start" alt="...">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h4 class="card-title">Crea páginas web con HTML y CSS</h4>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
+											<div class="progress mb-3">
+												<div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example"
+													aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+												</div>
+											</div>
+											<a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
+											<a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div data-aos="fade-up">
+							<div class="card mb-4 bg-light border-0">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<div class="ratio ratio-16x9 h-100">
+											<img
+												src="https://import.cdn.thinkific.com/220744/courses/557614/hr1BWk5LTF2jiAziFPH0_aprende-a-programar-de-cero-con-python-min.jpg"
+												class="img-cover img-fluid rounded-start" alt="...">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h4 class="card-title">Introducción a la Programación</h4>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
+											<div class="progress mb-3">
+												<div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example"
+													aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+												</div>
+											</div>
+											<a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
+											<a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div data-aos="fade-up">
+							<div class="card mb-4 bg-light border-0">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<div class="ratio ratio-16x9 h-100">
+											<img
+												src="https://import.cdn.thinkific.com/220744/courses/881985/h20jls3OSdiMYPpYXpJC_Tu%20propio%20entorno%20de%20escritorio%20Arch%20linux-min.jpg"
+												class="img-cover img-fluid rounded-start" alt="...">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h4 class="card-title">Crea tu propio entorno de desarrollo con Linux</h4>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
+											<div class="progress mb-3">
+												<div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example"
+													aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+												</div>
+											</div>
+											<a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
+											<a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div data-aos="fade-up">
+							<div class="card mb-4 bg-light border-0">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<div class="ratio ratio-16x9 h-100">
+											<img
+												src="https://pikuma.com/images/courses/nes.jpg"
+												class="img-cover img-fluid rounded-start" alt="...">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h4 class="card-title">Programación en NES</h4>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
+											<div class="progress mb-3">
+												<div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example"
+													aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+												</div>
+											</div>
+											<a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
+											<a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div data-aos="fade-up">
+							<div class="card mb-4 bg-light border-0">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<div class="ratio ratio-16x9 h-100">
+											<img
+												src="https://pikuma.com/images/courses/2dgameengine.jpg"
+												class="img-cover img-fluid rounded-start" alt="...">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h4 class="card-title">Desarrollo de videojuegos en C++</h4>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
+											<p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
+											<div class="progress mb-3">
+												<div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example"
+													aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+												</div>
+											</div>
+											<a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
+											<a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<div class="d-flex justify-content-center" aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i
+											class='bx bx-chevron-left'></i></a></li>
+								<li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">1</a></li>
+								<li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">2</a></li>
+								<li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">3</a></li>
+								<li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i
+											class='bx bx-chevron-right'></i></a></li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+			<div class="row mt-4 me-5">
+				<div class="col-lg-12 col-md-6">
+
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Cambiar photo -->
+		<div class="modal fade" id="changePhoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Cambiar foto</h4>
+					</div>
+					<div class="modal-body">
+
+						<div class="wrapper">
+							<div class="box">
+								<div class="input-bx">
+									<form action="">
+										<input type="file" id="Upload" hidden>
+										<label for="Upload" class="uploadlabel">
+											<span class=""><i class='bx bxs-cloud-upload'></i></span>
+											<p>Oprime para añadir</p>
+										</label>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button id="save-btn" type="button" class="btn btn-secondary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</main>
+
+	<!-- Footer -->
+  <footer class="page-footer p-5 bg-light">
+    <div class="container-fluid">
+      <div class="row text-md-start text-center">
+        <div class="col-md-3 mx-auto mb-3">
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
+          <ul class="list-unstyled">
+            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mx-auto mb-3">
+          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="https://www.facebook.com" target="_blank" class="d-flex justify-content-md-start justify-content-center align-items-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-facebook-square me-2'></i>Facebook
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="https://www.instagram.com" target="_blank" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxl-instagram-alt me-2' ></i>Instagram
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="tel:(00)00000000" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
+              </a>
+            </li>
+            <li class="my-2">
+              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
+                <i class='text-primary bx-sm bx bxs-envelope me-2' ></i>Correo electrónico
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row pt-5 pb-3 d-flex align-items-center">
+          <div class="col-md-12  text-center">
+
+          </div>
+        </div>
+      </div>
+      <div class="container text-center img-responsive">
+        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

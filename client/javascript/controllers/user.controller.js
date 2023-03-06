@@ -34,7 +34,7 @@ export const login = async function(event) {
             },
         });
 
-        window.location.href = 'home.html';
+        window.location.href = 'home';
     }
     else {
         await Swal.fire({
@@ -74,7 +74,7 @@ export const signup = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = "home";
     }
     else {
         await Swal.fire({
@@ -171,7 +171,7 @@ export const updateUser = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = "home";
     }
     else {
         await Swal.fire({
@@ -210,7 +210,7 @@ export const updatePassword = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = "home";
     }
     else {
         await Swal.fire({

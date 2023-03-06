@@ -21,7 +21,7 @@ export const payment = async function(event) {
             },
         });
 
-        window.location.href = 'course-visor.html';
+        window.location.href = 'course-visor';
     }
     else {
         await Swal.fire({
