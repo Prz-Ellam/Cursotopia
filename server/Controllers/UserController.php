@@ -25,15 +25,15 @@ class UserController {
         // El id de la foto de perfil debe almacenarse en la sessión
         // El rol debe existir
         
-        $profilePicture = $request->getBody("profile-picture");
+        $profilePicture = $request->getBody("profilePicture");
         $name = $request->getBody("name");
-        $lastName = $request->getBody("last-name");
-        $userRole = $request->getBody("user-role");
+        $lastName = $request->getBody("lastName");
+        $userRole = $request->getBody("userRole");
         $gender = $request->getBody("gender");
-        $birthDate = $request->getBody("birth-date");
+        $birthDate = $request->getBody("birthDate");
         $email = $request->getBody("email");
         $password = $request->getBody("password");
-        $confirmPassword = $request->getBody("confirm-password");
+        $confirmPassword = $request->getBody("confirmPassword");
 
         $userModel = new UserModel();
         $userModel

@@ -49,7 +49,7 @@
 
         <form action="#" id="signup-form" class="user-form">
           <div class="text-center mb-4">
-            <input type="hidden" name="profile-picture" id="profile-picture-id" autocomplete="off">
+            <input type="hidden" name="profilePicture" id="profile-picture-id" autocomplete="off">
           </div>
           <div class="row">
             <div class="col-sm-6 col-12 mb-4">
@@ -59,12 +59,12 @@
             </div>
             <div class="col-sm-6 col-12 mb-4">
               <label for="last-name" role="button" class="form-label">Apellido(s)</label>
-              <input type="text" name="last-name" id="last-name" class="form-control"
+              <input type="text" name="lastName" id="last-name" class="form-control"
                 placeholder="Doe">
             </div>
             <div class="col-lg-4 col-12 mb-4">
               <label for="user-role" role="button" class="form-label">Rol de usuario</label>
-              <select name="user-role" id="user-role" class="form-select">
+              <select name="userRole" id="user-role" class="form-select">
                 <option value="0" selected>Seleccionar</option>
                 <option value="1">Instructor</option>
                 <option value="2">Alumno</option>
@@ -80,7 +80,7 @@
               </select>
             </div>
             <div class="col-lg-4 col-12 mb-4">
-              <label for="birth-date" role="button" class="form-label">Fecha de nacimiento</label>
+              <label for="birthDate" role="button" class="form-label">Fecha de nacimiento</label>
               <input type="date" name="birth-date" id="birth-date" class="form-control">
             </div>
             <div class="col-12 mb-4">
@@ -108,7 +108,7 @@
             <div class="col-lg-6 col-12 mb-4">
               <label for="confirm-password" role="button" class="form-label">Confirmar contraseña</label>
               <div class="input-group">
-                <input type="password" name="confirm-password" id="confirm-password"
+                <input type="password" name="confirmPassword" id="confirm-password"
                   class="form-control">
                 <button type="button" class="btn btn-primary btn-password" id="confirm-password-button"
                   ct-target="confirm-password">
