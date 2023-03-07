@@ -1,18 +1,22 @@
+import axios from 'axios';
+
 export const createUser = async (user) => {
-    /*
     try {
-        const response = await fetch('/api/v1/users', {
+        const configuration = {
             method: 'POST',
-            body: user
-        });
-        const json = await response.json();
-        return json;
+            url: '/api/v1/users',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
     }
     catch (exception) {
-        console.error(exception);
+        console.log(exception);
     }
-    */
-    return { ok: true };
+    return null;
 }
 
 export const updateUser = async (user) => {

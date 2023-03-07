@@ -58,9 +58,16 @@ export const signup = async function(event) {
         return;
     }
 
-    const user = new User();
+    const formData = new FormData(this);
+    const user = {};
+    for (const [key, value] of formData) {
+        user[key] = value;
+    }
+    console.log(user);
+
     const response = await createUser(user);
-    if (response.ok) {
+
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido a Cursotopia! 😊',
@@ -72,8 +79,6 @@ export const signup = async function(event) {
                 confirmButton: 'btn btn-primary shadow-none rounded-pill'
             },
         });
-
-        // TODO: uri estatica
         window.location.href = "home";
     }
     else {
@@ -139,7 +144,11 @@ export const uploadProfilePicture = async function(event) {
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
 
-        const imageId = createImage();
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+
+        const response = await createImage(formData);
+        const imageId = response.id;
         profilePictureId.value = imageId;
     }
     catch (exception) {

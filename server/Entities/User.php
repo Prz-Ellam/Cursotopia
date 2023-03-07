@@ -1,6 +1,6 @@
 <?php
 
-namespace Cursotopia\entities;
+namespace Cursotopia\Entities;
 
 class User {
     private int $id;
@@ -48,39 +48,89 @@ class User {
         return $this->birthDate;
     }
 
+    public function setBirthDate(string $birthDate): self {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
     public function getGender(): int {
         return $this->gender;
+    }
+
+    public function setGender(int $gender): self {
+        $this->gender = $gender;
+        return $this;
     }
 
     public function getEmail(): string {
         return $this->email;
     }
 
+    public function setEmail(string $email): self {
+        $this->email = $email;
+        return $this;
+    }
+
     public function getPassword(): string {
         return $this->password;
+    }
+
+    public function setPassword(string $password): self {
+        $this->password = $password;
+        return $this;
     }
 
     public function getUserRole(): int {
         return $this->userRole;
     }
 
+    public function setUserRole(int $userRole): self {
+        $this->userRole = $userRole;
+        return $this;
+    } 
+
     public function getProfilePicture(): int {
         return $this->profilePicture;
+    }
+
+    public function setProfilePicture(int $profilePicture): self {
+        $this->profilePicture = $profilePicture;
+        return $this;
     }
 
     public function getEnabled(): bool {
         return $this->enabled;
     }
 
+    public function setEnabled(bool $enabled): self {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
     public function getCreatedAt(): string {
         return $this->createdAt;
+    }
+
+    public function setCreatedAt(string $createdAt): self {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getModifiedAt(): string {
         return $this->modifiedAt;
     }
 
-    public function getAction(): bool {
+    public function setModifiedAt(string $modifiedAt): self {
+        $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function getActive(): bool {
         return $this->active;
+    }
+
+    public function setActive(bool $active): self {
+        $this->active = $active;
+        return $this;
     }
 }

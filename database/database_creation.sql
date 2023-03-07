@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `images`;
 CREATE TABLE IF NOT EXISTS `images`(
     `image_id`                      INT NOT NULL AUTO_INCREMENT,
     `image_name`                    VARCHAR(255) NOT NULL,
-    `image_size`                    BIGINT NOT NULL,
+    `image_size`                    INT NOT NULL,
     `image_content_type`            VARCHAR(30) NOT NULL,
     `image_data`                    MEDIUMBLOB NOT NULL,
     `image_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -20,10 +20,10 @@ DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos`(
     `video_id`                      INT NOT NULL AUTO_INCREMENT,
     `video_name`                    VARCHAR(255) NOT NULL,
-    `video_duration`                UNSIGNED INT NOT NULL,
+    `video_duration`                INT NOT NULL,
     `video_address`                 VARCHAR(255) NOT NULL,
     `video_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
-    `video_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
+    `video_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `video_active`                  BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `video_pk`
         PRIMARY KEY (`video_id`)
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `documents`(
     `document_name`                 VARCHAR(255) NOT NULL,
     `document_address`              VARCHAR(255) NOT NULL,
     `document_created_at`           TIMESTAMP NOT NULL DEFAULT NOW(),
-    `document_modified_at`          TIMESTAMP NOT NULL DEFAULT NOW(),
+    `document_modified_at`          TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `document_active`               BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `document_pk`
         PRIMARY KEY (`document_id`)
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `links`(
     `link_id`                       INT NOT NULL AUTO_INCREMENT,
     `link_name`                     VARCHAR(255) NOT NULL,
     `link_address`                  VARCHAR(255) NOT NULL,
-    `link_created_at`               DATETIME NOT NULL DEFAULT NOW(),
-    `link_modified_at`              DATETIME NOT NULL DEFAULT NOW(),
+    `link_created_at`               TIMESTAMP NOT NULL DEFAULT NOW(),
+    `link_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `link_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `link_pk`
         PRIMARY KEY (`link_id`)
@@ -57,8 +57,8 @@ DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles`(
     `user_role_id`                  INT NOT NULL AUTO_INCREMENT,
     `user_role_name`                VARCHAR(50) NOT NULL,
-    `user_role_created_at`          DATETIME NOT NULL DEFAULT NOW(),
-    `user_role_modified_at`         DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+    `user_role_created_at`          TIMESTAMP NOT NULL DEFAULT NOW(),
+    `user_role_modified_at`         TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `user_role_active`              BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `user_role_pk`
         PRIMARY KEY (`user_role_id`)
@@ -75,15 +75,15 @@ CREATE TABLE IF NOT EXISTS `users`(
     `user_password`                 VARCHAR(255) NOT NULL,
     `user_role`                     INT NOT NULL,
     `profile_picture`               INT NOT NULL,
-    `user_enabled`                  BOOLEAN NOT NULL,
+    `user_enabled`                  BOOLEAN NOT NULL DEFAULT TRUE,
     `user_created_at`               TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `user_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `users_pk`
-        PRIMARY KEY (`user_id`)
+        PRIMARY KEY (`user_id`),
     CONSTRAINT `users_images_fk`
         FOREIGN KEY (`profile_picture`) 
-        REFERENCES images(`image_id`)
+        REFERENCES images(`image_id`),
     CONSTRAINT `users_user_roles_fk`
         FOREIGN KEY (`user_role`) 
         REFERENCES user_roles(`user_role_id`)
@@ -99,8 +99,8 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `instructor_id`                 INT NOT NULL,
     `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
-    `course_created_at`             DATETIME NOT NULL DEFAULT NOW(),
-    `course_modified_at`            DATETIME NOT NULL DEFAULT NOW(),
+    `course_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
+    `course_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `course_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `course_pk`
         PRIMARY KEY (`course_id`)
@@ -119,8 +119,8 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_description`             VARCHAR(255) NOT NULL,
     `level_price`                   DECIMAL(10, 2) NOT NULL,
     `course_id`                     INT NOT NULL,
-    `level_created_at`              DATETIME NOT NULL DEFAULT NOW(),
-    `level_modified_at`             DATETIME NOT NULL DEFAULT NOW(),
+    `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
+    `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_active`                  BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `level_pk`
         PRIMARY KEY (`level_id`)
@@ -138,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `image_id`                      INT NOT NULL,
     `document_id`                   INT NOT NULL,
     `link_id`                       INT NOT NULL,
-    `lesson_created_at`             DATETIME NOT NULL DEFAULT NOW(),
-    `lesson_modified_at`            DATETIME NOT NULL DEFAULT NOW(),
+    `lesson_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
+    `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `lesson_pk`
         PRIMARY KEY (`lesson_id`)
@@ -153,8 +153,8 @@ CREATE TABLE IF NOT EXISTS `categories`(
     `category_approved`             BOOLEAN NOT NULL DEFAULT FALSE,
     `category_approved_by`          INT DEFAULT NULL,
     `category_created_by`           INT NOT NULL,
-    `category_created_at`           DATETIME NOT NULL DEFAULT NOW(),
-    `category_modified_at`          DATETIME NOT NULL DEFAULT NOW(),
+    `category_created_at`           TIMESTAMP NOT NULL DEFAULT NOW(),
+    `category_modified_at`          TIMESTAMP NOT NULL DEFAULT NOW(),
     `category_active`               BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `category_pk`
         PRIMARY KEY (`category_id`)
@@ -171,8 +171,8 @@ CREATE TABLE IF NOT EXISTS `reviews`(
     `review_rate`                   INT NOT NULL,
     `course_id`                     INT NOT NULL,
     `user_id`                       INT NOT NULL,
-    `review_created_at`             DATETIME NOT NULL DEFAULT NOW(),
-    `review_modified_at`            DATETIME NOT NULL DEFAULT NOW(),
+    `review_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
+    `review_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `review_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `review_pk`
         PRIMARY KEY (`review_id`)
@@ -186,8 +186,8 @@ DROP TABLE IF EXISTS `payment_methods`;
 CREATE TABLE IF NOT EXISTS `payment_methods`(
     `payment_method_id`             INT NOT NULL AUTO_INCREMENT,
     `payment_method_name`           VARCHAR(50) NOT NULL,
-    `payment_method_created_at`     DATETIME NOT NULL DEFAULT NOW(),
-    `payment_method_mofified_at`    DATETIME NOT NULL DEFAULT NOW(),
+    `payment_method_created_at`     TIMESTAMP NOT NULL DEFAULT NOW(),
+    `payment_method_mofified_at`    TIMESTAMP NOT NULL DEFAULT NOW(),
     `payment_method_active`         BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `payment_method_pk`
         PRIMARY KEY (`payment_method_id`)
@@ -205,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_amount`             DECIMAL(10, 2) NOT NULL,
     `payment_method_id`             INT NOT NULL,
     `enrollment_last_time_checked`  DATETIME,
-    `enrollment_created_at`         DATETIME NOT NULL DEFAULT NOW(),
-    `enrollment_modified_at`        DATETIME NOT NULL DEFAULT NOW(),
+    `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
+    `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_active`             BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `enrollment_pk`
         PRIMARY KEY (`enrollment_id`)
@@ -275,8 +275,8 @@ CREATE TABLE IF NOT EXISTS `chats`(
     `chat_id`                       INT NOT NULL AUTO_INCREMENT,
     `chat_last_message`             VARCHAR(255) NOT NULL,
     `chat_last_message_at`          DATETIME NOT NULL,
-    `chat_created_at`               DATETIME NOT NULL DEFAULT NOW(),
-    `chat_modified_at`              DATETIME NOT NULL DEFAULT NOW(),
+    `chat_created_at`               TIMESTAMP NOT NULL DEFAULT NOW(),
+    `chat_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `chat_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `chat_pk`
         PRIMARY KEY (`chat_id`)

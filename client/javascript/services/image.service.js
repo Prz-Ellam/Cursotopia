@@ -1,10 +1,20 @@
+import axios from 'axios';
+
 export const createImage = async (image) => {
-    // const response = await fetch('/api/v1/images', {
-    //     method: 'POST',
-    //     body: image
-    // });
-    //const json = await response.json();
-    //return json;
-    // TODO: Dummy
-    return 1;
+    try {
+        const configuration = {
+            method: 'POST',
+            url: '/api/v1/images',
+            headers: { 
+                'Content-Type': 'multipart/form-data'
+            },
+            data : image
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
 }
