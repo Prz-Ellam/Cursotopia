@@ -4,6 +4,8 @@ use Bloom\Application;
 use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\CourseController;
 use Cursotopia\Controllers\ImageController;
+use Cursotopia\Controllers\LessonController;
+use Cursotopia\Controllers\LevelController;
 use Cursotopia\Controllers\UserController;
 
 require_once "../vendor/autoload.php";
@@ -49,6 +51,7 @@ $app->get('/student-profile', fn($request, $response) => $response->render('stud
 $app->post('/api/v1/auth', [ AuthController::class, 'login' ]);
 
 // Users
+$app->get('/api/v1/users/:id', [ UserController::class, 'show' ]);
 $app->post('/api/v1/users', [ UserController::class, 'store' ]);
 $app->put('/api/v1/users', [ UserController::class, 'update' ]);
 $app->delete('/api/v1/users', [ UserController::class, 'remove' ]);
@@ -64,6 +67,18 @@ $app->get('/api/v1/courses/:id', [ CourseController::class, 'show' ]);
 $app->post('/api/v1/courses', [ CourseController::class, 'store' ]);
 $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ]);
 $app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ]);
+
+// Levels
+$app->get('/api/v1/levels/:id', [ LevelController::class, 'show' ]);
+$app->post('/api/v1/levels', [ LevelController::class, 'store' ]);
+$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ]);
+$app->delete('/api/v1/levels/:id', [ LevelController::class, 'remove' ]);
+
+// Lessons
+$app->get('/api/v1/lessons/:id', [ LessonController::class, 'show' ]);
+$app->post('/api/v1/lessons', [ LessonController::class, 'store' ]);
+$app->put('/api/v1/lessons/:id', [ LessonController::class, 'update' ]);
+$app->delete('/api/v1/lessons/:id', [ LessonController::class, 'remove' ]);
 
 
 $app->run();

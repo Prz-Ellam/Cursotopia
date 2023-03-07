@@ -39,6 +39,10 @@ class ImageController {
 
         $result = $imageModel->save();
 
+        // Store the image id in the session
+        $request = $request->getSession();
+        $request->set("image_id", $imageModel->getId());
+
         $response->json([
             "status" => $result,
             "id" => $imageModel->getId(),

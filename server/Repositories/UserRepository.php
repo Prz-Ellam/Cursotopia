@@ -6,7 +6,7 @@ use Bloom\Database\DB;
 use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Entities\User;
 
-class UserRepository {
+class UserRepository extends DB implements UserRepositoryInterface {
     private const CREATE = "
         INSERT INTO users(
             user_name, 
@@ -40,7 +40,7 @@ class UserRepository {
             "user_role" => $user->getUserRole(),
             "profile_picture" => $user->getProfilePicture()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
     public function update() {

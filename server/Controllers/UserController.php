@@ -4,11 +4,12 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Bloom\Validations\Validator;
 use Cursotopia\Models\UserModel;
 
 class UserController {
 
-    public function index(Request $request, Response $response) {
+    public function index(Request $request, Response $response): void {
 
     }
 
@@ -20,7 +21,10 @@ class UserController {
      * @return void
      */
     public function store(Request $request, Response $response): void {
-
+        // La foto de perfil debe existir y no debe tenerla alguien más en la BD
+        // El id de la foto de perfil debe almacenarse en la sessión
+        // El rol debe existir
+        
         $profilePicture = $request->getBody("profile-picture");
         $name = $request->getBody("name");
         $lastName = $request->getBody("last-name");
@@ -40,7 +44,17 @@ class UserController {
             ->setGender($gender)
             ->setBirthDate($birthDate)
             ->setEmail($email)
-            ->setPassword($password);
+            ->setPassword($password)
+            ->setConfirmPassword($confirmPassword);
+
+        $userValidator = new Validator($userModel);
+        if (!$userValidator->validate()) {
+            $response->json([
+                "status" => false,
+                "message" => $userValidator->getFeedback()
+            ]);
+            return;
+        }
 
         $status = $userModel->save();
 
@@ -49,10 +63,13 @@ class UserController {
             "id" => $userModel->getId(),
             "message" => "The user was sucessfully created"
         ]);
+    }
+
+    public function update(Request $request, Response $response): void {
 
     }
 
-    public function update(Request $request, Response $response) {
+    public function updatePassword(Request $request, Response $response): void {
 
     }
 

@@ -3,15 +3,24 @@
 namespace Cursotopia\Models;
 
 use Bloom\Database\DB;
+use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\Image;
 use Cursotopia\Repositories\ImageRepository;
 use Exception;
 
 class ImageModel {
     private int $id;
+
+    #[Required]
     private string $name;
+
+    #[Required]
     private int $size;
+
+    #[Required]
     private string $contentType;
+
+    #[Required]
     private mixed $data;
 
     private ImageRepository $imageRepository;

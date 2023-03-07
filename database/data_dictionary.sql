@@ -17,10 +17,16 @@ ALTER TABLE `images` MODIFY COLUMN `image_active`
 BOOLEAN NOT NULL COMMENT 'Estado actual de la imagen';
 
 -- Videos
+ALTER TABLE `videos` MODIFY COLUMN `video_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del video'
 
 -- Documents
+ALTER TABLE `documents` MODIFY COLUMN `document_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del documento'
 
 -- Links
+ALTER TABLE `links` MODIFY COLUMN `link_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del enlace'
 
 -- User Roles
 
@@ -39,14 +45,24 @@ ALTER TABLE `users` MODIFY COLUMN `user_email`
 VARCHAR(255) NOT NULL COMMENT 'Correo electrónico del usuario';
 
 -- Courses
+ALTER TABLE `courses` MODIFY COLUMN `course_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del curso'
 
 -- Levels
+ALTER TABLE `levels` MODIFY COLUMN `level_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del nivel'
 
 -- Lessons
+ALTER TABLE `lessons` MODIFY COLUMN `lesson_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID de la lección'
 
 -- Categories
+ALTER TABLE `categories` MODIFY COLUMN `category_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID de la categoría'
 
 -- Reviews
+ALTER TABLE `reviews` MODIFY COLUMN `review_id`
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID de la reseña'
 
 -- Payment Methods
 

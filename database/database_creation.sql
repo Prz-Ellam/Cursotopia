@@ -1,5 +1,4 @@
 CREATE DATABASE cursotopia;
-
 USE cursotopia;
 
 DROP TABLE IF EXISTS `images`;
@@ -74,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `users`(
     `user_email`                    VARCHAR(255) NOT NULL UNIQUE,
     `user_password`                 VARCHAR(255) NOT NULL,
     `user_role`                     INT NOT NULL,
-    `profile_picture`               INT NOT NULL,
+    `profile_picture`               INT NOT NULL UNIQUE,
     `user_enabled`                  BOOLEAN NOT NULL DEFAULT TRUE,
     `user_created_at`               TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -95,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_title`                  VARCHAR(50) NOT NULL,
     `course_description`            VARCHAR(255) NOT NULL,
     `course_price`                  DECIMAL(10, 2) NOT NULL,
-    `image_id`                      INT NOT NULL,
+    `image_id`                      INT NOT NULL UNIQUE,
     `instructor_id`                 INT NOT NULL,
     `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
@@ -103,13 +102,16 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `course_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `course_pk`
-        PRIMARY KEY (`course_id`)
+        PRIMARY KEY (`course_id`),
     CONSTRAINT `course_image_fk`
-        FOREIGN KEY (`image_id`) REFERENCES images(`image_id`)
+        FOREIGN KEY (`image_id`) 
+        REFERENCES images(`image_id`),
     CONSTRAINT `course_instructor_fk`
-        FOREIGN KEY (`instructor_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`instructor_id`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `course_approved_by_fk`
-        FOREIGN KEY (`approved_by`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`course_approved_by`) 
+        REFERENCES users(`user_id`)
 );
 
 DROP TABLE IF EXISTS `levels`;
@@ -123,9 +125,10 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_active`                  BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `level_pk`
-        PRIMARY KEY (`level_id`)
+        PRIMARY KEY (`level_id`),
     CONSTRAINT `level_course_fk`
-        FOREIGN KEY (`course_id`) REFERENCES courses(`course_id`)
+        FOREIGN KEY (`course_id`) 
+        REFERENCES courses(`course_id`)
 );
 
 DROP TABLE IF EXISTS `lessons`;
@@ -134,15 +137,30 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
     `level_id`                      INT NOT NULL,
-    `video_id`                      INT NOT NULL,
-    `image_id`                      INT NOT NULL,
-    `document_id`                   INT NOT NULL,
-    `link_id`                       INT NOT NULL,
+    `video_id`                      INT NOT NULL UNIQUE,
+    `image_id`                      INT NOT NULL UNIQUE,
+    `document_id`                   INT NOT NULL UNIQUE,
+    `link_id`                       INT NOT NULL UNIQUE,
     `lesson_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `lesson_pk`
-        PRIMARY KEY (`lesson_id`)
+        PRIMARY KEY (`lesson_id`),
+    CONSTRAINT `lesson_level_fk`
+        FOREIGN KEY (`level_id`) 
+        REFERENCES courses(`course_id`),
+    CONSTRAINT `lesson_video_fk`
+        FOREIGN KEY (`video_id`) 
+        REFERENCES videos(`video_id`),
+    CONSTRAINT `lesson_image_fk`
+        FOREIGN KEY (`image_id`) 
+        REFERENCES images(`image_id`),
+    CONSTRAINT `lesson_document_fk`
+        FOREIGN KEY (`document_id`) 
+        REFERENCES documents(`document_id`),
+    CONSTRAINT `lesson_link_fk`
+        FOREIGN KEY (`link_id`) 
+        REFERENCES links(`link_id`)
 );
 
 DROP TABLE IF EXISTS `categories`;
@@ -157,11 +175,13 @@ CREATE TABLE IF NOT EXISTS `categories`(
     `category_modified_at`          TIMESTAMP NOT NULL DEFAULT NOW(),
     `category_active`               BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `category_pk`
-        PRIMARY KEY (`category_id`)
+        PRIMARY KEY (`category_id`),
     CONSTRAINT `category_approved_by_fk`
-        FOREIGN KEY (`category_approved_by`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`category_approved_by`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `category_created_by_fk`
-        FOREIGN KEY (`category_created_by`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`category_created_by`) 
+        REFERENCES users(`user_id`)
 );
 
 DROP TABLE IF EXISTS `reviews`;
@@ -172,14 +192,16 @@ CREATE TABLE IF NOT EXISTS `reviews`(
     `course_id`                     INT NOT NULL,
     `user_id`                       INT NOT NULL,
     `review_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
-    `review_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
+    `review_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `review_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `review_pk`
-        PRIMARY KEY (`review_id`)
+        PRIMARY KEY (`review_id`),
     CONSTRAINT `review_course_fk`
-        FOREIGN KEY (`course_id`) REFERENCES courses(`course_id`)
+        FOREIGN KEY (`course_id`) 
+        REFERENCES courses(`course_id`),
     CONSTRAINT `review_user_fk`
-        FOREIGN KEY (`user_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`user_id`) 
+        REFERENCES users(`user_id`)
 );
 
 DROP TABLE IF EXISTS `payment_methods`;
@@ -209,13 +231,16 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_active`             BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `enrollment_pk`
-        PRIMARY KEY (`enrollment_id`)
+        PRIMARY KEY (`enrollment_id`),
     CONSTRAINT `enrollment_course_fk`
-        FOREIGN KEY (`course_id`) REFERENCES courses(`course_id`)
+        FOREIGN KEY (`course_id`) 
+        REFERENCES courses(`course_id`),
     CONSTRAINT `enrollment_student_fk`
-        FOREIGN KEY (`student_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`student_id`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `enrollment_payment_method_fk`
-        FOREIGN KEY (`payment_method_id`) REFERENCES payment_methods(`payment_method_id`)
+        FOREIGN KEY (`payment_method_id`) 
+        REFERENCES payment_methods(`payment_method_id`)
 );
 
 DROP TABLE IF EXISTS `user_level`;
@@ -229,11 +254,13 @@ CREATE TABLE IF NOT EXISTS `user_level`(
     `user_level_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_level_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT `user_level_pk`
-        PRIMARY KEY (`user_level_id`)
-    CONSTRAINT `user_lesson_user_fk`
-        FOREIGN KEY (`user_id`) REFERENCES users(`user_id`)
-    CONSTRAINT `user_lesson_lesson_fk`
-        FOREIGN KEY (`lesson_id`) REFERENCES lessons(`lesson_id`)
+        PRIMARY KEY (`user_level_id`),
+    CONSTRAINT `user_level_user_fk`
+        FOREIGN KEY (`user_id`) 
+        REFERENCES users(`user_id`),
+    CONSTRAINT `user_level_lesson_fk`
+        FOREIGN KEY (`level_id`) 
+        REFERENCES levels(`level_id`)
 );
 
 DROP TABLE IF EXISTS `user_lesson`;
@@ -245,13 +272,15 @@ CREATE TABLE IF NOT EXISTS `user_lesson`(
     `user_lesson_complete_at`       TIMESTAMP,
     `user_lesson_last_time_checked` DATETIME,
     `user_lesson_created_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
-    `user_lesson_modified_at`       TIMESTAMP NOT NULL DEFAULT NOW(),
+    `user_lesson_modified_at`       TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     CONSTRAINT `user_lesson_pk`
-        PRIMARY KEY (`user_lesson_id`)
+        PRIMARY KEY (`user_lesson_id`),
     CONSTRAINT `user_lesson_user_fk`
-        FOREIGN KEY (`user_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`user_id`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `user_lesson_lesson_fk`
-        FOREIGN KEY (`lesson_id`) REFERENCES lessons(`lesson_id`)
+        FOREIGN KEY (`lesson_id`) 
+        REFERENCES lessons(`lesson_id`)
 );
 
 DROP TABLE IF EXISTS `course_category`;
@@ -263,11 +292,13 @@ CREATE TABLE IF NOT EXISTS `course_category`(
     `course_category_modified_at`   TIMESTAMP NOT NULL DEFAULT NOW(),
     `course_category_active`        BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `course_category_pk`
-        PRIMARY KEY (`course_category_id`)
+        PRIMARY KEY (`course_category_id`),
     CONSTRAINT `course_category_course_fk`
-        FOREIGN KEY (`course_id`) REFERENCES courses(`course_id`)
+        FOREIGN KEY (`course_id`) 
+        REFERENCES courses(`course_id`),
     CONSTRAINT `course_category_category_fk`
-        FOREIGN KEY (`category_id`) REFERENCES categories(`category_id`)
+        FOREIGN KEY (`category_id`) 
+        REFERENCES categories(`category_id`)
 );
 
 DROP TABLE IF EXISTS `chats`;
@@ -291,11 +322,13 @@ CREATE TABLE IF NOT EXISTS `chat_participants`(
     `chat_participant_modified_at`  TIMESTAMP NOT NULL DEFAULT NOW(),
     `chat_participant_active`       BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `chat_participant_pk`
-        PRIMARY KEY (`chat_participant_id`)
+        PRIMARY KEY (`chat_participant_id`),
     CONSTRAINT `chat_participant_user_fk`
-        FOREIGN KEY (`user_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`user_id`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `chat_participant_chat_fk`
-        FOREIGN KEY (`chat_id`) REFERENCES chats(`chat_id`)
+        FOREIGN KEY (`chat_id`) 
+        REFERENCES chats(`chat_id`)
 );
 
 DROP TABLE IF EXISTS `messages`;
@@ -308,9 +341,11 @@ CREATE TABLE IF NOT EXISTS `messages`(
     `message_modified_at`           TIMESTAMP NOT NULL DEFAULT NOW(),
     `message_active`                BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `message_pk`
-        PRIMARY KEY (`message_id`)
+        PRIMARY KEY (`message_id`),
     CONSTRAINT `message_user_fk`
-        FOREIGN KEY (`user_id`) REFERENCES users(`user_id`)
+        FOREIGN KEY (`user_id`) 
+        REFERENCES users(`user_id`),
     CONSTRAINT `message_chat_fk`
-        FOREIGN KEY (`chat_id`) REFERENCES chats(`chat_id`)
+        FOREIGN KEY (`chat_id`) 
+        REFERENCES chats(`chat_id`)
 );
