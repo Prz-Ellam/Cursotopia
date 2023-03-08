@@ -79,4 +79,36 @@ class ImageController {
 
 
     }
+
+    public function getOne(Request $request, Response $response): void {
+        $id = $request->getParams("id");
+        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "ID is not valid"
+                ]);
+            return;
+        }
+
+        $image = ImageModel::findOneById($id);
+        if (!$image) {
+            $response
+                ->setStatus(404)
+                ->json([
+                    "status" => false,
+                    "message" => "Image not found"
+                ]);
+            return;
+        }
+
+        $response->setHeader("X-Image-Id", $image->getId());
+        $response->setHeader("Content-Length", $image->getSize());
+        $response->setContentType($image->getContentType());
+        $response->setHeader("Content-Disposition", 'inline; filename="' . $image->getName() . '"');
+        $dt = new DateTime($image->getModifiedAt());
+        $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
+        $response->setBody($image->getData());
+    }
 }

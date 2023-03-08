@@ -61,38 +61,6 @@ class UserController {
         // El id de la foto de perfil debe almacenarse en la sessión
         // El rol debe existir
         $body = $request->getBody();
-
-        $opisValidator = new OpisValidator();
-
-        $schema = (object) [
-            'type' => 'number'
-        ];
-
-        $jsonSchema = <<<'JSON'
-        {
-            "type": "object",
-            "properties": {
-                "username": {
-                    "type": "string"
-                }
-            },
-            "required": [ "username" ],
-            "additionalProperties": false
-        }
-        JSON;
-
-        $object = json_decode(json_encode($body), false);
-        $result = $opisValidator->dataValidation($object, json_decode($jsonSchema, false));
-
-        
-        var_dump($result->getErrors());
-
-        return;
-
-
-
-
-
         $user = new UserModel($body);
 
         $userValidator = new Validator($user);

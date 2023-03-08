@@ -27,6 +27,6 @@
     "require": {
         "prz-ellam/bloom": "@dev",
         "vlucas/phpdotenv": "^5.5",
-        "opis/json-schema": "^1.1"
+        "opis/json-schema": "^2.0"
     }
 }

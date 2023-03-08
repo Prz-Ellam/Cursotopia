@@ -7,7 +7,7 @@ use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Entities\User;
 
 class UserRepository extends DB implements UserRepositoryInterface {
-    private const FIND_ONE = "
+    private const FIND_ONE = <<<'SQL'
         SELECT 
             user_id AS `id`, 
             user_name AS `name`, 
@@ -22,8 +22,10 @@ class UserRepository extends DB implements UserRepositoryInterface {
         WHERE
             user_id = :id
         LIMIT
-            1";
-    private const CREATE = "
+            1
+    SQL;
+    
+    private const CREATE = <<<'SQL'
         INSERT INTO users(
             user_name, 
             user_last_name, 
@@ -43,7 +45,8 @@ class UserRepository extends DB implements UserRepositoryInterface {
             :password,
             :user_role,
             :profile_picture
-        )";
+        )
+    SQL;
     
     public function create(User $user): int {
         $parameters = [
@@ -68,6 +71,6 @@ class UserRepository extends DB implements UserRepositoryInterface {
     }
 
     public function findOne(int $id) {
-        return $this::executeReader($this::FIND_ONE, [ "id" => $id ])[0] ?? null;
+        return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
     }
 }

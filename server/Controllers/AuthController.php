@@ -18,9 +18,10 @@ class AuthController {
 
 
         $session = $request->getSession();
-        if (Crypto::verify($result[0]["password"], $password)) {
-            $session->set("id", $result[0]["id"]);
-            $session->set("role", $result[0]["userRole"]);
+        if (Crypto::verify($result["password"], $password)) {
+            $session->set("id", $result["id"]);
+            $session->set("role", $result["userRole"]);
+            $session->set("profilePicture", $result["profilePicture"]);
             $response->json([
                 "status" => true,
                 "message" => "User login successfully"
@@ -37,5 +38,6 @@ class AuthController {
     public function logout(Request $request, Response $response): void {
         $session = $request->getSession();
         $session->destroy();
+        $response->redirect('/');
     }
 }

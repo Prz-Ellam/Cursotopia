@@ -9,48 +9,78 @@ use Cursotopia\Repositories\ImageRepository;
 use Exception;
 
 class ImageModel {
-    private int $id;
+    private ?int $id;
 
-    #[Required]
-    private string $name;
+    #[Required("El nombre de la imagen es requerido")]
+    private ?string $name;
 
-    #[Required]
-    private int $size;
+    #[Required("El tamaño de la imagen es requerido")]
+    private ?int $size;
 
-    #[Required]
-    private string $contentType;
+    #[Required("El tipo de la imagen es requerido")]
+    private ?string $contentType;
 
-    #[Required]
+    #[Required("El contenido de la imagen es requerido")]
     private mixed $data;
+
+    private ?string $createdAt;
+    private ?string $modifiedAt;
 
     private ImageRepository $imageRepository;
 
-    public function __construct() {
+    public function __construct(?array $object = null) {
         $this->imageRepository = new ImageRepository();
+        $this->id = $object["id"] ?? null;
+        $this->name = $object["name"] ?? null;
+        $this->size = $object["size"] ?? null;
+        $this->contentType = $object["contentType"] ?? null;
+        $this->data = $object["data"] ?? null;
+        $this->createdAt = $object["createdAt"] ?? null;
+        $this->modifiedAt = $object["modifiedAt"] ?? null;
     }
 
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function getName(): ?string {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    public function setSize(int $size): self {
+    public function getSize(): ?int {
+        return $this->size;
+    }
+
+    public function setSize(?int $size): self {
         $this->size = $size;
         return $this;
     }
 
-    public function setContentType(string $contentType): self {
+    public function getContentType(): ?string {
+        return $this->contentType;
+    }
+
+    public function setContentType(?string $contentType): self {
         $this->contentType = $contentType;
         return $this;
+    }
+
+    public function getData(): mixed {
+        return $this->data;
     }
 
     public function setData(mixed $data): self {
         $this->data = $data;
         return $this;
+    }
+
+    public function getModifiedAt(): ?string {
+        return $this->modifiedAt;
     }
 
     public function save(): bool {
@@ -72,5 +102,14 @@ class ImageModel {
             // Error con el SQL
             return false;
         }
+    }
+
+    public static function findOneById(int $id): ?ImageModel {
+        $repository = new ImageRepository();
+        $object = $repository->findOneById($id);
+        if (!$object) {
+            return null;
+        }
+        return new ImageModel($object);
     }
 }
