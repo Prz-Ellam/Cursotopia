@@ -49,24 +49,36 @@ $app->get('/student-profile', fn($request, $response) => $response->render('stud
 
 // Auth
 $app->post('/api/v1/auth', [ AuthController::class, 'login' ]);
+$app->delete('/api/v1/auth', [ AuthController::class, 'logout' ]);
 
 // Users
-$app->get('/api/v1/users/:id', [ UserController::class, 'show' ]);
-$app->post('/api/v1/users', [ UserController::class, 'store' ]);
-$app->put('/api/v1/users', [ UserController::class, 'update' ]);
-$app->delete('/api/v1/users', [ UserController::class, 'remove' ]);
+$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ]);
+
+$app->post('/api/v1/users', [ UserController::class, 'create' ]);
+$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ]);
+$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ]);
+$app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
+
+
 
 // Images
 $app->get('/api/v1/images/:id', [ ImageController::class, 'show' ]);
-$app->post('/api/v1/images', [ ImageController::class, 'store' ]);
+
+$app->post('/api/v1/images', [ ImageController::class, 'create' ]);
 $app->put('/api/v1/images/:id', [ ImageController::class, 'update' ]);
 $app->delete('/api/v1/images/:id', [ ImageController::class, 'remove' ]);
 
+
+
 // Courses
-$app->get('/api/v1/courses/:id', [ CourseController::class, 'show' ]);
-$app->post('/api/v1/courses', [ CourseController::class, 'store' ]);
+$app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
+$app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
+//$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
+$app->post('/api/v1/courses', [ CourseController::class, 'create' ]);
 $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ]);
 $app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ]);
+
+
 
 // Levels
 $app->get('/api/v1/levels/:id', [ LevelController::class, 'show' ]);

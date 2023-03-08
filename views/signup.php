@@ -81,7 +81,7 @@
             </div>
             <div class="col-lg-4 col-12 mb-4">
               <label for="birthDate" role="button" class="form-label">Fecha de nacimiento</label>
-              <input type="date" name="birth-date" id="birth-date" class="form-control">
+              <input type="date" name="birthDate" id="birth-date" class="form-control">
             </div>
             <div class="col-12 mb-4">
               <label for="email" role="button" class="form-label">Correo electrónico</label>

@@ -33,20 +33,22 @@ export const updateUserPassword = async (user) => {
 }
 
 export const loginUser = async (auth) => {
-    /*
     try {
-        const response = await fetch('/api/v1/auth', {
+        const configuration = {
             method: 'POST',
-            body: auth
-        });
-        const json = await response.json();
-        return json;
+            url: '/api/v1/auth',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(auth)
+        };
+        const response = await axios(configuration);
+        return response.data;
     }
     catch (exception) {
         console.log(exception);
     }
-    */
-    return { ok: true };
+    return null;
 }
 
 export const logoutUser = async (auth) => {

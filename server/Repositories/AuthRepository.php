@@ -10,7 +10,8 @@ class AuthRepository {
         SELECT 
             user_id AS `id`, 
             user_password AS `password`,
-            user_enabled AS `enabled`
+            user_enabled AS `enabled`,
+            user_role AS `userRole`
         FROM
             users AS u
         INNER JOIN

@@ -48,6 +48,27 @@ class UserModel {
     #[Required("La foto de perfil es requerida")]
     private ?int $profilePicture;
 
+    public function __construct(?array $object = null) {
+        $this->userRepository = new UserRepository();
+        $this->authRepository = new AuthRepository();
+
+        // foreach ($object as $key => $element) {
+        //     //$this->{$key} = $element;
+        //     var_dump(property_exists($this, $key));
+        // }
+
+        $this->id = $object["id"] ?? null;
+        $this->name = $object["name"] ?? null;
+        $this->lastName = $object["lastName"] ?? null;
+        $this->birthDate = $object["birthDate"] ?? null;
+        $this->gender = $object["gender"] ?? null;
+        $this->email = $object["email"] ?? null;
+        $this->password = $object["password"] ?? null;
+        $this->confirmPassword = $object["confirmPassword"] ?? null;
+        $this->userRole = $object["userRole"] ?? null;
+        $this->profilePicture = $object["profilePicture"] ?? null;
+    }
+
     public function getId(): ?int {
         return $this->id;
     }
@@ -138,13 +159,7 @@ class UserModel {
         return $this;
     }
 
-    public function __construct() {
-        $this->userRepository = new UserRepository();
-        $this->authRepository = new AuthRepository();
-    }
-
     public function save(): bool {
-        try {
             $user = new User();
             $user
                 ->setName($this->name)
@@ -161,10 +176,17 @@ class UserModel {
                 $this->id = intval(DB::lastInsertId());
             }
             return ($rowsAffected > 0) ? true : false;
+        
+    }
+
+    public static function findOneById(int $id): ?UserModel {
+        $repository = new UserRepository();
+        $object = $repository->findOne($id);
+        if (!$object) {
+            return null;
         }
-        catch (Exception $exception) {
-            return false;
-        }
+
+        return new UserModel($object);
     }
 
     public function login(): array {

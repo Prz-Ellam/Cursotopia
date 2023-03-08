@@ -18,11 +18,17 @@ export const login = async function(event) {
     const loginSpinner = document.getElementById('login-spinner');
     loginSpinner.classList.remove('d-none');
 
-    const response = await loginUser({});
+    const formData = new FormData(this);
+    const user = {};
+    for (const [key, value] of formData) {
+        user[key] = value;
+    }
+    console.log(user);
+    const response = await loginUser(user);
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
 
-    if (response.ok) {
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido de vuelta a Cursotopia! 😊',

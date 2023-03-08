@@ -2,6 +2,7 @@
 
 namespace Cursotopia\Controllers;
 
+use Bloom\Hashing\Crypto;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Models\UserModel;
@@ -11,17 +12,30 @@ class AuthController {
         $email = $request->getBody("email");
         $password = $request->getBody("password");
 
-        $userModel = new UserModel();
-        $userModel->setEmail($email);
-        $result = $userModel->login();
+        $user = new UserModel();
+        $user->setEmail($email);
+        $result = $user->login();
 
 
         $session = $request->getSession();
-        if ($password == $result[0]["password"]) {
+        if (Crypto::verify($result[0]["password"], $password)) {
             $session->set("id", $result[0]["id"]);
-            //$session->set("role", $result[""]);
-            
+            $session->set("role", $result[0]["userRole"]);
+            $response->json([
+                "status" => true,
+                "message" => "User login successfully"
+            ]);
+            return;
         }
-        $response->json([]);
+        $response->json([
+            "status" => false,
+            "message" => "Cannot login"
+        ]);
+        
+    }
+
+    public function logout(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $session->destroy();
     }
 }

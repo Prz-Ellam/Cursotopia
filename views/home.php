@@ -1,4 +1,4 @@
-<?php ?>
+<?php use Cursotopia\Helpers\Auth; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
 <body>
-  <!-- Navbar de instructor -->
-  <!--   
+  <?php if (Auth::auth(1)): ?>
+  <!-- Navbar de instructor --> 
   <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand text-white" href="home">
@@ -109,10 +109,8 @@
       </div>
     </div>
   </nav>
-  -->
-
-  <!-- Navbar de estudiante -->
-  <!-- 
+  <?php elseif (Auth::auth(2)): ?>
+  <!-- Navbar de estudiante --> 
   <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand text-white" href="home">
@@ -203,8 +201,7 @@
       </div>
     </div>
   </nav>
-  -->
-
+  <?php else: ?>
   <!-- Navbar sin sesión -->
   <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
     <div class="container-fluid">
@@ -267,6 +264,7 @@
       </div>
     </div>
   </nav>
+  <?php endif ?>
   
   <!-- Hero Section -->
   <section class="position-relative d-flex flex-column justify-content-center mb-5" id="hero-section">
