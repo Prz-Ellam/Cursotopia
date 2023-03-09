@@ -11,11 +11,13 @@ use Cursotopia\Entities\User;
 use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Repositories\AuthRepository;
 use Cursotopia\Repositories\UserRepository;
+use Cursotopia\ValueObjects\EntityState;
 use Exception;
 
 class UserModel {
     private UserRepositoryInterface $userRepository;
     private AuthRepository $authRepository;
+    private EntityState $entityState;
 
     private ?int $id;
 
@@ -67,6 +69,8 @@ class UserModel {
         $this->confirmPassword = $object["confirmPassword"] ?? null;
         $this->userRole = $object["userRole"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
+
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
 
     public function getId(): ?int {
@@ -161,17 +165,39 @@ class UserModel {
 
     public function save(): bool {
             $user = new User();
-            $user
-                ->setName($this->name)
-                ->setLastName($this->lastName)
-                ->setBirthDate($this->birthDate)
-                ->setGender($this->gender)
-                ->setEmail($this->email)
-                ->setPassword(Crypto::bcrypt($this->password))
-                ->setUserRole($this->userRole)
-                ->setProfilePicture($this->profilePicture);
+            
 
-            $rowsAffected = $this->userRepository->create($user);
+            $rowsAffected = 0;
+            switch ($this->entityState) {
+                case EntityState::CREATE: {
+                    $user
+                        ->setName($this->name)
+                        ->setLastName($this->lastName)
+                        ->setBirthDate($this->birthDate)
+                        ->setGender($this->gender)
+                        ->setEmail($this->email)
+                        ->setPassword(Crypto::bcrypt($this->password))
+                        ->setUserRole($this->userRole)
+                        ->setProfilePicture($this->profilePicture);
+
+                    $rowsAffected = $this->userRepository->create($user);
+                    break;
+                }
+                case EntityState::UPDATE: {
+                    $user
+                        ->setId($this->id)
+                        ->setName($this->name)
+                        ->setLastName($this->lastName)
+                        ->setBirthDate($this->birthDate)
+                        ->setGender($this->gender)
+                        ->setEmail($this->email)
+                        ->setPassword((!is_null($this->password)) ? Crypto::bcrypt($this->password) : $this->password)
+                        ->setUserRole($this->userRole)
+                        ->setProfilePicture($this->profilePicture);
+                    $rowsAffected = $this->userRepository->update($user);
+                    break;
+                }
+            }
             if ($rowsAffected) {
                 $this->id = intval(DB::lastInsertId());
             }

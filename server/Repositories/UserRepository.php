@@ -47,6 +47,24 @@ class UserRepository extends DB implements UserRepositoryInterface {
             :profile_picture
         )
     SQL;
+
+    private const UPDATE = <<<'SQL'
+        CALL update_user(
+            :id, 
+            :name, 
+            :last_name, 
+            :birth_date, 
+            :gender, 
+            :email, 
+            :password, 
+            :user_role, 
+            :profile_picture, 
+            :enabled, 
+            :created_at, 
+            :modified_at, 
+            :active
+        )
+    SQL;
     
     public function create(User $user): int {
         $parameters = [
@@ -62,8 +80,23 @@ class UserRepository extends DB implements UserRepositoryInterface {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update() {
-
+    public function update(User $user) {
+        $parameters = [
+            "id" => $user->getId(),
+            "name" => $user->getName(),
+            "last_name" => $user->getLastName(),
+            "birth_date" => $user->getBirthDate(),
+            "gender" => $user->getGender(),
+            "email" => $user->getEmail(),
+            "password" => $user->getPassword(),
+            "user_role" => null,
+            "profile_picture" => null,
+            "enabled" => null,
+            "created_at" => null, 
+            "modified_at" => null, 
+            "active" => null
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function delete() {

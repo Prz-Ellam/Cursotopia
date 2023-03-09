@@ -84,7 +84,6 @@ class ImageModel {
     }
 
     public function save(): bool {
-        try {
             $image = new Image();
             $image
                 ->setName($this->name)
@@ -97,11 +96,6 @@ class ImageModel {
                 $this->id = intval(DB::lastInsertId());
             }
             return ($rowsAffected > 0) ? true : false;
-        }
-        catch (Exception $exception) {
-            // Error con el SQL
-            return false;
-        }
     }
 
     public static function findOneById(int $id): ?ImageModel {
@@ -111,5 +105,10 @@ class ImageModel {
             return null;
         }
         return new ImageModel($object);
+    }
+
+    public static function findOneByIdAndNotUserId(int $id): ?array {
+        $repository = new ImageRepository();
+        return $repository->findOneByIdAndNotUserId($id);
     }
 }

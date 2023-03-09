@@ -26,67 +26,7 @@
 	<script src="../dist/javascript/instructor-profile.js"></script>
 </head>
 <body>
-	<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="home">
-        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
-        <span class="align-middle">Cursotopia</span>
-      </a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link fw-bold text-light dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Categorías
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="search">Arte</a></li>
-              <li><a class="dropdown-item" href="search">Música</a></li>
-              <li><a class="dropdown-item" href="search">Programación</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="signup" class="nav-link fw-bold text-light d-flex align-items-center">
-              <i class='bx-sm bx bxs-user-plus'></i>Registrarse
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="login" class="nav-link fw-bold text-light d-flex align-items-center">
-              <i class='bx-sm bx bxs-user-check' ></i>Iniciar sesión
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+	<?= $this->render("partials/navbar") ?>
 	<main class="container">
 		<section class="row d-flex align-items-center h-100">
 			<div class="col-sm-12 col-md-6">
@@ -103,68 +43,6 @@
 			</div>
 		</section>
 	</main>
-  <!-- Footer -->
-  <footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="d-flex justify-content-md-start justify-content-center align-items-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxl-facebook-square me-2'></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxl-instagram-alt me-2' ></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxs-envelope me-2' ></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
-
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+  <?= $this->render("partials/footer") ?>
 </body>
 </html>

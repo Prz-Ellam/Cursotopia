@@ -18,14 +18,16 @@ class ImageController {
     public function create(Request $request, Response $response): void {
         $file = $request->getFiles("image");
         if (!$file) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "Faltan parametros"
-            ]);
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "Faltan parametros"
+                ]);
             return;
         }
 
-        $name = "image-" . time();
+        $name = "profilePicture-" . time();
         $size = $file->getSize();
         $contentType = $file->getType();
         $data = $file->getContent();

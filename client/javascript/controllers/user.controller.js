@@ -63,16 +63,36 @@ export const signup = async function(event) {
     if (!validations) {
         return;
     }
+    
+    /**
+     * 
+     * document.getElementById('gender').valueAsNumber
+     * 
+     * 
+     */
 
     const formData = new FormData(this);
-    const user = {};
-    for (const [key, value] of formData) {
-        user[key] = value;
+    const user = {
+        name:       formData.get('name'),
+        lastName:   formData.get('lastName'),
+        birthDate:  formData.get('birthDate'),
+        gender:     parseInt(formData.get('gender')),
+        userRole:   parseInt(formData.get('userRole')),
+        email:      formData.get('email'),
+        password:   formData.get('password'),
+        confirmPassword: formData.get('confirmPassword'),
+        profilePicture: parseInt(formData.get('profilePicture'))
     }
+
     console.log(user);
+    // const user = {};
+    // for (const [key, value] of formData) {
+    //     user[key] = value;
+    // }
+    // console.log(user);
 
     const response = await createUser(user);
-
+    console.log(response);
     if (response.status) {
         await Swal.fire({
             icon: 'success',

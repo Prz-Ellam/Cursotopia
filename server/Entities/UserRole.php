@@ -2,10 +2,9 @@
 
 namespace Cursotopia\Entities;
 
-class Document {
+class UserRole {
     private int $id;
     private string $name;
-    private string $address;
     private string $createdAt;
     private string $modifiedAt;
     private bool $active;
@@ -46,26 +45,6 @@ class Document {
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of address
-     */ 
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
-     * Set the value of address
-     *
-     * @return  self
-     */ 
-    public function setAddress($address)
-    {
-        $this->address = $address;
 
         return $this;
     }

@@ -1,0 +1,2 @@
+-- CREATE VIEW IF NOT EXISTS `kardex`;
+

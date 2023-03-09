@@ -9,7 +9,7 @@ class User {
     private string $birthDate;
     private int $gender;
     private string $email;
-    private string $password;
+    private ?string $password;
     private int $userRole;
     private int $profilePicture;
     private bool $enabled;
@@ -71,11 +71,11 @@ class User {
         return $this;
     }
 
-    public function getPassword(): string {
+    public function getPassword(): ?string {
         return $this->password;
     }
 
-    public function setPassword(string $password): self {
+    public function setPassword(?string $password): self {
         $this->password = $password;
         return $this;
     }

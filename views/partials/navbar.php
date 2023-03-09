@@ -1,36 +1,36 @@
 <?php use Cursotopia\Helpers\Auth; ?>
-<?php if (Auth::auth(1)): ?>
-  <!-- Navbar de instructor --> 
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="home">
-        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
-        <span class="align-middle">Cursotopia</span>
-      </a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+<!-- Navbar de instructor --> 
+<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="home">
+      <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
+      <span class="align-middle">Cursotopia</span>
+    </a>
+    <button 
+      class="border-0 shadow-none navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbar-content"
+      aria-controls="navbar-content"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="text-white bx-sm bx bx-menu"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-content">
+      <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
+        <div class="input-group">
+          <input
+            class="form-control bg-white"
+            type="search"
+            placeholder="Buscar cursos..."
+            aria-label="Search">
+          <button class="btn btn-white border-0 text-dark search-btn" type="submit">
+            <i class="fw-bold bx bx-search"></i>
+          </button>
+        </div>
+      </form>
+      <?php if (Auth::auth(2)): ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
             <a href="course-creation" class="nav-link fw-bold text-light">
@@ -77,7 +77,7 @@
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="instructor-profile">Mi perfil</a>
+                  <a class="dropdown-item" href="profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider">
@@ -89,44 +89,10 @@
             </div>
           </li>
         </ul>
-      </div>
-    </div>
-  </nav>
-<?php elseif (Auth::auth(2)): ?>
-  <!-- Navbar de estudiante --> 
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="home">
-        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
-        <span class="align-middle">Cursotopia</span>
-      </a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+      <?php elseif (Auth::auth(3)): ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
-            <a href="course-creation" class="nav-link fw-bold text-light">
+            <a href="profile" class="nav-link fw-bold text-light">
               Mis cursos
             </a>
           </li>
@@ -170,53 +136,19 @@
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="instructor-profile">Mi perfil</a>
+                  <a class="dropdown-item" href="profile">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Cerrar sesión</a>
+                  <a class="dropdown-item" href="/api/v1/logout">Cerrar sesión</a>
                 </li>
               </ul>
             </div>
           </li>
         </ul>
-      </div>
-    </div>
-  </nav>
-<?php else: ?>
-  <!-- Navbar sin sesión -->
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="home">
-        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
-        <span class="align-middle">Cursotopia</span>
-      </a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+      <?php else: ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item dropdown">
             <a
@@ -245,7 +177,7 @@
             </a>
           </li>
         </ul>
-      </div>
+      <?php endif ?>
     </div>
-  </nav>
-<?php endif ?>
+  </div>
+</nav>

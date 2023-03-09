@@ -30,3 +30,31 @@ Portal de cursos online similar a Udemy o Pluralsight
 - Añadir nivel
 - Reporte de ventas
 - Buscador
+
+
+
+- Roles de usuario
+
+- Módulo de Imágenes
+- Módulo de Videos
+- Módulo de Documentos
+- Módulo de Enlaces
+
+- Módulo de Usuarios
+  - Módulo de Auth
+- Módulo de Categorias
+- Módulo de Cursos
+  - Módulo de Niveles
+  - Módulo de Lecciones
+  - Course Category
+- Reseñas
+- Mensajes
+
+- Métodos de pago (Enrollments)
+  - User level
+  - User lesson
+
+- Chat
+  - Chat participants
+
+- Messages

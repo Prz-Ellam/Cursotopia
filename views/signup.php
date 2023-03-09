@@ -1,4 +1,3 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,9 +23,6 @@
   <script defer type="module" src="../dist/javascript/signup.js"></script>
 </head>
 <body>
-  <header>
-
-  </header>
   <main class="container my-4">
     <section class="row d-flex justify-content-center">
       <div class="bg-white rounded-3 p-5 col-lg-8 col-md-8" data-aos="fade-up">
@@ -66,8 +62,9 @@
               <label for="user-role" role="button" class="form-label">Rol de usuario</label>
               <select name="userRole" id="user-role" class="form-select">
                 <option value="0" selected>Seleccionar</option>
-                <option value="1">Instructor</option>
-                <option value="2">Alumno</option>
+                <?php foreach($this->userRoles as $userRole): ?>
+                <option value="<?= $userRole["id"] ?>"><?= $userRole["name"] ?></option>
+                <?php endforeach ?>
               </select>
             </div>
             <div class="col-lg-4 col-12 mb-4">

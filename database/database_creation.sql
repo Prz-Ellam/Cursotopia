@@ -1,3 +1,5 @@
+DROP DATABASE cursotopia;
+
 CREATE DATABASE cursotopia;
 USE cursotopia;
 
@@ -56,6 +58,7 @@ DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles`(
     `user_role_id`                  INT NOT NULL AUTO_INCREMENT,
     `user_role_name`                VARCHAR(50) NOT NULL,
+    `user_role_is_public`           BOOLEAN NOT NULL DEFAULT TRUE,
     `user_role_created_at`          TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_role_modified_at`         TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `user_role_active`              BOOLEAN NOT NULL DEFAULT TRUE,

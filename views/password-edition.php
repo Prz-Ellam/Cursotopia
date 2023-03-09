@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-  
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
   <link rel="stylesheet" href="../dist/assets/password-edition.css">
   <script defer type="module" src="../dist/javascript/password-edition.js"></script>
 </head>

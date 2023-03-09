@@ -1,5 +1,6 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_user`;
+
 CREATE PROCEDURE IF NOT EXISTS `update_user`(
     `_user_id`                      INT,
     `_user_name`                    VARCHAR(50),
@@ -20,20 +21,19 @@ BEGIN
         `users`
     SET
         `user_id`                       = IFNULL(`_user_id`, `user_id`),
-        `user_name`                     = IFNULL(`_user_id`, `user_name`),
-        `user_last_name`                = IFNULL(`_user_id`, `user_last_name`),
-        `user_birth_date`               = IFNULL(`_user_id`, `user_birth_date`),
-        `user_gender`                   = IFNULL(`_user_id`, `user_gender`),
-        `user_email`                    = IFNULL(`_user_id`, `user_email`),
-        `user_password`                 = IFNULL(`_user_id`, `user_password`),
-        `user_role`                     = IFNULL(`_user_id`, `user_role`),
-        `profile_picture`               = IFNULL(`_user_id`, `profile_picture`),
-        `user_enabled`                  = IFNULL(`_user_id`, `user_enabled`),
-        `user_created_at`               = IFNULL(`_user_id`, `user_created_at`),
-        `user_modified_at`              = IFNULL(`_user_id`, `user_modified_at`),
-        `user_active`                   = IFNULL(`_user_id`, `user_active`)
+        `user_name`                     = IFNULL(`_user_name`, `user_name`),
+        `user_last_name`                = IFNULL(`_user_last_name`, `user_last_name`),
+        `user_birth_date`               = IFNULL(`_user_birth_date`, `user_birth_date`),
+        `user_gender`                   = IFNULL(`_user_gender`, `user_gender`),
+        `user_email`                    = IFNULL(`_user_email`, `user_email`),
+        `user_password`                 = IFNULL(`_user_password`, `user_password`),
+        `user_role`                     = IFNULL(`_user_role`, `user_role`),
+        `profile_picture`               = IFNULL(`_profile_picture`, `profile_picture`),
+        `user_enabled`                  = IFNULL(`_user_enabled`, `user_enabled`),
+        `user_created_at`               = IFNULL(`_user_created_at`, `user_created_at`),
+        `user_modified_at`              = IFNULL(`_user_modified_at`, NOW()),
+        `user_active`                   = IFNULL(`_user_active`, `user_active`)
     WHERE
         `user_id` = `_user_id`;
 END $$
 DELIMITER ;
-
