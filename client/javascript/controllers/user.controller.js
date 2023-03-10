@@ -3,8 +3,8 @@ import 'jquery-validation';
 import Swal from 'sweetalert2';
 
 import User from '../models/user.model';
-import { createImage } from '../services/image.service';
-import { createUser, loginUser } from '../services/user.service';
+import { createImage, updateImageService } from '../services/image.service';
+import { createUser, updateUserService, loginUser, updateUserPasswordService } from '../services/user.service';
 
 export const login = async function(event) {
     event.preventDefault();
@@ -173,9 +173,15 @@ export const uploadProfilePicture = async function(event) {
         const formData = new FormData();
         formData.append('image', file, file.name);
 
-        const response = await createImage(formData);
-        const imageId = response.id;
-        profilePictureId.value = imageId;
+        if (!profilePictureId.value) {
+            const response = await createImage(formData);
+            const imageId = response.id;
+            profilePictureId.value = imageId;
+        }
+        else {
+            const response = await updateImageService(formData, profilePictureId.value);
+        }
+
     }
     catch (exception) {
         pictureBox.src = defaultImage;
@@ -192,7 +198,17 @@ export const updateUser = async function(event) {
         return;
     }
 
-    if (true) {
+    const formData = new FormData(this);
+    const user = {
+        name:       formData.get('name'),
+        lastName:   formData.get('lastName'),
+        birthDate:  formData.get('birthDate'),
+        gender:     parseInt(formData.get('gender')),
+        email:      formData.get('email')
+    };
+
+    const response = await updateUserService(user, formData.get('id'));
+    if (response.status) {
         
         await Swal.fire({
             icon: 'success',
@@ -223,7 +239,6 @@ export const updateUser = async function(event) {
 }
 
 export const updatePassword = async function(event) {
-    
     event.preventDefault();
 
     const validations = $(this).valid();
@@ -231,8 +246,15 @@ export const updatePassword = async function(event) {
         return;
     }
 
-    if (true) {
-        
+    const formData = new FormData(this);
+    const user = {
+        oldPassword: formData.get('oldPassword'),
+        newPassword: formData.get('newPassword'),
+        confirmNewPassword: formData.get('confirmNewPassword')
+    };
+
+    const response = await updateUserPasswordService(user, formData.get('id'));
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: 'Tú contraseña se actualizó exitosamente',

@@ -18,3 +18,22 @@ export const createImage = async (image) => {
     }
     return null;
 }
+
+export const updateImageService = async (image, id) => {
+    try {
+        const configuration = {
+            method: 'PUT',
+            url: `/api/v1/images/${ id }`,
+            headers: { 
+                'Content-Type': 'multipart/form-data'
+            },
+            data : image
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
+}

@@ -29,17 +29,16 @@
     </div> -->
 
     <div class="row d-flex justify-content-center">
-
       <form action="" class="col-lg-6 col-md-6" id="password-edition-form">
-            
         <div class="border-3 border-bottom border-primary text-center mb-4">
           <h1>Editar contraseña</h1>
         </div>
 
+        <input type="hidden" name="id" value="<?= $_SESSION["id"] ?>">
         <div class="mb-4">
           <label for="old-password" role="button" class="form-label">Contraseña anterior</label>
           <div class="input-group">
-            <input type="password" name="old-password" id="old-password" class="form-control">
+            <input type="password" name="oldPassword" id="old-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="old-password-button"
               ct-target="old-password">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
@@ -50,7 +49,7 @@
         <div class="mb-4">
           <label for="new-password" role="button" class="form-label">Confirmar contraseña</label>
           <div class="input-group">
-            <input type="password" name="new-password" id="new-password" class="form-control">
+            <input type="password" name="newPassword" id="new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="new-password-button"
               ct-target="new-password">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
@@ -68,7 +67,7 @@
         <div class="mb-4">
           <label for="confirm-new-password" role="button" class="form-label">Confirmar contraseña</label>
           <div class="input-group">
-            <input type="password" name="confirm-new-password" id="confirm-new-password" class="form-control">
+            <input type="password" name="confirmNewPassword" id="confirm-new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="confirm-new-password-button"
               ct-target="confirm-new-password">
               <i class="fa-solid fa-eye-slash fa-eye"></i>

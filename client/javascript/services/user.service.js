@@ -19,14 +19,44 @@ export const createUser = async (user) => {
     return null;
 }
 
-export const updateUser = async (user) => {
-    const response = await fetch('/api/v1/users', {
-        method: 'PUT',
-        body: user
-    });
-    const json = await response.json();
-    return json;
+export const updateUserService = async (user, id) => {
+    try {
+        const configuration = {
+            method: 'PATCH',
+            url: `/api/v1/users/${id}`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
 }
+
+export const updateUserPasswordService = async (user, id) => {
+    try {
+        const configuration = {
+            method: 'PATCH',
+            url: `/api/v1/users/${id}/password`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
+}
+
 
 export const updateUserPassword = async (user) => {
     return { ok: true };

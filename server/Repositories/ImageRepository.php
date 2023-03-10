@@ -60,7 +60,7 @@ class ImageRepository extends DB {
     SQL;
     
     private const UPDATE = <<<'SQL'
-        CALL update_image(?, ?, ?, ?, ?, ?, ?, ?)
+        CALL update_image(:id, :name, :size, :content_type, :data, :created_at, :modified_at, :active)
     SQL;
 
     public function create(Image $image): int {
@@ -74,8 +74,18 @@ class ImageRepository extends DB {
         return $affectedRows;
     }
 
-    public function update() {
-        $affectedRows = self::executeNonQuery($this::UPDATE, []);
+    public function update(Image $image) {
+        $parameters = [
+            "id" => $image->getId(),
+            "name" => $image->getName(),
+            "size" => $image->getSize(),
+            "content_type" => $image->getContentType(),
+            "data" => $image->getData(),
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => null
+        ];
+        return self::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function delete() {

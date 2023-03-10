@@ -53,7 +53,19 @@ class ImageController {
     }
 
     public function update(Request $request, Response $response): void {
+        // Para actualizar la imagen debe ser tuya
+        
         $id = $request->getParams("id");
+        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "ID is not valid"
+                ]);
+            return;
+        }
+
         $file = $request->getFiles("image");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -65,24 +77,28 @@ class ImageController {
 
         // No creo que sea necesaria actualizar el nombre pero si lo hacemos
         // tecnicamente no afectaria ya que todo se basa en el id
-        $name = "image-" . time();
+        $name = "profilePicture-" . time();
         $size = $file->getSize();
         $contentType = $file->getType();
         $data = $file->getContent();
 
-        // $image = ImageModel::findOneById($id);
-        // $image
-        //     ->setName($name)
-        //     ->setSize($size)
-        //     ->setContentType($contentType)
-        //     ->setData($data);
+        $image = ImageModel::findOneById($id);
+        $image
+            ->setName($name)
+            ->setSize($size)
+            ->setContentType($contentType)
+            ->setData($data);
 
-        // $image->save();
+        $image->update();
 
+        $response
+            ->json([]);
 
     }
 
     public function getOne(Request $request, Response $response): void {
+        // No deberia ver las imagenes de las lecciones porque solo los que compraron
+        // el curso pueden verlas
         $id = $request->getParams("id");
         if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
             $response

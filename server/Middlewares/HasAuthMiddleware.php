@@ -14,6 +14,6 @@ class HasAuthMiddleware implements Middleware {
             $response->redirect("/");
             return;
         }
-        $next($request, $response);
+        $next();
     }
 }

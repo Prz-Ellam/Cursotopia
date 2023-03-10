@@ -131,7 +131,15 @@ export default {
             email: false,
             email5322: true,
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
+            remote: {
+                type: 'POST',
+                url: 'api/v1/users/email',
+                data: {
+                    'email': function () { return $('#email').val() }
+                },
+                dataType: 'json'
+            }
         },
         'password': {
             required: true,
@@ -182,7 +190,8 @@ export default {
             required: 'El correo electrónico es requerido',
             trimming: 'El correo electrónico es requerido',
             email5322: 'El correo electrónico no tiene el formato requerido',
-            maxlength: 'El correo electrónico es demasiado largo'
+            maxlength: 'El correo electrónico es demasiado largo',
+            remote: 'El correo electrónico esta siendo utilizado por alguien más'
         },
         'password': {
             required: 'La contraseña es requerida',
@@ -210,3 +219,7 @@ export default {
     },
     ignore: []
 };
+
+
+
+

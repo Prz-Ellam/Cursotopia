@@ -29,6 +29,8 @@ class CourseController {
     }
 
     public function store(Request $request, Response $response): void {
+        // Para crear un curso debe estar autenticado y debe ser rol instructor
+        
         $name = $request->getBody("name");
         $description = $request->getBody("description");
         $price = $request->getBody("price");

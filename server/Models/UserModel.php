@@ -44,6 +44,8 @@ class UserModel {
     #[EqualTo("password", "La confirmación de contraseña no coincide con la contraseña")]
     private ?string $confirmPassword;
 
+    private ?bool $enabled;
+
     #[Required("El rol de usuario es requerido")]
     private ?int $userRole;
     
@@ -69,6 +71,8 @@ class UserModel {
         $this->confirmPassword = $object["confirmPassword"] ?? null;
         $this->userRole = $object["userRole"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
+
+        $this->enabled = true;
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -229,5 +233,25 @@ class UserModel {
 
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
+    }
+
+    /**
+     * Get the value of enabled
+     */ 
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set the value of enabled
+     *
+     * @return  self
+     */ 
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
     }
 }

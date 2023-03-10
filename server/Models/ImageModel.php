@@ -98,6 +98,19 @@ class ImageModel {
             return ($rowsAffected > 0) ? true : false;
     }
 
+    public function update(): bool {
+        $image = new Image();
+        $image
+            ->setId($this->id)
+            ->setName($this->name)
+            ->setContentType($this->contentType)
+            ->setSize($this->size)
+            ->setData($this->data);
+
+        $rowsAffected = $this->imageRepository->update($image);
+        return ($rowsAffected > 0) ? true : false;
+}
+
     public static function findOneById(int $id): ?ImageModel {
         $repository = new ImageRepository();
         $object = $repository->findOneById($id);

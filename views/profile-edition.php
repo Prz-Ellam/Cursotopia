@@ -39,6 +39,7 @@
           <label for="profile-picture" role="button">Foto de perfil</label>
         </div>
         <form action="#" id="profile-edition-form" class="user-form">
+          <input type="hidden" name="id" value="<?= $this->user["id"] ?>">
           <div class="text-center mb-4">
             <input type="hidden" name="profilePicture" id="profile-picture-id" 
               autocomplete="off" value="<?= $this->user["profilePicture"] ?>">

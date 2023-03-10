@@ -9,6 +9,8 @@ use Cursotopia\Controllers\LessonController;
 use Cursotopia\Controllers\LevelController;
 use Cursotopia\Controllers\UserController;
 use Cursotopia\Controllers\VideoController;
+use Cursotopia\Middlewares\ApiAdminMiddleware;
+use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\AuthMiddleware;
 use Cursotopia\Middlewares\HasAuthMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
@@ -16,6 +18,7 @@ use Cursotopia\Middlewares\Validators\UserLoginValidator;
 use Cursotopia\Middlewares\Validators\UserSignupValidator;
 use Cursotopia\Middlewares\Validators\UserUpdatePasswordValidator;
 use Cursotopia\Middlewares\Validators\UserUpdateValidator;
+use Cursotopia\Middlewares\WebAdminMiddleware;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
 
@@ -30,7 +33,12 @@ $app = Application::app(dirname(__DIR__, 1));
 $app->setNotFound(fn($req, $res) => $res->render('404'));
 
 $app->get('/', fn($request, $response) => $response->redirect('/home'));
-$app->get('/admin-categories', fn($request, $response) => $response->render('admin-categories'));
+$app->get('/categories', 
+    fn($request, $response) => $response->render('admin-categories'),
+    [ WebAdminMiddleware::class ]);
+
+
+
 $app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
 $app->get('/admin-home', fn($request, $response) => $response->render('admin-home'));
 $app->get('/blocked-users', fn($request, $response) => $response->render('blocked-users'));
@@ -128,7 +136,7 @@ $app->post('/api/v1/users', [ UserController::class, 'create' ], [ UserSignupVal
 $app->patch('/api/v1/users/:id', [ UserController::class, 'update' ], [ UserUpdateValidator::class ]);
 $app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ], [ UserUpdatePasswordValidator::class ]);
 $app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
-
+$app->post('/api/v1/users/email', [ UserController::class, 'checkEmailExists' ]);
 
 
 // Images
@@ -153,29 +161,31 @@ $app->post('/api/v1/documents', [ DocumentController::class, 'create' ]);
 $app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
 $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
-$app->post('/api/v1/courses', [ CourseController::class, 'create' ]);
-$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ]);
-$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ]);
+
+
+$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ ApiInstructorMiddleware::class ]);
+$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
+$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ ApiInstructorMiddleware::class ]);
 
 
 
 // Levels
 $app->get('/api/v1/levels/:id', [ LevelController::class, 'show' ]);
-$app->post('/api/v1/levels', [ LevelController::class, 'store' ]);
-$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ]);
-$app->delete('/api/v1/levels/:id', [ LevelController::class, 'remove' ]);
+$app->post('/api/v1/levels', [ LevelController::class, 'create' ], [ ApiInstructorMiddleware::class ]);
+$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
+$app->delete('/api/v1/levels/:id', [ LevelController::class, 'remove' ], [ ApiInstructorMiddleware::class ]);
 
 // Lessons
 $app->get('/api/v1/lessons/:id', [ LessonController::class, 'show' ]);
-$app->post('/api/v1/lessons', [ LessonController::class, 'store' ]);
-$app->put('/api/v1/lessons/:id', [ LessonController::class, 'update' ]);
-$app->delete('/api/v1/lessons/:id', [ LessonController::class, 'remove' ]);
+$app->post('/api/v1/lessons', [ LessonController::class, 'create' ], [ ApiInstructorMiddleware::class ]);
+$app->put('/api/v1/lessons/:id', [ LessonController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
+$app->delete('/api/v1/lessons/:id', [ LessonController::class, 'remove' ], [ ApiInstructorMiddleware::class ]);
 
 
 // Categories
 $app->post('/api/v1/categories', [ CategoryController::class, 'create' ], [ AuthMiddleware::class ]);
-$app->put('/api/v1/categories', [ CategoryController::class, 'update' ], [ AuthMiddleware::class ]);
-$app->delete('/api/v1/categories', [ CategoryController::class, 'delete' ], [ AuthMiddleware::class ]);
+$app->put('/api/v1/categories', [ CategoryController::class, 'update' ], [ ApiAdminMiddleware::class ]);
+$app->delete('/api/v1/categories', [ CategoryController::class, 'delete' ], [ ApiAdminMiddleware::class ]);
 
 // Messages
 

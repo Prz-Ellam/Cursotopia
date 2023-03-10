@@ -9,6 +9,7 @@ use Bloom\Validations\Validator;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
+use Cursotopia\Repositories\UserRepository;
 use Exception;
 
 use Opis\JsonSchema\Validator as OpisValidator;
@@ -145,6 +146,8 @@ class UserController {
         // El rol de usuario no cambia porque eso seria muy dificil de mantener
         // La contraseña se cambia en otro apartado
 
+        // Si el usuario cambia de imagen que se actualice y no se cree una nueva
+
         // Solo se puede actualizar tu propio usuario
 
 
@@ -206,20 +209,9 @@ class UserController {
             die($exception);
         }
 
-        /**
-         * $user = UserModel::findOneById($id)
-         * if (!$user) {
-         *  return 404
-         * } 
-         * 
-         * $userModel
-         *  ->setName() ...
-         * 
-         * $userModel->save()
-         */
-
         $response->json([
-
+            "status" => true,
+            "message" => "User updated successfully"
         ]);
     }
 
@@ -313,7 +305,8 @@ class UserController {
         }
 
         $response->json([
-
+            "status" => true,
+            "message" => "Password updated successfully"
         ]);
     }
 
@@ -328,6 +321,13 @@ class UserController {
 
     public function checkEmailExists(Request $request, Response $response) {
         $email = $request->getBody("email");
+        $session = $request->getSession();
+        $id = $session->get("id") ?? -1;
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->findOneByEmailAndNotUserId($email, $id);
+        
+        $response->json(!boolval($user));
     }
 
 }
