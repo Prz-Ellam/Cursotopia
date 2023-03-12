@@ -3,7 +3,7 @@ import 'jquery-validation';
 import 'multiple-select';
 import createCourseValidator from './validators/create-course.validator';
 import { createCourse, createCourseImage } from './controllers/course.controller';
-import { courseCreationUpdateLevel, createLevel } from './controllers/level.controller';
+import { courseCreationUpdateLevel, createLevel, createLevelImage, createLevelPdf, createLevelVideo } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
 import createLevelValidator from './validators/create-level.validator';
 import createLessonValidator from './validators/create-lesson.validator';
@@ -43,6 +43,8 @@ createLevelForm.addEventListener('submit', createLevel);
 
 // Update Level
 $(document).on('click', '.update-level-btn', function() {
+    const updateLevelId = document.getElementById('update-level-id');
+    updateLevelId.value = this.getAttribute('ct-target');
     const modal = document.getElementById('update-level-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
@@ -126,7 +128,14 @@ freeEditLevelCheckbox.addEventListener('change', function(event) {
 const uploadImage = document.getElementById('upload-image');
 uploadImage.addEventListener('change', createCourseImage);
 
+const createLessonVideo = document.getElementById('create-lesson-video');
+createLessonVideo.addEventListener('change', createLevelVideo);
 
+const createLessonImage = document.getElementById('create-lesson-image');
+createLessonImage.addEventListener('change', createLevelImage);
+
+const createLessonPdf = document.getElementById('create-lesson-pdf');
+createLessonPdf.addEventListener('change', createLevelPdf);
 
 $(document).on('click', '.delete-level-btn', async function() {
     const feedback = await Swal.fire({

@@ -224,6 +224,8 @@
 				</div>
 				<div class="modal-body">
 
+					<input type="hidden" name="id" id="edit-level-id">
+
 					<div class="mb-4">
 						<label for="level-name" class="form-label" role="button">Título</label>
 						<input type="text" name="title" id="edit-level-title" class="form-control">

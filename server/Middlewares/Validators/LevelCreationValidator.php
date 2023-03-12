@@ -40,9 +40,15 @@ class LevelCreationValidator implements Middleware {
                     "$error": {
                         "type": "El precio debe ser un valor numérico"
                     }
+                },
+                "courseId": {
+                    "type": "number",
+                    "$error": {
+                        "type": "El identificador del curso debe ser un valor numérico"
+                    }
                 }
             },
-            "required": [ "title", "description", "price" ],
+            "required": [ "title", "description", "price", "courseId" ],
             "additionalProperties": false
         }
         JSON;

@@ -2,15 +2,13 @@
 
 namespace Cursotopia\Entities;
 
-class Level {
-    private ?int $id = null;
-    private ?string $title = null;
-    private ?string $description = null;
-    private ?float $price = null;
-    private ?int $courseId = null;
-    private ?string $createdAt = null;
-    private ?string $modifiedAt = null;
-    private ?bool $active = null;
+class CourseCategory {
+    private int $id;
+    private int $courseId;
+    private int $categoryId;
+    private string $createdAt;
+    private string $modifiedAt;
+    private bool $active;
 
     /**
      * Get the value of id
@@ -33,66 +31,6 @@ class Level {
     }
 
     /**
-     * Get the value of title
-     */ 
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */ 
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of price
-     */ 
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set the value of price
-     *
-     * @return  self
-     */ 
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
      * Get the value of courseId
      */ 
     public function getCourseId()
@@ -108,6 +46,26 @@ class Level {
     public function setCourseId($courseId)
     {
         $this->courseId = $courseId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of categoryId
+     */ 
+    public function getCategoryId()
+    {
+        return $this->categoryId;
+    }
+
+    /**
+     * Set the value of categoryId
+     *
+     * @return  self
+     */ 
+    public function setCategoryId($categoryId)
+    {
+        $this->categoryId = $categoryId;
 
         return $this;
     }
@@ -157,7 +115,7 @@ class Level {
      */ 
     public function getActive()
     {
-        return $this->active ? 1 : 0;
+        return $this->active;
     }
 
     /**

@@ -18,7 +18,13 @@ BOOLEAN NOT NULL COMMENT 'Estado actual de la imagen';
 
 -- Videos
 ALTER TABLE `videos` MODIFY COLUMN `video_id`
-INT NOT NULL AUTO_INCREMENT COMMENT 'ID del video'
+INT NOT NULL AUTO_INCREMENT COMMENT 'ID del video';
+ALTER TABLE `videos` MODIFY COLUMN `video_name`
+VARCHAR(255) NOT NULL COMMENT 'Nombre del video';
+ALTER TABLE `videos` MODIFY COLUMN `video_duration`
+INT NOT NULL COMMENT 'Duración del video en segundos';
+ALTER TABLE `videos` MODIFY COLUMN `video_address`
+VARCHAR(255) NOT NULL COMMENT 'Ubicación del video en el sistema de archivos';
 
 -- Documents
 ALTER TABLE `documents` MODIFY COLUMN `document_id`

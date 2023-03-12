@@ -13,7 +13,7 @@ export const courseCreationCreateLevelSection = (level) => {
               <button type="button" class="btn btn-sm btn-secondary rounded-pill create-lesson-btn"
                 ct-target="${ level.id }">Añadir lección</button>
               <span class="d-lg-inline d-block text-lg-end text-center">
-                <button type="button" class="btn text-success border-0 m-auto p-1 update-level-btn"
+                <button ct-target="${ level.id }" type="button" class="btn text-success border-0 m-auto p-1 update-level-btn"
                   ><i class='bx bxs-pencil'></i></button>
                 <button type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
                   <i class='bx bxs-trash-alt'></i>

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const createMessage = async (message) => {
     const response = await fetch('/api/v1/messages', {
         method: 'POST',

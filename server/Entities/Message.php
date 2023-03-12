@@ -3,11 +3,11 @@
 namespace Cursotopia\Entities;
 
 class Message {
-    private int $id;
-    private string $message;
-    private int $userId;
-    private int $chatId;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $message = null;
+    private ?int $userId = null;
+    private ?int $chatId = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 }

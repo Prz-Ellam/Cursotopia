@@ -3,17 +3,17 @@
 namespace Cursotopia\Entities;
 
 class Enrollment {
-    private int $id;
-    private int $courseId;
-    private int $studentId;
-    private bool $isFinished;
-    private string $enrollDate;
-    private string $finishDate;
-    private string $certificateUid;
-    private float $amount;
-    private int $paymentMethodId;
-    private string $lastTimeChecked;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?int $courseId = null;
+    private ?int $studentId = null;
+    private ?bool $isFinished = null;
+    private ?string $enrollDate = null;
+    private ?string $finishDate = null;
+    private ?string $certificateUid = null;
+    private ?float $amount = null;
+    private ?int $paymentMethodId = null;
+    private ?string $lastTimeChecked = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 }

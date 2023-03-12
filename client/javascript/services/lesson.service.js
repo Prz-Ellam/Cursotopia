@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const createLessonService = async () => {
     // TODO: Dummy
     return { id: new Date().getTime() };
