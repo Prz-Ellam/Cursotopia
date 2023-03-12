@@ -3,17 +3,18 @@
 namespace Cursotopia\Entities;
 
 class Link {
-    private int $id;
-    private string $name;
-    private string $address;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $address = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     /**
      * Get the value of id
      */ 
-    public function getId(): int {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -22,15 +23,18 @@ class Link {
      *
      * @return  self
      */ 
-    public function setId($id): self {
+    public function setId($id)
+    {
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Get the value of name
      */ 
-    public function getName(): string {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -39,15 +43,18 @@ class Link {
      *
      * @return  self
      */ 
-    public function setName($name): self {
+    public function setName($name)
+    {
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * Get the value of address
      */ 
-    public function getAddress(): string {
+    public function getAddress()
+    {
         return $this->address;
     }
 
@@ -56,15 +63,18 @@ class Link {
      *
      * @return  self
      */ 
-    public function setAddress($address): self {
+    public function setAddress($address)
+    {
         $this->address = $address;
+
         return $this;
     }
 
     /**
      * Get the value of createdAt
      */ 
-    public function getCreatedAt(): string {
+    public function getCreatedAt()
+    {
         return $this->createdAt;
     }
 
@@ -73,15 +83,18 @@ class Link {
      *
      * @return  self
      */ 
-    public function setCreatedAt($createdAt): self {
+    public function setCreatedAt($createdAt)
+    {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
      * Get the value of modifiedAt
      */ 
-    public function getModifiedAt(): string {
+    public function getModifiedAt()
+    {
         return $this->modifiedAt;
     }
 
@@ -90,15 +103,18 @@ class Link {
      *
      * @return  self
      */ 
-    public function setModifiedAt($modifiedAt): self {
+    public function setModifiedAt($modifiedAt)
+    {
         $this->modifiedAt = $modifiedAt;
+
         return $this;
     }
 
     /**
      * Get the value of active
      */ 
-    public function getActive(): bool {
+    public function getActive()
+    {
         return $this->active;
     }
 
@@ -107,8 +123,10 @@ class Link {
      *
      * @return  self
      */ 
-    public function setActive($active): self {
+    public function setActive($active)
+    {
         $this->active = $active;
+
         return $this;
     }
 }

@@ -3,17 +3,17 @@
 namespace Cursotopia\Entities;
 
 class Course {
-    private int $id;
-    private string $title;
-    private string $description;
-    private float $price;
-    private int $imageId;
-    private int $instructorId;
-    private bool $approved;
-    private int $approvedBy;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $title = null;
+    private ?string $description = null;
+    private ?float $price = null;
+    private ?int $imageId = null;
+    private ?int $instructorId = null;
+    private ?bool $approved = null;
+    private ?int $approvedBy = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     /**
      * Get the value of id

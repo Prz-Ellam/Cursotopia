@@ -3,47 +3,47 @@
 namespace Cursotopia\Entities;
 
 class Image {
-    private int $id;
-    private string $name;
-    private int $size;
-    private string $contentType;
-    private mixed $data;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?int $size = null;
+    private ?string $contentType = null;
+    private mixed $data = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId(int $id): self {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
 
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): self {
+    public function setName(?string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    public function getSize(): int {
+    public function getSize(): ?int {
         return $this->size;
     }
 
-    public function setSize(int $size): self {
+    public function setSize(?int $size): self {
         $this->size = $size;
         return $this;
     }
 
-    public function getContentType(): string {
+    public function getContentType(): ?string {
         return $this->contentType;
     }
 
-    public function setContentType(string $contentType): self {
+    public function setContentType(?string $contentType): self {
         $this->contentType = $contentType;
         return $this;
     }
@@ -57,29 +57,29 @@ class Image {
         return $this;
     }
 
-    public function getCreatedAt(): string {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string $createdAt): self {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     } 
 
-    public function getModifiedAt(): string {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt(string $modifiedAt): self {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
 
-    public function getActive(): bool {
+    public function getActive(): ?bool {
         return $this->active;
     }
 
-    public function setActive(bool $active): self {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }

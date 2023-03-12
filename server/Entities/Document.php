@@ -3,12 +3,12 @@
 namespace Cursotopia\Entities;
 
 class Document {
-    private int $id;
-    private string $name;
-    private string $address;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $address = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     /**
      * Get the value of id

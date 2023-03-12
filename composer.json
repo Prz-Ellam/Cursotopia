@@ -27,6 +27,8 @@
     "require": {
         "prz-ellam/bloom": "@dev",
         "vlucas/phpdotenv": "^5.5",
-        "opis/json-schema": "^2.0"
+        "opis/json-schema": "^2.0",
+        "php-ffmpeg/php-ffmpeg": "^1.1",
+        "james-heinrich/getid3": "^1.9"
     }
 }

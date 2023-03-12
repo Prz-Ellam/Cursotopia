@@ -60,9 +60,9 @@
 						<label for="categories" class="form-label" role="button">Categorías</label>
 						<select class="" id="categories" name="categories[]" multiple="multiple"
 							placeholder="Seleccionar">
-							<option value="1">Música</option>
-							<option value="2">Arte</option>
-							<option value="3">Programación</option>
+							<?php foreach($this->categories as $category): ?>
+							<option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+							<?php endforeach ?>
 						</select>
 					</div>
 					<div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">

@@ -15,13 +15,19 @@ export const createCourseCreateCategory = async function(event) {
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
 
-    const category = {};
-    const response = createCategory(category);
-
-    Toast.fire({
-        icon: 'success',
-        title: 'La categoría ha sido añadida con éxito'
-    });
+    const formData = new FormData(this);
+    const category = {
+        name: formData.get('name'),
+        description: formData.get('description')
+    };
+    
+    const response = await createCategory(category);
+    if (response.status) {
+        Toast.fire({
+            icon: 'success',
+            title: 'La categoría ha sido añadida con éxito'
+        });
+    }
 
     const createCategoryForm = document.getElementById('create-category-form');
     createCategoryForm.reset();
@@ -39,13 +45,18 @@ export const updateCourseCreateCategory = async function(event) {
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
 
-    const category = {};
-    const response = createCategory(category);
-
-    Toast.fire({
-        icon: 'success',
-        title: 'La categoría ha sido añadida con éxito'
-    });
+    const formData = new FormData(this);
+    const category = {
+        name: formData.get('name'),
+        description: formData.get('description')
+    };
+    const response = await createCategory(category);
+    if (response.status) {
+        Toast.fire({
+            icon: 'success',
+            title: 'La categoría ha sido añadida con éxito'
+        });
+    }
 
     const createCategoryForm = document.getElementById('create-category-form');
     createCategoryForm.reset();

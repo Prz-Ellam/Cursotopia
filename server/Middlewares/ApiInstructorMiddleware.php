@@ -10,9 +10,14 @@ use Closure;
 class ApiInstructorMiddleware implements Middleware {
     public function handle(Request $request, Response $response, Closure $next) {
         $session = $request->getSession();
-        // 1 es instructor
-        if (!$session->has("id") || $session->get("role") !== 1) {
-            $response->redirect("/");
+        // 2 es instructor
+        if (!$session->has("id") || $session->get("role") !== 2) {
+            $response
+                ->setStatus(401)
+                ->json([
+                    "status" => false,
+                    "message" => "Unauthorized"
+                ]);
             return;
         }
         $next();

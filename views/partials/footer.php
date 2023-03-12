@@ -12,15 +12,15 @@
 			<div class="col-md-3 mx-auto mb-3">
 				<h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
 				<ul class="list-unstyled">
-					<li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
-					<li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
-					<li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
+					<li class="my-2"><a href="https://github.com/Prz-Ellam/Cursotopia" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
+					<li class="my-2"><a href="https://github.com/Prz-Ellam/Cursotopia" class="text-primary text-decoration-none">Contáctanos</a><br></li>
+					<li class="my-2"><a href="https://github.com/Prz-Ellam/Cursotopia" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
 				</ul>
 			</div>
 			<div class="col-md-3 mx-auto mb-3">
 				<h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
 				<ul class="list-unstyled">
-					<li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
+					<li class="my-2"><a href="https://github.com/Prz-Ellam/Cursotopia" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
 				</ul>
 			</div>
 			<div class="col-md-3 mx-auto mb-3">

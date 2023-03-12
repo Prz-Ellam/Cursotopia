@@ -3,14 +3,14 @@
 namespace Cursotopia\Entities;
 
 class Review {
-    private int $id;
-    private string $message;
-    private int $rate;
-    private int $courseId;
-    private int $userId;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?string $message = null;
+    private ?int $rate = null;
+    private ?int $courseId = null;
+    private ?int $userId = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     /**
      * Get the value of id

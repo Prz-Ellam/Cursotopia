@@ -1,4 +1,8 @@
-<?php use Cursotopia\Helpers\Auth; ?>
+<?php
+use Cursotopia\Helpers\Auth;
+use Cursotopia\Models\CategoryModel;
+$categories = CategoryModel::findAll();
+?>
 <!-- Navbar de instructor --> 
 <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
   <div class="container-fluid">
@@ -47,10 +51,10 @@
             >
               Categorías
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="search">Arte</a></li>
-              <li><a class="dropdown-item" href="search">Música</a></li>
-              <li><a class="dropdown-item" href="search">Programación</a></li>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <?php foreach ($categories as $category): ?>
+              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <?php endforeach ?>
             </ul>
           </li>    
           <li class="nav-item">

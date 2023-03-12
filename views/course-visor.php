@@ -23,8 +23,9 @@
 		<div class="row mb-3">
 			<div class="col-lg-8 col-sm-12 course-content mb-5">
 				<h4 class="mt-3">Introducción y conocimientos previos</h4>
-				<video id="level-video" class="video-js " controls>
-					<source src="https://www.w3schools.com/html/mov_bbb.mp4">
+				<video id="level-video" class="video-js" controls>
+					<source src="api/v1/videos/1" type="video/mp4">
+					Sorry, your browser doesn't support embedded videos.
 				</video>
 				<div class="d-flex justify-content-center mt-2">
 					<a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>

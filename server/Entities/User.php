@@ -3,19 +3,19 @@
 namespace Cursotopia\Entities;
 
 class User {
-    private ?int $id;
-    private ?string $name;
-    private ?string $lastName;
-    private ?string $birthDate;
-    private ?int $gender;
-    private ?string $email;
-    private ?string $password;
-    private ?int $userRole;
-    private ?int $profilePicture;
-    private ?bool $enabled;
-    private ?string $createdAt;
-    private ?string $modifiedAt;
-    private ?bool $active;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $lastName = null;
+    private ?string $birthDate = null;
+    private ?int $gender = null;
+    private ?string $email = null;
+    private ?string $password = null;
+    private ?int $userRole = null;
+    private ?int $profilePicture = null;
+    private ?bool $enabled = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     public function getId(): ?int {
         return $this->id;

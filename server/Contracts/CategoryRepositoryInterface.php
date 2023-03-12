@@ -5,6 +5,6 @@ namespace Cursotopia\Contracts;
 use Cursotopia\Entities\Category;
 
 interface CategoryRepositoryInterface {
-    public function create(Category $category);
-    public function update(Category $category);
+    public function create(Category $category): int|string;
+    public function update(Category $category): int;
 }

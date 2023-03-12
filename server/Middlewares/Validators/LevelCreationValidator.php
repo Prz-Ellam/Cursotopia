@@ -9,9 +9,9 @@ use Closure;
 use Opis\JsonSchema\Errors\ErrorFormatter;
 use Opis\JsonSchema\Validator;
 
-class CategoryCreationValidator implements Middleware {
+class LevelCreationValidator implements Middleware {
     public function handle(Request $request, Response $response, Closure $next) {
-        $categoryCreationSchema = <<<'JSON'
+        $levelCreationSchema = <<<'JSON'
         {
             "$error": {
                 "required": "Incluir las propiedades: [{missing}]",
@@ -19,28 +19,30 @@ class CategoryCreationValidator implements Middleware {
             },
             "type": "object",
             "properties": {
-                "name": {
+                "title": {
                     "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
+                    "maxLength": 255,
                     "$error": {
-                        "type": "El nombre debe ser una cadena de texto",
-                        "minLength": "El nombre no puede estar vacío",
-                        "maxLength": "El nombre es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                        "type": "El título debe ser una cadena de texto",
+                        "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
                     }
                 },
                 "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 255,
                     "$error": {
                         "type": "La descripción debe ser una cadena de texto",
-                        "minLength": "La descripción no puede estar vacía",
-                        "maxLength": "La descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+                        "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+                    }
+                },
+                "price": {
+                    "type": "number",
+                    "$error": {
+                        "type": "El precio debe ser un valor numérico"
                     }
                 }
             },
-            "required": [ "name", "description" ],
+            "required": [ "title", "description", "price" ],
             "additionalProperties": false
         }
         JSON;
@@ -50,7 +52,7 @@ class CategoryCreationValidator implements Middleware {
         $validator = new Validator();
         $validator->setMaxErrors(100);
         $formatter = new ErrorFormatter();
-        $result = $validator->validate((object)$body, json_decode($categoryCreationSchema));
+        $result = $validator->validate((object)$body, json_decode($levelCreationSchema));
 
         if ($result->hasError()) {
             $response
@@ -62,6 +64,6 @@ class CategoryCreationValidator implements Middleware {
             return;
         }
 
-        $next($request, $response);
+        $next();
     }
 }

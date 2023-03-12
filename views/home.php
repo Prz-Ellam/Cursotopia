@@ -28,18 +28,15 @@
           <h1 class="fw-bolder text-center text-lg-start">Cursotopia</h1>
           <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
           <h5 class="mb-4 text-center text-lg-start">Forjamos la sociedad del mañana con nuestros cursos</h5>
-          <!-- Sin sesion -->
           <div class="d-flex justify-content-lg-start justify-content-center">
+            <?php if ($this->id === "NULL"): ?>
             <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
-          </div>
-          <!-- Con sesion estudiante --> 
-          <!-- <div class="d-flex justify-content-lg-start justify-content-center">
-            <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
-          </div> -->
-          <!-- Con sesion de instructor -->
-          <!-- <div class="d-flex justify-content-lg-start justify-content-center">
+            <?php elseif($this->role === 2): ?>
             <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
-          </div> -->
+            <?php elseif($this->role === 3): ?>
+            <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
+            <?php endif ?>
+          </div>
         </div>
         <div class="col-lg-6" data-aos="zoom-in-up">
           <img
@@ -507,7 +504,13 @@
         
         <!-- Sin sesion -->
         <div class="d-flex justify-content-center justify-content-lg-start">
+          <?php if ($this->id === "NULL"): ?>
           <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
+          <?php elseif($this->role === 2): ?>
+          <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
+          <?php elseif($this->role === 3): ?>
+          <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
+          <?php endif ?>
         </div>
         <!-- Con sesion estudiante --> 
         <!-- <div class="d-flex justify-content-center justify-content-lg-start">
