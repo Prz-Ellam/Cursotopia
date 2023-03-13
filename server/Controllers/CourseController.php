@@ -4,6 +4,8 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Repositories\CourseRepository;
 
 class CourseController {
 
@@ -19,6 +21,8 @@ class CourseController {
             return;
         }
 
+        $courseRepository = new CourseRepository();
+        $course = $courseRepository->courseDetailsfindOneById($id);
         // $course = CourseModel::findOneById($id);
         /**
          * if (!$course) {
@@ -26,6 +30,7 @@ class CourseController {
          * }
          * 
          */
+        $response->json($course);
     }
 
     public function store(Request $request, Response $response): void {

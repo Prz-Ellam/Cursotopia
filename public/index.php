@@ -27,6 +27,10 @@ use Cursotopia\Middlewares\WebAdminMiddleware;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
+use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\LevelRepository;
+use Cursotopia\Repositories\ReviewRepository;
 
 require_once "../vendor/autoload.php";
 
@@ -60,7 +64,44 @@ $app->get('/course-creation', function($request, $response) {
 
 
 
-$app->get('/course-details', fn($request, $response) => $response->render('course-details'));
+$app->get('/course-details', function($request, $response) {
+    $id = $request->getQuery("id");
+    if (!$id || !((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        $response
+            ->setStatus(404)
+            ->render('404');
+        return;
+    }
+
+    $courseRepository = new CourseRepository();
+    $course = $courseRepository->courseDetailsfindOneById($id);
+
+    $categoryRepository = new CategoryRepository();
+    $categories = $categoryRepository->findAllByCourse($id);
+
+    $levelRepository = new LevelRepository();
+    $levels = $levelRepository->findAllByCourse($id);
+    foreach ($levels as &$level) {
+        $level["lessons"] = json_decode($level["lessons"], true);
+    }
+
+    $reviewRepository = new ReviewRepository();
+    $reviews = $reviewRepository->findAllByCourse($id);
+
+    if (!$course || !$categories || !$levels || !$reviews) {
+        $response
+            ->setStatus(404)
+            ->render('404');
+        return;
+    }
+
+    $response->render('course-details', [ 
+        "course" => $course, 
+        "categories" => $categories,
+        "levels" => $levels,
+        "reviews" => $reviews
+    ]);
+});
 
 
 $app->get('/course-edition', function($request, $response) {

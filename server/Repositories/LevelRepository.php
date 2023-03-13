@@ -61,6 +61,49 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             level_id = :id
     SQL;
 
+    private const FIND_ALL_BY_COURSE = <<<'SQL'
+        SELECT
+            l.level_id AS `id`,
+            l.level_title AS `title`,
+            l.level_description AS `description`,
+            l.level_price AS `price`,
+            l.course_id AS `courseId`,
+            l.level_created_at AS `createdAt`,
+            l.level_modified_at AS `modifiedAt`,
+            l.level_active AS `active`,
+            (
+            SELECT 
+                GROUP_CONCAT(
+                '[',
+                JSON_OBJECT(
+                    'title', le.lesson_title, 
+                    'description', le.lesson_description,
+                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5))),
+                ']'
+            )
+            FROM 
+                lessons AS le
+            INNER JOIN
+                videos AS v
+            ON
+                le.video_id = v.video_id
+            WHERE 
+                level_id = l.level_id
+            GROUP BY
+                le.lesson_id
+            ) AS `lessons`
+        FROM
+            levels AS l
+        INNER JOIN
+            lessons AS le
+        ON
+            l.level_id = le.level_id
+        WHERE
+            course_id = :course_id
+        GROUP BY
+            l.level_id;
+    SQL;
+
     public function create(Level $level): int {
         $parameters = [
             "title" => $level->getTitle(),
@@ -91,5 +134,12 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             "id" => $id
         ];
         return $this::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
+    public function findAllByCourse(int $courseId): array {
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return $this::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 }

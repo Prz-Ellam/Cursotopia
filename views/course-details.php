@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursotopia</title>
+  <title><?= $_ENV["APP_NAME"] ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
@@ -29,22 +29,22 @@
     <section class="row">
       <div class="col-lg-8 col-12">
         <div class="mb-4">
-          <h2 class="fw-bold">Aprende a programar en Python</h2>
-          <p>Creado por: <a href="instructor-profile">Nate Gentile</a></p>
+          <h2 class="fw-bold"><?= $this->course["title"] ?></h2>
+          <p>Creado por: <a href="instructor-profile"><?= $this->course["instructorName"] ?></a></p>
         </div>
         <div class="ratio ratio-16x9 mb-4">
-          <img src="https://import.cdn.thinkific.com/220744/courses/557614/hr1BWk5LTF2jiAziFPH0_aprende-a-programar-de-cero-con-python-min.jpg" alt="Curso"
+          <img 
+            src="api/v1/images/<?= $this->course["imageId"] ?>" 
+            alt="Curso"
             class="img-cover">
         </div>
 
         <h2 class="fw-bold">Descripción</h2>
-        <p class="justify-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus rerum voluptatibus
-          molestias nulla blanditiis, praesentium aut voluptatum nihil similique doloremque in beatae laborum id
-          molestiae dolorum perferendis autem eveniet ipsum.</p>
+        <p class="justify-text"><?= $this->course["description"] ?></p>
 
       </div>
       <div class="rounded-3 bg-primary col-lg-4 col-12 p-4 pt-5">
-        <h3 class="text-center text-white">$1,000.00 MXN</h3>
+        <h3 class="text-center text-white"><?= $this->course["price"] ?> MXN</h3>
         <!-- Sin comprar -->
         
         <a href="payment-method" class="btn btn-secondary w-100">Comprar este curso</a>
@@ -62,43 +62,33 @@
         <hr>
 
         <div class="mb-4">
-          <span class="fw-bold rating-star">4.3</span>
+          <span class="fw-bold rating-star"><?= number_format((float)$this->course["rates"] , 2, '.', '') ?></span>
           <i class="h6 bx bxs-star rating-star"></i>
           <i class="h6 bx bxs-star rating-star"></i>
           <i class="h6 bx bxs-star rating-star"></i>
           <i class="h6 bx bxs-star rating-star"></i>
           <i class="h6 bx bxs-star-half rating-star"></i>
-          <a href="#" class="ms-1 text-white">4 reseñas</a>
+          <a href="#" class="ms-1 text-white"><?= $this->course["reviews"] ?> <?= ($this->course["reviews"] === 1) ? 'reseña' : 'reseñas' ?></a>
         </div>
 
-        <p class="text-white mb-0"><i class="h6 bx bx-time"></i> 9 horas de contenido</p>
-        <p class="text-white mb-0"><i class="h6 bx bx-layer"></i> 5 níveles</p>
-        <p class="text-white mb-0"><i class="h6 bx bx-group"></i> 226 estudiantes</p>
-        <p class="text-white mb-0">Fecha de creación: 24 jun 2020</p>
-        <p class="text-white mb-0">Última actualización: 15 sep 2022</p>
+        <p class="text-white mb-0"><i class="h6 bx bx-time"></i> <?= $this->course["duration"] < 1 ? '<1' : round($this->course["duration"]) ?> <?= (round($this->course["duration"]) <= 1) ? 'hora' : 'horas' ?> de contenido</p>
+        <p class="text-white mb-0"><i class="h6 bx bx-layer"></i> <?= $this->course["levels"] ?> <?= ($this->course["levels"] === 1) ? 'nivel' : 'níveles' ?></p>
+        <p class="text-white mb-0"><i class="h6 bx bx-group"></i> <?= $this->course["students"] ?> <?= ($this->course["levels"] === 1) ? 'estudiante' : 'estudiantes' ?></p>
+        <p class="text-white mb-0">Fecha de creación: <?=  date_format(date_create($this->course["createdAt"]), 'd M Y') ?></p>
+        <p class="text-white mb-0">Última actualización: <?= date_format(date_create($this->course["modifiedAt"]), 'd M Y') ?></p>
 
         <h3 class="mt-4 text-white text-center">Categorías</h3>
+        <?php foreach($this->categories as $category):  ?>
         <a
           href="search"
           class="badge bg-dark p-2 text-white rounded-pill text-decoration-none mb-3"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          data-bs-title="Basico de programación"
-        >Programación</a>
-        <a
-          href="search"
-          class="badge bg-dark p-2 text-white rounded-pill text-decoration-none mb-3"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-title="Basico de programación"
-        >Python</a>
-        <a
-          href="search"
-          class="badge bg-dark p-2 text-white rounded-pill text-decoration-none mb-3"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-title="Basico de programación"
-        >Estructuras de datos</a>
+          data-bs-title="<?= $category["description"] ?>"
+        >
+          <?= $category["name"] ?>
+        </a>
+        <?php endforeach ?>
       </div>
     </section>
 
@@ -106,133 +96,28 @@
     <section class="container my-5">
       <h2 class="fw-bold text-center">Contenido del curso</h2>
 
+    <?php foreach($this->levels as $i => $level): ?>
       <div class="border-0 card">
-        <div role="button" class="rounded-top bg-light card-header" data-bs-toggle="collapse"
-          data-bs-target="#collapseExample1">
-          <i class='bx bx-chevron-down'></i> Introducción
+        <div role="button" class="<?= ($i === 0) ? 'rounded-top'  : 'rounded-0' ?> bg-light card-header" data-bs-toggle="collapse"
+          data-bs-target="#collapse-<?= $level["id"] ?>">
+          <i class='bx bx-chevron-down'></i> <?= $level["title"] ?>
         </div>
-        <div class="collapse" id="collapseExample1">
+        <div class="collapse" id="collapse-<?= $level["id"] ?>">
           <ul class="list-group list-group-flush">
+            <?php foreach ($level["lessons"] as $lesson): ?>
             <li class="list-group-item d-flex justify-content-between">
               <span>
-                <i class='bx bxs-video'></i> Introducción al curso
+                <i class='bx bxs-video'></i> <?= $lesson["title"] ?>
               </span>
               <span>
-                04:34
+                <?= $lesson["video_duration"] ?>
               </span>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Sobre Java
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Sobre POO
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
+            <?php endforeach ?>
           </ul>
         </div>
       </div>
-      <div class="card border-0">
-        <div role="button" class="rounded-0 bg-light dropdown-menu-start card-header" data-bs-toggle="collapse"
-          data-bs-target="#collapseExample2">
-          <i class='bx bx-chevron-down'></i> Conociendo Java
-        </div>
-        <div class="collapse" id="collapseExample2">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Introducción
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Tipos, literales y variables en Java
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Estructura de decisión y petición
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Funciones
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Arrays
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="card border-0">
-        <div role="button" class="rounded-0 bg-light dropdown-menu-start card-header" data-bs-toggle="collapse"
-          data-bs-target="#collapseExample3">
-          <i class='bx bx-chevron-down'></i> Programación Orientada a Objetos
-        </div>
-        <div class="collapse" id="collapseExample3">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Abstracción
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Encapsulamiento
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> Herencia
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video align-middle'></i>
-                <span class="align-middle">Polimorfismo</span>
-              </span>
-              <span>
-                04:34
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <?php endforeach ?>
 
     </section>
     <section class="container my-2">
@@ -267,22 +152,25 @@
       <h4 class="mb-4">Comentarios recientes</h4>
       <div id="review-section">
 
+        <?php foreach($this->reviews as $review): ?>
         <div class="card-body p-4">
           <div class="d-flex flex-start">
-            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
+            <img
+              class="rounded-circle me-3" 
+              src="api/v1/images/<?= $review["profilePicture"] ?>"
               alt="avatar" width="60" height="60" />
             <div>
               <div class="d-flex justify-content-between">
                 <div>
-                  <a class="fw-bold mb-1">Maggie Marsh</a>
+                  <a class="fw-bold mb-1"><?= $review["userName"] ?></a>
                   <div class="d-flex align-items-center mb-1 gap-2">
                     <small class="mb-0">07 mar 2021 8:21</small>
                     <span>
-                      <i class="bx bxs-star rating-star"></i>
-                      <i class="bx bxs-star rating-star"></i>
-                      <i class="bx bxs-star rating-star"></i>
-                      <i class="bx bxs-star rating-star"></i>
-                      <i class="bx bxs-star rating-star"></i>
+                      <i class="bx <?= $review["rate"] >= 1 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
+                      <i class="bx <?= $review["rate"] >= 2 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
+                      <i class="bx <?= $review["rate"] >= 3 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
+                      <i class="bx <?= $review["rate"] >= 4 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
+                      <i class="bx <?= $review["rate"] >= 5 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
                     </span>
                   </div>
                 </div>
@@ -298,100 +186,14 @@
                 </ul>
               </div>
               <p class="mb-0">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type and
-                scrambled it.
+                <?= $review["message"]  ?>
               </p>
             </div>
           </div>
         </div>
+        <?php endforeach ?>
 
-        <hr class="my-0">
-
-        <div class="card-body p-4">
-          <div class="d-flex flex-start">
-            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp"
-              alt="avatar" width="60" height="60" />
-            <div>
-              <a class="fw-bold mb-1">Lara Stewart</a>
-              <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">15 mar 2021 2:21</small>
-                <span>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                </span>
-              </div>
-              <p class="mb-0">
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It
-                has roots in a piece of classical Latin literature from 45 BC, making it
-                over 2000 years old. Richard McClintock, a Latin professor at
-                Hampden-Sydney College in Virginia, looked up one of the more obscure
-                Latin words, consectetur, from a Lorem Ipsum passage, and going through
-                the cites.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <hr class="my-0">
-
-        <div class="card-body p-4">
-          <div class="d-flex flex-start">
-            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(33).webp"
-              alt="avatar" width="60" height="60" />
-            <div>
-              <a class="fw-bold mb-1">Alexa Bennett</a>
-              <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">24 mar 2021 13:43</small>
-                <span>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                  <i class="bx bxs-star rating-star"></i>
-                </span>
-              </div>
-              <p class="mb-0">
-                There are many variations of passages of Lorem Ipsum available, but the
-                majority have suffered alteration in some form, by injected humour, or
-                randomised words which don't look even slightly believable. If you are
-                going to use a passage of Lorem Ipsum, you need to be sure.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <hr class="my-0">
-
-        <div class="card-body p-4">
-          <div class="d-flex flex-start">
-            <img class="rounded-circle me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(24).webp"
-              alt="avatar" width="60" height="60" />
-            <div>
-              <a class="fw-bold mb-1">Betty Walker</a>
-              <div class="d-flex align-items-center mb-1 gap-2">
-                <small class="mb-0">30 mar 2021 00:34</small>
-                <span>
-                  <i class="bx bx-star rating-star"></i>
-                  <i class="bx bx-star rating-star"></i>
-                  <i class="bx bx-star rating-star"></i>
-                  <i class="bx bx-star rating-star"></i>
-                  <i class="bx bx-star rating-star"></i>
-                </span>
-              </div>
-              <p class="mb-0">
-                It uses a dictionary of over 200 Latin words, combined with a handful of
-                model sentence structures, to generate Lorem Ipsum which looks
-                reasonable. The generated Lorem Ipsum is therefore always free from
-                repetition, injected humour, or non-characteristic words etc.
-              </p>
-            </div>
-          </div>
-        </div>
+        <!-- <hr class="my-0"> -->
 
         <div class="d-flex justify-content-center">
           <button class="btn btn-primary w-100 rounded-pill">Mostrar más comentarios</button>

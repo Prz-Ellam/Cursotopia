@@ -23,7 +23,7 @@ class DocumentController {
 
         $name = "document-" . time();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
-        // $contentType = $file->getType();
+        $contentType = $file->getType();
         $address = $_SERVER["DOCUMENT_ROOT"] . "/uploads/$name.$ext";
 
         move_uploaded_file($file->getTmpName(), $address);
@@ -32,6 +32,7 @@ class DocumentController {
         $document = new Document();
         $document
             ->setName($name)
+            ->setContentType($contentType)
             ->setAddress($address);
 
         $rowsAffected = $documentRepository->create($document);

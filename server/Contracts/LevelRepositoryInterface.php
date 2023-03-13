@@ -9,4 +9,5 @@ interface LevelRepositoryInterface {
     public function update(Level $level): int;
     public function delete(int $id): int;
     public function findOne(int $id): array;
+    public function findAllByCourse(int $courseId): array;
 }

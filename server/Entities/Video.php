@@ -5,6 +5,7 @@ namespace Cursotopia\Entities;
 class Video {
     private ?int $id = null;
     private ?string $name = null;
+    private ?string $contentType = null;
     private ?int $duration = null;
     private ?string $address = null;
     private ?string $createdAt = null;
@@ -147,6 +148,26 @@ class Video {
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of contentType
+     */ 
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * Set the value of contentType
+     *
+     * @return  self
+     */ 
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
 
         return $this;
     }

@@ -38,6 +38,28 @@ class ReviewRepository implements ReviewRepositoryInterface {
         WHERE
             review_id = :id
     SQL;
+
+    private const FIND_ALL_BY_COURSE = <<<'SQL'
+        SELECT
+            r.review_id AS `id`,
+            r.review_message AS `message`,
+            r.review_rate AS `rate`,
+            r.course_id AS `courseId`,
+            r.user_id AS `userId`,
+            r.review_created_at AS `createdAt`,
+            r.review_modified_at AS `modifiedAt`,
+            r.review_active AS `active`,
+            CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
+            u.profile_picture AS `profilePicture`
+        FROM
+            reviews AS r
+        INNER JOIN
+            users AS u
+        ON
+            r.user_id = u.user_id
+        WHERE
+            course_id = :course_id;
+    SQL;
     
     public function create(Review $review): int {
         $parameters = [
@@ -68,6 +90,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
     }
 
     public function findAllByCourse(int $courseId): array {
-        return [];
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 }

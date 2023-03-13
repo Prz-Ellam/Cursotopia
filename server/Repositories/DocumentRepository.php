@@ -9,15 +9,18 @@ class DocumentRepository extends DB {
     private const CREATE = <<<'SQL'
         INSERT INTO documents(
             document_name,
+            document_content_type,
             document_address
         )
         SELECT
             :name,
+            :content_type,
             :address
         FROM
             dual
         WHERE
             :name IS NOT NULL
+            :content_type IS NOT NULL
             AND :address IS NOT NULL
     SQL;
 
@@ -25,6 +28,7 @@ class DocumentRepository extends DB {
         SELECT
             document_id AS `id`,
             document_name AS `name`,
+            document_content_type AS `content_type`,
             document_address AS `address`,
             document_created_at AS `createdAt`,
             document_modified_at AS `modifiedAt`,
@@ -40,6 +44,7 @@ class DocumentRepository extends DB {
     public function create(Document $document): int {
         $parameters = [
             "name" => $document->getName(),
+            "content_type" => $document->getContentType(),
             "address" => $document->getAddress()
         ];
         return $this::executeNonQuery($this::CREATE, $parameters);

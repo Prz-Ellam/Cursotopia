@@ -11,6 +11,7 @@ class VideoRepository extends DB {
             video_id AS `id`,
             video_name AS `name`,
             video_duration AS `duration`,
+            video_content_type AS `content_type`,
             video_address AS `address`,
             video_created_at AS `createdAt`,
             video_modified_at AS `modifiedAt`,
@@ -27,17 +28,20 @@ class VideoRepository extends DB {
         INSERT INTO videos(
             video_name,
             video_duration,
+            video_content_type,
             video_address
         )
         SELECT
             :name,
             :duration,
+            :content_type,
             :address
         FROM
             dual
         WHERE
             :name IS NOT NULL
             AND :duration IS NOT NULL
+            AND :content_type IS NOT NULL
             AND :address IS NOT NULL
     SQL;
     private const UPDATE = "";
@@ -46,6 +50,7 @@ class VideoRepository extends DB {
         $parameters = [
             "name" => $video->getName(),
             "duration" => $video->getDuration(),
+            "content_type" => $video->getContentType(),
             "address" => $video->getAddress()
         ];
         return $this::executeNonQuery($this::CREATE, $parameters);

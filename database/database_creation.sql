@@ -1,6 +1,5 @@
-DROP DATABASE cursotopia;
-
-CREATE DATABASE cursotopia;
+--DROP DATABASE cursotopia;
+CREATE DATABASE IF NOT EXISTS cursotopia;
 USE cursotopia;
 
 DROP TABLE IF EXISTS `images`;
@@ -22,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `videos`(
     `video_id`                      INT NOT NULL AUTO_INCREMENT,
     `video_name`                    VARCHAR(255) NOT NULL,
     `video_duration`                INT NOT NULL,
+    `video_content_type`            VARCHAR(30) NOT NULL,
     `video_address`                 VARCHAR(255) NOT NULL,
     `video_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `video_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -34,6 +34,7 @@ DROP TABLE IF EXISTS `documents`;
 CREATE TABLE IF NOT EXISTS `documents`(
     `document_id`                   INT NOT NULL AUTO_INCREMENT,
     `document_name`                 VARCHAR(255) NOT NULL,
+    `document_content_type`         VARCHAR(30) NOT NULL,
     `document_address`              VARCHAR(255) NOT NULL,
     `document_created_at`           TIMESTAMP NOT NULL DEFAULT NOW(),
     `document_modified_at`          TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -140,10 +141,10 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
     `level_id`                      INT NOT NULL,
-    `video_id`                      INT NOT NULL UNIQUE,
-    `image_id`                      INT NOT NULL UNIQUE,
-    `document_id`                   INT NOT NULL UNIQUE,
-    `link_id`                       INT NOT NULL UNIQUE,
+    `video_id`                      INT UNIQUE,
+    `image_id`                      INT UNIQUE,
+    `document_id`                   INT UNIQUE,
+    `link_id`                       INT UNIQUE,
     `lesson_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_active`                 BOOLEAN NOT NULL DEFAULT TRUE,

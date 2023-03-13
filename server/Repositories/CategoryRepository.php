@@ -84,6 +84,26 @@ class CategoryRepository implements CategoryRepositoryInterface {
         WHERE
             category_active = TRUE
     SQL;
+
+    private const FIND_ALL_BY_COURSE = <<<'SQL'
+        SELECT
+            c.category_id AS `id`,
+            c.category_name AS `name`,
+            c.category_description AS `description`,
+            c.category_approved AS `approved`,
+            c.category_approved_by AS `approvedBy`,
+            c.category_created_at AS `createdAt`,
+            c.category_modified_at AS `modifiedAt`,
+            c.category_active AS `active`
+        FROM
+            categories AS c
+        INNER JOIN
+            course_category AS cc
+        ON
+            c.category_id = cc.category_id
+        WHERE
+            cc.course_id = :course_id;
+    SQL;
     
     public function create(Category $category): int|string {
         $parameters = [
@@ -122,5 +142,12 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
     public function findAll(): array {
         return DB::executeReader($this::FIND_ALL, []);
+    }
+
+    public function findAllByCourse(int $courseId): array {
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 }

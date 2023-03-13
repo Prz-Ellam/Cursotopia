@@ -5,6 +5,7 @@ namespace Cursotopia\Entities;
 class Document {
     private ?int $id = null;
     private ?string $name = null;
+    private ?string $contentType = null;
     private ?string $address = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
@@ -126,6 +127,26 @@ class Document {
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of contentType
+     */ 
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * Set the value of contentType
+     *
+     * @return  self
+     */ 
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
 
         return $this;
     }

@@ -27,6 +27,7 @@ class VideoController {
 
         $name = "video-" . time();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+        $contentType = $file->getType();
         $duration = round($fileinfo['playtime_seconds']);
         $address = $_SERVER["DOCUMENT_ROOT"] . "/uploads/$name.$ext";
         
@@ -37,6 +38,7 @@ class VideoController {
         $video
             ->setName($name)
             ->setDuration($duration)
+            ->setContentType($contentType)
             ->setAddress($address);
         $rowsAffected = $videoRepository->create($video);
         
