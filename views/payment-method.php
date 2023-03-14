@@ -1,12 +1,10 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Cursotopia</title>
+	<title><?= $_ENV["APP_NAME"] ?></title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
@@ -40,26 +38,30 @@
 								checked
 								autocomplete="off"
 								class="form-check-input"
-								name="method" type="radio" id="chk-card"
+								name="paymentMethodId" type="radio" id="chk-card"
 								data-bs-toggle="collapse"
 								data-bs-target=".checkout-section"
 								aria-expanded="false" aria-controls="checkout-section"
+								value="1"
 							>
 							<label class="form-check-label" for="chk-card">Tarjeta de crédito/debito</label>
 						</div>
 						<div class="form-check">
 							<input class="form-check-input"
-								name="method" type="radio" id="chk-paypal"
+								name="paymentMethodId" type="radio" id="chk-paypal"
 								autocomplete="off"
 								data-bs-toggle="collapse"
 								data-bs-target=".checkout-section"
 								aria-expanded="false" aria-controls="checkout-section"
+								value="2"
 							>
+							<!-- TODO: ID hardcodeados --> 
 							<label class="form-check-label" for="chk-paypal">Paypal</label>
 						</div>
 					</div>
 				</div>
 				<div class="row collapse show checkout-section">
+					<input type="hidden" name="amount" value="<?= $this->course["price"] ?>">
 					<div class="col-6 mb-4">
 						<label for="name" class="form-label" role="button">Nombre de la tarjeta</label>
 						<input type="text" name="name" id="name" class="form-control">
@@ -69,7 +71,7 @@
 						<input type="text" name="curp" id="curp" class="form-control">
 					</div>
 					<div class="col-12 mb-4">
-						<label for="card-number" class="form-label" role="button">Número de tarjeta</label>
+						<label for="cardNumber" class="form-label" role="button">Número de tarjeta</label>
 						<input type="text" name="card-number" id="card-number" class="form-control">
 					</div>
 
@@ -99,14 +101,14 @@
 				<div class="row">
 					<div class="col-2">
 						<img class="product-img"
-							src="https://import.cdn.thinkific.com/220744/courses/557614/hr1BWk5LTF2jiAziFPH0_aprende-a-programar-de-cero-con-python-min.jpg"
-							alt="">
+							src="api/v1/images/<?= $this->course["imageId"] ?>"
+							alt="Curso">
 					</div>
 					<div class="col-8">
-						<label for="inputEmail4" class="form-label">Introducción a la programación</label>
+						<label for="inputEmail4" class="form-label"><?= $this->course["title"] ?></label>
 					</div>
 					<div class="col-2 ms-auto">
-						<label for="inputEmail4" class="form-label">$1000.00 MXN</label>
+						<label for="inputEmail4" class="form-label">$<?= number_format($this->course["price"], 2) ?> MXN</label>
 					</div>
 				</div>
 				<div class="d-flex mt-3">

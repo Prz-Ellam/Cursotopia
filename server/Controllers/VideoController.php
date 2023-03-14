@@ -2,6 +2,7 @@
 
 namespace Cursotopia\Controllers;
 
+use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Video;
@@ -41,8 +42,13 @@ class VideoController {
             ->setContentType($contentType)
             ->setAddress($address);
         $rowsAffected = $videoRepository->create($video);
+        $videoId = DB::lastInsertId();
         
-        $response->json($rowsAffected);
+        $response->json([
+            "status" => true,
+            "id" => $videoId,
+            "message" => $rowsAffected
+        ]);
     }
 
     public function update(Request $request, Response $response): void {

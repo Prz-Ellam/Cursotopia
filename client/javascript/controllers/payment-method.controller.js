@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
+import { createEnrollmentService } from '../services/enrollment.service';
 
 export const payment = async function(event) {
     event.preventDefault();
@@ -9,7 +10,16 @@ export const payment = async function(event) {
         return;
     }
 
-    if (true) {
+    const formData = new FormData(this);
+    const payment = {
+        courseId: parseInt(new URLSearchParams(window.location.search).get('courseId') || ''),
+        amount: parseFloat(formData.get('amount')),
+        paymentMethodId: parseInt(formData.get('paymentMethodId'))
+    };
+    
+    const response = await createEnrollmentService(payment);
+
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡El curso fue comprado con éxito!',

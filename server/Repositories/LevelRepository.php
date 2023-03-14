@@ -71,16 +71,14 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             l.level_created_at AS `createdAt`,
             l.level_modified_at AS `modifiedAt`,
             l.level_active AS `active`,
-            (
+            GROUP_CONCAT('[', (
             SELECT 
                 GROUP_CONCAT(
-                '[',
                 JSON_OBJECT(
                     'title', le.lesson_title, 
                     'description', le.lesson_description,
-                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5))),
-                ']'
-            )
+                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5)))
+                )
             FROM 
                 lessons AS le
             INNER JOIN
@@ -89,9 +87,7 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
                 le.video_id = v.video_id
             WHERE 
                 level_id = l.level_id
-            GROUP BY
-                le.lesson_id
-            ) AS `lessons`
+            ), ']') AS `lessons`
         FROM
             levels AS l
         INNER JOIN

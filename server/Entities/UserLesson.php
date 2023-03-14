@@ -3,14 +3,14 @@
 namespace Cursotopia\Entities;
 
 class UserLesson {
-    private int $id;
-    private int $userId;
-    private int $lessonId;
-    private bool $isComplete;
-    private string $completeAt;
-    private string $lastTimeChecked;
-    private string $createdAt;
-    private string $modifiedAt;
+    private ?int $id = null;
+    private ?int $userId = null;
+    private ?int $lessonId = null;
+    private ?bool $isComplete = null;
+    private ?string $completeAt = null;
+    private ?string $lastTimeChecked = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
 
     /**
      * Get the value of id

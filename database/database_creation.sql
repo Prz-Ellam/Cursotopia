@@ -135,16 +135,22 @@ CREATE TABLE IF NOT EXISTS `levels`(
         REFERENCES courses(`course_id`)
 );
 
+-- ???
+ALTER TABLE `lessons`
+    DROP CONSTRAINT `lesson_level_fk`
+        FOREIGN KEY (`level_id`) 
+        REFERENCES levels(`course_id`);
+
 DROP TABLE IF EXISTS `lessons`;
 CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_id`                     INT NOT NULL AUTO_INCREMENT,
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
     `level_id`                      INT NOT NULL,
-    `video_id`                      INT UNIQUE,
-    `image_id`                      INT UNIQUE,
-    `document_id`                   INT UNIQUE,
-    `link_id`                       INT UNIQUE,
+    `video_id`                      INT DEFAULT NULL,
+    `image_id`                      INT DEFAULT NULL,
+    `document_id`                   INT DEFAULT NULL,
+    `link_id`                       INT DEFAULT NULL,
     `lesson_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `lesson_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
@@ -152,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `lessons`(
         PRIMARY KEY (`lesson_id`),
     CONSTRAINT `lesson_level_fk`
         FOREIGN KEY (`level_id`) 
-        REFERENCES courses(`course_id`),
+        REFERENCES levels(`course_id`),
     CONSTRAINT `lesson_video_fk`
         FOREIGN KEY (`video_id`) 
         REFERENCES videos(`video_id`),

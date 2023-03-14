@@ -23,7 +23,7 @@ export const createLevel = async function(event) {
         title: formData.get('title'),
         description: formData.get('description'),
         price: parseFloat(formData.get('price')),
-        courseId: 1
+        courseId: parseInt(formData.get('courseId'))
     };
     const response = await createLevelService(level);
 
@@ -101,7 +101,9 @@ export const createLevelVideo = async function(event) {
     const formData = new FormData();
     formData.append('video', file, file.name);
 
-    await createVideoService(formData);
+    const response = await createVideoService(formData);
+    const videoHidden = document.getElementById('create-lesson-video-hidden');
+    videoHidden.value = response.id;
 }
 
 export const createLevelImage = async function(event) {
@@ -110,7 +112,9 @@ export const createLevelImage = async function(event) {
     const formData = new FormData();
     formData.append('image', file, file.name);
 
-    await createImage(formData);
+    const response = await createImage(formData);
+    const imageHidden = document.getElementById('create-lesson-image-hidden');
+    imageHidden.value = response.id;
 }
 
 export const createLevelPdf = async function(event) {
@@ -119,5 +123,7 @@ export const createLevelPdf = async function(event) {
     const formData = new FormData();
     formData.append('pdf', file, file.name);
 
-    await createDocumentService(formData);
+    const response = await createDocumentService(formData);
+    const pdfHidden = document.getElementById('create-lesson-pdf-hidden');
+    pdfHidden.value = response.id;
 }

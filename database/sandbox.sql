@@ -225,3 +225,21 @@ ON
 
 
 
+SELECT
+            `id`,
+            `title`,
+            `description`,
+            `price`,
+            `imageId`,
+            `createdAt`,
+            `modifiedAt`,
+            `instructorName`,
+            `rates`,
+            `reviews`,
+            `students`,
+            `levels`,
+            `duration`
+        FROM
+            `course_details`
+        WHERE
+            `id` = 1

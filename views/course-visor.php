@@ -1,11 +1,10 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Cursotopia</title>
+	<title><?= $_ENV["APP_NAME"] ?></title>
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../client/styles/pages/course-visor.css">
 	<script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -48,93 +47,28 @@
 
 				<h4 class="text-center mt-3">Contenido del curso</h4>
 
+				<?php foreach($this->levels as $i => $level): ?>
 				<div class="border-0 card shadow-none">
-					<h5 type="button" class="rounded-top bg-light card-header" data-bs-toggle="collapse"
-						data-bs-target="#level-1-collapse" aria-expanded="true" aria-controls="level-1-collapse">
-						1. Introducción
+					<h5 type="button" class=" bg-light card-header" data-bs-toggle="collapse"
+						data-bs-target="#level-<?= $i + 1 ?>-collapse" aria-expanded="true" aria-controls="level-1-collapse">
+						<?= $i + 1 ?>. <?= $level["title"] ?>
 					</h5>
-					<div class="collapse" id="level-1-collapse">
+					<div class="collapse" id="level-<?= $i + 1 ?>-collapse">
 						<div class="list-group list-group-flush">
+							<?php foreach($level["lessons"] as $i => $lesson): ?>
 							<a role="link" class="list-group-item hoverable selected-course-content" role="button">
 								<p class="mb-0 fw-bold d-flex align-items-center">
 									<i class='bx-sm bx bxs-checkbox-checked'></i>
-									<span>1. Introducción y conocimientos previos</span>
+									<span><?= $i + 1 ?>. <?= $lesson["title"] ?></span>
 								</p>
 								<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
 							</a>
-							<a href="course-visor" class="list-group-item hoverable" role="button">
-								<p class="mb-0 fw-bold d-flex align-items-center">
-									<i class='bx-sm bx bx-checkbox'></i>
-									<span>2. Todo lo que tienes que instalar para el curso</span>
-								</p>
-								<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-							</a>
+							<?php endforeach ?>
+							
 						</div>
 					</div>
 				</div>
-
-				<div class="border-0 card shadow-none">
-					<h5 type="button" class="rounded-0 bg-light card-header" data-bs-toggle="collapse"
-						data-bs-target="#level-2-collapse" aria-expanded="false" aria-controls="level-2-collapse">
-						2. Lo más básico
-					</h5>
-					<div class="collapse" id="level-2-collapse">
-						<div class="list-group list-group-flush">
-							<a href="course-visor" class="list-group-item hoverable" role="button">
-								<p class="mb-0 fw-bold d-flex align-items-center">
-									<i class='bx-sm bx bx-checkbox'></i>
-									<span>1. ¿Qué problemas resuelven exactamente los frameworks de frontend?</span>
-								</p>
-								<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-							</a>
-							<a href="course-visor" class="list-group-item hoverable" role="button">
-								<p class="mb-0 fw-bold d-flex align-items-center">
-									<i class='bx-sm bx bx-checkbox'></i>
-									<span>2. El problema de la reactividad</span>
-								</p>
-								<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-							</a>
-							<a href="course-visor" class="list-group-item hoverable" role="button">
-								<p class="mb-0 fw-bold d-flex align-items-center">
-									<i class='bx-sm bx bx-checkbox'></i>
-									<span>2. El problema de la reactividad</span>
-								</p>
-								<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-								</li>
-								<a href="course-visor" class="list-group-item hoverable" role="button">
-									<p class="mb-0 fw-bold d-flex align-items-center">
-										<i class='bx-sm bx bx-checkbox'></i>
-										<span>2. El problema de la reactividad</span>
-									</p>
-									<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-									</li>
-									<a href="course-visor" class="list-group-item hoverable" role="button">
-										<p class="mb-0 fw-bold d-flex align-items-center">
-											<i class='bx-sm bx bx-checkbox'></i>
-											<span>2. El problema de la reactividad</span>
-										</p>
-										<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-										</li>
-										<a href="course-visor" class="list-group-item hoverable" role="button">
-											<p class="mb-0 fw-bold d-flex align-items-center">
-												<i class='bx-sm bx bx-checkbox'></i>
-												<span>2. El problema de la reactividad</span>
-											</p>
-											<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
-											</li>
-											<a href="course-visor" class="list-group-item hoverable" role="button">
-												<p class="mb-0 fw-bold d-flex align-items-center">
-													<i class='bx-sm bx bx-checkbox'></i>
-													<span>2. El problema de la reactividad</span>
-												</p>
-												<small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3
-													min</small>
-											</a>
-						</div>
-					</div>
-				</div>
-
-
+				<?php endforeach ?>
 
 			</div>
 		</div>

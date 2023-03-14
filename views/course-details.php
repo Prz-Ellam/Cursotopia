@@ -30,7 +30,7 @@
       <div class="col-lg-8 col-12">
         <div class="mb-4">
           <h2 class="fw-bold"><?= $this->course["title"] ?></h2>
-          <p>Creado por: <a href="instructor-profile"><?= $this->course["instructorName"] ?></a></p>
+          <p>Creado por: <a href="profile"><?= $this->course["instructorName"] ?></a></p>
         </div>
         <div class="ratio ratio-16x9 mb-4">
           <img 
@@ -47,9 +47,13 @@
         <h3 class="text-center text-white"><?= $this->course["price"] ?> MXN</h3>
         <!-- Sin comprar -->
         
-        <a href="payment-method" class="btn btn-secondary w-100">Comprar este curso</a>
+        <a 
+          href="payment-method?courseId=<?= $this->course["id"] ?>" 
+          class="btn btn-secondary w-100"
+        >
+          Comprar este curso
+        </a>
         
-
         <!-- Gratis -->
         <!--         
         <a href="course-visor" class="btn btn-secondary w-100">Conseguir este curso</a>

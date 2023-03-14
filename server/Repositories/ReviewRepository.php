@@ -12,7 +12,7 @@ class ReviewRepository implements ReviewRepositoryInterface {
             review_message,
             review_rate,
             course_id,
-            user_id,
+            user_id
         )
         SELECT
             :message,
@@ -58,7 +58,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
         ON
             r.user_id = u.user_id
         WHERE
-            course_id = :course_id;
+            course_id = :course_id
+        ORDER BY
+            review_created_at DESC;
     SQL;
     
     public function create(Review $review): int {

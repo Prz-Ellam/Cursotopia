@@ -3,14 +3,14 @@
 namespace Cursotopia\Entities;
 
 class UserLevel {
-    private int $id;
-    private int $userId;
-    private int $levelId;
-    private bool $isComplete;
-    private string $completeAt;
-    private string $lastTimeChecked;
-    private string $createdAt;
-    private string $modifiedAt;
+    private ?int $id = null;
+    private ?int $userId = null;
+    private ?int $levelId = null;
+    private ?bool $isComplete = null;
+    private ?string $completeAt = null;
+    private ?string $lastTimeChecked = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
 
     /**
      * Get the value of id
@@ -148,6 +148,26 @@ class UserLevel {
     public function setModifiedAt($modifiedAt)
     {
         $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of userId
+     */ 
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
 
         return $this;
     }

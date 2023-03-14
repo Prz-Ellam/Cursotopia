@@ -1,10 +1,20 @@
+<?php
+
+use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Repositories\CourseRepository;
+	$courseRepository = new CourseRepository();
+	$courses = $courseRepository->kardexFindAllByUserId($this->user["id"]);
+
+	$categoryRepository = new CategoryRepository();
+	$categories = $categoryRepository->findAll();
+?>
 <main>
 	<!-- Hero -->
 	<div class="Hero">
 		<div class="container-fluid bg-light shadow-sm">
 			<div class="row p-4">
 				<div class="col-xl-2 col-md-4 col-sm-5 col-xs-12 ml-4">
-				<img src="api/v1/images/<?= $this->user["profilePicture"] ?>" class="img-hero" width="180" height="180" alt="Foto de perfil">
+					<img src="api/v1/images/<?= $this->user["profilePicture"] ?>" class="img-hero" width="180" height="180" alt="Foto de perfil">
 				</div>
 				<div class="col-xl-10 col-md-8 col-sm-7 col-xs-12 m-auto ">
 					<div class="container text-xs-center">
@@ -66,9 +76,9 @@
 			<div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
 				<select class="form-select">
 					<option selected>Categorias</option>
-					<option value="1">Música</option>
-					<option value="2">Arte</option>
-					<option value="3">Programación</option>
+					<?php foreach($categories as $category): ?>
+						<option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+					<?php endforeach ?>
 				</select>
 			</div>
 			<div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
@@ -111,33 +121,17 @@
 							</tr>
 						</thead>
 						<tbody>
+							<?php foreach($courses as $course): ?>
 							<tr>
-								<td data-title="Curso">Introducción a la Programación Orientada a Objetos</td>
-								<td data-title="Progreso">12.34%</td>
-								<td data-title="Fecha de inscripción">12 ago 2021</td>
-								<td data-title="Último ingreso">13 ago 2021</td>
-								<td data-title="Terminado el">13 ago 2021</td>
-								<td data-title="Estado">Acabado</td>
+								<td data-title="Curso"><?= $course["title"] ?></td>
+								<td data-title="Progreso"><?= (new NumberFormatter('en_US', NumberFormatter::PERCENT))->format($course["progress"]) ?></td>
+								<td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
+								<td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
+								<td data-title="Terminado el"><?= $course["finishDate"] ?></td>
+								<td data-title="Estado"><?= $course["isFinished"] ?></td>
 								<td data-title="Certificado"><a href="certificate">Ver más</a></td>
 							</tr>
-							<tr>
-								<td data-title="Curso"></td>
-								<td data-title="Progreso"></td>
-								<td data-title="Fecha de inscripción"></td>
-								<td data-title="Último ingreso"></td>
-								<td data-title="Terminado el"></td>
-								<td data-title="Estado"></td>
-								<td data-title="Certificado"></td>
-							</tr>
-							<tr>
-								<td data-title="Curso"></td>
-								<td data-title="Progreso"></td>
-								<td data-title="Fecha de inscripción"></td>
-								<td data-title="Último ingreso"></td>
-								<td data-title="Terminado el"></td>
-								<td data-title="Estado"></td>
-								<td data-title="Certificado"></td>
-							</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 				</div>

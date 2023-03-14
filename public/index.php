@@ -1,14 +1,17 @@
 <?php
 
 use Bloom\Application;
+use Bloom\Http\Exceptions\HttpNotFoundException;
 use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\CategoryController;
 use Cursotopia\Controllers\CourseController;
 use Cursotopia\Controllers\DocumentController;
+use Cursotopia\Controllers\EnrollmentController;
 use Cursotopia\Controllers\ImageController;
 use Cursotopia\Controllers\LessonController;
 use Cursotopia\Controllers\LevelController;
 use Cursotopia\Controllers\LinkController;
+use Cursotopia\Controllers\ReviewController;
 use Cursotopia\Controllers\UserController;
 use Cursotopia\Controllers\VideoController;
 use Cursotopia\Middlewares\ApiAdminMiddleware;
@@ -25,10 +28,12 @@ use Cursotopia\Middlewares\Validators\UserUpdatePasswordValidator;
 use Cursotopia\Middlewares\Validators\UserUpdateValidator;
 use Cursotopia\Middlewares\WebAdminMiddleware;
 use Cursotopia\Models\CategoryModel;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\EnrollmentRepository;
 use Cursotopia\Repositories\LevelRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
@@ -40,7 +45,7 @@ error_reporting(E_ALL);
 
 $app = Application::app(dirname(__DIR__, 1));
 
-$app->setNotFound(fn($req, $res) => $res->render('404'));
+$app->setNotFound(function($request, $response) { $response->render('404'); });
 
 $app->get('/', fn($request, $response) => $response->redirect('/home'));
 $app->get('/categories', 
@@ -88,7 +93,7 @@ $app->get('/course-details', function($request, $response) {
     $reviewRepository = new ReviewRepository();
     $reviews = $reviewRepository->findAllByCourse($id);
 
-    if (!$course || !$categories || !$levels || !$reviews) {
+    if (!$course || !$categories || !$levels) {
         $response
             ->setStatus(404)
             ->render('404');
@@ -112,7 +117,19 @@ $app->get('/course-edition', function($request, $response) {
 
 
 
-$app->get('/course-visor', fn($request, $response) => $response->render('course-visor'), [ HasNotAuthMiddleware::class ]);
+$app->get('/course-visor', function($request, $response) {
+    $courseId = $request->getQuery("course");
+    $lessonId = $request->getQuery("lessons");
+
+    $levelRepository = new LevelRepository();
+    $levels = $levelRepository->findAllByCourse($courseId);
+    foreach ($levels as &$level) {
+        $level["lessons"] = json_decode($level["lessons"], true);
+    }
+
+
+    $response->render("course-visor", [ "levels" => $levels ]);
+}, [ HasNotAuthMiddleware::class ]);
 
 $app->get('/home', function($request, $response) {
     $session = $request->getSession();
@@ -132,7 +149,26 @@ $app->get('/login', fn($request, $response) => $response->render('login'), [ Has
 
 
 $app->get('/password-edition', fn($request, $response) => $response->render('password-edition'), [ HasNotAuthMiddleware::class ]);
-$app->get('/payment-method', fn($request, $response) => $response->render('payment-method'));
+$app->get('/payment-method', function($request, $response) {
+    $courseId = $request->getQuery("courseId");
+    if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
+        $response
+            ->setStatus(404)
+            ->render('404');
+        return;
+    }
+
+    $courseRepository = new CourseRepository();
+    $course = $courseRepository->findOneById($courseId);
+    if (!$course) {
+        $response
+            ->setStatus(404)
+            ->render('404');
+        return;
+    }
+
+    $response->render("payment-method", [ "course" => $course ]);
+});
 
 
 $app->get('/profile-edition', function($request, $response) {
@@ -269,6 +305,11 @@ $app->put('/api/v1/categories/:id', [ CategoryController::class, 'update' ], [ C
 $app->delete('/api/v1/categories/:id', [ CategoryController::class, 'delete' ], [ ApiAdminMiddleware::class ]);
 
 // Messages
+
+// Enrollments
+$app->post('/api/v1/enrollments', [ EnrollmentController::class, 'create' ]);
+
+$app->post('/api/v1/reviews', [ ReviewController::class, 'create' ], [ AuthMiddleware::class ]);
 
 
 $app->run();

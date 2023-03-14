@@ -59,11 +59,11 @@ export default {
             required: true,
             number: true
         },
-        'levels[]': {
-            required: true,
-            lessonsRequired: true,
-            lessonsVideo: true
-        }
+        // 'levels[]': {
+        //     required: true,
+        //     lessonsRequired: true,
+        //     lessonsVideo: true
+        // }
     },
     messages: {
         'course-cover': {
@@ -87,11 +87,11 @@ export default {
             number: 'El precio no es válido',
             min: 'El precio del producto no puede ser negativo'
         },
-        'levels[]': {
-            required: 'El curso necesita al menos un nivel',
-            lessonsRequired: 'Todos los niveles deben tener al menos una lección',
-            lessonsVideo: 'Cada nivel debe tener al menos una lección con video'
-        }
+        // 'levels[]': {
+        //     required: 'El curso necesita al menos un nivel',
+        //     lessonsRequired: 'Todos los niveles deben tener al menos una lección',
+        //     lessonsVideo: 'Cada nivel debe tener al menos una lección con video'
+        // }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

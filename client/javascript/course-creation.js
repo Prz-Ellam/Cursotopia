@@ -128,6 +128,10 @@ freeEditLevelCheckbox.addEventListener('change', function(event) {
 const uploadImage = document.getElementById('upload-image');
 uploadImage.addEventListener('change', createCourseImage);
 
+
+
+
+
 const createLessonVideo = document.getElementById('create-lesson-video');
 createLessonVideo.addEventListener('change', createLevelVideo);
 

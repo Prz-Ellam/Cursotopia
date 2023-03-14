@@ -2,6 +2,7 @@
 
 namespace Cursotopia\Controllers;
 
+use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Document;
@@ -36,8 +37,13 @@ class DocumentController {
             ->setAddress($address);
 
         $rowsAffected = $documentRepository->create($document);
-
-        $response->json($rowsAffected);
+        $pdfId = DB::lastInsertId();
+        
+        $response->json([
+            "status" => true,
+            "id" => $pdfId,
+            "message" => $rowsAffected
+        ]);
     }
 
     public function update(Request $request, Response $response): void {

@@ -1,3 +1,4 @@
+import { createLessonService } from "../services/lesson.service";
 import { courseCreationCreateLessonSection } from "../views/lesson.view";
 
 export const createLesson = async function(event) {
@@ -18,10 +19,22 @@ export const createLesson = async function(event) {
     const image = document.getElementById('create-lesson-image').value;
     const pdf = document.getElementById('create-lesson-pdf').value;
 
+    const formData = new FormData(this);
+    const lesson = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        levelId: parseInt(formData.get('level')),
+        videoId: parseInt(formData.get('video')),
+        imageId: parseInt(formData.get('image')),
+        documentId: parseInt(formData.get('document')),
+        linkId: parseInt(formData.get('link'))
+    }
+    const response = await createLessonService(lesson);
+
     courseCreationCreateLessonSection({ level: levelId, title, video });
 
     const createLessonForm = document.getElementById('create-lesson-form');
-    createLessonForm.reset();
+    //createLessonForm.reset();
 }
 
 export const courseEditionCreateLesson = async function(event) {

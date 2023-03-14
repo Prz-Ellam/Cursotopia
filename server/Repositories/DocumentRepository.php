@@ -20,7 +20,7 @@ class DocumentRepository extends DB {
             dual
         WHERE
             :name IS NOT NULL
-            :content_type IS NOT NULL
+            AND :content_type IS NOT NULL
             AND :address IS NOT NULL
     SQL;
 

@@ -31,10 +31,6 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             :title IS NOT NULL
             AND :description IS NOT NULL
             AND :level_id IS NOT NULL
-            AND :video_id IS NOT NULL
-            AND :image_id IS NOT NULL
-            AND :document_id IS NOT NULL
-            AND :link_id IS NOT NULL
     SQL;
     
     public function create(Lesson $lesson): int {

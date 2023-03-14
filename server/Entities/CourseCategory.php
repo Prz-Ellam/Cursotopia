@@ -3,12 +3,12 @@
 namespace Cursotopia\Entities;
 
 class CourseCategory {
-    private int $id;
-    private int $courseId;
-    private int $categoryId;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private ?int $id = null;
+    private ?int $courseId = null;
+    private ?int $categoryId = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     /**
      * Get the value of id
