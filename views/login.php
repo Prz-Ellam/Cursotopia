@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php $_ENV["APP_NAME"] ?></title>
+  <title><?= $this->env("APP_NAME") ?></title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,8 +20,9 @@
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../dist/assets/login.css">
-  <script defer type="module" src="../dist/javascript/login.js"></script>
+
+  <?= $this->link("styles/pages/login.css") ?>
+  <?= $this->script("javascript/login.js") ?>
 </head>
 <body>
   <header>
@@ -37,7 +38,8 @@
             <i class="bx bxs-envelope me-1"></i>
             <span>Correo electrónico</span>
           </label>
-          <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com" autocomplete="off">
+          <input type="email" name="email" id="email" class="form-control" 
+            placeholder="example@domain.com" autocomplete="off">
         </div>
         <div class="mb-4">
           <label for="password" role="button" class="form-label d-flex align-items-center">
@@ -46,7 +48,8 @@
           </label>
           <div class="input-group">
             <input type="password" name="password" id="password" class="form-control">
-            <button type="button" class="btn btn-primary btn-password" id="password-button"
+            <button type="button" class="btn btn-primary btn-password" 
+              id="password-button"
               ct-target="password">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
             </button>

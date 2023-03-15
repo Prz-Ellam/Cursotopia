@@ -10,9 +10,6 @@ use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
 use Cursotopia\Repositories\UserRepository;
-use Exception;
-
-use Opis\JsonSchema\Validator as OpisValidator;
 
 class UserController {
     /**

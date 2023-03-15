@@ -15,9 +15,9 @@ export default defineConfig({
 				glob.sync('client/javascript/*.js'),
 				glob.sync('client/styles/pages/*.css')),
 			output: {
-				entryFileNames: 'javascript/[name].js',
-				chunkFileNames: 'javascript/[name].js',
-				assetFileNames: 'assets/[name].[ext]'
+				entryFileNames: 'javascript/[hash].js',
+				chunkFileNames: 'javascript/[hash].js',
+				assetFileNames: 'assets/[hash].[ext]'
 			}
 		}
 	},

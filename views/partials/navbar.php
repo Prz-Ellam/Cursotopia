@@ -7,7 +7,13 @@ $categories = CategoryModel::findAll();
 <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
   <div class="container-fluid">
     <a class="navbar-brand text-white" href="home">
-      <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
+      <img 
+        src="../client/assets/images/logo.png" 
+        alt="Logo" 
+        width="34" 
+        height="34" 
+        class="d-inline-block align-text-top"
+      >
       <span class="align-middle">Cursotopia</span>
     </a>
     <button 

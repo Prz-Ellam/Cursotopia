@@ -20,8 +20,12 @@ CREATE TABLE IF NOT EXISTS employees(
     FOREIGN KEY (address_id) REFERENCES addresses(address_id)
 );
 
+INSERT INTO employees(email, password, name, last_name, phone, curp, rfc, nss, address_id)
+VALUES('a@a.com', '123', 'Eliam', 'Rodríguez', '8186909645', 'CURP', 'RFC', 'NSS', 1),
+VALUES('b@b.com', '123', 'Eliza', 'Rodríguez', '8187659385', 'CURP', 'RFC', 'NSS', 2),
+VALUES('c@c.com', '123', 'Aldo Iván', 'Rodríguez', '8186939583', 'CURP', 'RFC', 'NSS', 3);
 
-DROP DATABASE IF EXISTS users;
+DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users(
     user_id             INT NOT NULL AUTO_INCREMENT,
     email               VARCHAR(255) NOT NULL UNIQUE,
@@ -40,6 +44,11 @@ CREATE TABLE IF NOT EXISTS users(
     FOREIGN KEY (image_id) REFERENCES images(image_id)
 );
 
+INSERT INTO users(email, password, name, last_name, birth_date, phone, address_id, image_id)
+VALUES('eliam@correo.com', '123', 'Eliam', 'Rodriguez', '2001-10-26', '8186909645', 1, 1),
+VALUES('grecia@correo.com', '123', 'Grecia', 'Cadena', '2002-10-23', '8186909645', 2, 2),
+VALUES('elias@correo.com', '123', 'Elias', 'Jalomo', '2002-02-23', '8186909645', 3, 3);
+
 DROP TABLE IF EXISTS addresses;
 CREATE TABLE IF NOT EXISTS addresses(
     address_id          INT NOT NULL AUTO_INCREMENT,
@@ -53,6 +62,11 @@ CREATE TABLE IF NOT EXISTS addresses(
     PRIMARY KEY (address_id)
 );
 
+INSERT INTO addresses(address_one, address_two, name_google, latitude, longitude, vicinity, postal_code)
+VALUES('1', '1', '1', '1', '1', '1', '66612'),
+VALUES('2', '2', '2', '2', '2', '2', '66612'),
+VALUES('3', '3', '3', '3', '3', '3', '66612');
+
 DROP TABLE IF EXISTS products;
 CREATE TABLE IF NOT EXISTS products(
     product_id          INT NOT NULL AUTO_INCREMENT,
@@ -63,12 +77,17 @@ CREATE TABLE IF NOT EXISTS products(
     created_at          TIMESTAMP NOT NULL DEFAULT NOW(),
     modified_at         TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     image_id            INT NOT NULL UNIQUE,
-    approved_by         INT NOT NULL,
-    approved_at         TIMESTAMP NOT NULL,
+    approved_by         INT DEFAULT NULL,
+    approved_at         TIMESTAMP,
     PRIMARY KEY (products)
     FOREIGN KEY (image_id) REFERENCES images(image_id),
     FOREIGN KEY (approved_by) REFERENCES employees(employee_id)
 );
+
+INSERT INTO products(name, price, description, available, image_id)
+VALUES('Producto1', 200.00, 'Producto1', TRUE, 4),
+VALUES('Producto2', 300.00, 'Producto2', TRUE, 5),
+VALUES('Producto3', 400.00, 'Producto3', TRUE, 6);
 
 DROP TABLE IF EXISTS images;
 CREATE TABLE IF NOT EXISTS images(
@@ -83,6 +102,14 @@ CREATE TABLE IF NOT EXISTS images(
     PRIMARY KEY (image_id)
 );
 
+INSERT INTO images(name, size, content_type, data)
+VALUES('a.png', 1235, 'image/png', '123456'),
+VALUES('b.png', 66532, 'image/png', '123456'),
+VALUES('c.png', 76242, 'image/png', '123456'),
+VALUES('d.png', 23421, 'image/png', '123456'),
+VALUES('e.png', 394214, 'image/png', '123456'),
+VALUES('f.png', 394214, 'image/png', '123456');
+
 DROP TABLE IF EXISTS bags;
 CREATE TABLE IF NOT EXISTS bags(
     bag_id              INT NOT NULL AUTO_INCREMENT,
@@ -94,6 +121,11 @@ CREATE TABLE IF NOT EXISTS bags(
     PRIMARY KEY (bag_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+INSERT INTO bags(total, user_id)
+VALUES(0, 1),
+VALUES(0, 2),
+VALUES(0, 3);
 
 DROP TABLE IF EXISTS bag_items;
 CREATE TABLE IF NOT EXISTS bag_items(
@@ -109,6 +141,15 @@ CREATE TABLE IF NOT EXISTS bag_items(
     FOREIGN KEY (bag_id) REFERENCES bags(bag_id)
 );
 
+INSERT INTO bag_items(quantity, product_id, bag_id)
+VALUES(1, 1, 1),
+VALUES(2, 2, 2),
+VALUES(3, 3, 3);
+
+DELETE FROM bag_items WHERE bag_item_id = 1;
+DELETE FROM bag_items WHERE bag_item_id = 2;
+
+
 DROP TABLE IF EXISTS orders;
 CREATE TABLE IF NOT EXISTS orders(
     order_id            INT NOT NULL AUTO_INCREMENT,
@@ -120,7 +161,11 @@ CREATE TABLE IF NOT EXISTS orders(
     FOREIGN KEY (user_id) REFERENCES users(user_id),
 );
 
-CREATE TABLE shoppings(
+INSERT INTO orders(user_id)
+VALUES(1),(2),(3);
+
+DROP TABLE IF EXISTS shoppings;
+CREATE TABLE IF NOT EXISTS shoppings(
 	shopping_id				INT NOT NULL AUTO_INCREMENT,
     order_id				INT NOT NULL,
     product_id				INT NOT NULL,
@@ -133,3 +178,54 @@ CREATE TABLE shoppings(
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
+
+INSERT INTO shoppings(order_id, product_id, quantity, amount)
+VALUES(1, 1, 1, 200.00),
+(2, 2, 2, 300.00),
+(3, 3, 3, 400.00)
+
+
+UPDATE
+    shoppings
+SET
+    order_id = 2,
+    product_id = 2,
+    quantity = 5,
+    amount = 1000.00
+WHERE
+    shopping_id = 1;
+
+UPDATE
+    shoppings
+SET
+    order_id = 3,
+    product_id = 3,
+    quantity = 1,
+    amount = 150.00
+WHERE
+    shopping_id = 2;
+
+
+SELECT
+    product_id, name, price, description, available, created_at, modified_at,
+    image_id, approved_by, approved_at
+FROM
+    products
+WHERE
+    price >= 200.00
+UNION ALL
+SELECT
+    product_id, name, price, description, available, created_at, modified_at,
+    image_id, approved_by, approved_at
+FROM
+    products
+WHERE
+    available = TRUE
+UNION ALL
+SELECT
+    product_id, name, price, description, available, created_at, modified_at,
+    image_id, approved_by, approved_at
+FROM
+    products
+WHERE
+    created_at >= '2023-03-01'

@@ -1,20 +1,20 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursotopia</title>
+  <title><?= $this->env("APP_NAME") ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="../dist/assets/search.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <script defer type="module" src="../dist/javascript/search.js"></script>
+
+  <?= $this->link("styles/pages/search.css") ?>
+  <?= $this->script("javascript/search.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

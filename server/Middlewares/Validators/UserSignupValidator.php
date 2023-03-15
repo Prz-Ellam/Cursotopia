@@ -90,7 +90,7 @@ class UserSignupValidator implements Middleware {
             return;
         }
 
-        $next($request, $response);
+        $next();
     }
 }
 

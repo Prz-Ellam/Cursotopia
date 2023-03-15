@@ -1,7 +1,6 @@
 <?php
 
 use Bloom\Application;
-use Bloom\Http\Exceptions\HttpNotFoundException;
 use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\CategoryController;
 use Cursotopia\Controllers\CourseController;
@@ -28,12 +27,10 @@ use Cursotopia\Middlewares\Validators\UserUpdatePasswordValidator;
 use Cursotopia\Middlewares\Validators\UserUpdateValidator;
 use Cursotopia\Middlewares\WebAdminMiddleware;
 use Cursotopia\Models\CategoryModel;
-use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\UserRoleModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
-use Cursotopia\Repositories\EnrollmentRepository;
 use Cursotopia\Repositories\LevelRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
@@ -46,11 +43,23 @@ error_reporting(E_ALL);
 $app = Application::app(dirname(__DIR__, 1));
 
 $app->setNotFound(function($request, $response) { $response->render('404'); });
+/*
+foreach (glob("../server/Routes/*.php") as $route) {
+    include_once $route; 
+}
+
+$app->run();
+*/
+//die;
+
+
+
+
 
 $app->get('/', fn($request, $response) => $response->redirect('/home'));
 $app->get('/categories', 
     fn($request, $response) => $response->render('admin-categories'),
-    [ WebAdminMiddleware::class ]);
+    [ [ WebAdminMiddleware::class ] ]);
 
 
 
@@ -58,14 +67,14 @@ $app->get('/admin-courses', fn($request, $response) => $response->render('admin-
 $app->get('/admin-home', fn($request, $response) => $response->render('admin-home'));
 $app->get('/blocked-users', fn($request, $response) => $response->render('blocked-users'));
 $app->get('/certificate', fn($request, $response) => $response->render('certificate'));
-$app->get('/chat', fn($request, $response) => $response->render('chat'), [ HasNotAuthMiddleware::class ]);
+$app->get('/chat', fn($request, $response) => $response->render('chat'), [ [ HasNotAuthMiddleware::class ] ]);
 
 
 $app->get('/course-creation', function($request, $response) {
     $categories = CategoryModel::findAll();
 
     $response->render('course-creation', [ "categories" => $categories ]);
-}, [ HasNotAuthMiddleware::class ]);
+}, [ [ HasNotAuthMiddleware::class ] ]);
 
 
 
@@ -112,7 +121,7 @@ $app->get('/course-details', function($request, $response) {
 $app->get('/course-edition', function($request, $response) {
     $categories = CategoryModel::findAll();
     $response->render('course-edition', [ "categories" => $categories ]);
-}, [ HasNotAuthMiddleware::class ]);
+}, [ [ HasNotAuthMiddleware::class ] ]);
 
 
 
@@ -129,7 +138,7 @@ $app->get('/course-visor', function($request, $response) {
 
 
     $response->render("course-visor", [ "levels" => $levels ]);
-}, [ HasNotAuthMiddleware::class ]);
+}, [ [ HasNotAuthMiddleware::class ] ]);
 
 $app->get('/home', function($request, $response) {
     $session = $request->getSession();
@@ -144,11 +153,14 @@ $app->get('/instructor-profile-seen-by-others', fn($request, $response) => $resp
 $app->get('/instructor-profile', fn($request, $response) => $response->render('instructor-profile'));
 
 
-$app->get('/login', fn($request, $response) => $response->render('login'), [ HasAuthMiddleware::class ]);
+$app->get('/login', fn($request, $response) => $response->render('login'), 
+[ [ HasAuthMiddleware::class ] ]);
 
 
 
-$app->get('/password-edition', fn($request, $response) => $response->render('password-edition'), [ HasNotAuthMiddleware::class ]);
+$app->get('/password-edition', fn($request, $response) => $response->render('password-edition'), 
+[ [ HasNotAuthMiddleware::class ] ]);
+
 $app->get('/payment-method', function($request, $response) {
     $courseId = $request->getQuery("courseId");
     if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
@@ -186,7 +198,7 @@ $app->get('/profile-edition', function($request, $response) {
     $response->render('profile-edition', [ 
         "user" => $user->toObject()
     ]);
-}, [ HasNotAuthMiddleware::class ]);
+}, [ [ HasNotAuthMiddleware::class ] ]);
 
 
 $app->get('/search', fn($request, $response) => $response->render('search'));
@@ -197,7 +209,7 @@ $app->get('/signup', function($request, $response) {
     $userRoles = UserRoleModel::findAllByIsPublic(true);
 
     $response->render('signup', [ "userRoles" => $userRoles ]);
-}, [ HasAuthMiddleware::class ]);
+}, [ [ HasAuthMiddleware::class ] ]);
 
 
 $app->get('/profile', function($request, $response) {
@@ -235,15 +247,15 @@ $app->get('/student-profile', fn($request, $response) => $response->render('stud
 // API
 
 // Auth
-$app->post('/api/v1/auth', [ AuthController::class, 'login' ], [ UserLoginValidator::class ]);
+$app->post('/api/v1/auth', [ AuthController::class, 'login' ], [ [ UserLoginValidator::class ] ]);
 $app->get('/api/v1/logout', [ AuthController::class, 'logout' ]);
 
 // Users
 $app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ]);
 
-$app->post('/api/v1/users', [ UserController::class, 'create' ], [ UserSignupValidator::class ]);
-$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ], [ UserUpdateValidator::class ]);
-$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ], [ UserUpdatePasswordValidator::class ]);
+$app->post('/api/v1/users', [ UserController::class, 'create' ], [ [ UserSignupValidator::class ] ]);
+$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ], [ [ UserUpdateValidator::class ] ]);
+$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ], [ [ UserUpdatePasswordValidator::class ] ]);
 $app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
 $app->post('/api/v1/users/email', [ UserController::class, 'checkEmailExists' ]);
 
@@ -278,38 +290,38 @@ $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
 
-$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ ApiInstructorMiddleware::class ]);
-$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
-$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ ApiInstructorMiddleware::class ]);
+$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ [ ApiInstructorMiddleware::class ] ]);
 
 
 
 // Levels
 $app->get('/api/v1/levels/:id', [ LevelController::class, 'show' ]);
 
-$app->post('/api/v1/levels', [ LevelController::class, 'create' ], [ ApiInstructorMiddleware::class, LevelCreationValidator::class ]);
+$app->post('/api/v1/levels', [ LevelController::class, 'create' ], [ [ ApiInstructorMiddleware::class ], [ LevelCreationValidator::class ] ]);
 
-$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
-$app->delete('/api/v1/levels/:id', [ LevelController::class, 'delete' ], [ ApiInstructorMiddleware::class ]);
+$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->delete('/api/v1/levels/:id', [ LevelController::class, 'delete' ], [ [ ApiInstructorMiddleware::class ] ]);
 
 // Lessons
 $app->get('/api/v1/lessons/:id', [ LessonController::class, 'show' ]);
-$app->post('/api/v1/lessons', [ LessonController::class, 'create' ], [ ApiInstructorMiddleware::class ]);
-$app->put('/api/v1/lessons/:id', [ LessonController::class, 'update' ], [ ApiInstructorMiddleware::class ]);
-$app->delete('/api/v1/lessons/:id', [ LessonController::class, 'delete' ], [ ApiInstructorMiddleware::class ]);
+$app->post('/api/v1/lessons', [ LessonController::class, 'create' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->put('/api/v1/lessons/:id', [ LessonController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->delete('/api/v1/lessons/:id', [ LessonController::class, 'delete' ], [ [ ApiInstructorMiddleware::class ] ]);
 
 
 // Categories
-$app->post('/api/v1/categories', [ CategoryController::class, 'create' ], [ AuthMiddleware::class, CategoryCreationValidator::class ]);
-$app->put('/api/v1/categories/:id', [ CategoryController::class, 'update' ], [ CategoryUpdateValidator::class ]);
-$app->delete('/api/v1/categories/:id', [ CategoryController::class, 'delete' ], [ ApiAdminMiddleware::class ]);
+$app->post('/api/v1/categories', [ CategoryController::class, 'create' ], [ [ AuthMiddleware::class ], [ CategoryCreationValidator::class ] ]);
+$app->put('/api/v1/categories/:id', [ CategoryController::class, 'update' ], [ [ CategoryUpdateValidator::class ] ]);
+$app->delete('/api/v1/categories/:id', [ CategoryController::class, 'delete' ], [ [ ApiAdminMiddleware::class ] ]);
 
 // Messages
 
 // Enrollments
 $app->post('/api/v1/enrollments', [ EnrollmentController::class, 'create' ]);
 
-$app->post('/api/v1/reviews', [ ReviewController::class, 'create' ], [ AuthMiddleware::class ]);
+$app->post('/api/v1/reviews', [ ReviewController::class, 'create' ], [ [ AuthMiddleware::class ] ]);
 
 
 $app->run();

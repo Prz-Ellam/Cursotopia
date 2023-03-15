@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $_ENV["APP_NAME"] ?></title>
+  <title><?= $this->env("APP_NAME") ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
   <link rel="stylesheet" href="../client/styles/pages/home.css">
-  <script defer type="module" src="../dist/javascript/home.js"></script>
+  <?= $this->script("javascript/home.js") ?>
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
 <body>

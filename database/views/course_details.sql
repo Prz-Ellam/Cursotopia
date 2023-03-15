@@ -79,11 +79,13 @@ AS
             l.level_active AS `active`,
             (
             SELECT 
+                
                 GROUP_CONCAT(
                 JSON_OBJECT(
                     'title', le.lesson_title, 
                     'description', le.lesson_description,
-                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5)))
+                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), 
+                    RIGHT(SEC_TO_TIME(v.video_duration), 5)))
                 )
             FROM 
                 lessons AS le
@@ -92,7 +94,7 @@ AS
             ON
                 le.video_id = v.video_id
             WHERE 
-                le.level_id = 1
+                le.level_id = l.level_id
             GROUP BY
                 le.level_id
             ) AS `lessons`
@@ -110,32 +112,50 @@ AS
 
 
 
-SELECT 
-    JSON_ARRAYAGG(JSON_OBJECT('title', lesson_title, 'description', lesson_description))
-FROM lessons;
+SELECT       
+    GROUP_CONCAT(
+    JSON_OBJECT(
+        'title', le.lesson_title, 
+        'description', le.lesson_description,
+        'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), 
+            RIGHT(SEC_TO_TIME(v.video_duration), 5)))
+    )
+FROM 
+    lessons AS le
+INNER JOIN
+    videos AS v
+ON
+    le.video_id = v.video_id
+WHERE 
+    le.level_id = 1
+GROUP BY
+    le.level_id;
 
 
 
-
-
-
-
-
-
-
-DELIMITER //
-
-DROP FUNCTION IF EXISTS JSON_ARRAYAGG //
-
-CREATE AGGREGATE FUNCTION IF NOT EXISTS JSON_ARRAYAGG(next_value TEXT) RETURNS TEXT
-BEGIN  
-
- DECLARE json TEXT DEFAULT '[]';
- DECLARE CONTINUE HANDLER FOR NOT FOUND RETURN json_remove(json, '$[0]');
-      LOOP  
-          FETCH GROUP NEXT ROW;
-          SET json = json_array_append(json, '$', next_value);
-      END LOOP;  
-
-END //
-DELIMITER ;
+SELECT
+    l.level_id,
+    l.level_title,
+    l.level_description,
+    l.level_price,
+    le.lesson_id,
+    CONCAT('[', GROUP_CONCAT(
+        JSON_OBJECT(
+            'title', le.lesson_title,
+            'description', le.lesson_description,
+            'duration', v.video_duration
+        )
+    ), ']'),
+    1
+FROM
+    levels AS l
+LEFT JOIN
+    lessons AS le
+ON
+    l.level_id = le.level_id
+INNER JOIN
+    videos AS v
+ON
+    le.video_id = v.video_id
+GROUP BY
+    l.level_id;
