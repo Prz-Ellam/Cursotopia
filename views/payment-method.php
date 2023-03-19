@@ -18,7 +18,8 @@
   <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script defer type="module" src="../dist/javascript/payment-method.js"></script>
+  
+  <?= $this->script("javascript/payment-method.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

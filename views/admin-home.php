@@ -12,94 +12,10 @@
   <link rel="stylesheet" href="../client/styles/pages/admin-home.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script defer type="module" src="../client/javascript/admin-home.js"></script>
+  <?= $this->script("javascript/admin-home.js") ?>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light" href="home">Cursotopia</a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-auto col-lg-6" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link fw-bold text-light dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Categorías
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="search">Arte</a></li>
-              <li><a class="dropdown-item" href="search">Música</a></li>
-              <li><a class="dropdown-item" href="search">Programación</a></li>
-            </ul>
-          </li>    
-          <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat">
-              <i class="bx-sm bx bxs-bell position-relative">
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
-              </i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link dropdown">
-              <button
-                class="btn border-0 p-0"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img 
-                  src="../client/assets/images/perfil.png"
-                  alt="mdo"
-                  width="32"
-                  class="rounded-circle profile-picture">
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="instructor-profile">Mi perfil</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Cerrar sesión</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container-fluid">
+  <main class="container-fluid">
     <div class="row flex-nowrap">
       <div class="col-auto collapse d-lg-block col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
         <div class="text-white">
@@ -198,6 +114,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </body>
 </html>

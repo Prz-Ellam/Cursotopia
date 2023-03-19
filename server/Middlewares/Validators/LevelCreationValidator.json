@@ -1,0 +1,44 @@
+{
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    },
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "maxLength": 255,
+            "$error": {
+                "type": "El título debe ser una cadena de texto",
+                "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "description": {
+            "type": "string",
+            "maxLength": 255,
+            "$error": {
+                "type": "La descripción debe ser una cadena de texto",
+                "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "price": {
+            "type": "number",
+            "$error": {
+                "type": "El precio debe ser un valor numérico"
+            }
+        },
+        "courseId": {
+            "type": "number",
+            "$error": {
+                "type": "El identificador del curso debe ser un valor numérico"
+            }
+        }
+    },
+    "required": [
+        "title",
+        "description",
+        "price",
+        "courseId"
+    ],
+    "additionalProperties": false
+}

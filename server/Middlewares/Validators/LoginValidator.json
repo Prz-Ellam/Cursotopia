@@ -1,0 +1,31 @@
+{
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    },
+    "type": "object",
+    "properties": {
+        "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "El correo electrónico debe ser una cadena de texto",
+                "format": "El correo electrónico no tiene el formato adecuado",
+                "minLength": "El correo electrónico no puede estar vacío",
+                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        }
+    },
+    "required": [
+        "email",
+        "password"
+    ],
+    "additionalProperties": false
+}

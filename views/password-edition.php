@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-  <link rel="stylesheet" href="../dist/assets/password-edition.css">
-  <script defer type="module" src="../dist/javascript/password-edition.js"></script>
+  <?= $this->link("styles/pages/password-edition.css") ?>
+  <?= $this->script("javascript/password-edition.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

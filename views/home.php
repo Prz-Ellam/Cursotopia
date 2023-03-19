@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/home.css">
+  <?= $this->link("styles/pages/home.css") ?>
   <?= $this->script("javascript/home.js") ?>
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
@@ -53,19 +53,23 @@
     <h2 class="text-center fw-bolder">Últimos cursos publicados</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
-
-      <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
+      <?php foreach($this->lastPublishedcourses as $course): ?>
+      <a 
+        href="course-details?id=<?= $course["id"] ?>" 
+        class="card my-3 text-decoration-none text-dark" 
+        role="button"
+      >
         <div class="ratio ratio-16x9">
           <img 
-            src="https://import.cdn.thinkific.com/220744/courses/1948561/HVgczjlDQjK5CIXpb57p_desarrollo-web-con-html-css-min.png"
+            src="api/v1/images/<?= $course["imageId"] ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title">Crea páginas web con HTML y CSS</h5>
+          <h5 class="card-title"><?= $course["title"] ?></h5>
           <p class="card-text">Paco Gomez Arnal</p>
           <hr>
-          <h6 class="card-text mb-0 fw-bold">$250.00 MXN</h6>
+          <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
           <p>
             <i class="bx bxs-star rate-star rating-star"></i>
             <i class="bx bxs-star rate-star rating-star"></i>
@@ -79,111 +83,7 @@
           </div>
         </div>
       </a>
-
-      <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
-        <div class="ratio ratio-16x9">
-          <img 
-            src="https://import.cdn.thinkific.com/220744/courses/1652554/m8sF2qn5R7WkrFrvDAJe_Seguridad%20pc-min.jpg"
-            class="card-img-top img-cover"
-            alt="Curso">
-        </div>
-        <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title">Cómo protegerse en la red</h5>
-          <p class="card-text">Kike Gandia</p>
-          <hr>
-          <h6 class="card-text mb-0 fw-bold">$230.00 MXN</h6>
-          <p>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-          </p>
-          <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 5 níveles</p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 36 horas</p>
-          </div>
-        </div>
-      </a>
-
-      <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
-        <div class="ratio ratio-16x9">
-          <img 
-            src="https://import.cdn.thinkific.com/220744/courses/557614/hr1BWk5LTF2jiAziFPH0_aprende-a-programar-de-cero-con-python-min.jpg"
-            class="card-img-top img-cover"
-            alt="Curso">
-        </div>
-        <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title">Aprende a programar en Python</h5>
-          <p class="card-text">Nate Gentile</p>
-          <hr>
-          <h6 class="card-text mb-0 fw-bold">$350.00 MXN</h6>
-          <p>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-          </p>
-          <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 5 níveles</p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 36 horas</p>
-          </div>
-        </div>
-      </a>
-      
-      <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
-        <div class="ratio ratio-16x9">
-          <img 
-            src="https://import.cdn.thinkific.com/220744/courses/1995678/Qe69BGYXRGqYxVIO1kae_codigo-limpio-del-siglo-xx1.jpg"
-            class="card-img-top img-cover"
-            alt="Curso">
-        </div>
-        <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title">Código limpio del siglo XXI (Clean code)</h5>
-          <p class="card-text">Martin aka BettaTech</p>
-          <hr>
-          <h6 class="card-text mb-0 fw-bold">$300.00 MXN</h6>
-          <p>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-          </p>
-          <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 5 níveles</p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 36 horas</p>
-          </div>
-        </div>
-      </a>
-
-      <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
-        <div class="ratio ratio-16x9">
-          <img 
-            src="https://import.cdn.thinkific.com/220744/courses/2024609/F2TifraHR26mbZmPxsS0_historia-de-la-tarjeta-grafica-min.jpg"
-            class="card-img-top img-cover"
-            alt="Curso">
-        </div>
-        <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title">Historia de la tarjeta gráfica</h5>
-          <p class="card-text">Arturo Alonso Alonso</p>
-          <hr>
-          <h6 class="card-text mb-0 fw-bold">$200.00 MXN</h6>
-          <p>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-            <i class="bx bxs-star rate-star rating-star"></i>
-          </p>
-          <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 5 níveles</p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 36 horas</p>
-          </div>
-        </div>
-      </a>
-
+      <?php endforeach ?>
     </div>
   </section>
 
@@ -329,7 +229,6 @@
     <h2 class="text-center fw-bolder">Los cursos mejor vendidos</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
-      
       <a href="course-details" class="card my-3 text-decoration-none text-dark" role="button">
         <div class="ratio ratio-16x9" href="#">
           <img 
@@ -459,7 +358,6 @@
           </div>
         </div>
       </a>
-
     </div>
   </section>
 

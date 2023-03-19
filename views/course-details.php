@@ -16,9 +16,9 @@
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="../dist/assets/course-details.css">
 
-  <script defer type="module" src="../dist/javascript/course-details.js"></script>
+  <?= $this->link("styles/pages/course-details.css") ?>
+  <?= $this->script("javascript/course-details.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

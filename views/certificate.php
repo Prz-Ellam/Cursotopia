@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="../dist/assets/certificate.css">
-  <script defer type="module" src="../dist/javascript/certificate.js"></script>
+  <?= $this->link("styles/pages/certificate.css") ?>
+  <?= $this->script("javascript/certificate.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

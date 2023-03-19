@@ -1,0 +1,106 @@
+{
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    },
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "$error": {
+                "type": "El nombre debe ser una cadena de texto",
+                "minLength": "El nombre no puede estar vacío",
+                "maxLength": "El nombre es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "$error": {
+                "type": "El apellido debe ser una cadena de texto",
+                "minLength": "El apellido no puede estar vacío",
+                "maxLength": "El apellido es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "birthDate": {
+            "type": "string",
+            "minLength": 1,
+            "format": "date",
+            "$error": {
+                "type": "La fecha de nacimiento debe ser una cadena de texto",
+                "minLength": "La fecha de nacimiento no puede estar vacía",
+                "format": "La fecha de nacimiento no tiene un formato válido"
+            }
+        },
+        "gender": {
+            "type": "number",
+            "$error": {
+                "type": "El género debe ser un número"
+            }
+        },
+        "email": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "format": "email",
+            "$error": {
+                "type": "El correo electrónico no puede estar vacío",
+                "minLength": "El correo electrónico no puede estar vacío",
+                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "password": {
+            "type": "string",
+            "pattern": "^(?=.*[0-9])(?=.*[A-Z])(?=.*[°|¬!\"#$%&/()=?¡'¿¨*\\]´+}~`{[^;:_,.\\-<>@]).{8,}$",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "La contraseña debe ser una cadena de texto",
+                "pattern": "La contraseña no cumple con todos los requisitos (Al menos una mayúscula, un número, un caracter especial y 8 carácteres)",
+                "minLength": "La contraseña no puede estar vacía",
+                "maxLength": "La contraseña es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "confirmPassword": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "const": {
+                "$data": "/password"
+            },
+            "$error": {
+                "type": "La confirmación de la contraseña debe ser una cadena de texto",
+                "minLength": "La confirmación de la contraseña no puede estar vacía",
+                "maxLength": "La confirmación de la contraseña es muy larga, solo {max} caracteres son admitidos, se encontraron {length}",
+                "const": "La confirmación de contraseña no coincide con la contraseña"
+            }
+        },
+        "userRole": {
+            "type": "number",
+            "$error": {
+                "type": "El rol de usuario debe ser un número"
+            }
+        },
+        "profilePicture": {
+            "type": "number",
+            "$error": {
+                "type": "La foto de perfil debe ser un número"
+            }
+        }
+    },
+    "required": [
+        "name",
+        "lastName",
+        "birthDate",
+        "gender",
+        "email",
+        "password",
+        "confirmPassword",
+        "userRole",
+        "profilePicture"
+    ],
+    "additionalProperties": false
+}

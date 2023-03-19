@@ -132,7 +132,9 @@ function readFileAsync(file) {
     });
 }
 
+// TODO: changeProfilePicture
 export const uploadProfilePicture = async function(event) {
+
     const pictureBox = document.getElementById('picture-box');
     const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
@@ -146,13 +148,17 @@ export const uploadProfilePicture = async function(event) {
         }
         const file = files[0];
 
-        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
-        if (size > 8.0) {
+        console.log(file.type);
+        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ];
+        if (!allowedExtensions.includes(file.type)) {
             await Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: 'La imagen es muy pesada',
+                text: 'El tipo de archivo que selecciono no es admitido',
                 confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
             });
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
@@ -160,13 +166,23 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
-        if (!allowedExtensions.exec(file.type)) {
+        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
+        if (size > 8.0) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
             $(".user-form").validate().element('#profile-picture-id');
             return;
         }
+
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
 
@@ -188,6 +204,7 @@ export const uploadProfilePicture = async function(event) {
         profilePictureId.value = '';
     }
     $(".user-form").validate().element('#profile-picture-id');
+
 }
 
 export const updateUser = async function(event) {

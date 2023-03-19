@@ -98,9 +98,21 @@ class UserController {
             return;
         }
 
+        // Validar que el correo electrónico no se repita
+        $userRepository = new UserRepository();
+        if ($userRepository->findOneByEmailAndNotUserId($user->getEmail(), -1)) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
+                ]);
+            return;
+        }
+
         $session = $request->getSession();
-        if ($session->get("image_id") !== $user->getProfilePicture()) {
-            $session->unset("image_id");
+        if ($session->get("profilePicture_id") !== $user->getProfilePicture()) {
+            $session->unset("profilePicture_id");
             $response
                 ->setStatus(400)
                 ->json([
@@ -149,7 +161,7 @@ class UserController {
 
 
         $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        if (!(is_int($id) || ctype_digit($id)) && intval($id) > 0) {
             $response
                 ->setStatus(400)
                 ->json([
@@ -163,6 +175,17 @@ class UserController {
 
         $session = $request->getSession();
         $sessionUserId = $session->get("id");
+
+        $userRepository = new UserRepository();
+        if ($userRepository->findOneByEmailAndNotUserId($body["email"], $sessionUserId)) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
+                ]);
+            return;
+        }
 
         if ($id != $sessionUserId) {
             $response

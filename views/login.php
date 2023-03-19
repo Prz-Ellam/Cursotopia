@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,9 +26,6 @@
   <?= $this->script("javascript/login.js") ?>
 </head>
 <body>
-  <header>
-
-  </header>
   <main class="container">
     <section class="row d-flex align-items-center justify-content-center vh-100">
       <form action="#" class="bg-white rounded-3 p-5 col-lg-5 col-md-7 shadow-lg" id="login-form" data-aos="fade-up">

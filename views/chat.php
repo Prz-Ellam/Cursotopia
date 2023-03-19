@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="../dist/assets/chat.css">
-  <script defer type="module" src="../dist/javascript/chat.js"></script>
+  <?= $this->link("styles/pages/chat.css") ?>
+  <?= $this->script("javascript/chat.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

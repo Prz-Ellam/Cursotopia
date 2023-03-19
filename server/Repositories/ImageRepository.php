@@ -60,7 +60,16 @@ class ImageRepository extends DB {
     SQL;
     
     private const UPDATE = <<<'SQL'
-        CALL update_image(:id, :name, :size, :content_type, :data, :created_at, :modified_at, :active)
+        CALL update_image(
+            :id, 
+            :name, 
+            :size, 
+            :content_type, 
+            :data, 
+            :created_at, 
+            :modified_at, 
+            :active
+        )
     SQL;
 
     public function create(Image $image): int {

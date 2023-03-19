@@ -21,8 +21,8 @@
 
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
-  <link rel="stylesheet" href="../dist/assets/404.css">
-  <script src="../dist/javascript/instructor-profile.js"></script>
+  <?= $this->link("styles/pages/404.css") ?>
+  <?= $this->script("javascript/instructor-profile.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

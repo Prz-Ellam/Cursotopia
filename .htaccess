@@ -7,15 +7,15 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.+\.(ico|txt)) public/$1 [QSA]
 
-# Delete trailing slash in url
+# Delete trailing slash in url if is not a folder
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} ^(.+)/+$
-RewriteRule ^ %1 [R,NE,L]
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
 
 # Redirect everything else to public/index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ public/index.php [QSA]
+RewriteRule ^ public/index.php [NC,L,QSA]
 
 
 <IfModule mod_headers.c>

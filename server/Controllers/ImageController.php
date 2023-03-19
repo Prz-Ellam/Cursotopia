@@ -43,7 +43,7 @@ class ImageController {
 
         // Store the image id in the session
         $request = $request->getSession();
-        $request->set("image_id", $image->getId());
+        $request->set("profilePicture_id", $image->getId());
 
         $response->json([
             "status" => $result,
@@ -120,7 +120,7 @@ class ImageController {
                 ]);
             return;
         }
-
+        
         $response->setHeader("X-Image-Id", $image->getId());
         $response->setHeader("Content-Length", $image->getSize());
         $response->setContentType($image->getContentType());

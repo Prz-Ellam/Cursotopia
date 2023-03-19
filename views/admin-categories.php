@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../client/styles/pages/admin-categories.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script defer type="module" src="../dist/javascript/admin-categories.js"></script>
+  <?= $this->script("javascript/admin-categories.js") ?>
 </head>
 
 <body>

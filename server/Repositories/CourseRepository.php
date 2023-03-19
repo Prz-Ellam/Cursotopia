@@ -87,6 +87,25 @@ class CourseRepository {
             `student_id` = :user_id
     SQL;
 
+    private const FIND_ALL_ORDER_BY_CREATED_AT = <<<'SQL'
+        SELECT
+            `course_id` AS `id`,
+            `course_title` AS `title`,
+            `course_description` AS `description`,
+            `course_price` AS `price`,
+            `image_id` AS `imageId`,
+            `instructor_id` AS `instructorId`,
+            `course_approved` AS `approved`,
+            `course_approved_by` AS `approvedBy`,
+            `course_created_at` AS `createdAt`,
+            `course_modified_at` AS `modifiedAt`,
+            `course_active` AS `active`
+        FROM
+            `courses`
+        ORDER BY
+            `course_created_at` DESC
+    SQL;
+
     public function create(Course $course): int {
         $parameters = [
             "title" => $course->getTitle(),
@@ -117,5 +136,9 @@ class CourseRepository {
             "user_id" => $userId
         ];
         return DB::executeReader($this::KARDEX_FIND_ALL_BY_USER_ID, $parameters);
+    }
+
+    public function findAllOrderByCreatedAt(): array {
+        return DB::executeReader($this::FIND_ALL_ORDER_BY_CREATED_AT, []);
     }
 }
