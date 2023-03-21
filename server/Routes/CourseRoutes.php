@@ -43,9 +43,13 @@ $app->get('/course-details', function($request, $response) {
     }
 
     $session = $request->getSession();
+    $userId = $session->get("id");
+
+    $lessonRepository = new LessonRepository();
+    $lesson = $lessonRepository->findFirstNotViewed($id, $userId);
 
     $enrollmentRepository = new EnrollmentRepository();
-    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $session->get("id"));
+    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId);
 
     $reviewRepository = new ReviewRepository();
     $reviews = $reviewRepository->findAllByCourse($id);
@@ -62,7 +66,8 @@ $app->get('/course-details', function($request, $response) {
         "categories" => $categories,
         "levels" => $levels,
         "reviews" => $reviews,
-        "enrollment" => $enrollment
+        "enrollment" => $enrollment,
+        "lesson" => $lesson
     ]);
 });
 

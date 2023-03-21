@@ -377,3 +377,12 @@ CREATE TABLE IF NOT EXISTS `message_views`(
         FOREIGN KEY (`user_id`) 
         REFERENCES `users`(`user_id`)
 );
+
+
+
+
+
+
+
+
+

@@ -371,6 +371,29 @@ WHERE
     )
 
 
-
-
+-- La esta que aun no ha sido vista
+SELECT
+    le.lesson_id,
+    le.lesson_title,
+    ule.user_lesson_is_complete
+FROM
+    lessons AS le
+INNER JOIN
+    user_lesson AS ule
+ON
+    le.lesson_id = ule.lesson_id
+INNER JOIN
+    levels AS l
+ON
+    le.level_id = l.level_id
+INNER JOIN
+    enrollments AS e
+ON
+    l.course_id = e.course_id
+WHERE
+    e.course_id = 5
+    AND ule.user_id = 6
+    AND ule.user_lesson_is_complete = FALSE
+LIMIT
+    1;
 

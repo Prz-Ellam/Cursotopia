@@ -51,6 +51,35 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         WHERE
             lesson_id = :id
     SQL;
+
+    private const FIND_FIRST_NOT_VIEWED = <<<'SQL'
+        SELECT
+            le.lesson_id AS `id`,
+            le.lesson_title AS `title`,
+            ule.user_lesson_is_complete AS `complete`
+        FROM
+            lessons AS le
+        INNER JOIN
+            user_lesson AS ule
+        ON
+            le.lesson_id = ule.lesson_id
+        INNER JOIN
+            levels AS l
+        ON
+            le.level_id = l.level_id
+        INNER JOIN
+            enrollments AS e
+        ON
+            l.course_id = e.course_id
+        WHERE
+            e.course_id = :course_id
+            AND ule.user_id = :user_id
+            AND ule.user_lesson_is_complete = FALSE
+        ORDER BY
+            le.lesson_created_at ASC
+        LIMIT
+            1;
+    SQL;
     
     public function create(Lesson $lesson): int {
         $parameters = [
@@ -78,5 +107,13 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             "id" => $id
         ];
         return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
+    }
+
+    public function findFirstNotViewed(int $courseId, int $userId) {
+        $parameters = [
+            "course_id" => $courseId,
+            "user_id" => $userId
+        ];
+        return DB::executeOneReader($this::FIND_FIRST_NOT_VIEWED, $parameters);
     }
 }

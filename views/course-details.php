@@ -49,7 +49,7 @@
         
         <?php if($this->enrollment): ?>
         <a 
-          href="course-visor" 
+          href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $this->lesson["id"] ?>" 
           class="btn btn-secondary w-100">
           Reanudar el curso
         </a>
