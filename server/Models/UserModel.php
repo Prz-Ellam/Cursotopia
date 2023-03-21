@@ -5,14 +5,12 @@ namespace Cursotopia\Models;
 use Bloom\Database\DB;
 use Bloom\Hashing\Crypto;
 use Bloom\Validations\Rules\Email;
-use Bloom\Validations\Rules\EqualTo;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
 use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Repositories\AuthRepository;
 use Cursotopia\Repositories\UserRepository;
 use Cursotopia\ValueObjects\EntityState;
-use Exception;
 
 class UserModel {
     private UserRepositoryInterface $userRepository;
@@ -40,10 +38,6 @@ class UserModel {
     #[Required("La contraseña es requerida")]
     private ?string $password;
 
-    #[Required("La confirmación de la contraseña es requerida")]
-    #[EqualTo("password", "La confirmación de contraseña no coincide con la contraseña")]
-    private ?string $confirmPassword;
-
     private ?bool $enabled;
 
     #[Required("El rol de usuario es requerido")]
@@ -68,7 +62,6 @@ class UserModel {
         $this->gender = $object["gender"] ?? null;
         $this->email = $object["email"] ?? null;
         $this->password = $object["password"] ?? null;
-        $this->confirmPassword = $object["confirmPassword"] ?? null;
         $this->userRole = $object["userRole"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
 
@@ -140,15 +133,6 @@ class UserModel {
         return $this;
     }
 
-    public function getConfirmPassword(): ?string {
-        return $this->confirmPassword;
-    }
-
-    public function setConfirmPassword(?string $confirmPassword): self {
-        $this->confirmPassword = $confirmPassword;
-        return $this;
-    }
-
     public function getUserRole(): ?int {
         return $this->userRole;
     }
@@ -168,45 +152,43 @@ class UserModel {
     }
 
     public function save(): bool {
-            $user = new User();
+        $user = new User();
             
-
-            $rowsAffected = 0;
-            switch ($this->entityState) {
-                case EntityState::CREATE: {
+        $rowsAffected = 0;
+        switch ($this->entityState) {
+            case EntityState::CREATE: {
                     $user
                         ->setName($this->name)
                         ->setLastName($this->lastName)
                         ->setBirthDate($this->birthDate)
                         ->setGender($this->gender)
                         ->setEmail($this->email)
-                        ->setPassword(Crypto::bcrypt($this->password))
+                        ->setPassword($this->password)
                         ->setUserRole($this->userRole)
                         ->setProfilePicture($this->profilePicture);
 
                     $rowsAffected = $this->userRepository->create($user);
                     break;
                 }
-                case EntityState::UPDATE: {
-                    $user
-                        ->setId($this->id)
-                        ->setName($this->name)
-                        ->setLastName($this->lastName)
-                        ->setBirthDate($this->birthDate)
-                        ->setGender($this->gender)
-                        ->setEmail($this->email)
-                        ->setPassword((!is_null($this->password)) ? Crypto::bcrypt($this->password) : $this->password)
-                        ->setUserRole($this->userRole)
-                        ->setProfilePicture($this->profilePicture);
-                    $rowsAffected = $this->userRepository->update($user);
-                    break;
-                }
+            case EntityState::UPDATE: {
+                $user
+                    ->setId($this->id)
+                    ->setName($this->name)
+                    ->setLastName($this->lastName)
+                    ->setBirthDate($this->birthDate)
+                    ->setGender($this->gender)
+                    ->setEmail($this->email)
+                    ->setPassword((!is_null($this->password)) ? Crypto::bcrypt($this->password) : $this->password)
+                    ->setUserRole($this->userRole)
+                    ->setProfilePicture($this->profilePicture);
+                $rowsAffected = $this->userRepository->update($user);
+                break;
             }
-            if ($rowsAffected) {
-                $this->id = intval(DB::lastInsertId());
-            }
-            return ($rowsAffected > 0) ? true : false;
-        
+        }
+        if ($rowsAffected) {
+            $this->id = intval(DB::lastInsertId());
+        }
+        return ($rowsAffected > 0) ? true : false;
     }
 
     public static function findOneById(int $id): ?UserModel {
@@ -217,6 +199,12 @@ class UserModel {
         }
 
         return new UserModel($object);
+    }
+
+    public static function findOneByEmail(string $email): ?array {
+        $repository = new UserRepository();
+        $object = $repository->findOneByEmail($email);
+        return $object;
     }
 
     public function login(): array {

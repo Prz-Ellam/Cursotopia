@@ -208,10 +208,10 @@ CREATE TABLE IF NOT EXISTS `reviews`(
         PRIMARY KEY (`review_id`),
     CONSTRAINT `review_course_fk`
         FOREIGN KEY (`course_id`) 
-        REFERENCES courses(`course_id`),
+        REFERENCES `courses`(`course_id`),
     CONSTRAINT `review_user_fk`
         FOREIGN KEY (`user_id`) 
-        REFERENCES users(`user_id`)
+        REFERENCES `users`(`user_id`)
 );
 
 DROP TABLE IF EXISTS `payment_methods`;
@@ -311,11 +311,13 @@ CREATE TABLE IF NOT EXISTS `course_category`(
         REFERENCES categories(`category_id`)
 );
 
+
+
 DROP TABLE IF EXISTS `chats`;
 CREATE TABLE IF NOT EXISTS `chats`(
     `chat_id`                       INT NOT NULL AUTO_INCREMENT,
-    `chat_last_message`             VARCHAR(255) NOT NULL,
-    `chat_last_message_at`          DATETIME NOT NULL,
+    --`chat_last_message`             VARCHAR(255) NOT NULL,
+    --`chat_last_message_at`          DATETIME NOT NULL,
     `chat_created_at`               TIMESTAMP NOT NULL DEFAULT NOW(),
     `chat_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `chat_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
@@ -335,10 +337,10 @@ CREATE TABLE IF NOT EXISTS `chat_participants`(
         PRIMARY KEY (`chat_participant_id`),
     CONSTRAINT `chat_participant_user_fk`
         FOREIGN KEY (`user_id`) 
-        REFERENCES users(`user_id`),
+        REFERENCES `users`(`user_id`),
     CONSTRAINT `chat_participant_chat_fk`
         FOREIGN KEY (`chat_id`) 
-        REFERENCES chats(`chat_id`)
+        REFERENCES `chats`(`chat_id`)
 );
 
 DROP TABLE IF EXISTS `messages`;
@@ -357,5 +359,21 @@ CREATE TABLE IF NOT EXISTS `messages`(
         REFERENCES users(`user_id`),
     CONSTRAINT `message_chat_fk`
         FOREIGN KEY (`chat_id`) 
-        REFERENCES chats(`chat_id`)
+        REFERENCES `chats`(`chat_id`)
+);
+
+DROP TABLE IF EXISTS `messages_views`;
+CREATE TABLE IF NOT EXISTS `message_views`(
+    `message_view_id`               INT NOT NULL AUTO_INCREMENT,
+    `message_id`                    INT NOT NULL,
+    `user_id`                       INT NOT NULL,
+    `viewed_at`                     TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT `message_view_pk`
+        PRIMARY KEY (`message_view_id`),
+    CONSTRAINT `message_view_message_fk`
+        FOREIGN KEY (`message_id`) 
+        REFERENCES `messages`(`message_id`),
+    CONSTRAINT `message_view_user_fk`
+        FOREIGN KEY (`user_id`) 
+        REFERENCES `users`(`user_id`)
 );

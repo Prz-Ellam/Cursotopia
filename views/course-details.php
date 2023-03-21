@@ -22,14 +22,15 @@
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
-
   <!-- Main -->
   <main class="my-5 container">
     <section class="row">
       <div class="col-lg-8 col-12">
         <div class="mb-4">
           <h2 class="fw-bold"><?= $this->course["title"] ?></h2>
-          <p>Creado por: <a href="profile"><?= $this->course["instructorName"] ?></a></p>
+          <p>Creado por: <a href="profile?id=<?= $this->course["instructorId"] ?>">
+            <?= $this->course["instructorName"] ?></a>
+          </p>
         </div>
         <div class="ratio ratio-16x9 mb-4">
           <img 
@@ -43,41 +44,46 @@
 
       </div>
       <div class="rounded-3 bg-primary col-lg-4 col-12 p-4 pt-5">
-        <h3 class="text-center text-white"><?= $this->course["price"] ?> MXN</h3>
+        <h3 class="text-center text-white">$<?= $this->course["price"] ?> MXN</h3>
         <!-- Sin comprar -->
         
+        <?php if($this->enrollment): ?>
+        <a 
+          href="course-visor" 
+          class="btn btn-secondary w-100">
+          Reanudar el curso
+        </a>
+        <?php else: ?>
         <a 
           href="payment-method?courseId=<?= $this->course["id"] ?>" 
           class="btn btn-secondary w-100"
         >
           Comprar este curso
         </a>
+        <?php endif ?>
         
         <!-- Gratis -->
         <!--         
         <a href="course-visor" class="btn btn-secondary w-100">Conseguir este curso</a>
         -->
-
-        <!-- Comprado -->
-        <!--
-          <a href="course-visor" class="btn btn-secondary w-100">Reanudar el curso</a>
-        -->
         <hr>
 
         <div class="mb-4">
           <span class="fw-bold rating-star"><?= number_format((float)$this->course["rates"] , 2, '.', '') ?></span>
-          <i class="h6 bx bxs-star rating-star"></i>
-          <i class="h6 bx bxs-star rating-star"></i>
-          <i class="h6 bx bxs-star rating-star"></i>
-          <i class="h6 bx bxs-star rating-star"></i>
-          <i class="h6 bx bxs-star-half rating-star"></i>
-          <a href="#" class="ms-1 text-white"><?= $this->course["reviews"] ?> <?= ($this->course["reviews"] === 1) ? 'reseña' : 'reseñas' ?></a>
+          <?php if ($this->course["rates"] !== "No reviews"): ?>
+          <i class="bx <?= $this->course["rates"] >= 1 ? 'bxs-star': ($this->course["rates"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <i class="bx <?= $this->course["rates"] >= 2 ? 'bxs-star': ($this->course["rates"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <i class="bx <?= $this->course["rates"] >= 3 ? 'bxs-star': ($this->course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <i class="bx <?= $this->course["rates"] >= 4 ? 'bxs-star': ($this->course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <i class="bx <?= $this->course["rates"] >= 5 ? 'bxs-star': ($this->course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <?php endif ?>
+          <a href="#reviews" class="ms-1 text-white"><?= $this->course["reviews"] ?> <?= ($this->course["reviews"] === 1) ? 'reseña' : 'reseñas' ?></a>
         </div>
 
         <p class="text-white mb-0"><i class="h6 bx bx-time"></i> <?= $this->course["duration"] < 1 ? '<1' : round($this->course["duration"]) ?> <?= (round($this->course["duration"]) <= 1) ? 'hora' : 'horas' ?> de contenido</p>
         <p class="text-white mb-0"><i class="h6 bx bx-layer"></i> <?= $this->course["levels"] ?> <?= ($this->course["levels"] === 1) ? 'nivel' : 'níveles' ?></p>
         <p class="text-white mb-0"><i class="h6 bx bx-group"></i> <?= $this->course["students"] ?> <?= ($this->course["levels"] === 1) ? 'estudiante' : 'estudiantes' ?></p>
-        <p class="text-white mb-0">Fecha de creación: <?=  date_format(date_create($this->course["createdAt"]), 'd M Y') ?></p>
+        <p class="text-white mb-0">Fecha de creación: <?= date_format(date_create($this->course["createdAt"]), 'd M Y') ?></p>
         <p class="text-white mb-0">Última actualización: <?= date_format(date_create($this->course["modifiedAt"]), 'd M Y') ?></p>
 
         <h3 class="mt-4 text-white text-center">Categorías</h3>
@@ -99,7 +105,7 @@
     <section class="container my-5">
       <h2 class="fw-bold text-center">Contenido del curso</h2>
 
-    <?php foreach($this->levels as $i => $level): ?>
+      <?php foreach($this->levels as $i => $level): ?>
       <div class="border-0 card">
         <div role="button" class="<?= ($i === 0) ? 'rounded-top'  : 'rounded-0' ?> bg-light card-header" data-bs-toggle="collapse"
           data-bs-target="#collapse-<?= $level["id"] ?>">
@@ -120,10 +126,10 @@
           </ul>
         </div>
       </div>
-    <?php endforeach ?>
-
+      <?php endforeach ?>
     </section>
-    <section class="container my-2">
+
+    <section class="container my-2" id="reviews">
       <form class="p-3" id="create-review-form">
         <div class="pt-4">
           <h2 class="fw-bold text-center">Comentarios</h2>
@@ -203,9 +209,6 @@
         </div>
       </div>
     </section>
-
-
-
   </main>
 
   <?= $this->render("partials/footer") ?>

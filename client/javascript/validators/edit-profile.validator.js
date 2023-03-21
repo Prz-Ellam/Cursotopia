@@ -60,7 +60,7 @@ export default {
             maxlength: 255,
             remote: {
                 type: 'POST',
-                url: 'api/v1/users/email',
+                url: '/api/v1/users/email',
                 data: {
                     'email': function () { return $('#email').val() }
                 },

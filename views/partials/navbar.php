@@ -1,7 +1,17 @@
 <?php
 use Cursotopia\Helpers\Auth;
 use Cursotopia\Models\CategoryModel;
+use Cursotopia\Repositories\ChatMessageRepository;
+
+$id = $_SESSION["id"] ?? null;
+
 $categories = CategoryModel::findAll();
+$unreadMessages;
+if ($id) {
+  $chatMessageRepository = new ChatMessageRepository();
+  $unreadMessages = $chatMessageRepository->getUnreadMessages($id);
+  $unreadMessages = $unreadMessages["unread_messages"];
+}
 ?>
 <!-- Navbar de instructor --> 
 <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
@@ -62,11 +72,15 @@ $categories = CategoryModel::findAll();
               <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
               <?php endforeach ?>
             </ul>
-          </li>    
+          </li>
           <li class="nav-item">
             <a class="nav-link text-light" aria-current="page" href="chat">
               <i class="bx-sm bx bxs-bell position-relative">
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                <?php if ($unreadMessages > 0): ?>
+                <span class="badge rounded-pill badge-notification bg-danger">
+                  <?= ($unreadMessages < 9) ? $unreadMessages : "+9"  ?>
+                </span>
+                <?php endif ?>
               </i>
             </a>
           </li>
@@ -125,7 +139,11 @@ $categories = CategoryModel::findAll();
           <li class="nav-item">
             <a class="nav-link text-light" aria-current="page" href="chat">
               <i class="bx-sm bx bxs-bell position-relative">
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                <?php if ($unreadMessages > 0): ?>
+                <span class="badge rounded-pill badge-notification bg-danger">
+                  <?= ($unreadMessages < 9) ? $unreadMessages : "+9"  ?>
+                </span>
+                <?php endif ?>
               </i>
             </a>
           </li>

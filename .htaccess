@@ -1,3 +1,7 @@
+php_value upload_max_filesize 500M
+php_value post_max_size 500M
+php_value max.execution_time 300
+
 DirectoryIndex public/index.php
 
 RewriteEngine on
@@ -24,7 +28,7 @@ RewriteRule ^ public/index.php [NC,L,QSA]
     Header set Expires 0
 </IfModule>
 
-<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|js|mp3|mp4|png|pdf|swf|txt)$">
+<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|mp3|mp4|png|pdf|swf|txt)$">
     <IfModule mod_expires.c>
         ExpiresActive Off
     </IfModule>

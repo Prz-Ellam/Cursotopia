@@ -34,6 +34,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
             user_gender AS `gender`, 
             user_email AS `email`, 
             user_role AS `userRole`, 
+            user_password AS `password`,
             profile_picture AS `profilePicture`
         FROM 
             users 
@@ -84,6 +85,24 @@ class UserRepository extends DB implements UserRepositoryInterface {
             :active
         )
     SQL;
+
+    private const FIND_ALL = <<<'SQL'
+        SELECT
+            user_id AS `id`, 
+            user_name AS `name`, 
+            user_last_name AS `lastName`, 
+            user_birth_date AS `birthDate`, 
+            user_gender AS `gender`, 
+            user_email AS `email`, 
+            user_role AS `userRole`,
+            profile_picture AS `profilePicture`
+        FROM
+            users
+        WHERE
+            (user_name LIKE CONCAT("%", :name, "%")
+            OR user_last_name LIKE CONCAT("%", :name, "%"))
+            AND user_role <> :role
+    SQL;
     
     public function create(User $user): int {
         $parameters = [
@@ -131,5 +150,20 @@ class UserRepository extends DB implements UserRepositoryInterface {
             "email" => $email ,
             "id" => $id
         ]) ?? null;
+    }
+
+    public function findOneByEmail(string $email) {
+        return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, [ 
+            "email" => $email ,
+            "id" => -1
+        ]) ?? null;
+    }
+
+    public function findAll(string $name, int $role) {
+        $parameters = [
+            "name" => $name,
+            "role" => $role
+        ];
+        return $this::executeReader($this::FIND_ALL, $parameters);
     }
 }

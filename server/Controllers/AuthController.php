@@ -9,8 +9,31 @@ use Cursotopia\Models\UserModel;
 
 class AuthController {
     public function login(Request $request, Response $response): void {
-        $email = $request->getBody("email");
-        $password = $request->getBody("password");
+        [
+            "email" => $email,
+            "password" => $password
+        ] = $request->getBody();
+        
+        $user = UserModel::findOneByEmail($email); 
+        if (!$user) {
+            $response
+                ->setStatus(401)
+                ->json([
+                    "status" => false,
+                    "message" => "Credenciales incorrectas"
+                ]);
+            return;
+        }
+
+        if (!Crypto::verify($user["password"], $password)) {
+            $response
+                ->setStatus(401)
+                ->json([
+                    "status" => false,
+                    "message" => "Credenciales incorrectas"
+                ]);
+            return;
+        }
 
         $user = new UserModel();
         $user->setEmail($email);

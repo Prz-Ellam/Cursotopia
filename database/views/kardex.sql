@@ -11,7 +11,8 @@ AS
         IFNULL(e.enrollment_finish_date, 'N/A') AS `enrollment_finish_date`,
         IF(e.enrollment_is_finished, 'Acabado', 'En curso') AS `enrollment_is_finished`,
         e.enrollment_certificate_uid AS `enrollment_certificate_uid`,
-        (SUM(IF(ule.user_lesson_is_complete, 1, 0)) / 
+        ule.user_lesson_id,
+        (SUM(ule.user_lesson_is_complete) / 
         COUNT(ule.user_lesson_is_complete)) AS `enrollment_progress`
     FROM
         courses AS c
@@ -43,3 +44,4 @@ AS
 
 
 
+SELECT * FROM kardex;

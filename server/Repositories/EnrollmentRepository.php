@@ -26,6 +26,28 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             AND :payment_method_id IS NOT NULL
     SQL;
     
+    private const FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID = <<<'SQL'
+        SELECT
+            enrollment_id,
+            course_id,
+            student_id,
+            enrollment_is_finished,
+            enrollment_enroll_date,
+            enrollment_finish_date,
+            enrollment_certificate_uid,
+            enrollment_amount,
+            payment_method_id,
+            enrollment_last_time_checked,
+            enrollment_created_at,
+            enrollment_modified_at,
+            enrollment_active
+        FROM
+            enrollments
+        WHERE
+            course_id = :course_id
+            AND student_id = :student_id
+    SQL;
+
     public function create(Enrollment $enrollment): int {
         $parameters = [
             "course_id" => $enrollment->getCourseId(),
@@ -34,5 +56,13 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             "payment_method_id" => $enrollment->getPaymentMethodId()
         ];
         return DB::executeNonQuery($this::CREATE, $parameters);
+    }
+
+    public function findOneByCourseIdAndStudentId(int $courseId, int $studentId): array {
+        $parameters = [
+            "course_id" => $courseId,
+            "student_id" => $studentId
+        ];
+        return DB::executeOneReader($this::FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID, $parameters);
     }
 }

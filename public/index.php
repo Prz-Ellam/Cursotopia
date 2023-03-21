@@ -1,9 +1,14 @@
 <?php
 
 use Bloom\Application;
+use Bloom\Http\Request\Request;
+use Bloom\Http\Response\Response;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\WebAdminMiddleware;
+use Cursotopia\Models\CategoryModel;
+use Cursotopia\Repositories\ChatRepository;
 use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\MainRepository;
 
 define('BLOOM_START', microtime(true));
 
@@ -29,24 +34,54 @@ $app->get('/categories',
     [ [ WebAdminMiddleware::class ] ]);
 
 $app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
-$app->get('/chat', fn($request, $response) => $response->render('chat'), [ [ HasNotAuthMiddleware::class ] ]);
+$app->get('/chat', function(Request $request, Response $response) { 
+    $session = $request->getSession();
+    $id = $session->get("id");
+    
+    $chatRepository = new ChatRepository();
+    $chats = $chatRepository->findAllByUserId($id);
+    
+    $response->render("chat", [
+        "chats" => $chats
+    ]); 
+}, [ [ HasNotAuthMiddleware::class ] ]);
 
 $app->get('/home', function($request, $response) {
     $session = $request->getSession();
     $id = $session->get("id");
     $role = $session->get("role");
 
+    $mainRepository = new MainRepository();
+    $stats = $mainRepository->homeStats();
+
     $courseRepository = new CourseRepository();
     $courses = $courseRepository->findAllOrderByCreatedAt();
+    $coursesRates = $courseRepository->findAllOrderByRates();
+    $bestSellingCourses = $courseRepository->findAllOrderByEnrollments();
 
     $response->render('home', [ 
         "id" => $id, 
         "role" => $role,
-        "lastPublishedcourses" => $courses
+        "lastPublishedcourses" => $courses,
+        "topRatedCourses" => $coursesRates,
+        "bestSellingCourses" => $bestSellingCourses,
+        "stats" => $stats
     ]);
 });
 
 $app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));
-$app->get('/search', fn($request, $response) => $response->render('search'));
+$app->get('/search', function($request, $response) {
+    $page = $request->getQuery("page");
+    
+    $courseRepository = new CourseRepository();
+    $courses = $courseRepository->findAllOrderByCreatedAt();
+
+    $categories = CategoryModel::findAll();
+
+    $response->render("search", [
+        "courses" => $courses,
+        "categories" => $categories
+    ]);
+});
 
 $app->run();

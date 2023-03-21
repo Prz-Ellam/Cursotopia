@@ -8,6 +8,8 @@ use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\EnrollmentRepository;
+use Cursotopia\Repositories\LessonRepository;
 use Cursotopia\Repositories\LevelRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
@@ -26,6 +28,8 @@ $app->get('/course-details', function($request, $response) {
         return;
     }
 
+    // verificar si compre o no el curso
+
     $courseRepository = new CourseRepository();
     $course = $courseRepository->courseDetailsfindOneById($id);
 
@@ -37,6 +41,11 @@ $app->get('/course-details', function($request, $response) {
     foreach ($levels as &$level) {
         $level["lessons"] = json_decode($level["lessons"], true);
     }
+
+    $session = $request->getSession();
+
+    $enrollmentRepository = new EnrollmentRepository();
+    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $session->get("id"));
 
     $reviewRepository = new ReviewRepository();
     $reviews = $reviewRepository->findAllByCourse($id);
@@ -52,7 +61,8 @@ $app->get('/course-details', function($request, $response) {
         "course" => $course, 
         "categories" => $categories,
         "levels" => $levels,
-        "reviews" => $reviews
+        "reviews" => $reviews,
+        "enrollment" => $enrollment
     ]);
 });
 
@@ -63,15 +73,22 @@ $app->get('/course-edition', function($request, $response) {
 
 $app->get('/course-visor', function($request, $response) {
     $courseId = $request->getQuery("course");
-    $lessonId = $request->getQuery("lessons");
+    $lessonId = $request->getQuery("lesson");
 
     $levelRepository = new LevelRepository();
     $levels = $levelRepository->findAllByCourse($courseId);
     foreach ($levels as &$level) {
         $level["lessons"] = json_decode($level["lessons"], true);
     }
-    
-    $response->render("course-visor", [ "levels" => $levels ]);
+
+    $lessonRepository = new LessonRepository();
+    $lesson = $lessonRepository->findOneById($lessonId);
+
+    $response->render("course-visor", [ 
+        "course" => $courseId,
+        "levels" => $levels,
+        "lesson" => $lesson
+    ]);
 }, [ [ HasNotAuthMiddleware::class ] ]);
 
 

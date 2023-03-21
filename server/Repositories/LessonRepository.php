@@ -32,6 +32,25 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             AND :description IS NOT NULL
             AND :level_id IS NOT NULL
     SQL;
+
+    private const FIND_ONE_BY_ID = <<<'SQL'
+        SELECT
+            lesson_id AS `id`,
+            lesson_title AS `title`,
+            lesson_description AS `description`,
+            level_id AS `levelId`,
+            video_id AS `videoId`,
+            image_id AS `imageId`,
+            document_id AS `documentId`,
+            link_id AS `linkId`,
+            lesson_created_at AS `createdAt`,
+            lesson_modified_at AS `modifiedAt`,
+            lesson_active AS `active`
+        FROM
+            lessons
+        WHERE
+            lesson_id = :id
+    SQL;
     
     public function create(Lesson $lesson): int {
         $parameters = [
@@ -54,7 +73,10 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         return 1;
     }
 
-    public function findOne(int $id): array {
-        return [];
+    public function findOneById(int $id): array {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
     }
 }

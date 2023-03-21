@@ -58,3 +58,11 @@ Portal de cursos online similar a Udemy o Pluralsight
   - Chat participants
 
 - Messages
+
+
+
+module.exports = {
+  build: {
+    manifest: 'ruta/para/manifest.json'
+  }
+}

@@ -1,6 +1,5 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_user`;
-
 CREATE PROCEDURE IF NOT EXISTS `update_user`(
     `_user_id`                      INT,
     `_user_name`                    VARCHAR(50),
@@ -37,3 +36,4 @@ BEGIN
         `user_id` = `_user_id`;
 END $$
 DELIMITER ;
+

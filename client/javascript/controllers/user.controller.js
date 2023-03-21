@@ -225,7 +225,7 @@ export const updateUser = async function(event) {
     };
 
     const response = await updateUserService(user, formData.get('id'));
-    if (response.status) {
+    if (response?.status) {
         
         await Swal.fire({
             icon: 'success',
@@ -239,7 +239,7 @@ export const updateUser = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home";
+        window.location.href = 'home';
     }
     else {
         await Swal.fire({
@@ -252,6 +252,7 @@ export const updateUser = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        event.preventDefault();
     }
 }
 

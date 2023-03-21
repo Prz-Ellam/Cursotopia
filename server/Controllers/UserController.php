@@ -58,26 +58,31 @@ class UserController {
      * @return void
      */
     public function create(Request $request, Response $response): void {
-        // [x] La foto de perfil debe existir y no debe tenerla alguien más en la BD
-        // [x] El id de la foto de perfil debe almacenarse en la sessión
-        // [x] El rol debe existir
-        // [x] El rol no puede ponerse admin el mismo
-        // Falta validar que el correo electrónico no se repita
-        $body = $request->getBody();
-        $user = new UserModel($body);
-
-        $userValidator = new Validator($user);
-        if (!$userValidator->validate()) {
-            $response->json([
-                "status" => false,
-                "message" => $userValidator->getFeedback()
-            ]);
+        [
+            "profilePicture" => $profilePicture,
+            "name" => $name,
+            "lastName" => $lastName,
+            "birthDate" => $birthDate,
+            "userRole" => $userRole,
+            "gender" => $gender,
+            "email" => $email,
+            "password" => $password
+        ] = $request->getBody();
+        
+        // Verificar que el correo electrónico no lo este usando alguien más
+        if (UserModel::findOneByEmail($email)) {
+            $response
+                ->setStatus(409)
+                ->json([
+                    "status" => false,
+                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
+                ]);
             return;
         }
 
-        // Validar que el rol de usuario exista y sea publico (osea que no se pueda)
-        // poner a el mismo como administrador
-        if (!UserRoleModel::findOneByIdAndIsPublic($user->getUserRole(), true)) {
+        // Validar que el rol de usuario exista y sea publico (osea que no se pueda
+        // poner a el mismo como administrador)
+        if (!UserRoleModel::findOneByIdAndIsPublic($userRole, true)) {
             $response
                 ->setStatus(400)
                 ->json([
@@ -87,8 +92,8 @@ class UserController {
             return;
         }
 
-        // Validar que nadie en la base de datos tenga ya la foto de perfil
-        if (ImageModel::findOneByIdAndNotUserId($user->getProfilePicture())) {
+        // Verificar que la imagen no este tomada
+        if (ImageModel::findOneByIdAndNotUserId($profilePicture)) {
             $response
                 ->setStatus(400)
                 ->json([
@@ -98,20 +103,9 @@ class UserController {
             return;
         }
 
-        // Validar que el correo electrónico no se repita
-        $userRepository = new UserRepository();
-        if ($userRepository->findOneByEmailAndNotUserId($user->getEmail(), -1)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
-                ]);
-            return;
-        }
-
+        // Validar que nadie en la base de datos tenga ya la foto de perfil
         $session = $request->getSession();
-        if ($session->get("profilePicture_id") !== $user->getProfilePicture()) {
+        if ($session->get("profilePicture_id") !== $profilePicture) {
             $session->unset("profilePicture_id");
             $response
                 ->setStatus(400)
@@ -121,6 +115,38 @@ class UserController {
                 ]);
             return;
         }
+
+        // Hasheamos la contraseña antes de guardarla en la base de datos
+        $hashedPassword = Crypto::bcrypt($password);
+
+        // Creamos el modelo
+        $user = new UserModel([
+            "profilePicture" => $profilePicture,
+            "name" => $name,
+            "lastName" => $lastName,
+            "birthDate" => $birthDate,
+            "userRole" => $userRole,
+            "gender" => $gender,
+            "email" => $email,
+            "password" => $hashedPassword,
+        ]);
+        
+        
+        // [x] La foto de perfil debe existir y no debe tenerla alguien más en la BD
+        // [x] El id de la foto de perfil debe almacenarse en la sessión
+        // [x] El rol debe existir
+        // [x] El rol no puede ponerse admin el mismo
+        // Falta validar que el correo electrónico no se repita
+        
+        $userValidator = new Validator($user);
+        if (!$userValidator->validate()) {
+            $response->json([
+                "status" => false,
+                "message" => $userValidator->getFeedback()
+            ]);
+            return;
+        }
+
 
         try {
             $status = $user->save();
@@ -171,13 +197,19 @@ class UserController {
             return;
         }
 
-        $body = $request->getBody();
+        [
+            "name" => $name,
+            "lastName" => $lastName,
+            "email" => $email,
+            "birthDate" => $birthDate,
+            "gender" => $gender
+        ] = $request->getBody();
 
         $session = $request->getSession();
         $sessionUserId = $session->get("id");
 
         $userRepository = new UserRepository();
-        if ($userRepository->findOneByEmailAndNotUserId($body["email"], $sessionUserId)) {
+        if ($userRepository->findOneByEmailAndNotUserId($email, $sessionUserId)) {
             $response
                 ->setStatus(400)
                 ->json([
@@ -210,11 +242,11 @@ class UserController {
         }
 
         $user
-            ->setName($request->getBody("name"))
-            ->setLastName($request->getBody("lastName"))
-            ->setBirthDate($request->getBody("birthDate"))
-            ->setGender($request->getBody("gender"))
-            ->setEmail($request->getBody("email"));
+            ->setName($name)
+            ->setLastName($lastName)
+            ->setBirthDate($birthDate)
+            ->setGender($gender)
+            ->setEmail($email);
 
         try {
             $status = $user->save();
@@ -245,7 +277,7 @@ class UserController {
     public function updatePassword(Request $request, Response $response): void {
         // Obtiene el id y valida que sea numerico entero positivo
         $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        if (!(is_int($id) || ctype_digit($id)) && intval($id) > 0) {
             $response
                 ->setStatus(400)
                 ->json([
@@ -264,7 +296,7 @@ class UserController {
                 ->setStatus(401)
                 ->json([
                     "status" => false,
-                    "message" => "Unauthorized"
+                    "message" => "No autorizado"
                 ]);
             return;
         }
@@ -308,8 +340,8 @@ class UserController {
         }
 
         $user
-            ->setPassword($newPassword)
-            ->setConfirmPassword($confirmNewPassword);
+            ->setPassword($newPassword);
+            
 
         try {
             $status = $user->save();
@@ -348,6 +380,19 @@ class UserController {
         $user = $userRepository->findOneByEmailAndNotUserId($email, $id);
         
         $response->json(!boolval($user));
+    }
+
+    public function getAll(Request $request, Response $response): void {
+        $name = $request->getQuery("name");
+        
+        $session = $request->getSession();
+        $role = $session->get("role");
+
+
+        $userRepository = new UserRepository();
+        $users = $userRepository->findAll($name, $role);
+
+        $response->json($users);
     }
 
 }

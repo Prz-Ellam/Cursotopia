@@ -88,3 +88,39 @@ export const logoutUser = async (auth) => {
     const json = await response.json();
     return json;
 }
+
+export const getAllUsersService = async (name) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users?name=${name}`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};
+
+export const getOneUserService = async (id) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users/${ id }`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};

@@ -73,6 +73,7 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             l.level_active AS `active`,
             CONCAT('[', GROUP_CONCAT(
                 JSON_OBJECT(
+                    'id', le.lesson_id,
                     'title', le.lesson_title, 
                     'description', le.lesson_description,
                     'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5))

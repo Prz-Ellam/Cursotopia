@@ -243,3 +243,134 @@ SELECT
             `course_details`
         WHERE
             `id` = 1
+
+
+
+SELECT * FROM enrollments;
+
+SELECT * FROM user_level;
+
+
+SELECT
+    e.course_id,
+    e.student_id,
+    l.level_title,
+    le.lesson_title,
+    ule.user_lesson_is_complete
+FROM
+    user_lesson AS ule
+INNER JOIN
+    lessons AS le
+ON
+    ule.lesson_id = le.lesson_id
+INNER JOIN
+    user_level AS ul
+ON
+    ul.level_id = le.level_id
+INNER JOIN
+    levels AS l
+ON
+    le.level_id = l.level_id
+INNER JOIN
+    enrollments AS e
+ON
+    l.course_id = e.course_id;
+
+
+INSERT INTO chats VALUES();
+INSERT INTO chat_participants(user_id, chat_id) VALUES(2, 2), (6, 2);
+
+
+
+SELECT
+    c.chat_id AS `chatId`
+FROM
+    chats AS c
+LEFT JOIN
+    chat_participants AS cp
+ON
+    c.chat_id = cp.chat_id
+WHERE
+    cp.user_id = 2
+    OR cp.user_id = 6
+GROUP BY
+    c.chat_id
+HAVING
+    COUNT(cp.user_id) >= 2;
+
+
+INSERT INTO chats VALUES();
+INSERT INTO chat_participants(user_id, chat_id) VALUES(2, 2), (6, 2);
+
+
+
+SELECT
+    c.chat_id AS `chatId`, 
+    cp.user_id AS `userId`,
+    CONCAT(u.user_name, ' ', u.user_last_name) AS `user`,
+    u.profile_picture AS `profilePicture`
+FROM 
+    chats AS c 
+INNER JOIN 
+    chat_participants AS cp ON c.chat_id = cp.chat_id
+INNER JOIN 
+    users AS u ON cp.user_id = u.user_id
+WHERE
+    c.chat_id IN (
+        SELECT 
+            chat_id 
+        FROM 
+            chat_participants 
+        WHERE 
+            user_id = 6
+    )
+    AND cp.user_id != 6;
+
+
+
+SELECT
+    m.message_id,
+    m.message_content,
+    m.user_id,
+    m.chat_id,
+    m.message_created_at,
+    m.message_modified_at,
+    m.message_active,
+    mv.viewed_at
+FROM
+    messages AS m
+LEFT JOIN
+    message_views AS mv
+ON
+    m.message_id = mv.message_id
+WHERE
+    chat_id = 11;
+
+
+
+INSERT INTO message_views(
+    message_id, 
+    user_id
+)
+SELECT 
+    m.message_id,
+    6
+FROM 
+    messages m 
+WHERE 
+    m.chat_id = 11 
+    AND m.user_id != 6
+    AND NOT EXISTS (
+        SELECT 
+            1 
+        FROM 
+            message_views mv 
+        WHERE 
+            mv.message_id = m.message_id 
+            AND mv.user_id = 6
+    )
+
+
+
+
+

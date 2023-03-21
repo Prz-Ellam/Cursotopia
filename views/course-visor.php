@@ -16,31 +16,36 @@
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
-
   <!-- Main -->
   <main class="container-fluid">
     <div class="row mb-3">
       <div class="col-lg-8 col-sm-12 course-content mb-5">
         <h4 class="mt-3">Introducción y conocimientos previos</h4>
         <video id="level-video" class="video-js" controls>
-          <source src="api/v1/videos/1" type="video/mp4">
+          <source src="api/v1/videos/<?= $this->lesson["videoId"] ?>" type="video/mp4">
           Sorry, your browser doesn't support embedded videos.
         </video>
         <div class="d-flex justify-content-center mt-2">
           <a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
           <a href="course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
         </div>
-        <p class="mt-3" id="lesson-description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id
-          maxime distinctio similique mollitia accusamus, nobis accusantium numquam assumenda iusto asperiores
-          placeat quisquam dignissimos ducimus non, laboriosam voluptate officiis. Quas, magni.</p>
+        <p class="mt-3" id="lesson-description">
+          <?= $this->lesson["description"] ?>
+        </p>
+        <?php if ($this->lesson["imageId"]): ?>
         <h5 class="mt-3">Imágen</h5>
         <img src="../client/assets/images/city.jpg" alt="" class="img-fluid">
+        <?php endif ?>
+        <?php if ($this->lesson["documentId"]): ?>
         <h5 class="mt-3">Documento</h5>
         <div class="d-flex">
           <a href="#" class="text-primary d-flex align-items-center text-decoration-none"><i class='bx-sm bx bxs-file-pdf'></i>Archivo PDF</a>
         </div>
+        <?php endif ?>
+        <?php if ($this->lesson["linkId"]): ?>
         <h5 class="mt-3">Enlace</h5>
         <a href="https://www.google.com" class="text-primary">Nombre del enlace</a>
+        <?php endif ?>
         <br><br>
       </div>
       <div class="col-lg-4 col-sm-12 course-content">
@@ -55,12 +60,15 @@
             <div class="collapse" id="level-<?= $i + 1 ?>-collapse">
               <div class="list-group list-group-flush">
                 <?php foreach ($level["lessons"] as $i => $lesson) : ?>
-                  <a role="link" class="list-group-item hoverable selected-course-content" role="button">
+                  <a
+                    href="course-visor?course=<?= $this->course ?>&lesson=<?= $lesson["id"] ?>"
+                    class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
+                    role="button">
                     <p class="mb-0 fw-bold d-flex align-items-center">
                       <i class='bx-sm bx bxs-checkbox-checked'></i>
                       <span><?= $i + 1 ?>. <?= $lesson["title"] ?></span>
                     </p>
-                    <small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - 3 min</small>
+                    <small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - <?= $lesson["video_duration"] ?></small>
                   </a>
                 <?php endforeach ?>
 
