@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `users`(
         REFERENCES images(`image_id`),
     CONSTRAINT `users_user_roles_fk`
         FOREIGN KEY (`user_role`) 
-        REFERENCES user_roles(`user_role_id`)
+        REFERENCES `user_roles`(`user_role_id`)
 );
 
 DROP TABLE IF EXISTS `courses`;

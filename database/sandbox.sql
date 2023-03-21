@@ -397,3 +397,37 @@ WHERE
 LIMIT
     1;
 
+
+
+
+
+SELECT
+    `user_id`,
+    `user_name`,
+    `user_last_name`,
+    `user_birth_date`,
+    `user_gender`,
+    `user_email`,
+    `user_password`,
+    `user_role`,
+    `profile_picture`,
+    `user_enabled`,
+    `user_created_at`,
+    `user_modified_at`,
+    `user_active`
+FROM
+    `users`
+WHERE
+    `user_id` = IFNULL(NULL, `user_id`)
+    AND `user_name` = IFNULL(NULL, `user_name`)
+    AND `user_last_name` = IFNULL(NULL, `user_last_name`)
+    AND `user_birth_date` = IFNULL(NULL, `user_birth_date`)
+    AND `user_gender` = IFNULL(NULL, `user_gender`)
+    AND `user_email` = IFNULL(NULL, `user_email`)
+    AND `user_password` = IFNULL(NULL, `user_password`)
+    AND `user_role` = IFNULL(NULL, `user_role`)
+    AND `profile_picture` = IFNULL(NULL, `profile_picture`)
+    AND `user_enabled` = IFNULL(NULL, `user_enabled`)
+    AND `user_created_at` = IFNULL(NULL, `user_created_at`)
+    AND `user_modified_at` = IFNULL(NULL, `user_modified_at`)
+    AND `user_active` = IFNULL(NULL, `user_active`);

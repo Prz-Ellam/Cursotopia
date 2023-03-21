@@ -23,7 +23,7 @@ export const login = async function(event) {
     for (const [key, value] of formData) {
         user[key] = value;
     }
-    console.log(user);
+    
     const response = await loginUser(user);
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
@@ -46,7 +46,7 @@ export const login = async function(event) {
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Parece que algo salió mal',
+            text: response.message,
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {

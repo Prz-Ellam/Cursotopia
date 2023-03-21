@@ -75,10 +75,9 @@ export const loginUser = async (auth) => {
         const response = await axios(configuration);
         return response.data;
     }
-    catch (exception) {
-        console.log(exception);
+    catch (ex) {
+        return ex.response.data;
     }
-    return null;
 }
 
 export const logoutUser = async (auth) => {
