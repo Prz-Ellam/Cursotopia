@@ -7,8 +7,8 @@ $.validator.addMethod('trimming', function(value, element) {
 
 // Data size (no puede pesar mas de 8MB)
 $.validator.addMethod('filesize', function (value, element, parameter) {
-    let result;
-    if (element.files[0] === undefined) {
+    let result = false;
+    if (!element.files) {
         return this.optional(element) || result;
     }
     const size = parseFloat((element.files[0].size / 1024.0 / 1024.0).toFixed(2));
@@ -81,21 +81,21 @@ export default {
             required: true,
             trimming: true
         },
-        'video': {
-            filesize: 4 * 1024,
-            video: true
-        },
-        'image': {
-            filesize: 8,
-            image: true
-        },
-        'pdf': {
-            filesize: 8,
-            document: true
-        },
-        'resource': {
-            resource: true
-        }
+        // 'video': {
+        //     filesize: 4 * 1024,
+        //     video: true
+        // },
+        // 'image': {
+        //     filesize: 8,
+        //     image: true
+        // },
+        // 'pdf': {
+        //     filesize: 8,
+        //     document: true
+        // },
+        // 'resource': {
+        //     resource: true
+        // }
     },
     messages: {
         'title': {
@@ -106,21 +106,21 @@ export default {
             required: 'La descripción de la lección es requerida',
             trimming: 'La descripción de la lección es requerida'
         },
-        'video': {
-            filesize: 'El video no puede pesar más de 4GB',
-            video: 'El archivo seleccionado no cumple con el formato esperado'
-        },
-        'image': {
-            filesize: 'La imágen no puede pesar más de 8MB',
-            image: 'El archivo seleccionado no cumple con el formato esperado'
-        },
-        'pdf': {
-            filesize: 'El documento no puede pesar más de 8MB',
-            document: 'El archivo seleccionado no cumple con el formato esperado'
-        },
-        'resource': {
-            resource: 'Es requerido al menos un recurso'
-        }
+        // 'video': {
+        //     filesize: 'El video no puede pesar más de 4GB',
+        //     video: 'El archivo seleccionado no cumple con el formato esperado'
+        // },
+        // 'image': {
+        //     filesize: 'La imágen no puede pesar más de 8MB',
+        //     image: 'El archivo seleccionado no cumple con el formato esperado'
+        // },
+        // 'pdf': {
+        //     filesize: 'El documento no puede pesar más de 8MB',
+        //     document: 'El archivo seleccionado no cumple con el formato esperado'
+        // },
+        // 'resource': {
+        //     resource: 'Es requerido al menos un recurso'
+        // }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

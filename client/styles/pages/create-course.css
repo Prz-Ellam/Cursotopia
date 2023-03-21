@@ -169,3 +169,73 @@
         margin-bottom: 15px;
     }
 }
+
+
+
+#progressbar {
+    overflow: hidden;
+    color: lightgrey;
+}
+
+#progressbar .active {
+    color: var(--dark-color);
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 14px;
+    width: 33.3333%;
+    float: left;
+    position: relative;
+}
+
+#progressbar #basic-info:before {
+    font-family: FontAwesome;
+    content: "\f15b";
+    text-align: center;
+}
+
+#progressbar #course-content:before {
+    font-family: FontAwesome;
+    content: "\f03d";
+    text-align: center;
+}
+
+#progressbar #confirm:before {
+    font-family: FontAwesome;
+    content: "\f093";
+    text-align: center;
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 18px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px;
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: var(--secondary-color);
+}
+
+fieldset:not(:first-of-type) {
+    display: none
+}

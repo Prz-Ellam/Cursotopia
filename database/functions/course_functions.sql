@@ -1,0 +1,16 @@
+DELIMITER $$
+DROP FUNCTION IF EXISTS FIND_MAIN_RESOURCE $$
+CREATE FUNCTION IF NOT EXISTS FIND_MAIN_RESOURCE(
+    video_id        INT, 
+    image_id        INT, 
+    document_id     INT,
+    link_id         INT
+)
+RETURNS VARCHAR
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+
+
+
+END

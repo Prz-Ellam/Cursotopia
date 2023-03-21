@@ -12,26 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
         mirror: false
     });
     
-    const date = new Date();
-    const dateFormat = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-    const birthDate = document.getElementById('birth-date');
-    birthDate.value = dateFormat;
-
     // Signup
     const signupForm = document.getElementById('signup-form');
     $(signupForm).validate(signupValidator);
     signupForm.addEventListener('submit', signup);
 
-
     // Profile Picture
     const profilePicture = document.getElementById('profile-picture');
     profilePicture.addEventListener('change', uploadProfilePicture);
 
-
     // Password button
     const passwordButton = document.getElementById('password-button');
     passwordButton.addEventListener('click', passwordToggle);
-    
     const confirmPasswordButton = document.getElementById('confirm-password-button');
     confirmPasswordButton.addEventListener('click', passwordToggle);
 });

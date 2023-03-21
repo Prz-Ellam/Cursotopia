@@ -1,41 +1,87 @@
 <?php
 
 use Bloom\Application;
-use Dotenv\Dotenv;
+use Bloom\Http\Request\Request;
+use Bloom\Http\Response\Response;
+use Cursotopia\Middlewares\HasNotAuthMiddleware;
+use Cursotopia\Middlewares\WebAdminMiddleware;
+use Cursotopia\Models\CategoryModel;
+use Cursotopia\Repositories\ChatRepository;
+use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\MainRepository;
+
+define('BLOOM_START', microtime(true));
 
 require_once "../vendor/autoload.php";
-Dotenv::createImmutable("..")->load();
 
-$_ENV["VIEW_PATH"] = dirname(__DIR__, 1) . "/views";
-$app = Application::app();
-$app->getTemplateEngine()->setExtension("html");
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$app->setNotFound(fn($req, $res) => $res->render('404'));
+date_default_timezone_set("America/Monterrey");
 
-$app->get('/', fn($request, $response) => $response->redirect('/home.html'));
-$app->get('/admin-categories.html', fn($request, $response) => $response->render('admin-categories'));
-$app->get('/admin-courses.html', fn($request, $response) => $response->render('admin-courses'));
-$app->get('/admin-home.html', fn($request, $response) => $response->render('admin-home'));
-$app->get('/blocked-users.html', fn($request, $response) => $response->render('blocked-users'));
-$app->get('/certificate.html', fn($request, $response) => $response->render('certificate'));
-$app->get('/chat.html', fn($request, $response) => $response->render('chat'));
-$app->get('/course-creation.html', fn($request, $response) => $response->render('course-creation'));
-$app->get('/course-details.html', fn($request, $response) => $response->render('course-details'));
-$app->get('/course-edition.html', fn($request, $response) => $response->render('course-edition'));
-$app->get('/course-visor.html', fn($request, $response) => $response->render('course-visor'));
-$app->get('/home.html', fn($request, $response) => $response->render('home'));
-$app->get('/home_student.html', fn($request, $response) => $response->render('home_student'));
-$app->get('/home_instructor.html', fn($request, $response) => $response->render('home_instructor'));
-$app->get('/instructor-course-details.html', fn($request, $response) => $response->render('instructor-course-details'));
-$app->get('/instructor-profile-seen-by-others.html', fn($request, $response) => $response->render('instructor-profile-seen-by-others'));
-$app->get('/instructor-profile.html', fn($request, $response) => $response->render('instructor-profile'));
-$app->get('/login.html', fn($request, $response) => $response->render('login'));
-$app->get('/password-edition.html', fn($request, $response) => $response->render('password-edition'));
-$app->get('/payment-method.html', fn($request, $response) => $response->render('payment-method'));
-$app->get('/profile-edition.html', fn($request, $response) => $response->render('profile-edition'));
-$app->get('/search.html', fn($request, $response) => $response->render('search'));
-$app->get('/signup.html', fn($request, $response) => $response->render('signup'));
-$app->get('/student-profile-seen-by-others.html', fn($request, $response) => $response->render('student-profile-seen-by-others'));
-$app->get('/student-profile.html', fn($request, $response) => $response->render('student-profile'));
+$app = Application::app(dirname(__DIR__, 1));
+
+$app->setNotFound(function($request, $response) { $response->render('404'); });
+
+foreach (glob("../server/Routes/*.php") as $route) {
+    include_once $route; 
+}
+
+$app->get('/', fn($request, $response) => $response->redirect('/home'));
+$app->get('/categories', 
+    fn($request, $response) => $response->render('admin-categories'),
+    [ [ WebAdminMiddleware::class ] ]);
+
+$app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
+$app->get('/chat', function(Request $request, Response $response) { 
+    $session = $request->getSession();
+    $id = $session->get("id");
+    
+    $chatRepository = new ChatRepository();
+    $chats = $chatRepository->findAllByUserId($id);
+    
+    $response->render("chat", [
+        "chats" => $chats
+    ]); 
+}, [ [ HasNotAuthMiddleware::class ] ]);
+
+$app->get('/home', function($request, $response) {
+    $session = $request->getSession();
+    $id = $session->get("id");
+    $role = $session->get("role");
+
+    $mainRepository = new MainRepository();
+    $stats = $mainRepository->homeStats();
+
+    $courseRepository = new CourseRepository();
+    $courses = $courseRepository->findAllOrderByCreatedAt();
+    $coursesRates = $courseRepository->findAllOrderByRates();
+    $bestSellingCourses = $courseRepository->findAllOrderByEnrollments();
+
+    $response->render('home', [ 
+        "id" => $id, 
+        "role" => $role,
+        "lastPublishedcourses" => $courses,
+        "topRatedCourses" => $coursesRates,
+        "bestSellingCourses" => $bestSellingCourses,
+        "stats" => $stats
+    ]);
+});
+
+$app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));
+$app->get('/search', function($request, $response) {
+    $page = $request->getQuery("page");
+    
+    $courseRepository = new CourseRepository();
+    $courses = $courseRepository->findAllOrderByCreatedAt();
+
+    $categories = CategoryModel::findAll();
+
+    $response->render("search", [
+        "courses" => $courses,
+        "categories" => $categories
+    ]);
+});
 
 $app->run();

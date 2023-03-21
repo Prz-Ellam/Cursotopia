@@ -3,8 +3,8 @@ import 'jquery-validation';
 import Swal from 'sweetalert2';
 
 import User from '../models/user.model';
-import { createImage } from '../services/image.service';
-import { createUser, loginUser } from '../services/user.service';
+import { createImage, updateImageService } from '../services/image.service';
+import { createUser, updateUserService, loginUser, updateUserPasswordService } from '../services/user.service';
 
 export const login = async function(event) {
     event.preventDefault();
@@ -18,11 +18,17 @@ export const login = async function(event) {
     const loginSpinner = document.getElementById('login-spinner');
     loginSpinner.classList.remove('d-none');
 
-    const response = await loginUser({});
+    const formData = new FormData(this);
+    const user = {};
+    for (const [key, value] of formData) {
+        user[key] = value;
+    }
+    console.log(user);
+    const response = await loginUser(user);
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
 
-    if (response.ok) {
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido de vuelta a Cursotopia! 😊',
@@ -34,7 +40,7 @@ export const login = async function(event) {
             },
         });
 
-        window.location.href = 'home.html';
+        window.location.href = 'home';
     }
     else {
         await Swal.fire({
@@ -57,10 +63,37 @@ export const signup = async function(event) {
     if (!validations) {
         return;
     }
+    
+    /**
+     * 
+     * document.getElementById('gender').valueAsNumber
+     * 
+     * 
+     */
 
-    const user = new User();
+    const formData = new FormData(this);
+    const user = {
+        name:       formData.get('name'),
+        lastName:   formData.get('lastName'),
+        birthDate:  formData.get('birthDate'),
+        gender:     parseInt(formData.get('gender')),
+        userRole:   parseInt(formData.get('userRole')),
+        email:      formData.get('email'),
+        password:   formData.get('password'),
+        confirmPassword: formData.get('confirmPassword'),
+        profilePicture: parseInt(formData.get('profilePicture'))
+    }
+
+    console.log(user);
+    // const user = {};
+    // for (const [key, value] of formData) {
+    //     user[key] = value;
+    // }
+    // console.log(user);
+
     const response = await createUser(user);
-    if (response.ok) {
+    console.log(response);
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido a Cursotopia! 😊',
@@ -72,9 +105,7 @@ export const signup = async function(event) {
                 confirmButton: 'btn btn-primary shadow-none rounded-pill'
             },
         });
-
-        // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = "home";
     }
     else {
         await Swal.fire({
@@ -101,7 +132,9 @@ function readFileAsync(file) {
     });
 }
 
+// TODO: changeProfilePicture
 export const uploadProfilePicture = async function(event) {
+
     const pictureBox = document.getElementById('picture-box');
     const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
@@ -115,13 +148,17 @@ export const uploadProfilePicture = async function(event) {
         }
         const file = files[0];
 
-        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
-        if (size > 8.0) {
+        console.log(file.type);
+        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ];
+        if (!allowedExtensions.includes(file.type)) {
             await Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: 'La imagen es muy pesada',
+                text: 'El tipo de archivo que selecciono no es admitido',
                 confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
             });
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
@@ -129,24 +166,45 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
-        if (!allowedExtensions.exec(file.type)) {
+        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
+        if (size > 8.0) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
             pictureBox.src = defaultImage;
             profilePictureId.value = '';
             $(".user-form").validate().element('#profile-picture-id');
             return;
         }
+
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
 
-        const imageId = createImage();
-        profilePictureId.value = imageId;
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+
+        if (!profilePictureId.value) {
+            const response = await createImage(formData);
+            const imageId = response.id;
+            profilePictureId.value = imageId;
+        }
+        else {
+            const response = await updateImageService(formData, profilePictureId.value);
+        }
+
     }
     catch (exception) {
         pictureBox.src = defaultImage;
         profilePictureId.value = '';
     }
     $(".user-form").validate().element('#profile-picture-id');
+
 }
 
 export const updateUser = async function(event) {
@@ -157,7 +215,17 @@ export const updateUser = async function(event) {
         return;
     }
 
-    if (true) {
+    const formData = new FormData(this);
+    const user = {
+        name:       formData.get('name'),
+        lastName:   formData.get('lastName'),
+        birthDate:  formData.get('birthDate'),
+        gender:     parseInt(formData.get('gender')),
+        email:      formData.get('email')
+    };
+
+    const response = await updateUserService(user, formData.get('id'));
+    if (response?.status) {
         
         await Swal.fire({
             icon: 'success',
@@ -171,7 +239,7 @@ export const updateUser = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = 'home';
     }
     else {
         await Swal.fire({
@@ -184,11 +252,11 @@ export const updateUser = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        event.preventDefault();
     }
 }
 
 export const updatePassword = async function(event) {
-    
     event.preventDefault();
 
     const validations = $(this).valid();
@@ -196,8 +264,15 @@ export const updatePassword = async function(event) {
         return;
     }
 
-    if (true) {
-        
+    const formData = new FormData(this);
+    const user = {
+        oldPassword: formData.get('oldPassword'),
+        newPassword: formData.get('newPassword'),
+        confirmNewPassword: formData.get('confirmNewPassword')
+    };
+
+    const response = await updateUserPasswordService(user, formData.get('id'));
+    if (response.status) {
         await Swal.fire({
             icon: 'success',
             title: 'Tú contraseña se actualizó exitosamente',
@@ -210,7 +285,7 @@ export const updatePassword = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = "home.html";
+        window.location.href = "home";
     }
     else {
         await Swal.fire({

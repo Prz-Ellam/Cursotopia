@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if (feedback.isConfirmed) {
             // TODO: uri estatica
-            window.location.href = 'home.html';
+            window.location.href = 'home';
         }
     }); 
 

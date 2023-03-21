@@ -76,12 +76,12 @@ $('#new-password').on('input', function() {
 
 export default {
     rules: {
-        'old-password': {
+        'oldPassword': {
             required: true,
             trimming: true,
             maxlength: 255
         },
-        'new-password': {
+        'newPassword': {
             required: true,
             trimming: true,
             containsMayus: true,
@@ -90,7 +90,7 @@ export default {
             minlength:8,
             maxlength: 255
         },
-        'confirm-new-password': {
+        'confirmNewPassword': {
             required: true,
             trimming: true,
             maxlength: 255,
@@ -98,12 +98,12 @@ export default {
         }
     },
     messages: {
-        'old-password': {
+        'oldPassword': {
             required: 'La antigua contraseña es requerida',
             trimming: 'La antigua contraseña es requerida',
             maxlength: 'La antigua contraseña es demasiado larga'
         },
-        'new-password': {
+        'newPassword': {
             required: 'La nueva contraseña es requerida',
             trimming: 'La nueva contraseña es requerida',
             containsMayus: 'La contraseña no tiene el formato requerido',
@@ -112,7 +112,7 @@ export default {
             minlength: 'La contraseña no tiene el formato requerido',
             maxlength: 'La nueva contraseña es demasiado larga'
         },
-        'confirm-new-password': {
+        'confirmNewPassword': {
             required: 'La confirmación de la nueva contraseña es requerida',
             trimming: 'La confirmación de la nueva contraseña es requerida',
             maxlength: 'La confirmación de la nueva contraseña es demasiado larga',

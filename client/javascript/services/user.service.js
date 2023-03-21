@@ -1,48 +1,84 @@
+import axios from 'axios';
+
 export const createUser = async (user) => {
-    /*
     try {
-        const response = await fetch('/api/v1/users', {
+        const configuration = {
             method: 'POST',
-            body: user
-        });
-        const json = await response.json();
-        return json;
+            url: '/api/v1/users',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
     }
     catch (exception) {
-        console.error(exception);
+        console.log(exception);
     }
-    */
-    return { ok: true };
+    return null;
 }
 
-export const updateUser = async (user) => {
-    const response = await fetch('/api/v1/users', {
-        method: 'PUT',
-        body: user
-    });
-    const json = await response.json();
-    return json;
+export const updateUserService = async (user, id) => {
+    try {
+        const configuration = {
+            method: 'PATCH',
+            url: `/api/v1/users/${id}`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
 }
+
+export const updateUserPasswordService = async (user, id) => {
+    try {
+        const configuration = {
+            method: 'PATCH',
+            url: `/api/v1/users/${id}/password`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(user)
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;
+}
+
 
 export const updateUserPassword = async (user) => {
     return { ok: true };
 }
 
 export const loginUser = async (auth) => {
-    /*
     try {
-        const response = await fetch('/api/v1/auth', {
+        const configuration = {
             method: 'POST',
-            body: auth
-        });
-        const json = await response.json();
-        return json;
+            url: '/api/v1/auth',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(auth)
+        };
+        const response = await axios(configuration);
+        return response.data;
     }
     catch (exception) {
         console.log(exception);
     }
-    */
-    return { ok: true };
+    return null;
 }
 
 export const logoutUser = async (auth) => {
@@ -52,3 +88,39 @@ export const logoutUser = async (auth) => {
     const json = await response.json();
     return json;
 }
+
+export const getAllUsersService = async (name) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users?name=${name}`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};
+
+export const getOneUserService = async (id) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users/${ id }`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};

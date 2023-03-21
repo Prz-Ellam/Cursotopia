@@ -2,6 +2,9 @@ import $ from 'jquery';
 import 'jquery-validation';
 import { courseCreationCreateLevelSection } from '../views/level.view';
 import { createLevelService } from '../services/level.service';
+import { createVideoService } from '../services/video.service';
+import { createDocumentService } from '../services/document.service';
+import { createImage } from '../services/image.service';
 
 export const createLevel = async function(event) {
     event.preventDefault();
@@ -15,7 +18,13 @@ export const createLevel = async function(event) {
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
 
-    const level = {};
+    const formData = new FormData(this);
+    const level = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        price: parseFloat(formData.get('price')),
+        courseId: parseInt(formData.get('courseId'))
+    };
     const response = await createLevelService(level);
 
     const levelsList = document.getElementById('levels-list');
@@ -87,13 +96,34 @@ export const courseEditionUpdateLevel = async function(event) {
 }
 
 export const createLevelVideo = async function(event) {
+    const file = this.files[0];
 
+    const formData = new FormData();
+    formData.append('video', file, file.name);
+
+    const response = await createVideoService(formData);
+    const videoHidden = document.getElementById('create-lesson-video-hidden');
+    videoHidden.value = response.id;
 }
 
 export const createLevelImage = async function(event) {
+    const file = this.files[0];
 
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+
+    const response = await createImage(formData);
+    const imageHidden = document.getElementById('create-lesson-image-hidden');
+    imageHidden.value = response.id;
 }
 
 export const createLevelPdf = async function(event) {
-    
+    const file = this.files[0];
+
+    const formData = new FormData();
+    formData.append('pdf', file, file.name);
+
+    const response = await createDocumentService(formData);
+    const pdfHidden = document.getElementById('create-lesson-pdf-hidden');
+    pdfHidden.value = response.id;
 }

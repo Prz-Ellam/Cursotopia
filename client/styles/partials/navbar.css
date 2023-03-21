@@ -28,6 +28,7 @@
 }
 
 .profile-picture {
+    object-fit: cover;
     transition: all 200ms ease;
     transition-property: filter;
 }

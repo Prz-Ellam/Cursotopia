@@ -9,14 +9,15 @@ export default defineConfig({
 		outDir: path.resolve(__dirname, 'dist'),
 		manifest: true,
 		emptyOutDir: true,
+		sourcemap: true,
 		rollupOptions: {
 			input: Array.prototype.concat(
 				glob.sync('client/javascript/*.js'),
 				glob.sync('client/styles/pages/*.css')),
 			output: {
-				entryFileNames: 'javascript/[name].js',
-				chunkFileNames: 'javascript/[name].js',
-				assetFileNames: 'assets/[name].[ext]'
+				entryFileNames: 'javascript/[hash].js',
+				chunkFileNames: 'javascript/[hash].js',
+				assetFileNames: 'assets/[hash].[ext]'
 			}
 		}
 	},

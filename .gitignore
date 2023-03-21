@@ -2,5 +2,6 @@
 .env
 /vendor/
 /node_modules/
+uploads/*
 
 dist

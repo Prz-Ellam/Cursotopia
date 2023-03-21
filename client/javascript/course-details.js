@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import { submitReview } from './controllers/review.controller';
 import createReviewValidator from './validators/create-review.validator';
 import { createReview } from './views/review.view';
 
@@ -28,20 +29,4 @@ arrayRateStars.forEach(rateStar => {
 });
 
 $('#create-review-form').validate(createReviewValidator);
-$('#create-review-form').on('submit', function(event) {
-    event.preventDefault();
-
-    const validations = $(this).valid();
-    if (!validations) {
-        return;
-    }
-
-    const review = {
-        image: '../client/assets/images/logo.png',
-        username: 'Test',
-        message: document.getElementById('message-box').value,
-        rate: document.getElementById('rate').value
-    }
-    
-    createReview(review);
-});
+$('#create-review-form').on('submit', submitReview);

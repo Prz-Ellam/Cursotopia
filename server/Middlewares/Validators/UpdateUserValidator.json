@@ -1,0 +1,41 @@
+{
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    },
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "maxLength": 50,
+            "$error": {
+                "type": "El nombre debe ser una cadena de texto",
+                "maxLength": "El nombre es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "lastName": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "birthDate": {
+            "type": "string",
+            "format": "date"
+        },
+        "gender": {
+            "type": "number"
+        },
+        "email": {
+            "type": "string",
+            "maxLength": 255,
+            "format": "email"
+        }
+    },
+    "required": [
+        "name",
+        "lastName",
+        "birthDate",
+        "gender",
+        "email"
+    ],
+    "additionalProperties": false
+}
