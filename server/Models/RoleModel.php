@@ -2,9 +2,9 @@
 
 namespace Cursotopia\Models;
 
-use Cursotopia\Repositories\UserRoleRepository;
+use Cursotopia\Repositories\RoleRepository;
 
-class UserRoleModel {
+class RoleModel {
     private int $id;
     private string $name;
     private string $createdAt;
@@ -72,12 +72,12 @@ class UserRoleModel {
     }
 
     public static function findAllByIsPublic(bool $isPublic): array {
-        $userRoleRepository = new UserRoleRepository();
+        $userRoleRepository = new RoleRepository();
         return $userRoleRepository->findAllByIsPublic($isPublic);
     }
 
     public static function findOneByIdAndIsPublic(int $id, bool $isPublic): ?array {
-        $userRoleRepository = new UserRoleRepository();
+        $userRoleRepository = new RoleRepository();
         return $userRoleRepository->findOneByIdAndIsPublic($id, $isPublic);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Cursotopia\Entities;
 
-class UserRole {
+class Role {
     private ?int $id = null;
     private ?string $name = null;
     private ?string $createdAt = null;

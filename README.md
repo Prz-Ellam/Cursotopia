@@ -109,3 +109,8 @@ DocumentRoot <This is where you root goes>
 - [ ] Certificates and progress
 - [ ] Sales reports
 - [ ] Browser
+
+
+
+ /etc/my.cnf.
+ max_allowed_packet=16M

@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class UserRoleRepository extends DB {
+class RoleRepository extends DB {
     private const FIND_ALL_BY_IS_PUBLIC = <<<'SQL'
         SELECT
             `user_role_id` AS `id`,

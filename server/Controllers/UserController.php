@@ -8,7 +8,7 @@ use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
-use Cursotopia\Models\UserRoleModel;
+use Cursotopia\Models\RoleModel;
 use Cursotopia\Repositories\UserRepository;
 
 class UserController {
@@ -82,7 +82,7 @@ class UserController {
 
         // Validar que el rol de usuario exista y sea publico (osea que no se pueda
         // poner a el mismo como administrador)
-        if (!UserRoleModel::findOneByIdAndIsPublic($userRole, true)) {
+        if (!RoleModel::findOneByIdAndIsPublic($userRole, true)) {
             $response
                 ->setStatus(400)
                 ->json([
