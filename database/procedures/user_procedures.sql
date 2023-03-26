@@ -117,3 +117,49 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `find_users`;
+CREATE PROCEDURE IF NOT EXISTS `find_users`(
+    IN `_user_id`                       INT,
+    IN `_user_id_op`                    ENUM('=', '<>'),
+    IN `_user_email`                    VARCHAR(255),
+    IN `_user_email_op`                 ENUM('=', '<>')
+)
+BEGIN
+    SELECT 
+        `user_id`,
+        `user_name`,
+        `user_last_name`,
+        `user_birth_date`,
+        `user_gender`,
+        `user_email`,
+        `user_password`,
+        `user_role`,
+        `profile_picture`,
+        `user_enabled`,
+        `user_created_at`,
+        `user_modified_at`,
+        `user_active`
+    FROM 
+        `users`
+    WHERE
+        (
+            `_user_id_op` IS NULL 
+            OR (`_user_id_op` = '=' AND `user_id` = `_user_id`) 
+            OR (`_user_id_op` = '<>' AND `user_id` <> `_user_id`)
+        )
+        AND 
+        (
+            `_user_email_op` IS NULL 
+            OR (`_user_email_op` = '=' AND `user_email` = `_user_email`) 
+            OR (`_user_email_op` = '<>' AND `user_email` <> `_user_email`)
+        );
+END $$
+DELIMITER ;
+
+
+
+
+

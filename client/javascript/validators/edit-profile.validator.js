@@ -28,24 +28,28 @@ $.validator.addMethod('email5322', function (value, element) {
 }, 'Please enter a valid email');
 
 const date = new Date();
-const dateFormat = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+const year = date.getFullYear() - 18;
+const month = String(date.getMonth() + 1).padStart(2, '0');
+const day = String(date.getDate()).padStart(2, '0');
+const dateFormat = `${year}-${month}-${day}`;
 
 export default {
     rules: {
         'profilePicture': {
-            required: true
+            required: true,
+            number: true
         },
         'name': {
             required: true,
             trimming: true,
             regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
-            maxlength:255
+            maxlength: 50
         },
         'lastName': {
             required: true,
             trimming: true,
             regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
-            maxlength:255
+            maxlength: 50
         },
         'gender': {
             required: true,
@@ -74,7 +78,8 @@ export default {
     },
     messages: {
         'profilePicture': {
-            required: 'La foto de perfil es requerida'
+            required: 'La foto de perfil es requerida',
+            number: 'La foto de perfil no es válida'
         },
         'name': {
             required: 'El nombre es requerido',
@@ -95,7 +100,7 @@ export default {
         'birthDate': {
             required: 'La fecha de nacimiento es requerida',
             date: 'La fecha de nacimiento no tiene el formato requerido',
-            dateRange: 'La fecha de nacimiento seleccionada no es válida'
+            dateRange: 'Debes tener al menos 18 años para usar nuestro servicio'
         },
         'email': {
             required: 'El correo electrónico es requerido',

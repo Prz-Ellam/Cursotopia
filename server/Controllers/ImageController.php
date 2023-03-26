@@ -108,10 +108,21 @@ class ImageController {
             return;
         }
 
+        if (!verify_image_integrity($data)) {
+            $response->json([
+                "status" => false,
+                "message" => "no"
+            ]);
+            return;
+        }
+
         $image->update();
 
         $response
-            ->json([]);
+            ->json([
+                "status" => true,
+                "message" => "La imagen se actualizó éxitosamente"
+            ]);
 
     }
 
@@ -148,4 +159,12 @@ class ImageController {
         $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
         $response->setBody($image->getData());
     }
+}
+
+function verify_image_integrity($image_data) {
+    // Leer los primeros 512 bytes de la imagen
+    $header_data = substr($image_data, 0, 512);
+    
+    // Verificar si la imagen contiene la marca de formato correcta
+    return strpos($header_data, "\xFF\xD8") === 0 || strpos($header_data, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A") === 0;
 }

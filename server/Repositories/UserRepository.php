@@ -58,6 +58,10 @@ class UserRepository extends DB implements UserRepositoryInterface {
             1
     SQL;
 
+    private const FIND_ONE_2 = <<<'SQL'
+        CALL `find_users`(:id, :id_opt, :email, :email_opt);
+    SQL;
+
     private const FIND_ONE_BY_EMAIL = <<<'SQL'
         SELECT 
             user_id AS `id`, 
@@ -176,6 +180,10 @@ class UserRepository extends DB implements UserRepositoryInterface {
 
     public function findOne(int $id) {
         return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
+    }
+
+    public function findOne2(array $parameters) {
+        return $this::executeOneReader($this::FIND_ONE_2, $parameters) ?? null;
     }
 
     public function findOneByEmailAndNotUserId(string $email, int $id) {

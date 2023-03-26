@@ -191,7 +191,7 @@ export default {
         'birthDate': {
             required: 'La fecha de nacimiento es requerida',
             date: 'La fecha de nacimiento no tiene el formato requerido',
-            dateRange: 'Debes tener al menos 18 años para registrarte'
+            dateRange: 'Debes tener al menos 18 años para usar nuestro servicio'
         },
         'email': {
             required: 'El correo electrónico es requerido',

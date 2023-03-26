@@ -120,6 +120,77 @@ function readFileAsync(file) {
 
 // TODO: changeProfilePicture
 let previousFile = '';
+export const changeProfilePicture = async function(event) {
+    const inputFile = document.getElementById('profile-picture');
+    const profilePictureId = document.getElementById('profile-picture-id');
+    try {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            inputFile.value = previousFile;
+            return;
+        }
+        const file = files[0];
+
+        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+        if (!allowedExtensions.includes(file.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#DC3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            return;
+        }
+
+        if (file.size >= 8 * 1024 * 1024) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada (máximo 8MB)',
+                confirmButtonColor: "#DC3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+
+        const spinner = document.getElementById('change-profile-picture-spinner');
+        spinner.style.visibility = 'visible';
+        $('.profile-picture-label').css('visibility', 'hidden');
+
+        const response = await updateImageService(formData, profilePictureId.value);
+        spinner.style.visibility = 'hidden';
+        $('.profile-picture-label').css('visibility', 'visible');
+
+        if (!response?.status) {
+            ToastBottom.fire({
+                icon: 'error',
+                title: 'No se pudo actualizar la imagen'
+            });
+            return;
+        }
+
+        const dataUrl = await readFileAsync(file);
+        $('#picture-box').attr('src', dataUrl);
+        $('.profile-picture').attr('src', dataUrl);
+        ToastBottom.fire({
+            icon: 'success',
+            title: 'Se ha actualizado la imagen'
+        });
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+}
+
+
 export const uploadProfilePicture = async function(event) {    
     const pictureBox = document.getElementById('picture-box');
     const inputFile = document.getElementById('profile-picture');
@@ -171,9 +242,6 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        const dataUrl = await readFileAsync(file);
-        pictureBox.src = dataUrl;
-
         const formData = new FormData();
         formData.append('image', file, file.name);
 
@@ -185,6 +253,9 @@ export const uploadProfilePicture = async function(event) {
         else {
             const response = await updateImageService(formData, profilePictureId.value);
         }
+        const dataUrl = await readFileAsync(file);
+        pictureBox.src = dataUrl;
+        $('.profile-picture').attr('src', dataUrl);
         previousFile = file;
         ToastBottom.fire({
             icon: 'success',

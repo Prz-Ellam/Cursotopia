@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { updateUser, uploadProfilePicture } from './controllers/user.controller';
+import { changeProfilePicture, updateUser } from './controllers/user.controller';
 import editProfileValidator from './validators/edit-profile.validator';
 
 document.addEventListener('DOMContentLoaded', () => {
     const profilePicture = document.getElementById('profile-picture');
-    profilePicture.addEventListener('change', uploadProfilePicture);
+    profilePicture.addEventListener('change', changeProfilePicture);
 
     const profileEditionForm = document.getElementById('profile-edition-form');
     $(profileEditionForm).validate(editProfileValidator);

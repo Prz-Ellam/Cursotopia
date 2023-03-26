@@ -203,6 +203,38 @@ class UserModel {
         return new UserModel($object);
     }
 
+    public static function findOne(array $criteria): ?UserModel {
+        $parameters = [];
+        $valids = [ "id", "email" ];
+        foreach ($criteria as $elementCriteria) {
+            switch (count($elementCriteria)) {
+                case 2: {
+                    [ $name, $value ] = $elementCriteria;
+                    if (in_array($name, $valids)) {
+                        $parameters[$name] = $value;
+                        $parameters[$name . "_opt"] = "=";
+                    }
+                    break;
+                }
+                case 3: {
+                    [ $name, $operator, $value ] = $elementCriteria;
+                    if (in_array($name, $valids)) {
+                        $parameters[$name] = $value;
+                        $parameters[$name . "_opt"] = $operator;
+                    }
+                    break;
+                }
+            }
+        }
+        $repository = new UserRepository();
+        $object = $repository->findOne2($parameters);
+        if (!$object) {
+            return null;
+        }
+
+        return new UserModel($object);
+    }
+
     public static function findOneByEmail(string $email): ?array {
         $repository = new UserRepository();
         $object = $repository->findOneByEmail($email);

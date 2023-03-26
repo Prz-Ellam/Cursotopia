@@ -4,9 +4,11 @@ namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\UserController;
+use Cursotopia\Middlewares\AuthMiddleware;
 use Cursotopia\Middlewares\HasAuthMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\RoleModel;
 
@@ -79,7 +81,19 @@ $app->post('/api/v1/users', [ UserController::class, 'create' ],
     [ [ JsonSchemaMiddleware::class, 'SignupValidator' ] ]);
 
 $app->patch('/api/v1/users/:id', [ UserController::class, 'update' ],
-    [ [ JsonSchemaMiddleware::class, 'UpdateUserValidator' ] ]);
-$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ]);
+[ 
+    [ JsonSchemaMiddleware::class, 'UpdateUserValidator' ],
+    [ ValidateIdMiddleware::class ],
+    [ AuthMiddleware::class ]
+]);
+
+$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ],
+[
+    [ JsonSchemaMiddleware::class, 'UpdatePasswordValidator' ],
+    [ ValidateIdMiddleware::class ],
+    [ AuthMiddleware::class ]
+]);
+
+
 $app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
 $app->post('/api/v1/users/email', [ UserController::class, 'checkEmailExists' ]);

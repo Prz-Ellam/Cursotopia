@@ -51,11 +51,21 @@ button[type="submit"]:visited {
 }
 
 .profile-picture-label:hover::after {
-    content: 'Foto de perfil'
+    content: 'Foto de perfil';
 }
 
 .profile-picture-label:hover {
     background-color: rgba(48, 133, 214, 0.5);
+}
+
+#change-profile-picture-spinner {
+    position: absolute;
+    visibility: hidden;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 #profile-picture, #edit-profile-picture, #upload-image {

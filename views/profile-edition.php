@@ -27,7 +27,9 @@
         <div class="form-group text-center">
           <div class="position-relative">
             <label for="profile-picture" role="button"
-              class="profile-picture-label text-white position-absolute rounded-circle"></label>
+              class="profile-picture-label text-white position-absolute rounded-circle">
+            </label>
+            <div class="spinner-border text-white" id="change-profile-picture-spinner" role="status"></div>
             <img 
               class="img img-fluid rounded-circle mb-1" 
               id="picture-box" 

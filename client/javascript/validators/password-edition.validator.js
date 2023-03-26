@@ -1,5 +1,11 @@
 import $ from 'jquery';
 
+$.validator.addMethod('notEqual', function(value, element, parameter) {
+    const htmlElement = document.getElementById(parameter);
+    console.log(htmlElement);
+    return this.optional(element) || htmlElement.value !== value;
+}, 'Please enter a valid');
+
 $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';
 }, 'Please enter a valid');
@@ -88,7 +94,8 @@ export default {
             containsSpecialCharacter: true,
             containsNumber: true,
             minlength:8,
-            maxlength: 255
+            maxlength: 255,
+            //notEqual: '#old-password'
         },
         'confirmNewPassword': {
             required: true,
@@ -110,7 +117,8 @@ export default {
             containsSpecialCharacter: 'La contraseña no tiene el formato requerido',
             containsNumber: 'La contraseña no tiene el formato requerido',
             minlength: 'La contraseña no tiene el formato requerido',
-            maxlength: 'La nueva contraseña es demasiado larga'
+            maxlength: 'La nueva contraseña es demasiado larga',
+            //notEqual: 'La nueva contraseña no puede ser igual a la antigua contraseña'
         },
         'confirmNewPassword': {
             required: 'La confirmación de la nueva contraseña es requerida',
