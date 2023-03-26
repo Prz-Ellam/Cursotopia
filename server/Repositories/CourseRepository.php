@@ -11,7 +11,7 @@ class CourseRepository {
             `course_title`,
             `course_description`,
             `course_price`,
-            `image_id`,
+            `course_image_id`,
             `instructor_id`
         )
         SELECT
@@ -97,7 +97,7 @@ class CourseRepository {
             c.course_title AS `title`,
             c.course_description AS `description`,
             c.course_price AS `price`,
-            c.image_id AS `imageId`,
+            c.course_image_id AS `imageId`,
             c.instructor_id AS `instructorId`,
             c.course_approved AS `approved`,
             c.course_approved_by AS `approvedBy`,
@@ -107,7 +107,7 @@ class CourseRepository {
             COUNT(DISTINCT l.level_id) AS `levels`,
             IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
             CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(v.video_duration) / 3600.0 AS `duration`,
+            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
             COUNT(DISTINCT e.enrollment_id) AS `enrollments`
         FROM
             `courses` AS c
@@ -150,7 +150,7 @@ class CourseRepository {
             c.course_title AS `title`,
             c.course_description AS `description`,
             c.course_price AS `price`,
-            c.image_id AS `imageId`,
+            c.course_image_id AS `imageId`,
             c.instructor_id AS `instructorId`,
             c.course_approved AS `approved`,
             c.course_approved_by AS `approvedBy`,
@@ -160,7 +160,7 @@ class CourseRepository {
             COUNT(DISTINCT l.level_id) AS `levels`,
             IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
             CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(v.video_duration) / 3600.0 AS `duration`,
+            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
             COUNT(DISTINCT e.enrollment_id) AS `enrollments`
         FROM
             `courses` AS c
@@ -203,7 +203,7 @@ class CourseRepository {
             c.course_title AS `title`,
             c.course_description AS `description`,
             c.course_price AS `price`,
-            c.image_id AS `imageId`,
+            c.course_image_id AS `imageId`,
             c.instructor_id AS `instructorId`,
             c.course_approved AS `approved`,
             c.course_approved_by AS `approvedBy`,
@@ -213,7 +213,7 @@ class CourseRepository {
             COUNT(DISTINCT l.level_id) AS `levels`,
             IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
             CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(v.video_duration) / 3600.0 AS `duration`,
+            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
             COUNT(DISTINCT e.enrollment_id) AS `enrollments`
         FROM
             `courses` AS c

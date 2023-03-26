@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const createUser = async (user) => {
+export const createUserService = async (user) => {
     try {
         const configuration = {
             method: 'POST',
@@ -14,9 +14,8 @@ export const createUser = async (user) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
 }
 
 export const updateUserService = async (user, id) => {

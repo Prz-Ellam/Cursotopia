@@ -4,7 +4,7 @@ AS
 SELECT
     c.course_id AS `id`,
     c.course_title AS `title`,
-    c.image_id AS `imageId`,
+    c.course_image_id AS `imageId`,
     COUNT(e.enrollment_id) AS `enrollments`,
     IFNULL(SUM(e.enrollment_amount), 0) AS `amount`,
     1 AS `averageLevel`,

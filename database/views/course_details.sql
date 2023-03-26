@@ -6,7 +6,7 @@ AS
         c.course_title AS `title`,
         c.course_description AS `description`,
         c.course_price AS `price`,
-        c.image_id AS `imageId`,
+        c.course_image_id AS `imageId`,
         c.instructor_id AS `instructorId`,
         c.course_approved AS `approved`,
         c.course_approved_by AS `approvedBy`,
@@ -17,7 +17,7 @@ AS
         COUNT(DISTINCT r.review_id) AS `reviews`,
         IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
         CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-        SUM(v.video_duration) / 3600.0 AS `duration`,
+        SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
         COUNT(DISTINCT e.enrollment_id) AS `enrollments`
     FROM
         courses AS c

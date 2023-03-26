@@ -19,8 +19,12 @@ $.validator.addMethod('range', function(value, element, parameter) {
     return this.optional(element) || value >= parameter[0] && value <= parameter[1];
 });
 
+$.validator.addMethod('enum', function(value, element, parameter) {
+    return this.optional(element) || parameter.includes(value);
+});
+
 $.validator.addMethod('email5322', function (value, element) {
-    return this.optional(element) || /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(value);
+    return this.optional(element) || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
 }, 'Please enter a valid email');
 
 const date = new Date();
@@ -45,7 +49,7 @@ export default {
         },
         'gender': {
             required: true,
-            range: [ 1, 3 ]
+            enum: [ 'Masculino', 'Femenino', 'Otro' ]
         },
         'birthDate': {
             required: true,
@@ -86,7 +90,7 @@ export default {
         },
         'gender': {
             required: 'El genero es requerido',
-            range: 'El genero es requerido'
+            enum: 'El genero no es válido'
         },
         'birthDate': {
             required: 'La fecha de nacimiento es requerida',

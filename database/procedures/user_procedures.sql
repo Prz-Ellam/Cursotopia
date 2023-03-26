@@ -1,11 +1,91 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `save_users`;
+CREATE PROCEDURE IF NOT EXISTS `save_users`(
+    IN `_user_id`                       INT,
+    IN `_user_name`                     VARCHAR(50),
+    IN `_user_last_name`                VARCHAR(50),
+    IN `_user_birth_date`               DATE,
+    IN `_user_gender`                   ENUM('Masculino', 'Femenino', 'Otro'),
+    IN `_user_email`                    VARCHAR(255),
+    IN `_user_password`                 VARCHAR(255),
+    IN `_user_role`                     INT,
+    IN `_profile_picture`               INT,
+    IN `_user_enabled`                  BOOLEAN,
+    IN `_user_created_at`               TIMESTAMP,
+    IN `_user_modified_at`              TIMESTAMP,
+    IN `_user_active`                   BOOLEAN,
+    OUT `_new_user_id`                  INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+    IF NOT EXISTS (SELECT `_user_id` FROM `users` WHERE `user_id` = `_user_id`) THEN
+        INSERT INTO `users`(
+            `user_name`,
+            `user_last_name`,
+            `user_birth_date`,
+            `user_gender`,
+            `user_email`,
+            `user_password`,
+            `user_role`,
+            `profile_picture`,
+            `user_enabled`,
+            `user_created_at`,
+            `user_modified_at`,
+            `user_active`
+        )
+        VALUES(
+            `_user_name`,
+            `_user_last_name`,
+            `_user_birth_date`,
+            `_user_gender`,
+            `_user_email`,
+            `_user_password`,
+            `_user_role`,
+            `_profile_picture`,
+            `_user_enabled`,
+            `_user_created_at`,
+            `_user_modified_at`,
+            `_user_active`
+        );
+        SELECT LAST_INSERT_ID() INTO `_new_user_id`;
+    ELSE
+        UPDATE
+            `users`
+        SET
+            `user_name`                 = IFNULL(`_user_name`, `user_name`),
+            `user_last_name`            = IFNULL(`_user_last_name`, `user_last_name`),
+            `user_birth_date`           = IFNULL(`_user_birth_date`, `user_birth_date`),
+            `user_gender`               = IFNULL(`_user_gender`, `user_gender`),
+            `user_email`                = IFNULL(`_user_email`, `user_email`),
+            `user_password`             = IFNULL(`_user_password`, `user_password`),
+            `user_role`                 = IFNULL(`_user_role`, `user_role`),
+            `profile_picture`           = IFNULL(`_profile_picture`, `profile_picture`),
+            `user_enabled`              = IFNULL(`_user_enabled`, `user_enabled`),
+            `user_created_at`           = IFNULL(`_user_created_at`, `user_created_at`),
+            `user_modified_at`          = IFNULL(`_user_modified_at`, NOW()),
+            `user_active`               = IFNULL(`_user_active`, `user_active`)
+        WHERE
+            `user_id` = `_user_id`;
+    END IF;
+    COMMIT;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_user`;
 CREATE PROCEDURE IF NOT EXISTS `update_user`(
     `_user_id`                      INT,
     `_user_name`                    VARCHAR(50),
     `_user_last_name`               VARCHAR(50),
     `_user_birth_date`              DATE,
-    `_user_gender`                  INT,
+    `_user_gender`                  ENUM('Masculino', 'Femenino', 'Otro'),
     `_user_email`                   VARCHAR(255),
     `_user_password`                VARCHAR(255),
     `_user_role`                    INT,

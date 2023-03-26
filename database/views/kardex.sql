@@ -43,5 +43,3 @@ AS
 
 
 
-
-SELECT * FROM kardex;

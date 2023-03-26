@@ -25,7 +25,6 @@
   <?= $this->script("javascript/signup.js") ?>
 </head>
 <body>
-  <?= $this->session("profilePicture_id") ?>
   <main class="container my-4">
     <section class="row d-flex justify-content-center">
       <div class="bg-white rounded-3 p-5 col-lg-8 col-md-8" data-aos="fade-up">
@@ -108,10 +107,10 @@
                 <span>Género</span>
               </label>
               <select name="gender" id="gender" class="form-select">
-                <option value="0" selected>Seleccionar</option>
-                <option value="1">Másculino</option>
-                <option value="2">Femenino</option>
-                <option value="3">Otro</option>
+                <option value="" selected>Seleccionar</option>
+                <option value="Masculino">Másculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
               </select>
             </div>
             <div class="col-lg-4 col-12 mb-4">

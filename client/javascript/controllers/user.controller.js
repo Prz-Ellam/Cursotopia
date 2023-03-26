@@ -2,9 +2,9 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-import User from '../models/user.model';
 import { createImage, updateImageService } from '../services/image.service';
-import { createUser, updateUserService, loginUser, updateUserPasswordService } from '../services/user.service';
+import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
+import { ToastBottom } from '../utilities/toast';
 
 export const login = async function(event) {
     event.preventDefault();
@@ -64,19 +64,12 @@ export const signup = async function(event) {
         return;
     }
     
-    /**
-     * 
-     * document.getElementById('gender').valueAsNumber
-     * 
-     * 
-     */
-
     const formData = new FormData(this);
     const user = {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
         birthDate:  formData.get('birthDate'),
-        gender:     parseInt(formData.get('gender')),
+        gender:     formData.get('gender'),
         userRole:   parseInt(formData.get('userRole')),
         email:      formData.get('email'),
         password:   formData.get('password'),
@@ -84,16 +77,9 @@ export const signup = async function(event) {
         profilePicture: parseInt(formData.get('profilePicture'))
     }
 
-    console.log(user);
-    // const user = {};
-    // for (const [key, value] of formData) {
-    //     user[key] = value;
-    // }
-    // console.log(user);
-
-    const response = await createUser(user);
+    const response = await createUserService(user);
     console.log(response);
-    if (response.status) {
+    if (response?.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido a Cursotopia! 😊',
@@ -133,23 +119,23 @@ function readFileAsync(file) {
 }
 
 // TODO: changeProfilePicture
-export const uploadProfilePicture = async function(event) {
-
+let previousFile = '';
+export const uploadProfilePicture = async function(event) {    
     const pictureBox = document.getElementById('picture-box');
+    const inputFile = document.getElementById('profile-picture');
     const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
+
+    console.log(previousFile);
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
-            pictureBox.src = defaultImage;
-            profilePictureId.value = '';
-            $(".user-form").validate().element('#profile-picture-id');
+            inputFile.value = previousFile;
             return;
         }
         const file = files[0];
 
-        console.log(file.type);
-        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ];
+        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
         if (!allowedExtensions.includes(file.type)) {
             await Swal.fire({
                 icon: 'error',
@@ -160,9 +146,10 @@ export const uploadProfilePicture = async function(event) {
                     confirmButton: 'btn btn-danger shadow-none rounded-pill'
                 },
             });
-            pictureBox.src = defaultImage;
-            profilePictureId.value = '';
-            $(".user-form").validate().element('#profile-picture-id');
+            //pictureBox.src = defaultImage;
+            //profilePictureId.value = '';
+            inputFile.value = previousFile;
+            //$(".user-form").validate().element('#profile-picture-id');
             return;
         }
 
@@ -177,9 +164,10 @@ export const uploadProfilePicture = async function(event) {
                     confirmButton: 'btn btn-danger shadow-none rounded-pill'
                 },
             });
-            pictureBox.src = defaultImage;
-            profilePictureId.value = '';
-            $(".user-form").validate().element('#profile-picture-id');
+            //pictureBox.src = defaultImage;
+            //profilePictureId.value = '';
+            inputFile.value = previousFile;
+            //$(".user-form").validate().element('#profile-picture-id');
             return;
         }
 
@@ -192,14 +180,19 @@ export const uploadProfilePicture = async function(event) {
         if (!profilePictureId.value) {
             const response = await createImage(formData);
             const imageId = response.id;
-            profilePictureId.value = imageId;
+            //profilePictureId.value = imageId;
         }
         else {
             const response = await updateImageService(formData, profilePictureId.value);
         }
-
+        previousFile = file;
+        ToastBottom.fire({
+            icon: 'success',
+            title: 'Se ha actualizado la imagen'
+        });
     }
     catch (exception) {
+        console.log(exception);
         pictureBox.src = defaultImage;
         profilePictureId.value = '';
     }
@@ -220,7 +213,7 @@ export const updateUser = async function(event) {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
         birthDate:  formData.get('birthDate'),
-        gender:     parseInt(formData.get('gender')),
+        gender:     formData.get('gender'),
         email:      formData.get('email')
     };
 

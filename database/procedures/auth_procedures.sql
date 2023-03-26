@@ -5,9 +5,9 @@ SELECT
 FROM
     users AS u
 INNER JOIN
-    user_roles AS ur
+    roles AS ur
 ON
-    u.user_role = ur.user_role_id
+    u.user_role = ur.role_id
 WHERE
     user_email = 'eliam@correo.com' 
     AND user_active = TRUE

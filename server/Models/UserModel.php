@@ -5,6 +5,7 @@ namespace Cursotopia\Models;
 use Bloom\Database\DB;
 use Bloom\Hashing\Crypto;
 use Bloom\Validations\Rules\Email;
+use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
 use Cursotopia\Contracts\UserRepositoryInterface;
@@ -29,7 +30,8 @@ class UserModel {
     private ?string $birthDate;
 
     #[Required("El género es requerido")]
-    private ?int $gender;
+    #[Enum(["Masculino", "Femenino", "Otro"], "El genero no es válido")]
+    private ?string $gender;
 
     #[Required("El correo electrónico es requerido")]
     #[Email("El correo electrónico no tiene el formato correcto")]
@@ -106,11 +108,11 @@ class UserModel {
         return $this;
     }
 
-    public function getGender(): ?int {
+    public function getGender(): ?string {
         return $this->gender;
     }
 
-    public function setGender(?int $gender): self {
+    public function setGender(?string $gender): self {
         $this->gender = $gender;
         return $this;
     }
@@ -226,8 +228,7 @@ class UserModel {
     /**
      * Get the value of enabled
      */ 
-    public function getEnabled()
-    {
+    public function getEnabled() {
         return $this->enabled;
     }
 
@@ -236,8 +237,7 @@ class UserModel {
      *
      * @return  self
      */ 
-    public function setEnabled($enabled)
-    {
+    public function setEnabled($enabled) {
         $this->enabled = $enabled;
 
         return $this;

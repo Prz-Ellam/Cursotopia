@@ -72,8 +72,8 @@ class RoleModel {
     }
 
     public static function findAllByIsPublic(bool $isPublic): array {
-        $userRoleRepository = new RoleRepository();
-        return $userRoleRepository->findAllByIsPublic($isPublic);
+        $roleRepository = new RoleRepository();
+        return $roleRepository->findAllByIsPublic($isPublic);
     }
 
     public static function findOneByIdAndIsPublic(int $id, bool $isPublic): ?array {

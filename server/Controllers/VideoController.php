@@ -30,6 +30,12 @@ class VideoController {
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
         $contentType = $file->getType();
         $duration = round($fileinfo['playtime_seconds']);
+        
+        $hours = floor($duration / 3600);
+        $minutes = floor(($duration - ($hours * 3600)) / 60);
+        $seconds = round($duration - ($hours * 3600) - ($minutes * 60));
+        $time_string = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
         $address = $_SERVER["DOCUMENT_ROOT"] . "/uploads/$name.$ext";
         
         move_uploaded_file($file->getTmpName(), $address);
@@ -38,7 +44,7 @@ class VideoController {
         $video = new Video();
         $video
             ->setName($name)
-            ->setDuration($duration)
+            ->setDuration($time_string)
             ->setContentType($contentType)
             ->setAddress($address);
         $rowsAffected = $videoRepository->create($video);

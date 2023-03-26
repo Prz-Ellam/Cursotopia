@@ -103,7 +103,7 @@ class UserController {
             return;
         }
 
-        // Validar que nadie en la base de datos tenga ya la foto de perfil
+        // Validar que la sessión actual tiene permisos de usar esa imagen
         $session = $request->getSession();
         if ($session->get("profilePicture_id") !== $profilePicture) {
             $session->unset("profilePicture_id");
@@ -136,7 +136,7 @@ class UserController {
         // [x] El id de la foto de perfil debe almacenarse en la sessión
         // [x] El rol debe existir
         // [x] El rol no puede ponerse admin el mismo
-        // Falta validar que el correo electrónico no se repita
+        // [x] Validar que el correo electrónico no se repita
         
         $userValidator = new Validator($user);
         if (!$userValidator->validate()) {
@@ -162,7 +162,7 @@ class UserController {
                 "message" => "The user was sucessfully created"
             ]);
         }
-        catch (\PDOException $exception) {
+        catch (\Exception $exception) {
             // Algun CONSTRAINT de SQL pudo haberse activado
             die("Todo murio");
         }

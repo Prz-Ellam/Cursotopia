@@ -431,3 +431,7 @@ WHERE
     AND `user_created_at` = IFNULL(NULL, `user_created_at`)
     AND `user_modified_at` = IFNULL(NULL, `user_modified_at`)
     AND `user_active` = IFNULL(NULL, `user_active`);
+
+
+SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time 
+FROM videos;

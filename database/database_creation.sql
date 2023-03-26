@@ -2,7 +2,6 @@
 CREATE DATABASE IF NOT EXISTS `cursotopia`;
 USE `cursotopia`;
 
-SET @MAX_IMAGE_SIZE = 8 * 1024 * 1024; -- 8MB
 -- Almacena imagenes en formato BLOB, las imagenes solo pueden pesar un maximo de 8MB y 
 -- deben tener formato jpg o png
 DROP TABLE IF EXISTS `images`;
@@ -20,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `images`(
     CONSTRAINT `image_name_uniq`
         UNIQUE (`image_name`),
     CONSTRAINT `image_size_chk`
-        CHECK (`image_size` > 0 AND `image_size` <= @MAX_IMAGE_SIZE),
+        CHECK (`image_size` > 0 AND `image_size` <= 8 * 1024 * 1024), -- 8MB
     CONSTRAINT `image_content_type_chk`
         CHECK (`image_content_type` IN ('image/jpeg', 'image/jpg', 'image/png'))
 );
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `videos`(
     CONSTRAINT `video_pk`
         PRIMARY KEY (`video_id`),
     CONSTRAINT `video_name_uniq`
-        UNIQUE (`video_name`)
+        UNIQUE (`video_name`),
     CONSTRAINT `video_content_type_chk`
         CHECK (`video_content_type` IN ('video/mp4', 'video/webm', 'video/ogg'))
 );
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `documents`(
     CONSTRAINT `document_pk`
         PRIMARY KEY (`document_id`),
     CONSTRAINT `document_name_uniq`
-        UNIQUE (`document_name`)
+        UNIQUE (`document_name`),
     CONSTRAINT `document_content_type_chk`
         CHECK (`document_content_type` IN ('application/pdf'))
 );
@@ -74,7 +73,6 @@ CREATE TABLE IF NOT EXISTS `links`(
         UNIQUE (`link_name`)
 );
 
--- roles a secas?
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles`(
     `role_id`                       INT NOT NULL AUTO_INCREMENT,
@@ -114,9 +112,7 @@ CREATE TABLE IF NOT EXISTS `users`(
         FOREIGN KEY (`user_role`) 
         REFERENCES `roles`(`role_id`),
     CONSTRAINT `user_email_uniq`
-        UNIQUE (`user_email`),
-    CONSTRAINT `user_birth_date_chk`
-        CHECK (`user_birth_date` < CURDATE())
+        UNIQUE (`user_email`)
 );
 
 DROP TABLE IF EXISTS `courses`;
@@ -127,9 +123,9 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_price`                  DECIMAL(10, 2) NOT NULL,
     `course_image_id`               INT NOT NULL UNIQUE,
     `instructor_id`                 INT NOT NULL,
-    `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
+    `course_is_approved`            BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
-    `course_approved_at`            TIMESTAMP DEFAULT NULL,
+    `course_approved_at`            TIMESTAMP,
     `course_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
     `course_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `course_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
@@ -156,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
     `level_price`                   DECIMAL(10, 2) NOT NULL,
-    -- level_number
+    `level_number`                  INT NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -176,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_id`                     INT NOT NULL AUTO_INCREMENT,
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
+    `lesson_number`                 INT NOT NULL,
     `level_id`                      INT NOT NULL,
     `video_id`                      INT DEFAULT NULL,
     `image_id`                      INT DEFAULT NULL,
@@ -224,10 +221,9 @@ CREATE TABLE IF NOT EXISTS `categories`(
         FOREIGN KEY (`category_created_by`) 
         REFERENCES `users`(`user_id`),
     CONSTRAINT `category_name_uniq`
-        UNIQUE (`category_name`),
+        UNIQUE (`category_name`)
 );
 
--- Aprobada
 DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE IF NOT EXISTS `reviews`(
     `review_id`                     INT NOT NULL AUTO_INCREMENT,
@@ -246,7 +242,9 @@ CREATE TABLE IF NOT EXISTS `reviews`(
         REFERENCES `courses`(`course_id`),
     CONSTRAINT `review_user_fk`
         FOREIGN KEY (`user_id`) 
-        REFERENCES `users`(`user_id`)
+        REFERENCES `users`(`user_id`),
+    CONSTRAINT `review_rate_chk`
+        CHECK (`review_rate` BETWEEN 1 AND 10)
 );
 
 DROP TABLE IF EXISTS `payment_methods`;
@@ -290,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
         FOREIGN KEY (`payment_method_id`) 
         REFERENCES `payment_methods`(`payment_method_id`),
     CONSTRAINT `course_student_uniq`
-        UNIQUE KEY (`course_id`, `student_id`)
+        UNIQUE KEY (`course_id`, `student_id`),
     CONSTRAINT `enrollment_amount_chk`
         CHECK (`enrollment_amount` >= 0)
 );
@@ -336,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `user_lesson`(
         FOREIGN KEY (`lesson_id`) 
         REFERENCES `lessons`(`lesson_id`),
     CONSTRAINT `user_lesson_unique`
-        UNIQUE KEY (`user_id`, `lesson_id`),
+        UNIQUE KEY (`user_id`, `lesson_id`)
 );
 
 DROP TABLE IF EXISTS `course_category`;
@@ -423,12 +421,3 @@ CREATE TABLE IF NOT EXISTS `message_views`(
         FOREIGN KEY (`user_id`) 
         REFERENCES `users`(`user_id`)
 );
-
-
-
-
-
-
-
-
-

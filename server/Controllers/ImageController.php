@@ -4,6 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Bloom\Validations\Validator;
 use Cursotopia\Models\ImageModel;
 use DateTime;
 
@@ -38,6 +39,15 @@ class ImageController {
             ->setSize($size)
             ->setContentType($contentType)
             ->setData($data);
+
+        $imageValidator = new Validator($image);
+        if (!$imageValidator->validate()) {
+            $response->json([
+                "status" => false,
+                "message" => $imageValidator->getFeedback()
+            ]);
+            return;
+        }
 
         $result = $image->save();
 
@@ -88,6 +98,15 @@ class ImageController {
             ->setSize($size)
             ->setContentType($contentType)
             ->setData($data);
+
+        $imageValidator = new Validator($image);
+        if (!$imageValidator->validate()) {
+            $response->json([
+                "status" => false,
+                "message" => $imageValidator->getFeedback()
+            ]);
+            return;
+        }
 
         $image->update();
 

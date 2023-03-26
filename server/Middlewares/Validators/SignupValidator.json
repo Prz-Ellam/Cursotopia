@@ -36,9 +36,11 @@
             }
         },
         "gender": {
-            "type": "number",
+            "type": "string",
+            "enum": [ "Masculino", "Femenino", "Otro" ],
             "$error": {
-                "type": "El género debe ser un número"
+                "type": "El género debe ser una cadena de caracteres",
+                "enum": "El género que ingreso no es válido, debe ser Masculino, Femenino u Otro"
             }
         },
         "email": {
