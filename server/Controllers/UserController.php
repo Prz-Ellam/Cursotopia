@@ -23,17 +23,7 @@ class UserController {
     public function getOne(Request $request, Response $response): void {
         // Cualquier usuario puede ver la información de cualquiera, excepto contraseña
         // obviamente
-        $id = $request->getParams("id");
-        // Validar que el valor del id sea un número entero sin signo
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
+        $id = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
         $user = UserModel::findOneById($id);
@@ -42,7 +32,7 @@ class UserController {
                 ->setStatus(404)
                 ->json([
                     "status" => false,
-                    "message" => "User not found"
+                    "message" => "El usuario no fue encontrado"
                 ]);
             return;
         }
@@ -96,10 +86,10 @@ class UserController {
         // Verificar que la imagen no este tomada
         if (ImageModel::findOneByIdAndNotUserId($profilePicture)) {
             $response
-                ->setStatus(400)
+                ->setStatus(409)
                 ->json([
                     "status" => false,
-                    "message" => "The profile picture is taken"
+                    "message" => "La foto de perfil está siendo utilizada"
                 ]);
             return;
         }
@@ -157,15 +147,21 @@ class UserController {
             $session->set("role", $user->getUserRole());
             $session->set("profilePicture", $user->getProfilePicture());
 
-            $response->json([
-                "status" => $status,
-                "id" => $user->getId(),
-                "message" => "The user was sucessfully created"
-            ]);
+            $response
+                ->setStatus(201)
+                ->json([
+                    "status" => $status,
+                    "id" => $user->getId(),
+                    "message" => "El usuario se creó éxitosamente"
+                ]);
         }
-        catch (\Exception $exception) {
-            // Algun CONSTRAINT de SQL pudo haberse activado
-            die("Todo murio");
+        catch (Exception $exception) {
+            $response
+                ->setStatus(500)
+                ->json([
+                    "status" => false,
+                    "message" => "Ocurrio un error al crear el usuario"
+                ]);
         }
     }
 
@@ -371,5 +367,4 @@ class UserController {
 
         $response->json($users);
     }
-
 }

@@ -248,7 +248,7 @@ export const uploadProfilePicture = async function(event) {
         if (!profilePictureId.value) {
             const response = await createImage(formData);
             const imageId = response.id;
-            //profilePictureId.value = imageId;
+            profilePictureId.value = imageId;
         }
         else {
             const response = await updateImageService(formData, profilePictureId.value);
@@ -257,10 +257,7 @@ export const uploadProfilePicture = async function(event) {
         pictureBox.src = dataUrl;
         $('.profile-picture').attr('src', dataUrl);
         previousFile = file;
-        ToastBottom.fire({
-            icon: 'success',
-            title: 'Se ha actualizado la imagen'
-        });
+        
     }
     catch (exception) {
         console.log(exception);

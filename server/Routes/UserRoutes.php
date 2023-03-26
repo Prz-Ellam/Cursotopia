@@ -75,10 +75,15 @@ $app->get('/api/v1/logout', [ AuthController::class, 'logout' ]);
 
 // Users
 $app->get("/api/v1/users", [ UserController::class, 'getAll' ]);
-$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ]);
+$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ],
+[
+    [ ValidateIdMiddleware::class ]
+]);
 
 $app->post('/api/v1/users', [ UserController::class, 'create' ], 
-    [ [ JsonSchemaMiddleware::class, 'SignupValidator' ] ]);
+[ 
+    [ JsonSchemaMiddleware::class, 'SignupValidator' ] 
+]);
 
 $app->patch('/api/v1/users/:id', [ UserController::class, 'update' ],
 [ 

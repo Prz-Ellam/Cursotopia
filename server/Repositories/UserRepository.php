@@ -5,6 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Entities\User;
+use PDO;
 
 class UserRepository extends DB implements UserRepositoryInterface {
     private const FIND_ONE_ = <<<'SQL'
@@ -48,8 +49,13 @@ class UserRepository extends DB implements UserRepositoryInterface {
             user_birth_date AS `birthDate`, 
             user_gender AS `gender`, 
             user_email AS `email`, 
+            user_password AS `password`,
             user_role AS `userRole`, 
-            profile_picture AS `profilePicture`
+            profile_picture AS `profilePicture`,
+            `user_enabled` AS `enabled`,
+            `user_created_at` AS `createdAt`,
+            `user_modified_at` AS `modifiedAt`,
+            `user_active` AS `active`
         FROM 
             users 
         WHERE
@@ -70,9 +76,13 @@ class UserRepository extends DB implements UserRepositoryInterface {
             user_birth_date AS `birthDate`, 
             user_gender AS `gender`, 
             user_email AS `email`, 
-            user_role AS `userRole`, 
             user_password AS `password`,
-            profile_picture AS `profilePicture`
+            user_role AS `userRole`, 
+            profile_picture AS `profilePicture`,
+            `user_enabled` AS `enabled`,
+            `user_created_at` AS `createdAt`,
+            `user_modified_at` AS `modifiedAt`,
+            `user_active` AS `active`
         FROM 
             users 
         WHERE
@@ -166,12 +176,27 @@ class UserRepository extends DB implements UserRepositoryInterface {
             "password" => $user->getPassword(),
             "user_role" => null,
             "profile_picture" => null,
-            "enabled" => null,
+            "enabled" => $user->getEnabled(),
             "created_at" => null, 
             "modified_at" => null, 
             "active" => null
         ];
-        return $this::executeNonQuery($this::UPDATE, $parameters);
+        $types = [
+            "id" => PDO::PARAM_INT,
+            "name" => PDO::PARAM_STR,
+            "last_name" => PDO::PARAM_STR,
+            "birth_date" => PDO::PARAM_STR,
+            "gender" => PDO::PARAM_STR,
+            "email" => PDO::PARAM_STR,
+            "password" => PDO::PARAM_STR,
+            "user_role" => PDO::PARAM_NULL,
+            "profile_picture" => PDO::PARAM_NULL,
+            "enabled" => PDO::PARAM_BOOL,
+            "created_at" => PDO::PARAM_NULL, 
+            "modified_at" => PDO::PARAM_NULL, 
+            "active" => PDO::PARAM_NULL
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters, $types);
     }
 
     public function delete() {

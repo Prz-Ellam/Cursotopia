@@ -67,7 +67,7 @@ class UserModel {
         $this->userRole = $object["userRole"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
 
-        $this->enabled = true;
+        $this->enabled = $object["enabled"] ?? null;;
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -180,9 +180,10 @@ class UserModel {
                     ->setBirthDate($this->birthDate)
                     ->setGender($this->gender)
                     ->setEmail($this->email)
-                    ->setPassword((!is_null($this->password)) ? Crypto::bcrypt($this->password) : $this->password)
+                    ->setPassword($this->password)
                     ->setUserRole($this->userRole)
-                    ->setProfilePicture($this->profilePicture);
+                    ->setProfilePicture($this->profilePicture)
+                    ->setEnabled($this->enabled);
                 $rowsAffected = $this->userRepository->update($user);
                 break;
             }

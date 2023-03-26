@@ -14,7 +14,8 @@ class AuthController {
             "password" => $password
         ] = $request->getBody();
         
-        $user = UserModel::findOneByEmail($email); 
+        $user = UserModel::findOneByEmail($email);
+        $user = new UserModel($user);
         if (!$user) {
             $response
                 ->setStatus(401)
@@ -25,23 +26,8 @@ class AuthController {
             return;
         }
 
-        if (!Crypto::verify($user["password"], $password)) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Credenciales incorrectas"
-                ]);
-            return;
-        }
-
-        $user = new UserModel();
-        $user->setEmail($email);
-        $result = $user->login();
-
         $session = $request->getSession();
-        if (!Crypto::verify($result["password"], $password)) {
-            
+        if (!Crypto::verify($user->getPassword(), $password)) {
             if ($session->get("loginIntentsEmail") !== $email) {
                 $session->set("loginIntentsEmail", $email);
                 $session->set("loginIntentsCount", 1);
@@ -52,15 +38,17 @@ class AuthController {
 
                 if ($session->get("loginIntentsCount") >= 3) {
                     // Deshabilitar cuenta
-                    //$user->setEnabled(false);
-                    //$user->save();
+                    $user->setEnabled(false);
+                    $user->save();
                 }
             }
-
-            $response->json([
-                "status" => false,
-                "message" => "Cannot login"
-            ]);
+            
+            $response
+                ->setStatus(401)
+                ->json([
+                    "status" => false,
+                    "message" => "Credenciales incorrectas"
+                ]);
             return;
         }
 
@@ -70,14 +58,14 @@ class AuthController {
         if (!$user->getEnabled()) {
             $response->json([
                 "status" => false,
-                "message" => "User is blocked, contact an admin to restore the account"
+                "message" => "Tu cuenta esta bloqueada"
             ]);
             return;
         }
 
-        $session->set("id", $result["id"]);
-        $session->set("role", $result["userRole"]);
-        $session->set("profilePicture", $result["profilePicture"]);
+        $session->set("id", $user->getId());
+        $session->set("role", $user->getUserRole());
+        $session->set("profilePicture", $user->getProfilePicture());
 
         // Eliminar la información de intentos de login
         // TODO: unset una variable que no existe

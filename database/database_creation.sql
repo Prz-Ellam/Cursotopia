@@ -272,7 +272,6 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_amount`             DECIMAL(10, 2) NOT NULL,
     `payment_method_id`             INT NOT NULL,
     `enrollment_last_time_checked`  DATETIME,
-    -- enrollment_last_access_date DATETIME
     `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_active`             BOOLEAN NOT NULL DEFAULT TRUE,
@@ -354,8 +353,6 @@ CREATE TABLE IF NOT EXISTS `course_category`(
         FOREIGN KEY (`category_id`) 
         REFERENCES `categories`(`category_id`)
 );
-
-
 
 DROP TABLE IF EXISTS `chats`;
 CREATE TABLE IF NOT EXISTS `chats`(

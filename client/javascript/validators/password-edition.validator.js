@@ -1,8 +1,7 @@
 import $ from 'jquery';
 
-$.validator.addMethod('notEqual', function(value, element, parameter) {
-    const htmlElement = document.getElementById(parameter);
-    console.log(htmlElement);
+$.validator.addMethod('notEqualTo', function(value, element, parameter) {
+    const htmlElement = document.querySelector(parameter);
     return this.optional(element) || htmlElement.value !== value;
 }, 'Please enter a valid');
 
@@ -11,22 +10,22 @@ $.validator.addMethod('trimming', function(value, element) {
 }, 'Please enter a valid');
 
 $.validator.addMethod('containsNumber',function(value,element){
-    let pattern=/[0-9]/;
+    const pattern=/[0-9]/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a number');
 
 $.validator.addMethod('containsMayus',function(value,element){
-    let pattern=/[A-Z]/;
+    const pattern=/[A-Z]/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a mayus');
 
 $.validator.addMethod('containsMinus',function(value,element){
-    let pattern=/[a-z]/;
+    const pattern=/[a-z]/;
     return this.optional(element) || pattern.test(value);
 });
 
 $.validator.addMethod('containsSpecialCharacter',function(value,element){
-    let pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@\\])/;
+    const pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@\\])/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a special character');
 
@@ -95,7 +94,7 @@ export default {
             containsNumber: true,
             minlength:8,
             maxlength: 255,
-            //notEqual: '#old-password'
+            notEqualTo: '#old-password'
         },
         'confirmNewPassword': {
             required: true,
@@ -118,7 +117,7 @@ export default {
             containsNumber: 'La contraseña no tiene el formato requerido',
             minlength: 'La contraseña no tiene el formato requerido',
             maxlength: 'La nueva contraseña es demasiado larga',
-            //notEqual: 'La nueva contraseña no puede ser igual a la antigua contraseña'
+            notEqualTo: 'La nueva contraseña no puede ser igual a la antigua contraseña'
         },
         'confirmNewPassword': {
             required: 'La confirmación de la nueva contraseña es requerida',

@@ -42,46 +42,41 @@ class ImageController {
 
         $imageValidator = new Validator($image);
         if (!$imageValidator->validate()) {
-            $response->json([
-                "status" => false,
-                "message" => $imageValidator->getFeedback()
-            ]);
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => $imageValidator->getFeedback()
+                ]);
             return;
         }
 
         $result = $image->save();
 
         // Store the image id in the session
-        $request = $request->getSession();
-        $request->set("profilePicture_id", $image->getId());
+        $session = $request->getSession();
+        $session->set("profilePicture_id", $image->getId());
 
-        $response->json([
-            "status" => $result,
-            "id" => $image->getId(),
-            "message" => "Image was successfully created"
-        ]);
+        $response
+            ->setStatus(201)
+            ->json([
+                "status" => $result,
+                "id" => $image->getId(),
+                "message" => "La imagen se creó éxitosamente"
+            ]);
     }
 
     public function update(Request $request, Response $response): void {
         // Para actualizar la imagen debe ser tuya
-        
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        $id = intval($request->getParams("id"));
+        $file = $request->getFiles("image");
+        if (!$file) {
             $response
                 ->setStatus(400)
                 ->json([
                     "status" => false,
-                    "message" => "ID is not valid"
+                    "message" => "Faltan parametros"
                 ]);
-            return;
-        }
-
-        $file = $request->getFiles("image");
-        if (!$file) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "Faltan parametros"
-            ]);
             return;
         }
 
@@ -108,14 +103,6 @@ class ImageController {
             return;
         }
 
-        if (!verify_image_integrity($data)) {
-            $response->json([
-                "status" => false,
-                "message" => "no"
-            ]);
-            return;
-        }
-
         $image->update();
 
         $response
@@ -123,30 +110,19 @@ class ImageController {
                 "status" => true,
                 "message" => "La imagen se actualizó éxitosamente"
             ]);
-
     }
 
     public function getOne(Request $request, Response $response): void {
         // No deberia ver las imagenes de las lecciones porque solo los que compraron
         // el curso pueden verlas
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
-
+        $id = intval($request->getParams("id"));
         $image = ImageModel::findOneById($id);
         if (!$image) {
             $response
                 ->setStatus(404)
                 ->json([
                     "status" => false,
-                    "message" => "Image not found"
+                    "message" => "No se encontró la imagen"
                 ]);
             return;
         }
@@ -159,12 +135,4 @@ class ImageController {
         $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
         $response->setBody($image->getData());
     }
-}
-
-function verify_image_integrity($image_data) {
-    // Leer los primeros 512 bytes de la imagen
-    $header_data = substr($image_data, 0, 512);
-    
-    // Verificar si la imagen contiene la marca de formato correcta
-    return strpos($header_data, "\xFF\xD8") === 0 || strpos($header_data, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A") === 0;
 }

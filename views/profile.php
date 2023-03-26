@@ -26,7 +26,9 @@
 <body>
 	<?= $this->render('partials/navbar') ?>
   <?php if($this->user["userRole"] === 1 && $this->isMe): ?>
+    <div>
     <?= $this->render("admin-home") ?>
+    </div>
 	<?php elseif($this->user["userRole"] === 2 && $this->isMe): ?>
 		<?= $this->render('instructor-profile') ?>
 	<?php elseif($this->user["userRole"] === 3 && $this->isMe): ?>
