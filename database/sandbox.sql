@@ -437,4 +437,3 @@ SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time
 FROM videos;
 
 
-
