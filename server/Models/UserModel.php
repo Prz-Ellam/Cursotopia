@@ -170,6 +170,9 @@ class UserModel {
                         ->setProfilePicture($this->profilePicture);
 
                     $rowsAffected = $this->userRepository->create($user);
+                    if ($rowsAffected) {
+                        $this->id = intval($this->userRepository->lastInsertId2());
+                    }
                     break;
                 }
             case EntityState::UPDATE: {
@@ -187,9 +190,6 @@ class UserModel {
                 $rowsAffected = $this->userRepository->update($user);
                 break;
             }
-        }
-        if ($rowsAffected) {
-            $this->id = intval($this->userRepository->lastInsertId2());
         }
         return ($rowsAffected > 0) ? true : false;
     }

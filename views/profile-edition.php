@@ -37,7 +37,7 @@
               alt="Profile picture"
             >
           </div>
-          <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"
+          <input type="file" accept="image/png, image/jpeg, image/jpg"
             class="form-control shadow-none rounded-1 position-absolute" name="profile-picture" id="profile-picture">
           <label for="profile-picture" role="button">Cambiar foto de perfil</label>
         </div>

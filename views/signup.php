@@ -48,7 +48,7 @@
           </div>
           <input 
             type="file" 
-            accept="image/png, image/gif, image/jpeg, image/jpg"
+            accept="image/png, image/jpeg, image/jpg"
             class="form-control position-absolute" 
             name="profile-picture" 
             id="profile-picture"
