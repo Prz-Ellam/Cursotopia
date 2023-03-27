@@ -17,5 +17,3 @@ BEGIN
         `level_id` = new.`level_id`;
 END $$
 DELIMITER ;
-
--- Este query puede sacar el progreso de un curso y un usuario

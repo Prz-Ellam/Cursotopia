@@ -75,7 +75,7 @@
         </div>
 
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-pill">Actualizar contraseña</button>
+          <button type="submit" id="btn-submit" class="btn btn-primary rounded-pill">Actualizar contraseña</button>
         </div>
 
         <!--

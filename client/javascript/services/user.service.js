@@ -32,9 +32,8 @@ export const updateUserService = async (user, id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
 }
 
 export const updateUserPasswordService = async (user, id) => {
@@ -51,14 +50,8 @@ export const updateUserPasswordService = async (user, id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
-}
-
-
-export const updateUserPassword = async (user) => {
-    return { ok: true };
 }
 
 export const loginUser = async (auth) => {
@@ -100,7 +93,7 @@ export const getAllUsersService = async (name) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
     return null;    
 };

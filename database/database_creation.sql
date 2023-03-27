@@ -1,9 +1,6 @@
---DROP DATABASE cursotopia;
 CREATE DATABASE IF NOT EXISTS `cursotopia`;
 USE `cursotopia`;
 
--- Almacena imagenes en formato BLOB, las imagenes solo pueden pesar un maximo de 8MB y 
--- deben tener formato jpg o png
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE IF NOT EXISTS `images`(
     `image_id`                      INT NOT NULL AUTO_INCREMENT,
@@ -123,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_price`                  DECIMAL(10, 2) NOT NULL,
     `course_image_id`               INT NOT NULL UNIQUE,
     `instructor_id`                 INT NOT NULL,
-    `course_is_approved`            BOOLEAN NOT NULL DEFAULT FALSE,
+    `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
     `course_approved_at`            TIMESTAMP,
     `course_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -155,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_number`                  INT NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
-    `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
+    `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `level_active`                  BOOLEAN NOT NULL DEFAULT TRUE,
     INDEX `level_course_idx` (`course_id`),
     CONSTRAINT `level_pk`
@@ -179,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `document_id`                   INT DEFAULT NULL,
     `link_id`                       INT DEFAULT NULL,
     `lesson_created_at`             TIMESTAMP NOT NULL DEFAULT NOW(),
-    `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
+    `lesson_modified_at`            TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `lesson_active`                 BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `lesson_pk`
         PRIMARY KEY (`lesson_id`),
@@ -200,7 +197,6 @@ CREATE TABLE IF NOT EXISTS `lessons`(
         REFERENCES `links`(`link_id`)
 );
 
--- Aprobada
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories`(
     `category_id`                   INT NOT NULL AUTO_INCREMENT,
@@ -252,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods`(
     `payment_method_id`             INT NOT NULL AUTO_INCREMENT,
     `payment_method_name`           VARCHAR(50) NOT NULL,
     `payment_method_created_at`     TIMESTAMP NOT NULL DEFAULT NOW(),
-    `payment_method_mofified_at`    TIMESTAMP NOT NULL DEFAULT NOW(),
+    `payment_method_mofified_at`    TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `payment_method_active`         BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `payment_method_pk`
         PRIMARY KEY (`payment_method_id`),
@@ -273,7 +269,7 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `payment_method_id`             INT NOT NULL,
     `enrollment_last_time_checked`  DATETIME,
     `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
-    `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
+    `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `enrollment_active`             BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `enrollment_pk`
         PRIMARY KEY (`enrollment_id`),
@@ -301,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `user_level`(
     `user_level_complete_at`        TIMESTAMP,
     `user_level_last_access_date`   DATETIME,
     `user_level_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
-    `user_level_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
+    `user_level_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     CONSTRAINT `user_level_pk`
         PRIMARY KEY (`user_level_id`),
     CONSTRAINT `user_level_user_fk`

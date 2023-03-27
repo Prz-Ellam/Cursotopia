@@ -21,7 +21,7 @@ $app->get('/course-creation', function($request, $response) {
 
 $app->get('/course-details', function($request, $response) {
     $id = $request->getQuery("id");
-    if (!$id || !((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+    if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
         $response
             ->setStatus(404)
             ->render('404');
@@ -29,27 +29,26 @@ $app->get('/course-details', function($request, $response) {
     }
 
     // verificar si compre o no el curso
-
+    
     $courseRepository = new CourseRepository();
     $course = $courseRepository->courseDetailsfindOneById($id);
-
+    
     $categoryRepository = new CategoryRepository();
     $categories = $categoryRepository->findAllByCourse($id);
-
+    
     $levelRepository = new LevelRepository();
     $levels = $levelRepository->findAllByCourse($id);
     foreach ($levels as &$level) {
         $level["lessons"] = json_decode($level["lessons"], true);
     }
-
     $session = $request->getSession();
     $userId = $session->get("id");
-
+    
     $lessonRepository = new LessonRepository();
-    $lesson = $lessonRepository->findFirstNotViewed($id, $userId);
+    $lesson = $lessonRepository->findFirstNotViewed($id, $userId ?? -1);
 
     $enrollmentRepository = new EnrollmentRepository();
-    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId);
+    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
 
     $reviewRepository = new ReviewRepository();
     $reviews = $reviewRepository->findAllByCourse($id);
@@ -105,3 +104,6 @@ $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 $app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ [ ApiInstructorMiddleware::class ] ]);
 $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
 $app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ [ ApiInstructorMiddleware::class ] ]);
+
+$app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
+$app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));

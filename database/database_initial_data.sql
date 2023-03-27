@@ -8,8 +8,10 @@ VALUES
 
 
 -- Administrador
-INSERT INTO `users` VALUES (DEFAULT,'admin','admin','2001-10-26','Masculino','root@root.com','$2y$10$lK4o1rqArg7UfdkkYmx7f.8S0bZ/VPq5J7lAjIFOB/4/wGXcgBWsW',2,1,1,'2023-03-12 18:03:46','2023-03-12 18:03:46',1);
+INSERT INTO `users` VALUES (DEFAULT,'admin','admin','2001-10-26','Masculino','root@root.com','$2y$10$lK4o1rqArg7UfdkkYmx7f.8S0bZ/VPq5J7lAjIFOB/4/wGXcgBWsW',1,1,1,'2023-03-12 18:03:46','2023-03-12 18:03:46',1);
 
 
-INSERT INTO `payment_methods`(payment_method_name)
-VALUES('Tarjeta de crédito/débito'),('PayPal');
+INSERT INTO `payment_methods`(`payment_method_name`)
+VALUES
+    ('Tarjeta de crédito/débito'),
+    ('PayPal');

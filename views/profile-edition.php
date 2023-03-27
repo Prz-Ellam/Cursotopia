@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-primary rounded-pill">Actualizar perfil</button>
+            <button type="submit" class="btn btn-primary rounded-pill" id="submit-btn">Actualizar perfil</button>
           </div>
         </form>
       </div>

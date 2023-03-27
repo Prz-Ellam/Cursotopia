@@ -15,7 +15,6 @@ class AuthController {
         ] = $request->getBody();
         
         $user = UserModel::findOneByEmail($email);
-        $user = new UserModel($user);
         if (!$user) {
             $response
                 ->setStatus(401)
@@ -25,6 +24,7 @@ class AuthController {
                 ]);
             return;
         }
+        $user = new UserModel($user);
 
         $session = $request->getSession();
         if (!Crypto::verify($user->getPassword(), $password)) {

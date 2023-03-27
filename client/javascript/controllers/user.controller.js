@@ -28,7 +28,7 @@ export const login = async function(event) {
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
 
-    if (response.status) {
+    if (response?.status) {
         await Swal.fire({
             icon: 'success',
             title: '¡Bienvenido de vuelta a Cursotopia! 😊',
@@ -46,7 +46,7 @@ export const login = async function(event) {
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: response.message,
+            text: response.message ?? 'Parece que algo salió mal',
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
@@ -97,7 +97,7 @@ export const signup = async function(event) {
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Parece que algo salió mal',
+            text: response.message ?? 'Parece que algo salió mal',
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
@@ -285,7 +285,9 @@ export const updateUser = async function(event) {
         email:      formData.get('email')
     };
 
+    //document.getElementById('submit-btn').disabled = false;
     const response = await updateUserService(user, formData.get('id'));
+    //document.getElementById('submit-btn').disabled = true;
     if (response?.status) {
         
         await Swal.fire({
@@ -306,14 +308,13 @@ export const updateUser = async function(event) {
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Parece que algo salió mal',
+            text: response.message ?? 'Parece que algo salió mal',
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
-        event.preventDefault();
     }
 }
 
@@ -332,8 +333,10 @@ export const updatePassword = async function(event) {
         confirmNewPassword: formData.get('confirmNewPassword')
     };
 
+    //document.getElementById('btn-submit').disabled = false;
     const response = await updateUserPasswordService(user, formData.get('id'));
-    if (response.status) {
+    //document.getElementById('btn-submit').disabled = true;
+    if (response?.status) {
         await Swal.fire({
             icon: 'success',
             title: 'Tú contraseña se actualizó exitosamente',
@@ -344,15 +347,13 @@ export const updatePassword = async function(event) {
                 confirmButton: 'btn btn-primary shadow-none rounded-pill'
             },
         });
-
-        // TODO: uri estatica
-        window.location.href = "home";
+        window.location.href = "/home";
     }
     else {
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Parece que algo salió mal',
+            text: response.message ?? 'Parece que algo salió mal',
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {

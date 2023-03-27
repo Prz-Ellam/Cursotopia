@@ -57,7 +57,8 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_one_image`(
+DROP PROCEDURE IF EXISTS `find_one_image`;
+CREATE PROCEDURE IF NOT EXISTS `find_one_image`(
     IN `_image_id`                      INT,
     IN `_image_name`                    VARCHAR(255),
     IN `_image_size`                    INT,

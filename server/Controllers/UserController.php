@@ -2,6 +2,7 @@
 
 namespace Cursotopia\Controllers;
 
+use Bloom\Database\DB;
 use Bloom\Hashing\Crypto;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
@@ -10,6 +11,8 @@ use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\RoleModel;
 use Cursotopia\Repositories\UserRepository;
+use DateTime;
+use Error;
 use Exception;
 
 class UserController {
@@ -71,6 +74,19 @@ class UserController {
             return;
         }
 
+        $today = new DateTime();
+        $diff = $today->diff(new DateTime($birthDate));
+        $age = $diff->y;
+        if ($age < 18) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "Debes ser mayor de 18 años para usar nuestro servicio"
+                ]);
+            return;
+        }
+
         // Validar que el rol de usuario exista y sea publico (osea que no se pueda
         // poner a el mismo como administrador)
         if (!RoleModel::findOneByIdAndIsPublic($userRole, true)) {
@@ -78,7 +94,7 @@ class UserController {
                 ->setStatus(400)
                 ->json([
                     "status" => false,
-                    "message" => "Invalid user role"
+                    "message" => "El rol de usuario no es valido"
                 ]);
             return;
         }
@@ -122,13 +138,7 @@ class UserController {
             "password" => $hashedPassword,
         ]);
         
-        
-        // [x] La foto de perfil debe existir y no debe tenerla alguien más en la BD
-        // [x] El id de la foto de perfil debe almacenarse en la sessión
-        // [x] El rol debe existir
-        // [x] El rol no puede ponerse admin el mismo
-        // [x] Validar que el correo electrónico no se repita
-        
+ 
         $userValidator = new Validator($user);
         if (!$userValidator->validate()) {
             $response->json([
@@ -173,64 +183,79 @@ class UserController {
      * @return void
      */
     public function update(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
-
-        $session = $request->getSession();
-        $sessionUserId = $session->get("id");
-
-        // Solo se puede actualizar tu propio usuario
-        if ($id !== $sessionUserId) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "No autorizado para actualizar el usuario"
-                ]);
-            return;
-        }
-
-        [
-            "name" => $name,
-            "lastName" => $lastName,
-            "email" => $email,
-            "birthDate" => $birthDate,
-            "gender" => $gender
-        ] = $request->getBody();
-
-        $user = UserModel::findOne([
-            [ "id", "<>", $id ],
-            [ "email", $email ]
-        ]);
-        if (!$user) {
-            $response
-                ->setStatus(409)
-                ->json([
-                    "status" => false,
-                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
-                ]);
-            return;
-        }
-
-        $user = UserModel::findOneById($id);
-        if (!$user) {
-            $response
-                ->setStatus(404)
-                ->json([
-                    "status" => false,
-                    "message" => "El usuario no fue encontrado"
-                ]);
-            return;
-        }
-
-        $user
-            ->setName($name)
-            ->setLastName($lastName)
-            ->setBirthDate($birthDate)
-            ->setGender($gender)
-            ->setEmail($email);
-        
         try {
+            $id = intval($request->getParams("id"));
+
+            $session = $request->getSession();
+            $sessionUserId = $session->get("id");
+
+            // Solo se puede actualizar tu propio usuario
+            if ($id !== $sessionUserId) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado para actualizar el usuario"
+                    ]);
+                return;
+            }
+
+            [
+                "name" => $name,
+                "lastName" => $lastName,
+                "email" => $email,
+                "birthDate" => $birthDate,
+                "gender" => $gender
+            ] = $request->getBody();
+
+            $user = UserModel::findOne([
+                [ "id", "<>", $id ],
+                [ "email", $email ]
+            ]);
+            if ($user) {
+                $response
+                    ->setStatus(409)
+                    ->json([
+                        "status" => false,
+                        "message" => "El correo electrónico esta siendo utilizado por alguien más"
+                    ]);
+                return;
+            }
+
+            $today = new DateTime();
+            $diff = $today->diff(new DateTime($birthDate));
+            $age = $diff->y;
+            if ($age < 18) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "Debes ser mayor de 18 años para usar nuestro servicio"
+                    ]);
+                return;
+            }
+
+            $user = UserModel::findOneById($id);
+            if (!$user) {
+                $response
+                    ->setStatus(404)
+                    ->json([
+                        "status" => false,
+                        "message" => "El usuario no fue encontrado"
+                    ]);
+                return;
+            }
+
+            $user
+                ->setName($name)
+                ->setLastName($lastName)
+                ->setBirthDate($birthDate)
+                ->setGender($gender)
+                ->setEmail($email);
+            
+            DB::beginTransaction();
             $status = $user->save();
+            DB::commit();
             if (!$status) {
                 $response
                     ->setStatus(400)
@@ -240,8 +265,15 @@ class UserController {
                     ]);
                 return;
             }
+
+            $response->json([
+                "status" => true,
+                "message" => "El usuario se actualizó éxitosamente"
+            ]);
         }
         catch (Exception $ex) {
+            if (DB::inTransaction())
+                DB::rollBack();
             $response
                 ->setStatus(500)
                 ->json([
@@ -249,11 +281,6 @@ class UserController {
                     "message" => "Ocurrio un error al actualizar el usuario"
                 ]);
         }
-
-        $response->json([
-            "status" => true,
-            "message" => "El usuario se actualizó éxitosamente"
-        ]);
     }
 
     /**
@@ -264,50 +291,52 @@ class UserController {
      * @return void
      */
     public function updatePassword(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
-        
-        // Solo se puede actualizar la contraseña de tu usuario autenticado
-        $session = $request->getSession();
-        if ($id !== $session->get("id")) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "No autorizado"
-                ]);
-            return;
-        }
-
-        $user = UserModel::findOneById($id);
-        if (!$user) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "No autorizado"
-                ]);
-            return;
-        }
-
-        // Tiene que autenticarse nuevamente para actualizar la contraseña
-        $login = $user->login();
-
-        $oldPassword = $request->getBody("oldPassword");
-        $newPassword = $request->getBody("newPassword");
-        if (!Crypto::verify($login["password"], $oldPassword)) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "No autorizado"
-                ]);
-            return;
-        }
-
-        $user
-            ->setPassword($newPassword);
-
         try {
+            $id = intval($request->getParams("id"));
+            
+            // Solo se puede actualizar la contraseña de tu usuario autenticado
+            $session = $request->getSession();
+            if ($id !== $session->get("id")) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado"
+                    ]);
+                return;
+            }
+
+            $user = UserModel::findOneById($id);
+            if (!$user) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado"
+                    ]);
+                return;
+            }
+
+            // Tiene que autenticarse nuevamente para actualizar la contraseña
+            $login = $user->login();
+
+            $oldPassword = $request->getBody("oldPassword");
+            $newPassword = $request->getBody("newPassword");
+            if (!Crypto::verify($login["password"], $oldPassword)) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "Sus credenciales no son correctas"
+                    ]);
+                return;
+            }
+
+            $hashedPassword = Crypto::bcrypt($newPassword);
+            $user
+                ->setPassword($hashedPassword);
+
+        
             $status = $user->save();
             if (!$status) {
                 $response
@@ -318,6 +347,11 @@ class UserController {
                     ]);
                 return;
             }
+
+            $response->json([
+                "status" => true,
+                "message" => "La contraseña se actualizó éxitosamente"
+            ]);
         }
         catch (Exception $exception) {
             $response
@@ -327,11 +361,6 @@ class UserController {
                     "message" => "Ocurrio un error al actualizar la contraseña"
                 ]);
         }
-
-        $response->json([
-            "status" => true,
-            "message" => "La contraseña se actualizó éxitosamente"
-        ]);
     }
 
     public function remove(Request $request, Response $response) {
