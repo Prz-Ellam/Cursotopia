@@ -12,7 +12,6 @@ use Cursotopia\Models\UserModel;
 use Cursotopia\Models\RoleModel;
 use Cursotopia\Repositories\UserRepository;
 use DateTime;
-use Error;
 use Exception;
 
 class UserController {
