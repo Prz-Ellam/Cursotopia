@@ -197,7 +197,6 @@ export const uploadProfilePicture = async function(event) {
     const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
 
-    console.log(previousFile);
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
@@ -247,11 +246,19 @@ export const uploadProfilePicture = async function(event) {
 
         if (!profilePictureId.value) {
             const response = await createImage(formData);
+            if (!response?.status) {
+                ToastBottom.fire({
+                    icon: 'error',
+                    title: 'No se pudo cargar la imagen'
+                });
+                return;
+            }
             const imageId = response.id;
             profilePictureId.value = imageId;
         }
         else {
             const response = await updateImageService(formData, profilePictureId.value);
+            
         }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;

@@ -69,13 +69,6 @@ class ImageRepository extends DB {
     SQL;
 
     public function create(Image $image): int {
-        $params = [
-            "name" => [ $image->getName(), PDO::PARAM_STR ],
-            "size" => [ $image->getSize(), PDO::PARAM_INT ],
-            "content_type" => [ $image->getContentType(), PDO::PARAM_STR ],
-            "data" => [ $image->getData(), PDO::PARAM_LOB ]
-        ];
-        
         $parameters = [
             "name" => $image->getName(),
             "size" => $image->getSize(),

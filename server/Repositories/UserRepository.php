@@ -93,17 +93,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
     SQL;
     
     private const CREATE = <<<'SQL'
-        INSERT INTO users(
-            user_name, 
-            user_last_name, 
-            user_birth_date,
-            user_gender,
-            user_email,
-            user_password,
-            user_role,
-            profile_picture
-        ) 
-        VALUES(
+        CALL `insert_user`(
             :name,
             :last_name,
             :birth_date,
@@ -111,7 +101,8 @@ class UserRepository extends DB implements UserRepositoryInterface {
             :email,
             :password,
             :user_role,
-            :profile_picture
+            :profile_picture,
+            @user_id
         )
     SQL;
 
@@ -231,5 +222,9 @@ class UserRepository extends DB implements UserRepositoryInterface {
             "role" => $role
         ];
         return $this::executeReader($this::FIND_ALL, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @user_id AS userId", [])["userId"];
     }
 }

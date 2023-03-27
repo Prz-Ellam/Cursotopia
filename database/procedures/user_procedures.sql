@@ -1,4 +1,42 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `insert_user`;
+CREATE PROCEDURE IF NOT EXISTS `insert_user`(
+    IN  `_user_name`                VARCHAR(50),
+    IN  `_user_last_name`           VARCHAR(50),
+    IN  `_user_birth_date`          DATE,
+    IN  `_user_gender`              ENUM('Masculino', 'Femenino', 'Otro'),
+    IN  `_user_email`               VARCHAR(255),
+    IN  `_user_password`            VARCHAR(255),
+    IN  `_user_role`                INT,
+    IN  `_profile_picture`          INT,
+    OUT `_user_id`                  INT
+)
+BEGIN
+    INSERT INTO users(
+        `user_name`, 
+        `user_last_name`, 
+        `user_birth_date`,
+        `user_gender`,
+        `user_email`,
+        `user_password`,
+        `user_role`,
+        `profile_picture`
+    ) 
+    VALUES(
+        `_user_name`,
+        `_user_last_name`,
+        `_user_birth_date`,
+        `_user_gender`,
+        `_user_email`,
+        `_user_password`,
+        `_user_role`,
+        `_profile_picture`
+    );
+    SET `_user_id` = LAST_INSERT_ID();
+END $$
+DELIMITER ;
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_user`;
 CREATE PROCEDURE IF NOT EXISTS `update_user`(
     `_user_id`                      INT,

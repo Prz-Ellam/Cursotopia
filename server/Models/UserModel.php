@@ -189,7 +189,7 @@ class UserModel {
             }
         }
         if ($rowsAffected) {
-            $this->id = intval(DB::lastInsertId());
+            $this->id = intval($this->userRepository->lastInsertId2());
         }
         return ($rowsAffected > 0) ? true : false;
     }

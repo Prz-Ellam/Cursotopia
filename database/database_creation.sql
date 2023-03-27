@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `cursotopia`;
+
 USE `cursotopia`;
 
 DROP TABLE IF EXISTS `images`;
