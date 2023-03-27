@@ -43,10 +43,17 @@ export const login = async function(event) {
         window.location.href = 'home';
     }
     else {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: response.message ?? 'Parece que algo salió mal',
+            html: text,
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
@@ -94,10 +101,17 @@ export const signup = async function(event) {
         window.location.href = "home";
     }
     else {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: response.message ?? 'Parece que algo salió mal',
+            html: text,
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
@@ -312,10 +326,17 @@ export const updateUser = async function(event) {
         window.location.href = 'home';
     }
     else {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: response.message ?? 'Parece que algo salió mal',
+            html: text,
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
@@ -357,10 +378,17 @@ export const updatePassword = async function(event) {
         window.location.href = "/home";
     }
     else {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: response.message ?? 'Parece que algo salió mal',
+            html: text,
             confirmButtonColor: "#de4f54",
             background: "#EFEFEF",
             customClass: {
