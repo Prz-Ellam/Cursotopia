@@ -138,7 +138,6 @@ class UserController {
             "password" => $hashedPassword,
         ]);
         
- 
         $userValidator = new Validator($user);
         if (!$userValidator->validate()) {
             $response->json([
@@ -147,7 +146,6 @@ class UserController {
             ]);
             return;
         }
-
 
         try {
             $status = $user->save();
