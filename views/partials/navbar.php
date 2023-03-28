@@ -6,7 +6,7 @@ use Cursotopia\Repositories\ChatMessageRepository;
 $id = $_SESSION["id"] ?? null;
 
 $categories = CategoryModel::findAll();
-$unreadMessages;
+$unreadMessages = 0;
 if ($id) {
   $chatMessageRepository = new ChatMessageRepository();
   $unreadMessages = $chatMessageRepository->getUnreadMessages($id);
