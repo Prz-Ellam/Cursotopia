@@ -6,7 +6,7 @@ class Video {
     private ?int $id = null;
     private ?string $name = null;
     private ?string $contentType = null;
-    private ?int $duration = null;
+    private ?string $duration = null;
     private ?string $address = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;

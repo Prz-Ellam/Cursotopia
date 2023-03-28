@@ -76,7 +76,7 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
                     'id', le.lesson_id,
                     'title', le.lesson_title, 
                     'description', le.lesson_description,
-                    'video_duration', IF(v.video_duration >= 3600, SEC_TO_TIME(v.video_duration), RIGHT(SEC_TO_TIME(v.video_duration), 5))
+                    'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
                 )
             ), ']') AS `lessons`
         FROM

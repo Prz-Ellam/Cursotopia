@@ -5,6 +5,7 @@ namespace Cursotopia\Models;
 use Bloom\Database\DB;
 use Bloom\Hashing\Crypto;
 use Bloom\Validations\Rules\Email;
+use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
 use Cursotopia\Contracts\UserRepositoryInterface;
@@ -29,7 +30,8 @@ class UserModel {
     private ?string $birthDate;
 
     #[Required("El género es requerido")]
-    private ?int $gender;
+    #[Enum(["Masculino", "Femenino", "Otro"], "El genero no es válido")]
+    private ?string $gender;
 
     #[Required("El correo electrónico es requerido")]
     #[Email("El correo electrónico no tiene el formato correcto")]
@@ -65,7 +67,7 @@ class UserModel {
         $this->userRole = $object["userRole"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
 
-        $this->enabled = true;
+        $this->enabled = $object["enabled"] ?? null;;
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -106,11 +108,11 @@ class UserModel {
         return $this;
     }
 
-    public function getGender(): ?int {
+    public function getGender(): ?string {
         return $this->gender;
     }
 
-    public function setGender(?int $gender): self {
+    public function setGender(?string $gender): self {
         $this->gender = $gender;
         return $this;
     }
@@ -168,6 +170,9 @@ class UserModel {
                         ->setProfilePicture($this->profilePicture);
 
                     $rowsAffected = $this->userRepository->create($user);
+                    if ($rowsAffected) {
+                        $this->id = intval($this->userRepository->lastInsertId2());
+                    }
                     break;
                 }
             case EntityState::UPDATE: {
@@ -178,15 +183,13 @@ class UserModel {
                     ->setBirthDate($this->birthDate)
                     ->setGender($this->gender)
                     ->setEmail($this->email)
-                    ->setPassword((!is_null($this->password)) ? Crypto::bcrypt($this->password) : $this->password)
+                    ->setPassword($this->password)
                     ->setUserRole($this->userRole)
-                    ->setProfilePicture($this->profilePicture);
+                    ->setProfilePicture($this->profilePicture)
+                    ->setEnabled($this->enabled);
                 $rowsAffected = $this->userRepository->update($user);
                 break;
             }
-        }
-        if ($rowsAffected) {
-            $this->id = intval(DB::lastInsertId());
         }
         return ($rowsAffected > 0) ? true : false;
     }
@@ -194,6 +197,38 @@ class UserModel {
     public static function findOneById(int $id): ?UserModel {
         $repository = new UserRepository();
         $object = $repository->findOne($id);
+        if (!$object) {
+            return null;
+        }
+
+        return new UserModel($object);
+    }
+
+    public static function findOne(array $criteria): ?UserModel {
+        $parameters = [];
+        $valids = [ "id", "email" ];
+        foreach ($criteria as $elementCriteria) {
+            switch (count($elementCriteria)) {
+                case 2: {
+                    [ $name, $value ] = $elementCriteria;
+                    if (in_array($name, $valids)) {
+                        $parameters[$name] = $value;
+                        $parameters[$name . "_opt"] = "=";
+                    }
+                    break;
+                }
+                case 3: {
+                    [ $name, $operator, $value ] = $elementCriteria;
+                    if (in_array($name, $valids)) {
+                        $parameters[$name] = $value;
+                        $parameters[$name . "_opt"] = $operator;
+                    }
+                    break;
+                }
+            }
+        }
+        $repository = new UserRepository();
+        $object = $repository->findOne2($parameters);
         if (!$object) {
             return null;
         }
@@ -226,8 +261,7 @@ class UserModel {
     /**
      * Get the value of enabled
      */ 
-    public function getEnabled()
-    {
+    public function getEnabled() {
         return $this->enabled;
     }
 
@@ -236,8 +270,7 @@ class UserModel {
      *
      * @return  self
      */ 
-    public function setEnabled($enabled)
-    {
+    public function setEnabled($enabled) {
         $this->enabled = $enabled;
 
         return $this;

@@ -9,20 +9,24 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 50,
+            "pattern": "^[a-zA-Z \u00C0-\u00FF]+$",
             "$error": {
                 "type": "El nombre debe ser una cadena de texto",
                 "minLength": "El nombre no puede estar vacío",
-                "maxLength": "El nombre es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                "maxLength": "El nombre es muy largo, solo {max} caracteres son admitidos, se encontraron {length}",
+                "pattern": "El nombre no tiene el formato requerido"
             }
         },
         "lastName": {
             "type": "string",
             "minLength": 1,
             "maxLength": 50,
+            "pattern": "^[a-zA-Z \u00C0-\u00FF]+$",
             "$error": {
                 "type": "El apellido debe ser una cadena de texto",
                 "minLength": "El apellido no puede estar vacío",
-                "maxLength": "El apellido es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                "maxLength": "El apellido es muy largo, solo {max} caracteres son admitidos, se encontraron {length}",
+                "pattern": "El apellido no tiene el formato requerido"
             }
         },
         "birthDate": {
@@ -36,9 +40,11 @@
             }
         },
         "gender": {
-            "type": "number",
+            "type": "string",
+            "enum": [ "Masculino", "Femenino", "Otro" ],
             "$error": {
-                "type": "El género debe ser un número"
+                "type": "El género debe ser una cadena de caracteres",
+                "enum": "El género que ingreso no es válido, debe ser Masculino, Femenino u Otro"
             }
         },
         "email": {
@@ -49,7 +55,8 @@
             "$error": {
                 "type": "El correo electrónico no puede estar vacío",
                 "minLength": "El correo electrónico no puede estar vacío",
-                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}",
+                "format": "El correo electrónico no tiene el formato requerido"
             }
         },
         "password": {

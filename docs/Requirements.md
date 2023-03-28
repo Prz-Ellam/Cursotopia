@@ -66,3 +66,14 @@ module.exports = {
     manifest: 'ruta/para/manifest.json'
   }
 }
+
+
+    Configuración de PHP: Asegúrate de que la configuración upload_max_filesize y post_max_size en el archivo php.ini sea lo suficientemente grande para permitir la carga de imágenes más grandes. Si necesitas trabajar con imágenes más grandes, es posible que debas aumentar estos valores.
+
+    Configuración de MySQL: Asegúrate de que la configuración max_allowed_packet en el archivo my.cnf sea lo suficientemente grande para permitir la inserción de BLOBs grandes en la base de datos. Si necesitas trabajar con BLOBs más grandes, es posible que debas aumentar este valor.
+
+    Tipo de datos de BLOB: Verifica que el tipo de datos de BLOB esté disponible en tu versión de MySQL y que esté habilitado en la configuración de MySQL.
+
+    Memoria disponible: Asegúrate de que tu servidor tenga suficiente memoria disponible para manejar las operaciones de carga y descarga de imágenes. Si necesitas trabajar con imágenes muy grandes, es posible que debas aumentar la cantidad de memoria disponible para PHP y MySQL.
+
+    Extensión de PHP: Es posible que necesites habilitar la extensión php_mysqli o php_pdo_mysql en el archivo php.ini para permitir la conexión a la base de datos MySQL desde PHP.

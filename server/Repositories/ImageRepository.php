@@ -4,6 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 use Cursotopia\Entities\Image;
+use PDO;
 
 class ImageRepository extends DB {
     private const FIND_ONE = <<<'SQL'
@@ -25,17 +26,12 @@ class ImageRepository extends DB {
     SQL;
 
     private const CREATE = <<<'SQL'
-        INSERT INTO images(
-            image_name, 
-            image_size, 
-            image_content_type, 
-            image_data
-        ) 
-        VALUES(
+        CALL `insert_image`(
             :name, 
             :size, 
             :content_type, 
-            :data
+            :data,
+            @image_id
         )
     SQL;
 
@@ -79,7 +75,13 @@ class ImageRepository extends DB {
             "content_type" => $image->getContentType(),
             "data" => $image->getData()
         ];
-        $affectedRows = self::executeNonQuery($this::CREATE, $parameters);
+        $types = [
+            "name" => PDO::PARAM_STR,
+            "size" => PDO::PARAM_INT,
+            "content_type" => PDO::PARAM_STR,
+            "data" => PDO::PARAM_LOB,
+        ];
+        $affectedRows = $this::executeNonQuery($this::CREATE, $parameters, $types);
         return $affectedRows;
     }
 
@@ -97,10 +99,6 @@ class ImageRepository extends DB {
         return self::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function delete() {
-        $affectedRows = self::executeNonQuery($this::UPDATE, []);
-    }
-
     public function findOneById(int $id): ?array {
         return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
     }
@@ -109,5 +107,9 @@ class ImageRepository extends DB {
         return $this::executeOneReader($this::FIND_ONE_BY_ID_AND_NOT_USER_ID, [
             "id" => $id
         ]) ?? null;
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @image_id AS imageId", [])["imageId"];
     }
 }

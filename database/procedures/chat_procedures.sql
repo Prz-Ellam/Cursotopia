@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_chat`;
-CREATE PROCEDURE IF NOT EXISTS `find_chat`(
+DROP PROCEDURE IF EXISTS `find_chat` $$
+CREATE PROCEDURE `find_chat`(
     _user_one       INT,
     _user_two       INT
 )

@@ -27,7 +27,9 @@
         <div class="form-group text-center">
           <div class="position-relative">
             <label for="profile-picture" role="button"
-              class="profile-picture-label text-white position-absolute rounded-circle"></label>
+              class="profile-picture-label text-white position-absolute rounded-circle">
+            </label>
+            <div class="spinner-border text-white" id="change-profile-picture-spinner" role="status"></div>
             <img 
               class="img img-fluid rounded-circle mb-1" 
               id="picture-box" 
@@ -35,9 +37,9 @@
               alt="Profile picture"
             >
           </div>
-          <input type="file" accept="image/png, image/gif, image/jpeg, image/jpg"
+          <input type="file" accept="image/png, image/jpeg, image/jpg"
             class="form-control shadow-none rounded-1 position-absolute" name="profile-picture" id="profile-picture">
-          <label for="profile-picture" role="button">Foto de perfil</label>
+          <label for="profile-picture" role="button">Cambiar foto de perfil</label>
         </div>
         <form action="#" id="profile-edition-form" class="user-form">
           <input type="hidden" name="id" value="<?= $this->user["id"] ?>">
@@ -61,10 +63,10 @@
             <div class="col-6 mb-4">
               <label for="gender" role="button" class="form-label">Género</label>
               <select name="gender" id="gender" class="form-select">
-                <option value="0">Seleccionar</option>
-                <option value="1" <?= ("1" == $this->user["gender"]) ? 'selected' : '' ?>>Másculino</option>
-                <option value="2" <?= ("2" == $this->user["gender"]) ? 'selected' : '' ?>>Femenino</option>
-                <option value="3" <?= ("3" == $this->user["gender"]) ? 'selected' : '' ?>>Otro</option>
+                <option value="">Seleccionar</option>
+                <option value="Masculino" <?= ("Masculino" == $this->user["gender"]) ? 'selected' : '' ?>>Másculino</option>
+                <option value="Femenino" <?= ("Femenino" == $this->user["gender"]) ? 'selected' : '' ?>>Femenino</option>
+                <option value="Otro" <?= ("Otro" == $this->user["gender"]) ? 'selected' : '' ?>>Otro</option>
               </select>
             </div>
             
@@ -82,7 +84,7 @@
             </div>
           </div>
           <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-primary rounded-pill">Actualizar perfil</button>
+            <button type="submit" class="btn btn-primary rounded-pill" id="submit-btn">Actualizar perfil</button>
           </div>
         </form>
       </div>

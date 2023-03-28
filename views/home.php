@@ -245,15 +245,6 @@
           <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
           <?php endif ?>
         </div>
-        <!-- Con sesion estudiante --> 
-        <!-- <div class="d-flex justify-content-center justify-content-lg-start">
-          <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
-        </div> -->
-        <!-- Con sesion de instructor -->
-        <!-- <div class="d-flex justify-content-center justify-content-lg-start">
-          <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
-        </div> -->
-          
       </div>
     </div>
   </section>

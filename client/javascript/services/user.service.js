@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const createUser = async (user) => {
+export const createUserService = async (user) => {
     try {
         const configuration = {
             method: 'POST',
@@ -14,9 +14,8 @@ export const createUser = async (user) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
 }
 
 export const updateUserService = async (user, id) => {
@@ -33,9 +32,8 @@ export const updateUserService = async (user, id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
 }
 
 export const updateUserPasswordService = async (user, id) => {
@@ -52,14 +50,8 @@ export const updateUserPasswordService = async (user, id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
-}
-
-
-export const updateUserPassword = async (user) => {
-    return { ok: true };
 }
 
 export const loginUser = async (auth) => {
@@ -75,10 +67,9 @@ export const loginUser = async (auth) => {
         const response = await axios(configuration);
         return response.data;
     }
-    catch (exception) {
-        console.log(exception);
+    catch (ex) {
+        return ex.response.data;
     }
-    return null;
 }
 
 export const logoutUser = async (auth) => {
@@ -102,7 +93,7 @@ export const getAllUsersService = async (name) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
     return null;    
 };

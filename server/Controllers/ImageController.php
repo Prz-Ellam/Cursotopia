@@ -4,6 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Bloom\Validations\Validator;
 use Cursotopia\Models\ImageModel;
 use DateTime;
 
@@ -39,39 +40,43 @@ class ImageController {
             ->setContentType($contentType)
             ->setData($data);
 
-        $result = $image->save();
-
-        // Store the image id in the session
-        $request = $request->getSession();
-        $request->set("profilePicture_id", $image->getId());
-
-        $response->json([
-            "status" => $result,
-            "id" => $image->getId(),
-            "message" => "Image was successfully created"
-        ]);
-    }
-
-    public function update(Request $request, Response $response): void {
-        // Para actualizar la imagen debe ser tuya
-        
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        $imageValidator = new Validator($image);
+        if (!$imageValidator->validate()) {
             $response
                 ->setStatus(400)
                 ->json([
                     "status" => false,
-                    "message" => "ID is not valid"
+                    "message" => $imageValidator->getFeedback()
                 ]);
             return;
         }
 
+        $result = $image->save();
+
+        // Store the image id in the session
+        $session = $request->getSession();
+        $session->set("profilePicture_id", $image->getId());
+
+        $response
+            ->setStatus(201)
+            ->json([
+                "status" => $result,
+                "id" => $image->getId(),
+                "message" => "La imagen se creó éxitosamente"
+            ]);
+    }
+
+    public function update(Request $request, Response $response): void {
+        // Para actualizar la imagen debe ser tuya
+        $id = intval($request->getParams("id"));
         $file = $request->getFiles("image");
         if (!$file) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "Faltan parametros"
-            ]);
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "Faltan parametros"
+                ]);
             return;
         }
 
@@ -89,34 +94,35 @@ class ImageController {
             ->setContentType($contentType)
             ->setData($data);
 
+        $imageValidator = new Validator($image);
+        if (!$imageValidator->validate()) {
+            $response->json([
+                "status" => false,
+                "message" => $imageValidator->getFeedback()
+            ]);
+            return;
+        }
+
         $image->update();
 
         $response
-            ->json([]);
-
+            ->json([
+                "status" => true,
+                "message" => "La imagen se actualizó éxitosamente"
+            ]);
     }
 
     public function getOne(Request $request, Response $response): void {
         // No deberia ver las imagenes de las lecciones porque solo los que compraron
         // el curso pueden verlas
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
-
+        $id = intval($request->getParams("id"));
         $image = ImageModel::findOneById($id);
         if (!$image) {
             $response
                 ->setStatus(404)
                 ->json([
                     "status" => false,
-                    "message" => "Image not found"
+                    "message" => "No se encontró la imagen"
                 ]);
             return;
         }

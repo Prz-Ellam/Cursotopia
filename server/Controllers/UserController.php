@@ -2,14 +2,17 @@
 
 namespace Cursotopia\Controllers;
 
+use Bloom\Database\DB;
 use Bloom\Hashing\Crypto;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
-use Cursotopia\Models\UserRoleModel;
+use Cursotopia\Models\RoleModel;
 use Cursotopia\Repositories\UserRepository;
+use DateTime;
+use Exception;
 
 class UserController {
     /**
@@ -22,17 +25,7 @@ class UserController {
     public function getOne(Request $request, Response $response): void {
         // Cualquier usuario puede ver la información de cualquiera, excepto contraseña
         // obviamente
-        $id = $request->getParams("id");
-        // Validar que el valor del id sea un número entero sin signo
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
+        $id = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
         $user = UserModel::findOneById($id);
@@ -41,7 +34,7 @@ class UserController {
                 ->setStatus(404)
                 ->json([
                     "status" => false,
-                    "message" => "User not found"
+                    "message" => "El usuario no fue encontrado"
                 ]);
             return;
         }
@@ -80,14 +73,40 @@ class UserController {
             return;
         }
 
-        // Validar que el rol de usuario exista y sea publico (osea que no se pueda
-        // poner a el mismo como administrador)
-        if (!UserRoleModel::findOneByIdAndIsPublic($userRole, true)) {
+        $today = new DateTime();
+        $birthdate = new DateTime($birthDate);
+
+        if ($birthdate > $today) {
             $response
                 ->setStatus(400)
                 ->json([
                     "status" => false,
-                    "message" => "Invalid user role"
+                    "message" => "La fecha de nacimiento no puede ser en el futuro"
+                ]);
+            return;
+        }
+
+        $diff = $today->diff($birthdate);
+        $age = $diff->y;
+
+        if ($age < 18) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "Debes ser mayor de 18 años para usar nuestro servicio"
+                ]);
+            return;
+        }
+
+        // Validar que el rol de usuario exista y sea publico (osea que no se pueda
+        // poner a el mismo como administrador)
+        if (!RoleModel::findOneByIdAndIsPublic($userRole, true)) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "El rol de usuario no es valido"
                 ]);
             return;
         }
@@ -95,15 +114,15 @@ class UserController {
         // Verificar que la imagen no este tomada
         if (ImageModel::findOneByIdAndNotUserId($profilePicture)) {
             $response
-                ->setStatus(400)
+                ->setStatus(409)
                 ->json([
                     "status" => false,
-                    "message" => "The profile picture is taken"
+                    "message" => "La foto de perfil está siendo utilizada"
                 ]);
             return;
         }
 
-        // Validar que nadie en la base de datos tenga ya la foto de perfil
+        // Validar que la sessión actual tiene permisos de usar esa imagen
         $session = $request->getSession();
         if ($session->get("profilePicture_id") !== $profilePicture) {
             $session->unset("profilePicture_id");
@@ -131,13 +150,6 @@ class UserController {
             "password" => $hashedPassword,
         ]);
         
-        
-        // [x] La foto de perfil debe existir y no debe tenerla alguien más en la BD
-        // [x] El id de la foto de perfil debe almacenarse en la sessión
-        // [x] El rol debe existir
-        // [x] El rol no puede ponerse admin el mismo
-        // Falta validar que el correo electrónico no se repita
-        
         $userValidator = new Validator($user);
         if (!$userValidator->validate()) {
             $response->json([
@@ -147,7 +159,6 @@ class UserController {
             return;
         }
 
-
         try {
             $status = $user->save();
 
@@ -156,15 +167,21 @@ class UserController {
             $session->set("role", $user->getUserRole());
             $session->set("profilePicture", $user->getProfilePicture());
 
-            $response->json([
-                "status" => $status,
-                "id" => $user->getId(),
-                "message" => "The user was sucessfully created"
-            ]);
+            $response
+                ->setStatus(201)
+                ->json([
+                    "status" => $status,
+                    "id" => $user->getId(),
+                    "message" => "El usuario se creó éxitosamente"
+                ]);
         }
-        catch (\PDOException $exception) {
-            // Algun CONSTRAINT de SQL pudo haberse activado
-            die("Todo murio");
+        catch (Exception $exception) {
+            $response
+                ->setStatus(500)
+                ->json([
+                    "status" => false,
+                    "message" => "Ocurrio un error al crear el usuario"
+                ]);
         }
     }
 
@@ -176,95 +193,117 @@ class UserController {
      * @return void
      */
     public function update(Request $request, Response $response): void {
-        // La foto de perfil se actualiza aparte, el id se mantiene igual solo cambia
-        // el contenido
-        // El rol de usuario no cambia porque eso seria muy dificil de mantener
-        // La contraseña se cambia en otro apartado
-
-        // Si el usuario cambia de imagen que se actualice y no se cree una nueva
-
-        // Solo se puede actualizar tu propio usuario
-
-
-        $id = $request->getParams("id");
-        if (!(is_int($id) || ctype_digit($id)) && intval($id) > 0) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
-
-        [
-            "name" => $name,
-            "lastName" => $lastName,
-            "email" => $email,
-            "birthDate" => $birthDate,
-            "gender" => $gender
-        ] = $request->getBody();
-
-        $session = $request->getSession();
-        $sessionUserId = $session->get("id");
-
-        $userRepository = new UserRepository();
-        if ($userRepository->findOneByEmailAndNotUserId($email, $sessionUserId)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "El correo electrónico esta siendo utilizado por alguien más"
-                ]);
-            return;
-        }
-
-        if ($id != $sessionUserId) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Unauthorized"
-                ]);
-            return;
-        }
-
-        // Idea: FindModel vs Find
-        $user = UserModel::findOneById($id);
-        if (!$user) {
-            $response
-                ->setStatus(404)
-                ->json([
-                    "status" => false,
-                    "message" => "User not found"
-                ]);
-            return;
-        }
-
-        $user
-            ->setName($name)
-            ->setLastName($lastName)
-            ->setBirthDate($birthDate)
-            ->setGender($gender)
-            ->setEmail($email);
-
         try {
+            $id = intval($request->getParams("id"));
+
+            $session = $request->getSession();
+            $sessionUserId = $session->get("id");
+
+            // Solo se puede actualizar tu propio usuario
+            if ($id !== $sessionUserId) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado para actualizar el usuario"
+                    ]);
+                return;
+            }
+
+            [
+                "name" => $name,
+                "lastName" => $lastName,
+                "email" => $email,
+                "birthDate" => $birthDate,
+                "gender" => $gender
+            ] = $request->getBody();
+
+            $user = UserModel::findOne([
+                [ "id", "<>", $id ],
+                [ "email", $email ]
+            ]);
+            if ($user) {
+                $response
+                    ->setStatus(409)
+                    ->json([
+                        "status" => false,
+                        "message" => "El correo electrónico esta siendo utilizado por alguien más"
+                    ]);
+                return;
+            }
+
+            $today = new DateTime();
+            $birthdate = new DateTime($birthDate);
+
+            if ($birthdate > $today) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "La fecha de nacimiento no puede ser en el futuro"
+                    ]);
+                return;
+            }
+
+            $diff = $today->diff($birthdate);
+            $age = $diff->y;
+
+            if ($age < 18) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "Debes ser mayor de 18 años para usar nuestro servicio"
+                    ]);
+                return;
+            }
+
+            $user = UserModel::findOneById($id);
+            if (!$user) {
+                $response
+                    ->setStatus(404)
+                    ->json([
+                        "status" => false,
+                        "message" => "El usuario no fue encontrado"
+                    ]);
+                return;
+            }
+
+            $user
+                ->setName($name)
+                ->setLastName($lastName)
+                ->setBirthDate($birthDate)
+                ->setGender($gender)
+                ->setEmail($email);
+            
+            DB::beginTransaction();
             $status = $user->save();
-    
+            DB::commit();
+            if (!$status) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "El usuario no pudo ser actualizado"
+                    ]);
+                return;
+            }
+
             $response->json([
-                "status" => $status,
-                "message" => "The user was sucessfully updated"
+                "status" => true,
+                "message" => "El usuario se actualizó éxitosamente"
             ]);
         }
-        catch (\PDOException $exception) {
-            // Algun CONSTRAINT de SQL pudo haberse activado
-            die($exception);
+        catch (Exception $ex) {
+            if (DB::inTransaction())
+                DB::rollBack();
+            $response
+                ->setStatus(500)
+                ->json([
+                    "status" => false,
+                    "message" => "Ocurrio un error al actualizar el usuario"
+                ]);
         }
-
-        $response->json([
-            "status" => true,
-            "message" => "User updated successfully"
-        ]);
     }
 
     /**
@@ -275,91 +314,76 @@ class UserController {
      * @return void
      */
     public function updatePassword(Request $request, Response $response): void {
-        // Obtiene el id y valida que sea numerico entero positivo
-        $id = $request->getParams("id");
-        if (!(is_int($id) || ctype_digit($id)) && intval($id) > 0) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
-            return;
-        }
-
-        // Solo se puede actualizar la contraseña de tu usuario autenticado
-        $session = $request->getSession();
-        $sessionUserId = $session->get("id");
-
-        if ($id != $sessionUserId) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "No autorizado"
-                ]);
-            return;
-        }
-
-        $user = UserModel::findOneById($id);
-        if (!$user) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Unauthorized"
-                ]);
-            return;
-        }
-
-        // Tiene que autenticarse nuevamente para actualizar la contraseña
-        $login = $user->login();
-
-        $oldPassword = $request->getBody("oldPassword");
-        $newPassword = $request->getBody("newPassword");
-        $confirmNewPassword = $request->getBody("confirmNewPassword");
-
-        if ($newPassword !== $confirmNewPassword) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "Password does not match"
-                ]);
-            return;
-        }
-
-        if (!Crypto::verify($login["password"], $oldPassword)) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Unauthorized"
-                ]);
-            return;
-        }
-
-        $user
-            ->setPassword($newPassword);
-            
-
         try {
-            $status = $user->save();
+            $id = intval($request->getParams("id"));
+            
+            // Solo se puede actualizar la contraseña de tu usuario autenticado
+            $session = $request->getSession();
+            if ($id !== $session->get("id")) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado"
+                    ]);
+                return;
+            }
+
+            $user = UserModel::findOneById($id);
+            if (!$user) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "No autorizado"
+                    ]);
+                return;
+            }
+
+            // Tiene que autenticarse nuevamente para actualizar la contraseña
+            $login = $user->login();
+
+            $oldPassword = $request->getBody("oldPassword");
+            $newPassword = $request->getBody("newPassword");
+            if (!Crypto::verify($login["password"], $oldPassword)) {
+                $response
+                    ->setStatus(401)
+                    ->json([
+                        "status" => false,
+                        "message" => "Sus credenciales no son correctas"
+                    ]);
+                return;
+            }
+
+            $hashedPassword = Crypto::bcrypt($newPassword);
+            $user
+                ->setPassword($hashedPassword);
+
         
+            $status = $user->save();
+            if (!$status) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "La contraseña no pudo ser actualizada"
+                    ]);
+                return;
+            }
+
             $response->json([
-                "status" => $status,
-                "message" => "The user was sucessfully updated"
+                "status" => true,
+                "message" => "La contraseña se actualizó éxitosamente"
             ]);
         }
-        catch (\PDOException $exception) {
-            // Algun CONSTRAINT de SQL pudo haberse activado
-            die($exception);
+        catch (Exception $exception) {
+            $response
+                ->setStatus(500)
+                ->json([
+                    "status" => false,
+                    "message" => "Ocurrio un error al actualizar la contraseña"
+                ]);
         }
-
-        $response->json([
-            "status" => true,
-            "message" => "Password updated successfully"
-        ]);
     }
 
     public function remove(Request $request, Response $response) {
@@ -367,7 +391,7 @@ class UserController {
             ->setStatus(405)
             ->json([
                 "status" => false,
-                "message" => "Method not allowed"
+                "message" => "Método no permitido"
             ]);
     }
 
@@ -376,9 +400,11 @@ class UserController {
         $session = $request->getSession();
         $id = $session->get("id") ?? -1;
 
-        $userRepository = new UserRepository();
-        $user = $userRepository->findOneByEmailAndNotUserId($email, $id);
-        
+        $user = UserModel::findOne([
+            [ "id", "<>", $id ],
+            [ "email", $email ]
+        ]);
+
         $response->json(!boolval($user));
     }
 
@@ -388,11 +414,9 @@ class UserController {
         $session = $request->getSession();
         $role = $session->get("role");
 
-
         $userRepository = new UserRepository();
         $users = $userRepository->findAll($name, $role);
 
         $response->json($users);
     }
-
 }

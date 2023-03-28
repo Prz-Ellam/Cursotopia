@@ -3,6 +3,8 @@
 namespace Cursotopia\Models;
 
 use Bloom\Database\DB;
+use Bloom\Validations\Rules\Enum;
+use Bloom\Validations\Rules\Max;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\Image;
 use Cursotopia\Repositories\ImageRepository;
@@ -15,13 +17,15 @@ class ImageModel {
     private ?string $name;
 
     #[Required("El tamaño de la imagen es requerido")]
+    #[Max(8 * 1024 * 1024, "El tamaño de la imagen es muy grande")]
     private ?int $size;
 
     #[Required("El tipo de la imagen es requerido")]
+    #[Enum([ "image/jpg", "image/jpeg", "image/png" ], "El tipo de imagen no es válido")]
     private ?string $contentType;
 
     #[Required("El contenido de la imagen es requerido")]
-    private mixed $data;
+    private ?string $data;
 
     private ?string $createdAt;
     private ?string $modifiedAt;
@@ -70,11 +74,11 @@ class ImageModel {
         return $this;
     }
 
-    public function getData(): mixed {
+    public function getData(): ?string {
         return $this->data;
     }
 
-    public function setData(mixed $data): self {
+    public function setData(?string $data): self {
         $this->data = $data;
         return $this;
     }
@@ -93,7 +97,7 @@ class ImageModel {
 
             $rowsAffected = $this->imageRepository->create($image);
             if ($rowsAffected) {
-                $this->id = intval(DB::lastInsertId());
+                $this->id = intval($this->imageRepository->lastInsertId2());
             }
             return ($rowsAffected > 0) ? true : false;
     }
@@ -123,5 +127,15 @@ class ImageModel {
     public static function findOneByIdAndNotUserId(int $id): ?array {
         $repository = new ImageRepository();
         return $repository->findOneByIdAndNotUserId($id);
+    }
+
+    public function toObject(): array {
+        $members = get_object_vars($this);
+        $members["data"] = base64_encode($members["data"]);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
     }
 }

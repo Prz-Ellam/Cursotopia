@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP TRIGGER IF EXISTS `after_insert_on_user_level`;
-CREATE TRIGGER IF NOT EXISTS `after_insert_on_user_level`
+DROP TRIGGER IF EXISTS `after_insert_on_user_level` $$
+CREATE TRIGGER `after_insert_on_user_level`
 AFTER INSERT
 ON `user_level` FOR EACH ROW
 BEGIN
@@ -17,5 +17,3 @@ BEGIN
         `level_id` = new.`level_id`;
 END $$
 DELIMITER ;
-
--- Este query puede sacar el progreso de un curso y un usuario

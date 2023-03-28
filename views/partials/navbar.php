@@ -6,7 +6,7 @@ use Cursotopia\Repositories\ChatMessageRepository;
 $id = $_SESSION["id"] ?? null;
 
 $categories = CategoryModel::findAll();
-$unreadMessages;
+$unreadMessages = 0;
 if ($id) {
   $chatMessageRepository = new ChatMessageRepository();
   $unreadMessages = $chatMessageRepository->getUnreadMessages($id);
@@ -16,7 +16,7 @@ if ($id) {
 <!-- Navbar de instructor --> 
 <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand text-white" href="home">
+    <a class="navbar-brand text-white" href="/home">
       <img 
         src="../client/assets/images/logo.png" 
         alt="Logo" 
@@ -50,7 +50,65 @@ if ($id) {
           </button>
         </div>
       </form>
-      <?php if (Auth::auth(2)): ?>
+      <?php if (Auth::auth(1)): ?>
+        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link fw-bold text-light dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Categorías
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <?php foreach ($categories as $category): ?>
+              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <?php endforeach ?>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="chat">
+              <i class="bx-sm bx bxs-bell position-relative">
+                <?php if ($unreadMessages > 0): ?>
+                <span class="badge rounded-pill badge-notification bg-danger">
+                  <?= ($unreadMessages < 9) ? $unreadMessages : "+9"  ?>
+                </span>
+                <?php endif ?>
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link dropdown">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img 
+                  src="/api/v1/images/<?= $_SESSION["profilePicture"] ?>"
+                  alt="mdo"
+                  width="32"
+                  height="32"
+                  class="rounded-circle profile-picture">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/api/v1/logout">Cerrar sesión</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      <?php elseif (Auth::auth(2)): ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
             <a href="course-creation" class="nav-link fw-bold text-light">

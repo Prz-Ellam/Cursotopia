@@ -39,7 +39,7 @@
           <input type="email" name="email" id="email" class="form-control" 
             placeholder="example@domain.com" autocomplete="off">
         </div>
-        <div class="mb-4">
+        <div class="mb-5">
           <label for="password" role="button" class="form-label d-flex align-items-center">
             <i class="bx bxs-key me-1"></i>
             <span>Contraseña</span>
@@ -53,10 +53,10 @@
             </button>
           </div>
         </div>
-        <div class="form-check mb-4">
+        <!-- <div class="form-check mb-4">
           <input type="checkbox" name="remember" id="remember" class="form-check-input shadow-none rounded-1">
           <label for="remember" class="form-check-label" role="button">Recuérdame</label>
-        </div>
+        </div> -->
         <div class="d-grid mb-4">
           <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center"
             id="btn-login">

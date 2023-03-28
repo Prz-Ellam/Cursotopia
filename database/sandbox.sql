@@ -371,6 +371,69 @@ WHERE
     )
 
 
+-- La esta que aun no ha sido vista
+SELECT
+    le.lesson_id,
+    le.lesson_title,
+    ule.user_lesson_is_complete
+FROM
+    lessons AS le
+INNER JOIN
+    user_lesson AS ule
+ON
+    le.lesson_id = ule.lesson_id
+INNER JOIN
+    levels AS l
+ON
+    le.level_id = l.level_id
+INNER JOIN
+    enrollments AS e
+ON
+    l.course_id = e.course_id
+WHERE
+    e.course_id = 5
+    AND ule.user_id = 6
+    AND ule.user_lesson_is_complete = FALSE
+LIMIT
+    1;
 
+
+
+
+
+SELECT
+    `user_id`,
+    `user_name`,
+    `user_last_name`,
+    `user_birth_date`,
+    `user_gender`,
+    `user_email`,
+    `user_password`,
+    `user_role`,
+    `profile_picture`,
+    `user_enabled`,
+    `user_created_at`,
+    `user_modified_at`,
+    `user_active`
+FROM
+    `users`
+WHERE
+    `user_id` = IFNULL(NULL, `user_id`)
+    AND `user_name` = IFNULL(NULL, `user_name`)
+    AND `user_last_name` = IFNULL(NULL, `user_last_name`)
+    AND `user_birth_date` = IFNULL(NULL, `user_birth_date`)
+    AND `user_gender` = IFNULL(NULL, `user_gender`)
+    AND `user_email` = IFNULL(NULL, `user_email`)
+    AND `user_password` = IFNULL(NULL, `user_password`)
+    AND `user_role` = IFNULL(NULL, `user_role`)
+    AND `profile_picture` = IFNULL(NULL, `profile_picture`)
+    AND `user_enabled` = IFNULL(NULL, `user_enabled`)
+    AND `user_created_at` = IFNULL(NULL, `user_created_at`)
+    AND `user_modified_at` = IFNULL(NULL, `user_modified_at`)
+    AND `user_active` = IFNULL(NULL, `user_active`);
+
+
+SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time 
+FROM videos;
 
 

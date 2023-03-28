@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP TRIGGER IF EXISTS `after_insert_on_enrollment`;
-CREATE TRIGGER IF NOT EXISTS `after_insert_on_enrollment`
+DROP TRIGGER IF EXISTS `after_insert_on_enrollment` $$
+CREATE TRIGGER `after_insert_on_enrollment`
 AFTER INSERT
 ON `enrollments` FOR EACH ROW
 BEGIN

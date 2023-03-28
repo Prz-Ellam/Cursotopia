@@ -6,7 +6,7 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\User;
 
 class AuthRepository {
-    private const LOGIN = "
+    private const LOGIN = <<<'SQL'
         SELECT 
             user_id AS `id`, 
             user_password AS `password`,
@@ -16,13 +16,13 @@ class AuthRepository {
         FROM
             users AS u
         INNER JOIN
-            user_roles AS ur
+            roles AS r
         ON
-            u.user_role = ur.user_role_id
+            u.user_role = r.role_id
         WHERE
             user_email = :email
             AND user_active = TRUE
-    ";
+    SQL;
 
     public function login(User $user): array {
         $parameters = [

@@ -57,15 +57,17 @@ const observer = new IntersectionObserver(function(entries) {
         Array.from(counters).forEach(counter => {
             const intervalValue = 5000;
             let startValue = 0;
-            let endValue = parseInt(counter.getAttribute('data-val'));
-            let duration = Math.floor(intervalValue / endValue);
-            const interval = setInterval(() => {
-                startValue++;
-                counter.textContent = startValue;
-                if (startValue === endValue) {
-                    clearInterval(interval);
-                }
-            }, duration);
+            let endValue = Number.parseInt(counter.getAttribute('data-val'));
+            if (endValue !== 0) {
+                let duration = Math.floor(intervalValue / endValue);
+                const interval = setInterval(() => {
+                    startValue++;
+                    counter.textContent = startValue;
+                    if (startValue === endValue) {
+                        clearInterval(interval);
+                    }
+                }, duration);   
+            }
         });
         observer.unobserve(document.querySelector("#info-section"));
     }

@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `update_category`;
-CREATE PROCEDURE IF NOT EXISTS `update_category`(
+DROP PROCEDURE IF EXISTS `update_category` $$
+CREATE PROCEDURE `update_category`(
     `_category_id`                  INT,
     `_category_name`                VARCHAR(50),
     `_category_description`         VARCHAR(255),

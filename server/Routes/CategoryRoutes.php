@@ -3,8 +3,12 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\CategoryController;
-use Cursotopia\Middlewares\ApiAdminMiddleware;
 use Cursotopia\Middlewares\AuthMiddleware;
+use Cursotopia\Middlewares\WebAdminMiddleware;
+
+$app->get('/categories', 
+    fn($request, $response) => $response->render('admin-categories'),
+    [ [ WebAdminMiddleware::class ] ]);
 
 $app->post('/api/v1/categories', [ CategoryController::class, 'create' ], [ [ AuthMiddleware::class ] ]);
 $app->put('/api/v1/categories/:id', [ CategoryController::class, 'update' ]);

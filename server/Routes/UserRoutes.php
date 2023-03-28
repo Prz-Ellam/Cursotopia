@@ -4,17 +4,19 @@ namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\UserController;
+use Cursotopia\Middlewares\AuthMiddleware;
 use Cursotopia\Middlewares\HasAuthMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\Models\UserModel;
-use Cursotopia\Models\UserRoleModel;
+use Cursotopia\Models\RoleModel;
 
 $app->get('/login', fn($request, $response) => $response->render('login'), 
 [ [ HasAuthMiddleware::class ] ]);
 
 $app->get('/signup', function($request, $response) {
-    $userRoles = UserRoleModel::findAllByIsPublic(true);
+    $userRoles = RoleModel::findAllByIsPublic(true);
     $response->render('signup', [ "userRoles" => $userRoles ]);
 }, [ [ HasAuthMiddleware::class ] ]);
 
@@ -73,12 +75,30 @@ $app->get('/api/v1/logout', [ AuthController::class, 'logout' ]);
 
 // Users
 $app->get("/api/v1/users", [ UserController::class, 'getAll' ]);
-$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ]);
+$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ],
+[
+    [ ValidateIdMiddleware::class ]
+]);
 
 $app->post('/api/v1/users', [ UserController::class, 'create' ], 
-    [ [ JsonSchemaMiddleware::class, 'SignupValidator' ] ]);
+[ 
+    [ JsonSchemaMiddleware::class, 'SignupValidator' ] 
+]);
 
-$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ]);
-$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ]);
+$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ],
+[ 
+    [ JsonSchemaMiddleware::class, 'UpdateUserValidator' ],
+    [ ValidateIdMiddleware::class ],
+    [ AuthMiddleware::class ]
+]);
+
+$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ],
+[
+    [ JsonSchemaMiddleware::class, 'UpdatePasswordValidator' ],
+    [ ValidateIdMiddleware::class ],
+    [ AuthMiddleware::class ]
+]);
+
+
 $app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
 $app->post('/api/v1/users/email', [ UserController::class, 'checkEmailExists' ]);

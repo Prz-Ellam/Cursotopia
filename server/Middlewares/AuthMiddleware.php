@@ -16,7 +16,7 @@ class AuthMiddleware implements Middleware {
                 ->setStatus(401)
                 ->json([
                     "status" => false,
-                    "message" => "Unauthorized"
+                    "message" => "No autorizado"
                 ]);
             return;
         }

@@ -31,6 +31,8 @@
 		<?= $this->render('instructor-profile') ?>
 	<?php elseif($this->user["userRole"] === 3 && $this->isMe): ?>
 		<?= $this->render('student-profile') ?>
+  <?php elseif($this->user["userRole"] === 1): ?>
+    <?= $this->render('admin-profile-seen-by-others') ?>
 	<?php elseif($this->user["userRole"] === 2): ?>
 		<?= $this->render('instructor-profile-seen-by-others') ?>
 	<?php else: ?>

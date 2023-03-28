@@ -7,7 +7,7 @@ class User {
     private ?string $name = null;
     private ?string $lastName = null;
     private ?string $birthDate = null;
-    private ?int $gender = null;
+    private ?string $gender = null;
     private ?string $email = null;
     private ?string $password = null;
     private ?int $userRole = null;
@@ -53,11 +53,11 @@ class User {
         return $this;
     }
 
-    public function getGender(): ?int {
+    public function getGender(): ?string {
         return $this->gender;
     }
 
-    public function setGender(?int $gender): self {
+    public function setGender(?string $gender): self {
         $this->gender = $gender;
         return $this;
     }

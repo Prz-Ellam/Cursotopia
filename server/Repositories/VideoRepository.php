@@ -10,7 +10,7 @@ class VideoRepository extends DB {
         SELECT
             video_id AS `id`,
             video_name AS `name`,
-            video_duration AS `duration`,
+            TIME_TO_SEC(video_duration) AS `duration`,
             video_content_type AS `content_type`,
             video_address AS `address`,
             video_created_at AS `createdAt`,

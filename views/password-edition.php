@@ -39,7 +39,7 @@
           <div class="input-group">
             <input type="password" name="oldPassword" id="old-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="old-password-button"
-              ct-target="old-password">
+              ct-target="old-password" role="button">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
             </button>
           </div>
@@ -50,7 +50,7 @@
           <div class="input-group">
             <input type="password" name="newPassword" id="new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="new-password-button"
-              ct-target="new-password">
+              ct-target="new-password" role="button">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
             </button>
           </div>
@@ -68,14 +68,14 @@
           <div class="input-group">
             <input type="password" name="confirmNewPassword" id="confirm-new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="confirm-new-password-button"
-              ct-target="confirm-new-password">
+              ct-target="confirm-new-password" role="button">
               <i class="fa-solid fa-eye-slash fa-eye"></i>
             </button>
           </div>
         </div>
 
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-pill">Actualizar contraseña</button>
+          <button type="submit" id="btn-submit" class="btn btn-primary rounded-pill">Actualizar contraseña</button>
         </div>
 
         <!--
