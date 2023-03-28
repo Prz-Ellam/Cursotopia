@@ -1,6 +1,5 @@
--- CREATE VIEW IF NOT EXISTS `kardex`;
 DROP VIEW IF EXISTS `kardex`;
-CREATE VIEW IF NOT EXISTS `kardex`
+CREATE VIEW `kardex`
 AS
     SELECT
         c.course_id AS `course_id`,

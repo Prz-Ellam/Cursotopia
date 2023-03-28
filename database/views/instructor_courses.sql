@@ -1,5 +1,5 @@
 DROP VIEW IF EXISTS `instructor_courses`;
-CREATE VIEW IF NOT EXISTS `instructor_courses`
+CREATE VIEW `instructor_courses`
 AS
 SELECT
     c.course_id AS `id`,

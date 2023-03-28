@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `insert_image`;
-CREATE PROCEDURE IF NOT EXISTS `insert_image`(
+DROP PROCEDURE IF EXISTS `insert_image` $$
+CREATE PROCEDURE `insert_image`(
     IN  `_image_name`                   VARCHAR(255),
     IN  `_image_size`                   INT,
     IN  `_image_content_type`           VARCHAR(30),
@@ -27,8 +27,8 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `update_image`;
-CREATE PROCEDURE IF NOT EXISTS `update_image`(
+DROP PROCEDURE IF EXISTS `update_image` $$
+CREATE PROCEDURE `update_image`(
     IN `_image_id`                     INT,
     IN `_image_name`                   VARCHAR(255),
     IN `_image_size`                   INT,
@@ -57,8 +57,8 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_one_image`;
-CREATE PROCEDURE IF NOT EXISTS `find_one_image`(
+DROP PROCEDURE IF EXISTS `find_one_image` $$
+CREATE PROCEDURE `find_one_image`(
     IN `_image_id`                      INT,
     IN `_image_name`                    VARCHAR(255),
     IN `_image_size`                    INT,

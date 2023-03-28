@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP TRIGGER IF EXISTS `after_insert_on_user_level`;
-CREATE TRIGGER IF NOT EXISTS `after_insert_on_user_level`
+DROP TRIGGER IF EXISTS `after_insert_on_user_level` $$
+CREATE TRIGGER `after_insert_on_user_level`
 AFTER INSERT
 ON `user_level` FOR EACH ROW
 BEGIN
