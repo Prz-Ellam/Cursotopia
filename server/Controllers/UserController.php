@@ -74,8 +74,21 @@ class UserController {
         }
 
         $today = new DateTime();
-        $diff = $today->diff(new DateTime($birthDate));
+        $birthdate = new DateTime($birthDate);
+
+        if ($birthdate > $today) {
+            $response
+                ->setStatus(400)
+                ->json([
+                    "status" => false,
+                    "message" => "La fecha de nacimiento no puede ser en el futuro"
+                ]);
+            return;
+        }
+
+        $diff = $today->diff($birthdate);
         $age = $diff->y;
+
         if ($age < 18) {
             $response
                 ->setStatus(400)
@@ -220,8 +233,21 @@ class UserController {
             }
 
             $today = new DateTime();
-            $diff = $today->diff(new DateTime($birthDate));
+            $birthdate = new DateTime($birthDate);
+
+            if ($birthdate > $today) {
+                $response
+                    ->setStatus(400)
+                    ->json([
+                        "status" => false,
+                        "message" => "La fecha de nacimiento no puede ser en el futuro"
+                    ]);
+                return;
+            }
+
+            $diff = $today->diff($birthdate);
             $age = $diff->y;
+
             if ($age < 18) {
                 $response
                     ->setStatus(400)

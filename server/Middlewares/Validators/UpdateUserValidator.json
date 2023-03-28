@@ -51,7 +51,8 @@
             "$error": {
                 "type": "El correo electrónico no puede estar vacío",
                 "minLength": "El correo electrónico no puede estar vacío",
-                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}",
+                "format": "El correo electrónico no tiene el formato requerido"
             }
         }
     },
