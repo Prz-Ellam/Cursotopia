@@ -18,6 +18,9 @@ export const submitReview = async function(event) {
         courseId: new URLSearchParams(window.location.search).get('id') || ''
     };
     const response = await createReviewService(review);
+    if (response?.status) {
+        
+    }
 
     const reviewView = {
         image: '../client/assets/images/logo.png',

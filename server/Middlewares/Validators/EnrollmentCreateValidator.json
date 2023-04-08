@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        
+    },
+    "required": [
+        
+    ],
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
+}

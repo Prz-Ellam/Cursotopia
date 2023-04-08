@@ -20,9 +20,9 @@ export const createCourse = async function(event) {
     const course = {
         title: formData.get('title'),
         description: formData.get('description'),
-        price: parseFloat(formData.get('price')),
+        price: Number.parseFloat(formData.get('price')),
         categories: formData.getAll('categories[]').map(category => parseInt(category)),
-        imageId: formData.get('imageId')
+        imageId: Number.parseInt(formData.get('imageId'))
     }
 
     const response = await createCourseService(course);

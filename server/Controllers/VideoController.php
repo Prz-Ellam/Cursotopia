@@ -36,7 +36,7 @@ class VideoController {
         $seconds = round($duration - ($hours * 3600) - ($minutes * 60));
         $time_string = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
-        $address = $_SERVER["DOCUMENT_ROOT"] . "/uploads/$name.$ext";
+        $address = UPLOADS_DIR . "/$name.$ext";
         
         move_uploaded_file($file->getTmpName(), $address);
 

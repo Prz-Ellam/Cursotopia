@@ -113,6 +113,10 @@
 
         </ul>
 
+        <div class="d-flex mt-5 mb-5">
+          <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Finalizar</button>
+        </div>
+
       </fieldset>
       
     </form>

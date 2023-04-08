@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "El mensaje debe ser una cadena de texto",
+                "minLength": "El mensaje no puede estar vacío",
+                "maxLength": "El mensaje es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        }
+    },
+    "required": [
+        "message"
+    ],
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
+}

@@ -9,18 +9,29 @@ use Cursotopia\Repositories\LessonRepository;
 
 class LessonController {
     public function create(Request $request, Response $response): void {
+        // TODO:
+        // 1. Validar que el nivel existe
+        // 2. Validar que el video, imagen, documento o link existan
+        [
+            "title" => $title,
+            "description" => $description,
+            "levelId" => $levelId,
+            "videoId" => $videoId,
+            "imageId" => $imageId,
+            "documentId" => $documentId,
+            "linkId" => $linkId
+        ] = $request->getBody();
 
         $lessonRepository = new LessonRepository();
         $lesson = new Lesson();
         $lesson
-            ->setTitle($request->getBody("title"))
-            ->setDescription($request->getBody("description"))
-            ->setLevelId($request->getBody("levelId"))
-            ->setVideoId($request->getBody("videoId"))
-            ->setImageId($request->getBody("imageId"))
-            ->setDocumentId($request->getBody("documentId"))
-            ->setLinkId($request->getBody("linkId"))
-            ;
+            ->setTitle($title)
+            ->setDescription($description)
+            ->setLevelId($levelId)
+            ->setVideoId($videoId)
+            ->setImageId($imageId)
+            ->setDocumentId($documentId)
+            ->setLinkId($linkId);
 
         $rowsAffected = $lessonRepository->create($lesson);
         $response->json($rowsAffected);

@@ -16,12 +16,20 @@ class CourseController {
         // Para crear un curso debe estar autenticado y debe ser rol instructor
         $session = $request->getSession();
 
-        $title = $request->getBody("title");
-        $description = $request->getBody("description");
-        $price = $request->getBody("price");
-        $categories = $request->getBody("categories");
-        $imageId = $request->getBody("imageId");
+        [
+            "title" => $title,
+            "description" => $description,
+            "price" => $price,
+            "categories" => $categories,
+            "imageId" => $imageId
+        ] = $request->getBody();
+
         $instructorId = $session->get("id");
+
+        // TODO
+        // 1. Validar que las categorias que se solicitaron existan
+        // 2. Validar que la imagen exista y que nadie mas la este usando
+        // 3. Validar que el usuario este autenticado y sea un instructor (Middleware)
 
         DB::beginTransaction();
         $course = new Course();
@@ -52,6 +60,14 @@ class CourseController {
             "id" => $courseId,
             "message" => $rowsAffected
         ]);
+    }
+
+    public function update(Request $request, Response $response): void {
+
+    }
+
+    public function delete(Request $request, Response $response): void {
+
     }
 
     public function getOne(Request $request, Response $response): void {

@@ -7,7 +7,7 @@ export default {
         'title': {
             required: true,
             trimming: true,
-            maxlength: 255
+            maxlength: 50
         },
         'description': {
             required: true,
@@ -18,7 +18,7 @@ export default {
             required: true,
             trimming: true,
             number: true,
-            maxlength: 255
+            min: 0
         }
     },
     messages: {
@@ -36,8 +36,7 @@ export default {
             required: 'El precio del nivel es requerido',
             trimming: 'El precio del nivel es requerido',
             number: 'El precio no es válido',
-            min: 'El precio del producto no puede ser negativo',
-            maxlength: 'El precio del nivel no puede contener más de 255 caracteres'
+            min: 'El precio del producto no puede ser negativo'
         }
     },
     errorElement: 'small',

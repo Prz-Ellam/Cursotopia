@@ -22,8 +22,8 @@ export const createLevel = async function(event) {
     const level = {
         title: formData.get('title'),
         description: formData.get('description'),
-        price: parseFloat(formData.get('price')),
-        courseId: parseInt(formData.get('courseId'))
+        price: Number.parseFloat(formData.get('price')),
+        courseId: Number.parseInt(formData.get('courseId'))
     };
     const response = await createLevelService(level);
 

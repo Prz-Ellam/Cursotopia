@@ -30,6 +30,9 @@ export const createLesson = async function(event) {
         linkId: parseInt(formData.get('link'))
     }
     const response = await createLessonService(lesson);
+    if (response?.status) {
+        
+    }
 
     courseCreationCreateLessonSection({ level: levelId, title, video });
 

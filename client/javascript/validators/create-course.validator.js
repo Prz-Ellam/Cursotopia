@@ -45,12 +45,12 @@ export default {
         'title': {
             required: true,
             trimming: true,
-            maxlength:255
+            maxlength: 50
         },
         'description': {
             required: true,
             trimming: true,
-            maxlength:255
+            maxlength: 255
         },
         'categories[]': {
             required: true
@@ -58,12 +58,7 @@ export default {
         'price': {
             required: true,
             number: true
-        },
-        // 'levels[]': {
-        //     required: true,
-        //     lessonsRequired: true,
-        //     lessonsVideo: true
-        // }
+        }
     },
     messages: {
         'course-cover': {
@@ -86,12 +81,7 @@ export default {
             required: 'El precio es requerido',
             number: 'El precio no es válido',
             min: 'El precio del producto no puede ser negativo'
-        },
-        // 'levels[]': {
-        //     required: 'El curso necesita al menos un nivel',
-        //     lessonsRequired: 'Todos los niveles deben tener al menos una lección',
-        //     lessonsVideo: 'Cada nivel debe tener al menos una lección con video'
-        // }
+        }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

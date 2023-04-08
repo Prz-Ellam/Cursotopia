@@ -121,6 +121,7 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_price`                  DECIMAL(10, 2) NOT NULL,
     `course_image_id`               INT NOT NULL UNIQUE,
     `instructor_id`                 INT NOT NULL,
+    `course_is_complete`            BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
     `course_approved_at`            TIMESTAMP,

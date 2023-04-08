@@ -1,0 +1,70 @@
+{
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "$error": {
+                "type": "El mensaje debe ser una cadena de texto",
+                "minLength": "El mensaje no puede estar vacío",
+                "maxLength": "El mensaje es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "La descripción debe ser una cadena de texto",
+                "minLength": "La descripción no puede estar vacía",
+                "maxLength": "La descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "price": {
+            "type": "number",
+            "minimum": 0,
+            "multipleOf": 0.01,
+            "format": "currency",
+            "$error": {
+                "type": "El precio debe ser un entero",
+                "minimum": "El precio no puede ser menor que 0.00",
+                "multipleOf": "El precio solo puede tener dos decimales",
+                "format": "El precio no tiene formato de moneda"
+            }
+        },
+        "imageId": {
+            "type": "number",
+            "minimum": 0,
+            "$error": {
+                "type": "La foto de perfil debe ser un entero"
+            }
+        },
+        "categories": {
+            "type": "array",
+            "items": {
+                "type": "number",
+                "minimum": 0,
+                "$error": {
+                    "type": "Todas las categorías deben ser un entero",
+                    "minimum": "Todas las categorías deben ser un entero positivo"
+                }
+            },
+            "$error": {
+                "type": "Las categorías deben ser un arreglo"
+            }
+        }
+    },
+    "required": [
+        "title",
+        "description",
+        "price",
+        "imageId",
+        "categories"
+    ],
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
+}

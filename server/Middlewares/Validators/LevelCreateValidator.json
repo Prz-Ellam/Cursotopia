@@ -3,24 +3,34 @@
     "properties": {
         "title": {
             "type": "string",
-            "maxLength": 255,
+            "minLength": 1,
+            "maxLength": 50,
             "$error": {
                 "type": "El título debe ser una cadena de texto",
+                "minLength": "El título es requerido",
                 "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },
         "description": {
             "type": "string",
+            "minLength": 1,
             "maxLength": 255,
             "$error": {
                 "type": "La descripción debe ser una cadena de texto",
+                "minLength": "La descripción es requerida",
                 "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },
         "price": {
             "type": "number",
+            "minimum": 0,
+            "multipleOf": 0.01,
+            "format": "currency",
             "$error": {
-                "type": "El precio debe ser un valor numérico"
+                "type": "El precio debe ser un entero",
+                "minimum": "El precio no puede ser menor que 0.00",
+                "multipleOf": "El precio solo puede tener dos decimales",
+                "format": "El precio no tiene formato de moneda"
             }
         }
     },

@@ -25,6 +25,9 @@ class CategoryController {
         $id = $session->get("id");
         $body = $request->getBody();
 
+        // Validar que el nombre de la categoria no se repita
+        // Validar que el usuario es un instructor
+
         $category = new CategoryModel($body);
         $category->setCreatedBy($id);
 

@@ -175,7 +175,7 @@ class UserController {
                     "message" => "El usuario se creó éxitosamente"
                 ]);
         }
-        catch (Exception $exception) {
+        catch (Exception $ex) {
             $response
                 ->setStatus(500)
                 ->json([

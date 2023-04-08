@@ -155,4 +155,9 @@ class CategoryModel {
         $repository = new CategoryRepository();
         return $repository->findAll();
     }
+
+    public static function findAllWithUser(int $userId) {
+        $repository = new CategoryRepository();
+        return $repository->findAllWithUser($userId);
+    }
 }

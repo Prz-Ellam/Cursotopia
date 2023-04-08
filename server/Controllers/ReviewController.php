@@ -9,9 +9,19 @@ use Cursotopia\Repositories\ReviewRepository;
 
 class ReviewController {
     public function create(Request $request, Response $response): void {
-        $message = $request->getBody("message");
-        $rate = $request->getBody("rate");
-        $courseId = $request->getBody("courseId");
+        // Obtener el parametro del curso
+        $courseId = $request->getParams("courseId");
+
+        [
+            "message" => $message,
+            "rate" => $rate
+        ] = $request->getBody();
+
+        // Validar que la persona que esta haciendo la reseña acabo el curso
+        /*
+            userId -> courseIsFinished
+        
+        */
 
         $session = $request->getSession();
         $userId = $session->get("id");
@@ -33,10 +43,26 @@ class ReviewController {
     }
 
     public function update(Request $request, Response $response): void {
+        $reviewId = $request->getParams("reviewId");
+        [
+            "message" => $message,
+            "rate" => $rate
+        ] = $request->getBody();
 
+        //$reviewRepository = new ReviewRepository();
+        //$rowsAffected = $reviewRepository->update();
     }
 
     public function delete(Request $request, Response $response): void {
-        
+        $courseId = $request->getParams("courseId");
+        $reviewId = $request->getParams("reviewId");
+
+        $reviewRepository = new ReviewRepository();
+        $rowsAffected = $reviewRepository->delete($reviewId);
+
+        $response->json([
+            "status" => true,
+            "message" => $rowsAffected
+        ]);
     }
 }

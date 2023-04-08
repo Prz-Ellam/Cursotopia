@@ -10,6 +10,14 @@ use Cursotopia\Repositories\LevelRepository;
 
 class LevelController {
     public function create(Request $request, Response $response): void {
+        // TODO:
+        // 1. Validar que el curso existe
+        [
+            "title" => $title,
+            "description" => $description,
+            "price" => $price
+        ] = $request->getBody();
+        
         $body = $request->getBody();
 
         $level = new LevelModel($body);

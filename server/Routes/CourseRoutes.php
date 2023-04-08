@@ -5,6 +5,7 @@ namespace Cursotopia\Routes;
 use Cursotopia\Controllers\CourseController;
 use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
+use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
@@ -14,7 +15,10 @@ use Cursotopia\Repositories\LevelRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
 $app->get('/course-creation', function($request, $response) {
-    $categories = CategoryModel::findAll();
+    $session = $request->getSession();
+    $id = $session->get("id");
+
+    $categories = CategoryModel::findAllWithUser($id);
 
     $response->render('course-creation', [ "categories" => $categories ]);
 }, [ [ HasNotAuthMiddleware::class ] ]);
@@ -101,7 +105,10 @@ $app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
 $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
-$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ [ ApiInstructorMiddleware::class ] ]);
+$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ 
+    [ ApiInstructorMiddleware::class ],
+    [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ] 
+]);
 $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
 $app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ [ ApiInstructorMiddleware::class ] ]);
 

@@ -1,8 +1,4 @@
 {
-    "$error": {
-        "required": "Incluir las propiedades: [{missing}]",
-        "additionalProperties": "Propiedades extra: [{properties}]"
-    },
     "type": "object",
     "properties": {
         "name": {
@@ -109,5 +105,9 @@
         "userRole",
         "profilePicture"
     ],
-    "additionalProperties": false
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
 }

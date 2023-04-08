@@ -75,11 +75,13 @@ export default {
     rules: {
         'title': {
             required: true,
-            trimming: true
+            trimming: true,
+            maxlength: 50
         },
         'description': {
             required: true,
-            trimming: true
+            trimming: true,
+            maxlength: 255
         },
         // 'video': {
         //     filesize: 4 * 1024,

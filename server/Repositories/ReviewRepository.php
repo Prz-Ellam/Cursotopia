@@ -34,6 +34,7 @@ class ReviewRepository implements ReviewRepositoryInterface {
         SET
             review_message = IFNULL(:message, review_message),
             review_rate = IFNULL(:rate, review_rate),
+            review_modified_at = NOW(),
             review_active = IFNULL(:active, review_active)
         WHERE
             review_id = :id

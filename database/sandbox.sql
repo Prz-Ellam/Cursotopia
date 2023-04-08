@@ -437,3 +437,19 @@ SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time
 FROM videos;
 
 
+SELECT
+            category_id AS `id`,
+            category_name AS `name`,
+            category_description AS `description`,
+            category_is_approved AS `approved`,
+            category_approved_by AS `approvedBy`,
+            category_created_by AS `createdBy`,
+            category_created_at AS `createdAt`,
+            category_modified_at AS `modifiedAt`,
+            category_active AS `active`
+        FROM
+            categories
+        WHERE
+            category_active = TRUE
+            AND (category_is_approved = TRUE
+            OR category_created_by = 5)

@@ -22,7 +22,7 @@ export const createCourseCreateCategory = async function(event) {
     };
     
     const response = await createCategory(category);
-    if (response.status) {
+    if (response?.status) {
         Toast.fire({
             icon: 'success',
             title: 'La categoría ha sido añadida con éxito'
@@ -51,7 +51,7 @@ export const updateCourseCreateCategory = async function(event) {
         description: formData.get('description')
     };
     const response = await createCategory(category);
-    if (response.status) {
+    if (response?.status) {
         Toast.fire({
             icon: 'success',
             title: 'La categoría ha sido añadida con éxito'
