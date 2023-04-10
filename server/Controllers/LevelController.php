@@ -12,11 +12,23 @@ class LevelController {
     public function create(Request $request, Response $response): void {
         // TODO:
         // 1. Validar que el curso existe
+        $courseId = $request->getParams("courseId");
         [
             "title" => $title,
             "description" => $description,
             "price" => $price
         ] = $request->getBody();
+
+        /*
+        $requestedCourse = Course::findById($courseId);
+        if (!$requestedCourse) {
+            $response->json([
+                "status" => false,
+                "message" => "El curso no existe"
+            ]);
+            return;
+        }
+        */
         
         $body = $request->getBody();
 

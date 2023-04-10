@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
     `level_price`                   DECIMAL(10, 2) NOT NULL,
-    `level_number`                  INT NOT NULL,
+    --`level_number`                  INT NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),

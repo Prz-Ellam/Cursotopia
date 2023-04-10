@@ -28,6 +28,19 @@ class CourseController {
 
         // TODO
         // 1. Validar que las categorias que se solicitaron existan
+        foreach ($categories as $categoryId) {
+            /*
+            $category = Category::findById([ $categoryId ]);
+            if (!$category) {
+                $response->json([
+                    "status" => false,
+                    "message" => "Una categoría no existe"
+                ]);
+                return;
+            }
+            */
+        }
+
         // 2. Validar que la imagen exista y que nadie mas la este usando
         // 3. Validar que el usuario este autenticado y sea un instructor (Middleware)
 
@@ -93,4 +106,10 @@ class CourseController {
          */
         $response->json($course);
     }
+
+    // Confirmar creacion del curso
+
+    // Aprobar un curso
+
+    // Busqueda de cursos por filtros
 }

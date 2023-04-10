@@ -2,8 +2,8 @@
 
 namespace Cursotopia\Models;
 
-class LessonModel {
+class ReviewModel {
     public static function findById(int $id) {
-        
+        // Repositorio para buscar por un id
     }
 }

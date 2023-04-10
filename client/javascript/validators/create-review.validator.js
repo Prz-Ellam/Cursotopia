@@ -7,7 +7,8 @@ $.validator.addMethod('trimming', function(value, element) {
 export default {
     rules: {
         'rate': {
-            required: true
+            required: true,
+            max: 10
         },
         'message': {
             required: true,

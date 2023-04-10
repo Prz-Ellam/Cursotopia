@@ -16,6 +16,9 @@ class EnrollmentController {
         $amount = $request->getBody("amount");
         $paymentMethodId = $request->getBody("paymentMethodId");
 
+        // Validar que el curso exista
+        // Validar que el método de pago existe
+
         $enrollment = new Enrollment();
         $enrollment
             ->setCourseId($courseId)

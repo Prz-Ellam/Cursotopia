@@ -33,6 +33,8 @@ $app->get('/course-details', function($request, $response) {
     }
 
     // verificar si compre o no el curso
+
+    // TODO: Hay que validar cualquier id
     
     $courseRepository = new CourseRepository();
     $course = $courseRepository->courseDetailsfindOneById($id);

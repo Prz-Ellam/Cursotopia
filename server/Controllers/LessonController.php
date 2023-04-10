@@ -12,6 +12,7 @@ class LessonController {
         // TODO:
         // 1. Validar que el nivel existe
         // 2. Validar que el video, imagen, documento o link existan
+        $levelId = $request->getParams("levelId");
         [
             "title" => $title,
             "description" => $description,
@@ -21,6 +22,17 @@ class LessonController {
             "documentId" => $documentId,
             "linkId" => $linkId
         ] = $request->getBody();
+
+        /*
+        $requestedLevel = Level::findById($levelId);
+        if (!$requestedLevel) {
+            $response->json([
+                "status" => false,
+                "message" => "El nível no existe"
+            ]);
+            return;
+        }
+        */
 
         $lessonRepository = new LessonRepository();
         $lesson = new Lesson();

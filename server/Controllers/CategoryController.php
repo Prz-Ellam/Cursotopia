@@ -21,11 +21,27 @@ class CategoryController {
     public function create(Request $request, Response $response): void {
         // Para crear una categoría tiene que estar autenticado un instructor
         $session = $request->getSession();
-
+        // /^[A-Za-z0-9\s\-_,\.;:()]+$/
         $id = $session->get("id");
         $body = $request->getBody();
 
+        [
+            "name" => $name,
+            "description" => $description
+        ] = $request->getBody();
+
         // Validar que el nombre de la categoria no se repita
+        /*
+            $existingCategoryName = Category::findByName($name);
+            if ($existingCategoryName) {
+                $response->json([
+                    "status" => false,
+                    "message" => "Ya existe una categoría con ese nombre"
+                ]);
+                return;
+            }
+        */
+
         // Validar que el usuario es un instructor
 
         $category = new CategoryModel($body);

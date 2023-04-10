@@ -10,8 +10,8 @@ use Cursotopia\Repositories\ReviewRepository;
 class ReviewController {
     public function create(Request $request, Response $response): void {
         // Obtener el parametro del curso
+        // TODO: Un usuario solo puede hacer una reseña?
         $courseId = $request->getParams("courseId");
-
         [
             "message" => $message,
             "rate" => $rate
@@ -21,6 +21,17 @@ class ReviewController {
         /*
             userId -> courseIsFinished
         
+        */
+
+        /*
+        $requestedCourse = Course::findById($courseId);
+        if (!$requestedCourse) {
+            $response->json([
+                "status" => false,
+                "message" => "El curso no existe"
+            ]);
+            return;
+        }
         */
 
         $session = $request->getSession();
@@ -49,6 +60,17 @@ class ReviewController {
             "rate" => $rate
         ] = $request->getBody();
 
+        // Validar que la reseña exista
+        /*
+            $requestedReview = Review::findById($reviewId);
+            if (!$requestedReview) {
+                $response->json([
+                    "status" => false,
+                    "message" => "La reseña no existe"
+                ]);
+            }
+        */
+
         //$reviewRepository = new ReviewRepository();
         //$rowsAffected = $reviewRepository->update();
     }
@@ -56,6 +78,17 @@ class ReviewController {
     public function delete(Request $request, Response $response): void {
         $courseId = $request->getParams("courseId");
         $reviewId = $request->getParams("reviewId");
+
+        // Validar que la reseña exista
+        /*
+            $requestedReview = Review::findById($reviewId);
+            if (!$requestedReview) {
+                $response->json([
+                    "status" => false,
+                    "message" => "La reseña no existe"
+                ]);
+            }
+        */
 
         $reviewRepository = new ReviewRepository();
         $rowsAffected = $reviewRepository->delete($reviewId);

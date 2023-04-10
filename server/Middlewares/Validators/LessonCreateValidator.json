@@ -23,27 +23,32 @@
         },
         "videoId": {
             "type": "number",
+            "minimum": 0,
             "$error": {
-                "type": "El precio debe ser un entero"
+                "type": "El id del video debe ser un entero",
+                "minimum": "El id del video debe ser un entero positivo"
             }
         },
         "imageId": {
             "type": "number",
+            "minimum": 0,
             "$error": {
-                "type": "El precio debe ser un entero"
+                "type": "El id de la imagen debe ser un entero",
+                "minimum": "El id de la imagen debe ser un entero positivo"
             }
         },
         "documentId": {
             "type": "number",
+            "minimum": 0,
             "$error": {
-                "type": "El precio debe ser un entero"
+                "type": "El id del documento debe ser un entero",
+                "minimum": "El id del documento debe ser un entero positivo"
             }
         }
     },
     "required": [
         "title",
-        "description",
-        "price"
+        "description"
     ],
     "additionalProperties": false,
     "$error": {
