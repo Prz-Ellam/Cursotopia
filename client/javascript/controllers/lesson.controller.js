@@ -23,11 +23,11 @@ export const createLesson = async function(event) {
     const lesson = {
         title: formData.get('title'),
         description: formData.get('description'),
-        levelId: parseInt(formData.get('level')),
-        videoId: parseInt(formData.get('video')),
-        imageId: parseInt(formData.get('image')),
-        documentId: parseInt(formData.get('document')),
-        linkId: parseInt(formData.get('link'))
+        levelId: Number.parseInt(formData.get('levelId')),
+        videoId: Number.parseInt(formData.get('video')),
+        imageId: Number.parseInt(formData.get('image')),
+        documentId: Number.parseInt(formData.get('document')),
+        linkId: Number.parseInt(formData.get('link'))
     }
     const response = await createLessonService(lesson);
     if (response?.status) {

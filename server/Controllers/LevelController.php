@@ -5,90 +5,112 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Level;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\LevelModel;
 use Cursotopia\Repositories\LevelRepository;
+use Exception;
 
 class LevelController {
     public function create(Request $request, Response $response): void {
-        // TODO:
-        // 1. Validar que el curso existe
-        $courseId = $request->getParams("courseId");
-        [
-            "title" => $title,
-            "description" => $description,
-            "price" => $price
-        ] = $request->getBody();
+        try {
+            [
+                "title" => $title,
+                "description" => $description,
+                "price" => $price,
+                "courseId" => $courseId
+            ] = $request->getBody();
 
-        /*
-        $requestedCourse = Course::findById($courseId);
-        if (!$requestedCourse) {
-            $response->json([
-                "status" => false,
-                "message" => "El curso no existe"
+            $requestedCourse = CourseModel::findById($courseId);
+            if (!$requestedCourse) {
+                $response
+                    ->setStatus(404)
+                    ->json([
+                        "status" => false,
+                        "message" => "El curso no existe"
+                    ]);
+                return;
+            }
+            
+            $level = new LevelModel([
+                "title" => $title,
+                "description" => $description,
+                "price" => $price,
+                "courseId" => $courseId
             ]);
-            return;
+            $level->save();
+            
+            $response
+                ->setStatus(201)
+                ->json([
+                    "status" => true,
+                    "message" => "El nível fue agregado éxitosamente",
+                    "id" => $level->getId()
+                ]);
         }
-        */
-        
-        $body = $request->getBody();
-
-        $level = new LevelModel($body);
-
-        $level->save();
-        
-        $response->json([
-            "status" => true,
-            "id" => $level->getId()
-        ]);
+        catch (Exception $exception) {
+            $response
+                ->setStatus(500)
+                ->json([
+                    "status" => false,
+                    "message" => "Ocurrió un error en el servidor"
+                ]);
+        }
     }
 
     public function update(Request $request, Response $response): void {
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        try {
+            $id = intval($request->getParams("id"));
+            [
+                "title" => $title,
+                "description" => $description,
+                "price" => $price
+            ] = $request->getBody();
+            
+            $level = LevelModel::findById($id);
+            $level
+                ->setTitle($title)
+                ->setDescription($description)
+                ->setPrice($price);
+
+            $status = $level->save();
+
+            $response->json([
+                "status" => true,
+                "message" => "El nível se actualizó éxitosamente"
+            ]);
+        }
+        catch (Exception $exception) {
             $response
-                ->setStatus(400)
+                ->setStatus(500)
                 ->json([
                     "status" => false,
-                    "message" => "ID is not valid"
+                    "message" => "Ocurrió un error en el servidor"
                 ]);
-            return;
         }
-
-        $level = LevelModel::findOneById($id);
-        $level
-            ->setTitle($request->getBody("title"))
-            ->setDescription($request->getBody("description"))
-            ->setPrice($request->getBody("price"));
-
-        $status = $level->save();
-
-        $response->json([
-            "status" => true,
-            "message" => $status
-        ]);
     }
 
     public function delete(Request $request, Response $response): void {
-        $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        try {
+            $id = intval($request->getParams("id"));
+
+            $level = LevelModel::findById($id);
+            $level
+                ->setActive(false);
+
+            $status = $level->save();
+
+            $response->json([
+                "status" => true,
+                "message" => $status
+            ]);
+        }
+        catch (Exception $exception) {
             $response
-                ->setStatus(400)
+                ->setStatus(500)
                 ->json([
                     "status" => false,
-                    "message" => "ID is not valid"
+                    "message" => "Ocurrió un error en el servidor"
                 ]);
-            return;
         }
-
-        $level = LevelModel::findOneById($id);
-        $level
-            ->setActive(false);
-
-        $status = $level->save();
-
-        $response->json([
-            "status" => true,
-            "message" => $status
-        ]);
     }
 }

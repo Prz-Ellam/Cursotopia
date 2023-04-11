@@ -36,7 +36,7 @@ class CourseRepository {
             `course_title` AS `title`,
             `course_description` AS `description`,
             `course_price` AS `price`,
-            `image_id` AS `imageId`,
+            `course_image_id` AS `imageId`,
             `instructor_id` AS `instructorId`,
             `course_approved` AS `approved`,
             `course_approved_by` AS `approvedBy`,
@@ -277,6 +277,13 @@ class CourseRepository {
     }
 
     public function findOneById(int $id): array {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
+    public function findById(int $id): ?array {
         $parameters = [
             "id" => $id
         ];

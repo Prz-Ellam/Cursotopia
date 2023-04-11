@@ -32,12 +32,21 @@
                 "multipleOf": "El precio solo puede tener dos decimales",
                 "format": "El precio no tiene formato de moneda"
             }
+        },
+        "courseId": {
+            "type": "number",
+            "minimum": 1,
+            "$error": {
+                "type": "El id del curso debe ser un entero",
+                "minimum": "El id del curso debe ser un entero positivo"
+            }
         }
     },
     "required": [
         "title",
         "description",
-        "price"
+        "price",
+        "courseId"
     ],
     "additionalProperties": false,
     "$error": {

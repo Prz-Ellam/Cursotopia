@@ -214,7 +214,7 @@
         </div>
         <div class="modal-body">
 
-          <input type="hidden" name="level" id="create-lesson-level">
+          <input type="hidden" name="levelId" id="create-lesson-level">
 
           <div class="mb-4">
             <label class="form-label" role="button">Título</label>

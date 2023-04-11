@@ -64,8 +64,10 @@ $(document).on('click', '.create-lesson-btn', function() {
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 
+    console.log('Aqui');
     const createLessonLevel = document.getElementById('create-lesson-level');
     createLessonLevel.value = this.getAttribute('ct-target');
+    console.log(createLessonLevel.value);
 });
 
 const createLessonForm = document.getElementById('create-lesson-form');

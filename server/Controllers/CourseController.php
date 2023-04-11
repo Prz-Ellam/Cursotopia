@@ -7,15 +7,13 @@ use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Course;
 use Cursotopia\Entities\CourseCategory;
-use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Models\CategoryModel;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CourseCategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
 class CourseController {
     public function create(Request $request, Response $response): void {
-        // Para crear un curso debe estar autenticado y debe ser rol instructor
-        $session = $request->getSession();
-
         [
             "title" => $title,
             "description" => $description,
@@ -23,14 +21,14 @@ class CourseController {
             "categories" => $categories,
             "imageId" => $imageId
         ] = $request->getBody();
-
+            
+        $session = $request->getSession();
         $instructorId = $session->get("id");
 
         // TODO
         // 1. Validar que las categorias que se solicitaron existan
         foreach ($categories as $categoryId) {
-            /*
-            $category = Category::findById([ $categoryId ]);
+            $category = CategoryModel::findById($categoryId);
             if (!$category) {
                 $response->json([
                     "status" => false,
@@ -38,13 +36,21 @@ class CourseController {
                 ]);
                 return;
             }
-            */
         }
 
         // 2. Validar que la imagen exista y que nadie mas la este usando
         // 3. Validar que el usuario este autenticado y sea un instructor (Middleware)
 
         DB::beginTransaction();
+
+        $course = new CourseModel([
+            "title" => $title,
+            "description" => $description,
+            "price" => $price,
+            "instructorId" => $instructorId,
+            "imageId" => $imageId
+        ]);
+
         $course = new Course();
         $course
             ->setTitle($title)
@@ -76,11 +82,17 @@ class CourseController {
     }
 
     public function update(Request $request, Response $response): void {
-
+        $courseId = $request->getParams("id");
+        [
+            "title" => $title,
+            "description" => $description,
+            "price" => $price,
+            "categories" => $categories
+        ] = $request->getBody();
     }
 
     public function delete(Request $request, Response $response): void {
-
+        $courseId = $request->getParams("id");
     }
 
     public function getOne(Request $request, Response $response): void {
@@ -108,6 +120,14 @@ class CourseController {
     }
 
     // Confirmar creacion del curso
+    public function confirm(Request $request, Response $response): void {
+        $courseId = $request->getParams("id");
+
+        /*
+            
+
+        */
+    }
 
     // Aprobar un curso
 

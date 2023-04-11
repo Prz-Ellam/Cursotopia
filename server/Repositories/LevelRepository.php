@@ -127,6 +127,13 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
         return $this::executeOneReader($this::FIND_ONE, $parameters);
     }
 
+    public function findById(int $id): array {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
     public function findAllByCourse(int $courseId): array {
         $parameters = [
             "course_id" => $courseId

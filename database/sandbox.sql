@@ -433,23 +433,53 @@ WHERE
     AND `user_active` = IFNULL(NULL, `user_active`);
 
 
-SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time 
-FROM videos;
-
-
-SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
+        SELECT
+            c.course_id AS `id`,
+            c.course_title AS `title`,
+            c.course_description AS `description`,
+            c.course_price AS `price`,
+            c.course_image_id AS `imageId`,
+            c.instructor_id AS `instructorId`,
+            c.course_approved AS `approved`,
+            c.course_approved_by AS `approvedBy`,
+            c.course_created_at AS `createdAt`,
+            c.course_modified_at AS `modifiedAt`,
+            c.course_active AS `active`,
+            COUNT(DISTINCT l.level_id) AS `levels`,
+            IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
+            CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
+            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
+            COUNT(DISTINCT e.enrollment_id) AS `enrollments`
         FROM
-            categories
+            `courses` AS c
+        INNER JOIN
+            levels AS l
+        ON
+            c.course_id = l.course_id
+        INNER JOIN
+            lessons AS le
+        ON
+            l.level_id = le.level_id
+        LEFT JOIN
+            videos AS v
+        ON
+            le.video_id = v.video_id
+        LEFT JOIN
+            reviews AS r
+        ON
+            c.course_id = r.course_id
+        INNER JOIN
+            users AS u
+        ON
+            c.instructor_id = u.user_id
+        LEFT JOIN
+            enrollments AS e
+        ON
+            c.course_id = e.course_id
         WHERE
-            category_active = TRUE
-            AND (category_is_approved = TRUE
-            OR category_created_by = 5)
+            c.course_active = TRUE
+            AND c.course_approved = TRUE
+        GROUP BY
+            c.course_id
+        ORDER BY
+            `course_created_at` DESC

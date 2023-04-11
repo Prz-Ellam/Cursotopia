@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_id`                     INT NOT NULL AUTO_INCREMENT,
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
-    `lesson_number`                 INT NOT NULL,
+    --`lesson_number`                 INT NOT NULL,
     `level_id`                      INT NOT NULL,
     `video_id`                      INT DEFAULT NULL,
     `image_id`                      INT DEFAULT NULL,

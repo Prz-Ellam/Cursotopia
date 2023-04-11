@@ -33,14 +33,6 @@
                 "format": "El precio no tiene formato de moneda"
             }
         },
-        "imageId": {
-            "type": "number",
-            "minimum": 0,
-            "$error": {
-                "type": "La foto de perfil debe ser un entero",
-                "minimum": "La foto de perfil debe ser un entero positivo"
-            }
-        },
         "categories": {
             "type": "array",
             "items": {
@@ -60,7 +52,6 @@
         "title",
         "description",
         "price",
-        "image",
         "categories"
     ],
     "additionalProperties": false,

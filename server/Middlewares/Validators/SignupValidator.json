@@ -83,12 +83,14 @@
         },
         "userRole": {
             "type": "number",
+            "minimum": 1,
             "$error": {
                 "type": "El rol de usuario debe ser un número"
             }
         },
         "profilePicture": {
             "type": "number",
+            "minimum": 1,
             "$error": {
                 "type": "La foto de perfil debe ser un número"
             }

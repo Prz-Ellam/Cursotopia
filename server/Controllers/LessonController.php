@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Lesson;
+use Cursotopia\Models\LevelModel;
 use Cursotopia\Repositories\LessonRepository;
 
 class LessonController {
@@ -12,7 +13,6 @@ class LessonController {
         // TODO:
         // 1. Validar que el nivel existe
         // 2. Validar que el video, imagen, documento o link existan
-        $levelId = $request->getParams("levelId");
         [
             "title" => $title,
             "description" => $description,
@@ -23,8 +23,8 @@ class LessonController {
             "linkId" => $linkId
         ] = $request->getBody();
 
-        /*
-        $requestedLevel = Level::findById($levelId);
+        
+        $requestedLevel = LevelModel::findById($levelId);
         if (!$requestedLevel) {
             $response->json([
                 "status" => false,
@@ -32,7 +32,7 @@ class LessonController {
             ]);
             return;
         }
-        */
+        
 
         $lessonRepository = new LessonRepository();
         $lesson = new Lesson();
@@ -50,6 +50,10 @@ class LessonController {
     }
 
     public function update(Request $request, Response $response): void {
-        
+        $id = intval($request->getParams("id"));
+    }
+
+    public function delete(Request $request, Response $response): void {
+        $id = intval($request->getParams("id"));
     }
 }

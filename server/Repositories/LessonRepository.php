@@ -109,6 +109,13 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
     }
 
+    public function findById(int $id): array {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
+    }
+
     public function findFirstNotViewed(int $courseId, int $userId) {
         $parameters = [
             "course_id" => $courseId,

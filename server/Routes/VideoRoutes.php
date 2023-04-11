@@ -3,6 +3,12 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\VideoController;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 
-$app->get('/api/v1/videos/:id', [ VideoController::class, 'getOne' ]);
+// Obtener un video
+$app->get('/api/v1/videos/:id', [ VideoController::class, 'getOne' ], [
+    [ ValidateIdMiddleware::class ]
+]);
+
+// Crear un video
 $app->post('/api/v1/videos', [ VideoController::class, 'create' ]);

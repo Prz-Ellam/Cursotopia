@@ -35,7 +35,7 @@
         },
         "imageId": {
             "type": "number",
-            "minimum": 0,
+            "minimum": 1,
             "$error": {
                 "type": "La foto de perfil debe ser un entero"
             }
@@ -44,7 +44,7 @@
             "type": "array",
             "items": {
                 "type": "number",
-                "minimum": 0,
+                "minimum": 1,
                 "$error": {
                     "type": "Todas las categorías deben ser un entero",
                     "minimum": "Todas las categorías deben ser un entero positivo"

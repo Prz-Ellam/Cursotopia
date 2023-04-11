@@ -21,34 +21,44 @@
                 "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },
-        "videoId": {
+        "levelId": {
             "type": "number",
-            "minimum": 0,
+            "minimum": 1,
             "$error": {
-                "type": "El id del video debe ser un entero",
-                "minimum": "El id del video debe ser un entero positivo"
+                "type": "El id del curso debe ser un entero",
+                "minimum": "El id del curso debe ser un entero positivo"
             }
+        },
+        "videoId": {
+            
         },
         "imageId": {
-            "type": "number",
-            "minimum": 0,
-            "$error": {
-                "type": "El id de la imagen debe ser un entero",
-                "minimum": "El id de la imagen debe ser un entero positivo"
-            }
+            
         },
         "documentId": {
-            "type": "number",
-            "minimum": 0,
-            "$error": {
-                "type": "El id del documento debe ser un entero",
-                "minimum": "El id del documento debe ser un entero positivo"
-            }
+            
+        },
+        "linkId": {
+            
         }
     },
     "required": [
         "title",
-        "description"
+        "description",
+        "levelId"
+    ],
+    "anyOf": [
+        {
+            "required": [
+                "videoId",
+                "imageId",
+                "documentId",
+                "linkId"
+            ]
+        },
+        {
+            "minProperties": 4
+        }
     ],
     "additionalProperties": false,
     "$error": {

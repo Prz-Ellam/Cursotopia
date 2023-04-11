@@ -107,12 +107,34 @@ $app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
 $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
+// Crear un curso
 $app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ 
-    [ ApiInstructorMiddleware::class ],
-    [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ] 
+    [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ],
+    [ ApiInstructorMiddleware::class ]
 ]);
-$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ [ ApiInstructorMiddleware::class ] ]);
-$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ [ ApiInstructorMiddleware::class ] ]);
+
+// Actualizar un curso
+$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ 
+    [ JsonSchemaMiddleware::class, 'CourseUpdateValidator' ],
+    [ ValidateIdMiddleware::class ],
+    [ ApiInstructorMiddleware::class ]
+]);
+
+// Eliminar un curso
+$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ 
+    [ ValidateIdMiddleware::class ],
+    [ ApiInstructorMiddleware::class ] 
+]);
+
+// Confirmar la creacion del curso
+$app->put('/api/v1/courses/:id/confirm', [ CourseController::class, 'confirm' ], [
+    [ ValidateIdMiddleware::class ],
+    [ ApiInstructorMiddleware::class ] 
+]);
 
 $app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
 $app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));
+
+
+// TODO:
+// Validar en los actualizados o eliminados que le pertenezca al usuario el recurso
