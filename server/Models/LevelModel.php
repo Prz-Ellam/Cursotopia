@@ -77,6 +77,11 @@ class LevelModel {
         return new LevelModel($levelObject);
     }
 
+    public static function findByCourse(int $courseId): array {
+        $levelRepository = new LevelRepository();
+        return $levelRepository->findByCourse($courseId);
+    }
+
     /**
      * Get the value of id
      */ 
@@ -175,5 +180,14 @@ class LevelModel {
         $this->active = $active;
 
         return $this;
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
     }
 }

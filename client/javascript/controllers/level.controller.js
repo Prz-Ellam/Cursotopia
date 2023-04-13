@@ -79,7 +79,24 @@ export const courseEditionCreateLevel = async function(event) {
 }
 
 export const courseCreationUpdateLevel = async function(event) {
+    event.preventDefault();
 
+    const validations = $(this).valid();
+    if (!validations) {
+        return;
+    }
+
+    const modal = document.getElementById('update-level-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
+    const formData = new FormData(this);
+    const level = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        price: Number.parseFloat(formData.get('price')),
+        courseId: Number.parseInt(formData.get('courseId'))
+    };
 }
 
 export const courseEditionUpdateLevel = async function(event) {

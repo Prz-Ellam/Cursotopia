@@ -5,10 +5,17 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Lesson;
+use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
 use Cursotopia\Repositories\LessonRepository;
 
 class LessonController {
+    public function getOne(Request $request, Response $response): void {
+        $id = $request->getParams("id");
+        $lesson = LessonModel::findById($id);
+        $response->json($lesson->toObject());
+    }
+
     public function create(Request $request, Response $response): void {
         // TODO:
         // 1. Validar que el nivel existe

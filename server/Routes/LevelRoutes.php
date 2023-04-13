@@ -6,7 +6,7 @@ use Cursotopia\Controllers\LevelController;
 use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 
-$app->get('/api/v1/levels/:id', [ LevelController::class, 'show' ]);
+$app->get('/api/v1/levels/:id', [ LevelController::class, 'getOne' ]);
 
 // Crear un nivel
 $app->post('/api/v1/levels', [ LevelController::class, 'create' ], [

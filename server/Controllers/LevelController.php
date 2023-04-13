@@ -11,6 +11,13 @@ use Cursotopia\Repositories\LevelRepository;
 use Exception;
 
 class LevelController {
+    public function getOne(Request $request, Response $response): void {
+        $id = $request->getParams("id");
+
+        $level = LevelModel::findById($id);
+        $response->json($level->toObject());
+    }
+
     public function create(Request $request, Response $response): void {
         try {
             [

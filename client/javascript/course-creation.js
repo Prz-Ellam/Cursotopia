@@ -2,7 +2,7 @@ import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
 import createCourseValidator from './validators/create-course.validator';
-import { createCourse, createCourseImage } from './controllers/course.controller';
+import { createCourse, createCourseImage, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevel, createLevelImage, createLevelPdf, createLevelVideo } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
 import createLevelValidator from './validators/create-level.validator';
@@ -10,12 +10,15 @@ import createLessonValidator from './validators/create-lesson.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
+import { findByIdService } from './services/level.service';
 
 // Create Course
 const createCourseForm = document.getElementById('create-course-form');
 $(createCourseForm).validate(createCourseValidator);
 createCourseForm.addEventListener('submit', createCourse);
 
+const confirmCourse = document.getElementById('confirm-course-btn');
+confirmCourse.addEventListener('click', submitConfirmCourse);
 
 // Create Category
 $('#create-category-btn').on('click', function() {
@@ -42,9 +45,16 @@ createLevelForm.addEventListener('submit', createLevel);
 
 
 // Update Level
-$(document).on('click', '.update-level-btn', function() {
-    const updateLevelId = document.getElementById('update-level-id');
+$(document).on('click', '.update-level-btn', async function() {
+    const updateLevelId = document.getElementById('edit-level-id');
     updateLevelId.value = this.getAttribute('ct-target');
+
+    const response = await findByIdService(updateLevelId.value);
+    console.log(response);
+    $('#edit-level-title').val(response.title);
+    $('#edit-level-description').val(response.description);
+    $('#edit-level-price').val(response.price);
+
     const modal = document.getElementById('update-level-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
@@ -64,7 +74,6 @@ $(document).on('click', '.create-lesson-btn', function() {
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 
-    console.log('Aqui');
     const createLessonLevel = document.getElementById('create-lesson-level');
     createLessonLevel.value = this.getAttribute('ct-target');
     console.log(createLessonLevel.value);

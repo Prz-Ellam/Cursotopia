@@ -43,4 +43,10 @@ class CourseModel {
         }
         return new CourseModel($courseObject);
     }
+
+    public static function confirm(int $id) {
+        $courseRepository = new CourseRepository();
+        $rowsAffected = $courseRepository->confirm($id);
+        return ($rowsAffected > 0) ? true : false;
+    }
 }

@@ -30,6 +30,15 @@ class CourseRepository {
             AND :instructor_id IS NOT NULL
     SQL;
 
+    private const CONFIRM = <<<'SQL'
+        UPDATE
+            `courses`
+        SET
+            `course_is_complete` = TRUE
+        WHERE
+            `course_id` = :id;
+    SQL;
+
     private const FIND_ONE = <<<'SQL'
         SELECT
             `course_id` AS `id`,
@@ -288,6 +297,13 @@ class CourseRepository {
             "id" => $id
         ];
         return DB::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
+    public function confirm(int $id): bool {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeNonQuery($this::CONFIRM, $parameters);
     }
 
     public function courseDetailsfindOneById(int $id): array {

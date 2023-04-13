@@ -61,6 +61,22 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             level_id = :id
     SQL;
 
+    private const FIND_BY_COURSE = <<<'SQL'
+        SELECT
+            level_id AS `id`,
+            level_title AS `title`,
+            level_description AS `description`,
+            level_price AS `price`,
+            course_id AS `courseId`,
+            level_created_at AS `createdAt`,
+            level_modified_at AS `modifiedAt`,
+            level_active AS `active`
+        FROM
+            levels
+        WHERE
+            course_id = :course_id
+    SQL;
+
     private const FIND_ALL_BY_COURSE = <<<'SQL'
         SELECT
             l.level_id AS `id`,
@@ -132,6 +148,13 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             "id" => $id
         ];
         return $this::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
+    public function findByCourse(int $courseId): array {
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return $this::executeReader($this::FIND_BY_COURSE, $parameters);
     }
 
     public function findAllByCourse(int $courseId): array {

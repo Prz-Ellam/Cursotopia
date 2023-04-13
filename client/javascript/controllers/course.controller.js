@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { createCourseService } from '../services/course.service';
+import { courseConfirmService, createCourseService } from '../services/course.service';
 import { createImage } from '../services/image.service';
 import { readFileAsync } from '../utilities/file-reader';
 
@@ -14,36 +14,49 @@ export const createCourse = async function(event) {
     if (!validations) {
         return;
     }
-    console.log('Aqui');
 
     const formData = new FormData(this);
     const course = {
         title: formData.get('title'),
         description: formData.get('description'),
         price: Number.parseFloat(formData.get('price')),
-        categories: formData.getAll('categories[]').map(category => parseInt(category)),
+        categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
         imageId: Number.parseInt(formData.get('imageId'))
     }
 
     const response = await createCourseService(course);
-    if (response.status) {
-        const createLevelCourseId = document.getElementById('create-level-course-id');
-        createLevelCourseId.value = response.id;
+    if (!response?.status) {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
         await Swal.fire({
-            icon: 'success',
-            title: '¡El curso fue creado con éxito!',
-            confirmButtonText: 'Avanzar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
+            icon: 'error',
+            title: 'Oops...',
+            html: text,
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
             customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
-        //window.location.href = 'home';
     }
-    else {
-        return;
-    }
+
+    const createLevelCourseId = document.getElementById('create-level-course-id');
+    createLevelCourseId.value = response.id;
+    await Swal.fire({
+        icon: 'success',
+        title: '¡La información fue añadida con éxito!',
+        confirmButtonText: 'Avanzar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
 
     const current_fs = $('#course-section');
     const next_fs = $('#levels-section');
@@ -96,8 +109,8 @@ export const createCourseImage = async function(event) {
             return;
         }
 
-        const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
-        if (!allowedExtensions.exec(file.type)) {
+        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+        if (!allowedExtensions.includes(file.type)) {
             pictureBox.src = defaultImage;
             courseCoverId.value = '';
             $("#course-creation-form").validate().element('#course-cover-id');
@@ -148,6 +161,47 @@ export const updateCourse = async function(event) {
 
 export const deleteCourse = function(event) {
 
+}
+
+export const submitConfirmCourse = async function(event) {
+    event.preventDefault();
+
+    const courseId = document.getElementById('create-level-course-id').value;
+
+    const response = await courseConfirmService(courseId);
+    console.log(response);
+    if (!response?.status) {
+        let text = response.message ?? 'Parece que algo salió mal';
+        if (response.message instanceof Object) {
+            text = '';
+            for (const [key, value] of Object.entries(response.message)) {
+                text += `${value}<br>`;
+            }
+        }
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: text,
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: '¡El curso está listo!',
+        text: 'El contenido del curso ha sido añadido, un administrador te informará cuando se apruebe tu curso y que todos puedan verlo',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+    window.location.href = '/home';
 }
 
 export const findAllByInstructor = function(event) {

@@ -483,3 +483,13 @@ WHERE
             c.course_id
         ORDER BY
             `course_created_at` DESC
+
+
+
+
+
+-- Obtiene el curso 15
+SELECT * FROM `courses` WHERE `course_id` = 15;
+
+-- Obtener todos los niveles del curso 15
+SELECT * FROM `levels` WHERE `course_id` = 15;

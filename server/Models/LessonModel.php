@@ -17,4 +17,18 @@ class LessonModel {
         }
         return new LessonModel($lessonObject);
     }
+
+    public static function findByLevel(int $levelId) {
+        $lessonRepository = new LessonRepository();
+        return $lessonRepository->findByLevel($levelId);
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
 }

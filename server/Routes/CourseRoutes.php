@@ -6,6 +6,7 @@ use Cursotopia\Controllers\CourseController;
 use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;

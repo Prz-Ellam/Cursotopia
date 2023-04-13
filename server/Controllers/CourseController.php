@@ -9,6 +9,8 @@ use Cursotopia\Entities\Course;
 use Cursotopia\Entities\CourseCategory;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Models\CourseModel;
+use Cursotopia\Models\LessonModel;
+use Cursotopia\Models\LevelModel;
 use Cursotopia\Repositories\CourseCategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
@@ -123,10 +125,48 @@ class CourseController {
     public function confirm(Request $request, Response $response): void {
         $courseId = $request->getParams("id");
 
+        $levels = LevelModel::findByCourse($courseId);
+        if (count($levels) < 1) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "El curso debe tener al menos un nível"
+            ]);
+            return;
+        }
+
+        foreach ($levels as $level) {
+            $lessons = LessonModel::findByLevel($level["id"]);
+            if (count($lessons) < 1) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "Cada nível debe tener al menos una lección"
+                ]);
+                return;
+            }
+            $foundVideo = false;
+            foreach ($lessons as $lesson) {
+                if ($lesson["videoId"]) {
+                    $foundVideo = true;
+                }
+            }
+
+            if (!$foundVideo) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "Cada nível debe tener al menos una lección con vídeo"
+                ]);
+                return;
+            }
+        }
+
+        $result = CourseModel::confirm($courseId);
         /*
             
-
         */
+        $response->json([
+            "status" => true,
+            "message" => $result
+        ]);
     }
 
     // Aprobar un curso

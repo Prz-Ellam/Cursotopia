@@ -44,9 +44,10 @@
         <p class="text-center fw-bold">Publicar</p>
       </li>
     </ul>
-    <form action="#" class="row" id="create-course-form">
+
+    <!-- Crear un curso --> 
+    <form action="#" class="row" id="create-course-form">  
       <fieldset class="row mx-0" id="course-section">
-        <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
         <div class="col-md-6 col-sm-12 col-xs-12">
           <div class="mb-4">
             <label for="title" class="form-label" role="button">Título</label>
@@ -54,7 +55,7 @@
           </div>
           <div class="mb-4">
             <label for="description" class="form-label" role="button">Descripción</label>
-            <textarea class="form-control" id="description" cols="30" rows="3" name="description"></textarea>
+            <textarea class="form-control" id="description" cols="30" rows="3" name="description" placeholder="¿De que va a tratar tú curso?"></textarea>
           </div>
           <div class="form-check">
             <input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox" autocomplete="off">
@@ -92,6 +93,7 @@
             <img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
+          <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
         </div>
         <div class="d-flex mt-5 mb-5">
           <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Avanzar</button>
@@ -101,7 +103,7 @@
       <div id="levels-list">
         <input type="hidden" name="levels[]" autocomplete="off">
       </div>
-
+    
       <fieldset class="my-5" id="levels-section">
         <div class="py-2 d-flex">
           <h4 class="pe-4">Niveles</h4>
@@ -109,16 +111,12 @@
             Añadir nivel
           </button>
         </div>
-        <ul class="list-unstyled" id="levels-container">
-
-        </ul>
+        <ul class="list-unstyled" id="levels-container"></ul>
 
         <div class="d-flex mt-5 mb-5">
-          <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Finalizar</button>
+          <button type="button" id="confirm-course-btn" class="next btn btn-primary rounded-pill w-100">Finalizar</button>
         </div>
-
       </fieldset>
-      
     </form>
   </section>
 

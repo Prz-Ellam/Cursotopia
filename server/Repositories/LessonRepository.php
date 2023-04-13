@@ -52,6 +52,25 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             lesson_id = :id
     SQL;
 
+    private const FIND_BY_LEVEL = <<<'SQL'
+        SELECT
+            lesson_id AS `id`,
+            lesson_title AS `title`,
+            lesson_description AS `description`,
+            level_id AS `levelId`,
+            video_id AS `videoId`,
+            image_id AS `imageId`,
+            document_id AS `documentId`,
+            link_id AS `linkId`,
+            lesson_created_at AS `createdAt`,
+            lesson_modified_at AS `modifiedAt`,
+            lesson_active AS `active`
+        FROM
+            lessons
+        WHERE
+            level_id = :level_id
+    SQL;
+
     private const FIND_FIRST_NOT_VIEWED = <<<'SQL'
         SELECT
             le.lesson_id AS `id`,
@@ -114,6 +133,13 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             "id" => $id
         ];
         return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
+    }
+
+    public function findByLevel(int $levelId): array {
+        $parameters = [
+            "level_id" => $levelId
+        ];
+        return DB::executeReader($this::FIND_BY_LEVEL, $parameters);
     }
 
     public function findFirstNotViewed(int $courseId, int $userId) {
