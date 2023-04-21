@@ -170,6 +170,21 @@ class CourseController {
     }
 
     // Aprobar un curso
+    public function approve(Request $request, Response $response): void {
+        $courseId = $request->getParams("id");
+        $session = $request->getSession();
+        [
+            "approve" => $approve
+        ] = $request->getBody();
+
+        $adminId = $session->get("id");
+
+        $result = CourseModel::approve($courseId, $adminId, $approve);
+        $response->json([
+            "status" => true,
+            "message" => $result
+        ]);
+    }
 
     // Busqueda de cursos por filtros
 }

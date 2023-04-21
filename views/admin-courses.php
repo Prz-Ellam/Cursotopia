@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <?= $this->link("styles/pages/admin-courses.css") ?>
+  <?= $this->script("javascript/admin-courses.js") ?>
 </head>
 <body>
   <!-- Navbar -->
@@ -74,7 +75,7 @@
     </div>
   </nav>
 
-  <div class="container-fluid">
+  <section class="container-fluid">
     <div class="row flex-nowrap">
       <div class="col-auto collapse d-lg-block col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
         <div class="text-white">
@@ -130,95 +131,35 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <?php foreach($this->courses as $course): ?>
                       <tr class="text-center">
-                        <td data-title="Curso">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
+                        <td data-title="Curso"><?= $course["title"] ?></td>
+                        <td data-title="Usuario"><?= $course["instructor"] ?></td>
                         <td data-title="Detalle">
                           <a class="btn btn-secondary rounded-pill" href="course-details">Ver detalles</a>
                         </td>
                         <td data-title="Aceptar/Declinar">
-                          <button class="btn"><i class='bx bxs-check-circle'></i></button>
-                          <button class="btn"><i class='bx bxs-x-circle'></i></button>
+                          <button data-id="<?= $course["id"] ?>" class="btn border-0 btn-approve">
+                            <i class="bx bxs-check-circle"></i>
+                          </button>
+                          <button data-id="<?= $course["id"] ?>" class="btn border-0 btn-denied">
+                            <i class="bx bxs-x-circle"></i>
+                          </button>
                         </td>
                       </tr>
-                      <tr class="text-center">
-                        <td data-title="Curso">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="course-details">Ver detalles</a>
-                        </td>
-                        <td data-title="Aceptar/Declinar">
-                          <button class="btn"><i class='bx bxs-check-circle'></i></button>
-                          <button class="btn"><i class='bx bxs-x-circle'></i></button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Curso">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="course-details">Ver detalles</a>
-                        </td>
-                        <td data-title="Aceptar/Declinar">
-                          <button class="btn"><i class='bx bxs-check-circle'></i></button>
-                          <button class="btn"><i class='bx bxs-x-circle'></i></button>
-                        </td>
-                      </tr>
+                      <?php endforeach ?>
                     </tbody>
                   </table>
                 </div>
               </div>
 
-              <div class="disabled-course-table col-12 me-3 mt-4 mb-4">
-                <h4>Cursos desactivados</h4>
-                <div class="row pt-3" id="no-more-tables">
-                  <table class="table table-borderless">
-                    <thead class="border-bottom text-center">
-                      <tr>
-                        <th>Categoría</th>
-                        <th>Usario</th>
-                        <th>Detalle</th>
-                        <th>Activar</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="text-center">
-                        <td data-title="Categoría">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle"><button class="btn btn-secondary"><a class="nav-link text-white"
-                              href="course-details">Ver detalles</a></button></td>
-                        <td data-title="Activar">
-                          <button class="btn btn-secondary rounded-pill">Activar</button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Categoría">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle"><button class="btn btn-secondary"><a class="nav-link text-white"
-                              href="course-details">Ver detalles</a></button></td>
-                        <td data-title="Activar">
-                          <button class="btn btn-secondary rounded-pill">Activar</button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Categoría">BDM</td>
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle"><button class="btn btn-secondary"><a class="nav-link text-white"
-                              href="course-details">Ver detalles</a></button></td>
-                        <td data-title="Activar">
-                          <button class="btn btn-secondary rounded-pill">Activar</button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              
             </div>
-
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Footer -->
   <div class="container-fluid mt-auto bg-primary">

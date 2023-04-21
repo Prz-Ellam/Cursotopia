@@ -8,6 +8,7 @@ use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\Models\CategoryModel;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Repositories\EnrollmentRepository;
@@ -133,7 +134,16 @@ $app->put('/api/v1/courses/:id/confirm', [ CourseController::class, 'confirm' ],
     [ ApiInstructorMiddleware::class ] 
 ]);
 
-$app->get('/admin-courses', fn($request, $response) => $response->render('admin-courses'));
+$app->put('/api/v1/courses/:id/approve', [ CourseController::class, 'approve' ], [
+    [ ValidateIdMiddleware::class ]
+]);
+
+$app->get('/admin-courses', function($request, $response) {
+
+    $courses = CourseModel::findByNotApproved();
+
+    $response->render('admin-courses', [ "courses" => $courses ]);
+});
 $app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));
 
 

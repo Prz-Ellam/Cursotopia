@@ -1,5 +1,24 @@
 import axios from 'axios';
 
+export default class CategoryService {
+    static findAll = async () => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/categories`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
+    }
+}
+
 export const createCategory = async (category) => {
     try {
         const configuration = {

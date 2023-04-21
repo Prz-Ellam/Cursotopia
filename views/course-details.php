@@ -47,7 +47,7 @@
         <h3 class="text-center text-white">$<?= $this->course["price"] ?> MXN</h3>
         <!-- Sin comprar -->
         
-        <?php if($this->enrollment): ?>
+        <?php if($this->enrollment !== "NULL"): ?>
         <a 
           href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $this->lesson["id"] ?>" 
           class="btn btn-secondary w-100">

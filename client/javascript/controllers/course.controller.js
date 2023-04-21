@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { courseConfirmService, createCourseService } from '../services/course.service';
+import CourseService, { courseConfirmService, createCourseService } from '../services/course.service';
 import { createImage } from '../services/image.service';
 import { readFileAsync } from '../utilities/file-reader';
 
@@ -24,7 +24,7 @@ export const createCourse = async function(event) {
         imageId: Number.parseInt(formData.get('imageId'))
     }
 
-    const response = await createCourseService(course);
+    const response = await CourseService.create(course);
     if (!response?.status) {
         let text = response.message ?? 'Parece que algo salió mal';
         if (response.message instanceof Object) {
@@ -43,6 +43,7 @@ export const createCourse = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        return;
     }
 
     const createLevelCourseId = document.getElementById('create-level-course-id');
@@ -78,7 +79,7 @@ export const createCourse = async function(event) {
         duration: 600
     });
 
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 export const createCourseImage = async function(event) {
@@ -135,7 +136,7 @@ export const createCourseImage = async function(event) {
         pictureBox.src = defaultImage;
         courseCoverId.value = '';
     }
-    $("#create-course-form").validate().element('#course-cover-id');
+    $("#course-create-form").validate().element('#course-cover-id');
 }
 
 export const updateCourse = async function(event) {
@@ -188,6 +189,7 @@ export const submitConfirmCourse = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        return;
     }
 
     await Swal.fire({

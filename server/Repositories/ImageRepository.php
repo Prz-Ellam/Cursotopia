@@ -26,7 +26,7 @@ class ImageRepository extends DB {
     SQL;
 
     private const CREATE = <<<'SQL'
-        CALL `insert_image`(
+        CALL `image_create`(
             :name, 
             :size, 
             :content_type, 
@@ -56,7 +56,7 @@ class ImageRepository extends DB {
     SQL;
     
     private const UPDATE = <<<'SQL'
-        CALL update_image(
+        CALL image_update(
             :id, 
             :name, 
             :size, 

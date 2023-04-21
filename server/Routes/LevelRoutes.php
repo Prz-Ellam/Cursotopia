@@ -5,6 +5,7 @@ namespace Cursotopia\Routes;
 use Cursotopia\Controllers\LevelController;
 use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 
 $app->get('/api/v1/levels/:id', [ LevelController::class, 'getOne' ]);
 

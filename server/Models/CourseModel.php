@@ -49,4 +49,15 @@ class CourseModel {
         $rowsAffected = $courseRepository->confirm($id);
         return ($rowsAffected > 0) ? true : false;
     }
+
+    public static function approve(int $courseId, int $adminId, bool $approve) {
+        $courseRepository = new CourseRepository();
+        $rowsAffected = $courseRepository->approve($courseId, $adminId, $approve);
+        return ($rowsAffected > 0) ? true : false;
+    }
+
+    public static function findByNotApproved() {
+        $courseRepository = new CourseRepository();
+        return $courseRepository->findByNotApproved();
+    }
 }

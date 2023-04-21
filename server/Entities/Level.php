@@ -6,7 +6,7 @@ class Level {
     private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
-    private ?float $price = null;
+    private ?bool $free = null;
     private ?int $courseId = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
@@ -75,9 +75,9 @@ class Level {
     /**
      * Get the value of price
      */ 
-    public function getPrice()
+    public function isFree()
     {
-        return $this->price;
+        return $this->free ? 1 : 0;
     }
 
     /**
@@ -85,10 +85,9 @@ class Level {
      *
      * @return  self
      */ 
-    public function setPrice($price)
+    public function setFree($free)
     {
-        $this->price = $price;
-
+        $this->free = $free;
         return $this;
     }
 

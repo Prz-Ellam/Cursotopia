@@ -11,7 +11,7 @@ class LevelModel {
     private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
-    private ?float $price = null;
+    private ?bool $free = null;
     private ?int $courseId = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
@@ -23,7 +23,7 @@ class LevelModel {
         $this->id = $object["id"] ?? null;
         $this->title = $object["title"] ?? null;
         $this->description = $object["description"] ?? null;
-        $this->price = $object["price"] ?? null;
+        $this->free = $object["free"] ?? null;
         $this->courseId = $object["courseId"] ?? null;
         $this->createdAt = $object["createdAt"] ?? null;
         $this->modifiedAt = $object["modifiedAt"] ?? null;
@@ -38,7 +38,7 @@ class LevelModel {
             ->setId($this->id)
             ->setTitle($this->title)
             ->setDescription($this->description)
-            ->setPrice($this->price)
+            ->setFree($this->free)
             ->setCourseId($this->courseId)
             ->setCreatedAt($this->createdAt)
             ->setModifiedAt($this->modifiedAt)
@@ -50,7 +50,7 @@ class LevelModel {
             case EntityState::CREATE: {
                 $rowsAffected = $levelRepository->create($level);
                 if ($rowsAffected) {
-                    $this->setId(intval(DB::lastInsertId()));
+                    $this->id = intval($levelRepository->lastInsertId2());
                 }
                 break;
             }
@@ -143,21 +143,21 @@ class LevelModel {
     }
 
     /**
-     * Get the value of price
+     * Get the value of free
      */ 
-    public function getPrice()
+    public function isFree()
     {
-        return $this->price;
+        return $this->free;
     }
 
     /**
-     * Set the value of price
+     * Set the value of free
      *
      * @return  self
      */ 
-    public function setPrice($price)
+    public function setFree($free)
     {
-        $this->price = $price;
+        $this->free = $free;
 
         return $this;
     }

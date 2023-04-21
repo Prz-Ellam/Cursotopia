@@ -65,7 +65,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
     SQL;
 
     private const FIND_ONE_2 = <<<'SQL'
-        CALL `find_users`(:id, :id_opt, :email, :email_opt);
+        CALL `user_find`(:id, :id_opt, :email, :email_opt);
     SQL;
 
     private const FIND_ONE_BY_EMAIL = <<<'SQL'
@@ -93,7 +93,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
     SQL;
     
     private const CREATE = <<<'SQL'
-        CALL `insert_user`(
+        CALL `user_create`(
             :name,
             :last_name,
             :birth_date,
@@ -107,7 +107,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
     SQL;
 
     private const UPDATE = <<<'SQL'
-        CALL update_user(
+        CALL user_update(
             :id, 
             :name, 
             :last_name, 

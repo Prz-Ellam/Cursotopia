@@ -1,6 +1,6 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `insert_user` $$
-CREATE PROCEDURE `insert_user`(
+DROP PROCEDURE IF EXISTS `user_create` $$
+CREATE PROCEDURE `user_create`(
     IN  `_user_name`                VARCHAR(50),
     IN  `_user_last_name`           VARCHAR(50),
     IN  `_user_birth_date`          DATE,
@@ -12,7 +12,7 @@ CREATE PROCEDURE `insert_user`(
     OUT `_user_id`                  INT
 )
 BEGIN
-    INSERT INTO users(
+    INSERT INTO `users`(
         `user_name`, 
         `user_last_name`, 
         `user_birth_date`,
@@ -37,8 +37,8 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `update_user` $$
-CREATE PROCEDURE `update_user`(
+DROP PROCEDURE IF EXISTS `user_update` $$
+CREATE PROCEDURE `user_update`(
     `_user_id`                      INT,
     `_user_name`                    VARCHAR(50),
     `_user_last_name`               VARCHAR(50),
@@ -78,8 +78,8 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_users` $$
-CREATE PROCEDURE `find_users`(
+DROP PROCEDURE IF EXISTS `user_find` $$
+CREATE PROCEDURE `user_find`(
     IN `_user_id`                       INT,
     IN `_user_id_op`                    ENUM('=', '<>'),
     IN `_user_email`                    VARCHAR(255),

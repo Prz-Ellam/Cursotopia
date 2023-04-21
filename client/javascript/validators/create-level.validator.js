@@ -14,12 +14,7 @@ export default {
             trimming: true,
             maxlength: 255
         },
-        'price': {
-            required: true,
-            trimming: true,
-            number: true,
-            min: 0
-        }
+        
     },
     messages: {
         'title': {
@@ -32,12 +27,7 @@ export default {
             trimming: 'La descripción del nivel es requerida',
             maxlength: 'La descripción del nivel no puede contener más de 255 caracteres'
         },
-        'price': {
-            required: 'El precio del nivel es requerido',
-            trimming: 'El precio del nivel es requerido',
-            number: 'El precio no es válido',
-            min: 'El precio del producto no puede ser negativo'
-        }
+        
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

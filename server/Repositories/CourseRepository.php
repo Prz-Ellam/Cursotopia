@@ -39,6 +39,17 @@ class CourseRepository {
             `course_id` = :id;
     SQL;
 
+    private const APPROVE = <<<'SQL'
+        UPDATE
+            `courses`
+        SET
+            `course_approved` = :approve,
+            `course_approved_by` = :admin_id,
+            `course_approved_at` = NOW()
+        WHERE
+            `course_id` = :course_id
+    SQL;
+
     private const FIND_ONE = <<<'SQL'
         SELECT
             `course_id` AS `id`,
@@ -56,6 +67,29 @@ class CourseRepository {
             `courses`
         WHERE
             `course_id` = :id
+    SQL;
+
+    private const FIND_BY_NOT_APPROVED = <<<'SQL'
+        SELECT
+            c.`course_id` AS `id`,
+            c.`course_title` AS `title`,
+            c.`course_description` AS `description`,
+            c.`course_price` AS `price`,
+            c.`course_image_id` AS `imageId`,
+            CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `instructor`,
+            c.`course_approved` AS `approved`,
+            c.`course_approved_by` AS `approvedBy`,
+            c.`course_created_at` AS `createdAt`,
+            c.`course_modified_at` AS `modifiedAt`,
+            c.`course_active` AS `active`
+        FROM
+            `courses` AS c
+        INNER JOIN  
+            `users` AS u
+        ON
+            c.`instructor_id` = u.`user_id`
+        WHERE
+            `course_approved` = FALSE
     SQL;
 
     private const COURSE_DETAILS_FIND_ONE = <<<'SQL'
@@ -338,5 +372,18 @@ class CourseRepository {
         ];
         return DB::executeReader($this::INSTRUCTOR_COURSES_FIND_ALL_BY_INSTRUCTOR_ID, 
         $parameters);
+    }
+
+    public function findByNotApproved(): array {
+        return DB::executeReader($this::FIND_BY_NOT_APPROVED, []);
+    }
+
+    public function approve(int $courseId, int $adminId, bool $approve): bool {
+        $parameters = [
+            "course_id" => $courseId,
+            "admin_id" => $adminId,
+            "approve" => $approve
+        ];
+        return DB::executeNonQuery($this::APPROVE, $parameters);
     }
 }

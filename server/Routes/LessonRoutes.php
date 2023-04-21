@@ -6,7 +6,9 @@ use Cursotopia\Controllers\LessonController;
 use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 
-$app->get('/api/v1/lessons/:id', [ LessonController::class, 'show' ]);
+$app->get('/api/v1/lessons/:id', [ LessonController::class, 'getOne' ], [
+    [ ApiInstructorMiddleware::class ] 
+]);
 
 // Crear una lección
 $app->post('/api/v1/lessons', [ LessonController::class, 'create' ], [

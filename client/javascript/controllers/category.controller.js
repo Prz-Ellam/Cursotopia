@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { createCategory } from '../services/category.service';
+import CategoryService, { createCategory } from '../services/category.service';
 import { Toast } from '../utilities/toast';
 
 export const createCourseCreateCategory = async function(event) {
@@ -11,7 +11,7 @@ export const createCourseCreateCategory = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('create-category-modal');
+    const modal = document.getElementById('category-create-modal');
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
 
@@ -29,7 +29,18 @@ export const createCourseCreateCategory = async function(event) {
         });
     }
 
-    const createCategoryForm = document.getElementById('create-category-form');
+    const categoryResponse = await CategoryService.findAll();
+    if (categoryResponse?.status) {
+        $('#categories').html('');
+        categoryResponse.categories.forEach(category => {
+            $('#categories').append(`
+                <option value="${category.id}">${category.name}</option>
+            `);
+        });
+        $('#categories').multipleSelect('refresh');
+    } 
+
+    const createCategoryForm = document.getElementById('category-create-form');
     createCategoryForm.reset();
 }
 
@@ -41,7 +52,7 @@ export const updateCourseCreateCategory = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('create-category-modal');
+    const modal = document.getElementById('category-create-modal');
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
 
@@ -58,7 +69,7 @@ export const updateCourseCreateCategory = async function(event) {
         });
     }
 
-    const createCategoryForm = document.getElementById('create-category-form');
+    const createCategoryForm = document.getElementById('category-create-form');
     createCategoryForm.reset();
 }
 

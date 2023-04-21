@@ -45,7 +45,7 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             enrollments
         WHERE
             course_id = :course_id
-            AND student_id = :student_id
+            AND student_id = :student_id;
     SQL;
 
     public function create(Enrollment $enrollment): int {
@@ -58,7 +58,7 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
         return DB::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOneByCourseIdAndStudentId(int $courseId, int $studentId): array {
+    public function findOneByCourseIdAndStudentId(int $courseId, int $studentId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "student_id" => $studentId

@@ -11,6 +11,18 @@ use Exception;
 use PDO;
 
 class CategoryController {
+    public function findAll(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+
+        $categories = CategoryModel::findAllWithUser($id);
+
+        $response->json([
+            "status" => true,
+            "categories" => $categories
+        ]);
+    }
+
     /**
      * Crea y guarda una categoría
      *

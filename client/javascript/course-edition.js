@@ -85,7 +85,7 @@ createLessonForm.addEventListener('submit', courseEditionCreateLesson);
 
 // Update Lesson
 $(document).on('click', '.update-lesson-btn', function() {
-    const modal = document.getElementById('update-lesson-modal');
+    const modal = document.getElementById('lesson-update-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 });

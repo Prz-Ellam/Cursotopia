@@ -493,3 +493,6 @@ SELECT * FROM `courses` WHERE `course_id` = 15;
 
 -- Obtener todos los niveles del curso 15
 SELECT * FROM `levels` WHERE `course_id` = 15;
+
+
+SELECT * FROM `courses` WHERE `course_approved` = 0;

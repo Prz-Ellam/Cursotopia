@@ -3,66 +3,61 @@ import 'jquery-validation';
 import 'multiple-select';
 import createCourseValidator from './validators/create-course.validator';
 import { createCourse, createCourseImage, submitConfirmCourse } from './controllers/course.controller';
-import { courseCreationUpdateLevel, createLevel, createLevelImage, createLevelPdf, createLevelVideo } from './controllers/level.controller';
+import { courseCreationUpdateLevel, createLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
 import createLevelValidator from './validators/create-level.validator';
 import createLessonValidator from './validators/create-lesson.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
-import { findByIdService } from './services/level.service';
+import LevelService from './services/level.service';
 
 // Create Course
-const createCourseForm = document.getElementById('create-course-form');
-$(createCourseForm).validate(createCourseValidator);
-createCourseForm.addEventListener('submit', createCourse);
+$('#course-create-form').validate(createCourseValidator);
+$('#course-create-form').on('submit', createCourse);
 
-const confirmCourse = document.getElementById('confirm-course-btn');
-confirmCourse.addEventListener('click', submitConfirmCourse);
+// Confirm Course
+$('#confirm-course-btn').on('click', submitConfirmCourse);
 
 // Create Category
 $('#create-category-btn').on('click', function() {
-    const modal = document.getElementById('create-category-modal');
+    const modal = document.getElementById('category-create-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 });
 
-const createCategoryForm = document.getElementById('create-category-form');
-$(createCategoryForm).validate(createCategoryValidator);
-createCategoryForm.addEventListener('submit', createCourseCreateCategory);
+$('#category-create-form').validate(createCategoryValidator);
+$('#category-create-form').on('submit', createCourseCreateCategory);
 
 
 // Create Level
 $('#create-level-btn').on('click', function() {
-    const modal = document.getElementById('create-level-modal');
+    const modal = document.getElementById('level-create-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 });
 
-const createLevelForm = document.getElementById('create-level-form');
-$(createLevelForm).validate(createLevelValidator);
-createLevelForm.addEventListener('submit', createLevel);
-
+$('#level-create-form').validate(createLevelValidator);
+$('#level-create-form').on('submit', submitLevelCreate);
 
 // Update Level
 $(document).on('click', '.update-level-btn', async function() {
-    const updateLevelId = document.getElementById('edit-level-id');
+    const updateLevelId = document.getElementById('level-update-id');
     updateLevelId.value = this.getAttribute('ct-target');
 
-    const response = await findByIdService(updateLevelId.value);
+    const response = await LevelService.findById(updateLevelId.value);
     console.log(response);
-    $('#edit-level-title').val(response.title);
-    $('#edit-level-description').val(response.description);
-    $('#edit-level-price').val(response.price);
+    $('#level-update-title').val(response.title);
+    $('#level-update-description').val(response.description);
+    $('#level-update-free').prop('checked', response.free);
 
-    const modal = document.getElementById('update-level-modal');
+    const modal = document.getElementById('level-update-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 });
 
-const updateLevelForm = document.getElementById('update-level-form');
-$(updateLevelForm).validate(createLevelValidator);
-updateLevelForm.addEventListener('submit', courseCreationUpdateLevel);
+$('#update-level-form').validate(createLevelValidator);
+$('#update-level-form').on('submit', courseCreationUpdateLevel);
 
 
 // Delete Level
@@ -70,7 +65,7 @@ updateLevelForm.addEventListener('submit', courseCreationUpdateLevel);
 
 // Create Lesson
 $(document).on('click', '.create-lesson-btn', function() {
-    const modal = document.getElementById('create-lesson-modal');
+    const modal = document.getElementById('lesson-create-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 
@@ -79,14 +74,19 @@ $(document).on('click', '.create-lesson-btn', function() {
     console.log(createLessonLevel.value);
 });
 
-const createLessonForm = document.getElementById('create-lesson-form');
-$(createLessonForm).validate(createLessonValidator);
-createLessonForm.addEventListener('submit', createLesson);
-
+$('#create-lesson-form').validate(createLessonValidator);
+$('#create-lesson-form').on('submit', createLesson);
 
 // Update Lesson
 $(document).on('click', '.update-lesson-btn', function() {
-    const modal = document.getElementById('update-lesson-modal');
+
+    //const response = await findByIdService(updateLevelId.value);
+    //console.log(response);
+    //$('#edit-lesson-title').val(response.title);
+    //$('#edit-lesson-description').val(response.description);
+    
+
+    const modal = document.getElementById('lesson-update-modal');
     const modalInstance = new bootstrap.Modal(modal);
     modalInstance.show();
 });
@@ -112,18 +112,7 @@ freeCourseCheckbox.addEventListener('change', function(event) {
     }
 });
 
-const freeLevelCheckbox = document.getElementById('free-level-checkbox');
-freeLevelCheckbox.addEventListener('change', function(event) {
-    const levelPriceGroup = document.getElementById('level-price-group');
-    if (event.target.checked) {
-        levelPriceGroup.classList.add('d-none');
-    }
-    else {
-        levelPriceGroup.classList.remove('d-none');
-    }
-});
-
-const freeEditLevelCheckbox = document.getElementById('free-edit-level-checkbox');
+const freeEditLevelCheckbox = document.getElementById('level-update-free');
 freeEditLevelCheckbox.addEventListener('change', function(event) {
     const EditLevelPriceGroup = document.getElementById('edit-level-price-group');
     if (event.target.checked) {
@@ -138,9 +127,6 @@ freeEditLevelCheckbox.addEventListener('change', function(event) {
 
 const uploadImage = document.getElementById('upload-image');
 uploadImage.addEventListener('change', createCourseImage);
-
-
-
 
 
 const createLessonVideo = document.getElementById('create-lesson-video');

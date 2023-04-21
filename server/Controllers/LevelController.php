@@ -23,44 +23,38 @@ class LevelController {
             [
                 "title" => $title,
                 "description" => $description,
-                "price" => $price,
+                "free" => $free,
                 "courseId" => $courseId
             ] = $request->getBody();
 
             $requestedCourse = CourseModel::findById($courseId);
             if (!$requestedCourse) {
-                $response
-                    ->setStatus(404)
-                    ->json([
-                        "status" => false,
-                        "message" => "El curso no existe"
-                    ]);
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "El curso no existe"
+                ]);
                 return;
             }
             
             $level = new LevelModel([
                 "title" => $title,
                 "description" => $description,
-                "price" => $price,
+                "free" => $free,
                 "courseId" => $courseId
             ]);
             $level->save();
             
-            $response
-                ->setStatus(201)
-                ->json([
-                    "status" => true,
-                    "message" => "El nível fue agregado éxitosamente",
-                    "id" => $level->getId()
-                ]);
+            $response->setStatus(201)->json([
+                "status" => true,
+                "message" => "El nível fue agregado éxitosamente",
+                "id" => $level->getId()
+            ]);
         }
         catch (Exception $exception) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "Ocurrió un error en el servidor"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "Ocurrió un error en el servidor"
+            ]);
         }
     }
 
@@ -70,14 +64,14 @@ class LevelController {
             [
                 "title" => $title,
                 "description" => $description,
-                "price" => $price
+                "free" => $free
             ] = $request->getBody();
             
             $level = LevelModel::findById($id);
             $level
                 ->setTitle($title)
                 ->setDescription($description)
-                ->setPrice($price);
+                ->setFree($free);
 
             $status = $level->save();
 
@@ -87,12 +81,10 @@ class LevelController {
             ]);
         }
         catch (Exception $exception) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "Ocurrió un error en el servidor"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "Ocurrió un error en el servidor"
+            ]);
         }
     }
 

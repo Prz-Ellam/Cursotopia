@@ -22,8 +22,10 @@
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
+  <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
   <?= $this->link("styles/pages/create-course.css") ?>
-  <?= $this->script("javascript/course-creation.js") ?>
+  <?= $this->script("javascript/course-create.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
@@ -46,7 +48,7 @@
     </ul>
 
     <!-- Crear un curso --> 
-    <form action="#" class="row" id="create-course-form">  
+    <form class="row" id="course-create-form">  
       <fieldset class="row mx-0" id="course-section">
         <div class="col-md-6 col-sm-12 col-xs-12">
           <div class="mb-4">
@@ -71,13 +73,13 @@
           <div class="mb-3">
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
-              <?php foreach ($this->categories as $category) : ?>
+              <?php foreach ($this->categories as $category): ?>
                 <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
               <?php endforeach ?>
             </select>
           </div>
           <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-            <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#create-category-modal">Añadir categoria</button>
+            <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#category-create-modal">Añadir categoria</button>
           </div>
         </div>
 
@@ -90,7 +92,7 @@
                 <h3>Subir imagen</h3>
               </div>
             </div>
-            <img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
+            <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
           <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
@@ -121,13 +123,13 @@
   </section>
 
   <!-- Modal añadir nivel-->
-  <div class="modal fade" id="create-level-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form class="modal-dialog rounded-1 border-0 shadow-none" id="create-level-form">
+  <div class="modal fade" id="level-create-modal" tabindex="-1" aria-labelledby="Crear nivel" aria-hidden="true">
+    <form class="modal-dialog rounded-1 border-0 shadow-none" id="level-create-form">
       <div class="modal-content rounded-1 border-0 shadow-sm">
-        <div class="modal-header">
+        <header class="modal-header">
           <h4>Añadir nivel</h4>
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+        </header>
         <div class="modal-body">
           <input type="hidden" name="courseId" id="create-level-course-id">
           <div class="mb-4">
@@ -139,27 +141,20 @@
             <textarea name="description" id="create-level-description" cols="30" rows="5" class="form-control" placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
           </div>
           <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="free-level-checkbox" autocomplete="off">
-            <label class="form-check-label" for="free-level-checkbox">El nivel será gratis</label>
-          </div>
-          <div class="mb-4 " id="level-price-group">
-            <label for="" class="form-label">Precio</label>
-            <div class="input-group">
-              <span class="input-group-text border-0 bg-light pe-0">$</span>
-              <input type="number" name="price" id="level-price" class="form-control" min="0.00" max="10000.00" step="0.01" value="0.00">
-            </div>
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="level-create-free" name="free" autocomplete="off">
+            <label class="form-check-label" for="level-create-free">El nivel será gratis</label>
           </div>
         </div>
-        <div class="modal-footer">
+        <footer class="modal-footer">
           <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
           <button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar nivel</button>
-        </div>
+        </footer>
       </div>
     </form>
   </div>
 
   <!-- Modal editar nivel-->
-  <div class="modal fade animate__animated animate__bounceInDown" id="update-level-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="level-update-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form class="modal-dialog rounded-1 border-0 shadow-none" id="update-level-form">
       <div class="modal-content rounded-1 border-0 shadow-sm">
         <div class="modal-header">
@@ -168,29 +163,21 @@
         </div>
         <div class="modal-body">
 
-          <input type="hidden" name="id" id="edit-level-id">
+          <input type="hidden" name="id" id="level-update-id">
 
           <div class="mb-4">
             <label for="level-name" class="form-label" role="button">Título</label>
-            <input type="text" name="title" id="edit-level-title" class="form-control">
+            <input type="text" name="title" id="level-update-title" class="form-control">
           </div>
 
           <div class="mb-4">
             <label for="level-description" class="form-label" role="button">Descripción</label>
-            <textarea name="description" id="edit-level-description" cols="30" rows="5" class="form-control" placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
+            <textarea name="description" id="level-update-description" cols="30" rows="5" class="form-control" placeholder="¿Qué van a aprender los estudiantes en esta sección?"></textarea>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="free-edit-level-checkbox">
-            <label class="form-check-label" for="free-lesson-checkbox">El nivel será gratis</label>
-          </div>
-
-          <div class="mb-4" id="edit-level-price-group">
-            <label for="" class="form-label">Precio</label>
-            <div class="input-group">
-              <span class="input-group-text border-0 bg-light pe-0">$</span>
-              <input type="number" name="price" id="edit-level-price" class="form-control" min="0.00" max="10000.00" step="0.01" value="0.00">
-            </div>
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="level-update-free">
+            <label class="form-check-label" for="level-update-free">El nivel será gratis</label>
           </div>
         </div>
         <div class="modal-footer">
@@ -203,7 +190,7 @@
   </div>
 
   <!-- Modal añadir lección -->
-  <div class="modal fade" id="create-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="lesson-create-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="create-lesson-form">
       <div class="modal-content">
         <div class="modal-header">
@@ -266,7 +253,7 @@
   </div>
 
   <!-- Modal editar lección -->
-  <div class="modal fade" id="update-lesson-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="lesson-update-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form class="modal-dialog modal-lg rounded-1 border-0 shadow-none" id="update-lesson-form">
       <div class="modal-content">
         <div class="modal-header">
@@ -322,9 +309,9 @@
   </div>
 
   <!-- Modal añadir categoría -->
-  <div class="modal fade animate__animated animate__bounceInDown" id="create-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="category-create-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
+      <form class="modal-content rounded-1 border-0 shadow-sm" id="category-create-form">
         <div class="modal-header">
           <h4>Añadir categoría</h4>
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>

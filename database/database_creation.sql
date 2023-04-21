@@ -1,3 +1,4 @@
+-- DROP DATABASE `cursotopia`;
 CREATE DATABASE IF NOT EXISTS `cursotopia`;
 
 USE `cursotopia`;
@@ -150,8 +151,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_id`                      INT NOT NULL AUTO_INCREMENT,
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
-    `level_price`                   DECIMAL(10, 2) NOT NULL,
-    --`level_number`                  INT NOT NULL,
+    `level_is_free`                 BOOLEAN NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -161,9 +161,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
         PRIMARY KEY (`level_id`),
     CONSTRAINT `level_course_fk`
         FOREIGN KEY (`course_id`) 
-        REFERENCES `courses`(`course_id`),
-    CONSTRAINT `level_price_chk`
-        CHECK (`level_price` >= 0)
+        REFERENCES `courses`(`course_id`)
 );
 
 DROP TABLE IF EXISTS `lessons`;
@@ -171,7 +169,6 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_id`                     INT NOT NULL AUTO_INCREMENT,
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
-    --`lesson_number`                 INT NOT NULL,
     `level_id`                      INT NOT NULL,
     `video_id`                      INT DEFAULT NULL,
     `image_id`                      INT DEFAULT NULL,

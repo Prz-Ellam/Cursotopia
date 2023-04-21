@@ -8,29 +8,8 @@ use Cursotopia\Entities\Lesson;
 
 class LessonRepository extends DB implements LessonRepositoryInterface {
     private const CREATE = <<<'SQL'
-        INSERT INTO lessons(
-            lesson_title,
-            lesson_description,
-            level_id,
-            video_id,
-            image_id,
-            document_id,
-            link_id
-        )
-        SELECT
-            :title,
-            :description,
-            :level_id,
-            :video_id,
-            :image_id,
-            :document_id,
-            :link_id
-        FROM
-            dual
-        WHERE
-            :title IS NOT NULL
-            AND :description IS NOT NULL
-            AND :level_id IS NOT NULL
+        CALL `lesson_create`(:title, :description, :level_id, :video_id, :image_id,
+            :document_id, :link_id, @lesson_id);
     SQL;
 
     private const FIND_ONE_BY_ID = <<<'SQL'
@@ -148,5 +127,9 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             "user_id" => $userId
         ];
         return DB::executeOneReader($this::FIND_FIRST_NOT_VIEWED, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @lesson_id AS lessonId", [])["lessonId"];
     }
 }
