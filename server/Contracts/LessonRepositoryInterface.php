@@ -8,5 +8,5 @@ interface LessonRepositoryInterface {
     public function create(Lesson $lesson): int;
     public function update(Lesson $lesson): int;
     public function delete(int $id): int;
-    public function findOneById(int $id): array;
+    public function findOneById(?int $id): ?array;
 }

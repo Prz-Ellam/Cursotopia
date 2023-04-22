@@ -10,35 +10,16 @@ AS
         IFNULL(e.enrollment_finish_date, 'N/A') AS `enrollment_finish_date`,
         IF(e.enrollment_is_finished, 'Acabado', 'En curso') AS `enrollment_is_finished`,
         e.enrollment_certificate_uid AS `enrollment_certificate_uid`,
-        ule.user_lesson_id,
-        (SUM(ule.user_lesson_is_complete) / 
-        COUNT(ule.user_lesson_is_complete)) AS `enrollment_progress`
+        get_user_course_completion(e.student_id, c.course_id) AS `enrollment_progress`
     FROM
-        courses AS c
-    LEFT JOIN
-        enrollments AS e
+        `courses` AS c
+    INNER JOIN
+        `enrollments` AS e
     ON
         c.course_id = e.course_id
-    INNER JOIN
-        levels AS l
-    ON
-        e.course_id = l.course_id
-    LEFT JOIN
-        user_level AS ul
-    ON
-        l.level_id = ul.level_id
-    INNER JOIN
-        lessons AS le
-    ON
-        l.level_id = le.level_id
-    LEFT JOIN
-        user_lesson AS ule 
-    ON
-        le.lesson_id = ule.lesson_id AND e.student_id = ule.user_id
-    GROUP BY
-        e.student_id;
-
-
-
+    WHERE
+        c.course_active = TRUE
+        AND c.course_is_complete = TRUE
+        AND c.course_approved = TRUE;
 
 

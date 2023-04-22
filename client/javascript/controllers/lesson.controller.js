@@ -31,7 +31,7 @@ export const createLesson = async function(event) {
     }
     
     const response = await LessonService.create(lesson);
-    if (response?.status) {
+    if (!response?.status) {
         let text = response.message ?? 'Parece que algo salió mal';
         if (response.message instanceof Object) {
             text = '';

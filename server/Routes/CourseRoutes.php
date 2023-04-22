@@ -84,17 +84,40 @@ $app->get('/course-edition', function($request, $response) {
 }, [ [ HasNotAuthMiddleware::class ] ]);
 
 $app->get('/course-visor', function($request, $response) {
+    
+    // La ultima lección que viste
+    // El enrollment es necesario
+    // No puedes verlo si no has pagado
+    
     $courseId = $request->getQuery("course");
     $lessonId = $request->getQuery("lesson");
 
+    $lessonRepository = new LessonRepository();
+    $lesson = $lessonRepository->findOneById($lessonId);
+    if (!$lesson) {
+        $response->render("404");
+        return;
+    }
+
     $levelRepository = new LevelRepository();
     $levels = $levelRepository->findAllByCourse($courseId);
+    $found = false;
     foreach ($levels as &$level) {
+        if ($lesson["levelId"] === $level["id"]) {
+            $found = true;
+        }
         $level["lessons"] = json_decode($level["lessons"], true);
     }
 
-    $lessonRepository = new LessonRepository();
-    $lesson = $lessonRepository->findOneById($lessonId);
+    if (!$found) {
+        $response->render("404");
+        return;
+    }
+
+    if (is_null($lesson)) {
+        $response->render("404");
+        return;
+    }
 
     $response->render("course-visor", [ 
         "course" => $courseId,

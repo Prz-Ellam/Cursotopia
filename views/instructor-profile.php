@@ -17,7 +17,9 @@ $courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->sess
         <div class="container text-xs-center">
           <div class="row">
             <div class="col-12">
-              <h3 class="fw-bold"><?= $this->user["name"] ?></h3>
+              <h3 class="fw-bold">
+                <?= $this->user["name"] ?> <?= $this->user["lastName"] ?>
+              </h3>
             </div>
           </div>
           <div class="row">
@@ -104,10 +106,14 @@ $courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->sess
                   <span>Total de ingresos: $<?= $course["amount"] ?> MXN</span>
                 </p>
                 <p class="d-flex align-items-center card-text mb-1">
-                  <i class='bx bxs-layer me-1'></i>Nivel promedio: 45.56%
+                  <i class='bx bxs-layer me-1'></i>
+                  <span>Nivel promedio: <?= $course["averageLevel"] ?>%</span> 
                 </p>
                 <div class="progress mb-3">
-                  <div class="progress-bar w-50 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar bg-primary" role="progressbar" 
+                    style="width: <?= $course["averageLevel"] ?>%"
+                    aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" 
+                    aria-valuemax="100">
                   </div>
                 </div>
                 <a href="instructor-course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">

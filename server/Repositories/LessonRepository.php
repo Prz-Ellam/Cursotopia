@@ -100,7 +100,7 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         return 1;
     }
 
-    public function findOneById(int $id): array {
+    public function findOneById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];

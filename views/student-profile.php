@@ -125,7 +125,7 @@ $categories = $categoryRepository->findAll();
               <?php foreach ($courses as $course) : ?>
                 <tr>
                   <td data-title="Curso"><?= $course["title"] ?></td>
-                  <td data-title="Progreso"><?= (new NumberFormatter('en_US', NumberFormatter::PERCENT))->format(0) ?></td>
+                  <td data-title="Progreso"><?= $course["progress"] ?>%</td>
                   <td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
                   <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
                   <td data-title="Terminado el"><?= $course["finishDate"] ?></td>
