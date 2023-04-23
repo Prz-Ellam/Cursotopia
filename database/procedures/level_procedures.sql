@@ -53,3 +53,50 @@ BEGIN
         `level_id` = `_level_id`;
 END $$
 DELIMITER ;
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `level_find_user_complete` $$
+CREATE PROCEDURE `level_find_user_complete`(
+    IN _course_id           INT,
+    IN _user_id             INT
+)
+BEGIN
+    SELECT
+        l.level_id AS `id`,   
+        l.level_title AS `title`, 
+        l.level_description AS `description`,
+        l.level_is_free AS `free`,
+        l.course_id AS `courseId`,
+        l.level_created_at AS `createdAt`,
+        l.level_modified_at AS `modifiedAt`,
+        l.level_active AS `active`,
+        ul.user_level_is_complete AS `isComplete`,
+        ul.user_level_complete_at AS `completeAt`,
+        CONCAT('[', GROUP_CONCAT(
+            JSON_OBJECT(
+                'id', le.lesson_id,
+                'title', le.lesson_title,
+                'description', le.lesson_description,
+                'main_resource', find_main_resource(le.lesson_id),
+                'is_complete', ule.user_lesson_is_complete,
+                'complete_at', ule.user_lesson_complete_at,
+                'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
+            )
+        ), ']') AS `lessons`
+    FROM `levels` AS l
+    INNER JOIN `user_level` AS ul
+    ON l.level_id = ul.level_id AND ul.user_id = _user_id
+    INNER JOIN `lessons` AS le
+    ON l.level_id = le.level_id
+    INNER JOIN `user_lesson` AS ule
+    ON le.lesson_id = ule.lesson_id AND ule.user_id = _user_id
+    LEFT JOIN `videos` AS v
+    ON le.video_id = v.video_id
+    WHERE l.course_id = _course_id
+    GROUP BY
+        l.level_id;
+END $$
+DELIMITER ;

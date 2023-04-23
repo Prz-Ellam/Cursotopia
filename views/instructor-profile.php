@@ -1,9 +1,41 @@
 <?php
 
+use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
+$categoryId = $_GET["category_id"] ?? null;
+$from = $_GET["from"] ?? null;
+$to = $_GET["to"] ?? null;
+
+if ($categoryId || $categoryId === "") {
+  if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
+    $categoryId = null;
+  }
+}
+
+function validarFormatoFecha($fecha) {
+  $d = DateTime::createFromFormat('Y-m-d', $fecha);
+  return $d && $d->format('Y-m-d') === $fecha;
+}
+
+if (!$from || !validarFormatoFecha($from)) {
+  $from = null;
+}
+
+if (!$to || !validarFormatoFecha($to)) {
+  $to = null;
+}
+
 $courseRepository = new CourseRepository();
-$courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->session("id"));
+$courses = $courseRepository->instructorCoursesFindAllByInstructorId(
+  $this->session("id"),
+  $categoryId,
+  $from,
+  $to
+);
+
+$categoryRepository = new CategoryRepository();
+$categories = $categoryRepository->findAll();
 
 ?>
 <main>
@@ -50,34 +82,43 @@ $courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->sess
   <div class="container">
     <h2 class="fw-bold mt-4">Mis cursos</h2>
     <h4 class="mt-3">Filtros</h4>
-    <div class="row">
+    <form class="row" action="" method="GET">
+      <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
-        <label for="" class="col-auto col-form-label">Fecha inicial:</label>
-        <input type="date" class="col-auto form-control w-50" />
+        <label for="from" class="col-auto col-form-label" role="button">
+          Fecha inicial:
+        </label>
+        <input type="date" value="<?= $from ?? "" ?>" name="from" 
+          class="col-auto form-control w-50" id="from">
       </div>
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
-        <label for="" class="col-auto col-form-label">Fecha final:</label>
-        <input type="date" class="col-auto form-control w-50" />
+        <label for="to" class="col-auto col-form-label" role="button">
+          Fecha final:
+        </label>
+        <input type="date" value="<?= $to ?? "" ?>" name="to" 
+          class="col-auto form-control w-50" id="to">
       </div>
 
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-box">
         <label for="" class="col-auto col-form-label">Categoria:</label>
-        <select class="col-auto form-select w-50">
-          <option selected>Categorias</option>
-          <option value="1">Música</option>
-          <option value="2">Arte</option>
-          <option value="3">Programación</option>
+        <select name="category_id" class="col-auto form-select w-50">
+          <option value="" selected>Categorias</option>
+          <?php foreach ($categories as $category) : ?>
+            <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+          <?php endforeach ?>
         </select>
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4  mt-3 ">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+          <input class="form-check-input" name="actives" type="checkbox" id="inlineCheckbox2" value="true">
           <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
         </div>
       </div>
 
-    </div>
+      <input type="submit" value="Buscar">
+
+    </form>
 
     <!-- Cards -->
     <div class="container mt-4">
@@ -98,15 +139,15 @@ $courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->sess
                 <h4 class="card-title"><?= $course["title"] ?></h4>
                 <hr>
                 <p class="d-flex align-items-center card-text mb-0">
-                  <i class='bx bxs-group me-1'></i>
+                  <i class="bx bxs-group me-1"></i>
                   <span>Cantidad de alumnos: <?= $course["enrollments"] ?></span>
                 </p>
                 <p class="d-flex align-items-center card-text mb-0">
-                  <i class='bx bx-money me-1'></i>
+                  <i class="bx bx-money me-1"></i>
                   <span>Total de ingresos: $<?= $course["amount"] ?> MXN</span>
                 </p>
                 <p class="d-flex align-items-center card-text mb-1">
-                  <i class='bx bxs-layer me-1'></i>
+                  <i class="bx bxs-layer me-1"></i>
                   <span>Nivel promedio: <?= $course["averageLevel"] ?>%</span> 
                 </p>
                 <div class="progress mb-3">
@@ -116,7 +157,9 @@ $courses = $courseRepository->instructorCoursesFindAllByInstructorId($this->sess
                     aria-valuemax="100">
                   </div>
                 </div>
-                <a href="instructor-course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">
+                <a 
+                  href="instructor-course-details?course_id=<?= $course["id"] ?>" 
+                  class="btn btn-secondary rounded-5 border-0 shadow-none">
                   Ver detalles de curso
                 </a>
               </div>

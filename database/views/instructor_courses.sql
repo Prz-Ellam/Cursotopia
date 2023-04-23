@@ -8,7 +8,8 @@ SELECT
     COUNT(e.enrollment_id) AS `enrollments`,
     IFNULL(SUM(e.enrollment_amount), 0) AS `amount`,
     IFNULL(get_course_completion_percentage(c.course_id),0) AS `averageLevel`,
-    c.instructor_id AS `instructorId`
+    c.instructor_id AS `instructorId`,
+    c.course_created_at AS `createdAt`
 FROM
     `courses` AS c
 LEFT JOIN

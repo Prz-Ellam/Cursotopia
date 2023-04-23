@@ -12,7 +12,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css" />
-  <script defer type="module" src="../dist/javascript/instructor-course-details.js"></script>
 
   <!-- AOS -->
   <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
@@ -20,107 +19,18 @@
   
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+  <?= $this->script("javascript/instructor-course-details.js")  ?>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand text-white" href="home">
-        <img src="../client/assets/images/logo.png" alt="Logo" width="34" height="34" class="d-inline-block align-text-top">
-        <span class="align-middle">Cursotopia</span>
-      </a>
-      <button 
-        class="border-0 shadow-none navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar-content"
-        aria-controls="navbar-content"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="text-white bx-sm bx bx-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar-content">
-        <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
-          <div class="input-group">
-            <input
-              class="form-control bg-white"
-              type="search"
-              placeholder="Buscar cursos..."
-              aria-label="Search">
-            <button class="btn btn-white border-0 text-dark search-btn" type="submit">
-              <i class="fw-bold bx bx-search"></i>
-            </button>
-          </div>
-        </form>
-        <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
-          <li class="nav-item">
-            <a href="course-creation" class="nav-link fw-bold text-light">
-              Crear curso
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link fw-bold text-light dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Categorías
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="search">Arte</a></li>
-              <li><a class="dropdown-item" href="search">Música</a></li>
-              <li><a class="dropdown-item" href="search">Programación</a></li>
-            </ul>
-          </li>    
-          <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat">
-              <i class="bx-sm bx bxs-bell position-relative">
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
-              </i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link dropdown">
-              <button
-                class="btn border-0 p-0"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img 
-                  src="../client/assets/images/perfil.png"
-                  alt="mdo"
-                  width="32"
-                  class="rounded-circle profile-picture">
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="instructor-profile">Mi perfil</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Cerrar sesión</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
+  <?= $this->render("partials/navbar") ?>
 
   <div class="container-fluid bg-light shadow-sm">
     <div class="row p-4">
       <div class="text-center col-xl-2 col-md-4 col-sm-5 col-xs-12">
         <img
-          src="https://pikuma.com/images/courses/nes.jpg"
+          src="/api/v1/images/<?= $this->course["imageId"] ?>"
           width="180"
           class="img-fluid mb-4" 
           alt="Curso"
@@ -130,17 +40,17 @@
         <div class="container text-xs-center">
           <div class="row">
             <div class="col-12">
-              <h3 class="fw-bold">Programación en NES</h3>
+              <h3 class="fw-bold"><?= $this->course["title"] ?></h3>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <h6>26 oct 2021</h6>
+              <h6><?= $this->course["createdAt"] ?></h6>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <h6>¿Quieres aprender a programar un juego para NES? sigueme en este curso</h6>
+              <h6><?= $this->course["description"] ?></h6>
             </div>
           </div>
           <div class="row mt-3">
@@ -164,183 +74,62 @@
   </div>
 
   <section class="container" id="cards">
+    <?php foreach($this->enrollments as $enrollment): ?>
     <div data-aos="fade-up">
-      <div class="card mt-3 mb-4 bg-light border-0">
+      <a 
+        href="/profile?id=<?= $enrollment["userId"] ?>"
+        class="card mt-3 mb-4 bg-light border-0 text-decoration-none text-dark" 
+        role="button">
         <div class="row g-0">
           <div class="col-sm-4 col-md-2 col-xs-12 align-items-center d-flex">
             <img
-              src="https://yt3.googleusercontent.com/tGVMddNMdUHLv2zoH7OBL4e4yIle3e6dJV8qmfBinzckCcgzMPoh3NnxuEwAcWasarTx5x4o=s900-c-k-c0x00ffffff-no-rj"
+              src="/api/v1/images/<?= $enrollment["profilePicture"] ?>"
+              width="150" height="150"
+              style="width: 150px; height: 150px"
               class="img-cover img-fluid rounded-pill p-3"
               alt="Foto de perfil">
           </div>
   
           <div class="col-sm-8 col-md-10 col-xs-12">
             <div class="card-body">
-              <h4 class="card-title text-xs-center">Yan Chernikov</h4>
-              <hr>
-                <p class="card-text mb-0"><i class='bx bx-cube'></i> Fecha de inscripción: 12 sep 2022</p>
-                <p class="card-text mb-0"><i class='bx bx-money'></i> Precio pagado: $530.00 MXN</p>
-                <p class="card-text mb-0"><i class='bx bxs-credit-card'></i> Forma de pago: PayPal</p>
-                <p class="card-text mb-0"><i class='bx bx-chart'></i> Progreso: 45%</p>
+              <h4 class="card-title text-xs-center">
+                <?= $enrollment["username"] ?>
+              </h4>
+              <hr class="my-1">
+                <p class="card-text mb-0">
+                  <i class="bx bx-cube"></i>
+                  <span>Fecha de inscripción: <?= date_format(date_create($enrollment["createdAt"]), 'd M Y') ?></span>
+                </p>
+                <p class="card-text mb-0">
+                  <i class="bx bx-money"></i>
+                  <span>Precio pagado: $<?= $enrollment["amount"] ?> MXN</span>
+                </p>
+                <p class="card-text mb-0">
+                  <i class="bx bxs-credit-card"></i>
+                  <span>Forma de pago: <?= $enrollment["paymentMethodName"] ?></span>
+                </p>
+                <p class="card-text mb-0">
+                  <i class="bx bx-chart"></i>
+                  <span>Progreso: <?= $enrollment["percentageComplete"] ?>%</span>
+                </p>
                 <div class="progress">
                   <div
-                    class="progress-bar w-50 bg-primary"
+                    class="progress-bar bg-primary"
                     role="progressbar"
                     aria-label="Basic example"
-                    aria-valuenow="75"
+                    aria-valuenow="<?= $enrollment["percentageComplete"] ?>"
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    style="width: <?= $enrollment["percentageComplete"] ?>%"
                   >
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
-   
-    <div data-aos="fade-up">
-      <div class="card mb-4 bg-light border-0">
-        <div class="row g-0">
-          <div class="col-sm-4 col-md-2 col-xs-12 align-items-center d-flex">
-            <img
-              src="https://pikuma.com/images/og/home.png"
-              class="img-cover img-fluid rounded-pill p-3"
-              alt="Foto de perfil">
-          </div>
-  
-          <div class="col-sm-8 col-md-10 col-xs-12">
-            <div class="card-body">
-              <h4 class="card-title text-xs-center">Pikuma</h4>
-              <hr>
-               
-                <p class="card-text mb-0"><i class='bx bx-cube'></i> Fecha de inscripción: 12 sep 2022</p>
-                <p class="card-text mb-0"><i class='bx bx-money'></i> Precio pagado: $530.00 MXN</p>
-                <p class="card-text mb-0"><i class='bx bxs-credit-card'></i> Forma de pago: PayPal</p>
-                <p class="card-text mb-0"><i class='bx bx-chart'></i> Progreso: 45%</p>
-                <div class="progress">
-                  <div
-                    class="progress-bar w-50 bg-primary"
-                    role="progressbar"
-                    aria-label="Basic example"
-                    aria-valuenow="75"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div data-aos="fade-up">
-      <div class="card mb-4 bg-light border-0">
-        <div class="row g-0">
-          <div class="col-sm-4 col-md-2 col-xs-12 align-items-center d-flex">
-            <img
-              src="https://www.guinxu.com/fotos/guinxu/guinxu-main.jpg"
-              class="img-cover img-fluid rounded-pill p-3"
-              alt="Foto de perfil">
-          </div>
-
-          <div class="col-sm-8 col-md-10 col-xs-12">
-            <div class="card-body">
-              <h4 class="card-title text-xs-center">Guinxu</h4>
-              <hr>
-              
-                <p class="card-text mb-0"><i class='bx bx-cube'></i> Fecha de inscripción: 12 sep 2022</p>
-                <p class="card-text mb-0"><i class='bx bx-money'></i> Precio pagado: $530.00 MXN</p>
-                <p class="card-text mb-0"><i class='bx bxs-credit-card'></i> Forma de pago: PayPal</p>
-                <p class="card-text mb-0"><i class='bx bx-chart'></i> Progreso: 45%</p>
-                <div class="progress">
-                  <div
-                    class="progress-bar w-50 bg-primary"
-                    role="progressbar"
-                    aria-label="Basic example"
-                    aria-valuenow="75"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div data-aos="fade-up">
-      <div class="card mb-4 bg-light border-0">
-        <div class="row g-0">
-          <div class="col-sm-4 col-md-2 col-xs-12 align-items-center d-flex">
-            <img
-              src="https://pbs.twimg.com/media/DoNTTLtX0AAvXAv.png:large"
-              class="img-cover img-fluid rounded-pill p-3"
-              alt="Foto de perfil">
-          </div>
-
-          <div class="col-sm-8 col-md-10 col-xs-12">
-            <div class="card-body">
-              <h4 class="card-title text-xs-center">Freya Holmer</h4>
-              <hr>
-              
-                <p class="card-text mb-0"><i class='bx bx-cube'></i> Fecha de inscripción: 12 sep 2022</p>
-                <p class="card-text mb-0"><i class='bx bx-money'></i> Precio pagado: $530.00 MXN</p>
-                <p class="card-text mb-0"><i class='bx bxs-credit-card'></i> Forma de pago: PayPal</p>
-                <p class="card-text mb-0"><i class='bx bx-chart'></i> Progreso: 45%</p>
-                <div class="progress">
-                  <div
-                    class="progress-bar w-50 bg-primary"
-                    role="progressbar"
-                    aria-label="Basic example"
-                    aria-valuenow="75"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div data-aos="fade-up">
-      <div class="card mb-4 bg-light border-0">
-        <div class="row g-0">
-          <div class="col-sm-4 col-md-2 col-xs-12 align-items-center d-flex">
-            <img
-              src="https://staticc.sportskeeda.com/editor/2021/11/ff780-16358380069248-1920.jpg"
-              class="img-cover img-fluid rounded-pill p-3"
-              alt="Foto de perfil">
-          </div>
-          <div class="col-sm-8 col-md-10 col-xs-12">
-            <div class="card-body">
-              <h4 class="card-title text-xs-center">OneLoneCoder</h4>
-              <hr>
-              
-                <p class="card-text mb-0"><i class='bx bx-cube'></i> Fecha de inscripción: 12 sep 2022</p>
-                <p class="card-text mb-0"><i class='bx bx-money'></i> Precio pagado: $530.00 MXN</p>
-                <p class="card-text mb-0"><i class='bx bxs-credit-card'></i> Forma de pago: PayPal</p>
-                <p class="card-text mb-0"><i class='bx bx-chart'></i> Progreso: 45%</p>
-                <div class="progress">
-                  <div
-                    class="progress-bar w-50 bg-primary"
-                    role="progressbar"
-                    aria-label="Basic example"
-                    aria-valuenow="75"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php endforeach ?>
 
     <div class="d-flex justify-content-center" aria-label="Page navigation example">
       <ul class="pagination">

@@ -78,6 +78,40 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         LIMIT
             1;
     SQL;
+
+    private const FIRST_LESSON_PENDING = <<<'SQL'
+        SELECT l.lesson_id AS `id` FROM user_lesson AS ul
+        INNER JOIN lessons AS l ON ul.lesson_id = l.lesson_id
+        WHERE ul.user_id = :user_id
+        AND ul.user_lesson_is_complete = FALSE
+        AND (
+            SELECT courses.course_id
+            FROM courses
+            JOIN levels ON levels.course_id = courses.course_id
+            JOIN lessons ON lessons.level_id = levels.level_id
+            WHERE lessons.lesson_id = ul.lesson_id
+            LIMIT 1
+        ) = :course_id
+        ORDER BY l.lesson_created_at ASC
+        LIMIT 1
+    SQL;
+
+    private const FIRST_LESSON_COMPLETE = <<<'SQL'
+        SELECT l.lesson_id AS `id` FROM user_lesson AS ul
+        INNER JOIN lessons AS l ON ul.lesson_id = l.lesson_id
+        WHERE ul.user_id = :user_id
+        AND ul.user_lesson_is_complete = TRUE
+        AND (
+            SELECT courses.course_id
+            FROM courses
+            JOIN levels ON levels.course_id = courses.course_id
+            JOIN lessons ON lessons.level_id = levels.level_id
+            WHERE lessons.lesson_id = ul.lesson_id
+            LIMIT 1
+        ) = :course_id
+        ORDER BY l.lesson_created_at ASC
+        LIMIT 1
+    SQL;
     
     public function create(Lesson $lesson): int {
         $parameters = [
@@ -127,6 +161,22 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             "user_id" => $userId
         ];
         return DB::executeOneReader($this::FIND_FIRST_NOT_VIEWED, $parameters);
+    }
+
+    public function firstLessonPending(int $courseId, int $userId) {
+        $parameters = [
+            "course_id" => $courseId,
+            "user_id" => $userId
+        ];
+        return DB::executeOneReader($this::FIRST_LESSON_PENDING, $parameters);
+    }
+
+    public function firstLessonComplete(int $courseId, int $userId) {
+        $parameters = [
+            "course_id" => $courseId,
+            "user_id" => $userId
+        ];
+        return DB::executeOneReader($this::FIRST_LESSON_COMPLETE, $parameters);
     }
 
     public function lastInsertId2(): string {

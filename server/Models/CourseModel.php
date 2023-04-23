@@ -60,4 +60,13 @@ class CourseModel {
         $courseRepository = new CourseRepository();
         return $courseRepository->findByNotApproved();
     }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
 }

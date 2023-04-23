@@ -486,13 +486,142 @@ WHERE
 
 
 
+-- La ultima leccion pendiente
 
 
--- Obtiene el curso 15
-SELECT * FROM `courses` WHERE `course_id` = 15;
 
--- Obtener todos los niveles del curso 15
-SELECT * FROM `levels` WHERE `course_id` = 15;
+-- Completar una lección
+@user_id
+@course_id
+@lesson_id
+
+-- Actualizar la leccion como vista
+UPDATE 
+    `user_lesson`
+SET 
+    `user_lesson_is_complete` = TRUE
+    AND `user_lesson_complete_at` = NOW()
+WHERE 
+    `lesson_id` = 8 
+    AND `user_id` = 4;
+
+-- Buscar el nivel al que pertenece esa leccion
+SELECT le.level_id FROM user_lesson AS ule
+INNER JOIN lessons AS le
+ON ule.lesson_id = le.lesson_id
+WHERE ule.lesson_id = 8 AND ule.user_id = 4;
+
+-- Buscar todas las lecciones de ese nivel
+-- De todas las lecciones de ese nivel checar si todas estan en complete
+SELECT SUM(ule.user_lesson_is_complete) = COUNT(ule.user_lesson_is_complete) 
+FROM lessons AS le
+INNER JOIN user_lesson AS ule
+ON le.lesson_id = ule.lesson_id
+WHERE le.level_id = 8 AND ule.user_id = 4;
+
+-- Si devuelve 1 entonces actualizamos el user_level
+UPDATE
+    `user_level`
+SET
+    `user_level_is_complete` = TRUE,
+    `user_level_complete_at` = NOW()
+WHERE
+    `user_id` = 4
+    AND `level_id` = 8;
+
+SELECT `course_id` 
+FROM `levels` AS l 
+INNER JOIN `user_level` AS ul 
+ON l.level_id = ul.level_id
+WHERE ul.level_id = 8 AND ul.user_id = 4; 
+
+-- Buscar todos los niveles de ese curso
+SELECT SUM(ul.user_level_is_complete) = COUNT(ul.user_level_is_complete) 
+FROM levels AS l
+INNER JOIN user_level AS ul
+ON l.level_id = ul.level_id
+WHERE l.course_id = 9 AND ul.user_id = 4;
+
+-- Actualizar el enrollment
+UPDATE
+    `enrollments`
+SET
+    `enrollment_is_finished` = TRUE,
+    `enrollment_finish_date` = NOW(),
+    `enrollment_certificate_uid` = UUID()
 
 
-SELECT * FROM `courses` WHERE `course_approved` = 0;
+
+
+SELECT
+    l.level_id AS `id`,   
+    l.level_title AS `title`, 
+    l.level_description AS `description`,
+    l.level_is_free AS `free`,
+    l.course_id AS `courseId`,
+    l.level_created_at AS `createdAt`,
+    l.level_modified_at AS `modifiedAt`,
+    l.level_active AS `active`,
+    ul.user_level_is_complete AS `isComplete`,
+    ul.user_level_complete_at AS `completeAt`,
+    CONCAT('[', GROUP_CONCAT(
+        JSON_OBJECT(
+            'lesson_id', le.lesson_id,
+            'lesson_title', le.lesson_title,
+            'lesson_description', le.lesson_description,
+            'main_resource', find_main_resource(le.lesson_id),
+            'lesson_is_complete', ule.user_lesson_is_complete,
+            'lesson_complete_at', ule.user_lesson_complete_at,
+            'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
+        )
+    ), ']') AS `lessons`
+FROM `levels` AS l
+INNER JOIN `user_level` AS ul
+ON l.level_id = ul.level_id AND ul.user_id = 5
+INNER JOIN `lessons` AS le
+ON l.level_id = le.level_id
+INNER JOIN `user_lesson` AS ule
+ON le.lesson_id = ule.lesson_id AND ule.user_id = 5
+LEFT JOIN `videos` AS v
+ON le.video_id = v.video_id
+WHERE l.course_id = 9
+GROUP BY
+    l.level_id;
+
+
+
+
+SELECT
+    JSON_OBJECT(
+        'lesson_id', le.lesson_id,
+        'lesson_title', le.lesson_title,
+        'lesson_description', le.lesson_description,
+        'main_resource', find_main_resource(le.lesson_id),
+        'lesson_is_complete', ule.user_lesson_is_complete,
+        'lesson_complete_at', ule.user_lesson_complete_at,
+        'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
+    )
+FROM `lessons` AS le
+INNER JOIN `user_lesson` AS ule
+ON le.lesson_id = ule.lesson_id AND ule.user_id = 5
+LEFT JOIN `videos` AS v
+ON le.video_id = v.video_id
+WHERE `level_id` = 6;
+
+
+SELECT
+    le.lesson_id AS `lesson_id`,
+    le.lesson_title AS `lesson_title`,
+    le.lesson_description AS `lesson_description`,
+    find_main_resource(le.lesson_id) AS `main_resource`,
+    ule.user_lesson_is_complete AS `lesson_is_complete`,
+    ule.user_lesson_complete_at AS `lesson_complete_at`,
+    IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5)) AS `video_duration`
+FROM `lessons` AS le
+INNER JOIN `user_lesson` AS ule
+ON le.lesson_id = ule.lesson_id AND ule.user_id = 5
+LEFT JOIN `videos` AS v
+ON le.video_id = v.video_id
+WHERE `level_id` = 6;
+
+

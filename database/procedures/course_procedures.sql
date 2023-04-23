@@ -50,3 +50,81 @@ DELIMITER ;
     
 -- END $$
 -- DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `instructor_courses_report` $$
+CREATE PROCEDURE `instructor_courses_report`(
+    IN _instructor_id           INT,
+    IN _category_id             INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _limit                   INT,
+    IN _offset                  INT
+)
+BEGIN
+    SELECT
+        ic.`id`,
+        ic.`title`,
+        ic.`imageId`,
+        ic.`enrollments`,
+        ic.`amount`,
+        ic.`averageLevel`,
+        ic.`instructorId`,
+        ic.`createdAt`
+    FROM
+        `instructor_courses` AS ic
+    WHERE
+        `instructorId` = _instructor_id
+        AND (ic.`createdAt` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (
+            SELECT CASE
+            WHEN _category_id IS NULL THEN 1
+            ELSE EXISTS(
+                SELECT 1
+                FROM `course_category`
+                WHERE `course_id` = ic.`id`
+                AND `category_id` = _category_id
+                AND `course_category_active` = TRUE
+            )
+            END
+        )
+    LIMIT
+        _limit
+    OFFSET
+        _offset;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_enrollments_report` $$
+CREATE PROCEDURE `course_enrollments_report`(
+    IN _course_id               INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _limit                   INT,
+    IN _offset                  INT
+)
+BEGIN
+    SELECT 
+        ce.course_id AS `courseId`,
+        ce.user_id AS `userId`,
+        CONCAT(ce.user_name, ' ', ce.user_last_name) AS `username`,
+        ce.user_profile_picture AS `profilePicture`,
+        ce.enrollment_enroll_date AS `enrollmentDate`,
+        ce.enrollment_created_at AS `createdAt`,
+        ce.enrollment_amount AS `amount`,
+        ce.payment_method_name AS `paymentMethodName`,
+        ce.percentage_complete AS `percentageComplete`
+    FROM
+        `course_enrollments` AS ce
+    WHERE
+        ce.course_id = _course_id
+        AND (ce.enrollment_created_at BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    LIMIT
+        _limit
+    OFFSET
+        _offset;
+END $$
+DELIMITER ;

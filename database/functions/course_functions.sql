@@ -24,10 +24,11 @@ DELIMITER ;
 
 DELIMITER $$
 DROP FUNCTION IF EXISTS `get_user_course_completion` $$
-CREATE FUNCTION `get_user_course_completion` (
+CREATE FUNCTION `get_user_course_completion`(
   _user_id INT,
   _course_id INT
-) RETURNS FLOAT
+) 
+RETURNS FLOAT
 BEGIN
   DECLARE course_completion FLOAT;
   SELECT AVG(ule.user_lesson_is_complete) * 100
@@ -39,3 +40,20 @@ BEGIN
   RETURN course_completion;
 END $$
 DELIMITER ;
+
+
+
+SELECT l.lesson_id FROM user_lesson AS ul
+INNER JOIN lessons AS l ON ul.lesson_id = l.lesson_id
+WHERE ul.user_id = 4
+AND ul.user_lesson_is_complete = IF(l.lesson_id, TRUE, FALSE)
+AND (
+    SELECT courses.course_id
+    FROM courses
+    JOIN levels ON levels.course_id = courses.course_id
+    JOIN lessons ON lessons.level_id = levels.level_id
+    WHERE lessons.lesson_id = ul.lesson_id
+    LIMIT 1
+) = 9
+  ORDER BY l.lesson_created_at ASC
+    LIMIT 1

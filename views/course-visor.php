@@ -65,10 +65,12 @@
                     class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
                     role="button">
                     <p class="mb-0 fw-bold d-flex align-items-center">
-                      <i class='bx-sm bx bxs-checkbox-checked'></i>
+                      <i class="bx-sm bx <?= $lesson["is_complete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
                       <span><?= $i + 1 ?>. <?= $lesson["title"] ?></span>
                     </p>
-                    <small class="ms-2 mb-0"><i class='bx bxs-video'></i> Video - <?= $lesson["video_duration"] ?></small>
+                    <small class="ms-2 mb-0">
+                      <i class="bx bxs-video"></i>Video - <?= $lesson["video_duration"] ?>
+                    </small>
                   </a>
                 <?php endforeach ?>
 

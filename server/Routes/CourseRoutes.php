@@ -53,7 +53,10 @@ $app->get('/course-details', function($request, $response) {
     $userId = $session->get("id");
     
     $lessonRepository = new LessonRepository();
-    $lesson = $lessonRepository->findFirstNotViewed($id, $userId ?? -1);
+    $lesson = $lessonRepository->firstLessonPending($id, $userId ?? -1);
+    if (!$lesson) {
+        $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
+    }
 
     $enrollmentRepository = new EnrollmentRepository();
     $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
@@ -84,7 +87,8 @@ $app->get('/course-edition', function($request, $response) {
 }, [ [ HasNotAuthMiddleware::class ] ]);
 
 $app->get('/course-visor', function($request, $response) {
-    
+    $session = $request->getSession();
+    $userId = $session->get("id");
     // La ultima lección que viste
     // El enrollment es necesario
     // No puedes verlo si no has pagado
@@ -100,7 +104,7 @@ $app->get('/course-visor', function($request, $response) {
     }
 
     $levelRepository = new LevelRepository();
-    $levels = $levelRepository->findAllByCourse($courseId);
+    $levels = $levelRepository->findAllUserComplete($courseId, $userId);
     $found = false;
     foreach ($levels as &$level) {
         if ($lesson["levelId"] === $level["id"]) {
@@ -167,7 +171,25 @@ $app->get('/admin-courses', function($request, $response) {
 
     $response->render('admin-courses', [ "courses" => $courses ]);
 });
-$app->get('/instructor-course-details', fn($request, $response) => $response->render('instructor-course-details'));
+
+$app->get('/instructor-course-details', function($request, $response) {
+
+    $courseId = $request->getQuery("course_id");
+
+    $course = CourseModel::findById($courseId);
+    if (!$course) {
+        $response->setStatus(404)->render("404");
+        return;
+    }
+
+    $courseRepository = new CourseRepository();
+    $enrollments = $courseRepository->courseEnrollmentsReport($courseId);
+
+    $response->render('instructor-course-details', [ 
+        "course" => $course->toObject(), 
+        "enrollments" => $enrollments
+    ]);
+});
 
 
 // TODO:

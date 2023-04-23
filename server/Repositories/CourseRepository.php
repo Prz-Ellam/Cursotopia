@@ -294,18 +294,24 @@ class CourseRepository {
     SQL;
 
     private const INSTRUCTOR_COURSES_FIND_ALL_BY_INSTRUCTOR_ID = <<<'SQL'
-        SELECT
-            `id`,
-            `title`,
-            `imageId`,
-            `enrollments`,
-            `amount`,
-            `averageLevel`,
-            `instructorId`
-        FROM
-            `instructor_courses`
-        WHERE
-            `instructorId` = :instructor_id
+        CALL `instructor_courses_report`(
+            :instructor_id, 
+            :category_id, 
+            :from, 
+            :to, 
+            :limit, 
+            :offset
+        )
+    SQL;
+
+    private const COURSE_ENROLLMENTS_REPORT = <<<'SQL'
+        CALL `course_enrollments_report`(
+            :course_id, 
+            :from, 
+            :to, 
+            :limit, 
+            :offset
+        );
     SQL;
 
     public function create(Course $course): int {
@@ -366,12 +372,31 @@ class CourseRepository {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_ENROLLMENTS, []);
     }
 
-    public function instructorCoursesFindAllByInstructorId(int $instructorId): array {
+    public function instructorCoursesFindAllByInstructorId(int $instructorId, 
+        int $categoryId = null, string $from = null, string $to = null, 
+        int $limit = 100, int $offset = 0): array {
         $parameters = [
-            "instructor_id" => $instructorId
+            "instructor_id" => $instructorId,
+            "category_id" => $categoryId,
+            "from" => $from,
+            "to" => $to,
+            "limit" => $limit,
+            "offset" => $offset
         ];
         return DB::executeReader($this::INSTRUCTOR_COURSES_FIND_ALL_BY_INSTRUCTOR_ID, 
         $parameters);
+    }
+
+    public function courseEnrollmentsReport(int $courseId, string $from = null, 
+        string $to = null, int $limit = 100, int $offset = 0): array {
+        $parameters = [
+            "course_id" => $courseId,
+            "from" => $from,
+            "to" => $to,
+            "limit" => $limit,
+            "offset" => $offset
+        ];
+        return DB::executeReader($this::COURSE_ENROLLMENTS_REPORT, $parameters);
     }
 
     public function findByNotApproved(): array {

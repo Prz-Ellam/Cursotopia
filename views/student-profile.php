@@ -76,7 +76,7 @@ $categories = $categoryRepository->findAll();
       </div>
       <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
         <select class="form-select">
-          <option selected>Categorias</option>
+          <option selected value="">Categorias</option>
           <?php foreach ($categories as $category) : ?>
             <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
           <?php endforeach ?>
@@ -130,7 +130,9 @@ $categories = $categoryRepository->findAll();
                   <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
                   <td data-title="Terminado el"><?= $course["finishDate"] ?></td>
                   <td data-title="Estado"><?= $course["isFinished"] ?></td>
-                  <td data-title="Certificado"><a href="certificate">Ver más</a></td>
+                  <td data-title="Certificado">
+                    <a href="certificate?course=<?= $course["courseId"] ?>">Ver más</a>
+                  </td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -281,9 +283,6 @@ $categories = $categoryRepository->findAll();
               </div>
             </div>
           </div>
-
-
-
 
           <div class="d-flex justify-content-center" aria-label="Page navigation example">
             <ul class="pagination">

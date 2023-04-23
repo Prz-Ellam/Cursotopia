@@ -16,7 +16,7 @@
   <?= $this->render("partials/navbar") ?>
   <section class="container mb-4">
     <img
-      src="../client/assets/images/certificate.png"
+      src="<?= $this->certificate ?>"
       alt="Certificado"
       class="img-fluid w-100 h-100 mb-4"
       id="certificate"

@@ -51,6 +51,10 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             `course_id` = :course_id
     SQL;
 
+    private const FIND_ALL_USER_COMPLETE = <<<'SQL'
+        CALL level_find_user_complete(:course_id, :user_id)
+    SQL;
+
     private const FIND_ALL_BY_COURSE = <<<'SQL'
         SELECT
             l.level_id AS `id`,
@@ -136,6 +140,14 @@ class LevelRepository extends DB implements LevelRepositoryInterface {
             "course_id" => $courseId
         ];
         return $this::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+    }
+
+    public function findAllUserComplete(int $courseId, int $userId): array {
+        $parameters = [
+            "course_id" => $courseId,
+            "user_id" => $userId
+        ];
+        return $this::executeReader($this::FIND_ALL_USER_COMPLETE, $parameters);
     }
 
     public function lastInsertId2(): string {
