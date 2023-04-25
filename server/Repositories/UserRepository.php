@@ -141,6 +141,23 @@ class UserRepository extends DB implements UserRepositoryInterface {
             OR user_last_name LIKE CONCAT("%", :name, "%"))
             AND user_role <> :role
     SQL;
+
+    private const FIND_ALL_INSTRUCTORS = <<<'SQL'
+        SELECT
+            user_id AS `id`, 
+            user_name AS `name`, 
+            user_last_name AS `lastName`, 
+            user_birth_date AS `birthDate`, 
+            user_gender AS `gender`, 
+            user_email AS `email`, 
+            user_role AS `userRole`,
+            profile_picture AS `profilePicture`
+        FROM
+            users
+        WHERE
+            CONCAT(user_name, ' ', user_last_name) LIKE CONCAT("%", :name, "%")
+            AND user_role = 2
+    SQL;
     
     public function create(User $user): int {
         $parameters = [
@@ -222,6 +239,13 @@ class UserRepository extends DB implements UserRepositoryInterface {
             "role" => $role
         ];
         return $this::executeReader($this::FIND_ALL, $parameters);
+    }
+
+    public function findAllInstructors(string $name) {
+        $parameters = [
+            "name" => $name
+        ];
+        return $this::executeReader($this::FIND_ALL_INSTRUCTORS, $parameters);
     }
 
     public function lastInsertId2(): string {

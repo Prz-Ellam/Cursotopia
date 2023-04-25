@@ -187,4 +187,20 @@ class CourseController {
     }
 
     // Busqueda de cursos por filtros
+    public function search(Request $request, Response $response): void {
+        $title = $request->getQuery("title", null);
+        $from = $request->getQuery("from", null);
+        $to = $request->getQuery("to", null);
+        $instructorId = $request->getQuery("instructor", null);
+        $categoryId = $request->getQuery("category", null);
+        $limit = 100;
+        $offset = 0;
+
+        if (((is_int($instructorId) || ctype_digit($instructorId)) && intval($instructorId) > 0)) {
+            $instructorId = null;
+        }
+
+        $courses = CourseModel::findSearch($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+        $response->json($courses);
+    }
 }

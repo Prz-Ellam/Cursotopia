@@ -23,7 +23,7 @@ BEGIN
         `user_lesson`
     SET 
         `user_lesson_is_complete` = TRUE,
-        `user_lesson_complete_at` = NOW()
+        `user_lesson_complete_at` = COALESCE(`user_lesson_complete_at`, NOW())
     WHERE 
         `lesson_id` = _lesson_id 
         AND `user_id` = _user_id;
@@ -58,7 +58,7 @@ BEGIN
             `user_level`
         SET
             `user_level_is_complete` = TRUE,
-            `user_level_complete_at` = NOW()
+            `user_level_complete_at` = COALESCE(`user_level_complete_at`, NOW())
         WHERE
             `user_id` = _user_id
             AND `level_id` = _level_id;
@@ -84,8 +84,8 @@ BEGIN
             `enrollments`
         SET
             `enrollment_is_finished` = TRUE,
-            `enrollment_finish_date` = NOW(),
-            `enrollment_certificate_uid` = UUID()
+            `enrollment_finish_date` = COALESCE(`enrollment_finish_date`, NOW()),
+            `enrollment_certificate_uid` = COALESCE(`enrollment_certificate_uid`, UUID())
         WHERE
             `course_id` = _course_id
             AND `student_id` = _user_id;

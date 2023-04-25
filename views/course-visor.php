@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
   <?= $this->script("javascript/course-visor.js") ?>
 </head>
 <body>
@@ -52,6 +54,38 @@
 
         <h4 class="text-center mt-3">Contenido del curso</h4>
 
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+          <?php foreach ($this->levels as $i => $level) : ?>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-heading<?= $i ?>">
+              <button class="accordion-button collapsed shadow-none bg-white text-black" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?= $i ?>" aria-expanded="true" aria-controls="panelsStayOpen-collapse<?= $i ?>">
+                <?= $i + 1 ?> . <?= $level["title"] ?>
+              </button>
+            </h2>
+            <div id="panelsStayOpen-collapse<?= $i ?>" class="accordion-collapse collapse <?= ($level["id"] === $this->lesson["levelId"]) ? 'show' : '' ?>" aria-labelledby="panelsStayOpen-heading<?= $i ?>">
+              <div class="list-group list-group-flush">
+              <?php foreach ($level["lessons"] as $i => $lesson) : ?>
+                <a
+                  href="course-visor?course=<?= $this->course ?>&lesson=<?= $lesson["id"] ?>"
+                  class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
+                  role="button"
+                >
+                  <p class="mb-0 fw-bold d-flex align-items-center">
+                    <i class="bx-sm bx <?= $lesson["is_complete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
+                    <span><?= $i + 1 ?> . <?= $lesson["title"] ?></span>
+                  </p>
+                  <small class="d-flex align-items-center ms-2 mb-0">
+                    <i class="bx bxs-video me-2"></i> Video - <?= $lesson["video_duration"] ?>
+                  </small>
+                </a>
+              <?php endforeach ?>
+              </div>
+            </div>
+          </div>
+          <?php endforeach ?>
+        </div>
+<?php
+/*
         <?php foreach ($this->levels as $i => $level) : ?>
           <div class="border-0 card shadow-none">
             <h5 type="button" class=" bg-light card-header" data-bs-toggle="collapse" data-bs-target="#level-<?= $i + 1 ?>-collapse" aria-expanded="true" aria-controls="level-1-collapse">
@@ -78,7 +112,8 @@
             </div>
           </div>
         <?php endforeach ?>
-
+        */
+                ?>
       </div>
     </div>
   </main>

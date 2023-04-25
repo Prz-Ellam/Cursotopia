@@ -94,8 +94,24 @@ export const getAllUsersService = async (name) => {
     }
     catch (exception) {
         return exception.response.data;
+    }    
+};
+
+export const getAllInstructorsUsersService = async (name) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users/instructors?name=${name}`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
     }
-    return null;    
+    catch (exception) {
+        return exception.response.data;
+    }    
 };
 
 export const getOneUserService = async (id) => {

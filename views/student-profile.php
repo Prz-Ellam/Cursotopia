@@ -109,7 +109,7 @@ $categories = $categoryRepository->findAll();
       <div class="tab-pane fade show active" id="kardex-tab-pane" role="tabpanel" aria-labelledby="kardex-tab" tabindex="0">
 
         <div class="row pt-3" id="no-more-tables">
-          <table class="table w-auto">
+          <table class="table w-100">
             <thead>
               <tr>
                 <th>Curso</th>
@@ -124,14 +124,24 @@ $categories = $categoryRepository->findAll();
             <tbody>
               <?php foreach ($courses as $course) : ?>
                 <tr>
-                  <td data-title="Curso"><?= $course["title"] ?></td>
+                  <td data-title="Curso">
+                    <a href="course-details?id=<?= $course["courseId"] ?>"
+                      class="text-decoration-none">
+                      <?= $course["title"] ?>
+                    </a>
+                  </td>
                   <td data-title="Progreso"><?= $course["progress"] ?>%</td>
                   <td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
                   <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
-                  <td data-title="Terminado el"><?= $course["finishDate"] ?></td>
+                  <td data-title="Terminado el"><?= (strtotime($course["finishDate"]) !== false) ? date_format(date_create($course["finishDate"]), 'd M Y') : $course["finishDate"] ?></td>
                   <td data-title="Estado"><?= $course["isFinished"] ?></td>
                   <td data-title="Certificado">
-                    <a href="certificate?course=<?= $course["courseId"] ?>">Ver más</a>
+                    <?php if ($course["isFinished"] === "Acabado"): ?>
+                    <a href="certificate?course=<?= $course["courseId"] ?>"
+                      class="text-decoration-none">
+                      Ver más
+                    </a>
+                    <?php endif ?>
                   </td>
                 </tr>
               <?php endforeach ?>

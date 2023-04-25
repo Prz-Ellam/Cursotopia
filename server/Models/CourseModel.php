@@ -61,6 +61,19 @@ class CourseModel {
         return $courseRepository->findByNotApproved();
     }
 
+    public static function findSearch(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): array {
+        $courseRepository = new CourseRepository();
+        return $courseRepository->courseSearch($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+    }
+
+    public static function findSearchTotal(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): int {
+        $courseRepository = new CourseRepository();
+        $obj = $courseRepository->courseSearchTotal($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+        return $obj["total"];
+    }
+
     public function toObject() : array {
         $members = get_object_vars($this);
         return json_decode(json_encode($members), true);

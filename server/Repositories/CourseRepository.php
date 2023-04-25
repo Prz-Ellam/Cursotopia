@@ -314,6 +314,30 @@ class CourseRepository {
         );
     SQL;
 
+    private const COURSE_SEARCH = <<<'SQL'
+        CALL `course_search`(
+            :title,
+            :instructor_id,
+            :category_id,
+            :from,
+            :to,
+            :limit,
+            :offset
+        )
+    SQL;
+
+    private const COURSE_SEARCH_TOTAL = <<<'SQL'
+        CALL `course_search_total`(
+            :title,
+            :instructor_id,
+            :category_id,
+            :from,
+            :to,
+            :limit,
+            :offset
+        )
+    SQL;
+
     public function create(Course $course): int {
         $parameters = [
             "title" => $course->getTitle(),
@@ -397,6 +421,34 @@ class CourseRepository {
             "offset" => $offset
         ];
         return DB::executeReader($this::COURSE_ENROLLMENTS_REPORT, $parameters);
+    }
+
+    public function courseSearch(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): array {
+        $parameters = [
+            "title" => $title,
+            "instructor_id" => $instructorId,
+            "category_id" => $categoryId,
+            "from" => $from,
+            "to" => $to,
+            "limit" => $limit,
+            "offset" => $offset
+        ];
+        return DB::executeReader($this::COURSE_SEARCH, $parameters);
+    }
+
+    public function courseSearchTotal(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): array {
+        $parameters = [
+            "title" => $title,
+            "instructor_id" => $instructorId,
+            "category_id" => $categoryId,
+            "from" => $from,
+            "to" => $to,
+            "limit" => $limit,
+            "offset" => $offset
+        ];
+        return DB::executeOneReader($this::COURSE_SEARCH_TOTAL, $parameters);
     }
 
     public function findByNotApproved(): array {

@@ -625,3 +625,54 @@ ON le.video_id = v.video_id
 WHERE `level_id` = 6;
 
 
+
+SELECT * 
+FROM `courses`
+WHERE
+    `course_is_complete` = TRUE
+    AND `course_approved` = TRUE
+    AND `course_active` = TRUE
+    -- Filtro por titulo del curso
+    AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+    -- Filtro por fecha
+    AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    -- Por categoria
+    AND (EXISTS(
+        SELECT `category_id` 
+        FROM `course_category` AS cc 
+        WHERE cc.`course_id` = `course_id` 
+        AND cc.`category_id` = _category_id 
+        AND cc.`course_category_active` = TRUE
+    ) OR _category_id IS NULL)
+    -- Por instructor
+    AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
+
+
+
+SELECT 
+    `course_id`,
+    `course_title`,
+    `course_price`,
+    `course_image_id`,
+    `instructor_id`,
+    `instructor_name`,
+    `rate`,
+    `levels`,
+    `video_duration`
+FROM 
+    `course_card`
+WHERE
+    `course_is_complete` = TRUE
+    AND `course_approved` = TRUE
+    AND `course_active` = TRUE
+    -- Filtro por titulo del curso
+    AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+    -- Filtro por fecha
+    AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    -- Por categoria
+    AND (EXISTS(SELECT `category_id` 
+        FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+        AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+        OR 2 IS NULL)
+    -- Por instructor
+    AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)

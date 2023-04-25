@@ -38,8 +38,16 @@
         "documentId": {
             
         },
-        "linkId": {
-            
+        "link": {
+            "type": "object",
+            "properties": {
+                "name": {
+
+                },
+                "address": {
+
+                }
+            }
         }
     },
     "required": [
@@ -53,7 +61,7 @@
                 "videoId",
                 "imageId",
                 "documentId",
-                "linkId"
+                "link"
             ]
         },
         {

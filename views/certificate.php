@@ -21,10 +21,6 @@
       class="img-fluid w-100 h-100 mb-4"
       id="certificate"
     >
-    <div class="d-flex justify-content-end">
-      <button class="btn fb-share-button me-3">Compartir en Facebook</button>
-      <button class="btn btn-primary rounded-pill">Descargar como PDF</button>
-    </div>
   </section>
   <?= $this->render("partials/footer") ?>
 </body>

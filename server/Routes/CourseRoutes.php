@@ -132,7 +132,7 @@ $app->get('/course-visor', function($request, $response) {
 
 
 
-$app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
+//$app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
 $app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
@@ -154,6 +154,8 @@ $app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);
+
+$app->get('/api/v1/courses', [ CourseController::class, 'search' ]);
 
 // Confirmar la creacion del curso
 $app->put('/api/v1/courses/:id/confirm', [ CourseController::class, 'confirm' ], [
