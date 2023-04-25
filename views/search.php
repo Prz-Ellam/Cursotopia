@@ -42,10 +42,10 @@
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
         <label for="instructors" role="button">Filtrar por instructor</label>
         <input type="text" name="instructor_name" id="instructors"
-          value="<?= $_GET["instructor_name"] ?>"
+          value="<?= $_GET["instructor_name"] ?? "" ?>"
           class="form-control" placeholder="Ej. Jon Doe">
         <input type="hidden" name="instructor" id="instructor" 
-          value="<?= $this->instructorId ?>">
+          value="<?= ($this->instructorId == "NULL") ? "" : $this->instructorId ?>">
       </div>
 
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">

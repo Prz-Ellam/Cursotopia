@@ -55,11 +55,11 @@ class HomeController {
         $limit = $perPageElement;
         $offset = $start;
 
-        if (!((is_int($instructorId) || ctype_digit($instructorId)) && (int)$instructorId > 0)) {
+        if (!((is_int($instructorId) || ctype_digit($instructorId ?? "")) && (int)$instructorId > 0)) {
             $instructorId = null;
         }
 
-        if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
+        if (!((is_int($categoryId) || ctype_digit($categoryId ?? "")) && (int)$categoryId > 0)) {
             $categoryId = null;
         }
 
@@ -76,10 +76,10 @@ class HomeController {
 
         $totalPages = ceil($total / $perPageElement);
 
-        if ($page > $totalPages) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
+        // if ($page > $totalPages) {
+        //     $response->setStatus(404)->render("404");
+        //     return;
+        // }
 
         $courses = CourseModel::findSearch($title, $instructorId, $categoryId, $from, $to,
             $limit, $offset);

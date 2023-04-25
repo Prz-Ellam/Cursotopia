@@ -100,12 +100,10 @@ class CourseController {
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
         if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "ID is not valid"
+            ]);
             return;
         }
 

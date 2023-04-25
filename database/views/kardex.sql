@@ -18,8 +18,7 @@ AS
     ON
         c.course_id = e.course_id
     WHERE
-        c.course_active = TRUE
-        AND c.course_is_complete = TRUE
+        c.course_is_complete = TRUE
         AND c.course_approved = TRUE;
 
 

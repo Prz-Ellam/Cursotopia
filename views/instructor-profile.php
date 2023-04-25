@@ -116,8 +116,9 @@ $categories = $categoryRepository->findAll();
         </div>
       </div>
 
-      <input type="submit" value="Buscar">
-
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+      </div>
     </form>
 
     <!-- Cards -->

@@ -41,15 +41,4 @@ AS
     ON
         le.`video_id` = v.`video_id`
     GROUP BY
-        c.`course_id`
-
-
--- id
--- title
--- price
--- image
--- instructor name      Users
--- reviews              Reviews
-
--- levels               Levels
--- total duration       Videos -> Lessons
+        c.`course_id`;

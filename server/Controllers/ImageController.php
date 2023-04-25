@@ -19,12 +19,10 @@ class ImageController {
     public function create(Request $request, Response $response): void {
         $file = $request->getFiles("image");
         if (!$file) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "Faltan parametros"
-                ]);
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Faltan parametros"
+            ]);
             return;
         }
 
@@ -42,12 +40,10 @@ class ImageController {
 
         $imageValidator = new Validator($image);
         if (!$imageValidator->validate()) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => $imageValidator->getFeedback()
-                ]);
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => $imageValidator->getFeedback()
+            ]);
             return;
         }
 
@@ -57,13 +53,11 @@ class ImageController {
         $session = $request->getSession();
         $session->set("profilePicture_id", $image->getId());
 
-        $response
-            ->setStatus(201)
-            ->json([
-                "status" => $result,
-                "id" => $image->getId(),
-                "message" => "La imagen se creó éxitosamente"
-            ]);
+        $response->setStatus(201)->json([
+            "status" => $result,
+            "id" => $image->getId(),
+            "message" => "La imagen se creó éxitosamente"
+        ]);
     }
 
     public function update(Request $request, Response $response): void {
@@ -71,12 +65,10 @@ class ImageController {
         $id = intval($request->getParams("id"));
         $file = $request->getFiles("image");
         if (!$file) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "Faltan parametros"
-                ]);
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Faltan parametros"
+            ]);
             return;
         }
 
@@ -105,11 +97,10 @@ class ImageController {
 
         $image->update();
 
-        $response
-            ->json([
-                "status" => true,
-                "message" => "La imagen se actualizó éxitosamente"
-            ]);
+        $response->json([
+            "status" => true,
+            "message" => "La imagen se actualizó éxitosamente"
+        ]);
     }
 
     public function getOne(Request $request, Response $response): void {
@@ -118,12 +109,10 @@ class ImageController {
         $id = intval($request->getParams("id"));
         $image = ImageModel::findOneById($id);
         if (!$image) {
-            $response
-                ->setStatus(404)
-                ->json([
-                    "status" => false,
-                    "message" => "No se encontró la imagen"
-                ]);
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "No se encontró la imagen"
+            ]);
             return;
         }
         
