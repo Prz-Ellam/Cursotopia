@@ -94,3 +94,112 @@ BEGIN
     COMMIT;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_sales_report` $$
+CREATE PROCEDURE `course_sales_report`(
+    IN _instructor_id           INT,
+    IN _category_id             INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _active                  BOOLEAN,
+    IN _limit                   INT,
+    IN _offset                  INT
+)
+BEGIN
+    SELECT
+        `course_id` AS `id`,
+        `course_title` AS `title`,
+        `course_image_id` AS `imageId`,
+        `enrollments`,
+        `amount`,
+        `average_level` AS `averageLevel`,
+        `instructor_id` AS `instructor_id`,
+        `course_created_at` AS `createdAt`
+    FROM
+        `instructor_courses`
+    WHERE
+        `instructor_id` = _instructor_id
+        AND `course_is_complete` = TRUE
+        AND `course_approved` = TRUE
+        AND (`course_active` = TRUE OR _active = FALSE)
+        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (EXISTS(
+            SELECT `category_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+            OR _category_id IS NULL)
+    LIMIT
+        _limit
+    OFFSET
+        _offset;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_sales_report_total` $$
+CREATE PROCEDURE `course_sales_report_total`(
+    IN _instructor_id           INT,
+    IN _category_id             INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _active                  BOOLEAN
+)
+BEGIN
+    SELECT
+        IFNULL(COUNT(`course_id`), 0) AS `total`
+    FROM
+        `instructor_courses`
+    WHERE
+        `instructor_id` = _instructor_id
+        AND `course_is_complete` = TRUE
+        AND `course_approved` = TRUE
+        AND (`course_active` = TRUE OR _active = FALSE)
+        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (EXISTS(
+            SELECT `category_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+            OR _category_id IS NULL);
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `kardex_report` $$
+CREATE PROCEDURE `kardex_report`(
+    IN _student_id              INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _category_id             INT,
+    IN _complete                BOOLEAN,
+    IN _active                  BOOLEAN,
+    IN _limit                   INT,
+    IN _offset                  INT
+)
+BEGIN
+    SELECT
+        *
+    FROM
+        `kardex`
+    WHERE
+        `student_id` = _student_id
+        AND `course_is_complete` = TRUE
+        AND `course_approved` = TRUE
+        AND (`complete` = TRUE OR _complete = FALSE)
+        AND (`course_active` = TRUE OR _active = FALSE)
+        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (EXISTS(
+            SELECT `category_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+            OR _category_id IS NULL)
+    LIMIT
+        _limit
+    OFFSET
+        _offset;
+END $$
+DELIMITER ;

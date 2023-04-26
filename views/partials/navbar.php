@@ -38,12 +38,13 @@ if ($id) {
       <span class="text-white bx-sm bx bx-menu"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbar-content">
-      <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search">
+      <form class="col-md-auto col-lg-5 col-xl-7" role="search" action="search" method="GET">
         <div class="input-group">
           <input
             class="form-control bg-white"
             type="search"
             placeholder="Buscar cursos..."
+            name="title"
             aria-label="Search">
           <button class="btn btn-white border-0 text-dark search-btn" type="submit">
             <i class="fw-bold bx bx-search"></i>

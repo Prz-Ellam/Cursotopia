@@ -74,6 +74,21 @@ class CourseModel {
         return $obj["total"];
     }
 
+    public static function salesReport(int $instructorId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $active = null,
+    int $limit = 100, int $offset = 0): array {
+        $courseRepository = new CourseRepository();
+        return $courseRepository->courseSalesReport($instructorId, $categoryId, $from, $to, $active, $limit, $offset);
+    }    
+    
+
+    public static function salesReportTotal(int $instructorId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $active = null): int {
+        $courseRepository = new CourseRepository();
+        $obj = $courseRepository->courseSalesReportTotal($instructorId, $categoryId, $from, $to, $active);
+        return $obj["total"];
+    }
+
     public function toObject() : array {
         $members = get_object_vars($this);
         return json_decode(json_encode($members), true);

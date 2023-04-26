@@ -1,11 +1,20 @@
 <?php
 
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
-$categoryId = $_GET["category_id"] ?? null;
+$categoryId = $_GET["category"] ?? null;
 $from = $_GET["from"] ?? null;
 $to = $_GET["to"] ?? null;
+$active = $_GET["active"] ?? 0;
+$page = $_GET["page"] ?? 1;
+
+$perPageElement = 6;
+$start = ($page - 1) * $perPageElement;
+
+$limit = $perPageElement;
+$offset = $start;
 
 if ($categoryId || $categoryId === "") {
   if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
@@ -26,12 +35,25 @@ if (!$to || !validarFormatoFecha($to)) {
   $to = null;
 }
 
-$courseRepository = new CourseRepository();
-$courses = $courseRepository->instructorCoursesFindAllByInstructorId(
+$total = CourseModel::salesReportTotal(
   $this->session("id"),
   $categoryId,
   $from,
-  $to
+  $to,
+  $active
+);
+
+$totalPages = ceil($total / $perPageElement);
+$totalButtons = $totalPages > 5 ? 5 : $totalPages;
+
+$courses = CourseModel::salesReport(
+  $this->session("id"),
+  $categoryId,
+  $from,
+  $to,
+  $active,
+  $limit,
+  $offset
 );
 
 $categoryRepository = new CategoryRepository();
@@ -82,7 +104,9 @@ $categories = $categoryRepository->findAll();
   <div class="container">
     <h2 class="fw-bold mt-4">Mis cursos</h2>
     <h4 class="mt-3">Filtros</h4>
+
     <form class="row" action="" method="GET">
+      <!-- Este es para que el campo id no desaparezca en la requests --> 
       <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
         <label for="from" class="col-auto col-form-label" role="button">
@@ -100,8 +124,10 @@ $categories = $categoryRepository->findAll();
       </div>
 
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-box">
-        <label for="" class="col-auto col-form-label">Categoria:</label>
-        <select name="category_id" class="col-auto form-select w-50">
+        <label for="category" class="col-auto col-form-label" role="button">
+          Categoria:
+        </label>
+        <select name="category" id="category" class="col-auto form-select w-50">
           <option value="" selected>Categorias</option>
           <?php foreach ($categories as $category) : ?>
             <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
@@ -111,8 +137,9 @@ $categories = $categoryRepository->findAll();
 
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4  mt-3 ">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" name="actives" type="checkbox" id="inlineCheckbox2" value="true">
-          <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
+          <input class="form-check-input" name="active" type="checkbox" id="active" 
+          value="1" <?= $_GET["active"] ?? "" ? "checked": "" ?>>
+          <label class="form-check-label" for="active">Solo activos</label>
         </div>
       </div>
 
@@ -171,12 +198,55 @@ $categories = $categoryRepository->findAll();
       <?php endforeach ?>
 
       <div class="d-flex justify-content-center mt-5" aria-label="Page navigation example">
+        <?php $queryParams = $_GET ?>
         <ul class="pagination">
-          <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-left'></i></a></li>
-          <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">1</a></li>
-          <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">2</a></li>
-          <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">3</a></li>
-          <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-right'></i></a></li>
+        <?php
+            $isFirstPage = $page <= 1;
+            $queryParams["page"] = $page - 1;
+            $prevLink = "?" . http_build_query($queryParams);
+          ?>
+          <li class="page-item <?= $isFirstPage ? "disabled" : "" ?>">
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="<?= !$isFirstPage ? $prevLink : "" ?>"
+            >
+              <i class="bx bx-chevron-left"></i>
+            </a>
+          </li>
+
+          
+          <?php for($i = 1; $i <= $totalButtons; $i++): ?>
+          <li class="page-item <?= ($i == $page) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $i; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $i ?>
+            </a>
+          </li>
+          <?php endfor ?>
+
+          <?php if ($totalPages > $totalButtons): ?>
+          <li class="page-item disabled">
+            <a class="page-link border-0 bg-light shadow-none">
+              ...
+            </a>
+          </li>
+          <li class="page-item <?= ($totalPages == $page) ? "disabled" : "" ?>">
+          <?php $queryParams["page"] = $totalPages; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $totalPages ?>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <li class="page-item <?= ($page + 1 > $totalPages) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $page + 1; ?>
+            <a class="page-link border-0 bg-light shadow-none"
+              href="?<?= ($page + 1 <= $totalPages) ? http_build_query($queryParams) : '' ?>"
+            >
+              <i class='bx bx-chevron-right'></i>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

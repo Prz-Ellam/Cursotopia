@@ -52,30 +52,24 @@ $categories = $categoryRepository->findAll();
 
   <!-- Contenido -->
   <div class="container">
-    <div class="row">
-      <div class="col-12 mt-4 d-flex">
-        <h3 class="fw-bold me-4">Kardex</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 mt-3">
-        <h6>Filtros</h6>
-      </div>
-    </div>
-    <div class="row">
+    <h3 class="fw-bold mt-4">Kardex</h3>
+    <h6 class="mt-3">Filtros</h6>
+
+    <form class="row" action="" method="GET">
+      <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
       <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
         <label for="" class="form-label me-3">Fecha inicial:</label>
-        <input type="date" class="form-control w-50">
+        <input type="date" name="from" class="form-control w-50">
       </div>
       <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
         <label for="" class="form-label me-3">Fecha final:</label>
-        <input type="date" class="form-control w-50">
+        <input type="date" name="to" class="form-control w-50">
       </div>
       <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
         <label for="" class="form-label">Categoria:</label>
       </div>
       <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
-        <select class="form-select">
+        <select class="form-select" name="category">
           <option selected value="">Categorias</option>
           <?php foreach ($categories as $category) : ?>
             <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
@@ -84,17 +78,20 @@ $categories = $categoryRepository->findAll();
       </div>
       <div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <input class="form-check-input" name="complete" type="checkbox" id="inlineCheckbox1" value="1">
           <label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
         </div>
       </div>
       <div class="col-lg-2 col-sm-4 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <input class="form-check-input" name="active" type="checkbox" id="inlineCheckbox2" value="1">
           <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
         </div>
       </div>
-    </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+      </div>
+    </form>
 
 
     <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">

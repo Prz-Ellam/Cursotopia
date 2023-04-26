@@ -293,14 +293,25 @@ class CourseRepository {
             COUNT(DISTINCT e.enrollment_id) DESC
     SQL;
 
-    private const INSTRUCTOR_COURSES_FIND_ALL_BY_INSTRUCTOR_ID = <<<'SQL'
-        CALL `instructor_courses_report`(
+    private const COURSE_SALES_REPORT = <<<'SQL'
+        CALL `course_sales_report`(
             :instructor_id, 
             :category_id, 
             :from, 
             :to, 
+            :active,
             :limit, 
             :offset
+        )
+    SQL;
+
+    private const COURSE_SALES_REPORT_TOTAL = <<<'SQL'
+        CALL `course_sales_report_total`(
+            :instructor_id,
+            :category_id,
+            :from,
+            :to,
+            :active
         )
     SQL;
 
@@ -396,19 +407,31 @@ class CourseRepository {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_ENROLLMENTS, []);
     }
 
-    public function instructorCoursesFindAllByInstructorId(int $instructorId, 
-        int $categoryId = null, string $from = null, string $to = null, 
+    public function courseSalesReport(int $instructorId, 
+        ?int $categoryId = null, ?string $from = null, ?string $to = null, ?int $active = 0, 
         int $limit = 100, int $offset = 0): array {
         $parameters = [
             "instructor_id" => $instructorId,
             "category_id" => $categoryId,
             "from" => $from,
             "to" => $to,
+            "active" => $active,
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::INSTRUCTOR_COURSES_FIND_ALL_BY_INSTRUCTOR_ID, 
-        $parameters);
+        return DB::executeReader($this::COURSE_SALES_REPORT,  $parameters);
+    }
+
+    public function courseSalesReportTotal(int $instructorId, ?int $categoryId = null,
+        ?string $from = null, ?string $to = null, ?int $active = 0) {
+        $parameters = [
+            "instructor_id" => $instructorId,
+            "category_id" => $categoryId,
+            "from" => $from,
+            "to" => $to,
+            "active" => $active
+        ];
+        return DB::executeOneReader($this::COURSE_SALES_REPORT_TOTAL,  $parameters);
     }
 
     public function courseEnrollmentsReport(int $courseId, string $from = null, 
