@@ -177,6 +177,14 @@ $app->get('/admin-courses', function($request, $response) {
 $app->get('/instructor-course-details', function($request, $response) {
 
     $courseId = $request->getQuery("course_id");
+    
+    $page = $_GET["page"] ?? 1;
+
+    $perPageElement = 12;
+    $start = ($page - 1) * $perPageElement;
+
+    $limit = $perPageElement;
+    $offset = $start;
 
     $course = CourseModel::findById($courseId);
     if (!$course) {
@@ -184,12 +192,19 @@ $app->get('/instructor-course-details', function($request, $response) {
         return;
     }
 
-    $courseRepository = new CourseRepository();
-    $enrollments = $courseRepository->courseEnrollmentsReport($courseId);
+    $total = CourseModel::enrollmentsReportTotal($courseId, null, null);
+
+    $totalPages = ceil($total / $perPageElement);
+    $totalButtons = $totalPages > 5 ? 5 : $totalPages;
+
+    $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
 
     $response->render('instructor-course-details', [ 
         "course" => $course->toObject(), 
-        "enrollments" => $enrollments
+        "enrollments" => $enrollments,
+        "totalPages" => $totalPages,
+        "totalButtons" => $totalButtons,
+        "page" => $page
     ]);
 });
 

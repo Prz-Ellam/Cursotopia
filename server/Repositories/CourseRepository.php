@@ -117,180 +117,76 @@ class CourseRepository {
             `id` = :id
     SQL;
 
-    private const KARDEX_FIND_ALL_BY_USER_ID = <<<'SQL'
-        SELECT
-            `course_id` AS `courseId`,
-            `student_id` AS `studentId`,
-            `course_title` AS `title`,
-            `enrollment_enroll_date` AS `enrollDate`,
-            `enrollment_last_time_checked` AS `lastTimeChecked`,
-            `enrollment_finish_date` AS `finishDate`,
-            `enrollment_is_finished` AS `isFinished`,
-            `enrollment_certificate_uid` AS `certificateUid`,
-            `enrollment_progress` AS `progress`
-        FROM
-            `kardex`
-        WHERE
-            `student_id` = :user_id
-    SQL;
-
     private const FIND_ALL_ORDER_BY_CREATED_AT = <<<'SQL'
         SELECT
-            c.course_id AS `id`,
-            c.course_title AS `title`,
-            c.course_description AS `description`,
-            c.course_price AS `price`,
-            c.course_image_id AS `imageId`,
-            c.instructor_id AS `instructorId`,
-            c.course_approved AS `approved`,
-            c.course_approved_by AS `approvedBy`,
-            c.course_created_at AS `createdAt`,
-            c.course_modified_at AS `modifiedAt`,
-            c.course_active AS `active`,
-            COUNT(DISTINCT l.level_id) AS `levels`,
-            IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
-            CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
-            COUNT(DISTINCT e.enrollment_id) AS `enrollments`
+            `course_id` AS `id`,
+            `course_title` AS `title`,
+            `course_price` AS `price`,
+            `course_image_id` AS `imageId`,
+            `instructor_name` AS `instructorName`,
+            `levels`,
+            `rate`,
+            `video_duration` AS `videoDuration`
         FROM
-            `courses` AS c
-        INNER JOIN
-            levels AS l
-        ON
-            c.course_id = l.course_id
-        INNER JOIN
-            lessons AS le
-        ON
-            l.level_id = le.level_id
-        LEFT JOIN
-            videos AS v
-        ON
-            le.video_id = v.video_id
-        LEFT JOIN
-            reviews AS r
-        ON
-            c.course_id = r.course_id
-        INNER JOIN
-            users AS u
-        ON
-            c.instructor_id = u.user_id
-        LEFT JOIN
-            enrollments AS e
-        ON
-            c.course_id = e.course_id
+            `course_card`
         WHERE
-            c.course_active = TRUE
-            AND c.course_approved = TRUE
-        GROUP BY
-            c.course_id
+            `course_active` = TRUE
+            AND `course_approved` = TRUE
+            AND `course_is_complete` = TRUE
         ORDER BY
             `course_created_at` DESC
+        LIMIT
+            15
     SQL;
 
     private const FIND_ALL_ORDER_BY_RATES = <<<'SQL'
         SELECT
-            c.course_id AS `id`,
-            c.course_title AS `title`,
-            c.course_description AS `description`,
-            c.course_price AS `price`,
-            c.course_image_id AS `imageId`,
-            c.instructor_id AS `instructorId`,
-            c.course_approved AS `approved`,
-            c.course_approved_by AS `approvedBy`,
-            c.course_created_at AS `createdAt`,
-            c.course_modified_at AS `modifiedAt`,
-            c.course_active AS `active`,
-            COUNT(DISTINCT l.level_id) AS `levels`,
-            IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
-            CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
-            COUNT(DISTINCT e.enrollment_id) AS `enrollments`
+            `course_id` AS `id`,
+            `course_title` AS `title`,
+            `course_price` AS `price`,
+            `course_image_id` AS `imageId`,
+            `instructor_name` AS `instructorName`,
+            `levels`,
+            `rate`,
+            `video_duration` AS `videoDuration`
         FROM
-            `courses` AS c
-        INNER JOIN
-            levels AS l
-        ON
-            c.course_id = l.course_id
-        INNER JOIN
-            lessons AS le
-        ON
-            l.level_id = le.level_id
-        LEFT JOIN
-            videos AS v
-        ON
-            le.video_id = v.video_id
-        LEFT JOIN
-            reviews AS r
-        ON
-            c.course_id = r.course_id
-        INNER JOIN
-            users AS u
-        ON
-            c.instructor_id = u.user_id
-        LEFT JOIN
-            enrollments AS e
-        ON
-            c.course_id = e.course_id
+            `course_card`
         WHERE
-            c.course_active = TRUE
-            AND c.course_approved = TRUE
-        GROUP BY
-            c.course_id
+            `course_active` = TRUE
+            AND `course_approved` = TRUE
+            AND `course_is_complete` = TRUE
         ORDER BY
-            IF(AVG(r.review_rate) IS NULL, 0, AVG(r.review_rate)) DESC
+            `rate` DESC
+        LIMIT
+            15
     SQL;
 
     private const FIND_ALL_ORDER_BY_ENROLLMENTS = <<<'SQL'
         SELECT
-            c.course_id AS `id`,
-            c.course_title AS `title`,
-            c.course_description AS `description`,
-            c.course_price AS `price`,
-            c.course_image_id AS `imageId`,
-            c.instructor_id AS `instructorId`,
-            c.course_approved AS `approved`,
-            c.course_approved_by AS `approvedBy`,
-            c.course_created_at AS `createdAt`,
-            c.course_modified_at AS `modifiedAt`,
-            c.course_active AS `active`,
-            COUNT(DISTINCT l.level_id) AS `levels`,
-            IF(AVG(r.review_rate) IS NULL, 'No reviews', AVG(r.review_rate)) `rates`,
-            CONCAT(u.user_name, ' ', u.user_last_name) `instructor`,
-            SUM(TIME_TO_SEC(v.video_duration)) / 3600.0 AS `duration`,
-            COUNT(DISTINCT e.enrollment_id) AS `enrollments`
+            cc.`course_id` AS `id`,
+            cc.`course_title` AS `title`,
+            cc.`course_price` AS `price`,
+            cc.`course_image_id` AS `imageId`,
+            cc.`instructor_name` AS `instructorName`,
+            cc.`levels`,
+            cc.`rate`,
+            cc.`video_duration` AS `videoDuration`
         FROM
-            `courses` AS c
-        INNER JOIN
-            levels AS l
-        ON
-            c.course_id = l.course_id
-        INNER JOIN
-            lessons AS le
-        ON
-            l.level_id = le.level_id
+            `course_card` AS cc
         LEFT JOIN
-            videos AS v
+            `enrollments` AS e
         ON
-            le.video_id = v.video_id
-        LEFT JOIN
-            reviews AS r
-        ON
-            c.course_id = r.course_id
-        INNER JOIN
-            users AS u
-        ON
-            c.instructor_id = u.user_id
-        LEFT JOIN
-            enrollments AS e
-        ON
-            c.course_id = e.course_id
+            cc.`course_id` = e.`course_id`
         WHERE
-            c.course_active = TRUE
-            AND c.course_approved = TRUE
+            cc.`course_active` = TRUE
+            AND cc.`course_approved` = TRUE
+            AND cc.`course_is_complete` = TRUE
         GROUP BY
-            c.course_id
+            cc.`course_id`
         ORDER BY
-            COUNT(DISTINCT e.enrollment_id) DESC
+            COUNT(e.`enrollment_id`) DESC
+        LIMIT
+            15
     SQL;
 
     private const COURSE_SALES_REPORT = <<<'SQL'
@@ -315,6 +211,30 @@ class CourseRepository {
         )
     SQL;
 
+    private const KARDEX_REPORT = <<<'SQL'
+        CALL `kardex_report`(
+            :student_id,
+            :from,
+            :to,
+            :category_id,
+            :complete,
+            :active,
+            :limit,
+            :offset
+        )
+    SQL;
+
+    private const KARDEX_REPORT_TOTAL = <<<'SQL'
+        CALL `kardex_report_total`(
+            :student_id,
+            :from,
+            :to,
+            :category_id,
+            :complete,
+            :active
+        )
+    SQL;
+
     private const COURSE_ENROLLMENTS_REPORT = <<<'SQL'
         CALL `course_enrollments_report`(
             :course_id, 
@@ -322,6 +242,14 @@ class CourseRepository {
             :to, 
             :limit, 
             :offset
+        )
+    SQL;
+
+    private const COURSE_ENROLLMENTS_REPORT_TOTAL = <<<'SQL'
+        CALL `course_enrollments_report_total`(
+            :course_id, 
+            :from, 
+            :to
         );
     SQL;
 
@@ -388,13 +316,6 @@ class CourseRepository {
         return DB::executeOneReader($this::COURSE_DETAILS_FIND_ONE, $parameters);
     }
 
-    public function kardexFindAllByUserId(int $userId): array {
-        $parameters = [
-            "user_id" => $userId
-        ];
-        return DB::executeReader($this::KARDEX_FIND_ALL_BY_USER_ID, $parameters);
-    }
-
     public function findAllOrderByCreatedAt(): array {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_CREATED_AT, []);
     }
@@ -434,8 +355,37 @@ class CourseRepository {
         return DB::executeOneReader($this::COURSE_SALES_REPORT_TOTAL,  $parameters);
     }
 
-    public function courseEnrollmentsReport(int $courseId, string $from = null, 
-        string $to = null, int $limit = 100, int $offset = 0): array {
+    public function kardexReport(int $studentId, 
+        ?string $from = null, ?string $to = null, ?int $categoryId = null, ?int $complete = null, ?int $active = 0, 
+        int $limit = 100, int $offset = 0): array {
+        $parameters = [
+            "student_id" => $studentId,
+            "from" => $from,
+            "to" => $to,
+            "category_id" => $categoryId,
+            "complete" => $complete,
+            "active" => $active,
+            "limit" => $limit,
+            "offset" => $offset
+        ];
+        return DB::executeReader($this::KARDEX_REPORT, $parameters);
+    }
+
+    public function kardexReportTotal(int $studentId, 
+        ?string $from = null, ?string $to = null, ?int $categoryId = null, ?int $complete = null, ?int $active = 0): array {
+        $parameters = [
+            "student_id" => $studentId,
+            "from" => $from,
+            "to" => $to,
+            "category_id" => $categoryId,
+            "complete" => $complete,
+            "active" => $active
+        ];
+        return DB::executeOneReader($this::KARDEX_REPORT_TOTAL, $parameters);
+    }
+
+    public function courseEnrollmentsReport(int $courseId, ?string $from = null, 
+        ?string $to = null, int $limit = 100, int $offset = 0): array {
         $parameters = [
             "course_id" => $courseId,
             "from" => $from,
@@ -444,6 +394,16 @@ class CourseRepository {
             "offset" => $offset
         ];
         return DB::executeReader($this::COURSE_ENROLLMENTS_REPORT, $parameters);
+    }
+
+    public function courseEnrollmentsReportTotal(int $courseId, ?string $from = null, 
+        ?string $to = null): array {
+        $parameters = [
+            "course_id" => $courseId,
+            "from" => $from,
+            "to" => $to
+        ];
+        return DB::executeOneReader($this::COURSE_ENROLLMENTS_REPORT_TOTAL, $parameters);
     }
 
     public function courseSearch(?string $title, ?int $instructorId, ?int $categoryId,

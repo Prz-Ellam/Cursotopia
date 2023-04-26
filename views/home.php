@@ -67,18 +67,18 @@
         </div>
         <div class="card-body text-center rounded-bottom">
           <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructor"] ?></p>
+          <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
           <p>
-          <?php if($course["rates"] == "No reviews"): ?>
+          <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
           <?php else: ?>
-            <i class="bx <?= $course["rates"] >= 1 ? 'bxs-star': ($course["rates"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 2 ? 'bxs-star': ($course["rates"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 3 ? 'bxs-star': ($course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 4 ? 'bxs-star': ($course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 5 ? 'bxs-star': ($course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 2 ? 'bxs-star': ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 3 ? 'bxs-star': ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 4 ? 'bxs-star': ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 5 ? 'bxs-star': ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
             <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
@@ -87,8 +87,8 @@
               <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["duration"] < 1 ? '<1' : round($course["duration"]) ?>
-              <?= (round($course["duration"]) <= 1) ? 'hora' : 'horas' ?>
+              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
+              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
             </p>
           </div>
         </div>
@@ -115,18 +115,18 @@
         </div>
         <div class="card-body text-center rounded-bottom">
           <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructor"] ?></p>
+          <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
           <p>
-          <?php if($course["rates"] == "No reviews"): ?>
+          <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
           <?php else: ?>
-            <i class="bx <?= $course["rates"] >= 1 ? 'bxs-star': ($course["rates"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 2 ? 'bxs-star': ($course["rates"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 3 ? 'bxs-star': ($course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 4 ? 'bxs-star': ($course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 5 ? 'bxs-star': ($course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 2 ? 'bxs-star': ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 3 ? 'bxs-star': ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 4 ? 'bxs-star': ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 5 ? 'bxs-star': ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
             <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
@@ -135,8 +135,8 @@
               <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["duration"] < 1 ? '<1' : round($course["duration"]) ?>
-              <?= (round($course["duration"]) <= 1) ? 'hora' : 'horas' ?>
+              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
+              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
             </p>
           </div>
         </div>
@@ -163,18 +163,18 @@
         </div>
         <div class="card-body text-center rounded-bottom">
           <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructor"] ?></p>
+          <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
           <p>
-          <?php if($course["rates"] == "No reviews"): ?>
+          <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
           <?php else: ?>
-            <i class="bx <?= $course["rates"] >= 1 ? 'bxs-star': ($course["rates"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 2 ? 'bxs-star': ($course["rates"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 3 ? 'bxs-star': ($course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 4 ? 'bxs-star': ($course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rates"] >= 5 ? 'bxs-star': ($course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 2 ? 'bxs-star': ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 3 ? 'bxs-star': ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 4 ? 'bxs-star': ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 5 ? 'bxs-star': ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
@@ -183,8 +183,8 @@
               <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["duration"] < 1 ? '<1' : round($course["duration"]) ?>
-              <?= (round($course["duration"]) <= 1) ? 'hora' : 'horas' ?>
+              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
+              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
             </p>
           </div>
         </div>

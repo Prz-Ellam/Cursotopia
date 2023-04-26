@@ -132,14 +132,56 @@
     <?php endforeach ?>
 
     <div class="d-flex justify-content-center" aria-label="Page navigation example">
+      <?php $queryParams = $_GET ?>
       <ul class="pagination">
-        <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i
-              class='bx bx-chevron-left'></i></a></li>
-        <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">1</a></li>
-        <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">2</a></li>
-        <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">3</a></li>
-        <li class="page-item"><a class="page-link border-0 bg-light shadow-none" style="z-index: 0;" href="#"><i
-              class='bx bx-chevron-right'></i></a></li>
+
+          <?php
+            $isFirstPage = $this->page <= 1;
+            $queryParams["page"] = $this->page - 1;
+            $prevLink = "?" . http_build_query($queryParams);
+          ?>
+          <li class="page-item <?= $isFirstPage ? "disabled" : "" ?>">
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="<?= !$isFirstPage ? $prevLink : "" ?>"
+            >
+              <i class="bx bx-chevron-left"></i>
+            </a>
+          </li>
+
+          
+          <?php for($i = 1; $i <= $this->totalButtons; $i++): ?>
+          <li class="page-item <?= ($i == $this->page) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $i; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $i ?>
+            </a>
+          </li>
+          <?php endfor ?>
+
+          <?php if ($this->totalPages > $this->totalButtons): ?>
+          <li class="page-item disabled">
+            <a class="page-link border-0 bg-light shadow-none">
+              ...
+            </a>
+          </li>
+          <li class="page-item <?= ($this->totalPages == $this->page) ? "disabled" : "" ?>">
+          <?php $queryParams["page"] = $this->totalPages; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $this->totalPages ?>
+          </a>
+        </li>
+        <?php endif ?>
+
+        <li class="page-item <?= ($this->page + 1 > $this->totalPages) ? "disabled" : "" ?>">
+          <?php $queryParams["page"] = $this->page + 1; ?>
+          <a class="page-link border-0 bg-light shadow-none"
+            href="?<?= ($this->page + 1 <= $this->totalPages) ? http_build_query($queryParams) : '' ?>"
+          >
+            <i class='bx bx-chevron-right'></i>
+          </a>
+        </li>
       </ul>
     </div>
 

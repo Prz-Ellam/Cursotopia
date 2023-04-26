@@ -182,24 +182,123 @@ CREATE PROCEDURE `kardex_report`(
 )
 BEGIN
     SELECT
-        *
+        `course_id` AS `id`,
+        `course_title` AS `title`,
+        `course_image_id` AS `imageId`,
+        `student_id` AS `studentId`,
+        `enrollment_enroll_date` AS `enrollDate`,
+        `enrollment_last_time_checked` AS `lastTimeChecked`,
+        `enrollment_finish_date` AS `finishDate`,
+        `enrollment_is_finished` AS `isFinished`,
+        `enrollment_status` AS `status`,
+        `enrollment_certificate_uid` AS `certificateUid`,
+        `enrollment_progress` AS `progress`
     FROM
         `kardex`
     WHERE
         `student_id` = _student_id
         AND `course_is_complete` = TRUE
         AND `course_approved` = TRUE
-        AND (`complete` = TRUE OR _complete = FALSE)
+        AND (`enrollment_is_finished` = TRUE OR _complete = FALSE)
         AND (`course_active` = TRUE OR _active = FALSE)
         AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
             FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
-            OR _category_id IS NULL)
+            OR _category_id IS NULL
+        )
     LIMIT
         _limit
     OFFSET
         _offset;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `kardex_report_total` $$
+CREATE PROCEDURE `kardex_report_total`(
+    IN _student_id              INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _category_id             INT,
+    IN _complete                BOOLEAN,
+    IN _active                  BOOLEAN
+)
+BEGIN
+    SELECT
+        IFNULL(COUNT(`course_id`), 0) AS `total`
+    FROM
+        `kardex`
+    WHERE
+        `student_id` = _student_id
+        AND `course_is_complete` = TRUE
+        AND `course_approved` = TRUE
+        AND (`enrollment_is_finished` = TRUE OR _complete = FALSE)
+        AND (`course_active` = TRUE OR _active = FALSE)
+        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (EXISTS(
+            SELECT `category_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+            OR _category_id IS NULL
+        );
+END $$
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_enrollments_report` $$
+CREATE PROCEDURE `course_enrollments_report`(
+    IN _course_id               INT,
+    IN _from                    DATE,
+    IN _to                      DATE,
+    IN _limit                   INT,
+    IN _offset                  INT
+)
+BEGIN
+    SELECT 
+        ce.`course_id` AS `courseId`,
+        ce.`user_id` AS `userId`,
+        CONCAT(ce.`user_name`, ' ', ce.`user_last_name`) AS `username`,
+        ce.`profile_picture` AS `profilePicture`,
+        ce.`enrollment_enroll_date` AS `enrollmentDate`,
+        ce.`enrollment_created_at` AS `createdAt`,
+        ce.`enrollment_amount` AS `amount`,
+        ce.`payment_method_name` AS `paymentMethodName`,
+        ce.`percentage_complete` AS `percentageComplete`
+    FROM
+        `course_enrollments` AS ce
+    WHERE
+        ce.`course_id` = _course_id
+        AND (ce.`enrollment_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    LIMIT
+        _limit
+    OFFSET
+        _offset;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_enrollments_report_total` $$
+CREATE PROCEDURE `course_enrollments_report_total`(
+    IN _course_id               INT,
+    IN _from                    DATE,
+    IN _to                      DATE
+)
+BEGIN
+    SELECT 
+        COUNT(ce.`course_id`) AS `total`
+    FROM
+        `course_enrollments` AS ce
+    WHERE
+        ce.`course_id` = _course_id
+        AND (ce.`enrollment_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'));
 END $$
 DELIMITER ;

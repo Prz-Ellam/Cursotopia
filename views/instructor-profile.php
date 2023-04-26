@@ -2,7 +2,6 @@
 
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
-use Cursotopia\Repositories\CourseRepository;
 
 $categoryId = $_GET["category"] ?? null;
 $from = $_GET["from"] ?? null;

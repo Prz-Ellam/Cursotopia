@@ -81,11 +81,37 @@ class CourseModel {
         return $courseRepository->courseSalesReport($instructorId, $categoryId, $from, $to, $active, $limit, $offset);
     }    
     
-
     public static function salesReportTotal(int $instructorId, ?int $categoryId = null,
     ?string $from = null, ?string $to = null, ?int $active = null): int {
         $courseRepository = new CourseRepository();
         $obj = $courseRepository->courseSalesReportTotal($instructorId, $categoryId, $from, $to, $active);
+        return $obj["total"];
+    }
+
+    public static function kardexReport(int $studentId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null,
+    int $limit = 100, int $offset = 0): array {
+        $courseRepository = new CourseRepository();
+        return $courseRepository->kardexReport($studentId, $from, $to, $categoryId, $complete, $active, $limit, $offset);
+    }
+
+    public static function kardexReportTotal(int $studentId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null): int {
+        $courseRepository = new CourseRepository();
+        $obj = $courseRepository->kardexReportTotal($studentId, $from, $to, $categoryId, $complete, $active);
+        return $obj["total"];
+    }
+
+    public static function enrollmentsReport(int $courseId, ?string $from = null,
+    ?string $to = null, int $limit = 100, int $offset = 0): array {
+        $courseRepository = new CourseRepository();
+        return $courseRepository->courseEnrollmentsReport($courseId, $from, $to, $limit, $offset);
+    }
+
+    public static function enrollmentsReportTotal(int $courseId, ?string $from = null,
+    ?string $to = null): int {
+        $courseRepository = new CourseRepository();
+        $obj = $courseRepository->courseEnrollmentsReportTotal($courseId, $from, $to);
         return $obj["total"];
     }
 

@@ -85,7 +85,7 @@
             <hr>
             <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
             <p>
-              <?php if($course["rate"] == "No hay reseñas"): ?>
+              <?php if($course["rate"] == 0): ?>
               <span>No hay reseñas</span>
               <?php else: ?>
               <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>

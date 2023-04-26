@@ -8,7 +8,7 @@ AS
         c.`course_image_id`,
         u.`user_id` AS `instructor_id`,
         CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `instructor_name`,
-        IF(AVG(r.`review_rate`) IS NULL, 'No hay reseñas', AVG(r.`review_rate`)) `rate`,
+        IF(AVG(r.`review_rate`) IS NULL, 0, AVG(r.`review_rate`)) `rate`,
         COUNT(DISTINCT l.`level_id`) AS `levels`,
         SUM(TIME_TO_SEC(v.`video_duration`)) / 3600.0 AS `video_duration`,
         c.`course_is_complete`,

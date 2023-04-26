@@ -1,10 +1,65 @@
 <?php
 
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
-$courseRepository = new CourseRepository();
-$courses = $courseRepository->kardexFindAllByUserId($this->user["id"]);
+$categoryId = $_GET["category"] ?? null;
+$from = $_GET["from"] ?? null;
+$to = $_GET["to"] ?? null;
+$complete = $_GET["complete"] ?? 0;
+$active = $_GET["active"] ?? 0;
+$page = $_GET["page"] ?? 1;
+
+$perPageElement = 12;
+$start = ($page - 1) * $perPageElement;
+
+$limit = $perPageElement;
+$offset = $start;
+
+if ($categoryId || $categoryId === "") {
+  if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
+    $categoryId = null;
+  }
+}
+
+function validarFormatoFecha($fecha) {
+  $d = DateTime::createFromFormat('Y-m-d', $fecha);
+  return $d && $d->format('Y-m-d') === $fecha;
+}
+
+if (!$from || !validarFormatoFecha($from)) {
+  $from = null;
+}
+
+if (!$to || !validarFormatoFecha($to)) {
+  $to = null;
+}
+
+$total = CourseModel::kardexReportTotal(
+  $this->session("id"),
+  $categoryId,
+  $from,
+  $to,
+  $complete,
+  $active
+);
+
+$totalPages = ceil($total / $perPageElement);
+$totalButtons = $totalPages > 5 ? 5 : $totalPages;
+
+$courses = CourseModel::kardexReport(
+  $this->session("id"),
+  $categoryId,
+  $from,
+  $to,
+  $complete,
+  $active,
+  $limit,
+  $offset
+);
+
+
 
 $categoryRepository = new CategoryRepository();
 $categories = $categoryRepository->findAll();
@@ -122,7 +177,7 @@ $categories = $categoryRepository->findAll();
               <?php foreach ($courses as $course) : ?>
                 <tr>
                   <td data-title="Curso">
-                    <a href="course-details?id=<?= $course["courseId"] ?>"
+                    <a href="course-details?id=<?= $course["id"] ?>"
                       class="text-decoration-none">
                       <?= $course["title"] ?>
                     </a>
@@ -131,10 +186,10 @@ $categories = $categoryRepository->findAll();
                   <td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
                   <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
                   <td data-title="Terminado el"><?= (strtotime($course["finishDate"]) !== false) ? date_format(date_create($course["finishDate"]), 'd M Y') : $course["finishDate"] ?></td>
-                  <td data-title="Estado"><?= $course["isFinished"] ?></td>
+                  <td data-title="Estado"><?= $course["status"] ?></td>
                   <td data-title="Certificado">
-                    <?php if ($course["isFinished"] === "Acabado"): ?>
-                    <a href="certificate?course=<?= $course["courseId"] ?>"
+                    <?php if ($course["isFinished"]): ?>
+                    <a href="certificate?course=<?= $course["id"] ?>"
                       class="text-decoration-none">
                       Ver más
                     </a>
@@ -145,6 +200,59 @@ $categories = $categoryRepository->findAll();
             </tbody>
           </table>
         </div>
+
+        <div class="d-flex justify-content-center mt-5" aria-label="Page navigation example">
+        <?php $queryParams = $_GET ?>
+        <ul class="pagination">
+        <?php
+            $isFirstPage = $page <= 1;
+            $queryParams["page"] = $page - 1;
+            $prevLink = "?" . http_build_query($queryParams);
+          ?>
+          <li class="page-item <?= $isFirstPage ? "disabled" : "" ?>">
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="<?= !$isFirstPage ? $prevLink : "" ?>"
+            >
+              <i class="bx bx-chevron-left"></i>
+            </a>
+          </li>
+
+          
+          <?php for($i = 1; $i <= $totalButtons; $i++): ?>
+          <li class="page-item <?= ($i == $page) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $i; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $i ?>
+            </a>
+          </li>
+          <?php endfor ?>
+
+          <?php if ($totalPages > $totalButtons): ?>
+          <li class="page-item disabled">
+            <a class="page-link border-0 bg-light shadow-none">
+              ...
+            </a>
+          </li>
+          <li class="page-item <?= ($totalPages == $page) ? "disabled" : "" ?>">
+          <?php $queryParams["page"] = $totalPages; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $totalPages ?>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <li class="page-item <?= ($page + 1 > $totalPages) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $page + 1; ?>
+            <a class="page-link border-0 bg-light shadow-none"
+              href="?<?= ($page + 1 <= $totalPages) ? http_build_query($queryParams) : '' ?>"
+            >
+              <i class='bx bx-chevron-right'></i>
+            </a>
+          </li>
+        </ul>
+      </div>
 
       </div>
       <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
