@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
@@ -33,7 +34,11 @@
         <label for="categories" role="button">Filtrar por categorías</label>
         <select name="category" id="categories" class="form-select">
           <option value="">Seleccionar</option>
-          <?php foreach($this->categories as $category): ?>
+          <?php
+
+                    use Cursotopia\Helpers\Format;
+
+ foreach($this->categories as $category): ?>
           <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
           <?php endforeach ?>
         </select>
@@ -83,7 +88,7 @@
             <h5 class="card-title"><?= $course["title"] ?></h5>
             <p class="card-text"><?= $course["instructorName"] ?></p>
             <hr>
-            <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
+            <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
             <p>
               <?php if($course["rate"] == 0): ?>
               <span>No hay reseñas</span>
@@ -97,8 +102,7 @@
             </p>
             <div class="d-flex justify-content-between mb-0">
               <p class="mb-0"><i class='bx bxs-layer'></i> 
-                <?= $course["levels"] ?> 
-                <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
+                <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
               </p>
               <p class="mb-0"><i class='bx bxs-time' ></i> 
                 <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
@@ -169,6 +173,5 @@
   <?= $this->render("partials/footer") ?>
 </body>
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

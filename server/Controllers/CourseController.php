@@ -94,7 +94,12 @@ class CourseController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $courseId = $request->getParams("id");
+        $id = $request->getParams("id");
+        
+        $courseRepository = new CourseRepository();
+        $result = $courseRepository->delete($id);
+
+        $response->json([]);
     }
 
     public function getOne(Request $request, Response $response): void {

@@ -39,6 +39,15 @@ class CourseRepository {
             `course_id` = :id;
     SQL;
 
+    private const DELETE = <<<'SQL'
+        UPDATE
+            courses
+        SET
+            course_active = FALSE
+        WHERE
+            course_id = :course_id
+    SQL;
+
     private const APPROVE = <<<'SQL'
         UPDATE
             `courses`
@@ -277,6 +286,12 @@ class CourseRepository {
         )
     SQL;
 
+    private const INSTRUCTOR_TOTAL_REVENUE_REPORT = <<<'SQL'
+        CALL `instructor_total_revenue_report`(
+            :instructor_id
+        )
+    SQL;
+
     public function create(Course $course): int {
         $parameters = [
             "title" => $course->getTitle(),
@@ -434,16 +449,30 @@ class CourseRepository {
         return DB::executeOneReader($this::COURSE_SEARCH_TOTAL, $parameters);
     }
 
+    public function instructorTotalRevenueReport(int $instructorId): array {
+        $parameters = [
+            "instructor_id" => $instructorId
+        ];
+        return DB::executeReader($this::INSTRUCTOR_TOTAL_REVENUE_REPORT, $parameters);
+    }
+
     public function findByNotApproved(): array {
         return DB::executeReader($this::FIND_BY_NOT_APPROVED, []);
     }
 
-    public function approve(int $courseId, int $adminId, bool $approve): bool {
+    public function approve(int $courseId, int $adminId, bool $approve): int {
         $parameters = [
             "course_id" => $courseId,
             "admin_id" => $adminId,
             "approve" => $approve
         ];
         return DB::executeNonQuery($this::APPROVE, $parameters);
+    }
+
+    public function delete(int $courseId): int {
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return DB::executeNonQuery($this::DELETE, $parameters);
     }
 }

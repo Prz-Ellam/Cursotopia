@@ -5,7 +5,7 @@ AS
         u.`user_id`,
         pm.`payment_method_id`,
         pm.`payment_method_name`,
-        IFNULL(p.`amount`, 0)
+        IFNULL(p.`amount`, 0) AS `amount`
     FROM
         `users` AS u
     JOIN

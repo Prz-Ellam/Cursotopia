@@ -112,7 +112,7 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         ORDER BY l.lesson_created_at ASC
         LIMIT 1
     SQL;
-    
+
     public function create(Lesson $lesson): int {
         $parameters = [
             "title" => $lesson->getTitle(),

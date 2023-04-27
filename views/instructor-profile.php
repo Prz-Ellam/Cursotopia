@@ -1,8 +1,11 @@
 <?php
 
+use Cursotopia\Helpers\Format;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Repositories\CourseRepository;
 
+$userId = $_GET["id"] ?? -1;
 $categoryId = $_GET["category"] ?? null;
 $from = $_GET["from"] ?? null;
 $to = $_GET["to"] ?? null;
@@ -58,6 +61,8 @@ $courses = CourseModel::salesReport(
 $categoryRepository = new CategoryRepository();
 $categories = $categoryRepository->findAll();
 
+$courseRepository = new CourseRepository();
+$totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
 ?>
 <main>
   <!-- Hero -->
@@ -82,7 +87,7 @@ $categories = $categoryRepository->findAll();
           </div>
           <div class="row">
             <div class="col-12">
-              <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+              <h6><?= Format::date($this->user["birthDate"]) ?></h6>
             </div>
           </div>
           <div class="row mt-3">
@@ -171,7 +176,7 @@ $categories = $categoryRepository->findAll();
                 </p>
                 <p class="d-flex align-items-center card-text mb-0">
                   <i class="bx bx-money me-1"></i>
-                  <span>Total de ingresos: $<?= $course["amount"] ?> MXN</span>
+                  <span>Total de ingresos: <?= Format::money($course["amount"]) ?></span>
                 </p>
                 <p class="d-flex align-items-center card-text mb-1">
                   <i class="bx bxs-layer me-1"></i>
@@ -268,14 +273,12 @@ $categories = $categoryRepository->findAll();
           </tr>
         </thead>
         <tbody>
+          <?php foreach($totalRevenue as $revenue): ?>
           <tr>
-            <th scope="row">Tarjeta de crédito/débito</th>
-            <td>$1,000.00 MXN</td>
+            <th scope="row"><?= $revenue["paymentMethodName"] ?></th>
+            <td><?= Format::money($revenue["amount"]) ?></td>
           </tr>
-          <tr>
-            <th scope="row">Paypal</th>
-            <td>$500.00 MXN</td>
-          </tr>
+          <?php endforeach ?>
         </tbody>
       </table>
     </div>

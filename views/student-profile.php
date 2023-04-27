@@ -1,8 +1,8 @@
 <?php
 
+use Cursotopia\Helpers\Format;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
-use Cursotopia\Repositories\CourseRepository;
 
 $categoryId = $_GET["category"] ?? null;
 $from = $_GET["from"] ?? null;
@@ -86,7 +86,7 @@ $categories = $categoryRepository->findAll();
             </div>
             <div class="row">
               <div class="col-12">
-                <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+                <h6><?= Format::date($this->user["birthDate"]) ?></h6>
               </div>
             </div>
             <div class="row mt-3">
@@ -183,9 +183,9 @@ $categories = $categoryRepository->findAll();
                     </a>
                   </td>
                   <td data-title="Progreso"><?= $course["progress"] ?>%</td>
-                  <td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
-                  <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
-                  <td data-title="Terminado el"><?= (strtotime($course["finishDate"]) !== false) ? date_format(date_create($course["finishDate"]), 'd M Y') : $course["finishDate"] ?></td>
+                  <td data-title="Fecha de inscripción"><?= Format::date($course["enrollDate"]) ?></td>
+                  <td data-title="Último ingreso"><?= Format::date($course["lastTimeChecked"]) ?></td>
+                  <td data-title="Terminado el"><?= Format::date($course["finishDate"]) ?></td>
                   <td data-title="Estado"><?= $course["status"] ?></td>
                   <td data-title="Certificado">
                     <?php if ($course["isFinished"]): ?>
@@ -193,6 +193,8 @@ $categories = $categoryRepository->findAll();
                       class="text-decoration-none">
                       Ver más
                     </a>
+                    <?php else: ?>
+                    <a style="visibility:hidden">.</a>
                     <?php endif ?>
                   </td>
                 </tr>

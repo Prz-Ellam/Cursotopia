@@ -1,3 +1,13 @@
+<?php
+
+use Cursotopia\Models\EnrollmentModel;
+
+$id = $_SESSION["id"] ?? -1;
+$lessonId = $_GET["id"] ?? -1;
+
+EnrollmentModel::visitLesson($id, $lessonId);
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,9 +33,12 @@
     <div class="row mb-3">
       <div class="col-lg-8 col-sm-12 course-content mb-5">
         <h4 class="mt-3">Introducción y conocimientos previos</h4>
-        <video id="level-video" class="video-js" controls>
-          <source src="api/v1/videos/<?= $this->lesson["videoId"] ?>" type="video/mp4">
-          Sorry, your browser doesn't support embedded videos.
+        
+        <div id="video-container">
+
+        </div>
+        <video id="level-video" controls src="api/v1/videos/<?= $this->lesson["videoId"] ?>">
+          
         </video>
         <div class="d-flex justify-content-center mt-2">
           <a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
@@ -84,36 +97,7 @@
           </div>
           <?php endforeach ?>
         </div>
-<?php
-/*
-        <?php foreach ($this->levels as $i => $level) : ?>
-          <div class="border-0 card shadow-none">
-            <h5 type="button" class=" bg-light card-header" data-bs-toggle="collapse" data-bs-target="#level-<?= $i + 1 ?>-collapse" aria-expanded="true" aria-controls="level-1-collapse">
-              <?= $i + 1 ?>. <?= $level["title"] ?>
-            </h5>
-            <div class="collapse" id="level-<?= $i + 1 ?>-collapse">
-              <div class="list-group list-group-flush">
-                <?php foreach ($level["lessons"] as $i => $lesson) : ?>
-                  <a
-                    href="course-visor?course=<?= $this->course ?>&lesson=<?= $lesson["id"] ?>"
-                    class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
-                    role="button">
-                    <p class="mb-0 fw-bold d-flex align-items-center">
-                      <i class="bx-sm bx <?= $lesson["is_complete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
-                      <span><?= $i + 1 ?>. <?= $lesson["title"] ?></span>
-                    </p>
-                    <small class="ms-2 mb-0">
-                      <i class="bx bxs-video"></i>Video - <?= $lesson["video_duration"] ?>
-                    </small>
-                  </a>
-                <?php endforeach ?>
 
-              </div>
-            </div>
-          </div>
-        <?php endforeach ?>
-        */
-                ?>
       </div>
     </div>
   </main>

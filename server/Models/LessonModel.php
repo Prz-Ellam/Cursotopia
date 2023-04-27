@@ -70,7 +70,7 @@ class LessonModel {
         return ($rowsAffected > 0) ? true : false;
     }
     
-    public static function findById(int $id) {
+    public static function findById(int $id): ?LessonModel {
         $lessonRepository = new LessonRepository();
         $lessonObject = $lessonRepository->findById($id);
         if (!$lessonObject) {

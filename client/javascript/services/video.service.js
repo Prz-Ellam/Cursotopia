@@ -17,7 +17,6 @@ export const mainService = async(method, url, contentType, data) => {
         console.log(exception);
         return exception.response.data;
     }
-    return null;
 }
 
 export const createVideoService = async (video) => {

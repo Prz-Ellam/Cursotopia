@@ -48,6 +48,20 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             AND student_id = :student_id;
     SQL;
 
+    private const COMPLETE_LESSON = <<<'SQL'
+        CALL `complete_lesson`(
+            :user_id,
+            :lesson_id
+        );
+    SQL;
+
+    private const VISIT_LESSON = <<<'SQL'
+        CALL `visit_lesson`(
+            :user_id,
+            :lesson_id
+        )
+    SQL;
+
     public function create(Enrollment $enrollment): int {
         $parameters = [
             "course_id" => $enrollment->getCourseId(),
@@ -64,5 +78,21 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             "student_id" => $studentId
         ];
         return DB::executeOneReader($this::FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID, $parameters);
+    }
+
+    public function completeLesson(int $userId, int $lessonId): int {
+        $parameters = [
+            "user_id" => $userId,
+            "lesson_id" => $lessonId
+        ];
+        return DB::executeNonQuery($this::COMPLETE_LESSON, $parameters);
+    }
+
+    public function visitLesson(int $userId, int $lessonId): int {
+        $parameters = [
+            "user_id" => $userId,
+            "lesson_id" => $lessonId
+        ];
+        return DB::executeNonQuery($this::VISIT_LESSON, $parameters);
     }
 }

@@ -676,3 +676,4 @@ WHERE
         OR 2 IS NULL)
     -- Por instructor
     AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
+

@@ -150,7 +150,7 @@ $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [
 ]);
 
 // Eliminar un curso
-$app->delete('/api/v1/courses/:id', [ CourseController::class, 'remove' ], [ 
+$app->delete('/api/v1/courses/:id', [ CourseController::class, 'delete' ], [ 
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);

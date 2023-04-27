@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mirror: false
     });
 
-
-
-
     $("#instructors").autocomplete({
         delay: 1,
         source: async function(request, response) {
@@ -37,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             $('#instructor').val(ui.item.id);
             
         }
-    }).data('ui-autocomplete')._renderItem = function(ul, item) {
+    })
+    .data('ui-autocomplete')._renderItem = function(ul, item) {
         return $('<li></li>')
             .data("item.autocomplete", item)
             .append(item.label)

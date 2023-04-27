@@ -14,7 +14,7 @@ if ($id) {
 }
 ?>
 <!-- Navbar de instructor --> 
-<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm">
+<nav class="sticky-top navbar navbar-expand-lg bg-primary shadow-sm" style="z-index: 1000">
   <div class="container-fluid">
     <a class="navbar-brand text-white" href="/home">
       <img 

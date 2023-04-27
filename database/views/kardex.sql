@@ -12,6 +12,7 @@ SELECT
     e.`enrollment_is_finished`,
     IF(e.enrollment_is_finished, 'Acabado', 'En curso') AS `enrollment_status`,
     e.enrollment_certificate_uid AS `enrollment_certificate_uid`,
+    e.`enrollment_created_at`,
     get_user_course_completion(e.student_id, c.course_id) AS `enrollment_progress`,
     c.`course_is_complete`,
     c.`course_approved`,

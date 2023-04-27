@@ -1,3 +1,7 @@
+<?php
+
+use Cursotopia\Helpers\Format;
+?>
 <main>
   <!-- Hero -->
   <div class="Hero">
@@ -20,7 +24,7 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+                <h6><?= Format::date($this->user["birthDate"]) ?></h6>
               </div>
             </div>
             <!-- Mandar mensaje solo sale para alumnos de ese instructor -->

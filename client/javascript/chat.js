@@ -63,10 +63,6 @@ $("#search-users").autocomplete({
             $('.ui-autocomplete').css('z-index', 99999999999999);
         }, 0);
     },
-    // focus: function(event, ui) {
-    //     event.preventDefault();
-    //     $(this).val(ui.item.label);
-    // },
     select: async function(event, ui) {
         event.preventDefault();
         $(this).val(ui.item.name);
@@ -79,6 +75,7 @@ $("#search-users").autocomplete({
         $('.actual-chat-user-name').text(`${ response.user.name } ${ response.user.lastName }`);
     
         const chatMessages = await getAllChatMessageService(response.chatId);
+        $('#message-box').html('');
         chatMessages.messages.forEach(message => {
             $('#message-box').append(`
             <div class="d-flex ${ chatMessages.userId === message.userId ? 'justify-content-end' : 'justify-content-start' } my-3">

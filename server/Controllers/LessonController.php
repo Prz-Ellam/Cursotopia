@@ -4,7 +4,9 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Entities\Enrollment;
 use Cursotopia\Entities\Lesson;
+use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
 use Cursotopia\Repositories\LessonRepository;
@@ -90,4 +92,42 @@ class LessonController {
     public function delete(Request $request, Response $response): void {
         $id = intval($request->getParams("id"));
     }
+
+    public function complete(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+        $lessonId = $request->getParams("id") ?? -1;
+
+        // $requestedLesson = LessonModel::findById($lessonId);
+        // if (!$requestedLesson) {
+        //     $response->setStatus(404)->json([
+        //         "status" => false,
+        //         "message" => "Lección no encontrada"
+        //     ]);
+        //     return;
+        // }
+
+        $result = EnrollmentModel::completeLesson($id, $lessonId);
+        $response->json([]);
+    }
+
+    public function visit(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+        $lessonId = $request->getParams("id") ?? -1;
+
+        // $requestedLesson = LessonModel::findById($lessonId);
+        // if (!$requestedLesson) {
+        //     $response->setStatus(404)->json([
+        //         "status" => false,
+        //         "message" => "Lección no encontrada"
+        //     ]);
+        //     return;
+        // }
+
+        $result = EnrollmentModel::visitLesson($id, $lessonId);
+        $response->json([]);
+    }
 }
+
+

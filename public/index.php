@@ -17,7 +17,16 @@ if (DEBUG) {
     error_reporting(E_ALL);
 }
 
-date_default_timezone_set(TIMEZONE);
+//setlocale(LC_TIME, 'es_ES.UTF-8');
+//date_default_timezone_set(TIMEZONE);
+
+ini_set('date.timezone',"Etc/GMT-6");
+// Horario local
+date_default_timezone_set("Etc/GMT-6");
+Locale::setDefault("es-MX");
+setlocale(LC_TIME, "es_MX.UTF-8");
+
+set_time_limit(10);
 
 $app = Application::app(DOCUMENT_ROOT);
 $app->setNotFound(function($request, $response) { $response->setStatus(404)->render('404'); });

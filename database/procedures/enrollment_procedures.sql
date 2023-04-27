@@ -98,6 +98,74 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `visit_lesson` $$
+CREATE PROCEDURE `visit_lesson`(
+    IN _student_id              INT,
+    IN _lesson_id               INT
+)
+BEGIN
+    DECLARE _level_id INT;
+    DECLARE _course_id INT;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    UPDATE
+        `user_lesson`
+    SET
+        `user_lesson_last_time_checked` = NOW()
+    WHERE
+        `lesson_id` = _lesson_id
+        AND `user_id` = _student_id;
+
+    -- Buscar el nivel
+    SELECT 
+        le.level_id INTO _level_id 
+    FROM 
+        `user_lesson` AS ule
+    INNER JOIN 
+        `lessons` AS le
+    ON 
+        ule.lesson_id = le.lesson_id
+    WHERE 
+        ule.lesson_id = _lesson_id 
+        AND ule.user_id = _student_id
+    LIMIT
+        1;
+
+    UPDATE
+        `user_level`
+    SET
+        `user_level_last_access_date` = NOW()
+    WHERE
+        `level_id` = _lesson_id
+        AND `user_id` = _student_id;
+
+    SELECT `course_id` INTO _course_id 
+    FROM `levels` AS l 
+    INNER JOIN `user_level` AS ul 
+    ON l.level_id = ul.level_id
+    WHERE ul.level_id = _level_id AND ul.user_id = _student_id; 
+
+    UPDATE
+        `enrollments`
+    SET
+        `enrollment_last_time_checked` = NOW()
+    WHERE
+        `course_id` = _course_id
+        AND `student_id` = _student_id;
+
+    COMMIT;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_sales_report` $$
 CREATE PROCEDURE `course_sales_report`(
     IN _instructor_id           INT,
@@ -186,7 +254,8 @@ BEGIN
         `course_title` AS `title`,
         `course_image_id` AS `imageId`,
         `student_id` AS `studentId`,
-        `enrollment_enroll_date` AS `enrollDate`,
+        --`enrollment_enroll_date` AS `enrollDate`,
+        `enrollment_created_at` AS `enrollDate`,
         `enrollment_last_time_checked` AS `lastTimeChecked`,
         `enrollment_finish_date` AS `finishDate`,
         `enrollment_is_finished` AS `isFinished`,

@@ -28,7 +28,7 @@ RewriteRule ^ public/index.php [NC,L,QSA]
     Header set Expires 0
 </IfModule>
 
-<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|mp3|mp4|png|pdf|swf|txt)$">
+<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|mp3|png|pdf|swf|txt)$">
     <IfModule mod_expires.c>
         ExpiresActive Off
     </IfModule>

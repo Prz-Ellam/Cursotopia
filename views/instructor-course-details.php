@@ -45,7 +45,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <h6><?= $this->course["createdAt"] ?></h6>
+              <h6><?= date_format(date_create($this->course["createdAt"]), 'd M Y') ?></h6>
             </div>
           </div>
           <div class="row">
@@ -74,7 +74,11 @@
   </div>
 
   <section class="container" id="cards">
-    <?php foreach($this->enrollments as $enrollment): ?>
+    <?php
+
+                    use Cursotopia\Helpers\Format;
+
+ foreach($this->enrollments as $enrollment): ?>
     <div data-aos="fade-up">
       <a 
         href="/profile?id=<?= $enrollment["userId"] ?>"
@@ -98,11 +102,11 @@
               <hr class="my-1">
                 <p class="card-text mb-0">
                   <i class="bx bx-cube"></i>
-                  <span>Fecha de inscripción: <?= date_format(date_create($enrollment["createdAt"]), 'd M Y') ?></span>
+                  <span>Fecha de inscripción: <?= Format::date($enrollment["createdAt"]) ?></span>
                 </p>
                 <p class="card-text mb-0">
                   <i class="bx bx-money"></i>
-                  <span>Precio pagado: $<?= $enrollment["amount"] ?> MXN</span>
+                  <span>Precio pagado: <?= Format::money($enrollment["amount"]) ?></span>
                 </p>
                 <p class="card-text mb-0">
                   <i class="bx bxs-credit-card"></i>

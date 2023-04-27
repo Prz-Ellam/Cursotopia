@@ -1,3 +1,8 @@
+<?php
+
+use Cursotopia\Helpers\Format;
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -44,9 +49,10 @@
 
       </div>
       <div class="rounded-3 bg-primary col-lg-4 col-12 p-4 pt-5">
-        <h3 class="text-center text-white">$<?= $this->course["price"] ?> MXN</h3>
+        <h3 class="text-center text-white"><?= Format::money($this->course["price"]) ?></h3>
         <!-- Sin comprar -->
         
+        <?php if($this->session("role") === 3): ?>
         <?php if($this->enrollment !== "NULL"): ?>
         <a 
           href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $this->lesson["id"] ?>" 
@@ -60,6 +66,7 @@
         >
           Comprar este curso
         </a>
+        <?php endif ?>
         <?php endif ?>
         
         <!-- Gratis -->
@@ -77,14 +84,28 @@
           <i class="bx <?= $this->course["rates"] >= 4 ? 'bxs-star': ($this->course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <i class="bx <?= $this->course["rates"] >= 5 ? 'bxs-star': ($this->course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <?php endif ?>
-          <a href="#reviews" class="ms-1 text-white"><?= $this->course["reviews"] ?> <?= ($this->course["reviews"] === 1) ? 'reseña' : 'reseñas' ?></a>
+          <a href="#reviews" class="ms-1 text-white">
+            <?= Format::pluralize($this->course["reviews"], 'reseña') ?>
+          </a>
         </div>
 
-        <p class="text-white mb-0"><i class="h6 bx bx-time"></i> <?= $this->course["duration"] < 1 ? '<1' : round($this->course["duration"]) ?> <?= (round($this->course["duration"]) <= 1) ? 'hora' : 'horas' ?> de contenido</p>
-        <p class="text-white mb-0"><i class="h6 bx bx-layer"></i> <?= $this->course["levels"] ?> <?= ($this->course["levels"] === 1) ? 'nivel' : 'níveles' ?></p>
-        <p class="text-white mb-0"><i class="h6 bx bx-group"></i> <?= $this->course["students"] ?> <?= ($this->course["levels"] === 1) ? 'estudiante' : 'estudiantes' ?></p>
-        <p class="text-white mb-0">Fecha de creación: <?= date_format(date_create($this->course["createdAt"]), 'd M Y') ?></p>
-        <p class="text-white mb-0">Última actualización: <?= date_format(date_create($this->course["modifiedAt"]), 'd M Y') ?></p>
+        <p class="text-white mb-0">
+          <i class="h6 bx bx-time"></i>
+          <?= $this->course["duration"] < 1 ? '<1' : round($this->course["duration"]) ?> <?= (round($this->course["duration"]) <= 1) ? 'hora' : 'horas' ?> de contenido
+        </p>
+
+        <p class="text-white mb-0">
+          <i class="h6 bx bx-layer"></i>
+          <?= Format::pluralize($this->course["levels"], 'nivel', 'níveles') ?>
+        </p>
+
+        <p class="text-white mb-0">
+          <i class="h6 bx bx-group"></i>
+          <?= Format::pluralize($this->course["students"], 'estudiante') ?>
+        </p>
+
+        <p class="text-white mb-0">Fecha de creación: <?= Format::date($this->course["createdAt"]) ?></p>
+        <p class="text-white mb-0">Última actualización: <?= Format::date($this->course["modifiedAt"]) ?></p>
 
         <h3 class="mt-4 text-white text-center">Categorías</h3>
         <?php foreach($this->categories as $category):  ?>
@@ -104,37 +125,41 @@
 
     <section class="container my-5">
       <h2 class="fw-bold text-center">Contenido del curso</h2>
-
-      <?php foreach($this->levels as $i => $level): ?>
-      <div class="border-0 card">
-        <div role="button" class="<?= ($i === 0) ? 'rounded-top'  : 'rounded-0' ?> bg-light card-header" data-bs-toggle="collapse"
-          data-bs-target="#collapse-<?= $level["id"] ?>">
-          <i class='bx bx-chevron-down'></i> <?= $level["title"] ?>
+      <div class="accordion" id="course-content">
+        <?php foreach($this->levels as $i => $level): ?>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-<?= $level["id"] ?>">
+            <button class="accordion-button shadow-none text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= $level["id"] ?>" aria-expanded="false" aria-controls="collapse-<?= $level["id"] ?>">
+              <i class='bx bx-chevron-down'></i> <?= $level["title"] ?>
+            </button>
+          </h2>
+          <div id="collapse-<?= $level["id"] ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= $level["id"] ?>" data-bs-parent="#course-content">
+            <ul class="list-group list-group-flush">
+              <?php foreach ($level["lessons"] as $lesson): ?>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>
+                  <i class='bx bxs-video'></i> <?= $lesson["title"] ?>
+                </span>
+                <span>
+                  <?= $lesson["video_duration"] ?>
+                </span>
+              </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
         </div>
-        <div class="collapse" id="collapse-<?= $level["id"] ?>">
-          <ul class="list-group list-group-flush">
-            <?php foreach ($level["lessons"] as $lesson): ?>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <i class='bx bxs-video'></i> <?= $lesson["title"] ?>
-              </span>
-              <span>
-                <?= $lesson["video_duration"] ?>
-              </span>
-            </li>
-            <?php endforeach ?>
-          </ul>
-        </div>
+        <?php endforeach ?>
       </div>
-      <?php endforeach ?>
+
     </section>
 
-    <section class="container my-2" id="reviews">
+    <section class="container" id="reviews">
       <form class="p-3" id="create-review-form">
         <div class="pt-4">
           <h2 class="fw-bold text-center">Comentarios</h2>
         </div>
         <hr>
+        <?php if($this->session("role") === 3): ?>
         <div>
           <label>Calificación: </label>
           <div class="rating d-inline">
@@ -152,6 +177,7 @@
         </div>
         <button type="submit" class="btn btn-primary rounded-5 border-0 shadow-none mb-4"
           id="send-message">Publicar</button>
+        <?php endif ?>
         <div id="comment-section"></div>
       </form>
     </section>
@@ -204,8 +230,8 @@
 
         <!-- <hr class="my-0"> -->
 
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-primary w-100 rounded-pill">Mostrar más comentarios</button>
+        <div class="d-grid">
+          <button class="btn btn-primary rounded-pill">Mostrar más comentarios</button>
         </div>
       </div>
     </section>

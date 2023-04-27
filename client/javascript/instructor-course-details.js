@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import CourseService from './services/course.service';
 
 document.addEventListener('DOMContentLoaded', function() {
     AOS.init({
@@ -27,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if (feedback.isConfirmed) {
             // TODO: uri estatica
+            // TODO: quitar el boton de deshabilitar si ya esta deshabilitado
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('course_id');
+            await CourseService.delete(id);
             window.location.href = 'home';
         }
     }); 

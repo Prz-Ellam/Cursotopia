@@ -29,7 +29,11 @@
           <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
           <h5 class="mb-4 text-center text-lg-start">Forjamos la sociedad del mañana con nuestros cursos</h5>
           <div class="d-flex justify-content-lg-start justify-content-center">
-            <?php if ($this->id === "NULL"): ?>
+            <?php
+
+    use Cursotopia\Helpers\Format;
+
+ if ($this->id === "NULL"): ?>
             <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
             <?php elseif($this->role === 2): ?>
             <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
@@ -69,7 +73,7 @@
           <h5 class="card-title"><?= $course["title"] ?></h5>
           <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
-          <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
+          <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
           <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
@@ -83,8 +87,7 @@
           </p>
           <div class="d-flex justify-content-between mb-0">
             <p class="mb-0"><i class='bx bxs-layer'></i> 
-              <?= $course["levels"] ?> 
-              <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
+              <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
               <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
@@ -117,7 +120,7 @@
           <h5 class="card-title"><?= $course["title"] ?></h5>
           <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
-          <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
+          <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
           <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
@@ -131,8 +134,7 @@
           </p>
           <div class="d-flex justify-content-between mb-0">
             <p class="mb-0"><i class='bx bxs-layer'></i> 
-              <?= $course["levels"] ?> 
-              <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
+              <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
               <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
@@ -165,7 +167,7 @@
           <h5 class="card-title"><?= $course["title"] ?></h5>
           <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
-          <h6 class="card-text mb-0 fw-bold">$<?= $course["price"] ?> MXN</h6>
+          <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
           <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
@@ -179,8 +181,7 @@
           </p>
           <div class="d-flex justify-content-between mb-0">
             <p class="mb-0"><i class='bx bxs-layer'></i> 
-              <?= $course["levels"] ?> 
-              <?= ($course["levels"] == 1) ? 'nivel' : 'niveles' ?>
+              <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
             <p class="mb-0"><i class='bx bxs-time' ></i> 
               <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>

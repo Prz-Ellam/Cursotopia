@@ -186,3 +186,21 @@ BEGIN
         _offset;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `instructor_total_revenue_report` $$
+CREATE PROCEDURE `instructor_total_revenue_report`(
+    IN _instructor_id               INT
+)
+BEGIN
+    SELECT
+        `payment_method_name` AS `paymentMethodName`,
+        `amount`
+    FROM
+        `instructor_total_revenue`
+    WHERE
+        `user_id` = _instructor_id;
+END $$
+DELIMITER ;
