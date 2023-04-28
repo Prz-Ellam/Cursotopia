@@ -2,25 +2,33 @@ import $ from 'jquery';
 import Swal from 'sweetalert2';
 import LessonService from './services/lesson.service';
 
-//document.addEventListener('DOMContentLoaded', async function () {
+$(function() {
   const params = new URLSearchParams(document.location.search);
   const lessonId = params.get('lesson') ?? null;
+  $('#level-video').attr('src', `api/v1/videos/${ $('#level-video').attr('video-id') }`);
 
-  document.querySelector('#level-video').onended = async function () {
-    //if (this.played.end(0) - this.played.start(0) === this.duration) {
+  $('#level-video').on('ended', async function() {
     Swal.fire({
       text: 'Video finalizado'
     });
+  
+    try {
+      await LessonService.complete(lessonId);
+    } catch (exception) {
+      alert('Hubo errores');
+    }
+  
+    console.log(lessonId);
+  });
+  
 
+  $('#finish').on('click', async function() {
     try {
       await LessonService.complete(lessonId);
     }
     catch (exception) {
       alert('Hubo errores');
     }
+  });
 
-    console.log(lessonId);
-    //}
-  };
-
-//});
+});

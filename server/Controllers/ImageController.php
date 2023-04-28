@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
+use Closure;
 use Cursotopia\Models\ImageModel;
 use DateTime;
 
@@ -16,7 +17,7 @@ class ImageController {
      * @param Response $response
      * @return void
      */
-    public function create(Request $request, Response $response): void {
+    public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("image");
         if (!$file) {
             $response->setStatus(400)->json([

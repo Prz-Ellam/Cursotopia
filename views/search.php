@@ -1,10 +1,15 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
@@ -34,11 +39,7 @@
         <label for="categories" role="button">Filtrar por categorías</label>
         <select name="category" id="categories" class="form-select">
           <option value="">Seleccionar</option>
-          <?php
-
-                    use Cursotopia\Helpers\Format;
-
- foreach($this->categories as $category): ?>
+          <?php foreach($this->categories as $category): ?>
           <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
           <?php endforeach ?>
         </select>
@@ -54,15 +55,17 @@
       </div>
 
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-        <label for="date-from" role="button">Desde</label>
-        <input type="date" name="from" id="date-from" 
-          value="<?= $this->from ?>"
+        <label for="start-date" role="button">Desde</label>
+        <input type="date" name="start_date" id="start-date" 
+          value="<?= $this->startDate ?>"
           class="form-control">
       </div>
 
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-        <label for="date-to" role="button">Hasta</label>
-        <input type="date" name="to" id="date-to" class="form-control">
+        <label for="end-date" role="button">Hasta</label>
+        <input type="date" name="end_date" id="end-date" 
+          value="<?= $this->endDate ?>"
+          class="form-control">
       </div>
 
       <div class="d-grid">
@@ -104,9 +107,8 @@
               <p class="mb-0"><i class='bx bxs-layer'></i> 
                 <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
               </p>
-              <p class="mb-0"><i class='bx bxs-time' ></i> 
-                <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
-                <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
+              <p class="mb-0"><i class="bx bxs-time"></i> 
+                <?= Format::hours($course["videoDuration"]) ?>
               </p>
             </div>
           </div>
@@ -117,7 +119,6 @@
       <div class="d-flex justify-content-center" aria-label="Page navigation example">
         <?php $queryParams = $_GET ?>
         <ul class="pagination">
-
           <?php
             $isFirstPage = $this->page <= 1;
             $queryParams["page"] = $this->page - 1;
@@ -131,7 +132,6 @@
             </a>
           </li>
 
-          
           <?php for($i = 1; $i <= $this->totalButtons; $i++): ?>
           <li class="page-item <?= ($i == $this->page) ? "disabled" : "" ?>">
             <?php $queryParams["page"] = $i; ?>
@@ -168,7 +168,6 @@
         </ul>
       </div>
     </div>
-
   </main>
   <?= $this->render("partials/footer") ?>
 </body>

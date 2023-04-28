@@ -6,7 +6,7 @@ import { createImage, updateImageService } from '../services/image.service';
 import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
 import { ToastBottom } from '../utilities/toast';
 
-export const login = async function(event) {
+export const submitLogin = async function(event) {
     event.preventDefault();
     const validations = $(this).valid();
     if (!validations) {
@@ -40,7 +40,7 @@ export const login = async function(event) {
             },
         });
 
-        window.location.href = 'home';
+        window.location.href = '/home';
     }
     else {
         let text = response.message ?? 'Parece que algo salió mal';
@@ -77,15 +77,14 @@ export const signup = async function(event) {
         lastName:   formData.get('lastName'),
         birthDate:  formData.get('birthDate'),
         gender:     formData.get('gender'),
-        userRole:   parseInt(formData.get('userRole')),
+        userRole:   Number.parseInt(formData.get('userRole')),
         email:      formData.get('email'),
         password:   formData.get('password'),
         confirmPassword: formData.get('confirmPassword'),
-        profilePicture: parseInt(formData.get('profilePicture'))
+        profilePicture: Number.parseInt(formData.get('profilePicture'))
     }
 
     const response = await createUserService(user);
-    console.log(response);
     if (response?.status) {
         await Swal.fire({
             icon: 'success',
@@ -310,7 +309,6 @@ export const updateUser = async function(event) {
     const response = await updateUserService(user, formData.get('id'));
     //document.getElementById('submit-btn').disabled = true;
     if (response?.status) {
-        
         await Swal.fire({
             icon: 'success',
             title: 'Tú perfil se actualizó exitosamente',
@@ -375,13 +373,13 @@ export const updatePassword = async function(event) {
                 confirmButton: 'btn btn-primary shadow-none rounded-pill'
             },
         });
-        window.location.href = "/home";
+        window.location.href = '/home';
     }
     else {
         let text = response.message ?? 'Parece que algo salió mal';
         if (response.message instanceof Object) {
             text = '';
-            for (const [key, value] of Object.entries(response.message)) {
+            for (const [_key, value] of Object.entries(response.message)) {
                 text += `${value}<br>`;
             }
         }

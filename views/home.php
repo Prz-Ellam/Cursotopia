@@ -1,24 +1,32 @@
+<?php 
+  use Cursotopia\Helpers\Format;
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  
+  <!-- Boxicons -->
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
   <?= $this->link("styles/pages/home.css") ?>
   <?= $this->script("javascript/home.js") ?>
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
   <!-- Hero Section -->
-  <section class="position-relative d-flex flex-column justify-content-center mb-5" id="hero-section">
+  <section class="d-flex flex-column justify-content-center mb-5" id="hero-section">
     <div class="container">
       <div class="row g-0">
         <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up">
@@ -29,16 +37,12 @@
           <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
           <h5 class="mb-4 text-center text-lg-start">Forjamos la sociedad del mañana con nuestros cursos</h5>
           <div class="d-flex justify-content-lg-start justify-content-center">
-            <?php
-
-    use Cursotopia\Helpers\Format;
-
- if ($this->id === "NULL"): ?>
+            <?php if ($this->id === "NULL"): ?>
             <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
             <?php elseif($this->role === 2): ?>
             <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
             <?php elseif($this->role === 3): ?>
-            <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
+            <a href="search" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Explorar cursos!</a>
             <?php endif ?>
           </div>
         </div>
@@ -53,45 +57,44 @@
     </div>
   </section>
 
-  <section class="container-fluid mb-5" data-aos="fade-up" id="section-recent-courses">
-    <h2 class="text-center fw-bolder">Últimos cursos publicados</h2>
+  <section class="container-fluid mb-5" data-aos="fade-up">
+    <h2 class="text-center fw-bold">Últimos cursos publicados</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->lastPublishedcourses as $course): ?>
       <a 
-        href="course-details?id=<?= $course["id"] ?>" 
+        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= $course["imageId"] ?>"
+            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructorName"] ?></p>
+          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
+          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
           <?php if($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
           <?php else: ?>
-            <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 2 ? 'bxs-star': ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 3 ? 'bxs-star': ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 4 ? 'bxs-star': ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 5 ? 'bxs-star': ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 1 ? "bxs-star": ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 2 ? "bxs-star": ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 3 ? "bxs-star": ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 4 ? "bxs-star": ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 5 ? "bxs-star": ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
             <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
             <p class="mb-0"><i class='bx bxs-layer'></i> 
               <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
-              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
+            <p class="mb-0"><i class="bx bxs-time"></i> 
+              <?= Format::hours($course["videoDuration"]) ?>
             </p>
           </div>
         </div>
@@ -101,7 +104,7 @@
   </section>
 
   <section class="container-fluid mb-5" data-aos="fade-up">
-    <h2 class="text-center fw-bolder">Los cursos mejor valorados</h2>
+    <h2 class="text-center fw-bold">Los cursos mejor valorados</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->topRatedCourses as $course): ?>
@@ -117,8 +120,8 @@
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructorName"] ?></p>
+          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
+          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
@@ -133,12 +136,11 @@
             <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 
+            <p class="mb-0"><i class="bx bxs-layer"></i> 
               <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
-              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
+            <p class="mb-0"><i class="bx bxs-time"></i> 
+              <?= Format::hours($course["videoDuration"]) ?>
             </p>
           </div>
         </div>
@@ -148,7 +150,7 @@
   </section>
 
   <section class="container-fluid mb-5" data-aos="fade-up">
-    <h2 class="text-center fw-bolder">Los cursos mejor vendidos</h2>
+    <h2 class="text-center fw-bold">Los cursos mejor vendidos</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->bestSellingCourses as $course): ?>
@@ -164,8 +166,8 @@
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= $course["title"] ?></h5>
-          <p class="card-text"><?= $course["instructorName"] ?></p>
+          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
+          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
@@ -183,9 +185,8 @@
             <p class="mb-0"><i class='bx bxs-layer'></i> 
               <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
-            <p class="mb-0"><i class='bx bxs-time' ></i> 
-              <?= $course["videoDuration"] < 1 ? '<1' : round($course["videoDuration"]) ?>
-              <?= (round($course["videoDuration"]) <= 1) ? 'hora' : 'horas' ?>
+            <p class="mb-0"><i class="bx bxs-time"></i> 
+              <?= Format::hours($course["videoDuration"]) ?>
             </p>
           </div>
         </div>
@@ -228,7 +229,7 @@
       <div class="col-lg-6 text-lg-start text-center">
         <img 
           src="../client/assets/images/girl-working-on-laptop.svg"
-          alt="Girl Working on Laptop"
+          alt="Mujer trabajando con una laptop"
           class="img-fluid"
         >
       </div>
@@ -239,11 +240,11 @@
         <!-- Sin sesion -->
         <div class="d-flex justify-content-center justify-content-lg-start">
           <?php if ($this->id === "NULL"): ?>
-          <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
+          <a href="signup" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Crea una cuenta gratis!</a>
           <?php elseif($this->role === 2): ?>
-          <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
+          <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Crea un curso!</a>
           <?php elseif($this->role === 3): ?>
-          <a href="search" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Explorar cursos!</a>
+          <a href="search" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Explorar cursos!</a>
           <?php endif ?>
         </div>
       </div>

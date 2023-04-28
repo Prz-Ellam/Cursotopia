@@ -3,7 +3,6 @@
 namespace Cursotopia\Helpers;
 
 use DateTime;
-use DateTimeZone;
 use IntlDateFormatter;
 
 class Format {
@@ -14,7 +13,7 @@ class Format {
         else {
             $formatNumber = "0.00";
         }
-        return "$" . $formatNumber . " MXN";
+        return "$ $formatNumber MXN";
     }
 
     public static function date($date): string {
@@ -32,7 +31,7 @@ class Format {
 
     public static function pluralize(int $count, string $singularWord, ?string $pluralWord = null) {
         if (!$pluralWord) {
-            $pluralWord = $singularWord . 's';
+            $pluralWord = $singularWord . "s";
         }
         if ($count == 1) {
             return "$count $singularWord";
@@ -40,5 +39,22 @@ class Format {
         else {
             return "$count $pluralWord";
         }
+    }
+
+    public static function hours(float $number): string {
+        if ($number < 1) {
+            return "<1 horas";
+        } 
+        else {
+            $horas = floor($number);
+            return self::pluralize($horas, "hora");
+        }
+    }
+
+    public static function sanitize($value): string {
+        if (is_array($value) || is_object($value)) {
+            return "";
+        }
+        return htmlspecialchars($value);
     }
 }

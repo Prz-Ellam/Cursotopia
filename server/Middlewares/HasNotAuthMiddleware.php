@@ -8,7 +8,7 @@ use Bloom\Http\Response\Response;
 use Closure;
 
 class HasNotAuthMiddleware implements Middleware {
-    public function handle(Request $request, Response $response, Closure $next) {
+    public function handle(Request $request, Response $response, Closure $next, array $args) {
         $session = $request->getSession();
         if (!$session->has("id")) {
             $response->redirect("/");

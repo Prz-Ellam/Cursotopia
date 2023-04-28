@@ -4,12 +4,14 @@ use Cursotopia\Helpers\Format;
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts --> 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
@@ -27,8 +29,8 @@ use Cursotopia\Helpers\Format;
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
-  <!-- Main -->
-  <main class="my-5 container">
+
+  <main class="container my-5 ">
     <section class="row">
       <div class="col-lg-8 col-12">
         <div class="mb-4">
@@ -46,13 +48,16 @@ use Cursotopia\Helpers\Format;
 
         <h2 class="fw-bold">Descripción</h2>
         <p class="justify-text"><?= $this->course["description"] ?></p>
-
       </div>
-      <div class="rounded-3 bg-primary col-lg-4 col-12 p-4 pt-5">
-        <h3 class="text-center text-white"><?= Format::money($this->course["price"]) ?></h3>
+      <div class="bg-primary rounded-3 col-12 col-lg-4 px-4 pt-5">
+        <h3 class="text-center text-white">
+          <?= Format::money($this->course["price"]) ?>
+        </h3>
         <!-- Sin comprar -->
         
+        <!-- TODO: Horrible codigo --> 
         <?php if($this->session("role") === 3): ?>
+        <?php if($this->course["price"] > 0): ?>
         <?php if($this->enrollment !== "NULL"): ?>
         <a 
           href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $this->lesson["id"] ?>" 
@@ -67,12 +72,12 @@ use Cursotopia\Helpers\Format;
           Comprar este curso
         </a>
         <?php endif ?>
-        <?php endif ?>
+        <?php else: ?>
         
-        <!-- Gratis -->
-        <!--         
+        <!-- Gratis -->  
         <a href="course-visor" class="btn btn-secondary w-100">Conseguir este curso</a>
-        -->
+        <?php endif ?>
+        <?php endif ?>
         <hr>
 
         <div class="mb-4">
@@ -91,7 +96,7 @@ use Cursotopia\Helpers\Format;
 
         <p class="text-white mb-0">
           <i class="h6 bx bx-time"></i>
-          <?= $this->course["duration"] < 1 ? '<1' : round($this->course["duration"]) ?> <?= (round($this->course["duration"]) <= 1) ? 'hora' : 'horas' ?> de contenido
+          <?= Format::hours($this->course["duration"]) ?> de contenido
         </p>
 
         <p class="text-white mb-0">
@@ -122,7 +127,6 @@ use Cursotopia\Helpers\Format;
       </div>
     </section>
 
-
     <section class="container my-5">
       <h2 class="fw-bold text-center">Contenido del curso</h2>
       <div class="accordion" id="course-content">
@@ -150,7 +154,6 @@ use Cursotopia\Helpers\Format;
         </div>
         <?php endforeach ?>
       </div>
-
     </section>
 
     <section class="container" id="reviews">
@@ -181,7 +184,6 @@ use Cursotopia\Helpers\Format;
         <div id="comment-section"></div>
       </form>
     </section>
-
 
     <section class="container">
       <h4 class="mb-4">Comentarios recientes</h4>

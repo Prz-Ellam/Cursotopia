@@ -7,6 +7,8 @@ use Bloom\Hashing\Crypto;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
+use Closure;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\RoleModel;
@@ -28,7 +30,7 @@ class UserController {
         $id = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findOneById($id);
+        $user = UserModel::findById($id);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -232,7 +234,7 @@ class UserController {
                 return;
             }
 
-            $user = UserModel::findOneById($id);
+            $user = UserModel::findById($id);
             if (!$user) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -295,7 +297,7 @@ class UserController {
                 return;
             }
 
-            $user = UserModel::findOneById($id);
+            $user = UserModel::findById($id);
             if (!$user) {
                 $response->setStatus(401)->json([
                     "status" => false,
@@ -337,12 +339,10 @@ class UserController {
             ]);
         }
         catch (Exception $exception) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "Ocurrio un error al actualizar la contraseña"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "Ocurrio un error al actualizar la contraseña"
+            ]);
         }
     }
 
@@ -388,5 +388,48 @@ class UserController {
         $users = $userRepository->findAllInstructors($name);
 
         $response->json($users);
+    }
+
+    public function profile(Request $request, Response $response): void {
+        $id = $request->getQuery("id");
+        if (!Validate::uint($id)) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        // Verificar si el usuario somos nosotros o no
+        $session = $request->getSession();
+        $isMe = false;
+        if ($session->get("id") === $user->getId()) {
+            $isMe = true;
+        }
+        
+        $response->render('profile', [ "isMe" => $isMe, "user" => $user->toObject() ]);
+    }
+
+    public function profileEdition(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+    
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $response->render("profile-edition", [ 
+            "user" => $user->toObject()
+        ]);
+    }
+
+    public function signup(Request $request, Response $response): void {
+        $userRoles = RoleModel::findAllByIsPublic(true);
+        $response->render("signup", [ "userRoles" => $userRoles ]);
     }
 }

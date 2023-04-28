@@ -3,12 +3,10 @@ import 'jquery-validation';
 import { changeProfilePicture, updateUser } from './controllers/user.controller';
 import editProfileValidator from './validators/edit-profile.validator';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const profilePicture = document.getElementById('profile-picture');
-    profilePicture.addEventListener('change', changeProfilePicture);
+$(() => {
+    $('#profile-picture').on('change', changeProfilePicture);
 
-    const profileEditionForm = document.getElementById('profile-edition-form');
-    $(profileEditionForm).validate(editProfileValidator);
-    $(profileEditionForm).validate().element('#email');
-    profileEditionForm.addEventListener('submit', updateUser);
+    $('#profile-edition-form').validate(editProfileValidator);
+    $('profile-edition-form').validate().element('#email');
+    $('#profile-edition-form').on('submit', updateUser);
 });

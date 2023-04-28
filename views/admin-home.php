@@ -8,9 +8,9 @@
 
         <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
           <li class="nav-item">
-            <a href="admin-home" class="nav-link text-white active">
+            <a href="profile?id=<?= $this->session("id") ?>" class="nav-link text-white active" aria-current="page">
               <i class='bx bxs-home'></i>
-              Home
+              Inicio
             </a>
           </li>
           <li>

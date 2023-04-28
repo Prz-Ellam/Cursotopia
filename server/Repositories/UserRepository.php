@@ -135,7 +135,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
             user_role AS `userRole`,
             profile_picture AS `profilePicture`
         FROM
-            users
+            `users`
         WHERE
             (user_name LIKE CONCAT("%", :name, "%")
             OR user_last_name LIKE CONCAT("%", :name, "%"))

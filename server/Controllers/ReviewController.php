@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Review;
+use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
 class ReviewController {
@@ -97,5 +98,22 @@ class ReviewController {
             "status" => true,
             "message" => $rowsAffected
         ]);
+    }
+
+    public function paymentMethod(Request $request, Response $response): void {
+        $courseId = $request->getQuery("courseId");
+        if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $courseRepository = new CourseRepository();
+        $course = $courseRepository->findOneById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $response->render("payment-method", [ "course" => $course ]);
     }
 }

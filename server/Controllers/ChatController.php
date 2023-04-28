@@ -21,7 +21,7 @@ class ChatController {
         $chatRepository = new ChatRepository();
         $chat = $chatRepository->findChat($id, $userTwo);
 
-        $user = UserModel::findOneById($userTwo);
+        $user = UserModel::findById($userTwo);
 
         $response->json([
             "chatId" => $chat["chatId"],

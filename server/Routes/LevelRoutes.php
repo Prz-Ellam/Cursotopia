@@ -7,23 +7,32 @@ use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 
-$app->get('/api/v1/levels/:id', [ LevelController::class, 'getOne' ]);
+/**
+ * Obtiene un nivel en base a su identificador único
+ */
+$app->get("/api/v1/levels/:id", [ LevelController::class, "getOne" ]);
 
-// Crear un nivel
-$app->post('/api/v1/levels', [ LevelController::class, 'create' ], [
-    [ JsonSchemaMiddleware::class, 'LevelCreateValidator' ], 
+/**
+ * Crea un nivel
+ */
+$app->post("/api/v1/levels", [ LevelController::class, "create" ], [
+    [ JsonSchemaMiddleware::class, "LevelCreateValidator" ], 
     [ ApiInstructorMiddleware::class ] 
 ]);
 
-// Actualizar un nivel
-$app->put('/api/v1/levels/:id', [ LevelController::class, 'update' ], [ 
-    [ JsonSchemaMiddleware::class, 'LevelUpdateValidator' ],
+/**
+ * Actualiza un nivel
+ */
+$app->put("/api/v1/levels/:id", [ LevelController::class, "update" ], [ 
+    [ JsonSchemaMiddleware::class, "LevelUpdateValidator" ],
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);
 
-// Eliminar un nivel
-$app->delete('/api/v1/levels/:id', [ LevelController::class, 'delete' ], [ 
+/**
+ * Elimina un nivel
+ */
+$app->delete("/api/v1/levels/:id", [ LevelController::class, "delete" ], [ 
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);

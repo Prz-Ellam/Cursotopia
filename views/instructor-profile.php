@@ -1,14 +1,15 @@
 <?php
 
 use Cursotopia\Helpers\Format;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
 
 $userId = $_GET["id"] ?? -1;
 $categoryId = $_GET["category"] ?? null;
-$from = $_GET["from"] ?? null;
-$to = $_GET["to"] ?? null;
+$startDate = $_GET["start_date"] ?? null;
+$endDate = $_GET["end_date"] ?? null;
 $active = $_GET["active"] ?? 0;
 $page = $_GET["page"] ?? 1;
 
@@ -18,30 +19,23 @@ $start = ($page - 1) * $perPageElement;
 $limit = $perPageElement;
 $offset = $start;
 
-if ($categoryId || $categoryId === "") {
-  if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
-    $categoryId = null;
-  }
+if (!Validate::uint($categoryId)) {
+  $categoryId = null;
 }
 
-function validarFormatoFecha($fecha) {
-  $d = DateTime::createFromFormat('Y-m-d', $fecha);
-  return $d && $d->format('Y-m-d') === $fecha;
+if (!Validate::date($startDate)) {
+  $startDate = null;
 }
 
-if (!$from || !validarFormatoFecha($from)) {
-  $from = null;
-}
-
-if (!$to || !validarFormatoFecha($to)) {
-  $to = null;
+if (!Validate::date($endDate)) {
+  $endDate = null;
 }
 
 $total = CourseModel::salesReportTotal(
   $this->session("id"),
   $categoryId,
-  $from,
-  $to,
+  $startDate,
+  $endDate,
   $active
 );
 
@@ -51,8 +45,8 @@ $totalButtons = $totalPages > 5 ? 5 : $totalPages;
 $courses = CourseModel::salesReport(
   $this->session("id"),
   $categoryId,
-  $from,
-  $to,
+  $startDate,
+  $endDate,
   $active,
   $limit,
   $offset
@@ -113,18 +107,18 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
       <!-- Este es para que el campo id no desaparezca en la requests --> 
       <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
-        <label for="from" class="col-auto col-form-label" role="button">
+        <label for="start-date" class="col-auto col-form-label" role="button">
           Fecha inicial:
         </label>
-        <input type="date" value="<?= $from ?? "" ?>" name="from" 
-          class="col-auto form-control w-50" id="from">
+        <input type="date" value="<?= $startDate ?? "" ?>" name="start_date" 
+          class="col-auto form-control w-50" id="start-date">
       </div>
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
-        <label for="to" class="col-auto col-form-label" role="button">
+        <label for="end-date" class="col-auto col-form-label" role="button">
           Fecha final:
         </label>
-        <input type="date" value="<?= $to ?? "" ?>" name="to" 
-          class="col-auto form-control w-50" id="to">
+        <input type="date" value="<?= $endDate ?? "" ?>" name="end_date" 
+          class="col-auto form-control w-50" id="end-date">
       </div>
 
       <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-box">
@@ -147,7 +141,7 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
         </div>
       </div>
 
-      <div class="d-grid">
+      <div class="d-grid mt-2">
         <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
       </div>
     </form>

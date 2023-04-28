@@ -26,9 +26,9 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
             lesson_modified_at AS `modifiedAt`,
             lesson_active AS `active`
         FROM
-            lessons
+            `lessons`
         WHERE
-            lesson_id = :id
+            `lesson_id` = :id
     SQL;
 
     private const FIND_BY_LEVEL = <<<'SQL'
@@ -134,14 +134,7 @@ class LessonRepository extends DB implements LessonRepositoryInterface {
         return 1;
     }
 
-    public function findOneById(?int $id): ?array {
-        $parameters = [
-            "id" => $id
-        ];
-        return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
-    }
-
-    public function findById(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];

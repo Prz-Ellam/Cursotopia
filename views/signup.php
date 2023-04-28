@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
   <script src="../node_modules/aos/dist/aos.js"></script>
 
   <!-- FontAwesome -->
-  <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
+  <script defer src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">

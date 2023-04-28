@@ -6,17 +6,16 @@ use Bloom\Http\Middleware;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Closure;
+use Cursotopia\Helpers\Validate;
 
 class ValidateIdMiddleware implements Middleware {
-    public function handle(Request $request, Response $response, Closure $next) {
+    public function handle(Request $request, Response $response, Closure $next, array $args) {
         $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "El id debe ser un número entero positivo"
-                ]);
+        if (!Validate::uint($id)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "El id debe ser un número entero positivo"
+            ]);
             return;
         }
         $next();

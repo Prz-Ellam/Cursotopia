@@ -1,0 +1,2 @@
+- El buscador de instructor tiene problemas para eliminar la busqueda debido al id incustrado
+- El kardex tiene errores con las fechas

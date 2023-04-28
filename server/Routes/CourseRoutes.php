@@ -7,207 +7,79 @@ use Cursotopia\Middlewares\ApiInstructorMiddleware;
 use Cursotopia\Middlewares\HasNotAuthMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
-use Cursotopia\Models\CategoryModel;
-use Cursotopia\Models\CourseModel;
-use Cursotopia\Repositories\CategoryRepository;
-use Cursotopia\Repositories\CourseRepository;
-use Cursotopia\Repositories\EnrollmentRepository;
-use Cursotopia\Repositories\LessonRepository;
-use Cursotopia\Repositories\LevelRepository;
-use Cursotopia\Repositories\ReviewRepository;
 
-$app->get('/course-creation', function($request, $response) {
-    $session = $request->getSession();
-    $id = $session->get("id");
+// Web
+$app->get("/course-creation", [ CourseController::class, "webCreate" ], [ 
+    [ HasNotAuthMiddleware::class ] 
+]);
 
-    $categories = CategoryModel::findAllWithUser($id);
+$app->get("/course-details", [ CourseController::class, "details" ]);
 
-    $response->render('course-creation', [ "categories" => $categories ]);
-}, [ [ HasNotAuthMiddleware::class ] ]);
+$app->get("/course-edition", [ CourseController::class, "webUpdate" ], [ 
+    [ HasNotAuthMiddleware::class ] 
+]);
 
-$app->get('/course-details', function($request, $response) {
-    $id = $request->getQuery("id");
-    if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+$app->get("/course-visor", [ CourseController::class, "visor" ], [ 
+    [ HasNotAuthMiddleware::class ] 
+]);
 
-    // verificar si compre o no el curso
+$app->get("/admin-courses", [ CourseController::class, "admin" ]);
 
-    // TODO: Hay que validar cualquier id
-    
-    $courseRepository = new CourseRepository();
-    $course = $courseRepository->courseDetailsfindOneById($id);
-    
-    $categoryRepository = new CategoryRepository();
-    $categories = $categoryRepository->findAllByCourse($id);
-    
-    $levelRepository = new LevelRepository();
-    $levels = $levelRepository->findAllByCourse($id);
-    foreach ($levels as &$level) {
-        $level["lessons"] = json_decode($level["lessons"], true);
-    }
-    $session = $request->getSession();
-    $userId = $session->get("id");
-    
-    $lessonRepository = new LessonRepository();
-    $lesson = $lessonRepository->firstLessonPending($id, $userId ?? -1);
-    if (!$lesson) {
-        $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
-    }
+$app->get("/instructor-course-details", [ CourseController::class, "courseDetails" ]);
 
-    $enrollmentRepository = new EnrollmentRepository();
-    $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
-
-    $reviewRepository = new ReviewRepository();
-    $reviews = $reviewRepository->findAllByCourse($id);
-
-    if (!$course || !$categories || !$levels) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
-
-    $response->render('course-details', [ 
-        "course" => $course, 
-        "categories" => $categories,
-        "levels" => $levels,
-        "reviews" => $reviews,
-        "enrollment" => $enrollment,
-        "lesson" => $lesson
-    ]);
-});
-
-$app->get('/course-edition', function($request, $response) {
-    $categories = CategoryModel::findAll();
-    $response->render('course-edition', [ "categories" => $categories ]);
-}, [ [ HasNotAuthMiddleware::class ] ]);
-
-$app->get('/course-visor', function($request, $response) {
-    $session = $request->getSession();
-    $userId = $session->get("id");
-    // La ultima lección que viste
-    // El enrollment es necesario
-    // No puedes verlo si no has pagado
-    
-    $courseId = $request->getQuery("course");
-    $lessonId = $request->getQuery("lesson");
-
-    $lessonRepository = new LessonRepository();
-    $lesson = $lessonRepository->findOneById($lessonId);
-    if (!$lesson) {
-        $response->render("404");
-        return;
-    }
-
-    $levelRepository = new LevelRepository();
-    $levels = $levelRepository->findAllUserComplete($courseId, $userId);
-    $found = false;
-    foreach ($levels as &$level) {
-        if ($lesson["levelId"] === $level["id"]) {
-            $found = true;
-        }
-        $level["lessons"] = json_decode($level["lessons"], true);
-    }
-
-    if (!$found) {
-        $response->render("404");
-        return;
-    }
-
-    if (is_null($lesson)) {
-        $response->render("404");
-        return;
-    }
-
-    $response->render("course-visor", [ 
-        "course" => $courseId,
-        "levels" => $levels,
-        "lesson" => $lesson
-    ]);
-}, [ [ HasNotAuthMiddleware::class ] ]);
+$app->get("/search", [ CourseController::class, "search" ]);
 
 
-
+// API
 //$app->get('/api/v1/courses', [ CourseController::class, 'getAll' ]);
-$app->get('/api/v1/courses/:id', [ CourseController::class, 'getOne' ]);
+
+/**
+ * Obtiene un curso en base a su identificador único
+ */
+$app->get("/api/v1/courses/:id", [ CourseController::class, 'getOne' ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
-// Crear un curso
+/**
+ * Crea un curso
+ */
 $app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ 
     [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ],
     [ ApiInstructorMiddleware::class ]
 ]);
 
-// Actualizar un curso
+/**
+ * Actualiza un curso
+ */
 $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ 
     [ JsonSchemaMiddleware::class, 'CourseUpdateValidator' ],
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ]
 ]);
 
-// Eliminar un curso
+/**
+ * Deshabilita un curso
+ */
 $app->delete('/api/v1/courses/:id', [ CourseController::class, 'delete' ], [ 
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);
 
-$app->get('/api/v1/courses', [ CourseController::class, 'search' ]);
+/**
+ * Obtiene muchos cursos en base a una busqueda avanzada
+ */
+$app->get("/api/v1/courses", [ CourseController::class, "search" ]);
 
 // Confirmar la creacion del curso
-$app->put('/api/v1/courses/:id/confirm', [ CourseController::class, 'confirm' ], [
+$app->put("/api/v1/courses/:id/confirm", [ CourseController::class, "confirm" ], [
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);
 
-$app->put('/api/v1/courses/:id/approve', [ CourseController::class, 'approve' ], [
+/**
+ * Aprueba un curso
+ */
+$app->put('/api/v1/courses/:id/approve', [ CourseController::class, "approve" ], [
     [ ValidateIdMiddleware::class ]
 ]);
-
-$app->get('/admin-courses', function($request, $response) {
-
-    $courses = CourseModel::findByNotApproved();
-
-    $response->render('admin-courses', [ "courses" => $courses ]);
-});
-
-$app->get('/instructor-course-details', function($request, $response) {
-
-    $courseId = $request->getQuery("course_id");
-    
-    $page = $_GET["page"] ?? 1;
-
-    $perPageElement = 12;
-    $start = ($page - 1) * $perPageElement;
-
-    $limit = $perPageElement;
-    $offset = $start;
-
-    $course = CourseModel::findById($courseId);
-    if (!$course) {
-        $response->setStatus(404)->render("404");
-        return;
-    }
-
-    $total = CourseModel::enrollmentsReportTotal($courseId, null, null);
-
-    $totalPages = ceil($total / $perPageElement);
-    $totalButtons = $totalPages > 5 ? 5 : $totalPages;
-
-    $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
-
-    $response->render('instructor-course-details', [ 
-        "course" => $course->toObject(), 
-        "enrollments" => $enrollments,
-        "totalPages" => $totalPages,
-        "totalButtons" => $totalButtons,
-        "page" => $page
-    ]);
-});
-
-
 // TODO:
 // Validar en los actualizados o eliminados que le pertenezca al usuario el recurso

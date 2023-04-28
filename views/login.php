@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,7 +64,9 @@
           </button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>
-        <a href="signup" class="d-block text-center text-decoration-none text-primary">¡Registrate aquí!</a>
+        <a href="signup" class="d-block text-center text-decoration-none text-primary">
+          ¡Registrate aquí!
+        </a>
         <!-- <hr>
         <a href="" class="d-block text-center text-decoration-none text-primary mt-3">¿Olvidaste tu contraseña?</a> -->
       </form>

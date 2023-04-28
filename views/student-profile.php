@@ -1,12 +1,13 @@
 <?php
 
 use Cursotopia\Helpers\Format;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
 
 $categoryId = $_GET["category"] ?? null;
-$from = $_GET["from"] ?? null;
-$to = $_GET["to"] ?? null;
+$startDate = $_GET["start_date"] ?? null;
+$endDate = $_GET["end_date"] ?? null;
 $complete = $_GET["complete"] ?? 0;
 $active = $_GET["active"] ?? 0;
 $page = $_GET["page"] ?? 1;
@@ -17,30 +18,23 @@ $start = ($page - 1) * $perPageElement;
 $limit = $perPageElement;
 $offset = $start;
 
-if ($categoryId || $categoryId === "") {
-  if (!((is_int($categoryId) || ctype_digit($categoryId)) && (int)$categoryId > 0)) {
-    $categoryId = null;
-  }
+if (!Validate::uint($categoryId)) {
+  $categoryId = null;
 }
 
-function validarFormatoFecha($fecha) {
-  $d = DateTime::createFromFormat('Y-m-d', $fecha);
-  return $d && $d->format('Y-m-d') === $fecha;
+if (!Validate::date($startDate)) {
+  $startDate = null;
 }
 
-if (!$from || !validarFormatoFecha($from)) {
-  $from = null;
-}
-
-if (!$to || !validarFormatoFecha($to)) {
-  $to = null;
+if (!Validate::date($endDate)) {
+  $endDate = null;
 }
 
 $total = CourseModel::kardexReportTotal(
   $this->session("id"),
   $categoryId,
-  $from,
-  $to,
+  $startDate,
+  $endDate,
   $complete,
   $active
 );
@@ -51,15 +45,13 @@ $totalButtons = $totalPages > 5 ? 5 : $totalPages;
 $courses = CourseModel::kardexReport(
   $this->session("id"),
   $categoryId,
-  $from,
-  $to,
+  $startDate,
+  $endDate,
   $complete,
   $active,
   $limit,
   $offset
 );
-
-
 
 $categoryRepository = new CategoryRepository();
 $categories = $categoryRepository->findAll();
@@ -112,42 +104,51 @@ $categories = $categoryRepository->findAll();
 
     <form class="row" action="" method="GET">
       <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
-      <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
-        <label for="" class="form-label me-3">Fecha inicial:</label>
-        <input type="date" name="from" class="form-control w-50">
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
+        <label for="start-date" class="col-auto col-form-label" role="button">
+          Fecha inicial:
+        </label>
+        <input type="date" value="<?= $startDate ?? "" ?>" name="start_date" 
+          class="col-auto form-control w-50" id="start-date">
       </div>
-      <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
-        <label for="" class="form-label me-3">Fecha final:</label>
-        <input type="date" name="to" class="form-control w-50">
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
+        <label for="end-date" class="col-auto col-form-label" role="button">
+          Fecha final:
+        </label>
+        <input type="date" value="<?= $endDate ?? "" ?>" name="end_date" 
+          class="col-auto form-control w-50" id="end-date">
       </div>
-      <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
-        <label for="" class="form-label">Categoria:</label>
-      </div>
-      <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
-        <select class="form-select" name="category">
-          <option selected value="">Categorias</option>
+
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-box">
+        <label for="category" class="col-auto col-form-label" role="button">
+          Categoria:
+        </label>
+        <select name="category" id="category" class="col-auto form-select w-50">
+          <option value="" selected>Categorias</option>
           <?php foreach ($categories as $category) : ?>
             <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
           <?php endforeach ?>
         </select>
       </div>
+
       <div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" name="complete" type="checkbox" id="inlineCheckbox1" value="1">
+          <input class="form-check-input" name="complete" type="checkbox" 
+            id="inlineCheckbox1" value="1" <?= $_GET["complete"] ?? "" ? "checked": "" ?>>
           <label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
         </div>
       </div>
       <div class="col-lg-2 col-sm-4 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" name="active" type="checkbox" id="inlineCheckbox2" value="1">
+          <input class="form-check-input" name="active" type="checkbox" id="inlineCheckbox2" 
+          value="1" <?= $_GET["active"] ?? "" ? "checked": "" ?>>
           <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
         </div>
       </div>
-      <div class="d-grid">
+      <div class="d-grid mt-2">
         <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
       </div>
     </form>
-
 
     <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -183,9 +184,15 @@ $categories = $categoryRepository->findAll();
                     </a>
                   </td>
                   <td data-title="Progreso"><?= $course["progress"] ?>%</td>
-                  <td data-title="Fecha de inscripción"><?= Format::date($course["enrollDate"]) ?></td>
-                  <td data-title="Último ingreso"><?= Format::date($course["lastTimeChecked"]) ?></td>
-                  <td data-title="Terminado el"><?= Format::date($course["finishDate"]) ?></td>
+                  <td data-title="Fecha de inscripción">
+                    <?= Format::date($course["enrollDate"]) ?>
+                  </td>
+                  <td data-title="Último ingreso">
+                    <?= Format::date($course["lastTimeChecked"]) ?>
+                  </td>
+                  <td data-title="Terminado el">
+                    <?= Format::date($course["finishDate"]) ?>
+                  </td>
                   <td data-title="Estado"><?= $course["status"] ?></td>
                   <td data-title="Certificado">
                     <?php if ($course["isFinished"]): ?>
@@ -250,7 +257,7 @@ $categories = $categoryRepository->findAll();
             <a class="page-link border-0 bg-light shadow-none"
               href="?<?= ($page + 1 <= $totalPages) ? http_build_query($queryParams) : '' ?>"
             >
-              <i class='bx bx-chevron-right'></i>
+              <i class="bx bx-chevron-right"></i>
             </a>
           </li>
         </ul>

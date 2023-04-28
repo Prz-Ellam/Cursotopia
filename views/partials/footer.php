@@ -49,13 +49,6 @@
         </ul>
       </div>
     </div>
-    <div class="container">
-      <div class="row pt-5 pb-3 d-flex align-items-center">
-        <div class="col-md-12  text-center">
-
-        </div>
-      </div>
-    </div>
     <div class="container text-center img-responsive">
       <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
     </div>

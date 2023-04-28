@@ -3,24 +3,28 @@
 use Cursotopia\Models\EnrollmentModel;
 
 $id = $_SESSION["id"] ?? -1;
-$lessonId = $_GET["id"] ?? -1;
+$lessonId = $_GET["lesson"] ?? -1;
 
-EnrollmentModel::visitLesson($id, $lessonId);
+$result = EnrollmentModel::visitLesson($id, $lessonId);
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/course-visor.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../client/styles/pages/course-visor.css">
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
@@ -34,12 +38,11 @@ EnrollmentModel::visitLesson($id, $lessonId);
       <div class="col-lg-8 col-sm-12 course-content mb-5">
         <h4 class="mt-3">Introducción y conocimientos previos</h4>
         
-        <div id="video-container">
-
-        </div>
-        <video id="level-video" controls src="api/v1/videos/<?= $this->lesson["videoId"] ?>">
-          
-        </video>
+        <?php if ($this->lesson["videoId"]): ?>
+        <video id="level-video" controls video-id="<?= $this->lesson["videoId"] ?>"></video>
+        <?php else: ?>
+        <button class="btn btn-primary rounded-pill" id="finish">Finalizar</button>
+        <?php endif ?>
         <div class="d-flex justify-content-center mt-2">
           <a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
           <a href="course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
@@ -84,11 +87,19 @@ EnrollmentModel::visitLesson($id, $lessonId);
                   role="button"
                 >
                   <p class="mb-0 fw-bold d-flex align-items-center">
-                    <i class="bx-sm bx <?= $lesson["is_complete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
+                    <i class="bx-sm bx <?= $lesson["isComplete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
                     <span><?= $i + 1 ?> . <?= $lesson["title"] ?></span>
                   </p>
                   <small class="d-flex align-items-center ms-2 mb-0">
-                    <i class="bx bxs-video me-2"></i> Video - <?= $lesson["video_duration"] ?>
+                    <?php if($lesson["mainResource"] == "video"): ?>
+                    <i class="bx bxs-video me-2"></i> Video - <?= $lesson["videoDuration"] ?>
+                    <?php elseif($lesson["mainResource"] == "image"): ?>
+                    <i class="bx bxs-image me-2"></i> Imagen
+                    <?php elseif($lesson["mainResource"] == "document"): ?>
+                    <i class="bx bxs-file-pdf me-2"></i> Documento
+                    <?php elseif($lesson["mainResource"] == "link"): ?>
+                    <i class="bx bx-link-alt me-2"></i> Enlace
+                    <?php endif ?>
                   </small>
                 </a>
               <?php endforeach ?>
@@ -97,74 +108,10 @@ EnrollmentModel::visitLesson($id, $lessonId);
           </div>
           <?php endforeach ?>
         </div>
-
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="page-footer p-5 bg-light">
-    <div class="container-fluid">
-      <div class="row text-md-start text-center">
-        <div class="col-md-3 mx-auto mb-3">
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Recursos</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Acerca de nosotros</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Contáctanos</a><br></li>
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Preguntas frecuentes</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Políticas</h5>
-          <ul class="list-unstyled">
-            <li class="my-2"><a href="#" class="text-primary text-decoration-none">Política de privacidad</a><br></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mx-auto mb-3">
-          <h5 class="text-uppercase mb-4 text-cream fw-bold">Contacto</h5>
-          <ul class="list-unstyled">
-            <li class="my-2">
-              <a href="https://www.facebook.com" target="_blank" class="d-flex justify-content-md-start justify-content-center align-items-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxl-facebook-square me-2'></i>Facebook
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="https://www.instagram.com" target="_blank" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxl-instagram-alt me-2'></i>Instagram
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="tel:(00)00000000" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxs-phone me-2'></i>(00)-0000-0000
-              </a>
-            </li>
-            <li class="my-2">
-              <a href="mailto:cursotopia@gmail.com.mx" class="d-flex justify-content-md-start justify-content-center text-primary text-decoration-none">
-                <i class='text-primary bx-sm bx bxs-envelope me-2'></i>Correo electrónico
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row pt-5 pb-3 d-flex align-items-center">
-          <div class="col-md-12  text-center">
-
-          </div>
-        </div>
-      </div>
-      <div class="container text-center img-responsive">
-        <p class="text-cream mb-0">&copy; 2023 Curstopia. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+  <?= $this->render("partials/footer") ?>
 </body>
-
 </html>

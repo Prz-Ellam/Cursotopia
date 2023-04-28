@@ -80,10 +80,10 @@ BEGIN
                 'id', le.lesson_id,
                 'title', le.lesson_title,
                 'description', le.lesson_description,
-                'main_resource', find_main_resource(le.lesson_id),
-                'is_complete', ule.user_lesson_is_complete,
-                'complete_at', ule.user_lesson_complete_at,
-                'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
+                'mainResource', find_main_resource(le.lesson_id),
+                'isComplete', ule.user_lesson_is_complete,
+                'completeAt', ule.user_lesson_complete_at,
+                'videoDuration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
             )
         ), ']') AS `lessons`
     FROM `levels` AS l

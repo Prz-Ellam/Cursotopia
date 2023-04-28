@@ -11,4 +11,4 @@ $app->get('/chat', [ HomeController::class, 'chat' ],
     [ HasNotAuthMiddleware::class ] 
 ]);
 $app->get('/home', [ HomeController::class, 'home' ]);
-$app->get('/search', [ HomeController::class, 'search' ]);
+

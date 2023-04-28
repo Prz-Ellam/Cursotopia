@@ -194,7 +194,7 @@ class UserModel {
         return ($rowsAffected > 0) ? true : false;
     }
 
-    public static function findOneById(int $id): ?UserModel {
+    public static function findById(int $id): ?UserModel {
         $repository = new UserRepository();
         $object = $repository->findOne($id);
         if (!$object) {

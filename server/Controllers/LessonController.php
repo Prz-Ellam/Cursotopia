@@ -4,12 +4,9 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Enrollment;
-use Cursotopia\Entities\Lesson;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
-use Cursotopia\Repositories\LessonRepository;
 use Exception;
 
 class LessonController {

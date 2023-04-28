@@ -5,12 +5,14 @@ namespace Cursotopia\Controllers;
 use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Closure;
 use Cursotopia\Entities\Document;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\DocumentRepository;
 use DateTime;
 
 class DocumentController {
-    public function create(Request $request, Response $response): void {
+    public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("pdf");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -50,7 +52,7 @@ class DocumentController {
 
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
+        if (!Validate::uint($id)) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "ID is not valid"

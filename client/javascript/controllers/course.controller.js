@@ -24,6 +24,8 @@ export const createCourse = async function(event) {
         imageId: Number.parseInt(formData.get('imageId'))
     }
 
+    console.log(course);
+
     const response = await CourseService.create(course);
     if (!response?.status) {
         let text = response.message ?? 'Parece que algo salió mal';

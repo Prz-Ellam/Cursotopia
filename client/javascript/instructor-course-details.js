@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import CourseService from './services/course.service';
 
-document.addEventListener('DOMContentLoaded', function() {
+$(() => {
     AOS.init({
         duration: 1000,
         easing: "ease-in-out",
@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mirror: false
     });
 
-    const btnDeleteCourse = document.querySelector('.btn-delete-course');
-    console.log(btnDeleteCourse);
-    btnDeleteCourse.addEventListener('click', async function() {
+    $('.btn-delete-course').on('click', async function() {
         const feedback = await Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Estás seguro que deseas deshabilitar este curso?',

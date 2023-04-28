@@ -4,13 +4,11 @@ import { updatePassword } from './controllers/user.controller';
 import { passwordToggle } from './utilities/password-toggle';
 import passwordEditionValidator from './validators/password-edition.validator';
 
-$('#password-edition-form').validate(passwordEditionValidator);
-$('#password-edition-form').on('submit', updatePassword);
+$(() => {
+    $('#password-edition-form').validate(passwordEditionValidator);
+    $('#password-edition-form').on('submit', updatePassword);
 
-const oldasswordButton = document.getElementById('old-password-button');
-const newPasswordButton = document.getElementById('new-password-button');
-const confirmNewPasswordButton = document.getElementById('confirm-new-password-button');
-
-oldasswordButton.addEventListener('click', passwordToggle);
-newPasswordButton.addEventListener('click', passwordToggle);
-confirmNewPasswordButton.addEventListener('click', passwordToggle);
+    $('#old-password-button').on('click', passwordToggle);
+    $('#new-password-button').on('click', passwordToggle);
+    $('#confirm-new-password-button').on('click', passwordToggle);
+});

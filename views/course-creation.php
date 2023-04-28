@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,8 +21,6 @@
 
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-
-  <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
   <?= $this->link("styles/pages/create-course.css") ?>
   <?= $this->script("javascript/course-create.js") ?>
@@ -93,7 +91,7 @@
               </div>
             </div>
             <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
-            <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
+            <input id="upload-image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
           <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
         </div>

@@ -104,12 +104,10 @@ class LevelController {
             ]);
         }
         catch (Exception $exception) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "Ocurrió un error en el servidor"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "Ocurrió un error en el servidor"
+            ]);
         }
     }
 }

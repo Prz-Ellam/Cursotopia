@@ -1,7 +1,7 @@
 import AOS from 'aos';
 import { getAllInstructorsUsersService } from './services/user.service';
 
-document.addEventListener('DOMContentLoaded', () => {
+$(() => {
     AOS.init({
         duration: 1000,
         easing: "ease-in-out",

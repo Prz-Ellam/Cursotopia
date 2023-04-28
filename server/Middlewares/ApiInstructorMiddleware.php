@@ -8,7 +8,7 @@ use Bloom\Http\Response\Response;
 use Closure;
 
 class ApiInstructorMiddleware implements Middleware {
-    public function handle(Request $request, Response $response, Closure $next) {
+    public function handle(Request $request, Response $response, Closure $next, array $args) {
         $session = $request->getSession();
         // 2 es instructor
         if (!$session->has("id") || $session->get("role") !== 2) {

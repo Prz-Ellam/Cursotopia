@@ -6,6 +6,7 @@ use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Video;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\VideoRepository;
 use DateTime;
 use getID3;
@@ -14,12 +15,10 @@ class VideoController {
     public function create(Request $request, Response $response): void {
         $file = $request->getFiles("video");
         if (!$file) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "Faltan parametros"
-                ]);
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Faltan parametros"
+            ]);
             return;
         }
 
@@ -63,13 +62,11 @@ class VideoController {
 
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
-        if (!((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-            $response
-                ->setStatus(400)
-                ->json([
-                    "status" => false,
-                    "message" => "ID is not valid"
-                ]);
+        if (!Validate::uint($id)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "ID is not valid"
+            ]);
             return;
         }
 
