@@ -8,4 +8,7 @@ use Cursotopia\Controllers\EnrollmentController;
 $app->get("/certificate", [ EnrollmentController::class, "certificate" ]);
 
 // API
+/**
+ * Crea una inscripción
+ */
 $app->post("/api/v1/enrollments", [ EnrollmentController::class, "create" ]);

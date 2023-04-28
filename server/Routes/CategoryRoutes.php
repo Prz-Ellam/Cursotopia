@@ -6,15 +6,33 @@ use Cursotopia\Controllers\CategoryController;
 use Cursotopia\Middlewares\AuthMiddleware;
 use Cursotopia\Middlewares\WebAdminMiddleware;
 
-$app->get('/categories', 
-    fn($request, $response) => $response->render('admin-categories'),
-    [ [ WebAdminMiddleware::class ] ]);
+/**
+ * Pagina del administrador para la gestion de categorías
+ */
+$app->get("/admin/categories", [ CategoryController::class, "categories" ], [ 
+    [ WebAdminMiddleware::class ] 
+]);
 
-$app->get('/admin-categories', function($request, $response) {
-    $response->render("admin-categories");
-});
+/**
+ * Obtiene una categoría en base a su identificador único
+ */
+$app->get("/api/v1/categories", [ CategoryController::class, "findAll" ], [ 
+    [ AuthMiddleware::class ] 
+]);
 
-$app->get('/api/v1/categories', [ CategoryController::class, 'findAll' ], [ [ AuthMiddleware::class ] ]);
-$app->post('/api/v1/categories', [ CategoryController::class, 'create' ], [ [ AuthMiddleware::class ] ]);
-$app->put('/api/v1/categories/:id', [ CategoryController::class, 'update' ]);
-$app->delete('/api/v1/categories/:id', [ CategoryController::class, 'delete' ]);
+/**
+ * Crea una categoría
+ */
+$app->post("/api/v1/categories", [ CategoryController::class, "create" ], [ 
+    [ AuthMiddleware::class ] 
+]);
+
+/**
+ * Actualiza una categoría
+ */
+$app->put("/api/v1/categories/:id", [ CategoryController::class, "update" ]);
+
+/**
+ * Elimina una categoría
+ */
+$app->delete("/api/v1/categories/:id", [ CategoryController::class, "delete" ]);

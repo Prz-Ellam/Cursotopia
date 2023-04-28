@@ -8,6 +8,18 @@ use Cursotopia\Models\UserModel;
 use Cursotopia\Repositories\ChatRepository;
 
 class ChatController {
+    public function chat(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+        
+        $chatRepository = new ChatRepository();
+        $chats = $chatRepository->findAllByUserId($id);
+        
+        $response->render("chat", [
+            "chats" => $chats
+        ]); 
+    }
+
     public function getOne(Request $request, Response $response): void {
 
     }

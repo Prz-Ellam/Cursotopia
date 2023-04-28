@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- Boxicons -->
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <?= $this->link("styles/pages/blocked-users.css") ?>
 </head>
 
@@ -35,7 +40,7 @@
               </a>
             </li>
             <li>
-              <a href="admin-categories" class="nav-link text-white">
+              <a href="admin/categories" class="nav-link text-white">
                 <i class='bx bxs-category'></i>
                 Categorias
               </a>

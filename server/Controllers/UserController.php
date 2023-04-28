@@ -7,7 +7,6 @@ use Bloom\Hashing\Crypto;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
-use Closure;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
@@ -347,12 +346,10 @@ class UserController {
     }
 
     public function remove(Request $request, Response $response) {
-        $response
-            ->setStatus(405)
-            ->json([
-                "status" => false,
-                "message" => "Método no permitido"
-            ]);
+        $response->setStatus(405)->json([
+            "status" => false,
+            "message" => "Método no permitido"
+        ]);
     }
 
     public function checkEmailExists(Request $request, Response $response) {
@@ -431,5 +428,17 @@ class UserController {
     public function signup(Request $request, Response $response): void {
         $userRoles = RoleModel::findAllByIsPublic(true);
         $response->render("signup", [ "userRoles" => $userRoles ]);
+    }
+
+    public function blockedUsers(Request $request, Response $response): void {
+        $response->render("blocked-users");
+    }
+
+    public function passwordEdition(Request $request, Response $response): void {
+        $response->render("password-edition");
+    }
+
+    public function loginWeb(Request $request, Response $response): void {
+        $response->render("login");
     }
 }

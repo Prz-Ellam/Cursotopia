@@ -6,7 +6,7 @@ use Cursotopia\Helpers\Format;
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
@@ -16,13 +16,15 @@ use Cursotopia\Helpers\Format;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   
+  <!-- Boxicons --> 
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- FontAwesome -->
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
   <?= $this->link("styles/pages/course-details.css") ?>
   <?= $this->script("javascript/course-details.js") ?>

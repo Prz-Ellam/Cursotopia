@@ -3,7 +3,6 @@
 namespace Cursotopia\Models;
 
 use Bloom\Database\DB;
-use Bloom\Hashing\Crypto;
 use Bloom\Validations\Rules\Email;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;

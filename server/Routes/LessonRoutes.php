@@ -8,6 +8,9 @@ use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 
 // API
+/**
+ * Obtiene una lección en base a su identificador único
+ */
 $app->get("/api/v1/lessons/:id", [ LessonController::class, "getOne" ], [
     [ ApiInstructorMiddleware::class ] 
 ]);

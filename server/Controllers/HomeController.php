@@ -4,12 +4,8 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Models\CategoryModel;
-use Cursotopia\Models\CourseModel;
-use Cursotopia\Repositories\ChatRepository;
 use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Repositories\MainRepository;
-use DateTime;
 
 class HomeController {
     public function home(Request $request, Response $response): void {
@@ -35,15 +31,7 @@ class HomeController {
         ]);
     }
 
-    public function chat(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
-        
-        $chatRepository = new ChatRepository();
-        $chats = $chatRepository->findAllByUserId($id);
-        
-        $response->render("chat", [
-            "chats" => $chats
-        ]); 
+    public function redirect(Request $request, Response $response): void {
+        $response->redirect("/home");
     }
 }

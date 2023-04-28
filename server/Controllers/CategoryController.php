@@ -62,28 +62,23 @@ class CategoryController {
         try {
             $result = $category->save();
             if (!$result) {
-                $response
-                    ->setStatus(404)
-                    ->json([
-                        "status" => false,
-                        "message" => ""
-                    ]);
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => ""
+                ]);
                 return;
             }
 
-            $response
-                ->json([
-                    "status" => true,
-                    "id" => $category->getId()
-                ]);
+            $response->json([
+                "status" => true,
+                "id" => $category->getId()
+            ]);
         }
         catch (Exception $ex) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "We have a problem"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "We have a problem"
+            ]);
             return;
         }
         //$response->json($categoryRepository->findOne(2));
@@ -109,32 +104,31 @@ class CategoryController {
         try {
             $result = $category->save();
             if (!$result) {
-                $response
-                    ->setStatus(404)
-                    ->json([
-                        "status" => false,
-                        "message" => ""
-                    ]);
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => ""
+                ]);
                 return;
             }
 
-            $response
-                ->json([
-                    "status" => true,
-                    "id" => $category->getId()
-                ]);
+            $response->json([
+                "status" => true,
+                "id" => $category->getId()
+            ]);
         }
         catch (Exception $exception) {
-            $response
-                ->setStatus(500)
-                ->json([
-                    "status" => false,
-                    "message" => "We have a problem"
-                ]);
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "We have a problem"
+            ]);
             return;
         }
     }
 
     // Aprobar una categoría
     // Eliminar una categoría ?
+
+    public function categories(Request $request, Response $response): void {
+        $response->render("admin-categories");
+    }
 }

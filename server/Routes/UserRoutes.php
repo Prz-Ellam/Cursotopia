@@ -11,7 +11,7 @@ use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 
 // Web
-$app->get("/login", fn($request, $response) => $response->render("login"), [ 
+$app->get("/login", [ UserController::class, "loginWeb" ], [ 
     [ HasAuthMiddleware::class ] 
 ]);
 
@@ -27,12 +27,13 @@ $app->get("/profile-edition", [ UserController::class, "profileEdition" ], [
     [ HasNotAuthMiddleware::class ] 
 ]);
 
-$app->get("/password-edition", fn($request, $response) => $response->render("password-edition"), 
-[ [ HasNotAuthMiddleware::class ] ]);
+$app->get("/password-edition", [ UserController::class, "passwordEdition" ], [ 
+    [ HasNotAuthMiddleware::class ] 
+]);
 
 // TODO
 // Le faltan middlewares
-$app->get("/blocked-users", fn($request, $response) => $response->render("blocked-users"));
+$app->get("/blocked-users", [ UserController::class, "blockedUsers" ]);
 
 // API
 /**
@@ -84,14 +85,15 @@ $app->patch("/api/v1/users/:id", [ UserController::class, "update" ], [
 /**
  * Actualiza la contraseña de un usuario
  */
-$app->patch("/api/v1/users/:id/password", [ UserController::class, "updatePassword" ],
-[
+$app->patch("/api/v1/users/:id/password", [ UserController::class, "updatePassword" ], [
     [ JsonSchemaMiddleware::class, "UpdatePasswordValidator" ],
     [ ValidateIdMiddleware::class ],
     [ AuthMiddleware::class ]
 ]);
 
-
+/**
+ * Elimina un usuario
+ */
 $app->delete("/api/v1/users/:id", [ UserController::class, "remove" ]); // !!!
 
 /**

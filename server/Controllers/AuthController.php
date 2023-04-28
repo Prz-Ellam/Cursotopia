@@ -16,12 +16,10 @@ class AuthController {
         
         $user = UserModel::findOneByEmail($email);
         if (!$user) {
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Credenciales incorrectas"
-                ]);
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "Credenciales incorrectas"
+            ]);
             return;
         }
         $user = new UserModel($user);
@@ -43,12 +41,10 @@ class AuthController {
                 }
             }
             
-            $response
-                ->setStatus(401)
-                ->json([
-                    "status" => false,
-                    "message" => "Credenciales incorrectas"
-                ]);
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "Credenciales incorrectas"
+            ]);
             return;
         }
 
@@ -81,6 +77,6 @@ class AuthController {
     public function logout(Request $request, Response $response): void {
         $session = $request->getSession();
         $session->destroy();
-        $response->redirect('/');
+        $response->redirect("/");
     }
 }

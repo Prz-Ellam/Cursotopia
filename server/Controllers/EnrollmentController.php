@@ -60,7 +60,6 @@ class EnrollmentController {
         $course = $course->toObject();
         $courseTitle = $course["title"];
     
-    
         $enrollmentRepository = new EnrollmentRepository();
         $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($courseId, $id);
         if (!$enrollment) {
@@ -83,8 +82,8 @@ class EnrollmentController {
     
         // Cargar la imagen de plantilla
         // Definir la ubicación de la imagen y la fuente personalizada
-        $imgPath = 'certificate.png';
-        $fontPath = 'Lato/Lato-Bold.ttf';
+        $imgPath = "certificate.png";
+        $fontPath = "Lato/Lato-Bold.ttf";
     
         // Crear una imagen a partir del archivo PNG
         $image = imagecreatefrompng($imgPath);
@@ -139,7 +138,7 @@ class EnrollmentController {
         // UID
         $color = imagecolorallocate($image, 64, 64, 64);
         $fontSize = 18;
-        $fontPath = 'Lato/Lato-Regular.ttf';
+        $fontPath = "Lato/Lato-Regular.ttf";
         $x = 480;
         $y = 670;
         imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $enrollment["enrollment_certificate_uid"]);
@@ -163,6 +162,6 @@ class EnrollmentController {
         // Liberar la memoria utilizada por la imagen
         imagedestroy($image);
 
-        $response->render('certificate', [ "certificate" => $certificate ]);
+        $response->render("certificate", [ "certificate" => $certificate ]);
     }
 }

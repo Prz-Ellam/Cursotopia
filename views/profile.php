@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
@@ -16,8 +16,10 @@
   <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
   <script src="../node_modules/aos/dist/aos.js"></script>
 
+  <!-- Boxicons --> 
+  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css" />
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <?= $this->link("styles/pages/student-profile.css") ?>

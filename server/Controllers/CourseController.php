@@ -264,7 +264,7 @@ class CourseController {
     public function details(Request $request, Response $response): void {
         $id = $request->getQuery("id");
         if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
 
@@ -299,11 +299,11 @@ class CourseController {
         $reviews = $reviewRepository->findAllByCourse($id);
 
         if (!$course || !$categories || !$levels) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
 
-        $response->render('course-details', [ 
+        $response->render("course-details", [ 
             "course" => $course, 
             "categories" => $categories,
             "levels" => $levels,
@@ -406,6 +406,6 @@ class CourseController {
 
     public function admin(Request $request, Response $response): void {
         $courses = CourseModel::findByNotApproved();
-        $response->render('admin-courses', [ "courses" => $courses ]);
+        $response->render("admin-courses", [ "courses" => $courses ]);
     }
 }

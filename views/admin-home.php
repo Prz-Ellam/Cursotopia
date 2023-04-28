@@ -20,7 +20,7 @@
             </a>
           </li>
           <li>
-            <a href="admin-categories" class="nav-link text-white">
+            <a href="admin/categories" class="nav-link text-white">
               <i class='bx bxs-category'></i>
               Categorias
             </a>

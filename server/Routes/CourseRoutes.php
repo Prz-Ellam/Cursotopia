@@ -9,24 +9,42 @@ use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 
 // Web
+/**
+ * Página para crear un curso
+ */
 $app->get("/course-creation", [ CourseController::class, "webCreate" ], [ 
     [ HasNotAuthMiddleware::class ] 
 ]);
 
+/**
+ * Página para mostrar los detalles del curso
+ */
 $app->get("/course-details", [ CourseController::class, "details" ]);
 
 $app->get("/course-edition", [ CourseController::class, "webUpdate" ], [ 
     [ HasNotAuthMiddleware::class ] 
 ]);
 
+/**
+ * Página para visualizar las lecciones de los cursos
+ */
 $app->get("/course-visor", [ CourseController::class, "visor" ], [ 
     [ HasNotAuthMiddleware::class ] 
 ]);
 
+/**
+ * Página del administrador para gestionar cursos
+ */
 $app->get("/admin-courses", [ CourseController::class, "admin" ]);
 
+/**
+ * Página para ver los estudiantes de un curso
+ */
 $app->get("/instructor-course-details", [ CourseController::class, "courseDetails" ]);
 
+/**
+ * Pagina de la busqueda de cursos
+ */
 $app->get("/search", [ CourseController::class, "search" ]);
 
 
@@ -36,13 +54,13 @@ $app->get("/search", [ CourseController::class, "search" ]);
 /**
  * Obtiene un curso en base a su identificador único
  */
-$app->get("/api/v1/courses/:id", [ CourseController::class, 'getOne' ]);
+$app->get("/api/v1/courses/:id", [ CourseController::class, "getOne" ]);
 //$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
 /**
  * Crea un curso
  */
-$app->post('/api/v1/courses', [ CourseController::class, 'create' ], [ 
+$app->post("/api/v1/courses", [ CourseController::class, "create" ], [ 
     [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ],
     [ ApiInstructorMiddleware::class ]
 ]);
@@ -50,8 +68,8 @@ $app->post('/api/v1/courses', [ CourseController::class, 'create' ], [
 /**
  * Actualiza un curso
  */
-$app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [ 
-    [ JsonSchemaMiddleware::class, 'CourseUpdateValidator' ],
+$app->put("/api/v1/courses/:id", [ CourseController::class, "update" ], [ 
+    [ JsonSchemaMiddleware::class, "CourseUpdateValidator" ],
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ]
 ]);
@@ -59,7 +77,7 @@ $app->put('/api/v1/courses/:id', [ CourseController::class, 'update' ], [
 /**
  * Deshabilita un curso
  */
-$app->delete('/api/v1/courses/:id', [ CourseController::class, 'delete' ], [ 
+$app->delete("/api/v1/courses/:id", [ CourseController::class, "delete" ], [ 
     [ ValidateIdMiddleware::class ],
     [ ApiInstructorMiddleware::class ] 
 ]);
@@ -78,7 +96,7 @@ $app->put("/api/v1/courses/:id/confirm", [ CourseController::class, "confirm" ],
 /**
  * Aprueba un curso
  */
-$app->put('/api/v1/courses/:id/approve', [ CourseController::class, "approve" ], [
+$app->put("/api/v1/courses/:id/approve", [ CourseController::class, "approve" ], [
     [ ValidateIdMiddleware::class ]
 ]);
 // TODO:
