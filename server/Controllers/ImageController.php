@@ -8,6 +8,7 @@ use Bloom\Validations\Validator;
 use Closure;
 use Cursotopia\Models\ImageModel;
 use DateTime;
+use Ramsey\Uuid\Nonstandard\Uuid;
 
 class ImageController {
     /**
@@ -17,7 +18,7 @@ class ImageController {
      * @param Response $response
      * @return void
      */
-    public function create(Request $request, Response $response, Closure $next): void {
+    public function create(Request $request, Response $response, Closure $next = null): void {        
         $file = $request->getFiles("image");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -27,7 +28,7 @@ class ImageController {
             return;
         }
 
-        $name = "profilePicture-" . time();
+        $name = Uuid::uuid4()->toString();
         $size = $file->getSize();
         $contentType = $file->getType();
         $data = $file->getContent();
@@ -51,14 +52,28 @@ class ImageController {
         $result = $image->save();
 
         // Store the image id in the session
-        $session = $request->getSession();
-        $session->set("profilePicture_id", $image->getId());
+        //$session = $request->getSession();
+        //$session->set("profilePicture_id", $image->getId());
 
+        /*
         $response->setStatus(201)->json([
             "status" => $result,
             "id" => $image->getId(),
             "message" => "La imagen se creó éxitosamente"
         ]);
+        */
+
+        // TODO: Checar
+        $payload = $request->getBody("payload");
+        if ($payload) {
+            $payloadObj = json_decode($payload, true);
+            if ($payloadObj) {
+                $payloadObj["imageId"] = $image->getId();
+                $request->setBodyParam("payload", json_encode($payloadObj));
+            }
+        }
+        
+        $next();
     }
 
     public function update(Request $request, Response $response): void {

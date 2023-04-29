@@ -124,6 +124,14 @@ class CategoryRepository implements CategoryRepositoryInterface {
         WHERE
             cc.course_id = :course_id;
     SQL;
+
+    private const FIND_NOT_APPROVED = <<<'SQL'
+        CALL `category_find_not_approved`()
+    SQL;
+
+    private const APPROVE = <<<'SQL'
+        CALL `category_approve`(:category_id, :admin_id)
+    SQL;
     
     public function create(Category $category): int|string {
         $parameters = [
@@ -176,5 +184,17 @@ class CategoryRepository implements CategoryRepositoryInterface {
             "course_id" => $courseId
         ];
         return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+    }
+
+    public function findNotApproved(): array {
+        return DB::executeReader($this::FIND_NOT_APPROVED, []);
+    }
+
+    public function approve(int $categoryId, int $adminId): bool {
+        $parameters = [
+            "category_id" => $categoryId,
+            "admin_id" => $adminId
+        ];
+        return DB::executeNonQuery($this::APPROVE, $parameters);
     }
 }

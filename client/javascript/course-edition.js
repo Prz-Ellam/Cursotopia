@@ -4,10 +4,10 @@ import 'multiple-select';
 import { createCourseImage, updateCourse } from './controllers/course.controller';
 import updateCourseValidator from './validators/update-course.validator';
 import { courseEditionCreateLevel, courseEditionUpdateLevel } from './controllers/level.controller';
-import createLevelValidator from './validators/create-level.validator';
+import createLevelValidator from './validators/level-create.validator';
 import createCategoryValidator from './validators/create-category.validator';
 import { updateCourseCreateCategory } from './controllers/category.controller';
-import createLessonValidator from './validators/create-lesson.validator';
+import createLessonValidator from './validators/lesson-create.validator';
 import { courseEditionCreateLesson } from './controllers/lesson.controller';
 import Swal from 'sweetalert2';
 

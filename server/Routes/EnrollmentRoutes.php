@@ -3,9 +3,16 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\EnrollmentController;
+use Cursotopia\Middlewares\AuthWebMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
 // Web
-$app->get("/certificate", [ EnrollmentController::class, "certificate" ]);
+/**
+ * Página del certificado del curso
+ */
+$app->get("/certificate", [ EnrollmentController::class, "certificate" ], [
+    [ AuthWebMiddleware::class, true, Roles::STUDENT->value ]
+]);
 
 // API
 /**

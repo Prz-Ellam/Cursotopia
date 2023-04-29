@@ -105,7 +105,7 @@ const dateFormat = `${year}-${month}-${day}`;
 
 export default {
     rules: {
-        'profilePicture': {
+        'image': {
             required: true
         },
         'name': {
@@ -165,7 +165,7 @@ export default {
         }
     },
     messages: {
-        'profilePicture': {
+        'image': {
             required: 'La foto de perfil es requerida'
         },
         'name': {

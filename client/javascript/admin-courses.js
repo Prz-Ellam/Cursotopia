@@ -1,4 +1,5 @@
 import $ from './jquery-global';
+import 'bootstrap';
 import CourseService from './services/course.service';
 
 $(() => {

@@ -6,9 +6,9 @@
             "minLength": 1,
             "maxLength": 50,
             "$error": {
-                "type": "El mensaje debe ser una cadena de texto",
-                "minLength": "El mensaje no puede estar vacío",
-                "maxLength": "El mensaje es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+                "type": "El título debe ser una cadena de texto",
+                "minLength": "El título no puede estar vacío",
+                "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },
         "description": {

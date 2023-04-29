@@ -12,9 +12,20 @@ class PayloadMiddleware implements Middleware {
     public function handle(Request $request, Response $response, Closure $next, array $args): void {
         //try {
             $payload = $request->getBody("payload", null);
-            $bodyPayload = json_decode($payload, true);
-            $request->setBody($bodyPayload);
-            $next();
+            if ($payload) {
+                $bodyPayload = json_decode($payload, true);
+                if ($bodyPayload) {
+                    $request->setBody($bodyPayload);
+                    $next();
+                    return;
+                }
+            }
+            $response->json([
+                "status" => false,
+                "message" => "Error"
+            ]);
+            return;
+
         //}
         //catch (Exception $exception) {
 

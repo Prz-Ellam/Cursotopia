@@ -7,7 +7,7 @@
             "maxLength": 50,
             "$error": {
                 "type": "El título debe ser una cadena de texto",
-                "minLength": "El título es requerido",
+                "minLength": "El título no puede estar vacío",
                 "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },
@@ -17,7 +17,7 @@
             "maxLength": 255,
             "$error": {
                 "type": "La descripción debe ser una cadena de texto",
-                "minLength": "La descripción es requerida",
+                "minLength": "La descripción no puede estar vacío",
                 "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         },

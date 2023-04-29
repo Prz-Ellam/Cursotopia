@@ -10,6 +10,7 @@ use Cursotopia\Entities\Document;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\DocumentRepository;
 use DateTime;
+use Ramsey\Uuid\Nonstandard\Uuid;
 
 class DocumentController {
     public function create(Request $request, Response $response, Closure $next): void {
@@ -21,8 +22,8 @@ class DocumentController {
             ]);
             return;
         }
-
-        $name = "document-" . time();
+        
+        $name = Uuid::uuid4()->toString();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
         $contentType = $file->getType();
         $address = UPLOADS_DIR . "/$name.$ext";

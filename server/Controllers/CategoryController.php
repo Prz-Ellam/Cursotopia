@@ -4,7 +4,6 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Category;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Exception;
@@ -129,6 +128,22 @@ class CategoryController {
     // Eliminar una categoría ?
 
     public function categories(Request $request, Response $response): void {
-        $response->render("admin-categories");
+        $categoryRepository = new CategoryRepository();
+        $categories = $categoryRepository->findNotApproved();
+
+        $response->render("admin-categories", [
+            "categories" => $categories
+        ]);
+    }
+
+    /**
+     * Aprobar categorias
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
+    public function approve(Request $request, Response $response): void {
+        
     }
 }

@@ -28,3 +28,51 @@ BEGIN
         `category_id` = `_category_id`;
 END $$
 DELIMITER ;
+
+
+-- Obtiene todas las categorías que no han sido aprobadas
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_not_approved` $$
+CREATE PROCEDURE `category_find_not_approved`()
+BEGIN
+    SELECT
+        c.`category_id` AS `id`,
+        c.`category_name` AS `name`,
+        c.`category_description` AS `description`,
+        c.`category_is_approved` AS `isApproved`,
+        c.`category_approved_by` AS `approvedBy`,
+        c.`category_created_by` AS `createdBy`,
+        c.`category_created_at` AS `createdAt`,
+        c.`category_modified_at` AS `modifiedAt`,
+        c.`category_active` AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
+    FROM
+        `categories` AS c
+    INNER JOIN
+        `users` AS u
+    ON
+        c.`category_created_by` = u.`user_id`
+    WHERE
+        `category_is_approved` = FALSE;
+END $$
+DELIMITER ;
+
+
+-- Aprueba una categoría
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_approve` $$
+CREATE PROCEDURE `category_approve`(
+    IN _category_id             INT,
+    IN _admin_id                INT
+)
+BEGIN
+    UPDATE
+        `categories`
+    SET
+        `category_is_approved` = TRUE,
+        `category_approved_by` = _admin_id,
+        `category_created_by` = NOW()
+    WHERE
+        `category_id` = _category_id;
+END $$
+DELIMITER ;

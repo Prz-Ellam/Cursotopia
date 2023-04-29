@@ -1,5 +1,6 @@
 import $ from './jquery-global';
 import 'jquery-validation';
+import 'bootstrap';
 import categoryValidator from './validators/create-category.validator';
 import { updateCategory } from './controllers/category.controller';
 import { Toast } from './utilities/toast';

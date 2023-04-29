@@ -3,7 +3,7 @@
 use Bloom\Application;
 
 define("BLOOM_START", microtime(true));
-define("DEBUG", true);
+define("DEBUG_MODE", true);
 define("BASE_DIR", __DIR__);
 define("DOCUMENT_ROOT", $_SERVER["DOCUMENT_ROOT"]);
 define("UPLOADS_DIR", DOCUMENT_ROOT . "/uploads");
@@ -16,13 +16,13 @@ define("CHARSET", "UTF-8");
 
 require_once "../vendor/autoload.php";
 
-if (DEBUG) {
+if (DEBUG_MODE) {
     ini_set("display_errors", 1);
     ini_set("display_startup_errors", 1);
     error_reporting(E_ALL);
 }
 
-// Codificacion de caracteres
+// Codificación de caracteres
 ini_set("default_charset", CHARSET);
 
 ini_set("date.timezone", TIMEZONE);
@@ -35,9 +35,7 @@ setlocale(LC_TIME, LOCALE);
 $app = Application::app(DOCUMENT_ROOT);
 
 // Configurar rutas no asignadas
-$app->setNotFound(function($request, $response) { 
-    $response->setStatus(404)->render("404"); 
-});
+$app->setNotFound(fn($req, $res) => $res->setStatus(404)->render("404"));
 
 // Cargar las rutas
 foreach (glob("../server/Routes/*.php") as $route) {

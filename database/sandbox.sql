@@ -677,3 +677,18 @@ WHERE
     -- Por instructor
     AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
 
+
+
+-- Categorias no aprobadas
+SELECT * 
+FROM `categories`
+WHERE `category_is_approved` = FALSE;
+
+-- Aprobar una categoría
+UPDATE `categories`
+SETasmr gibi magic
+`category_is_approved` = TRUE,
+`category_approved_by` = :admin_id,
+`category_created_by` = NOW()
+
+SELECT `image_id` FROM `images`;

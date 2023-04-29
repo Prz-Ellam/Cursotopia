@@ -7,6 +7,6 @@ $(() => {
     $('#profile-picture').on('change', changeProfilePicture);
 
     $('#profile-edition-form').validate(editProfileValidator);
-    $('profile-edition-form').validate().element('#email');
+    $('#profile-edition-form').validate().element('#email');
     $('#profile-edition-form').on('submit', updateUser);
 });

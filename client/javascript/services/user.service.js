@@ -6,9 +6,9 @@ export const createUserService = async (user) => {
             method: 'POST',
             url: '/api/v1/users',
             headers: { 
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             },
-            data : JSON.stringify(user)
+            data : user
         };
         const response = await axios(configuration);
         return response.data;

@@ -121,7 +121,7 @@ export const createCourseImage = async function(event) {
         }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
-
+/*
         const formData = new FormData();
         formData.append('image', file, file.name);
 
@@ -133,6 +133,7 @@ export const createCourseImage = async function(event) {
         else {
             const response = await updateImageService(formData, courseCoverId.value);
         }
+        */
     }
     catch (exception) {
         pictureBox.src = defaultImage;

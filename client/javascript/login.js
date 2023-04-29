@@ -12,8 +12,9 @@ $(() => {
         mirror: false
     });
 
+    // Esconder y mostrar contraseña
+    $('#password-button').on('click', passwordToggle);
+
     $('#login-form').validate(loginValidator);
     $('#login-form').on('submit', submitLogin);
-
-    $('#password-button').on('click', passwordToggle);
 });

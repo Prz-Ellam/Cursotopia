@@ -88,7 +88,7 @@
                 "type": "El rol de usuario debe ser un número"
             }
         },
-        "profilePicture": {
+        "imageId": {
             "type": "number",
             "minimum": 1,
             "$error": {
@@ -105,7 +105,7 @@
         "password",
         "confirmPassword",
         "userRole",
-        "profilePicture"
+        "imageId"
     ],
     "additionalProperties": false,
     "$error": {

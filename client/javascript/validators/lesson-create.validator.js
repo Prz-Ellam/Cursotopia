@@ -83,21 +83,21 @@ export default {
             trimming: true,
             maxlength: 255
         },
-        // 'video': {
-        //     filesize: 4 * 1024,
-        //     video: true
-        // },
-        // 'image': {
-        //     filesize: 8,
-        //     image: true
-        // },
-        // 'pdf': {
-        //     filesize: 8,
-        //     document: true
-        // },
-        // 'resource': {
-        //     resource: true
-        // }
+        'video': {
+            filesize: 4 * 1024,
+            video: true
+        },
+        'image': {
+            filesize: 8,
+            image: true
+        },
+        'document': {
+            filesize: 8,
+            document: true
+        },
+        'link': {
+            resource: true
+        }
     },
     messages: {
         'title': {
@@ -108,21 +108,21 @@ export default {
             required: 'La descripción de la lección es requerida',
             trimming: 'La descripción de la lección es requerida'
         },
-        // 'video': {
-        //     filesize: 'El video no puede pesar más de 4GB',
-        //     video: 'El archivo seleccionado no cumple con el formato esperado'
-        // },
-        // 'image': {
-        //     filesize: 'La imágen no puede pesar más de 8MB',
-        //     image: 'El archivo seleccionado no cumple con el formato esperado'
-        // },
-        // 'pdf': {
-        //     filesize: 'El documento no puede pesar más de 8MB',
-        //     document: 'El archivo seleccionado no cumple con el formato esperado'
-        // },
-        // 'resource': {
-        //     resource: 'Es requerido al menos un recurso'
-        // }
+        'video': {
+            filesize: 'El video no puede pesar más de 4GB',
+            video: 'El archivo seleccionado no cumple con el formato esperado'
+        },
+        'image': {
+            filesize: 'La imágen no puede pesar más de 8MB',
+            image: 'El archivo seleccionado no cumple con el formato esperado'
+        },
+        'document': {
+            filesize: 'El documento no puede pesar más de 8MB',
+            document: 'El archivo seleccionado no cumple con el formato esperado'
+        },
+        'link': {
+            resource: 'Es requerido al menos un recurso'
+        }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

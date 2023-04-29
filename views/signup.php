@@ -33,37 +33,32 @@
       <div class="bg-white rounded-3 p-5 col-lg-8 col-md-8" data-aos="fade-up">
         <h1 class="text-center">Crea una nueva cuenta</h1>
         <hr>
-        <div class="form-group text-center">
-          <div class="position-relative">
-            <label for="profile-picture" role="button"
-              class="profile-picture-label text-white position-absolute rounded-circle">
-            </label>
-            <img 
-              class="img img-fluid rounded-circle mb-1" 
-              id="picture-box" 
-              <?php if ($this->session("profilePicture_id")): ?>
-              src="api/v1/images/<?= $this->session("profilePicture_id") ?>"
-              <?php else: ?>
-              src="../client/assets/images/perfil.png"
-              <?php endif ?>
-              alt="Profile picture"
-            >
-          </div>
-          <input 
-            type="file" 
-            accept="image/png, image/jpeg, image/jpg"
-            class="form-control position-absolute" 
-            name="profile-picture" 
-            id="profile-picture"
-            autocomplete="off"
-          >
-          <label for="profile-picture" role="button">
-            <i class="fa-sm fa-solid fa-image"></i>
-            <span>Foto de perfil</span>
-          </label>
-        </div>
-
         <form action="#" id="signup-form" class="user-form">
+          <div class="form-group text-center">
+            <div class="position-relative">
+              <label for="profile-picture" role="button"
+                class="profile-picture-label text-white position-absolute rounded-circle">
+              </label>
+              <img 
+                class="img img-fluid rounded-circle mb-1" 
+                id="picture-box" 
+                src="../client/assets/images/perfil.png"
+                alt="Profile picture"
+              >
+            </div>
+            <input 
+              type="file" 
+              accept="image/png, image/jpeg, image/jpg"
+              class="form-control position-absolute" 
+              name="image" 
+              id="profile-picture"
+              autocomplete="off"
+            >
+            <label for="profile-picture" role="button">
+              <i class="fa-sm fa-solid fa-image"></i>
+              <span>Foto de perfil</span>
+            </label>
+          </div>
           <div class="text-center mb-4">
             <input 
               type="hidden" 

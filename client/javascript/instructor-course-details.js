@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Swal from 'sweetalert2';
 import CourseService from './services/course.service';
 

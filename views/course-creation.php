@@ -92,7 +92,7 @@
               </div>
             </div>
             <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
-            <input id="upload-image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
+            <input id="upload-image" name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
           <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
         </div>

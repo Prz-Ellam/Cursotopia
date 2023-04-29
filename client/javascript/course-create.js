@@ -1,12 +1,12 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import createCourseValidator from './validators/create-course.validator';
+import createCourseValidator from './validators/course-create.validator';
 import { createCourse, createCourseImage, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
-import createLevelValidator from './validators/create-level.validator';
-import createLessonValidator from './validators/create-lesson.validator';
+import createLevelValidator from './validators/level-create.validator';
+import createLessonValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
@@ -91,9 +91,8 @@ $(() => {
         const modalInstance = new bootstrap.Modal(modal);
         modalInstance.show();
     });
-    const updateLessonForm = document.getElementById('update-lesson-form');
-    $(updateLessonForm).validate(createLessonValidator);
-    updateLessonForm.addEventListener('submit', e => e.preventDefault());
+    $('#update-lesson-form').validate(createLessonValidator);
+    $('#update-lesson-form').on('submit', e => e.preventDefault());
 
 
     // Delete Lesson

@@ -10,6 +10,7 @@ use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\VideoRepository;
 use DateTime;
 use getID3;
+use Ramsey\Uuid\Nonstandard\Uuid;
 
 class VideoController {
     public function create(Request $request, Response $response): void {
@@ -25,15 +26,15 @@ class VideoController {
         $getID3 = new getID3();
         $fileinfo = $getID3->analyze($file->getTmpName());
 
-        $name = "video-" . time();
+        $name = Uuid::uuid4()->toString();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
         $contentType = $file->getType();
-        $duration = round($fileinfo['playtime_seconds']);
+        $duration = round($fileinfo["playtime_seconds"]);
         
         $hours = floor($duration / 3600);
         $minutes = floor(($duration - ($hours * 3600)) / 60);
         $seconds = round($duration - ($hours * 3600) - ($minutes * 60));
-        $time_string = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+        $time_string = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
 
         $address = UPLOADS_DIR . "/$name.$ext";
         

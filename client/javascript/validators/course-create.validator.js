@@ -39,7 +39,7 @@ $.validator.addMethod('lessonsVideo', function(value, element) {
 
 export default {
     rules: {
-        'imageId': {
+        'image': {
             required: true
         },
         'title': {
@@ -61,7 +61,7 @@ export default {
         }
     },
     messages: {
-        'imageId': {
+        'image': {
             required: 'La portada del curso es requerida'
         },
         'title': {

@@ -16,6 +16,7 @@
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <?= $this->link("styles/pages/blocked-users.css") ?>
+  <?= $this->script("javascript/blocked-users.js") ?>
 </head>
 
 <body>
@@ -75,8 +76,11 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <?php foreach($this->users as $user): ?>
                       <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
+                        <td data-title="Usuario">
+                          <?= $user["name"] ?> <?= $user["lastName"] ?>
+                        </td>
                         <td data-title="Detalle">
                           <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
                         </td>
@@ -84,24 +88,7 @@
                           <button class="btn btn-secondary rounded-pill">Desbloquear</button>
                         </td>
                       </tr>
-                      <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
-                        </td>
-                        <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Desbloquear</button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
-                        </td>
-                        <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Desbloquear</button>
-                        </td>
-                      </tr>
+                      <?php endforeach ?>
                     </tbody>
                   </table>
                 </div>

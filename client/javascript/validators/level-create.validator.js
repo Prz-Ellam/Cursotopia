@@ -7,25 +7,29 @@ export default {
         'title': {
             required: true,
             trimming: true,
+            minlength: 1,
             maxlength: 50
         },
         'description': {
             required: true,
             trimming: true,
+            minlength: 1,
             maxlength: 255
         },
         
     },
     messages: {
         'title': {
-            required: 'El título del nivel es requerido',
-            trimming: 'El título del nivel es requerido',
+            required: 'El título es requerido',
+            trimming: 'El título es requerido',
+            minlenth: 'El título no puede estar vacío',
             maxlength: 'El nombre del nivel no puede contener más de 255 caracteres'
         },
         'description': {
-            required: 'La descripción del nivel es requerida',
-            trimming: 'La descripción del nivel es requerida',
-            maxlength: 'La descripción del nivel no puede contener más de 255 caracteres'
+            required: 'La descripción es requerida',
+            trimming: 'La descripción es requerida',
+            minlength: 'La descripción no puede estar vacía',
+            maxlength: 'La descripción no puede contener más de 255 caracteres'
         },
         
     },

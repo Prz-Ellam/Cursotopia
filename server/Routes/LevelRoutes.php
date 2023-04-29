@@ -3,9 +3,10 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\LevelController;
-use Cursotopia\Middlewares\ApiInstructorMiddleware;
+use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
 /**
  * Obtiene un nivel en base a su identificador único
@@ -17,7 +18,7 @@ $app->get("/api/v1/levels/:id", [ LevelController::class, "getOne" ]);
  */
 $app->post("/api/v1/levels", [ LevelController::class, "create" ], [
     [ JsonSchemaMiddleware::class, "LevelCreateValidator" ], 
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -26,7 +27,7 @@ $app->post("/api/v1/levels", [ LevelController::class, "create" ], [
 $app->put("/api/v1/levels/:id", [ LevelController::class, "update" ], [ 
     [ JsonSchemaMiddleware::class, "LevelUpdateValidator" ],
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -34,5 +35,5 @@ $app->put("/api/v1/levels/:id", [ LevelController::class, "update" ], [
  */
 $app->delete("/api/v1/levels/:id", [ LevelController::class, "delete" ], [ 
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);

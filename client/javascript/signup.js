@@ -11,15 +11,15 @@ $(() => {
         once: true,
         mirror: false
     });
+
+    // Esconder y mostrar contraseña
+    $('#password-button').on('click', passwordToggle);
+    $('#confirm-password-button').on('click', passwordToggle);
+
+    // Profile Picture
+    $('#profile-picture').on('change', uploadProfilePicture);
     
     // Signup
     $('#signup-form').validate(signupValidator);
     $('#signup-form').on('submit', signup);
-
-    // Profile Picture
-    $('#profile-picture').on('change', uploadProfilePicture);
-
-    // Password button
-    $('#password-button').on('click', passwordToggle);
-    $('#confirm-password-button').on('click', passwordToggle);
 });

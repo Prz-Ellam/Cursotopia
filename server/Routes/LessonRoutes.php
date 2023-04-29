@@ -3,16 +3,17 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\LessonController;
-use Cursotopia\Middlewares\ApiInstructorMiddleware;
+use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
 // API
 /**
  * Obtiene una lección en base a su identificador único
  */
 $app->get("/api/v1/lessons/:id", [ LessonController::class, "getOne" ], [
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -20,7 +21,7 @@ $app->get("/api/v1/lessons/:id", [ LessonController::class, "getOne" ], [
  */
 $app->post("/api/v1/lessons", [ LessonController::class, "create" ], [
     // [ JsonSchemaMiddleware::class, 'LessonCreateValidator' ],  
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -29,7 +30,7 @@ $app->post("/api/v1/lessons", [ LessonController::class, "create" ], [
 $app->put("/api/v1/lessons/:id", [ LessonController::class, "update" ], [ 
     [ JsonSchemaMiddleware::class, "LessonCreateValidator" ], 
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -37,7 +38,7 @@ $app->put("/api/v1/lessons/:id", [ LessonController::class, "update" ], [
  */
 $app->delete("/api/v1/lessons/:id", [ LessonController::class, "delete" ], [ 
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**

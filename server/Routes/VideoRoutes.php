@@ -17,7 +17,6 @@ $app->get("/api/v1/videos/:id", [ VideoController::class, "getOne" ], [
  */
 $app->post("/api/v1/videos", [ VideoController::class, "create" ]);
 
-// TODO
 /**
  * Actualiza un video
  */

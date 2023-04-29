@@ -3,7 +3,6 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\HomeController;
-use Cursotopia\Middlewares\HasNotAuthMiddleware;
 
 $app->get("/", [ HomeController::class, "redirect" ]);
 

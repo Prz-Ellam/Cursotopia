@@ -72,6 +72,7 @@ export const signup = async function(event) {
     }
     
     const formData = new FormData(this);
+    
     const user = {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
@@ -81,10 +82,14 @@ export const signup = async function(event) {
         email:      formData.get('email'),
         password:   formData.get('password'),
         confirmPassword: formData.get('confirmPassword'),
-        profilePicture: Number.parseInt(formData.get('profilePicture'))
+        //profilePicture: Number.parseInt(formData.get('profilePicture'))
     }
 
-    const response = await createUserService(user);
+    const formData2 = new FormData();
+    formData2.append('payload', JSON.stringify(user));
+    formData2.append('image', formData.get('image'));
+
+    const response = await createUserService(formData2);
     if (response?.status) {
         await Swal.fire({
             icon: 'success',
@@ -254,9 +259,9 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('image', file, file.name);
-
+        //const formData = new FormData();
+        //formData.append('image', file, file.name);
+        /*
         if (!profilePictureId.value) {
             const response = await createImage(formData);
             if (!response?.status) {
@@ -273,6 +278,7 @@ export const uploadProfilePicture = async function(event) {
             const response = await updateImageService(formData, profilePictureId.value);
             
         }
+        */
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
         $('.profile-picture').attr('src', dataUrl);

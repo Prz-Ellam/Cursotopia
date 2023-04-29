@@ -51,7 +51,7 @@ class UserController {
      */
     public function create(Request $request, Response $response): void {
         [
-            "profilePicture" => $profilePicture,
+            "imageId" => $imageId,
             "name" => $name,
             "lastName" => $lastName,
             "birthDate" => $birthDate,
@@ -103,7 +103,7 @@ class UserController {
         }
 
         // Verificar que la imagen no este tomada
-        if (ImageModel::findOneByIdAndNotUserId($profilePicture)) {
+        if (ImageModel::findOneByIdAndNotUserId($imageId)) {
             $response->setStatus(409)->json([
                 "status" => false,
                 "message" => "La foto de perfil está siendo utilizada"
@@ -113,7 +113,8 @@ class UserController {
 
         // Validar que la sessión actual tiene permisos de usar esa imagen
         $session = $request->getSession();
-        if ($session->get("profilePicture_id") !== $profilePicture) {
+        /*
+        if ($session->get("profilePicture_id") !== $imageId) {
             $session->unset("profilePicture_id");
             $response->setStatus(400)->json([
                 "status" => false,
@@ -121,13 +122,14 @@ class UserController {
             ]);
             return;
         }
+        */
 
         // Hasheamos la contraseña antes de guardarla en la base de datos
         $hashedPassword = Crypto::bcrypt($password);
 
         // Creamos el modelo
         $user = new UserModel([
-            "profilePicture" => $profilePicture,
+            "profilePicture" => $imageId,
             "name" => $name,
             "lastName" => $lastName,
             "birthDate" => $birthDate,
@@ -431,7 +433,12 @@ class UserController {
     }
 
     public function blockedUsers(Request $request, Response $response): void {
-        $response->render("blocked-users");
+        $userRepository = new UserRepository();
+        $users = $userRepository->findBlocked();
+
+        $response->render("blocked-users", [
+            "users" => $users
+        ]);
     }
 
     public function passwordEdition(Request $request, Response $response): void {
@@ -440,5 +447,10 @@ class UserController {
 
     public function loginWeb(Request $request, Response $response): void {
         $response->render("login");
+    }
+
+    public function example(Request $request, Response $response): void {
+        var_dump($request->getBody());
+        die;
     }
 }

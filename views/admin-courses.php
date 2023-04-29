@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
   <?= $this->link("styles/pages/admin-courses.css") ?>
   <?= $this->script("javascript/admin-courses.js") ?>
 </head>
@@ -28,25 +29,25 @@
 
           <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
             <li class="nav-item">
-              <a href="profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
+              <a href="/profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
                 <i class='bx bxs-home'></i>
                 Inicio
               </a>
             </li>
             <li>
-              <a href="admin-courses" class="nav-link text-white active">
+              <a href="/admin-courses" class="nav-link text-white active">
                 <i class='bx bxs-videos'></i>
                 Cursos
               </a>
             </li>
             <li>
-              <a href="admin/categories" class="nav-link text-white">
+              <a href="/admin/categories" class="nav-link text-white">
                 <i class='bx bxs-category'></i>
                 Categorias
               </a>
             </li>
             <li>
-              <a href="blocked-users" class="nav-link text-white">
+              <a href="/blocked-users" class="nav-link text-white">
                 <i class='bx bxs-group'></i>
                 Usuarios
               </a>

@@ -3,17 +3,19 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\CourseController;
-use Cursotopia\Middlewares\ApiInstructorMiddleware;
-use Cursotopia\Middlewares\HasNotAuthMiddleware;
+use Cursotopia\Middlewares\AuthApiMiddleware;
+use Cursotopia\Middlewares\AuthWebMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
 // Web
 /**
  * Página para crear un curso
  */
+// Solo instructores
 $app->get("/course-creation", [ CourseController::class, "webCreate" ], [ 
-    [ HasNotAuthMiddleware::class ] 
+    [ AuthWebMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -21,21 +23,28 @@ $app->get("/course-creation", [ CourseController::class, "webCreate" ], [
  */
 $app->get("/course-details", [ CourseController::class, "details" ]);
 
+/**
+ * Página para editar un curso
+ */
+// Solo instructores
 $app->get("/course-edition", [ CourseController::class, "webUpdate" ], [ 
-    [ HasNotAuthMiddleware::class ] 
+    [ AuthWebMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
  * Página para visualizar las lecciones de los cursos
  */
 $app->get("/course-visor", [ CourseController::class, "visor" ], [ 
-    [ HasNotAuthMiddleware::class ] 
+    [ AuthWebMiddleware::class ] 
 ]);
 
 /**
  * Página del administrador para gestionar cursos
  */
-$app->get("/admin-courses", [ CourseController::class, "admin" ]);
+// Solo administradores
+$app->get("/admin-courses", [ CourseController::class, "admin" ], [
+    [ AuthWebMiddleware::class, true, Roles::ADMIN->value ] 
+]);
 
 /**
  * Página para ver los estudiantes de un curso
@@ -62,7 +71,7 @@ $app->get("/api/v1/courses/:id", [ CourseController::class, "getOne" ]);
  */
 $app->post("/api/v1/courses", [ CourseController::class, "create" ], [ 
     [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ],
-    [ ApiInstructorMiddleware::class ]
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -71,7 +80,7 @@ $app->post("/api/v1/courses", [ CourseController::class, "create" ], [
 $app->put("/api/v1/courses/:id", [ CourseController::class, "update" ], [ 
     [ JsonSchemaMiddleware::class, "CourseUpdateValidator" ],
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ]
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -79,7 +88,7 @@ $app->put("/api/v1/courses/:id", [ CourseController::class, "update" ], [
  */
 $app->delete("/api/v1/courses/:id", [ CourseController::class, "delete" ], [ 
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
@@ -90,14 +99,15 @@ $app->get("/api/v1/courses", [ CourseController::class, "search" ]);
 // Confirmar la creacion del curso
 $app->put("/api/v1/courses/:id/confirm", [ CourseController::class, "confirm" ], [
     [ ValidateIdMiddleware::class ],
-    [ ApiInstructorMiddleware::class ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);
 
 /**
  * Aprueba un curso
  */
 $app->put("/api/v1/courses/:id/approve", [ CourseController::class, "approve" ], [
-    [ ValidateIdMiddleware::class ]
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ] 
 ]);
 // TODO:
 // Validar en los actualizados o eliminados que le pertenezca al usuario el recurso

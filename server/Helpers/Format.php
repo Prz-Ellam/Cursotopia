@@ -13,7 +13,7 @@ class Format {
         else {
             $formatNumber = "0.00";
         }
-        return "$ $formatNumber MXN";
+        return "$$formatNumber MXN";
     }
 
     public static function date($date): string {
@@ -43,7 +43,7 @@ class Format {
 
     public static function hours(float $number): string {
         if ($number < 1) {
-            return "<1 horas";
+            return "<1 hora";
         } 
         else {
             $horas = floor($number);

@@ -95,14 +95,14 @@ class LessonController {
         $id = $session->get("id");
         $lessonId = $request->getParams("id") ?? -1;
 
-        // $requestedLesson = LessonModel::findById($lessonId);
-        // if (!$requestedLesson) {
-        //     $response->setStatus(404)->json([
-        //         "status" => false,
-        //         "message" => "Lección no encontrada"
-        //     ]);
-        //     return;
-        // }
+        $requestedLesson = LessonModel::findById($lessonId);
+        if (!$requestedLesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
 
         $result = EnrollmentModel::completeLesson($id, $lessonId);
         $response->json([]);
@@ -113,14 +113,14 @@ class LessonController {
         $id = $session->get("id");
         $lessonId = $request->getParams("id") ?? -1;
 
-        // $requestedLesson = LessonModel::findById($lessonId);
-        // if (!$requestedLesson) {
-        //     $response->setStatus(404)->json([
-        //         "status" => false,
-        //         "message" => "Lección no encontrada"
-        //     ]);
-        //     return;
-        // }
+        $requestedLesson = LessonModel::findById($lessonId);
+        if (!$requestedLesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
 
         $result = EnrollmentModel::visitLesson($id, $lessonId);
         $response->json([]);

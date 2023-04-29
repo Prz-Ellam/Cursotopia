@@ -117,3 +117,29 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_blocked` $$
+CREATE PROCEDURE `user_find_blocked`()
+BEGIN
+    SELECT
+        `user_id` AS `id`,
+        `user_name` AS `name`,
+        `user_last_name` AS `lastName`,
+        `user_birth_date` AS `birthDate`,
+        `user_gender` AS `gender`,
+        `user_email` AS `email`,
+        `user_password` AS `password`,
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`,
+        `user_enabled` AS `enabled`,
+        `user_created_at` AS `createdAt`,
+        `user_modified_at` AS `modifiedAt`,
+        `user_active` AS `active`
+    FROM
+        `users`
+    WHERE
+        `user_enabled` = FALSE;
+END $$
+DELIMITER ;

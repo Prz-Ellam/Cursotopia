@@ -43,23 +43,23 @@ class UserRepository extends DB implements UserRepositoryInterface {
     
     private const FIND_ONE = <<<'SQL'
         SELECT 
-            user_id AS `id`, 
-            user_name AS `name`, 
-            user_last_name AS `lastName`, 
-            user_birth_date AS `birthDate`, 
-            user_gender AS `gender`, 
-            user_email AS `email`, 
-            user_password AS `password`,
-            user_role AS `userRole`, 
-            profile_picture AS `profilePicture`,
+            `user_id` AS `id`, 
+            `user_name` AS `name`, 
+            `user_last_name` AS `lastName`, 
+            `user_birth_date` AS `birthDate`, 
+            `user_gender` AS `gender`, 
+            `user_email` AS `email`, 
+            `user_password` AS `password`,
+            `user_role` AS `userRole`, 
+            `profile_picture` AS `profilePicture`,
             `user_enabled` AS `enabled`,
             `user_created_at` AS `createdAt`,
             `user_modified_at` AS `modifiedAt`,
             `user_active` AS `active`
         FROM 
-            users 
+            `users` 
         WHERE
-            user_id = :id
+            `user_id` = :id
         LIMIT
             1
     SQL;
@@ -158,6 +158,10 @@ class UserRepository extends DB implements UserRepositoryInterface {
             CONCAT(user_name, ' ', user_last_name) LIKE CONCAT("%", :name, "%")
             AND user_role = 2
     SQL;
+
+    private const FIND_BLOCKED = <<<'SQL'
+        CALL `user_find_blocked`()
+    SQL;
     
     public function create(User $user): int {
         $parameters = [
@@ -211,7 +215,7 @@ class UserRepository extends DB implements UserRepositoryInterface {
         
     }
 
-    public function findOne(int $id) {
+    public function findOne(?int $id) {
         return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
     }
 
@@ -246,6 +250,10 @@ class UserRepository extends DB implements UserRepositoryInterface {
             "name" => $name
         ];
         return $this::executeReader($this::FIND_ALL_INSTRUCTORS, $parameters);
+    }
+
+    public function findBlocked() {
+        return $this::executeReader($this::FIND_BLOCKED, []);
     }
 
     public function lastInsertId2(): string {
