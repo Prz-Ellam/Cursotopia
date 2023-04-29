@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 
 import { createImage, updateImageService } from '../services/image.service';
 import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
+import { showErrorMessage } from '../utilities/show-error-message';
 import { ToastBottom } from '../utilities/toast';
 
 export const submitLogin = async function(event) {
@@ -63,32 +64,33 @@ export const submitLogin = async function(event) {
     }
 }
 
-export const signup = async function(event) {
+export const submitSignup = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    // Validaciones del formulario
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
     
+    // Obtengo y formato de los datos del formulario
     const formData = new FormData(this);
-    
     const user = {
-        name:       formData.get('name'),
-        lastName:   formData.get('lastName'),
-        birthDate:  formData.get('birthDate'),
-        gender:     formData.get('gender'),
-        userRole:   Number.parseInt(formData.get('userRole')),
-        email:      formData.get('email'),
-        password:   formData.get('password'),
-        confirmPassword: formData.get('confirmPassword'),
-        //profilePicture: Number.parseInt(formData.get('profilePicture'))
+        name:               formData.get('name'),
+        lastName:           formData.get('lastName'),
+        birthDate:          formData.get('birthDate'),
+        gender:             formData.get('gender'),
+        userRole:           Number.parseInt(formData.get('userRole')),
+        email:              formData.get('email'),
+        password:           formData.get('password'),
+        confirmPassword:    formData.get('confirmPassword')
     }
 
-    const formData2 = new FormData();
-    formData2.append('payload', JSON.stringify(user));
-    formData2.append('image', formData.get('image'));
+    const userForm = new FormData();
+    userForm.append('payload', JSON.stringify(user));
+    userForm.append('image', formData.get('image'));
 
+    // Envio de datos a la API
     const response = await createUserService(formData2);
     if (response?.status) {
         await Swal.fire({
@@ -102,26 +104,10 @@ export const signup = async function(event) {
                 confirmButton: 'btn btn-primary shadow-none rounded-pill'
             },
         });
-        window.location.href = "home";
+        window.location.href = '/home';
     }
     else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
     }
 }
 
@@ -297,8 +283,8 @@ export const uploadProfilePicture = async function(event) {
 export const updateUser = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -327,34 +313,18 @@ export const updateUser = async function(event) {
         });
 
         // TODO: uri estatica
-        window.location.href = 'home';
+        window.location.href = '/home';
     }
     else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
     }
 }
 
 export const updatePassword = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -382,22 +352,6 @@ export const updatePassword = async function(event) {
         window.location.href = '/home';
     }
     else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [_key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
     }
 }

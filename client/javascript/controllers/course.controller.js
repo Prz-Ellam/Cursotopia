@@ -4,14 +4,15 @@ import Swal from 'sweetalert2';
 import CourseService, { courseConfirmService, createCourseService } from '../services/course.service';
 import { createImage } from '../services/image.service';
 import { readFileAsync } from '../utilities/file-reader';
+import { showErrorMessage } from '../utilities/show-error-message';
 
 let opacity;
 
 export const createCourse = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -21,30 +22,16 @@ export const createCourse = async function(event) {
         description: formData.get('description'),
         price: Number.parseFloat(formData.get('price')),
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
-        imageId: Number.parseInt(formData.get('imageId'))
+        //imageId: Number.parseInt(formData.get('imageId'))
     }
 
-    console.log(course);
+    const courseForm = new FormData();
+    courseForm.append('payload', JSON.stringify(course));
+    courseForm.append('image', formData.get('image'));
 
-    const response = await CourseService.create(course);
+    const response = await CourseService.create(courseForm);
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        await showErrorMessage(response);
         return;
     }
 
@@ -145,8 +132,8 @@ export const createCourseImage = async function(event) {
 export const updateCourse = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -171,27 +158,9 @@ export const submitConfirmCourse = async function(event) {
     event.preventDefault();
 
     const courseId = document.getElementById('create-level-course-id').value;
-
     const response = await courseConfirmService(courseId);
-    console.log(response);
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        await showErrorMessage(response);
         return;
     }
 

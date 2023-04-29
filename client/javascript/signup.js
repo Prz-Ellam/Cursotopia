@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { signup, uploadProfilePicture } from './controllers/user.controller';
+import { submitSignup, uploadProfilePicture } from './controllers/user.controller';
 import { passwordToggle } from './utilities/password-toggle';
-import signupValidator from './validators/signup.validator';
+import SignupValidator from './validators/signup.validator';
 
 $(() => {
     AOS.init({
@@ -20,6 +20,6 @@ $(() => {
     $('#profile-picture').on('change', uploadProfilePicture);
     
     // Signup
-    $('#signup-form').validate(signupValidator);
-    $('#signup-form').on('submit', signup);
+    $('#signup-form').validate(SignupValidator);
+    $('#signup-form').on('submit', submitSignup);
 });

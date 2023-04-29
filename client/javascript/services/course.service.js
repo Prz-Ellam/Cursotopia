@@ -3,7 +3,7 @@ import { mainService } from './video.service';
 
 class CourseService {
     static create = async (course) => {
-        return await mainService('POST', '/api/v1/courses', 'application/json', course);
+        return await mainService('POST', '/api/v1/courses', 'multipart/form-data', course);
     }
 
     static delete = async (id) => {
