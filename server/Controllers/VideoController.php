@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Closure;
 use Cursotopia\Entities\Video;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\VideoRepository;
@@ -13,7 +14,7 @@ use getID3;
 use Ramsey\Uuid\Nonstandard\Uuid;
 
 class VideoController {
-    public function create(Request $request, Response $response): void {
+    public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("video");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -49,12 +50,23 @@ class VideoController {
             ->setAddress($address);
         $rowsAffected = $videoRepository->create($video);
         $videoId = DB::lastInsertId();
-        
+        /*
         $response->json([
             "status" => true,
             "id" => $videoId,
             "message" => $rowsAffected
         ]);
+        */
+        $payload = $request->getBody("payload");
+        if ($payload) {
+            $payloadObj = json_decode($payload, true);
+            if ($payloadObj) {
+                $payloadObj["videoId"] = $videoId;
+                $request->setBodyParam("payload", json_encode($payloadObj));
+            }
+        }
+
+        $next();
     }
 
     public function update(Request $request, Response $response): void {

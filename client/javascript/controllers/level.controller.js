@@ -7,12 +7,13 @@ import { createDocumentService } from '../services/document.service';
 import { createImage } from '../services/image.service';
 import Swal from 'sweetalert2';
 import { Toast } from '../utilities/toast';
+import { showErrorMessage } from '../utilities/show-error-message';
 
 export const submitLevelCreate = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -30,23 +31,7 @@ export const submitLevelCreate = async function(event) {
     };
     const response = await LevelService.create(level);
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
         return;
     }
 

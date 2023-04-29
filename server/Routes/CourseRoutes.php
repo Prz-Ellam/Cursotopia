@@ -3,9 +3,11 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\CourseController;
+use Cursotopia\Controllers\ImageController;
 use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\AuthWebMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\PayloadMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\ValueObjects\Roles;
 
@@ -70,8 +72,10 @@ $app->get("/api/v1/courses/:id", [ CourseController::class, "getOne" ]);
  * Crea un curso
  */
 $app->post("/api/v1/courses", [ CourseController::class, "create" ], [ 
-    [ JsonSchemaMiddleware::class, 'CourseCreateValidator' ],
-    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ], 
+    [ ImageController::class, "create" ],
+    [ PayloadMiddleware::class ],
+    [ JsonSchemaMiddleware::class, "CourseCreateValidator" ]
 ]);
 
 /**

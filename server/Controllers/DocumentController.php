@@ -39,12 +39,23 @@ class DocumentController {
 
         $rowsAffected = $documentRepository->create($document);
         $pdfId = DB::lastInsertId();
-        
+        /*
         $response->json([
             "status" => true,
             "id" => $pdfId,
             "message" => $rowsAffected
         ]);
+        */
+        $payload = $request->getBody("payload");
+        if ($payload) {
+            $payloadObj = json_decode($payload, true);
+            if ($payloadObj) {
+                $payloadObj["documentId"] = $pdfId;
+                $request->setBodyParam("payload", json_encode($payloadObj));
+            }
+        }
+
+        $next();
     }
 
     public function update(Request $request, Response $response): void {

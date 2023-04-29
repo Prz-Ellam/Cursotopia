@@ -1,13 +1,14 @@
 import Swal from "sweetalert2";
 import LessonService, { createLessonService } from "../services/lesson.service";
+import { showErrorMessage } from "../utilities/show-error-message";
 import { Toast } from "../utilities/toast";
 import LessonView from "../views/lesson.view";
 
 export const createLesson = async function(event) {
     event.preventDefault();
     
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -32,23 +33,7 @@ export const createLesson = async function(event) {
     
     const response = await LessonService.create(lesson);
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
         return;
     }
 
@@ -66,8 +51,8 @@ export const createLesson = async function(event) {
 export const courseEditionCreateLesson = async function(event) {
     event.preventDefault();
     
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -88,8 +73,8 @@ export const courseEditionCreateLesson = async function(event) {
 export const updateLesson = async function(event) {
     event.preventDefault();
     
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
