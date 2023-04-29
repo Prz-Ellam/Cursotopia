@@ -36,6 +36,7 @@ use Cursotopia\Helpers\Format;
     <section class="row">
       <div class="col-lg-8 col-12">
         <div class="mb-4">
+          <input id="course-id" type="hidden" value=<?= $this->course["id"] ?>>
           <h2 class="fw-bold"><?= $this->course["title"] ?></h2>
           <p>Creado por: <a href="profile?id=<?= $this->course["instructorId"] ?>">
             <?= $this->course["instructorName"] ?></a>
@@ -176,6 +177,7 @@ use Cursotopia\Helpers\Format;
           </div>
         </div>
         <input type="hidden" name="rate" id="rate" class="form-control" value="">
+        <input type="hidden" name="userId" id="userId" class="form-control" value="<?= $_SESSION["id"] ?>">
         <div class="mt-3 mb-3">
           <textarea class="bg-light form-control rounded-1 border-0 shadow-none" name="message" id="message-box" rows="5"
           placeholder="Escribe un comentario"></textarea>
@@ -203,7 +205,7 @@ use Cursotopia\Helpers\Format;
                 <div>
                   <a class="fw-bold mb-1"><?= $review["userName"] ?></a>
                   <div class="d-flex align-items-center mb-1 gap-2">
-                    <small class="mb-0">07 mar 2021 8:21</small>
+                    <small class="mb-0"><?php echo date('d M Y g:i', strtotime($review["createdAt"])); ?></small>
                     <span>
                       <i class="bx <?= $review["rate"] >= 1 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
                       <i class="bx <?= $review["rate"] >= 2 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
@@ -213,6 +215,7 @@ use Cursotopia\Helpers\Format;
                     </span>
                   </div>
                 </div>
+                <?php if($_SESSION["role"] === 1 || $_SESSION["id"] == $review["userId"]): ?>
                 <a href="#"
                   class="nav-link"
                   role="button"
@@ -221,8 +224,9 @@ use Cursotopia\Helpers\Format;
                   <i class="fas fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                  <li><a class="dropdown-item delete-review" reviewId="<?= $review["id"] ?>">Eliminar</a></li>
                 </ul>
+                <?php endif ?>
               </div>
               <p class="mb-0">
                 <?= $review["message"]  ?>
@@ -230,13 +234,15 @@ use Cursotopia\Helpers\Format;
             </div>
           </div>
         </div>
+        <hr>
         <?php endforeach ?>
 
         <!-- <hr class="my-0"> -->
 
-        <div class="d-grid">
-          <button class="btn btn-primary rounded-pill">Mostrar más comentarios</button>
-        </div>
+        
+      </div>
+      <div class="d-grid">
+          <button id="show-more-comments" class="btn btn-primary w-100 rounded-pill" data-user-rol="<?php echo $_SESSION['role']; ?>" data-user-id="<?php echo $_SESSION['id']; ?>">Mostrar más comentarios</button>
       </div>
     </section>
   </main>

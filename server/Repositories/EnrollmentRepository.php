@@ -28,19 +28,19 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
     
     private const FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID = <<<'SQL'
         SELECT
-            enrollment_id,
-            course_id,
-            student_id,
-            enrollment_is_finished,
-            enrollment_enroll_date,
-            enrollment_finish_date,
-            enrollment_certificate_uid,
-            enrollment_amount,
-            payment_method_id,
-            enrollment_last_time_checked,
-            enrollment_created_at,
-            enrollment_modified_at,
-            enrollment_active
+            enrollment_id AS `id`,
+            course_id AS `courseId`,
+            student_id AS `studentId`,
+            enrollment_is_finished AS `enrollmentIsFinished`,
+            enrollment_enroll_date AS `enrollDate`,
+            enrollment_finish_date AS `finishDate`,
+            enrollment_certificate_uid AS `certificateUid`,
+            enrollment_amount AS `amount`,
+            payment_method_id AS `paymentMethod`,
+            enrollment_last_time_checked AS `lastTimeChecked`,
+            enrollment_created_at AS `createdAt`,
+            enrollment_modified_at AS `modifiedAt`,
+            enrollment_active AS `active`
         FROM
             enrollments
         WHERE

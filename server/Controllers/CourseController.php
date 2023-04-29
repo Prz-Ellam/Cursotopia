@@ -296,7 +296,7 @@ class CourseController {
         $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
 
         $reviewRepository = new ReviewRepository();
-        $reviews = $reviewRepository->findAllByCourse($id);
+        $reviews = $reviewRepository->findByCourse($id,1,10);
 
         if (!$course || !$categories || !$levels) {
             $response->setStatus(404)->render("404");

@@ -8,7 +8,13 @@ use Cursotopia\Entities\Review;
 
 class ReviewRepository implements ReviewRepositoryInterface {
     private const CREATE = <<<'SQL'
-        INSERT INTO reviews(
+        CALL `review_create`(
+            :message,
+            :rate,
+            :course_id,
+            :user_id
+        )
+        /* INSERT INTO reviews(
             review_message,
             review_rate,
             course_id,
@@ -25,7 +31,7 @@ class ReviewRepository implements ReviewRepositoryInterface {
             :message IS NOT NULL
             AND :rate IS NOT NULL
             AND :course_id IS NOT NULL
-            AND :user_id IS NOT NULL
+            AND :user_id IS NOT NULL */
     SQL;
 
     private const UPDATE = <<<'SQL'
@@ -63,6 +69,68 @@ class ReviewRepository implements ReviewRepositoryInterface {
         ORDER BY
             review_created_at DESC;
     SQL;
+
+    private const FIND_ONE_BY_COURSE_AND_USER_ID = <<<'SQL'
+        SELECT
+            r.review_id AS `id`,
+            r.review_message AS `message`,
+            r.review_rate AS `rate`,
+            r.course_id AS `courseId`,
+            r.user_id AS `userId`,
+            r.review_created_at AS `createdAt`,
+            r.review_modified_at AS `modifiedAt`,
+            r.review_active AS `active`,
+            CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
+            u.profile_picture AS `profilePicture`
+        FROM
+            reviews AS r
+        INNER JOIN
+            users AS u
+        ON
+            r.user_id = u.user_id
+        WHERE
+            course_id = :courseId AND r.user_id = :userId;
+    SQL;
+
+    private const FIND_BY_COURSE = <<<'SQL'
+        CALL `get_course_reviews`
+        (
+            :courseId,
+            :pageNum, 
+            :pageSize
+        );
+    SQL;
+
+    private const FIND_ONE = <<<'SQL'
+        SELECT
+        r.review_id AS `id`,
+            r.review_message AS `message`,
+            r.review_rate AS `rate`,
+            r.course_id AS `courseId`,
+            r.user_id AS `userId`,
+            r.review_created_at AS `createdAt`,
+            r.review_modified_at AS `modifiedAt`,
+            r.review_active AS `active`,
+            CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
+            u.profile_picture AS `profilePicture`
+        FROM
+            reviews AS r
+        INNER JOIN
+            users AS u
+        ON
+            r.user_id = u.user_id
+        WHERE
+        r.review_id  = :id
+    SQL;
+
+    private const DELETE = <<<'SQL'
+        UPDATE
+            `reviews`
+        SET
+            `review_active` = FALSE
+        WHERE
+            `review_id` = :id;
+    SQL;
     
     public function create(Review $review): int {
         $parameters = [
@@ -84,10 +152,6 @@ class ReviewRepository implements ReviewRepositoryInterface {
         return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function delete(int $id): int {
-        return 1;
-    }
-
     public function findOneById(int $id): array {
         return [];
     }
@@ -97,5 +161,36 @@ class ReviewRepository implements ReviewRepositoryInterface {
             "course_id" => $courseId
         ];
         return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+    }
+
+    public function findByCourse(int $courseId,int $pageNum,int $pageSize): array {
+        $parameters = [
+            "courseId" => $courseId,
+            "pageNum" => $pageNum,
+            "pageSize" => $pageSize
+        ];
+        return DB::executeReader($this::FIND_BY_COURSE, $parameters);
+    }
+
+    public function findOneByCourseAndUserId(int $courseId, int $userId) {
+        $parameters =[
+            "courseId" => $courseId,
+            "userId" => $userId
+        ];
+        return DB::executeOneReader($this::FIND_ONE_BY_COURSE_AND_USER_ID, $parameters) ?? null;
+    }
+
+    public function findById(int $id): ?array {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeOneReader($this::FIND_ONE, $parameters);
+    }
+
+    public function delete(int $id): int {
+        $parameters = [
+            "id" => $id
+        ];
+        return DB::executeNonQuery($this::DELETE, $parameters);
     }
 }

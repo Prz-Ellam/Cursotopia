@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { submitReview } from './controllers/review.controller';
+import { submitReview, showMoreComments, deleteReview } from './controllers/review.controller';
 import createReviewValidator from './validators/create-review.validator';
 import { createReview } from './views/review.view';
 
@@ -31,4 +31,18 @@ $(() => {
 
     $('#create-review-form').validate(createReviewValidator);
     $('#create-review-form').on('submit', submitReview);
+
+    var currentPage = 1;
+
+    $('#show-more-comments').on('click', function() {
+        currentPage++; // or any other value you want to pass as a parameter
+        showMoreComments(currentPage, courseId);
+    });
+
+    $(document).on("click", ".delete-review", function(){
+        const reviewId = $(this).attr('reviewId');
+        deleteReview(reviewId);
+    });
+
 });
+
