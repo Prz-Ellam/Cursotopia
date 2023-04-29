@@ -21,10 +21,13 @@ class ImageController {
     public function create(Request $request, Response $response, Closure $next = null): void {        
         $file = $request->getFiles("image");
         if (!$file) {
+            /*
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Faltan parametros"
             ]);
+            */
+            $next();
             return;
         }
 
@@ -42,10 +45,13 @@ class ImageController {
 
         $imageValidator = new Validator($image);
         if (!$imageValidator->validate()) {
+            /*
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => $imageValidator->getFeedback()
             ]);
+            */
+            $next();
             return;
         }
 

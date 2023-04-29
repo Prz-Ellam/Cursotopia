@@ -66,8 +66,9 @@ class EnrollmentController {
             $response->setStatus(404)->render("404");
             return;
         }
+
         
-        if (!$enrollment["enrollment_is_finished"]) {
+        if (!$enrollment["enrollmentIsFinished"]) {
             $response->setStatus(404)->render("404");
             return;
         }
@@ -141,9 +142,9 @@ class EnrollmentController {
         $fontPath = "Lato/Lato-Regular.ttf";
         $x = 480;
         $y = 670;
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $enrollment["enrollment_certificate_uid"]);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $enrollment["certificateUid"]);
     
-        $finishDate = Format::date($enrollment["enrollment_finish_date"]);
+        $finishDate = Format::date($enrollment["finishDate"]);
         $x = 350;
         $y = 636;
         imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $finishDate);

@@ -3,7 +3,7 @@ import { mainService } from './video.service';
 
 export default class LessonService {
     static create = async (lesson) => {
-        return await mainService('POST', '/api/v1/lessons', 'application/json', lesson);       
+        return await mainService('POST', '/api/v1/lessons', 'multipart/form-data', lesson);       
     }
 
     static update = async (lesson, id) => {

@@ -17,10 +17,13 @@ class VideoController {
     public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("video");
         if (!$file) {
+            /*
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Faltan parametros"
             ]);
+            */
+            $next();
             return;
         }
 

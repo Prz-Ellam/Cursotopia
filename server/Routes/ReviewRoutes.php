@@ -13,8 +13,16 @@ $app->get("/payment-method", [ ReviewController::class, "paymentMethod" ]);
 /**
  * Crea una reseña
  */
-$app->post('/api/v1/reviews', [ ReviewController::class, 'create' ], [ 
+$app->post("/api/v1/reviews", [ ReviewController::class, "create" ], [ 
     [ AuthWebMiddleware::class ] 
 ]);
-$app->get('/api/v1/reviews/:courseId/:pageNum/:pageSize', [ ReviewController::class, 'getMoreReviews' ]);
-$app->delete('/api/v1/reviews/:reviewId', [ ReviewController::class, 'delete' ]);
+
+/**
+ * Busca las reseñas de un curso
+ */
+$app->get("/api/v1/reviews/:courseId/:pageNum/:pageSize", [ ReviewController::class, "getMoreReviews" ]);
+
+/**
+ * Elimina una reseña
+ */
+$app->delete("/api/v1/reviews/:reviewId", [ ReviewController::class, "delete" ]);

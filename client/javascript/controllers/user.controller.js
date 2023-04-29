@@ -91,7 +91,7 @@ export const submitSignup = async function(event) {
     userForm.append('image', formData.get('image'));
 
     // Envio de datos a la API
-    const response = await createUserService(formData2);
+    const response = await createUserService(userForm);
     if (response?.status) {
         await Swal.fire({
             icon: 'success',

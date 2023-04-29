@@ -25,13 +25,19 @@ export const createLesson = async function(event) {
         title: formData.get('title'),
         description: formData.get('description'),
         levelId: Number.parseInt(formData.get('levelId')),
-        videoId: Number.parseInt(formData.get('video')),
-        imageId: Number.parseInt(formData.get('image')),
-        documentId: Number.parseInt(formData.get('document')),
-        linkId: Number.parseInt(formData.get('link'))
+        //videoId: Number.parseInt(formData.get('video')),
+        //imageId: Number.parseInt(formData.get('image')),
+        //documentId: Number.parseInt(formData.get('document')),
+        //linkId: Number.parseInt(formData.get('link'))
     }
+
+    const lessonForm = new FormData();
+    lessonForm.append('payload', JSON.stringify(lesson));
+    lessonForm.append('video', formData.get('video'));
+    lessonForm.append('image', formData.get('image'));
+    lessonForm.append('document', formData.get('document'));
     
-    const response = await LessonService.create(lesson);
+    const response = await LessonService.create(lessonForm);
     if (!response?.status) {
         showErrorMessage(response);
         return;

@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 export const showErrorMessage = async (response) => {
     let text = 'Parece que algo salió mal';
     if (typeof response.message === 'object') {
