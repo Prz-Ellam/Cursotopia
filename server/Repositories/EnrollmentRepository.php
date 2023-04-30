@@ -3,10 +3,9 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\EnrollmentRepositoryInterface;
 use Cursotopia\Entities\Enrollment;
 
-class EnrollmentRepository implements EnrollmentRepositoryInterface {
+class EnrollmentRepository {
     private const CREATE = <<<'SQL'
         INSERT INTO enrollments(
             course_id,

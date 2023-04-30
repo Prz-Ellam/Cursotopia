@@ -83,6 +83,7 @@ export default {
             trimming: true,
             maxlength: 255
         },
+        /*
         'video': {
             filesize: 4 * 1024,
             video: true
@@ -98,6 +99,7 @@ export default {
         'link': {
             resource: true
         }
+        */
     },
     messages: {
         'title': {
@@ -108,6 +110,7 @@ export default {
             required: 'La descripción de la lección es requerida',
             trimming: 'La descripción de la lección es requerida'
         },
+        /*
         'video': {
             filesize: 'El video no puede pesar más de 4GB',
             video: 'El archivo seleccionado no cumple con el formato esperado'
@@ -123,6 +126,7 @@ export default {
         'link': {
             resource: 'Es requerido al menos un recurso'
         }
+        */
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

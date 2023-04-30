@@ -324,7 +324,7 @@ class CourseRepository {
         return DB::executeNonQuery($this::CONFIRM, $parameters);
     }
 
-    public function courseDetailsfindOneById(int $id): array {
+    public function courseDetailsfindOneById(int $id): ?array {
         $parameters = [
             "id" => $id
         ];

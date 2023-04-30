@@ -57,24 +57,22 @@
       </div>
       <div class="col py-3">
         
-        <div class="">
-          <div class="container">
-            <div class="row">
-              <h2>Usuarios</h2>
-            </div>
+        <div class="container">
+          <h2 class="fw-bold">Usuarios</h2>
+          
     
-            <div class="row">
-              <div class="blocked-users-table col-12 me-3 mt-2">
-                <h4>Usuarios bloqueados</h4>
-                <div class="row pt-3" id="no-more-tables">
-                  <table class="table table-borderless">
-                    <thead class="border-bottom text-center">
-                      <tr>
-                        <th>Usuario</th>
-                        <th>Detalle</th>
-                        <th>Desbloquear</th>
-                      </tr>
-                    </thead>
+          <div class="row">
+            <div class="blocked-users-table col-12 me-3 mt-2">
+              <h4>Usuarios bloqueados</h4>
+              <div class="row pt-3" id="no-more-tables">
+                <table class="table table-borderless">
+                  <thead class="border-bottom text-center">
+                    <tr>
+                      <th>Usuario</th>
+                      <th>Detalle</th>
+                      <th>Desbloquear</th>
+                    </tr>
+                  </thead>
                     <tbody>
                       <?php foreach($this->users as $user): ?>
                       <tr class="text-center">
@@ -142,7 +140,7 @@
             </div>
     
           </div>
-        </div>
+        
       </div>
     </div>
   </div>

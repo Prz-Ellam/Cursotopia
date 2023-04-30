@@ -66,7 +66,6 @@ $app->get("/search", [ CourseController::class, "search" ]);
  * Obtiene un curso en base a su identificador único
  */
 $app->get("/api/v1/courses/:id", [ CourseController::class, "getOne" ]);
-//$app->get('/api/v1/users/:id/courses', [ CourseController::class, 'getAllByUser' ]);
 
 /**
  * Crea un curso
@@ -96,11 +95,8 @@ $app->delete("/api/v1/courses/:id", [ CourseController::class, "delete" ], [
 ]);
 
 /**
- * Obtiene muchos cursos en base a una busqueda avanzada
+ * Confirmar la creacion del curso
  */
-$app->get("/api/v1/courses", [ CourseController::class, "search" ]);
-
-// Confirmar la creacion del curso
 $app->put("/api/v1/courses/:id/confirm", [ CourseController::class, "confirm" ], [
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 

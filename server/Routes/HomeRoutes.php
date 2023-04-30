@@ -4,7 +4,9 @@ namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\HomeController;
 
-$app->get("/", [ HomeController::class, "redirect" ]);
-
+/**
+ * Página de inicio
+ */
 $app->get("/home", [ HomeController::class, "home" ]);
 
+$app->get("/", [ HomeController::class, "redirect" ]);

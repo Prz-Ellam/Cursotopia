@@ -205,7 +205,7 @@ use Cursotopia\Helpers\Format;
                 <div>
                   <a class="fw-bold mb-1"><?= $review["userName"] ?></a>
                   <div class="d-flex align-items-center mb-1 gap-2">
-                    <small class="mb-0"><?php echo date('d M Y g:i', strtotime($review["createdAt"])); ?></small>
+                    <small class="mb-0"><?= date('d M Y g:i', strtotime($review["createdAt"])) ?></small>
                     <span>
                       <i class="bx <?= $review["rate"] >= 1 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
                       <i class="bx <?= $review["rate"] >= 2 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
@@ -215,7 +215,7 @@ use Cursotopia\Helpers\Format;
                     </span>
                   </div>
                 </div>
-                <?php if($_SESSION["role"] === 1 || $_SESSION["id"] == $review["userId"]): ?>
+                <?php if($this->session("role") == 1 || $this->session("id") == $review["userId"]): ?>
                 <a href="#"
                   class="nav-link"
                   role="button"
@@ -242,7 +242,7 @@ use Cursotopia\Helpers\Format;
         
       </div>
       <div class="d-grid">
-          <button id="show-more-comments" class="btn btn-primary w-100 rounded-pill" data-user-rol="<?php echo $_SESSION['role']; ?>" data-user-id="<?php echo $_SESSION['id']; ?>">Mostrar más comentarios</button>
+          <button id="show-more-comments" class="btn btn-primary w-100 rounded-pill" data-user-rol="<?= $this->session("role") ?>" data-user-id="<?=  $this->session("id") ?>">Mostrar más comentarios</button>
       </div>
     </section>
   </main>

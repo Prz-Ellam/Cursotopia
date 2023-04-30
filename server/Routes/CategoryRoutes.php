@@ -15,17 +15,15 @@ $app->get("/admin/categories", [ CategoryController::class, "categories" ], [
 ]);
 
 /**
- * Obtiene una categoría en base a su identificador único
+ * Obtiene todas las categorías
  */
-$app->get("/api/v1/categories", [ CategoryController::class, "findAll" ], [ 
-    [ AuthApiMiddleware::class ] 
-]);
+$app->get("/api/v1/categories", [ CategoryController::class, "getAll" ]);
 
 /**
  * Crea una categoría
  */
 $app->post("/api/v1/categories", [ CategoryController::class, "create" ], [ 
-    [ AuthApiMiddleware::class ] 
+    [ AuthApiMiddleware::class, true ] 
 ]);
 
 /**

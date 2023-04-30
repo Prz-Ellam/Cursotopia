@@ -21,6 +21,241 @@ use Cursotopia\Repositories\LevelRepository;
 use Cursotopia\Repositories\ReviewRepository;
 
 class CourseController {
+    public function webCreate(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+    
+        $categories = CategoryModel::findAllWithUser($id);
+    
+        $response->render("course-creation", [ "categories" => $categories ]);
+    }
+
+    public function details(Request $request, Response $response): void {
+        $id = $request->getQuery("id");
+        if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
+        // verificar si compre o no el curso
+
+        // TODO: Hay que validar cualquier id
+        
+        $courseRepository = new CourseRepository();
+        $course = $courseRepository->courseDetailsfindOneById($id);
+        
+        $categoryRepository = new CategoryRepository();
+        $categories = $categoryRepository->findAllByCourse($id);
+        
+        $levelRepository = new LevelRepository();
+        $levels = $levelRepository->findAllByCourse($id);
+        foreach ($levels as &$level) {
+            $level["lessons"] = json_decode($level["lessons"], true);
+        }
+        $session = $request->getSession();
+        $userId = $session->get("id");
+        
+        $lessonRepository = new LessonRepository();
+        $lesson = $lessonRepository->firstLessonPending($id, $userId ?? -1);
+        if (!$lesson) {
+            $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
+        }
+
+        $enrollmentRepository = new EnrollmentRepository();
+        $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
+
+        $reviewRepository = new ReviewRepository();
+        $reviews = $reviewRepository->findByCourse($id,1,10);
+
+        if (!$course || !$categories || !$levels) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
+        $response->render("course-details", [ 
+            "course" => $course, 
+            "categories" => $categories,
+            "levels" => $levels,
+            "reviews" => $reviews,
+            "enrollment" => $enrollment,
+            "lesson" => $lesson
+        ]);
+    }
+
+    public function webUpdate(Request $request, Response $response): void {
+        $categories = CategoryModel::findAll();
+        $response->render("course-edition", [ "categories" => $categories ]);
+    }
+
+    public function visor(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $userId = $session->get("id");
+        // La ultima lección que viste
+        // El enrollment es necesario
+        // No puedes verlo si no has pagado
+        
+        $courseId = $request->getQuery("course");
+        $lessonId = $request->getQuery("lesson");
+    
+        $lessonRepository = new LessonRepository();
+        $lesson = $lessonRepository->findById($lessonId);
+        if (!$lesson) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        $levelRepository = new LevelRepository();
+        $levels = $levelRepository->findAllUserComplete($courseId, $userId);
+        $found = false;
+        foreach ($levels as &$level) {
+            if ($lesson["levelId"] === $level["id"]) {
+                $found = true;
+            }
+            $level["lessons"] = json_decode($level["lessons"], true);
+        }
+    
+        if (!$found) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        if (is_null($lesson)) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        $response->render("course-visor", [ 
+            "course" => $courseId,
+            "levels" => $levels,
+            "lesson" => $lesson
+        ]);
+    }
+
+    public function admin(Request $request, Response $response): void {
+        $courses = CourseModel::findByNotApproved();
+        $response->render("admin-courses", [ "courses" => $courses ]);
+    }
+
+    public function courseDetails(Request $request, Response $response): void {
+        $courseId = $request->getQuery("course_id");
+    
+        $page = $_GET["page"] ?? 1;
+    
+        $perPageElement = 12;
+        $start = ($page - 1) * $perPageElement;
+    
+        $limit = $perPageElement;
+        $offset = $start;
+    
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        $total = CourseModel::enrollmentsReportTotal($courseId, null, null);
+    
+        $totalPages = ceil($total / $perPageElement);
+        $totalButtons = $totalPages > 5 ? 5 : $totalPages;
+    
+        $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
+    
+        $response->render('instructor-course-details', [ 
+            "course" => $course->toObject(), 
+            "enrollments" => $enrollments,
+            "totalPages" => $totalPages,
+            "totalButtons" => $totalButtons,
+            "page" => $page
+        ]);
+    }
+
+    public function search(Request $request, Response $response): void {
+        $title = $request->getQuery("title", null);
+        $startDate = $request->getQuery("start_date", null);
+        $endDate = $request->getQuery("end_date", null);
+        $instructorId = $request->getQuery("instructor", null);
+        $categoryId = $request->getQuery("category", null);
+        $page = $request->getQuery("page", 1);
+
+        $perPageElement = 12;
+        $start = ($page - 1) * $perPageElement;
+
+        $limit = $perPageElement;
+        $offset = $start;
+
+        if (!Validate::uint($instructorId)) {
+            $instructorId = null;
+        }
+
+        if (!Validate::uint($categoryId)) {
+            $categoryId = null;
+        }
+
+        if (!Validate::date($startDate)) {
+            $startDate = null;
+        }
+
+        if (!Validate::date($endDate)) {
+            $endDate = null;
+        }
+
+        $total = CourseModel::findSearchTotal(
+            $title, 
+            $instructorId, 
+            $categoryId, 
+            $startDate, 
+            $endDate,
+        );
+
+        $totalPages = ceil($total / $perPageElement);
+
+        $courses = CourseModel::findSearch(
+            $title, 
+            $instructorId, 
+            $categoryId, 
+            $startDate, 
+            $endDate,
+            $limit, 
+            $offset
+        );
+
+        $categories = CategoryModel::findAll();
+
+        $response->render("search", [
+            "courses" => $courses,
+            "categories" => $categories,
+            "title" => $title ?? "",
+            "startDate" => $startDate ?? "",
+            "endDate" => $endDate ?? "",
+            "instructorId" => $instructorId,
+            "page" => $page,
+            "totalPages" => $totalPages,
+            "totalButtons" => $totalPages > 5 ? 5 : $totalPages 
+        ]);
+    }
+
+    public function getOne(Request $request, Response $response): void {
+        $id = $request->getParams("id");
+        if (!Validate::uint($id)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "ID is not valid"
+            ]);
+            return;
+        }
+
+        $courseRepository = new CourseRepository();
+        $course = $courseRepository->courseDetailsfindOneById($id);
+        // $course = CourseModel::findOneById($id);
+        /**
+         * if (!$course) {
+         *  // 404
+         * }
+         * 
+         */
+        $response->json($course);
+    }
+
     public function create(Request $request, Response $response): void {
         [
             "title" => $title,
@@ -108,29 +343,6 @@ class CourseController {
         $response->json([]);
     }
 
-    public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
-        if (!Validate::uint($id)) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "ID is not valid"
-            ]);
-            return;
-        }
-
-        $courseRepository = new CourseRepository();
-        $course = $courseRepository->courseDetailsfindOneById($id);
-        // $course = CourseModel::findOneById($id);
-        /**
-         * if (!$course) {
-         *  // 404
-         * }
-         * 
-         */
-        $response->json($course);
-    }
-
-    // Confirmar creacion del curso
     public function confirm(Request $request, Response $response): void {
         $courseId = $request->getParams("id");
 
@@ -178,7 +390,6 @@ class CourseController {
         ]);
     }
 
-    // Aprobar un curso
     public function approve(Request $request, Response $response): void {
         $courseId = $request->getParams("id");
         $session = $request->getSession();
@@ -193,219 +404,5 @@ class CourseController {
             "status" => true,
             "message" => $result
         ]);
-    }
-
-    // Busqueda de cursos por filtros
-    public function search(Request $request, Response $response): void {
-        $title = $request->getQuery("title", null);
-        $startDate = $request->getQuery("start_date", null);
-        $endDate = $request->getQuery("end_date", null);
-        $instructorId = $request->getQuery("instructor", null);
-        $categoryId = $request->getQuery("category", null);
-        $page = $request->getQuery("page", 1);
-
-        $perPageElement = 12;
-        $start = ($page - 1) * $perPageElement;
-
-        $limit = $perPageElement;
-        $offset = $start;
-
-        if (!Validate::uint($instructorId)) {
-            $instructorId = null;
-        }
-
-        if (!Validate::uint($categoryId)) {
-            $categoryId = null;
-        }
-
-        if (!Validate::date($startDate)) {
-            $startDate = null;
-        }
-
-        if (!Validate::date($endDate)) {
-            $endDate = null;
-        }
-
-        $total = CourseModel::findSearchTotal(
-            $title, 
-            $instructorId, 
-            $categoryId, 
-            $startDate, 
-            $endDate,
-        );
-
-        $totalPages = ceil($total / $perPageElement);
-
-        $courses = CourseModel::findSearch(
-            $title, 
-            $instructorId, 
-            $categoryId, 
-            $startDate, 
-            $endDate,
-            $limit, 
-            $offset
-        );
-
-        $categories = CategoryModel::findAll();
-
-        $response->render("search", [
-            "courses" => $courses,
-            "categories" => $categories,
-            "title" => $title ?? "",
-            "startDate" => $startDate ?? "",
-            "endDate" => $endDate ?? "",
-            "instructorId" => $instructorId,
-            "page" => $page,
-            "totalPages" => $totalPages,
-            "totalButtons" => $totalPages > 5 ? 5 : $totalPages 
-        ]);
-    }
-
-    public function details(Request $request, Response $response): void {
-        $id = $request->getQuery("id");
-        if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-
-        // verificar si compre o no el curso
-
-        // TODO: Hay que validar cualquier id
-        
-        $courseRepository = new CourseRepository();
-        $course = $courseRepository->courseDetailsfindOneById($id);
-        
-        $categoryRepository = new CategoryRepository();
-        $categories = $categoryRepository->findAllByCourse($id);
-        
-        $levelRepository = new LevelRepository();
-        $levels = $levelRepository->findAllByCourse($id);
-        foreach ($levels as &$level) {
-            $level["lessons"] = json_decode($level["lessons"], true);
-        }
-        $session = $request->getSession();
-        $userId = $session->get("id");
-        
-        $lessonRepository = new LessonRepository();
-        $lesson = $lessonRepository->firstLessonPending($id, $userId ?? -1);
-        if (!$lesson) {
-            $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
-        }
-
-        $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
-
-        $reviewRepository = new ReviewRepository();
-        $reviews = $reviewRepository->findByCourse($id,1,10);
-
-        if (!$course || !$categories || !$levels) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-
-        $response->render("course-details", [ 
-            "course" => $course, 
-            "categories" => $categories,
-            "levels" => $levels,
-            "reviews" => $reviews,
-            "enrollment" => $enrollment,
-            "lesson" => $lesson
-        ]);
-    }
-
-    public function visor(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $userId = $session->get("id");
-        // La ultima lección que viste
-        // El enrollment es necesario
-        // No puedes verlo si no has pagado
-        
-        $courseId = $request->getQuery("course");
-        $lessonId = $request->getQuery("lesson");
-    
-        $lessonRepository = new LessonRepository();
-        $lesson = $lessonRepository->findById($lessonId);
-        if (!$lesson) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-    
-        $levelRepository = new LevelRepository();
-        $levels = $levelRepository->findAllUserComplete($courseId, $userId);
-        $found = false;
-        foreach ($levels as &$level) {
-            if ($lesson["levelId"] === $level["id"]) {
-                $found = true;
-            }
-            $level["lessons"] = json_decode($level["lessons"], true);
-        }
-    
-        if (!$found) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-    
-        if (is_null($lesson)) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-    
-        $response->render("course-visor", [ 
-            "course" => $courseId,
-            "levels" => $levels,
-            "lesson" => $lesson
-        ]);
-    }
-
-    public function courseDetails(Request $request, Response $response): void {
-        $courseId = $request->getQuery("course_id");
-    
-        $page = $_GET["page"] ?? 1;
-    
-        $perPageElement = 12;
-        $start = ($page - 1) * $perPageElement;
-    
-        $limit = $perPageElement;
-        $offset = $start;
-    
-        $course = CourseModel::findById($courseId);
-        if (!$course) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-    
-        $total = CourseModel::enrollmentsReportTotal($courseId, null, null);
-    
-        $totalPages = ceil($total / $perPageElement);
-        $totalButtons = $totalPages > 5 ? 5 : $totalPages;
-    
-        $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
-    
-        $response->render('instructor-course-details', [ 
-            "course" => $course->toObject(), 
-            "enrollments" => $enrollments,
-            "totalPages" => $totalPages,
-            "totalButtons" => $totalButtons,
-            "page" => $page
-        ]);
-    }
-
-    public function webCreate(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
-    
-        $categories = CategoryModel::findAllWithUser($id);
-    
-        $response->render("course-creation", [ "categories" => $categories ]);
-    }
-
-    public function webUpdate(Request $request, Response $response): void {
-        $categories = CategoryModel::findAll();
-        $response->render("course-edition", [ "categories" => $categories ]);
-    }
-
-    public function admin(Request $request, Response $response): void {
-        $courses = CourseModel::findByNotApproved();
-        $response->render("admin-courses", [ "courses" => $courses ]);
     }
 }

@@ -3,10 +3,12 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\DocumentController;
+use Cursotopia\Controllers\ImageController;
 use Cursotopia\Controllers\LessonController;
 use Cursotopia\Controllers\VideoController;
 use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\PayloadMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\ValueObjects\Roles;
 

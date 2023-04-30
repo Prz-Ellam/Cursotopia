@@ -2,7 +2,6 @@
 
 namespace Cursotopia\Routes;
 
-use Cursotopia\Controllers\AuthController;
 use Cursotopia\Controllers\ImageController;
 use Cursotopia\Controllers\UserController;
 use Cursotopia\Middlewares\AuthApiMiddleware;
@@ -10,6 +9,7 @@ use Cursotopia\Middlewares\AuthWebMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\Middlewares\PayloadMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
 // Web
 /**
@@ -56,7 +56,7 @@ $app->get("/blocked-users", [ UserController::class, "blockedUsers" ], [
 /**
  * Iniciar sesión
  */
-$app->post("/api/v1/auth", [ AuthController::class, "login" ], [
+$app->post("/api/v1/auth", [ UserController::class, "login" ], [
     [ AuthApiMiddleware::class, false ],
     [ JsonSchemaMiddleware::class, "LoginValidator" ] 
 ]);
@@ -64,7 +64,7 @@ $app->post("/api/v1/auth", [ AuthController::class, "login" ], [
 /**
  * Cerrar sessión
  */
-$app->get("/api/v1/logout", [ AuthController::class, "logout" ], [
+$app->get("/api/v1/logout", [ UserController::class, "logout" ], [
     [ AuthApiMiddleware::class ] 
 ]);
 
@@ -86,7 +86,7 @@ $app->get("/api/v1/users/:id", [ UserController::class, "getOne" ], [
 ]);
 
 /**
- * Crea un usuario
+ * Registro de usuarios
  */
 $app->post("/api/v1/users", [ UserController::class, "create" ],  [
     [ AuthApiMiddleware::class, false ], 
@@ -127,15 +127,16 @@ $app->post("/api/v1/users/email", [ UserController::class, "checkEmailExists" ])
 /**
  * Bloquear a un usuario
  */
-// Solo administradores
+$app->put("/api/v1/users/:id/disable", [ UserController::class, "disableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
 
 /**
  * Desbloquear a un usuario
  */
 // Solo administradores
-
-$app->post("/example", [ UserController::class, "example" ], [
-    [ ImageController::class, "create" ],
-    [ PayloadMiddleware::class ],
-    [ JsonSchemaMiddleware::class, "SignupValidator" ]
+$app->put("/api/v1/users/:id/enable", [ UserController::class, "enableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);

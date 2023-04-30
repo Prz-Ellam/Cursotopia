@@ -16,13 +16,160 @@ use DateTime;
 use Exception;
 
 class UserController {
-    /**
-     * Obtiene un usuario a partir de su id
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
+    public function loginWeb(Request $request, Response $response): void {
+        $response->render("login");
+    }
+
+    public function signup(Request $request, Response $response): void {
+        $userRoles = RoleModel::findAllByIsPublic(true);
+        $response->render("signup", [ "userRoles" => $userRoles ]);
+    }
+
+    public function profile(Request $request, Response $response): void {
+        $id = $request->getQuery("id");
+        if (!Validate::uint($id)) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        // Verificar si el usuario somos nosotros o no
+        $session = $request->getSession();
+        $isMe = false;
+        if ($session->get("id") === $user->getId()) {
+            $isMe = true;
+        }
+        
+        $response->render('profile', [ "isMe" => $isMe, "user" => $user->toObject() ]);
+    }
+
+    public function profileEdition(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $id = $session->get("id");
+    
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $response->render("profile-edition", [ 
+            "user" => $user->toObject()
+        ]);
+    }
+
+    public function passwordEdition(Request $request, Response $response): void {
+        $response->render("password-edition");
+    }
+
+    public function blockedUsers(Request $request, Response $response): void {
+        $userRepository = new UserRepository();
+        $users = $userRepository->findBlocked();
+
+        $response->render("blocked-users", [
+            "users" => $users
+        ]);
+    }
+
+    public function login(Request $request, Response $response): void {
+        [
+            "email" => $email,
+            "password" => $password
+        ] = $request->getBody();
+        
+        $user = UserModel::findOneByEmail($email);
+        if (!$user) {
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "Credenciales incorrectas"
+            ]);
+            return;
+        }
+        $user = new UserModel($user);
+
+        $session = $request->getSession();
+        if (!Crypto::verify($user->getPassword(), $password)) {
+            if ($session->get("loginIntentsEmail") !== $email) {
+                $session->set("loginIntentsEmail", $email);
+                $session->set("loginIntentsCount", 1);
+            }
+            else {
+                $count = $session->get("loginIntentsCount");
+                $session->set("loginIntentsCount", $count + 1);
+
+                if ($session->get("loginIntentsCount") >= 3) {
+                    // Deshabilitar cuenta
+                    $user->setEnabled(false);
+                    $user->save();
+                }
+            }
+            
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "Credenciales incorrectas"
+            ]);
+            return;
+        }
+
+        // TODO:
+        // Hay que considerar también que si el usuario esta bloqueado no deberia
+        // poder hacer consultas a la base de datos en ningun endpoint
+        if (!$user->getEnabled()) {
+            $response->json([
+                "status" => false,
+                "message" => "Tu cuenta esta bloqueada"
+            ]);
+            return;
+        }
+
+        $session->set("id", $user->getId());
+        $session->set("role", $user->getUserRole());
+        $session->set("profilePicture", $user->getProfilePicture());
+
+        // Eliminar la información de intentos de login
+        // TODO: unset una variable que no existe
+        $session->unset("loginIntentsEmail");
+        $session->unset("loginIntentsCount");
+
+        $response->json([
+            "status" => true,
+            "message" => "User login successfully"
+        ]);    
+    }
+
+    public function logout(Request $request, Response $response): void {
+        $session = $request->getSession();
+        $session->destroy();
+        $response->redirect("/");
+    }
+
+    public function getAll(Request $request, Response $response): void {
+        $name = $request->getQuery("name");
+        
+        $session = $request->getSession();
+        $role = $session->get("role");
+
+        $userRepository = new UserRepository();
+        $users = $userRepository->findAll($name, $role);
+
+        $response->json($users);
+    }
+
+    public function getAllInstructors(Request $request, Response $response): void {
+        $name = $request->getQuery("name", "");
+        
+
+        $userRepository = new UserRepository();
+        $users = $userRepository->findAllInstructors($name);
+
+        $response->json($users);
+    }
+
     public function getOne(Request $request, Response $response): void {
         // Cualquier usuario puede ver la información de cualquiera, excepto contraseña
         // obviamente
@@ -42,13 +189,6 @@ class UserController {
         $response->json($user->toObject());
     }
 
-    /**
-     * Crea y guarda un nuevo usuario
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function create(Request $request, Response $response): void {
         [
             "imageId" => $imageId,
@@ -170,13 +310,6 @@ class UserController {
         }
     }
 
-    /**
-     * Actualiza el perfil de un usuario
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function update(Request $request, Response $response): void {
         try {
             $id = intval($request->getParams("id"));
@@ -277,13 +410,6 @@ class UserController {
         }
     }
 
-    /**
-     * Actualiza la contraseña de un usuario
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function updatePassword(Request $request, Response $response): void {
         try {
             $id = intval($request->getParams("id"));
@@ -367,90 +493,11 @@ class UserController {
         $response->json(!boolval($user));
     }
 
-    public function getAll(Request $request, Response $response): void {
-        $name = $request->getQuery("name");
-        
-        $session = $request->getSession();
-        $role = $session->get("role");
+    public function disableUser(Request $request, Response $response): void {
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->findAll($name, $role);
-
-        $response->json($users);
     }
 
-    public function getAllInstructors(Request $request, Response $response): void {
-        $name = $request->getQuery("name", "");
-        
+    public function enableUser(Request $request, Response $response): void {
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->findAllInstructors($name);
-
-        $response->json($users);
-    }
-
-    public function profile(Request $request, Response $response): void {
-        $id = $request->getQuery("id");
-        if (!Validate::uint($id)) {
-            $response->setStatus(404)->render('404');
-            return;
-        }
-    
-        $user = UserModel::findById($id);
-        if (!$user) {
-            $response->setStatus(404)->render('404');
-            return;
-        }
-    
-        // Verificar si el usuario somos nosotros o no
-        $session = $request->getSession();
-        $isMe = false;
-        if ($session->get("id") === $user->getId()) {
-            $isMe = true;
-        }
-        
-        $response->render('profile', [ "isMe" => $isMe, "user" => $user->toObject() ]);
-    }
-
-    public function profileEdition(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
-    
-        $user = UserModel::findById($id);
-        if (!$user) {
-            $response->setStatus(404)->render('404');
-            return;
-        }
-    
-        $response->render("profile-edition", [ 
-            "user" => $user->toObject()
-        ]);
-    }
-
-    public function signup(Request $request, Response $response): void {
-        $userRoles = RoleModel::findAllByIsPublic(true);
-        $response->render("signup", [ "userRoles" => $userRoles ]);
-    }
-
-    public function blockedUsers(Request $request, Response $response): void {
-        $userRepository = new UserRepository();
-        $users = $userRepository->findBlocked();
-
-        $response->render("blocked-users", [
-            "users" => $users
-        ]);
-    }
-
-    public function passwordEdition(Request $request, Response $response): void {
-        $response->render("password-edition");
-    }
-
-    public function loginWeb(Request $request, Response $response): void {
-        $response->render("login");
-    }
-
-    public function example(Request $request, Response $response): void {
-        var_dump($request->getBody());
-        die;
     }
 }

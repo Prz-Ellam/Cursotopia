@@ -7,10 +7,18 @@ use Bloom\Http\Response\Response;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Exception;
-use PDO;
 
 class CategoryController {
-    public function findAll(Request $request, Response $response): void {
+    public function categories(Request $request, Response $response): void {
+        $categoryRepository = new CategoryRepository();
+        $categories = $categoryRepository->findNotApproved();
+
+        $response->render("admin-categories", [
+            "categories" => $categories
+        ]);
+    }
+
+    public function getAll(Request $request, Response $response): void {
         $session = $request->getSession();
         $id = $session->get("id");
 
@@ -22,13 +30,6 @@ class CategoryController {
         ]);
     }
 
-    /**
-     * Crea y guarda una categoría
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function create(Request $request, Response $response): void {
         // Para crear una categoría tiene que estar autenticado un instructor
         $session = $request->getSession();
@@ -83,13 +84,6 @@ class CategoryController {
         //$response->json($categoryRepository->findOne(2));
     }
 
-    /**
-     * Actualiza una categoría
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function update(Request $request, Response $response): void {
         // Solo los administradores pueden editar categorías
         // Este es el id de la categoría
@@ -124,25 +118,10 @@ class CategoryController {
         }
     }
 
-    // Aprobar una categoría
-    // Eliminar una categoría ?
+    public function delete(Request $request, Response $response): void {
 
-    public function categories(Request $request, Response $response): void {
-        $categoryRepository = new CategoryRepository();
-        $categories = $categoryRepository->findNotApproved();
-
-        $response->render("admin-categories", [
-            "categories" => $categories
-        ]);
     }
 
-    /**
-     * Aprobar categorias
-     *
-     * @param Request $request
-     * @param Response $response
-     * @return void
-     */
     public function approve(Request $request, Response $response): void {
         
     }

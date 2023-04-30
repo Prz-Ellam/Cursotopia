@@ -3,10 +3,9 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\LevelRepositoryInterface;
 use Cursotopia\Entities\Level;
 
-class LevelRepository extends DB implements LevelRepositoryInterface {
+class LevelRepository extends DB {
     private const CREATE = <<<'SQL'
         CALL `level_create`(:title, :description, :is_free, :course_id, @level_id)
     SQL;

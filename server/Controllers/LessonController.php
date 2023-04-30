@@ -28,7 +28,7 @@ class LessonController {
                 "videoId" => $videoId,
                 "imageId" => $imageId,
                 "documentId" => $documentId,
-                "linkId" => $linkId
+                //"linkId" => $linkId
             ] = $request->getBody();
 
             
@@ -48,7 +48,7 @@ class LessonController {
                 "videoId" => $videoId,
                 "imageId" => $imageId,
                 "documentId" => $documentId,
-                "linkId" => $linkId
+                "linkId" => null
             ]);
             $lesson->save();
             

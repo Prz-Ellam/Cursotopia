@@ -3,10 +3,9 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\ReviewRepositoryInterface;
 use Cursotopia\Entities\Review;
 
-class ReviewRepository implements ReviewRepositoryInterface {
+class ReviewRepository {
     private const CREATE = <<<'SQL'
         CALL `review_create`(
             :message,

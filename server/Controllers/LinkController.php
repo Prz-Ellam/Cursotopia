@@ -10,6 +10,22 @@ use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\LinkRepository;
 
 class LinkController {
+    public function getOne(Request $request, Response $response): void {
+        $id = $request->getParams("id");
+        if (!Validate::uint($id)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "ID is not valid"
+            ]);
+            return;
+        }
+
+        $linkRepository = new LinkRepository();
+        $link = $linkRepository->findOne($id);
+
+        $response->json($link);
+    }
+    
     public function create(Request $request, Response $response, Closure $next): void {
         $name = $request->getBody("name");
         $address = $request->getBody("address");
@@ -31,21 +47,5 @@ class LinkController {
 
     public function delete(Request $request, Response $response): void {
         
-    }
-
-    public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
-        if (!Validate::uint($id)) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "ID is not valid"
-            ]);
-            return;
-        }
-
-        $linkRepository = new LinkRepository();
-        $link = $linkRepository->findOne($id);
-
-        $response->json($link);
     }
 }

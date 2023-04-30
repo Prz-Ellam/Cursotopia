@@ -3,6 +3,7 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\ImageController;
+use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
 
 /**
@@ -15,13 +16,16 @@ $app->get("/api/v1/images/:id", [ ImageController::class, "getOne" ], [
 /**
  * Crea una imagen
  */
-$app->post("/api/v1/images", [ ImageController::class, "create" ]);
+$app->post("/api/v1/images", [ ImageController::class, "create" ], [
+    [ AuthApiMiddleware::class, true ]
+]);
 
 /**
  * Actualiza una imagen
  */
 $app->put("/api/v1/images/:id", [ ImageController::class, "update" ], [
-    [ ValidateIdMiddleware::class ]
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true ]
 ]);
 
 //$app->delete('/api/v1/images/:id', [ ImageController::class, 'remove' ]);

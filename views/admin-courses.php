@@ -55,13 +55,14 @@
           </ul>
         </div>
       </div>
+
       <div class="col py-3">
 
         <div class="content">
           <div class="container mt-3">
 
             <div class="row">
-              <h2>Cursos</h2>
+              <h2 class="fw-bold">Cursos</h2>
             </div>
 
             <div class="row">

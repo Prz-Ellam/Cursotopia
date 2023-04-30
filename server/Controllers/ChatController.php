@@ -20,10 +20,6 @@ class ChatController {
         ]); 
     }
 
-    public function getOne(Request $request, Response $response): void {
-
-    }
-
     public function getChatByParticipants(Request $request, Response $response): void {
         //$userOne = $request->getBody("userOne");
         $userTwo = $request->getBody("userTwo");

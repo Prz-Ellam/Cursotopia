@@ -212,23 +212,23 @@
 
           <h5>Recursos</h5>
           <input type="hidden" name="resource">
-          <input type="hidden" name="video" id="create-lesson-video-hidden">
-          <input type="hidden" name="image" id="create-lesson-image-hidden">
-          <input type="hidden" name="pdf" id="create-lesson-pdf-hidden">
+          <input type="hidden" name="" id="create-lesson-video-hidden">
+          <input type="hidden" name="" id="create-lesson-image-hidden">
+          <input type="hidden" name="" id="create-lesson-pdf-hidden">
 
           <div class="mb-4">
             <label for="" role="button">Video</label>
-            <input type="file" name="" id="create-lesson-video" class="form-control" autocomplete="off" accept="video/mp4">
+            <input type="file" name="video" id="create-lesson-video" class="form-control" autocomplete="off" accept="video/mp4">
           </div>
 
           <div class="mb-4">
             <label for="" role="button">Imagen</label>
-            <input type="file" name="" id="create-lesson-image" class="form-control" autocomplete="off" accept="image/png, image/gif, image/jpeg, image/jpg">
+            <input type="file" name="image" id="create-lesson-image" class="form-control" autocomplete="off" accept="image/png, image/gif, image/jpeg, image/jpg">
           </div>
 
           <div class="mb-4">
             <label for="" role="button">PDF</label>
-            <input type="file" name="" id="create-lesson-pdf" class="form-control" autocomplete="off" accept="application/pdf">
+            <input type="file" name="document" id="create-lesson-pdf" class="form-control" autocomplete="off" accept="application/pdf">
           </div>
 
           <div class="mb-4">

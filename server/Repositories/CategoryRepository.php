@@ -3,10 +3,9 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\CategoryRepositoryInterface;
 use Cursotopia\Entities\Category;
 
-class CategoryRepository implements CategoryRepositoryInterface {
+class CategoryRepository {
     private const CREATE = <<<'SQL'
         INSERT INTO categories(
             category_name,

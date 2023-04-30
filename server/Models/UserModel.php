@@ -7,13 +7,12 @@ use Bloom\Validations\Rules\Email;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
-use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Repositories\AuthRepository;
 use Cursotopia\Repositories\UserRepository;
 use Cursotopia\ValueObjects\EntityState;
 
 class UserModel {
-    private UserRepositoryInterface $userRepository;
+    private UserRepository $userRepository;
     private AuthRepository $authRepository;
     private EntityState $entityState;
 

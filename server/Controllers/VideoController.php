@@ -16,13 +16,21 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 class VideoController {
     public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("video");
-        if (!$file) {
+        if (!$file->getPath()) {
             /*
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Faltan parametros"
             ]);
             */
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["videoId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
             $next();
             return;
         }

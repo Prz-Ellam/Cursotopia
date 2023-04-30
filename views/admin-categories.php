@@ -60,7 +60,7 @@
 
       <div class="col py-3">
         <div class="mt-3">
-          <h2>Categorias</h2>
+          <h2 class="fw-bold">Categorias</h2>
 
           <div class="row">
 
@@ -72,7 +72,7 @@
                     <tr>
                       <th>Curso</th>
                       <th>Usario</th>
-                      <th>Detalle</th>
+                      
                       <th>Aceptar/Declinar</th>
                     </tr>
                   </thead>
@@ -81,11 +81,6 @@
                     <tr class="text-center">
                       <td data-title="Curso"><?= $category["name"] ?></td>
                       <td data-title="Usuario"><?= $category["user"] ?></td>
-                      <td data-title="Detalle">
-                        <button class="btn btn-secondary rounded-pill update-category-btn">
-                          Ver detalles
-                        </button>
-                      </td>
                       <td data-title="Aceptar/Declinar">
                         <button class="btn border-0 approve-btn"><i class='bx bxs-check-circle'></i></button>
                         <button class="btn border-0 denied-btn"><i class='bx bxs-x-circle'></i></button></td>

@@ -9,10 +9,26 @@ use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
-use Cursotopia\Models\UserModel;
-use Cursotopia\Repositories\ReviewRepository;
+use Exception;
 
 class ReviewController {
+    public function paymentMethod(Request $request, Response $response): void {
+        $courseId = $request->getQuery("courseId");
+        if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $courseRepository = new CourseRepository();
+        $course = $courseRepository->findOneById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->render('404');
+            return;
+        }
+    
+        $response->render("payment-method", [ "course" => $course ]);
+    }
+    
     public function create(Request $request, Response $response): void {
 
         try{
@@ -208,22 +224,5 @@ class ReviewController {
             ]);
         }   
         
-    }
-
-    public function paymentMethod(Request $request, Response $response): void {
-        $courseId = $request->getQuery("courseId");
-        if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
-            $response->setStatus(404)->render('404');
-            return;
-        }
-    
-        $courseRepository = new CourseRepository();
-        $course = $courseRepository->findOneById($courseId);
-        if (!$course) {
-            $response->setStatus(404)->render('404');
-            return;
-        }
-    
-        $response->render("payment-method", [ "course" => $course ]);
     }
 }

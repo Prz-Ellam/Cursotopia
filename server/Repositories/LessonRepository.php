@@ -3,10 +3,9 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\LessonRepositoryInterface;
 use Cursotopia\Entities\Lesson;
 
-class LessonRepository extends DB implements LessonRepositoryInterface {
+class LessonRepository extends DB {
     private const CREATE = <<<'SQL'
         CALL `lesson_create`(:title, :description, :level_id, :video_id, :image_id,
             :document_id, :link_id, @lesson_id);

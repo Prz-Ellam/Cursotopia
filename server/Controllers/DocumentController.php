@@ -14,14 +14,22 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 
 class DocumentController {
     public function create(Request $request, Response $response, Closure $next): void {
-        $file = $request->getFiles("pdf");
-        if (!$file) {
+        $file = $request->getFiles("document");
+        if (!$file->getPath()) {
             /*
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Faltan parametros"
             ]);
             */
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["documentId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
             $next();
             return;
         }

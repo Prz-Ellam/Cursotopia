@@ -3,11 +3,10 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\UserRepositoryInterface;
 use Cursotopia\Entities\User;
 use PDO;
 
-class UserRepository extends DB implements UserRepositoryInterface {
+class UserRepository extends DB {
     private const FIND_ONE_ = <<<'SQL'
         SELECT
             `user_id`,
