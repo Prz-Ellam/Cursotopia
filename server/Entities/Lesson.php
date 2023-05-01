@@ -218,9 +218,9 @@ class Lesson {
     /**
      * Get the value of active
      */ 
-    public function getActive()
+    public function isActive()
     {
-        return $this->active;
+        return $this->active ? 1 : 0;
     }
 
     /**

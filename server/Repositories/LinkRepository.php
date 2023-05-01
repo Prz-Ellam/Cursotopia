@@ -6,39 +6,19 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\Link;
 
 class LinkRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            link_id AS `id`,
-            link_name AS `name`,
-            link_address AS `address`,
-            link_created_at AS `createdAt`,
-            link_modified_at AS `modifiedAt`,
-            link_active AS `active`
-        FROM
-            links
-        WHERE
-            link_id = :id
-        LIMIT
-            1;
-    SQL;
-
     private const CREATE = <<<'SQL'
-        INSERT INTO links(
-            link_name,
-            link_address
-        )
-        SELECT
-            :name,
-            :address
-        FROM
-            dual
-        WHERE
-            :name IS NOT NULL
-            AND :address IS NOT NULL
+        CALL `link_create`(:name, :address, @link_id)
     SQL;
-    private const UPDATE = "";
 
-    public function create(Link $link) {
+    private const UPDATE = <<<'SQL'
+        CALL `link_update`(:id, :name, :address, :created_at, :modified_at, :active)
+    SQL;
+
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `link_find_by_id`(:id)
+    SQL;
+
+    public function create(Link $link): int {
         $parameters = [
             "name" => $link->getName(),
             "address" => $link->getAddress()
@@ -46,10 +26,26 @@ class LinkRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOne(?int $id): ?array {
+    public function update(Link $link): int {
+        $parameters = [
+            "id" => $link->getId(),
+            "name" => $link->getName(),
+            "address" => $link->getAddress(),
+            "created_at" => $link->getCreatedAt(),
+            "modified_at" => $link->getModifiedAt(),
+            "active" => $link->getActive()
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
+    }
+
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return $this::executeOneReader($this::FIND_ONE, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @link_id AS linkId", [])["linkId"];
     }
 }

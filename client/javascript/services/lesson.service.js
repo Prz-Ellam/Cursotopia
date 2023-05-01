@@ -10,6 +10,14 @@ export default class LessonService {
         return await mainService('PUT', `/api/v1/lessons/${id}`, 'application/json', lesson);
     }
 
+    static delete = async (id) => {
+        return await mainService('DELETE', `/api/v1/lessons/${id}`, 'application/json', {});
+    }
+
+    static findById = async (id) => {
+        return await mainService('GET', `/api/v1/lessons/${id}`, 'application/json', {});
+    }
+
     static complete = async (id) => {
         return await mainService('PUT', `/api/v1/lessons/${id}/complete`, 'application/json', {});
     }

@@ -20,6 +20,7 @@ class ImageController {
      */
     public function create(Request $request, Response $response, Closure $next = null): void {        
         $file = $request->getFiles("image");
+        
         if (!$file) {
             /*
             $response->setStatus(400)->json([

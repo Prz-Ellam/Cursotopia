@@ -7,10 +7,6 @@ use Cursotopia\Entities\Image;
 use PDO;
 
 class ImageRepository extends DB {
-    private const FIND_BY_ID = <<<'SQL'
-        CALL `image_find_by_id`(:image_id)
-    SQL;
-
     private const CREATE = <<<'SQL'
         CALL `image_create`(
             :name, 
@@ -19,6 +15,23 @@ class ImageRepository extends DB {
             :data,
             @image_id
         )
+    SQL;
+    
+    private const UPDATE = <<<'SQL'
+        CALL `image_update`(
+            :id, 
+            :name, 
+            :size, 
+            :content_type, 
+            :data, 
+            :created_at, 
+            :modified_at, 
+            :active
+        )
+    SQL;
+
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `image_find_by_id`(:image_id)
     SQL;
 
     private const FIND_ONE_BY_ID_AND_NOT_USER_ID = <<<'SQL'
@@ -39,19 +52,6 @@ class ImageRepository extends DB {
             i.image_id = u.profile_picture
         WHERE
             i.image_id = :id
-    SQL;
-    
-    private const UPDATE = <<<'SQL'
-        CALL image_update(
-            :id, 
-            :name, 
-            :size, 
-            :content_type, 
-            :data, 
-            :created_at, 
-            :modified_at, 
-            :active
-        )
     SQL;
 
     public function create(Image $image): int {
@@ -78,9 +78,9 @@ class ImageRepository extends DB {
             "size" => $image->getSize(),
             "content_type" => $image->getContentType(),
             "data" => $image->getData(),
-            "created_at" => null,
-            "modified_at" => null,
-            "active" => null
+            "created_at" => $image->getCreatedAt(),
+            "modified_at" => $image->getModifiedAt(),
+            "active" => $image->getActive()
         ];
         return self::executeNonQuery($this::UPDATE, $parameters);
     }

@@ -16,7 +16,7 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 class VideoController {
     public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("video");
-        if (!$file->getPath()) {
+        if (!$file) {
             /*
             $response->setStatus(400)->json([
                 "status" => false,

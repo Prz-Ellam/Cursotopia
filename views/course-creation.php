@@ -57,7 +57,7 @@
           <div class="mb-4">
             <label for="description" class="form-label" role="button">Descripción</label>
             <textarea class="form-control" id="description" cols="30" rows="3" 
-              name="description" placeholder="¿De que va a tratar tú curso?">
+              name="description" value="" placeholder="¿De que va a tratar tú curso?">
             </textarea>
           </div>
 
@@ -80,13 +80,17 @@
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category): ?>
-                <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+                <option value="<?= $category["id"] ?>">
+                  <?= $category["name"] ?>
+                </option>
               <?php endforeach ?>
             </select>
           </div>
 
           <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-            <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#category-create-modal">Añadir categoria</button>
+            <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#category-create-modal">
+              Añadir categoria
+            </button>
           </div>
         </div>
         <div class="col-md-6 col-sm-12 image-container">
@@ -101,7 +105,6 @@
             <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
-          <input type="hidden" name="imageId" id="course-cover-id" autocomplete="off">
         </div>
         <div class="d-flex mt-5 mb-5">
           <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Avanzar</button>
@@ -119,7 +122,7 @@
       <ul class="list-unstyled" id="levels-container"></ul>
 
       <div class="row mt-5 mb-5">
-        <button class="btn btn-primary rounded-pill col-6">
+        <button class="btn btn-primary rounded-pill col-6" id="course-back-btn">
           Anterior
         </button>
         <button type="button" id="confirm-course-btn" 
@@ -275,18 +278,18 @@
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">Video</label>
+            <label for="" role="button">Video (dejar vacío para mantener el video anterior)</label>
             <input type="file" name="video" id="edit-lesson-video" class="form-control">
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">Imágen</label>
+            <label for="" role="button">Imagen (dejar vacío para mantener la imagen anterior)</label>
             <input type="file" name="image" id="edit-lesson-img" class="form-control">
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">PDF</label>
-            <input type="file" name="pdf" id="edit-lesson-pdf" class="form-control">
+            <label for="" role="button">PDF (dejar vacío para mantener el documento anterior)</label>
+            <input type="file" name="document" id="edit-lesson-pdf" class="form-control">
           </div>
 
           <div class="mb-4">

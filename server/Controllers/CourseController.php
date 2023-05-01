@@ -332,13 +332,51 @@ class CourseController {
     }
 
     public function update(Request $request, Response $response): void {
-        $courseId = $request->getParams("id");
+        $id = $request->getParams("id");
         [
             "title" => $title,
             "description" => $description,
             "price" => $price,
             "categories" => $categories
         ] = $request->getBody();
+
+        foreach ($categories as $categoryId) {
+            $category = CategoryModel::findById($categoryId);
+            if (!$category) {
+                $response->json([
+                    "status" => false,
+                    "message" => "Una categoría no existe"
+                ]);
+                return;
+            }
+        }
+
+        DB::beginTransaction();
+        $course = CourseModel::findById($id);
+        $course
+            ->setTitle($title)
+            ->setDescription($description)
+            ->setPrice($price);
+        $result = $course->save();
+
+        $courseCategoryRepository = new CourseCategoryRepository();
+        $courseCategoryRepository->deleteByCourse($id);
+        foreach ($categories as $category) {
+            $courseCategory = new CourseCategory();
+            $courseCategory
+                ->setCourseId($id)
+                ->setCategoryId($category);
+
+            $rowsAffected = $courseCategoryRepository->create($courseCategory);
+        }
+        DB::commit();
+
+        $response->json([
+            "status" => true,
+            "id" => $id,
+            "message" => $rowsAffected
+        ]);
+
     }
 
     public function delete(Request $request, Response $response): void {

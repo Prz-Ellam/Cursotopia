@@ -1,13 +1,20 @@
 import axios from 'axios';
+import { mainService } from './video.service';
 
-export const createLink = async () => {
+export default class LinkService {
+    static create = async (link) => {
+        return await mainService('POST', '/api/v1/links', 'application/json', linj);
+    }
 
-}
+    static update = async (link, id) => {
+        return await mainService('PUT', `/api/v1/links/${id}`, 'application/json', link);
+    }
 
-export const updateLink = async () => {
+    static delete = async (id) => {
+        return await mainService('DELETE', `/api/v1/links/${id}`, 'application/json', {});
+    }
 
-}
-
-export const deleteLink = async () => {
-    
+    static findById = async (id) => {
+        return await mainService('GET', `/api/v1/links/${id}`, 'application/json', {});
+    }
 }

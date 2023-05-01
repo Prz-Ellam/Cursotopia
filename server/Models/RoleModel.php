@@ -11,55 +11,28 @@ class RoleModel {
     private string $modifiedAt;
     private bool $active;
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */ 
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
-
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+ 
+    public function getModifiedAt() {
         return $this->modifiedAt;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 

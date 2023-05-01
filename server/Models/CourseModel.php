@@ -18,6 +18,8 @@ class CourseModel {
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
+    private ?bool $isComplete = null;
+    private ?string $approvedAt = null;
     private EntityState $entityState;
     private CourseRepository $courseRepository;
 
@@ -28,14 +30,18 @@ class CourseModel {
         $this->price = $object["price"] ?? null;
         $this->imageId = $object["imageId"] ?? null;
         $this->instructorId = $object["instructorId"] ?? null;
+        $this->isComplete = $object["isComplete"] ?? null;
         $this->approved = $object["approved"] ?? null;
         $this->approvedBy = $object["approvedBy"] ?? null;
+        $this->approvedAt = $object["approvedAt"] ?? null;
         $this->createdAt = $object["createdAt"] ?? null;
         $this->modifiedAt = $object["modifiedAt"] ?? null;
         $this->active = $object["active"] ?? null;
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
+        $this->courseRepository = new CourseRepository();
     }
+
     // Obtener los mas vendidos
     // Obtener los mas recientes
     // Obtener los mejor calificados
@@ -122,40 +128,34 @@ class CourseModel {
     }
 
     public function save(): bool {
-        $user = new Course();
+        $course = new Course();
+        $course
+            ->setId($this->id)
+            ->setTitle($this->title)
+            ->setDescription($this->description)
+            ->setPrice($this->price)
+            ->setImageId($this->imageId)
+            ->setInstructorId($this->instructorId)
+            ->setIsComplete($this->isComplete)
+            ->setApproved($this->approved)
+            ->setApprovedBy($this->approvedBy)
+            ->setApprovedAt($this->approvedAt)
+            ->setCreatedAt($this->createdAt)
+            ->setModifiedAt($this->modifiedAt)
+            ->setActive($this->active);
             
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $user
-                    ->setTitle($this->title)
-                    ->setDescription($this->description)
-                    ->setPrice($this->price)
-                    ->setImageId($this->imageId)
-                    ->setInstructorId($this->instructorId);
-
-                    $rowsAffected = $this->courseRepository->create($user);
-                    if ($rowsAffected) {
-                        $this->id = intval($this->courseRepository->lastInsertId2());
-                    }
-                    break;
+                $rowsAffected = $this->courseRepository->create($course);
+                if ($rowsAffected) {
+                    $this->id = intval($this->courseRepository->lastInsertId2());
                 }
-            case EntityState::UPDATE: {
-                /*
-                $user
-                    ->setId($this->id)
-                    ->setName($this->name)
-                    ->setLastName($this->lastName)
-                    ->setBirthDate($this->birthDate)
-                    ->setGender($this->gender)
-                    ->setEmail($this->email)
-                    ->setPassword($this->password)
-                    ->setUserRole($this->userRole)
-                    ->setProfilePicture($this->profilePicture)
-                    ->setEnabled($this->enabled);
-                $rowsAffected = $this->userRepository->update($user);
                 break;
-                */
+            }
+            case EntityState::UPDATE: {
+                $rowsAffected = $this->courseRepository->update($course);
+                break;
             }
         }
         return ($rowsAffected > 0) ? true : false;
@@ -168,5 +168,85 @@ class CourseModel {
 
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
+    }
+
+    /**
+     * Get the value of title
+     */ 
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the value of title
+     *
+     * @return  self
+     */ 
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of description
+     */ 
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of price
+     */ 
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set the value of price
+     *
+     * @return  self
+     */ 
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of instructorId
+     */ 
+    public function getInstructorId()
+    {
+        return $this->instructorId;
+    }
+
+    /**
+     * Set the value of instructorId
+     *
+     * @return  self
+     */ 
+    public function setInstructorId($instructorId)
+    {
+        $this->instructorId = $instructorId;
+
+        return $this;
     }
 }

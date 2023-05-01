@@ -44,6 +44,10 @@ class UserModel {
     #[Required("La foto de perfil es requerida")]
     private ?int $profilePicture;
 
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
+
     public function __construct(?array $object = null) {
         $this->userRepository = new UserRepository();
 
@@ -150,38 +154,31 @@ class UserModel {
 
     public function save(): bool {
         $user = new User();
+        $user
+            ->setId($this->id)
+            ->setName($this->name)
+            ->setLastName($this->lastName)
+            ->setBirthDate($this->birthDate)
+            ->setGender($this->gender)
+            ->setEmail($this->email)
+            ->setPassword($this->password)
+            ->setUserRole($this->userRole)
+            ->setProfilePicture($this->profilePicture)
+            ->setEnabled($this->enabled)
+            ->setCreatedAt($this->createdAt)
+            ->setModifiedAt($this->modifiedAt)
+            ->setActive($this->active);
             
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                    $user
-                        ->setName($this->name)
-                        ->setLastName($this->lastName)
-                        ->setBirthDate($this->birthDate)
-                        ->setGender($this->gender)
-                        ->setEmail($this->email)
-                        ->setPassword($this->password)
-                        ->setUserRole($this->userRole)
-                        ->setProfilePicture($this->profilePicture);
-
-                    $rowsAffected = $this->userRepository->create($user);
-                    if ($rowsAffected) {
-                        $this->id = intval($this->userRepository->lastInsertId2());
-                    }
-                    break;
+                $rowsAffected = $this->userRepository->create($user);
+                if ($rowsAffected) {
+                    $this->id = intval($this->userRepository->lastInsertId2());
                 }
+                break;
+            }
             case EntityState::UPDATE: {
-                $user
-                    ->setId($this->id)
-                    ->setName($this->name)
-                    ->setLastName($this->lastName)
-                    ->setBirthDate($this->birthDate)
-                    ->setGender($this->gender)
-                    ->setEmail($this->email)
-                    ->setPassword($this->password)
-                    ->setUserRole($this->userRole)
-                    ->setProfilePicture($this->profilePicture)
-                    ->setEnabled($this->enabled);
                 $rowsAffected = $this->userRepository->update($user);
                 break;
             }
@@ -260,6 +257,66 @@ class UserModel {
      */ 
     public function setEnabled($enabled) {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     */ 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @return  self
+     */ 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of modifiedAt
+     */ 
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * Set the value of modifiedAt
+     *
+     * @return  self
+     */ 
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
 
         return $this;
     }

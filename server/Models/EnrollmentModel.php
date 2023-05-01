@@ -8,19 +8,20 @@ use Cursotopia\Repositories\EnrollmentRepository;
 use Cursotopia\ValueObjects\EntityState;
 
 class EnrollmentModel {
-    private ?int $id;
-    private ?int $courseId;
-    private ?int $studentId;
-    private ?bool $enrollmentIsFinished;
-    private ?string $enrollDate;
-    private ?string $finishDate;
-    private ?string $certificateUid;
-    private ?float $amount;
-    private ?int $paymentMethod;
-    private ?string $lastTimeChecked;
-    private ?string $createdAt;
-    private ?string $modifiedAt;
-    private ?bool $active;
+    private ?int $id = null;
+    private ?int $courseId = null;
+    private ?int $studentId = null;
+    private ?bool $isFinished = null;
+    private ?string $enrollDate = null;
+    private ?string $finishDate = null;
+    private ?string $certificateUid = null;
+    private ?float $amount = null;
+    private ?int $paymentMethodId = null;
+    private ?bool $isPaid = null;
+    private ?string $lastTimeChecked = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     private EntityState $entityState;
 
@@ -28,11 +29,11 @@ class EnrollmentModel {
         $this->id = $object["id"] ?? null;
         $this->courseId = $object["courseId"] ?? null;
         $this->studentId = $object["studentId"] ?? null;
-        $this->enrollmentIsFinished = $object["enrollmentIsFinished"] ?? null;
+        $this->isFinished = $object["isFinished"] ?? null;
         $this->enrollDate = $object["enrollDate"] ?? null;
         $this->certificateUid = $object["certificateUid"] ?? null;
         $this->amount = $object["amount"] ?? null;
-        $this->paymentMethod = $object["paymentMethod"] ?? null;
+        $this->paymentMethodId = $object["paymentMethodId"] ?? null;
         $this->lastTimeChecked = $object["lastTimeChecked"] ?? null;
         $this->createdAt = $object["createdAt"] ?? null;
         $this->modifiedAt = $object["modifiedAt"] ?? null;
@@ -42,38 +43,41 @@ class EnrollmentModel {
     }
 
     public function save(): bool {
-        $categoryRepository = new CategoryRepository();
-
-        $category = new Category();
-        $category
+        $enrollmentRepository = new EnrollmentRepository();
+        $enrollment = new Enrollment();
+        $enrollment
             ->setId($this->id)
-            ->setName($this->name)
-            ->setDescription($this->description)
-            ->setApproved($this->approved)
-            ->setApprovedBy($this->approvedBy)
-            ->setCreatedBy($this->createdBy)
+            ->setCourseId($this->courseId)
+            ->setStudentId($this->studentId)
+            ->setIsFinished($this->isFinished)
+            ->setEnrollDate($this->enrollDate)
+            ->setFinishDate($this->finishDate)
+            ->setCertificateUid($this->certificateUid)
+            ->setAmount($this->amount)
+            ->setPaymentMethodId($this->paymentMethodId)
+            ->setIsPaid($this->isPaid)
+            ->setLastTimeChecked($this->lastTimeChecked)
             ->setCreatedAt($this->createdAt)
             ->setModifiedAt($this->modifiedAt)
             ->setActive($this->active);
-
+        
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $categoryRepository->create($category);
+                $rowsAffected = $enrollmentRepository->create($enrollment);
                 if ($rowsAffected) {
-                    $this->setId(intval(DB::lastInsertId()));
+                    $this->id = intval($enrollmentRepository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $categoryRepository->update($category);
+                //$rowsAffected = $this->enrollmentRepository->update($enrollment);
                 break;
             }
         }
-
         return ($rowsAffected > 0) ? true : false;
     }
-
+    
     public static function completeLesson(int $userId, int $lessonId): bool {
         $enrollmentRepository = new EnrollmentRepository();
         $status = $enrollmentRepository->completeLesson($userId, $lessonId);
@@ -148,9 +152,9 @@ class EnrollmentModel {
     /**
      * Get the value of enrollmentIsFinished
      */ 
-    public function getEnrollmentIsFinished()
+    public function getIsFinished()
     {
-        return $this->enrollmentIsFinished;
+        return $this->isFinished;
     }
 
     /**
@@ -158,10 +162,9 @@ class EnrollmentModel {
      *
      * @return  self
      */ 
-    public function setEnrollmentIsFinished($enrollmentIsFinished)
+    public function setIsFinished($isFinished)
     {
-        $this->enrollmentIsFinished = $enrollmentIsFinished;
-
+        $this->isFinished = $isFinished;
         return $this;
     }
 
@@ -248,9 +251,9 @@ class EnrollmentModel {
     /**
      * Get the value of paymentMethod
      */ 
-    public function getPaymentMethod()
+    public function getPaymentMethodId()
     {
-        return $this->paymentMethod;
+        return $this->paymentMethodId;
     }
 
     /**
@@ -258,9 +261,9 @@ class EnrollmentModel {
      *
      * @return  self
      */ 
-    public function setPaymentMethod($paymentMethod)
+    public function setPaymentMethod($paymentMethodId)
     {
-        $this->paymentMethod = $paymentMethod;
+        $this->paymentMethodId = $paymentMethodId;
 
         return $this;
     }
@@ -347,10 +350,30 @@ class EnrollmentModel {
 
     public static function findOneByCourseIdAndStudentId(int $courseId, int $studentId) {
         $repository = new EnrollmentRepository();
-        $object = $repository->findOneByCourseIdAndStudentId($courseId,$studentId);
+        $object = $repository->findOneByCourseAndStudent($courseId, $studentId);
         if (!$object) {
             return null;
         }
         return new EnrollmentModel($object);
+    }
+
+    /**
+     * Get the value of isPaid
+     */ 
+    public function getIsPaid()
+    {
+        return $this->isPaid;
+    }
+
+    /**
+     * Set the value of isPaid
+     *
+     * @return  self
+     */ 
+    public function setIsPaid($isPaid)
+    {
+        $this->isPaid = $isPaid;
+
+        return $this;
     }
 }

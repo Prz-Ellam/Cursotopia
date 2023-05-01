@@ -6,6 +6,10 @@ class CourseService {
         return await mainService('POST', '/api/v1/courses', 'multipart/form-data', course);
     }
 
+    static update = async (id, course) => {
+        return await mainService('PUT', `/api/v1/courses/${ id }`, 'application/json', course);
+    }
+
     static delete = async (id) => {
         return await mainService('DELETE', `/api/v1/courses/${id}`, 'application/json', {});
     }

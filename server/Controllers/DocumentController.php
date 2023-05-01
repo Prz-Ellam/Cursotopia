@@ -15,7 +15,7 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 class DocumentController {
     public function create(Request $request, Response $response, Closure $next): void {
         $file = $request->getFiles("document");
-        if (!$file->getPath()) {
+        if (!$file) {
             /*
             $response->setStatus(400)->json([
                 "status" => false,

@@ -14,10 +14,6 @@ class LevelRepository extends DB {
         CALL `level_update`(:id, :title, :description, :is_free, NULL, NULL, NULL, :active)
     SQL;
 
-    private const DELETE = <<<'SQL'
-
-    SQL;
-
     private const FIND_ONE = <<<'SQL'
         SELECT
             `level_id` AS `id`,
@@ -48,6 +44,7 @@ class LevelRepository extends DB {
             `levels`
         WHERE
             `course_id` = :course_id
+            AND `level_active` = TRUE
     SQL;
 
     private const FIND_ALL_USER_COMPLETE = <<<'SQL'
@@ -109,8 +106,15 @@ class LevelRepository extends DB {
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function delete(int $id): int {
-        return 1;
+    public function delete(?int $id): int {
+        $parameters = [
+            "id" => $id,
+            "title" => null,
+            "description" => null,
+            "is_free" => null,
+            "active" => true
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findOne(int $id): array {

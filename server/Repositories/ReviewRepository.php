@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Review;
 
-class ReviewRepository {
+class ReviewRepository extends DB {
     private const CREATE = <<<'SQL'
         CALL `review_create`(
             :message,
@@ -65,7 +65,7 @@ class ReviewRepository {
             "course_id" => $review->getCourseId(),
             "user_id" => $review->getUserId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this->executeNonQuery($this::CREATE, $parameters);
     }
 
     public function update(Review $review): int {
@@ -75,18 +75,14 @@ class ReviewRepository {
             "rate" => $review->getRate(),
             "active" => $review->getActive()
         ];
-        return DB::executeNonQuery($this::UPDATE, $parameters);
-    }
-
-    public function findOneById(int $id): array {
-        return [];
+        return $this->executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findAllByCourse(int $courseId): array {
         $parameters = [
             "course_id" => $courseId
         ];
-        return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+        return $this->executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 
     public function findByCourse(int $courseId,int $pageNum,int $pageSize): array {
@@ -95,7 +91,7 @@ class ReviewRepository {
             "pageNum" => $pageNum,
             "pageSize" => $pageSize
         ];
-        return DB::executeReader($this::FIND_BY_COURSE, $parameters);
+        return $this->executeReader($this::FIND_BY_COURSE, $parameters);
     }
 
     public function findOneByCourseAndUserId(int $courseId, int $userId) {
@@ -103,20 +99,20 @@ class ReviewRepository {
             "courseId" => $courseId,
             "userId" => $userId
         ];
-        return DB::executeOneReader($this::FIND_ONE_BY_COURSE_AND_USER_ID, $parameters) ?? null;
+        return $this->executeOneReader($this::FIND_ONE_BY_COURSE_AND_USER_ID, $parameters) ?? null;
     }
 
     public function findById(int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeOneReader($this::FIND_ONE, $parameters);
+        return $this->executeOneReader($this::FIND_ONE, $parameters);
     }
 
     public function delete(int $id): int {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return $this->executeNonQuery($this::DELETE, $parameters);
     }
 }

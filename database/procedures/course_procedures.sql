@@ -29,27 +29,45 @@ DELIMITER ;
 
 
 
--- DELIMITER $$
--- DROP PROCEDURE IF EXISTS `update_course` $$
--- CREATE PROCEDURE `update_course`(
---     `_course_id`                        INT,
---     `_course_title`                     VARCHAR(50),
---     `_course_description`               VARCHAR(255),
---     `_course_price`                     DECIMAL(10, 2),
---     `_course_image_id`                  INT,
---     `_instructor_id`                    INT,
---     `_course_is_complete`               BOOLEAN,
---     `_course_approved`                  BOOLEAN,
---     `_course_approved_by`               INT,
---     `_course_approved_at`               TIMESTAMP,
---     `_course_created_at`                TIMESTAMP NOT NULL DEFAULT NOW(),
---     `_course_modified_at`               TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
---     `_course_active`                    BOOLEAN NOT NULL DEFAULT TRUE,
--- )
--- BEGIN
-    
--- END $$
--- DELIMITER ;
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_update` $$
+CREATE PROCEDURE `course_update`(
+    IN `_course_id`                  INT,
+    IN `_course_title`               VARCHAR(50),
+    IN `_course_description`         VARCHAR(255),
+    IN `_course_price`               DECIMAL(10, 2),
+    IN `_course_image_id`            INT,
+    IN `_instructor_id`              INT,
+    IN `_course_is_complete`         BOOLEAN,
+    IN `_course_approved`            BOOLEAN,
+    IN `_course_approved_by`         INT,
+    IN `_course_approved_at`         TIMESTAMP,
+    IN `_course_created_at`          TIMESTAMP,
+    IN `_course_modified_at`         TIMESTAMP,
+    IN `_course_active`              BOOLEAN
+)
+BEGIN
+    UPDATE `courses`
+    SET
+        `course_id`                 = IFNULL(`_course_id`, `course_id`),
+        `course_title`              = IFNULL(`_course_title`, `course_title`),
+        `course_description`        = IFNULL(`_course_description`, `course_description`),
+        `course_price`              = IFNULL(`_course_price`, `course_price`),
+        `course_image_id`           = IFNULL(`_course_image_id`, `course_image_id`),
+        `instructor_id`             = IFNULL(`_instructor_id`, `instructor_id`),
+        `course_is_complete`        = IFNULL(`_course_is_complete`, `course_is_complete`),
+        `course_approved`           = IFNULL(`_course_approved`, `course_approved`),
+        `course_approved_by`        = IFNULL(`_course_approved_by`, `course_approved_by`),
+        `course_approved_at`        = IFNULL(`_course_approved_at`, `course_approved_at`),
+        `course_created_at`         = IFNULL(`_course_created_at`, `course_created_at`),
+        `course_modified_at`        = IFNULL(`_course_modified_at`, NOW()),
+        `course_active`             = IFNULL(`_course_active`, `course_active`)
+    WHERE `course_id` = `_course_id`;
+END $$
+DELIMITER ;
+
+
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_find_by_id` $$
 CREATE PROCEDURE `course_find_by_id`(

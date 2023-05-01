@@ -7,7 +7,6 @@ use Cursotopia\Repositories\ReviewRepository;
 use Cursotopia\ValueObjects\EntityState;
 
 class ReviewModel {
-
     private ?int $id = null;
     private ?string $message = null;
     private ?int $rate = null;

@@ -98,19 +98,19 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `user_update` $$
 CREATE PROCEDURE `user_update`(
-    `_user_id`                      INT,
-    `_user_name`                    VARCHAR(50),
-    `_user_last_name`               VARCHAR(50),
-    `_user_birth_date`              DATE,
-    `_user_gender`                  ENUM('Masculino', 'Femenino', 'Otro'),
-    `_user_email`                   VARCHAR(255),
-    `_user_password`                VARCHAR(255),
-    `_user_role`                    INT,
-    `_profile_picture`              INT,
-    `_user_enabled`                 BOOLEAN,
-    `_user_created_at`              TIMESTAMP,
-    `_user_modified_at`             TIMESTAMP,
-    `_user_active`                  BOOLEAN
+    IN `_user_id`                       INT,
+    IN `_user_name`                     VARCHAR(50),
+    IN `_user_last_name`                VARCHAR(50),
+    IN `_user_birth_date`               DATE,
+    IN `_user_gender`                   ENUM('Masculino', 'Femenino', 'Otro'),
+    IN `_user_email`                    VARCHAR(255),
+    IN `_user_password`                 VARCHAR(255),
+    IN `_user_role`                     INT,
+    IN `_profile_picture`               INT,
+    IN `_user_enabled`                  BOOLEAN,
+    IN `_user_created_at`               TIMESTAMP,
+    IN `_user_modified_at`              TIMESTAMP,
+    IN `_user_active`                   BOOLEAN
 )
 BEGIN
     UPDATE

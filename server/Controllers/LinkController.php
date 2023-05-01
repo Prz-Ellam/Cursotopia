@@ -21,7 +21,7 @@ class LinkController {
         }
 
         $linkRepository = new LinkRepository();
-        $link = $linkRepository->findOne($id);
+        $link = $linkRepository->findById($id);
 
         $response->json($link);
     }

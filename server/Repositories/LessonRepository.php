@@ -11,6 +11,11 @@ class LessonRepository extends DB {
             :document_id, :link_id, @lesson_id);
     SQL;
 
+    private const UPDATE = <<<'SQL'
+        CALL `lesson_update`(:id, :title, :description, :level_id, :video_id, :image_id,
+            :document_id, :link_id, :created_at, :modified_at, :active)
+    SQL;
+
     private const COURSE_VISOR_FIND_BY_ID = <<<'SQL'
         SELECT
             `lesson_id` AS `id`,
@@ -68,6 +73,7 @@ class LessonRepository extends DB {
             lessons
         WHERE
             level_id = :level_id
+            AND `lesson_active` = TRUE
     SQL;
 
     private const FIND_FIRST_NOT_VIEWED = <<<'SQL'
@@ -146,9 +152,23 @@ class LessonRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update(Lesson $lesson): int {
-        return 1;
+    public function update(Lesson $lesson): void {
+        $parameters = [
+            "id" => $lesson->getId(),
+            "title" => $lesson->getTitle(),
+            "description" => $lesson->getDescription(),
+            "level_id" => $lesson->getLevelId(),
+            "video_id" => $lesson->getVideoId(),
+            "image_id" => $lesson->getImageId(),
+            "document_id" => $lesson->getDocumentId(),
+            "link_id" => $lesson->getLinkId(),
+            "created_at" => $lesson->getCreatedAt(),
+            "modified_at" => $lesson->getModifiedAt(),
+            "active" => $lesson->isActive()
+        ];
+        $this::executeNonQuery($this::UPDATE, $parameters);
     }
+    
 
     public function delete(int $id): int {
         return 1;

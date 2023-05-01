@@ -16,7 +16,7 @@ export default class LevelView {
               <span class="d-lg-inline d-block text-lg-end text-center">
                 <button ct-target="${ level.id }" type="button" class="btn text-success border-0 m-auto p-1 update-level-btn"
                   ><i class='bx bxs-pencil'></i></button>
-                <button type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
+                <button data-id="${ level.id }" type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
                   <i class='bx bxs-trash-alt'></i>
                 </button>
                 <a class="btn text-primary border-0 m-auto p-1" href="#collapse-${level.id}" data-bs-toggle="collapse"
@@ -52,7 +52,7 @@ export default class LevelView {
               <span class="d-lg-inline d-block text-lg-end text-center">
                 <button ct-target="${ level.id }" type="button" class="btn text-success border-0 m-auto p-1 update-level-btn"
                   ><i class='bx bxs-pencil'></i></button>
-                <button type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
+                <button data-id="${ level.id }" type="button" class="btn text-danger border-0 m-auto p-1 delete-level-btn">
                   <i class='bx bxs-trash-alt'></i>
                 </button>
                 <a class="btn text-primary border-0 m-auto p-1" href="#collapse-${level.id}" data-bs-toggle="collapse"
@@ -70,6 +70,10 @@ export default class LevelView {
       </div>
     </li>
   `)
+  }
+
+  static deleteLevelSection = (id) => {
+    $(`.level-item[data-id="${id}"]`).empty();
   }
 }
 

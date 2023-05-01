@@ -24,19 +24,28 @@ export const createLesson = async function(event) {
     const lesson = {
         title: formData.get('title'),
         description: formData.get('description'),
-        levelId: Number.parseInt(formData.get('levelId')),
-        //videoId: Number.parseInt(formData.get('video')),
-        //imageId: Number.parseInt(formData.get('image')),
-        //documentId: Number.parseInt(formData.get('document')),
-        //linkId: Number.parseInt(formData.get('link'))
+        levelId: Number.parseInt(formData.get('levelId'))
     }
+
+    
 
     const lessonForm = new FormData();
     lessonForm.append('payload', JSON.stringify(lesson));
-    lessonForm.append('video', formData.get('video'));
-    lessonForm.append('image', formData.get('image'));
-    lessonForm.append('document', formData.get('document'));
-    
+    const videoFile = formData.get('video');
+    const imageFile = formData.get('image');
+    const documentFile = formData.get('document');
+    if (videoFile.size > 0) {
+        lessonForm.append('video', videoFile);
+    }
+
+    if (imageFile.size > 0) {
+        lessonForm.append('video', imageFile);
+    }
+
+    if (document.size > 0) {
+        lessonForm.append('video', documentFile);
+    }
+
     const response = await LessonService.create(lessonForm);
     if (!response?.status) {
         showErrorMessage(response);

@@ -6,10 +6,10 @@ export default class LessonView {
     <li data-id="${ lesson.id }" class="lesson-item list-group-item d-flex align-items-center justify-content-between${(lesson.video) !== '' ? ' video' : ''}">
       <span>${lesson.title}</span>
       <span>
-        <button type="button" class="update-lesson-btn btn text-success border-0 m-auto p-1">
+        <button data-id="${ lesson.id }" type="button" class="update-lesson-btn btn text-success border-0 m-auto p-1">
           <i class="bx bxs-pencil"></i>
         </button>
-        <button type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1">
+        <button data-id="${ lesson.id }" type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1">
           <i class="bx bxs-trash-alt"></i>
         </button>
       </span>
@@ -23,15 +23,19 @@ export default class LessonView {
     <li data-id="${ lesson.id }" class="lesson-item list-group-item d-flex align-items-center justify-content-between${(lesson.video) !== '' ? ' video' : ''}">
       <span>${lesson.title}</span>
       <span>
-        <button type="button" class="update-lesson-btn btn text-success border-0 m-auto p-1">
+        <button data-id="${ lesson.id }" type="button" class="update-lesson-btn btn text-success border-0 m-auto p-1">
           <i class="bx bxs-pencil"></i>
         </button>
-        <button type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1">
+        <button data-id="${ lesson.id }" type="button" class="delete-lesson-btn btn text-danger border-0 m-auto p-1">
           <i class="bx bxs-trash-alt"></i>
         </button>
       </span>
     </li>
     `);
+  }
+
+  static deleteLessonSection = (id) => {
+    $(`.lesson-item[data-id="${id}"]`).empty();
   }
 }
 

@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Enrollment;
 
-class EnrollmentRepository {
+class EnrollmentRepository extends DB {
     private const CREATE = <<<'SQL'
         CALL `enrollment_pay`(:course_id, :student_id, :amount, :payment_method_id)
     SQL;
@@ -64,5 +64,9 @@ class EnrollmentRepository {
             "lesson_id" => $lessonId
         ];
         return DB::executeNonQuery($this::VISIT_LESSON, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @document_id AS documentId", [])["documentId"];
     }
 }

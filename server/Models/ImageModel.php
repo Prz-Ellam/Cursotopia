@@ -8,6 +8,7 @@ use Bloom\Validations\Rules\Max;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\Image;
 use Cursotopia\Repositories\ImageRepository;
+use Cursotopia\ValueObjects\EntityState;
 use Exception;
 
 class ImageModel {
@@ -30,10 +31,12 @@ class ImageModel {
     private ?string $createdAt;
     private ?string $modifiedAt;
 
+    private ?bool $active;
+
     private ImageRepository $imageRepository;
+    private EntityState $entityState;
 
     public function __construct(?array $object = null) {
-        $this->imageRepository = new ImageRepository();
         $this->id = $object["id"] ?? null;
         $this->name = $object["name"] ?? null;
         $this->size = $object["size"] ?? null;
@@ -41,6 +44,10 @@ class ImageModel {
         $this->data = $object["data"] ?? null;
         $this->createdAt = $object["createdAt"] ?? null;
         $this->modifiedAt = $object["modifiedAt"] ?? null;
+        $this->active = $object["active"] ?? null;
+        
+        $this->imageRepository = new ImageRepository();
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
 
     public function getId(): ?int {
@@ -88,19 +95,34 @@ class ImageModel {
     }
 
     public function save(): bool {
-            $image = new Image();
-            $image
-                ->setName($this->name)
-                ->setContentType($this->contentType)
-                ->setSize($this->size)
-                ->setData($this->data);
-
-            $rowsAffected = $this->imageRepository->create($image);
-            if ($rowsAffected) {
-                $this->id = intval($this->imageRepository->lastInsertId2());
+        $image = new Image();
+        $image
+            ->setId($this->id)
+            ->setName($this->name)
+            ->setSize($this->size)
+            ->setContentType($this->contentType)
+            ->setData($this->data)
+            ->setCreatedAt($this->createdAt)
+            ->setModifiedAt($this->modifiedAt)
+            ->setActive($this->active);
+    
+        $rowsAffected = 0;
+        switch ($this->entityState) {
+            case EntityState::CREATE: {
+                $rowsAffected = $this->imageRepository->create($image);
+                if ($rowsAffected) {
+                    $this->id = intval($this->imageRepository->lastInsertId2());
+                }
+                break;
             }
-            return ($rowsAffected > 0) ? true : false;
+            case EntityState::UPDATE: {
+                $rowsAffected = $this->imageRepository->update($image);
+                break;
+            }
+        }
+        return ($rowsAffected > 0) ? true : false;
     }
+    
 
     public function update(): bool {
         $image = new Image();

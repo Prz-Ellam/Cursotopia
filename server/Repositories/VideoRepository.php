@@ -6,39 +6,32 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\Video;
 
 class VideoRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            video_id AS `id`,
-            video_name AS `name`,
-            TIME_TO_SEC(video_duration) AS `duration`,
-            video_content_type AS `content_type`,
-            video_address AS `address`,
-            video_created_at AS `createdAt`,
-            video_modified_at AS `modifiedAt`,
-            video_active AS `active`
-        FROM
-            videos
-        WHERE
-            video_id = :id
-        LIMIT
-            1;
-    SQL;
-
     private const CREATE = <<<'SQL'
-        INSERT INTO videos(
-            video_name,
-            video_duration,
-            video_content_type,
-            video_address
-        )
-        VALUES(
+        CALL `video_create`(
             :name,
             :duration,
             :content_type,
-            :address
+            :address,
+            @video_id
         )
     SQL;
-    private const UPDATE = "";
+
+    private const UPDATE = <<<'SQL'
+        CALL `video_update`(
+            :id,
+            :name,
+            :duration,
+            :content_type,
+            :address,
+            :created_at,
+            :modified_at,
+            :active
+        )
+    SQL;
+
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `video_find_by_id`(:id)
+    SQL;
 
     public function create(Video $video): int {
         $parameters = [
@@ -50,10 +43,28 @@ class VideoRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
+    public function update(Video $video): bool {
+        $parameters = [
+            "id" => $video->getId(),
+            "name" => $video->getName(),
+            "duration" => $video->getDuration(),
+            "content_type" => $video->getContentType(),
+            "address" => $video->getAddress(),
+            "created_at" => $video->getCreatedAt(),
+            "modified_at" => $video->getModifiedAt(),
+            "active" => $video->isActive()
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
+    }
+    
     public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return $this::executeOneReader($this::FIND_ONE, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @video_id AS videoId", [])["videoId"];
     }
 }

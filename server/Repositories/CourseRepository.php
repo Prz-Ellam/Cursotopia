@@ -17,6 +17,24 @@ class CourseRepository extends DB {
         )
     SQL;
 
+    private const UPDATE = <<<'SQL'
+        CALL `course_update`(
+            :course_id,
+            :course_title,
+            :course_description,
+            :course_price,
+            :course_image_id,
+            :instructor_id,
+            :course_is_complete,
+            :course_approved,
+            :course_approved_by,
+            :course_approved_at,
+            :course_created_at,
+            :course_modified_at,
+            :course_active
+        ) 
+    SQL;
+
     private const CONFIRM = <<<'SQL'
         UPDATE
             `courses`
@@ -255,6 +273,25 @@ class CourseRepository extends DB {
             "instructor_id" => $course->getInstructorId()
         ];
         return DB::executeNonQuery($this::CREATE, $parameters);
+    }
+
+    public function update(Course $course): void {
+        $parameters = [
+            "course_id" => $course->getId(),
+            "course_title" => $course->getTitle(),
+            "course_description" => $course->getDescription(),
+            "course_price" => $course->getPrice(),
+            "course_image_id" => $course->getImageId(),
+            "instructor_id" => $course->getInstructorId(),
+            "course_is_complete" => $course->getIsComplete(),
+            "course_approved" => $course->getApproved(),
+            "course_approved_by" => $course->getApprovedBy(),
+            "course_approved_at" => $course->getApprovedAt(),
+            "course_created_at" => $course->getCreatedAt(),
+            "course_modified_at" => $course->getModifiedAt(),
+            "course_active" => $course->getActive()
+        ];
+        DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findById(?int $id): ?array {

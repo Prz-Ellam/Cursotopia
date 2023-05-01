@@ -2,7 +2,7 @@ import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
 import CourseCreateValidator from './validators/course-create.validator';
-import { createCourse, createCourseImage, submitConfirmCourse } from './controllers/course.controller';
+import { backSection, createCourse, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
 import createLevelValidator from './validators/level-create.validator';
@@ -12,13 +12,21 @@ import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
 import LevelService from './services/level.service';
 import { displayImageFile } from './controllers/image.controller';
+import LevelView from './views/level.view';
+import LessonService from './services/lesson.service';
+import LessonView from './views/lesson.view';
 
 $(() => {
     // Crear curso
     $('#course-create-form').validate(CourseCreateValidator);
     $('#course-create-form').on('submit', createCourse);
 
+    $('#upload-image').on('change', async function(event) {
+        await displayImageFile(event, '#upload-image', '#picture-box', '');
+    });
+
     // Confirm Course
+    $('#course-back-btn').on('click', backSection);
     $('#confirm-course-btn').on('click', submitConfirmCourse);
 
     // Create Category
@@ -80,13 +88,13 @@ $(() => {
     $('#create-lesson-form').on('submit', createLesson);
 
     // Update Lesson
-    $(document).on('click', '.update-lesson-btn', function() {
+    $(document).on('click', '.update-lesson-btn', async function() {
 
-        //const response = await findByIdService(updateLevelId.value);
-        //console.log(response);
-        //$('#edit-lesson-title').val(response.title);
-        //$('#edit-lesson-description').val(response.description);
-        
+        const id = $(this).attr('data-id');
+        const response = await LessonService.findById(id);
+        console.log(response);
+        $('#edit-lesson-title').val(response.title);
+        $('#edit-lesson-description').val(response.description);
 
         const modal = document.getElementById('lesson-update-modal');
         const modalInstance = new bootstrap.Modal(modal);
@@ -114,16 +122,13 @@ $(() => {
         $('#price').val("0.00");
     });
 
-    $('#upload-image').on('change', async function(event) {
-        await displayImageFile(event, '#upload-image', '#picture-box', '');
-    });
 
-
-    $('#create-lesson-video').on('change', createLevelVideo);
-    $('#create-lesson-image').on('change', createLevelImage);
-    $('#create-lesson-pdf').on('change', createLevelPdf);
+    //$('#create-lesson-video').on('change', createLevelVideo);
+    //$('#create-lesson-image').on('change', createLevelImage);
+    //$('#create-lesson-pdf').on('change', createLevelPdf);
 
     $(document).on('click', '.delete-level-btn', async function() {
+        const id = $(this).attr('data-id');
         const feedback = await Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Estás seguro que deseas eliminar este nivel?',
@@ -138,9 +143,14 @@ $(() => {
                 cancelButton: 'btn btn-secondary shadow-none rounded-pill'
             }
         });
+        if (feedback.isConfirmed) {
+            await LevelService.delete(id);
+            LevelView.deleteLevelSection(id);
+        }
     });
 
     $(document).on('click', '.delete-lesson-btn', async function() {
+        const id = $(this).attr('data-id');
         const feedback = await Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Estás seguro que deseas eliminar este nivel?',
@@ -155,6 +165,10 @@ $(() => {
                 cancelButton: 'btn btn-secondary shadow-none rounded-pill'
             }
         });
+        if (feedback.isConfirmed) {
+            await LessonService.delete(id);
+            LessonView.deleteLessonSection(id);
+        }
     });
         
     $('#categories').multipleSelect({

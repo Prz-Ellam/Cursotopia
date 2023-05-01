@@ -81,13 +81,24 @@ class LessonController {
         $status = $lesson->save();
 
         $response->json([
-            "status" => true,
+            "status" => $status,
             "message" => "La lección se actualizó éxitosamente"
         ]);
     }
 
     public function delete(Request $request, Response $response): void {
         $id = intval($request->getParams("id"));
+
+        $lesson = LessonModel::findById($id);
+        $lesson
+            ->setActive(false);
+
+        $status = $lesson->save();
+
+        $response->json([
+            "status" => $status,
+            "message" => "La lección se eliminó éxitosamente"
+        ]);
     }
 
     public function complete(Request $request, Response $response): void {

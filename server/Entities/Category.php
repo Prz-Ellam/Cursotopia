@@ -86,7 +86,7 @@ class Category {
     }
 
     public function getActive(): ?bool {
-        return $this->active ? 'true' : 'false';;
+        return $this->active ? 'true' : 'false';
     }
 
     public function setActive(?bool $active): self {
