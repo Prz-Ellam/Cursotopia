@@ -131,6 +131,10 @@ class CategoryRepository {
     private const APPROVE = <<<'SQL'
         CALL `category_approve`(:category_id, :admin_id)
     SQL;
+
+    private const FIND_ONE_BY_NAME = <<<'SQL'
+        CALL `category_find_one_by_name`(:name)
+    SQL;
     
     public function create(Category $category): int|string {
         $parameters = [
@@ -160,7 +164,7 @@ class CategoryRepository {
         return DB::executeNonQuery($this::DELETE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
@@ -195,5 +199,12 @@ class CategoryRepository {
             "admin_id" => $adminId
         ];
         return DB::executeNonQuery($this::APPROVE, $parameters);
+    }
+
+    public function findOneByName(?string $name): ?array {
+        $parameters = [
+            "name" => $name
+        ];
+        return DB::executeOneReader($this::FIND_ONE_BY_NAME, $parameters);
     }
 }

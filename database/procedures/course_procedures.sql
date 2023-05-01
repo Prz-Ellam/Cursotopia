@@ -50,6 +50,63 @@ DELIMITER ;
     
 -- END $$
 -- DELIMITER ;
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_find_by_id` $$
+CREATE PROCEDURE `course_find_by_id`(
+    IN _course_id               INT
+)
+BEGIN
+    SELECT
+        `course_id` AS `id`,
+        `course_title` AS `title`,
+        `course_description` AS `description`,
+        `course_price` AS `price`,
+        `course_image_id` AS `imageId`,
+        `instructor_id` AS `instructorId`,
+        `course_approved` AS `approved`,
+        `course_approved_by` AS `approvedBy`,
+        `course_created_at` AS `createdAt`,
+        `course_modified_at` AS `modifiedAt`,
+        `course_active` AS `active`
+    FROM
+        `courses`
+    WHERE
+        `course_id` = _course_id
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_find_by_not_approved` $$
+CREATE PROCEDURE `course_find_by_not_approved`()
+BEGIN
+    SELECT
+        c.`course_id` AS `id`,
+        c.`course_title` AS `title`,
+        c.`course_description` AS `description`,
+        c.`course_price` AS `price`,
+        c.`course_image_id` AS `imageId`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `instructor`,
+        c.`course_approved` AS `approved`,
+        c.`course_approved_by` AS `approvedBy`,
+        c.`course_created_at` AS `createdAt`,
+        c.`course_modified_at` AS `modifiedAt`,
+        c.`course_active` AS `active`
+    FROM
+        `courses` AS c
+    INNER JOIN  
+        `users` AS u
+    ON
+        c.`instructor_id` = u.`user_id`
+    WHERE
+        `course_approved` = FALSE;
+END $$
+DELIMITER ;
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `instructor_courses_report` $$

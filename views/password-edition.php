@@ -45,7 +45,7 @@
             <input type="password" name="oldPassword" id="old-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="old-password-button"
               ct-target="old-password" role="button">
-              <i class="fa-solid fa-eye-slash fa-eye"></i>
+              <i class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>
@@ -56,7 +56,7 @@
             <input type="password" name="newPassword" id="new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="new-password-button"
               ct-target="new-password" role="button">
-              <i class="fa-solid fa-eye-slash fa-eye"></i>
+              <i class="fa-solid fa-eye"></i>
             </button>
           </div>
           <ul class="mt-1">
@@ -74,7 +74,7 @@
             <input type="password" name="confirmNewPassword" id="confirm-new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="confirm-new-password-button"
               ct-target="confirm-new-password" role="button">
-              <i class="fa-solid fa-eye-slash fa-eye"></i>
+              <i class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>

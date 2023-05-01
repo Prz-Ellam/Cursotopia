@@ -8,13 +8,12 @@ $(() => {
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     $('#message').on('keydown', function(event) {
-        if(event.keyCode == 13) {
+        if (event.key === 'Enter') {
             sendMessage(event);
         }
     });
 
     $('#send-message').on('click', sendMessage);
-
 
     $('.chat-drawer').on('click', async function(event) {
         const id = $(this).attr('id');
@@ -44,7 +43,6 @@ $(() => {
             });
 
     });
-
 
     $("#search-users").autocomplete({
         delay: 100,

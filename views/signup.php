@@ -13,16 +13,9 @@
 
   <!-- Boxicons --> 
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  
-  <!-- AOS -->
-  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
-  <script src="../node_modules/aos/dist/aos.js"></script>
 
   <!-- FontAwesome -->
   <script defer src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
-  
-  <!-- SweetAlert -->
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   
   <?= $this->link("styles/pages/signup.css") ?>
   <?= $this->script("javascript/signup.js") ?>
@@ -46,6 +39,7 @@
                 alt="Profile picture"
               >
             </div>
+            <div>
             <input 
               type="file" 
               accept="image/png, image/jpeg, image/jpg"
@@ -54,10 +48,11 @@
               id="profile-picture"
               autocomplete="off"
             >
-            <label for="profile-picture" role="button">
+            <label for="profile-picture" role="button" class="">
               <i class="fa-sm fa-solid fa-image"></i>
               <span>Foto de perfil</span>
             </label>
+            </div>
           </div>
           <div class="text-center mb-4">
             <input 
@@ -142,7 +137,7 @@
                 <input type="password" name="password" id="password" class="form-control">
                 <button type="button" class="btn btn-primary btn-password" id="password-button"
                   ct-target="password">
-                  <i class="fa-solid fa-eye-slash fa-eye"></i>
+                  <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
               <ul class="mt-1">

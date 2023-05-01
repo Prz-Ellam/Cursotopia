@@ -145,15 +145,9 @@ class CategoryModel {
         return $this;
     }
 
-    public static function findOneById(int $id) {
+    public static function findById(?int $id) {
         $repository = new CategoryRepository();
-        $object = $repository->findOne($id);
-        return new CategoryModel($object);
-    }
-
-    public static function findById(int $id) {
-        $repository = new CategoryRepository();
-        $object = $repository->findOne($id);
+        $object = $repository->findById($id);
         return new CategoryModel($object);
     }
 

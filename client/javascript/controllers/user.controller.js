@@ -111,16 +111,69 @@ export const submitSignup = async function(event) {
     }
 }
 
-function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsDataURL(file);
-    });
+/**
+ * 
+ * @param {string} passwordInput 
+ * @param {string} selectorMayus 
+ * @param {string} selectorNumber 
+ * @param {string} selectorSpecialChar 
+ * @param {string} selectorLength 
+ * @returns 
+ */
+export const passwordStrength = function(passwordInput, selectorMayus, selectorNumber, selectorSpecialChar, selectorLength) {
+    const value = $(passwordInput).val();
+    
+    if (value === '') {
+        $(selectorMayus).removeClass('text-danger text-success');
+        $(selectorNumber).removeClass('text-danger text-success');
+        $(selectorSpecialChar).removeClass('text-danger text-success');
+        $(selectorLength).removeClass('text-danger text-success');
+        return;
+    }
+  
+    if (/[A-Z]/g.test(value)) {
+        $(selectorMayus).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorMayus).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (/[0-9]/g.test(value)) {
+        $(selectorNumber).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorNumber).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
+        $(selectorSpecialChar).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorSpecialChar).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (value.length >= 8) {
+        $(selectorLength).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorLength).addClass('text-danger').removeClass('text-success');
+    }
 }
+
+/**
+ * Cambia de visible a no visible un input de contraseña
+ * 
+ * @param {string} selectorInput
+ * @param {string} selectorIcon
+ */
+export const passwordToggle = function(selectorInput, selectorIcon) {
+    $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
+    $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
+}
+
+
+
+
 
 // TODO: changeProfilePicture
 let previousFile = '';
@@ -198,7 +251,6 @@ export const changeProfilePicture = async function(event) {
 export const uploadProfilePicture = async function(event) {    
     const pictureBox = document.getElementById('picture-box');
     const inputFile = document.getElementById('profile-picture');
-    const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
 
     try {
@@ -274,9 +326,8 @@ export const uploadProfilePicture = async function(event) {
     catch (exception) {
         console.log(exception);
         pictureBox.src = defaultImage;
-        profilePictureId.value = '';
     }
-    $(".user-form").validate().element('#profile-picture-id');
+    //$(".user-form").validate().element('#profile-picture-id');
 
 }
 

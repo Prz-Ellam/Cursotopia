@@ -47,3 +47,8 @@ $app->delete("/api/v1/categories/:id", [ CategoryController::class, "delete" ], 
 $app->put("/api/v1/categories/:id/approve", [ CategoryController::class, "approve" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
+
+/**
+ * Checa si una categoría existe por su nombre
+ */
+$app->post("/api/v1/categories/name", [ CategoryController::class, "checkNameExists" ]);

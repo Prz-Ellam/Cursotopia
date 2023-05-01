@@ -4,39 +4,6 @@ $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';
 }, 'Please enter a valid');
 
-$.validator.addMethod('lessonsRequired', function(value, element) {
-    const lessonsContainers = Array.from(document.querySelectorAll('.lessons-container'));
-    for (const lessonContainer of lessonsContainers) {
-        const lessons = Array.from(lessonContainer.children);
-        const lessonsCount = lessonContainer.children.length;
-
-        if (lessonsCount === 0) {
-            return false;
-        }
-    }
-    return true;
-}, 'Please enter a valid');
-
-$.validator.addMethod('lessonsVideo', function(value, element) {
-    const lessonsContainers = Array.from(document.querySelectorAll('.lessons-container'));
-    for (const lessonContainer of lessonsContainers) {
-        const lessons = Array.from(lessonContainer.children);
-        let videoLesson = false;
-
-        for (const lesson of lessons) {
-            if (lesson.classList.contains('video')) {
-                videoLesson = true;
-                break;
-            }
-        }
-
-        if (!videoLesson) {
-            return false;
-        }
-    }
-    return true;
-}, 'Please enter a valid');
-
 export default {
     rules: {
         'image': {

@@ -56,20 +56,95 @@ use Cursotopia\Helpers\Format;
         <h3 class="text-center text-white">
           <?= Format::money($this->course["price"]) ?>
         </h3>
-        <!-- Sin comprar -->
+        <!--
+          $free - El curso es completamente gratis
+          $demo - El curso tiene algunos niveles gratis
+          $enroll - El usuario adquirio el curso (ya sea prueba o completo)
+          $isPaid - El usuario adquirio el curso completo
+        -->
+        <?php $free = intval($this->course["price"] <= 0) ?>
+        <?php $demo = $this->course["levelFree"] ?? null ?>
+        <?php $enroll = !is_null($this->enrollment) ?>
+        <?php $isPaid = $this->enrollment["isPaid"] ?? null ?>
+
+        <!-- El curso es gratis -->
+        <?php if ($free && !$enroll): ?>
+          <button class="btn btn-secondary w-100 my-1" id="enroll">
+            Conseguir este curso
+          </button>
+        <?php endif ?>
+
+        <!-- El curso es gratis y lo adquirio --> 
+        <?php if ($free && $enroll): ?>
+          <a
+            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            class="btn btn-secondary w-100 my-1">
+            Reanudar este curso
+          </a>
+        <?php endif ?>
+
+        <!-- El curso tiene prueba gratuita -->
+        <?php if(!$free && $demo && !$enroll && !$isPaid): ?>
+          <button class="btn btn-secondary w-100 my-1" id="enroll">
+            Obtener prueba gratuita
+          </button>
+          <a 
+            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            class="btn btn-secondary w-100 my-1">
+            Comprar este curso
+          </a>
+        <?php endif ?>
+
+        <?php if(!$free && $demo && $enroll && !$isPaid): ?>
+          <a
+            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            class="btn btn-secondary w-100 my-1">
+            Reanudar prueba gratuita
+          </a>
+          <a 
+            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            class="btn btn-secondary w-100 my-1">
+            Comprar este curso
+          </a>
+        <?php endif ?>
+
+        <!-- El curso tiene prueba gratuita y esta pagado -->
+        <?php if (!$free && $demo && $enroll && $isPaid): ?>
+          <a
+            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            class="btn btn-secondary w-100 my-1">
+            Reanudar este curso
+          </a>
+        <?php endif ?>
+
+        <?php if (!$free && !$demo && !$enroll && !$isPaid): ?>
+          <a 
+            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            class="btn btn-secondary w-100 my-1">
+            Comprar este curso
+          </a>
+        <?php endif ?>
+
+        <?php if (!$free && !$demo && $enroll && $isPaid): ?>
+          <a
+            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            class="btn btn-secondary w-100 my-1">
+            Reanudar este curso
+          </a>
+        <?php endif ?>
         
-        <!-- TODO: Horrible codigo --> 
+        <!-- 
         <?php if($this->session("role") === 3): ?>
         <?php if($this->course["price"] > 0): ?>
         <?php if($this->enrollment !== "NULL"): ?>
         <a 
-          href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $this->lesson["id"] ?>" 
+          href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>" 
           class="btn btn-secondary w-100">
           Reanudar el curso
         </a>
         <?php else: ?>
         <a 
-          href="payment-method?courseId=<?= $this->course["id"] ?>" 
+          href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
           class="btn btn-secondary w-100"
         >
           Comprar este curso
@@ -77,11 +152,26 @@ use Cursotopia\Helpers\Format;
         <?php endif ?>
         <?php else: ?>
         
-        <!-- Gratis -->  
-        <a href="course-visor" class="btn btn-secondary w-100">Conseguir este curso</a>
+        
+        <a href="course-visor" class="btn btn-secondary w-100">Conseguir prueba gratis</a>
         <?php endif ?>
         <?php endif ?>
+
+        <?php if ($this->enrollment && !($this->enrollment["isPaid"] ?? null)): ?>
+        <button class="btn btn-secondary w-100 mt-3">Comprar curso completo</button>
+        <?php endif ?>
+
+        -->
+
         <hr>
+
+        <!--
+          Case              No se ha enrolado     Enrolado gratis     Enrolado paga
+          De paga 100%      Comprar               N/A                 Reanudar
+          De paga parcial   Comprar / Prueba      Comprar / Reanudar  Reanudar
+          Gratis            Conseguir             Reanudar            N/A
+        -->
+
 
         <div class="mb-4">
           <span class="fw-bold rating-star"><?= number_format((float)$this->course["rates"] , 2, '.', '') ?></span>

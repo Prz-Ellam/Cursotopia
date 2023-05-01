@@ -434,7 +434,7 @@ class UserController {
             }
 
             // Tiene que autenticarse nuevamente para actualizar la contraseña
-            $login = $user->login();
+            $login = UserModel::findOneByEmail($user->getEmail());
 
             $oldPassword = $request->getBody("oldPassword");
             $newPassword = $request->getBody("newPassword");

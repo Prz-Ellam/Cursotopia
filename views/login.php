@@ -52,7 +52,7 @@
             <button type="button" class="btn btn-primary btn-password" 
               id="password-button"
               ct-target="password">
-              <i class="fa-solid fa-eye-slash fa-eye"></i>
+              <i class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>

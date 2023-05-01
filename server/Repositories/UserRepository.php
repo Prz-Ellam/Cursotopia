@@ -7,39 +7,6 @@ use Cursotopia\Entities\User;
 use PDO;
 
 class UserRepository extends DB {
-    private const FIND_ONE_ = <<<'SQL'
-        SELECT
-            `user_id`,
-            `user_name`,
-            `user_last_name`,
-            `user_birth_date`,
-            `user_gender`,
-            `user_email`,
-            `user_password`,
-            `user_role`,
-            `profile_picture`,
-            `user_enabled`,
-            `user_created_at`,
-            `user_modified_at`,
-            `user_active`
-        FROM
-            `users`
-        WHERE
-                `user_id` :op_id IFNULL(:id, `user_id`)
-            AND `user_name` :op_name IFNULL(:name, `user_name`)
-            AND `user_last_name` :op_last_name IFNULL(:last_name, `user_last_name`)
-            AND `user_birth_date` :op_birth_date IFNULL(:birth_date, `user_birth_date`)
-            AND `user_gender` :op_gender IFNULL(:gender, `user_gender`)
-            AND `user_email` :op_email IFNULL(:email, `user_email`)
-            AND `user_password` :op_password IFNULL(:password, `user_password`)
-            AND `user_role` :op_user_role IFNULL(:user_role, `user_role`)
-            AND `profile_picture` :op_profile_picture IFNULL(:profile_picture, `profile_picture`)
-            AND `user_enabled` :op_enabled IFNULL(:enabled, `user_enabled`)
-            AND `user_created_at` :op_created_at IFNULL(:created_at, `user_created_at`)
-            AND `user_modified_at` :op_modified_at IFNULL(:modified_at, `user_modified_at`)
-            AND `user_active` :op_active IFNULL(:active, `user_active`)
-    SQL;
-    
     private const FIND_ONE = <<<'SQL'
         SELECT 
             `user_id` AS `id`, 
@@ -49,7 +16,7 @@ class UserRepository extends DB {
             `user_gender` AS `gender`, 
             `user_email` AS `email`, 
             `user_password` AS `password`,
-            `user_role` AS `userRole`, 
+            `user_role` AS `role`, 
             `profile_picture` AS `profilePicture`,
             `user_enabled` AS `enabled`,
             `user_created_at` AS `createdAt`,
@@ -68,6 +35,10 @@ class UserRepository extends DB {
     SQL;
 
     private const FIND_ONE_BY_EMAIL = <<<'SQL'
+        CALL `user_find_one_by_email`(:email)
+    SQL;
+
+    private const FIND_ONE_BY_EMAIL_AND_NOT_USER_ID = <<<'SQL'
         SELECT 
             user_id AS `id`, 
             user_name AS `name`, 
@@ -76,7 +47,7 @@ class UserRepository extends DB {
             user_gender AS `gender`, 
             user_email AS `email`, 
             user_password AS `password`,
-            user_role AS `userRole`, 
+            user_role AS `role`, 
             profile_picture AS `profilePicture`,
             `user_enabled` AS `enabled`,
             `user_created_at` AS `createdAt`,
@@ -131,7 +102,7 @@ class UserRepository extends DB {
             user_birth_date AS `birthDate`, 
             user_gender AS `gender`, 
             user_email AS `email`, 
-            user_role AS `userRole`,
+            user_role AS `role`,
             profile_picture AS `profilePicture`
         FROM
             `users`
@@ -142,20 +113,7 @@ class UserRepository extends DB {
     SQL;
 
     private const FIND_ALL_INSTRUCTORS = <<<'SQL'
-        SELECT
-            user_id AS `id`, 
-            user_name AS `name`, 
-            user_last_name AS `lastName`, 
-            user_birth_date AS `birthDate`, 
-            user_gender AS `gender`, 
-            user_email AS `email`, 
-            user_role AS `userRole`,
-            profile_picture AS `profilePicture`
-        FROM
-            users
-        WHERE
-            CONCAT(user_name, ' ', user_last_name) LIKE CONCAT("%", :name, "%")
-            AND user_role = 2
+        CALL `user_find_all_instructors`(:name)
     SQL;
 
     private const FIND_BLOCKED = <<<'SQL'
@@ -223,17 +181,17 @@ class UserRepository extends DB {
     }
 
     public function findOneByEmailAndNotUserId(string $email, int $id) {
-        return $this::executeReader($this::FIND_ONE_BY_EMAIL, [ 
+        return $this::executeReader($this::FIND_ONE_BY_EMAIL_AND_NOT_USER_ID, [ 
             "email" => $email ,
             "id" => $id
         ]) ?? null;
     }
 
     public function findOneByEmail(string $email) {
-        return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, [ 
-            "email" => $email ,
-            "id" => -1
-        ]) ?? null;
+        $parameters = [
+            "email" => $email
+        ];
+        return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, $parameters);
     }
 
     public function findAll(string $name, int $role) {

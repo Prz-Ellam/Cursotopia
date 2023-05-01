@@ -4,12 +4,12 @@ import { getAllInstructorsUsersService } from './services/user.service';
 $(() => {
     AOS.init({
         duration: 1000,
-        easing: "ease-in-out",
+        easing: 'ease-in-out',
         once: true,
         mirror: false
     });
 
-    $("#instructors").autocomplete({
+    $('#instructors').autocomplete({
         delay: 1,
         source: async function(request, response) {
             const data = await getAllInstructorsUsersService(request.term);

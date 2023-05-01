@@ -84,7 +84,7 @@ class DocumentController {
         }
 
         $documentRepository = new DocumentRepository();
-        $document = $documentRepository->findOne($id);
+        $document = $documentRepository->findById($id);
 
         $data = file_get_contents($document["address"]);
         

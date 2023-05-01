@@ -20,7 +20,7 @@ class ImageController {
      */
     public function create(Request $request, Response $response, Closure $next = null): void {        
         $file = $request->getFiles("image");
-        if (!$file->getPath()) {
+        if (!$file) {
             /*
             $response->setStatus(400)->json([
                 "status" => false,
@@ -117,7 +117,7 @@ class ImageController {
         $contentType = $file->getType();
         $data = $file->getContent();
 
-        $image = ImageModel::findOneById($id);
+        $image = ImageModel::findById($id);
         $image
             ->setName($name)
             ->setSize($size)
@@ -145,7 +145,7 @@ class ImageController {
         // No deberia ver las imagenes de las lecciones porque solo los que compraron
         // el curso pueden verlas
         $id = intval($request->getParams("id"));
-        $image = ImageModel::findOneById($id);
+        $image = ImageModel::findById($id);
         if (!$image) {
             $response->setStatus(404)->json([
                 "status" => false,

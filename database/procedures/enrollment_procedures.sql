@@ -1,4 +1,84 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `enrollment_find_one_by_course_and_student` $$
+CREATE PROCEDURE `enrollment_find_one_by_course_and_student`(
+    IN _course_id               INT,
+    IN _student_id              INT
+)
+BEGIN
+    SELECT
+        `enrollment_id` AS `id`,
+        `course_id` AS `courseId`,
+        `student_id` AS `studentId`,
+        `enrollment_is_finished` AS `enrollmentIsFinished`,
+        `enrollment_enroll_date` AS `enrollDate`,
+        `enrollment_finish_date` AS `finishDate`,
+        `enrollment_certificate_uid` AS `certificateUid`,
+        `enrollment_amount` AS `amount`,
+        `payment_method_id` AS `paymentMethod`,
+        `enrollment_is_paid` AS `isPaid`,
+        `enrollment_last_time_checked` AS `lastTimeChecked`,
+        `enrollment_created_at` AS `createdAt`,
+        `enrollment_modified_at` AS `modifiedAt`,
+        `enrollment_active` AS `active`
+    FROM
+        `enrollments`
+    WHERE
+        `course_id` = _course_id
+        AND `student_id` = _student_id
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `enrollment_pay` $$
+CREATE PROCEDURE `enrollment_pay`(
+    IN _course_id                INT,
+    IN _student_id               INT,
+    IN _amount                   DECIMAL(10,2),
+    IN _payment_method_id        INT
+)
+BEGIN
+    DECLARE num_rows INT;
+    SELECT COUNT(`enrollment_id`) INTO num_rows FROM `enrollments` WHERE `course_id` = _course_id AND `student_id` = _student_id;
+    IF num_rows = 0 THEN
+        INSERT INTO `enrollments`(
+            `course_id`,
+            `student_id`,
+            `enrollment_amount`,
+            `payment_method_id`
+        )
+        VALUES(
+            _course_id,
+            _student_id,
+            _amount,
+            _payment_method_id
+        );
+    ELSE
+        UPDATE
+            `enrollments`
+        SET
+            `enrollment_amount` = IFNULL(_amount, `enrollment_amount`),
+            `payment_method_id` = IFNULL(_payment_method_id, `payment_method_id`)
+        WHERE
+            `course_id` = _course_id
+            AND `student_id` = _student_id;
+    END IF;
+
+    UPDATE
+        `enrollments`
+    SET
+        `enrollment_is_paid` = CASE WHEN `enrollment_amount` IS NOT NULL AND `payment_method_id` IS NOT NULL THEN true ELSE false END
+    WHERE
+        `course_id` = _course_id
+        AND `student_id` = _student_id;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `complete_lesson` $$
 CREATE PROCEDURE `complete_lesson`(
     IN _user_id             INT,

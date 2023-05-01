@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { submitSignup, uploadProfilePicture } from './controllers/user.controller';
-import { passwordToggle } from './utilities/password-toggle';
+import AOS from 'aos';
+import { passwordStrength, passwordToggle, submitSignup } from './controllers/user.controller';
 import SignupValidator from './validators/signup.validator';
+import { displayImageFile } from './controllers/image.controller';
 
 $(() => {
     AOS.init({
@@ -12,12 +13,23 @@ $(() => {
         mirror: false
     });
 
+    $('#password').on('input', () => {
+        passwordStrength('#password', '#password-mayus', '#password-number', '#password-specialchar', '#password-length');
+    });
+    
     // Esconder y mostrar contraseña
-    $('#password-button').on('click', passwordToggle);
-    $('#confirm-password-button').on('click', passwordToggle);
+    $('#password-button').on('click', () => {
+        passwordToggle('#password', '#password-button i');
+    });
+
+    $('#confirm-password-button').on('click', () => {
+        passwordToggle('#confirm-password', '#confirm-password-button i');
+    });
 
     // Profile Picture
-    $('#profile-picture').on('change', uploadProfilePicture);
+    $('#profile-picture').on('change', async (event) => {
+        await displayImageFile(event, '#profile-picture', '#picture-box', '../client/assets/images/perfil.png');
+    });
     
     // Signup
     $('#signup-form').validate(SignupValidator);

@@ -1,13 +1,14 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import Swal from 'sweetalert2';
 import CategoryService, { createCategory } from '../services/category.service';
 import { Toast } from '../utilities/toast';
 
 export const createCourseCreateCategory = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -23,9 +24,16 @@ export const createCourseCreateCategory = async function(event) {
     
     const response = await createCategory(category);
     if (response?.status) {
-        Toast.fire({
+        await Swal.fire({
             icon: 'success',
-            title: 'La categoría ha sido añadida con éxito'
+            title: 'La categoría fue añadida con éxito',
+            text: 'La categoría fue añadida, un administrador debe aprobarla primero, podrás usar la categoría para crear cursos pero estos no serán visibles hasta que un administrador apruebe la categoría',
+            confirmButtonText: 'Enterado',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
         });
     }
 

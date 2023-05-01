@@ -89,7 +89,15 @@ class CategoryController {
         // Este es el id de la categoría
         $id = $request->getParams("id");
 
-        $category = CategoryModel::findOneById($id);
+        $category = CategoryModel::findById($id);
+        if (!$category) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Categoría no encontrada"
+            ]);
+            return;
+        }
+
         $category
             ->setName($request->getBody("name"))
             ->setDescription($request->getBody("description"));
@@ -124,5 +132,14 @@ class CategoryController {
 
     public function approve(Request $request, Response $response): void {
         
+    }
+
+    public function checkNameExists(Request $request, Response $response): void {
+        $name = $request->getBody("name");
+        
+        $categoryRepository = new CategoryRepository();
+        $category = $categoryRepository->findOneByName($name);
+
+        $response->json(!boolval($category));
     }
 }

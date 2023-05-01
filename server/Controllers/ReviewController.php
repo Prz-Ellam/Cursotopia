@@ -20,7 +20,7 @@ class ReviewController {
         }
     
         $courseRepository = new CourseRepository();
-        $course = $courseRepository->findOneById($courseId);
+        $course = $courseRepository->findById($courseId);
         if (!$course) {
             $response->setStatus(404)->render('404');
             return;

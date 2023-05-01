@@ -167,8 +167,8 @@ export const createLevelVideo = async function(event) {
     formData.append('video', file, file.name);
 
     const response = await createVideoService(formData);
-    const videoHidden = document.getElementById('create-lesson-video-hidden');
-    videoHidden.value = response.id;
+    //const videoHidden = document.getElementById('create-lesson-video-hidden');
+    //videoHidden.value = response.id;
 }
 
 export const createLevelImage = async function(event) {
@@ -178,8 +178,6 @@ export const createLevelImage = async function(event) {
     formData.append('image', file, file.name);
 
     const response = await createImage(formData);
-    const imageHidden = document.getElementById('create-lesson-image-hidden');
-    imageHidden.value = response.id;
 }
 
 export const createLevelPdf = async function(event) {
@@ -189,6 +187,4 @@ export const createLevelPdf = async function(event) {
     formData.append('pdf', file, file.name);
 
     const response = await createDocumentService(formData);
-    const pdfHidden = document.getElementById('create-lesson-pdf-hidden');
-    pdfHidden.value = response.id;
 }

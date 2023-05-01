@@ -264,9 +264,10 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_enroll_date`        DATETIME,
     `enrollment_finish_date`        DATETIME,
     `enrollment_certificate_uid`    VARCHAR(36),
-    `enrollment_amount`             DECIMAL(10, 2) NOT NULL,
-    `payment_method_id`             INT NOT NULL,
+    `enrollment_amount`             DECIMAL(10, 2),
+    `payment_method_id`             INT,
     --`enrollment_last_access_date`     TIMESTAMP
+    `enrollment_is_paid`            BOOLEAN DEFAULT FALSE,
     `enrollment_last_time_checked`  DATETIME,
     `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -384,9 +385,9 @@ CREATE TABLE IF NOT EXISTS `chat_participants`(
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages`(
     `message_id`                    INT NOT NULL AUTO_INCREMENT,
-    `message_content`               VARCHAR(255) NOT NULL,
     `user_id`                       INT NOT NULL,
     `chat_id`                       INT NOT NULL,
+    `message_content`               VARCHAR(255) NOT NULL,
     `message_created_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `message_modified_at`           TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `message_active`                BOOLEAN NOT NULL DEFAULT TRUE,

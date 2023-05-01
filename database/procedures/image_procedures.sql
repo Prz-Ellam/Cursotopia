@@ -1,4 +1,30 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `image_find_by_id` $$
+CREATE PROCEDURE `image_find_by_id`(
+    IN _image_id                INT
+)
+BEGIN
+    SELECT
+        `image_id` AS `id`,
+        `image_name` AS `name`,
+        `image_size` AS `size`,
+        `image_content_type` AS `contentType`,
+        `image_data` AS `data`,
+        `image_created_at` AS `createdAt`,
+        `image_modified_at` AS `modifiedAt`,
+        `image_active` AS `active`
+    FROM
+        `images`
+    WHERE
+        `image_id` = _image_id
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `image_create` $$
 CREATE PROCEDURE `image_create`(
     IN  `_image_name`                   VARCHAR(255),

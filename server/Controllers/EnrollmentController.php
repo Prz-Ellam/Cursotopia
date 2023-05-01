@@ -34,7 +34,7 @@ class EnrollmentController {
         $courseTitle = $course["title"];
     
         $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($courseId, $id);
+        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $id);
         if (!$enrollment) {
             $response->setStatus(404)->render("404");
             return;
@@ -164,5 +164,21 @@ class EnrollmentController {
             "status" => true,
             "message" => $rowsAffected
         ]);
+    }
+
+    public function pay(Request $request, Response $response): void {
+        $session = $request->getSession();
+
+        $courseId = $request->getBody("courseId");
+        $studentId = $session->get("id");
+        $amount = $request->getBody("amount");
+        $paymentMethodId = $request->getBody("paymentMethodId");
+
+        $enrollment = new Enrollment();
+        $enrollment
+            ->setCourseId($courseId)
+            ->setStudentId($studentId)
+            ->setAmount($amount)
+            ->setPaymentMethodId($paymentMethodId);
     }
 }

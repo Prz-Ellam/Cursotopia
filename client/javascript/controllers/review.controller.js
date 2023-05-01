@@ -5,12 +5,13 @@ import { getOneUserService } from "../services/user.service";
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
 import { Toast } from "../utilities/toast";
+import { showErrorMessage } from '../utilities/show-error-message';
 
 export const submitReview = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -22,25 +23,8 @@ export const submitReview = async function(event) {
     };
 
     const response = await createReviewService(review);
-    
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
         return;
     }
 

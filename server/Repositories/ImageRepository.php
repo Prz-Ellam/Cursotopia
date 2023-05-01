@@ -7,22 +7,8 @@ use Cursotopia\Entities\Image;
 use PDO;
 
 class ImageRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            `image_id` AS `id`,
-            `image_name` AS `name`,
-            `image_size` AS `size`,
-            `image_content_type` AS `contentType`,
-            `image_data` AS `data`,
-            `image_created_at` AS `createdAt`,
-            `image_modified_at` AS `modifiedAt`,
-            `image_active` AS `active`
-        FROM
-            `images`
-        WHERE
-            `image_id` = :id
-        LIMIT
-            1
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `image_find_by_id`(:image_id)
     SQL;
 
     private const CREATE = <<<'SQL'
@@ -99,8 +85,11 @@ class ImageRepository extends DB {
         return self::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function findOneById(int $id): ?array {
-        return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
+    public function findById(?int $id): ?array {
+        $parameters = [
+            "image_id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function findOneByIdAndNotUserId(int $id): ?array {

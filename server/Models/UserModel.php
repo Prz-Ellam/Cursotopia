@@ -7,13 +7,11 @@ use Bloom\Validations\Rules\Email;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
-use Cursotopia\Repositories\AuthRepository;
 use Cursotopia\Repositories\UserRepository;
 use Cursotopia\ValueObjects\EntityState;
 
 class UserModel {
     private UserRepository $userRepository;
-    private AuthRepository $authRepository;
     private EntityState $entityState;
 
     private ?int $id;
@@ -48,7 +46,6 @@ class UserModel {
 
     public function __construct(?array $object = null) {
         $this->userRepository = new UserRepository();
-        $this->authRepository = new AuthRepository();
 
         // foreach ($object as $key => $element) {
         //     //$this->{$key} = $element;
@@ -62,7 +59,7 @@ class UserModel {
         $this->gender = $object["gender"] ?? null;
         $this->email = $object["email"] ?? null;
         $this->password = $object["password"] ?? null;
-        $this->userRole = $object["userRole"] ?? null;
+        $this->userRole = $object["role"] ?? null;
         $this->profilePicture = $object["profilePicture"] ?? null;
 
         $this->enabled = $object["enabled"] ?? null;;
@@ -238,13 +235,6 @@ class UserModel {
         $repository = new UserRepository();
         $object = $repository->findOneByEmail($email);
         return $object;
-    }
-
-    public function login(): array {
-        $user = new User();
-        $user->setEmail($this->email);
-
-        return $this->authRepository->login($user);
     }
 
     public function toObject() : array {

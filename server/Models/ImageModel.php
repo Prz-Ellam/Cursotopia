@@ -115,9 +115,9 @@ class ImageModel {
         return ($rowsAffected > 0) ? true : false;
 }
 
-    public static function findOneById(int $id): ?ImageModel {
+    public static function findById(?int $id): ?ImageModel {
         $repository = new ImageRepository();
-        $object = $repository->findOneById($id);
+        $object = $repository->findById($id);
         if (!$object) {
             return null;
         }

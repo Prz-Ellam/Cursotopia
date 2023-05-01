@@ -46,7 +46,7 @@ class LinkRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function findOne(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];

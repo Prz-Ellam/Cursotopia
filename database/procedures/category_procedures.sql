@@ -1,4 +1,31 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_one_by_name` $$
+CREATE PROCEDURE `category_find_one_by_name`(
+    IN _category_name               VARCHAR(50)
+)
+BEGIN
+    SELECT
+        `category_id`,
+        `category_name`,
+        `category_description`,
+        `category_is_approved`,
+        `category_approved_by`,
+        `category_created_by`,
+        `category_created_at`,
+        `category_modified_at`,
+        `category_active`
+    FROM
+        `categories`
+    WHERE
+        `category_name` = _category_name
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_category` $$
 CREATE PROCEDURE `update_category`(
     `_category_id`                  INT,

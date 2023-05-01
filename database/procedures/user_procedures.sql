@@ -1,4 +1,61 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_one_by_email` $$
+CREATE PROCEDURE `user_find_one_by_email`(
+    IN _email               VARCHAR(255)
+)
+BEGIN
+    SELECT
+        `user_id` AS `id`,
+        `user_name` AS `name`,
+        `user_last_name` AS `lastName`,
+        `user_birth_date` AS `birthDate`,
+        `user_gender` AS `gender`,
+        `user_email` AS `email`,
+        `user_password` AS `password`,
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`,
+        `user_enabled` AS `enabled`,
+        `user_created_at` AS `createdAt`,
+        `user_modified_at` AS `modifiedAt`,
+        `user_active` AS `active`
+    FROM
+        `users`
+    WHERE
+        `user_email` = _email
+        AND `user_active` = TRUE
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_all_instructors` $$
+CREATE PROCEDURE `user_find_all_instructors`(
+    IN _name                VARCHAR(255)
+)
+BEGIN
+    SELECT
+        `user_id` AS `id`, 
+        `user_name` AS `name`, 
+        `user_last_name` AS `lastName`, 
+        `user_birth_date` AS `birthDate`, 
+        `user_gender` AS `gender`, 
+        `user_email` AS `email`, 
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`
+    FROM
+        `users`
+    WHERE
+        CONCAT(`user_name`, ' ', `user_last_name`) LIKE CONCAT("%", _name, "%")
+        AND `user_role` = 2;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `user_create` $$
 CREATE PROCEDURE `user_create`(
     IN  `_user_name`                VARCHAR(50),
@@ -35,6 +92,8 @@ BEGIN
     SET `_user_id` = LAST_INSERT_ID();
 END $$
 DELIMITER ;
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `user_update` $$

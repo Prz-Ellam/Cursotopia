@@ -4,11 +4,6 @@ $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';
 }, 'Please enter a valid');
 
-$.validator.addMethod("dateRange", function (value, element, parameter) {
-    return this.optional(element) ||
-        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
-}, 'Please enter a valid date');
-
 $.validator.addMethod('regex', function (value, element, parameter) {
     var regexp = new RegExp(parameter);
     return this.optional(element) || regexp.test(value);
@@ -16,6 +11,14 @@ $.validator.addMethod('regex', function (value, element, parameter) {
 
 $.validator.addMethod('range', function(value, element, parameter) {
     return this.optional(element) || value >= parameter[0] && value <= parameter[1];
+});
+
+$.validator.addMethod('dateMax', function(value, element, parameter) {
+    return this.optional(element) || value <= parameter;
+});
+
+$.validator.addMethod('dateMin', function(value, element, parameter) {
+    return this.optional(element) || value >= parameter;
 });
 
 $.validator.addMethod('enum', function(value, element, parameter) {
@@ -45,57 +48,6 @@ $.validator.addMethod('containsSpecialCharacter',function(value,element){
     let pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a special character');
-
-
-$('#password').on('input', function() {
-
-    let value = $(this).val();
-
-    if (value === '') {
-        //$('.password-minus').removeClass('text-danger text-success');
-        $('#password-mayus').removeClass('text-danger text-success');
-        $('#password-number').removeClass('text-danger text-success');
-        $('#password-specialchar').removeClass('text-danger text-success');
-        $('#password-length').removeClass('text-danger text-success');
-        return;
-    }
-
-    // if (/[a-z]/g.test(value)) {
-    //     $('.pwd-lowercase').addClass('text-success').removeClass('text-danger');
-    // }
-    // else {
-    //     $('.pwd-lowercase').addClass('text-danger').removeClass('text-success')
-    // }
-
-    if (/[A-Z]/g.test(value)) {
-        $('#password-mayus').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-mayus').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (/[0-9]/g.test(value)) {
-        $('#password-number').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-number').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
-        $('#password-specialchar').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-specialchar').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (value.length >= 8) {
-        $('#password-length').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-length').addClass('text-danger').removeClass('text-success');
-    }
-
-});
 
 const date = new Date();
 const year = date.getFullYear() - 18;
@@ -131,7 +83,8 @@ export default {
         'birthDate': {
             required: true,
             date: true,
-            dateRange: [ '1900-01-01', dateFormat ]
+            dateMin: '1900-01-01',
+            dateMax: dateFormat,
         },
         'email': {
             required: true,
@@ -191,7 +144,8 @@ export default {
         'birthDate': {
             required: 'La fecha de nacimiento es requerida',
             date: 'La fecha de nacimiento no tiene el formato requerido',
-            dateRange: 'Debes tener al menos 18 años para usar nuestro servicio'
+            dateMin: 'La fecha de nacimiento no es válida',
+            dateMax: 'Debes tener al menos 18 años para registrarte',
         },
         'email': {
             required: 'El correo electrónico es requerido',
@@ -219,7 +173,8 @@ export default {
     errorElement: 'small',
     errorPlacement: function (error, element) {
         let targetElement = element;
-        if (element.attr('id') === 'password' || element.attr('id') === 'confirm-password') {
+        if (element.attr('id') === 'password' || element.attr('id') === 'confirm-password'
+            || element.attr('id') === 'profile-picture') {
             targetElement = element.parent();
         }
         error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');

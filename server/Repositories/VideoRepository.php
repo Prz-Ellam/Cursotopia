@@ -31,18 +31,12 @@ class VideoRepository extends DB {
             video_content_type,
             video_address
         )
-        SELECT
+        VALUES(
             :name,
             :duration,
             :content_type,
             :address
-        FROM
-            dual
-        WHERE
-            :name IS NOT NULL
-            AND :duration IS NOT NULL
-            AND :content_type IS NOT NULL
-            AND :address IS NOT NULL
+        )
     SQL;
     private const UPDATE = "";
 
@@ -56,7 +50,7 @@ class VideoRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];

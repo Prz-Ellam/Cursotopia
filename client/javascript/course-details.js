@@ -1,10 +1,13 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import { enroll } from './controllers/payment-method.controller';
 import { submitReview, showMoreComments, deleteReview } from './controllers/review.controller';
 import createReviewValidator from './validators/create-review.validator';
 import { createReview } from './views/review.view';
 
 $(() => {
+    $('#enroll').on('click', enroll);
+
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
@@ -39,7 +42,7 @@ $(() => {
         showMoreComments(currentPage, courseId);
     });
 
-    $(document).on("click", ".delete-review", function(){
+    $(document).on('click', '.delete-review', function() {
         const reviewId = $(this).attr('reviewId');
         deleteReview(reviewId);
     });

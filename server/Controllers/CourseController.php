@@ -32,7 +32,7 @@ class CourseController {
 
     public function details(Request $request, Response $response): void {
         $id = $request->getQuery("id");
-        if (!$id || !((is_int($id) || ctype_digit($id)) && intval($id) > 0)) {
+        if (!Validate::uint($id)) {
             $response->setStatus(404)->render("404");
             return;
         }
@@ -62,7 +62,7 @@ class CourseController {
         }
 
         $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseIdAndStudentId($id, $userId ?? -1);
+        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($id, $userId ?? -1);
 
         $reviewRepository = new ReviewRepository();
         $reviews = $reviewRepository->findByCourse($id,1,10);
@@ -93,18 +93,24 @@ class CourseController {
         // La ultima lección que viste
         // El enrollment es necesario
         // No puedes verlo si no has pagado
-        
+                
         $courseId = $request->getQuery("course");
         $lessonId = $request->getQuery("lesson");
-    
+
+        $enrollmentRepository = new EnrollmentRepository();
+        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $userId);
+
         $lessonRepository = new LessonRepository();
-        $lesson = $lessonRepository->findById($lessonId);
+        $lesson = $lessonRepository->courseVisorFindById($lessonId);
         if (!$lesson) {
             $response->setStatus(404)->render("404");
             return;
         }
-    
+
         $levelRepository = new LevelRepository();
+        
+
+    
         $levels = $levelRepository->findAllUserComplete($courseId, $userId);
         $found = false;
         foreach ($levels as &$level) {
@@ -127,7 +133,8 @@ class CourseController {
         $response->render("course-visor", [ 
             "course" => $courseId,
             "levels" => $levels,
-            "lesson" => $lesson
+            "lesson" => $lesson,
+            "enrollment" => $enrollment
         ]);
     }
 

@@ -1,7 +1,7 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import createCourseValidator from './validators/course-create.validator';
+import CourseCreateValidator from './validators/course-create.validator';
 import { createCourse, createCourseImage, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
 import createCategoryValidator from './validators/create-category.validator';
@@ -11,10 +11,11 @@ import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
 import { createCourseCreateCategory } from './controllers/category.controller';
 import LevelService from './services/level.service';
+import { displayImageFile } from './controllers/image.controller';
 
 $(() => {
-    // Create Course
-    $('#course-create-form').validate(createCourseValidator);
+    // Crear curso
+    $('#course-create-form').validate(CourseCreateValidator);
     $('#course-create-form').on('submit', createCourse);
 
     // Confirm Course
@@ -112,32 +113,15 @@ $(() => {
         }
         $('#price').val("0.00");
     });
-/*
-    const freeEditLevelCheckbox = document.getElementById('level-update-free');
-    freeEditLevelCheckbox.addEventListener('change', function(event) {
-        const EditLevelPriceGroup = document.getElementById('edit-level-price-group');
-        if (event.target.checked) {
-            EditLevelPriceGroup.classList.add('d-none');
-        }
-        else {
-            EditLevelPriceGroup.classList.remove('d-none');
-        }
+
+    $('#upload-image').on('change', async function(event) {
+        await displayImageFile(event, '#upload-image', '#picture-box', '');
     });
-*/
 
 
-    const uploadImage = document.getElementById('upload-image');
-    uploadImage.addEventListener('change', createCourseImage);
-
-
-    const createLessonVideo = document.getElementById('create-lesson-video');
-    createLessonVideo.addEventListener('change', createLevelVideo);
-
-    const createLessonImage = document.getElementById('create-lesson-image');
-    createLessonImage.addEventListener('change', createLevelImage);
-
-    const createLessonPdf = document.getElementById('create-lesson-pdf');
-    createLessonPdf.addEventListener('change', createLevelPdf);
+    $('#create-lesson-video').on('change', createLevelVideo);
+    $('#create-lesson-image').on('change', createLevelImage);
+    $('#create-lesson-pdf').on('change', createLevelPdf);
 
     $(document).on('click', '.delete-level-btn', async function() {
         const feedback = await Swal.fire({

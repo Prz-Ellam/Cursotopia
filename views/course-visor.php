@@ -39,6 +39,14 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
     <div class="row mb-3">
       <div class="col-lg-8 col-sm-12 course-content mb-5">
         <h4 class="mt-3">Introducción y conocimientos previos</h4>
+
+        <?php if (!$this->enrollment["isPaid"] && !$this->lesson["levelFree"]): ?>
+
+          <h5 class="text-center mt-3">
+            <p>Lección bloqueada, es necesario comprar el curso</p>
+            <i class="h1 bx bxs-lock-alt" style="font-size: 128px"></i>
+          </h5>
+        <?php else: ?>
         
         <?php if ($this->lesson["videoId"]): ?>
         <video id="level-video" controls video-id="<?= $this->lesson["videoId"] ?>"></video>
@@ -67,6 +75,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         <a href="https://www.google.com" class="text-primary">Nombre del enlace</a>
         <?php endif ?>
         <br><br>
+        <?php endif ?>
       </div>
       <div class="col-lg-4 col-sm-12 course-content">
 

@@ -8,6 +8,7 @@ export default {
     rules: {
         'rate': {
             required: true,
+            min: 1,
             max: 10
         },
         'message': {
@@ -18,7 +19,9 @@ export default {
     },
     messages: {
         'rate': {
-            required: 'La calificación es requerida'
+            required: 'La calificación es requerida',
+            min: 'La calificación no puede ser menor que 1',
+            max: 'La calificación no puede ser mayor que 10'
         },
         'message': {
             required: 'La reseña es requerida',

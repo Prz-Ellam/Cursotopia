@@ -2,7 +2,9 @@
 
 namespace Cursotopia\Models;
 
+use Cursotopia\Entities\Course;
 use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\ValueObjects\EntityState;
 
 class CourseModel {
     private ?int $id = null;
@@ -16,6 +18,8 @@ class CourseModel {
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
+    private EntityState $entityState;
+    private CourseRepository $courseRepository;
 
     public function __construct(?array $object = null) {
         $this->id = $object["id"] ?? null;
@@ -29,6 +33,8 @@ class CourseModel {
         $this->createdAt = $object["createdAt"] ?? null;
         $this->modifiedAt = $object["modifiedAt"] ?? null;
         $this->active = $object["active"] ?? null;
+
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
     // Obtener los mas vendidos
     // Obtener los mas recientes
@@ -113,6 +119,46 @@ class CourseModel {
         $courseRepository = new CourseRepository();
         $obj = $courseRepository->courseEnrollmentsReportTotal($courseId, $from, $to);
         return $obj["total"];
+    }
+
+    public function save(): bool {
+        $user = new Course();
+            
+        $rowsAffected = 0;
+        switch ($this->entityState) {
+            case EntityState::CREATE: {
+                $user
+                    ->setTitle($this->title)
+                    ->setDescription($this->description)
+                    ->setPrice($this->price)
+                    ->setImageId($this->imageId)
+                    ->setInstructorId($this->instructorId);
+
+                    $rowsAffected = $this->courseRepository->create($user);
+                    if ($rowsAffected) {
+                        $this->id = intval($this->courseRepository->lastInsertId2());
+                    }
+                    break;
+                }
+            case EntityState::UPDATE: {
+                /*
+                $user
+                    ->setId($this->id)
+                    ->setName($this->name)
+                    ->setLastName($this->lastName)
+                    ->setBirthDate($this->birthDate)
+                    ->setGender($this->gender)
+                    ->setEmail($this->email)
+                    ->setPassword($this->password)
+                    ->setUserRole($this->userRole)
+                    ->setProfilePicture($this->profilePicture)
+                    ->setEnabled($this->enabled);
+                $rowsAffected = $this->userRepository->update($user);
+                break;
+                */
+            }
+        }
+        return ($rowsAffected > 0) ? true : false;
     }
 
     public function toObject() : array {

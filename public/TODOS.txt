@@ -4,3 +4,6 @@
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas
+
+
+Maxlength en los query params y tal vez route params

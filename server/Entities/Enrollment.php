@@ -12,6 +12,7 @@ class Enrollment {
     private ?string $certificateUid = null;
     private ?float $amount = null;
     private ?int $paymentMethodId = null;
+    private ?bool $isPaid = null;
     private ?string $lastTimeChecked = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
@@ -273,6 +274,26 @@ class Enrollment {
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isPaid
+     */ 
+    public function getIsPaid()
+    {
+        return $this->isPaid;
+    }
+
+    /**
+     * Set the value of isPaid
+     *
+     * @return  self
+     */ 
+    public function setIsPaid($isPaid)
+    {
+        $this->isPaid = $isPaid;
 
         return $this;
     }

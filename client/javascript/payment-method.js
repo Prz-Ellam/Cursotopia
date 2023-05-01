@@ -1,11 +1,11 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import { payment } from './controllers/payment-method.controller';
-import payMethodValidator from './validators/pay-method.validator';
+import PayMethodValidator from './validators/pay-method.validator';
 
 $(() => {
-  $('#payment-method-form').validate(payMethodValidator);
-  $('payment-method-form').on('submit', payment);
+  $('#payment-method-form').validate(PayMethodValidator);
+  $('#payment-method-form').on('submit', payment);
 
   const monthInput = document.querySelector('#month');
   const yearInput = document.querySelector('#year');
@@ -73,7 +73,7 @@ $(() => {
   paypal.Button.render({
     env: 'sandbox',
     client: {
-      sandbox: '<secreto>'
+      sandbox: 'AYRWL7VDLGBBSSSutwgu3nPO8ZDZKNGCiON9pO_X-dGx3lgkWMLL2xlQjDycSG5qA3bh4IRsjMMgHunl'
     },
     payment: function (data, actions) {
       return actions.payment.create({

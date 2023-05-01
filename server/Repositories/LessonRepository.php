@@ -11,6 +11,27 @@ class LessonRepository extends DB {
             :document_id, :link_id, @lesson_id);
     SQL;
 
+    private const COURSE_VISOR_FIND_BY_ID = <<<'SQL'
+        SELECT
+            `lesson_id` AS `id`,
+            `lesson_title` AS `title`,
+            `lesson_description` AS `description`,
+            `video_id` AS `videoId`,
+            `image_id` AS `imageId`,
+            `document_id` AS `documentId`,
+            `link_id` AS `linkId`,
+            `resource`,
+            `lesson_created_at` AS `createdAt`,
+            `lesson_modified_at` AS `modifiedAt`,
+            `lesson_active` AS `active`,
+            `level_id` AS `levelId`,
+            `level_is_free` AS `levelFree`
+        FROM
+            `course_visor`
+        WHERE
+            `lesson_id` = :lesson_id
+    SQL;
+
     private const FIND_ONE_BY_ID = <<<'SQL'
         SELECT
             lesson_id AS `id`,
@@ -169,6 +190,13 @@ class LessonRepository extends DB {
             "user_id" => $userId
         ];
         return DB::executeOneReader($this::FIRST_LESSON_COMPLETE, $parameters);
+    }
+
+    public function courseVisorFindById(?int $lessonId): ?array {
+        $parameters = [
+            "lesson_id" => $lessonId
+        ];
+        return DB::executeOneReader($this::COURSE_VISOR_FIND_BY_ID, $parameters);
     }
 
     public function lastInsertId2(): string {

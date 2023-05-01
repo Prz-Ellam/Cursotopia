@@ -5,29 +5,16 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Course;
 
-class CourseRepository {
+class CourseRepository extends DB {
     private const CREATE = <<<'SQL'
-        INSERT INTO courses(
-            `course_title`,
-            `course_description`,
-            `course_price`,
-            `course_image_id`,
-            `instructor_id`
-        )
-        SELECT
+        CALL `course_create`(
             :title,
             :description,
             :price,
             :image_id,
-            :instructor_id
-        FROM
-            dual
-        WHERE
-            :title IS NOT NULL
-            AND :description IS NOT NULL
-            AND :price IS NOT NULL
-            AND :image_id IS NOT NULL
-            AND :instructor_id IS NOT NULL
+            :instructor_id,
+            @course_id
+        )
     SQL;
 
     private const CONFIRM = <<<'SQL'
@@ -41,11 +28,11 @@ class CourseRepository {
 
     private const DELETE = <<<'SQL'
         UPDATE
-            courses
+            `courses`
         SET
-            course_active = FALSE
+            `course_active` = FALSE
         WHERE
-            course_id = :course_id
+            `course_id` = :course_id
     SQL;
 
     private const APPROVE = <<<'SQL'
@@ -59,46 +46,12 @@ class CourseRepository {
             `course_id` = :course_id
     SQL;
 
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            `course_id` AS `id`,
-            `course_title` AS `title`,
-            `course_description` AS `description`,
-            `course_price` AS `price`,
-            `course_image_id` AS `imageId`,
-            `instructor_id` AS `instructorId`,
-            `course_approved` AS `approved`,
-            `course_approved_by` AS `approvedBy`,
-            `course_created_at` AS `createdAt`,
-            `course_modified_at` AS `modifiedAt`,
-            `course_active` AS `active`
-        FROM
-            `courses`
-        WHERE
-            `course_id` = :id
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `course_find_by_id`(:course_id)
     SQL;
 
     private const FIND_BY_NOT_APPROVED = <<<'SQL'
-        SELECT
-            c.`course_id` AS `id`,
-            c.`course_title` AS `title`,
-            c.`course_description` AS `description`,
-            c.`course_price` AS `price`,
-            c.`course_image_id` AS `imageId`,
-            CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `instructor`,
-            c.`course_approved` AS `approved`,
-            c.`course_approved_by` AS `approvedBy`,
-            c.`course_created_at` AS `createdAt`,
-            c.`course_modified_at` AS `modifiedAt`,
-            c.`course_active` AS `active`
-        FROM
-            `courses` AS c
-        INNER JOIN  
-            `users` AS u
-        ON
-            c.`instructor_id` = u.`user_id`
-        WHERE
-            `course_approved` = FALSE
+        CALL `course_find_by_not_approved`()
     SQL;
 
     private const COURSE_DETAILS_FIND_ONE = <<<'SQL'
@@ -119,7 +72,8 @@ class CourseRepository {
             `reviews`,
             `instructor` AS `instructorName`,
             `duration`,
-            `enrollments` AS `students`
+            `enrollments` AS `students`,
+            `levelFree`
         FROM
             `course_details`
         WHERE
@@ -303,18 +257,11 @@ class CourseRepository {
         return DB::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOneById(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
-            "id" => $id
+            "course_id" => $id
         ];
-        return DB::executeOneReader($this::FIND_ONE, $parameters);
-    }
-
-    public function findById(int $id): ?array {
-        $parameters = [
-            "id" => $id
-        ];
-        return DB::executeOneReader($this::FIND_ONE, $parameters);
+        return DB::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function confirm(int $id): bool {
@@ -474,5 +421,9 @@ class CourseRepository {
             "course_id" => $courseId
         ];
         return DB::executeNonQuery($this::DELETE, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @course_id AS courseId", [])["courseId"];
     }
 }

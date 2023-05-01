@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { submitLogin } from './controllers/user.controller';
-import { passwordToggle } from './utilities/password-toggle';
+import { passwordToggle, submitLogin } from './controllers/user.controller';
 import loginValidator from './validators/login.validator';
 
 $(() => {
@@ -13,7 +12,9 @@ $(() => {
     });
 
     // Esconder y mostrar contraseña
-    $('#password-button').on('click', passwordToggle);
+    $('#password-button').on('click', () => {
+        passwordToggle('#password', '#password-button i');
+    });
 
     $('#login-form').validate(loginValidator);
     $('#login-form').on('submit', submitLogin);

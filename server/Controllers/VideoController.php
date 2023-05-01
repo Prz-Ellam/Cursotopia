@@ -95,7 +95,7 @@ class VideoController {
         }
 
         $videoRepository = new VideoRepository();
-        $video = $videoRepository->findOne($id);
+        $video = $videoRepository->findById($id);
 
         // que pasa si el video es eliminado? 
         // eso no deberia pasar pero hay que estar precavidos si pasa

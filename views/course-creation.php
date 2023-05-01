@@ -50,6 +50,8 @@
     <form class="row" id="course-create-form">  
       <fieldset class="row mx-0" id="course-section">
         <div class="col-md-6 col-sm-12 col-xs-12">
+          <input type="hidden" name="courseId" id="course-id">
+
           <div class="mb-4">
             <label for="title" class="form-label" role="button">Título</label>
             <input type="text" class="form-control" id="title" name="title">
@@ -211,10 +213,6 @@
           </div>
 
           <h5>Recursos</h5>
-          <input type="hidden" name="resource">
-          <input type="hidden" name="" id="create-lesson-video-hidden">
-          <input type="hidden" name="" id="create-lesson-image-hidden">
-          <input type="hidden" name="" id="create-lesson-pdf-hidden">
 
           <div class="mb-4">
             <label for="" role="button">Video</label>

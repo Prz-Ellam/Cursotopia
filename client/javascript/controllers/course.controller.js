@@ -2,7 +2,6 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 import CourseService, { courseConfirmService, createCourseService } from '../services/course.service';
-import { createImage } from '../services/image.service';
 import { readFileAsync } from '../utilities/file-reader';
 import { showErrorMessage } from '../utilities/show-error-message';
 
@@ -22,7 +21,6 @@ export const createCourse = async function(event) {
         description: formData.get('description'),
         price: Number.parseFloat(formData.get('price')),
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
-        //imageId: Number.parseInt(formData.get('imageId'))
     }
 
     const courseForm = new FormData();
@@ -35,8 +33,9 @@ export const createCourse = async function(event) {
         return;
     }
 
-    const createLevelCourseId = document.getElementById('create-level-course-id');
-    createLevelCourseId.value = response.id;
+    $('#course-id').val(response.id);
+    $('#create-level-course-id').val(response.id);
+
     await Swal.fire({
         icon: 'success',
         title: '¡La información fue añadida con éxito!',
@@ -48,22 +47,22 @@ export const createCourse = async function(event) {
         },
     });
 
-    const current_fs = $('#course-section');
-    const next_fs = $('#levels-section');
+    const currentFs = $('#course-section');
+    const nextFs = $('#levels-section');
 
-    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    $("#progressbar li").eq($("fieldset").index(nextFs)).addClass('active');
 
-    next_fs.show();
-    current_fs.animate({ opacity: 0 }, {
+    nextFs.show();
+    currentFs.animate({ opacity: 0 }, {
         step: function(now) {
             opacity = 1 - now;
                 
-            current_fs.css({
+            currentFs.css({
                 'display': 'none',
                 'position': 'relative'
             });
 
-            next_fs.css({'opacity': opacity});
+            nextFs.css({ 'opacity': opacity });
         },
         duration: 600
     });
@@ -150,8 +149,29 @@ export const updateCourse = async function(event) {
     window.location.href = 'home';
 }
 
-export const deleteCourse = function(event) {
-
+export const deleteCourse = async function(event) {
+    const feedback = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Estás seguro que deseas deshabilitar este curso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#DD3333',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        customClass: {
+            confirmButton: 'btn btn-danger shadow-none rounded-pill',
+            cancelButton: 'btn btn-secondary shadow-none rounded-pill'
+        }
+    });
+    if (feedback.isConfirmed) {
+        // TODO: uri estatica
+        // TODO: quitar el boton de deshabilitar si ya esta deshabilitado
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('course_id');
+        await CourseService.delete(id);
+        window.location.href = 'home';
+    }
 }
 
 export const submitConfirmCourse = async function(event) {
