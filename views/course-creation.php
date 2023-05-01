@@ -19,10 +19,6 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
-
-  <!-- SweetAlert -->
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-
   <?= $this->link("styles/pages/create-course.css") ?>
   <?= $this->script("javascript/course-create.js") ?>
 </head>
@@ -31,7 +27,8 @@
 
   <!-- Contenido -->
   <section class="container my-4 mb-3">
-    <div class="row border-3 border-bottom border-primary text-center mb-3">
+    
+    <div class="border-3 border-bottom border-primary text-center mb-3">
       <h1>Añadir curso</h1>
     </div>
     <ul id="progressbar">
@@ -47,23 +44,30 @@
     </ul>
 
     <!-- Crear un curso --> 
-    <form class="row" id="course-create-form">  
-      <fieldset class="row mx-0" id="course-section">
-        <div class="col-md-6 col-sm-12 col-xs-12">
+    <fieldset class="row mx-0" id="course-section">
+      <form action="" class="row" id="course-create-form">
+        <div class="col-md-6 col-sm-12">
           <input type="hidden" name="courseId" id="course-id">
 
           <div class="mb-4">
             <label for="title" class="form-label" role="button">Título</label>
             <input type="text" class="form-control" id="title" name="title">
           </div>
+
           <div class="mb-4">
             <label for="description" class="form-label" role="button">Descripción</label>
-            <textarea class="form-control" id="description" cols="30" rows="3" name="description" placeholder="¿De que va a tratar tú curso?"></textarea>
+            <textarea class="form-control" id="description" cols="30" rows="3" 
+              name="description" placeholder="¿De que va a tratar tú curso?">
+            </textarea>
           </div>
+
           <div class="form-check">
             <input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox" autocomplete="off">
-            <label class="form-check-label" for="free-course-checkbox" role="button">El curso será gratis</label>
+            <label class="form-check-label" for="free-course-checkbox" role="button">
+              El curso será gratis
+            </label>
           </div>
+
           <div class="mb-4" id="price-group">
             <label class="form-label pt-2" for="price" role="button">Precio</label>
             <div class="input-group">
@@ -71,6 +75,7 @@
               <input type="number" name="price" id="price" class="form-control" autocomplete="off" min="0.00" max="10000.00" step="0.01" value="0.00">
             </div>
           </div>
+
           <div class="mb-3">
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
@@ -79,12 +84,12 @@
               <?php endforeach ?>
             </select>
           </div>
+
           <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
             <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#category-create-modal">Añadir categoria</button>
           </div>
         </div>
-
-        <div class="center col-md-6 col-sm-12 col-xs-12 image-container">
+        <div class="col-md-6 col-sm-12 image-container">
           <label class="form-label">Portada</label>
           <label for="upload-image" class="rounded-3 ratio ratio-16x9 text-center img-area" role="button">
             <div class="d-flex justify-content-center align-items-center">
@@ -101,26 +106,26 @@
         <div class="d-flex mt-5 mb-5">
           <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Avanzar</button>
         </div>
-      </fieldset>
+      </form>
+    </fieldset>
 
-      <div id="levels-list">
-        <input type="hidden" name="levels[]" autocomplete="off">
+    <fieldset class="my-5" id="levels-section">
+      <div class="py-2 d-flex">
+        <h4 class="pe-4">Niveles</h4>
+        <button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
+          Añadir nivel
+        </button>
       </div>
-    
-      <fieldset class="my-5" id="levels-section">
-        <div class="py-2 d-flex">
-          <h4 class="pe-4">Niveles</h4>
-          <button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
-            Añadir nivel
-          </button>
-        </div>
-        <ul class="list-unstyled" id="levels-container"></ul>
+      <ul class="list-unstyled" id="levels-container"></ul>
 
-        <div class="d-flex mt-5 mb-5">
-          <button type="button" id="confirm-course-btn" class="next btn btn-primary rounded-pill w-100">Finalizar</button>
-        </div>
-      </fieldset>
-    </form>
+      <div class="row mt-5 mb-5">
+        <button class="btn btn-primary rounded-pill col-6">
+          Anterior
+        </button>
+        <button type="button" id="confirm-course-btn" 
+        class="next btn btn-primary rounded-pill col-6">Finalizar</button>
+      </div>
+    </fieldset>
   </section>
 
   <!-- Modal añadir nivel-->

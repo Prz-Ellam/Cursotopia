@@ -27,7 +27,8 @@ export const createCourse = async function(event) {
     courseForm.append('payload', JSON.stringify(course));
     courseForm.append('image', formData.get('image'));
 
-    const response = await CourseService.create(courseForm);
+    //const response = await CourseService.create(courseForm);
+    const response = { status: true, id: 1 }
     if (!response?.status) {
         await showErrorMessage(response);
         return;

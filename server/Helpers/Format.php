@@ -6,6 +6,16 @@ use DateTime;
 use IntlDateFormatter;
 
 class Format {
+    public static function decimal($number): string {
+        if (is_numeric($number)) {
+            $formatNumber = number_format($number, 2, '.', ',');
+        }
+        else {
+            $formatNumber = "0.00";
+        }
+        return "$formatNumber";
+    }
+
     public static function money($number): string {
         if (is_numeric($number)) {
             $formatNumber = number_format($number, 2, '.', ',');

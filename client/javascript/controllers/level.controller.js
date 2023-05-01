@@ -39,7 +39,7 @@ export const submitLevelCreate = async function(event) {
         icon: 'success',
         title: 'El nivel ha sido añadido con éxito'
     });
-
+/*
     const levelsList = document.getElementById('levels-list');
     if (levelsList.children.length === 1 && levelsList.children[0].value === '') {
         levelsList.children[0].value = response.id;
@@ -52,7 +52,7 @@ export const submitLevelCreate = async function(event) {
         levelId.value = response.id;
         levelsList.appendChild(levelId);
     }
-
+*/
     LevelView.createLevelSection({ 
         id: response.id,
         title: level.title
@@ -74,7 +74,7 @@ export const courseEditionCreateLevel = async function(event) {
     const checkbox = document.getElementById('level-update-free');
     const level = {};
     const response = await createLevelService(level);
-
+/*
     const levelsList = document.getElementById('levels-list');
     if (levelsList.children.length === 1 && levelsList.children[0].value === '') {
         levelsList.children[0].value = response.id;
@@ -87,6 +87,7 @@ export const courseEditionCreateLevel = async function(event) {
         levelId.value = response.id;
         levelsList.appendChild(levelId);
     }
+*/
     courseCreationCreateLevelSection({ 
         id: response.id,
         title: document.getElementById('create-level-title').value

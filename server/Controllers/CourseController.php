@@ -311,7 +311,7 @@ class CourseController {
 
         $courseRepository = new CourseRepository();
         $rowsAffected = $courseRepository->create($course);
-        $courseId = DB::lastInsertId();
+        $courseId = $courseRepository->lastInsertId2();
 
         foreach ($categories as $category) {
             $courseCategory = new CourseCategory();

@@ -62,6 +62,7 @@ use Cursotopia\Helpers\Format;
           $enroll - El usuario adquirio el curso (ya sea prueba o completo)
           $isPaid - El usuario adquirio el curso completo
         -->
+        <?php if($this->session("role") === 3): ?>
         <?php $free = intval($this->course["price"] <= 0) ?>
         <?php $demo = $this->course["levelFree"] ?? null ?>
         <?php $enroll = !is_null($this->enrollment) ?>
@@ -132,36 +133,7 @@ use Cursotopia\Helpers\Format;
             Reanudar este curso
           </a>
         <?php endif ?>
-        
-        <!-- 
-        <?php if($this->session("role") === 3): ?>
-        <?php if($this->course["price"] > 0): ?>
-        <?php if($this->enrollment !== "NULL"): ?>
-        <a 
-          href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>" 
-          class="btn btn-secondary w-100">
-          Reanudar el curso
-        </a>
-        <?php else: ?>
-        <a 
-          href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
-          class="btn btn-secondary w-100"
-        >
-          Comprar este curso
-        </a>
         <?php endif ?>
-        <?php else: ?>
-        
-        
-        <a href="course-visor" class="btn btn-secondary w-100">Conseguir prueba gratis</a>
-        <?php endif ?>
-        <?php endif ?>
-
-        <?php if ($this->enrollment && !($this->enrollment["isPaid"] ?? null)): ?>
-        <button class="btn btn-secondary w-100 mt-3">Comprar curso completo</button>
-        <?php endif ?>
-
-        -->
 
         <hr>
 
@@ -171,11 +143,12 @@ use Cursotopia\Helpers\Format;
           De paga parcial   Comprar / Prueba      Comprar / Reanudar  Reanudar
           Gratis            Conseguir             Reanudar            N/A
         -->
-
-
+        
         <div class="mb-4">
-          <span class="fw-bold rating-star"><?= number_format((float)$this->course["rates"] , 2, '.', '') ?></span>
-          <?php if ($this->course["rates"] !== "No reviews"): ?>
+          <span class="fw-bold rating-star">
+            <?= Format::decimal($this->course["rates"]) ?>
+          </span>
+          <?php if ($this->course["rates"] !== "No hay reseñas"): ?>
           <i class="bx <?= $this->course["rates"] >= 1 ? 'bxs-star': ($this->course["rates"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <i class="bx <?= $this->course["rates"] >= 2 ? 'bxs-star': ($this->course["rates"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <i class="bx <?= $this->course["rates"] >= 3 ? 'bxs-star': ($this->course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
