@@ -80,7 +80,11 @@
         </div>
 
         <div class="d-grid mb-4">
-          <button type="submit" id="btn-submit" class="btn btn-primary rounded-pill">Actualizar contraseña</button>
+          <button type="submit" id="password-edition-btn" 
+            class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
+            <div class="spinner d-none" id="password-edition-spinner"></div>
+            <span>Actualizar contraseña</span>
+          </button>
         </div>
 
         <!--

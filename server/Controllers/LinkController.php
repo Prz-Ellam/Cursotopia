@@ -5,9 +5,8 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Closure;
-use Cursotopia\Entities\Link;
 use Cursotopia\Helpers\Validate;
-use Cursotopia\Repositories\LinkRepository;
+use Cursotopia\Models\LinkModel;
 
 class LinkController {
     public function getOne(Request $request, Response $response): void {
@@ -20,25 +19,27 @@ class LinkController {
             return;
         }
 
-        $linkRepository = new LinkRepository();
-        $link = $linkRepository->findById($id);
+        $link = LinkModel::findById($id);
 
         $response->json($link);
     }
     
     public function create(Request $request, Response $response, Closure $next): void {
-        $name = $request->getBody("name");
-        $address = $request->getBody("address");
+        [
+            "name" => $name,
+            "address" => $address
+        ] = $request->getBody();
+        
+        $link = new LinkModel([
+            "name" => $name,
+            "address" => $address
+        ]);
+        $link->save();
 
-        $link = new Link();
-        $link
-            ->setName($name)
-            ->setAddress($address);
-
-        $linkRepository = new LinkRepository();
-        $rowsAffected = $linkRepository->create($link);
-
-        $response->json($rowsAffected);
+        $response->setStatus(201)->json([
+            "status" => true,
+            "message" => "En enlace se creó éxitosamente"
+        ]);
     }
 
     public function update(Request $request, Response $response): void {

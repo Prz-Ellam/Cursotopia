@@ -97,6 +97,10 @@ class CourseController {
         $courseId = $request->getQuery("course");
         $lessonId = $request->getQuery("lesson");
 
+        $course = CourseModel::findById($courseId);
+        if ($course)
+        $course = $course->toObject();
+
         $enrollmentRepository = new EnrollmentRepository();
         $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $userId);
 
@@ -109,8 +113,6 @@ class CourseController {
 
         $levelRepository = new LevelRepository();
         
-
-    
         $levels = $levelRepository->findAllUserComplete($courseId, $userId);
         $found = false;
         foreach ($levels as &$level) {
@@ -131,7 +133,7 @@ class CourseController {
         }
     
         $response->render("course-visor", [ 
-            "course" => $courseId,
+            "course" => $course,
             "levels" => $levels,
             "lesson" => $lesson,
             "enrollment" => $enrollment

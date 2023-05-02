@@ -89,7 +89,11 @@
             </div>
           </div>
           <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-primary rounded-pill" id="submit-btn">Actualizar perfil</button>
+            <button type="submit" id="profile-edition-btn"
+              class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
+              <div class="spinner d-none" id="profile-edition-spinner"></div>
+              <span>Actualizar perfil</span>
+            </button>
           </div>
         </form>
       </div>

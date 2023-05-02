@@ -29,7 +29,7 @@ $app->post("/api/v1/lessons", [ LessonController::class, "create" ], [
     [ ImageController::class, "create" ],
     [ DocumentController::class, "create" ],
     [ PayloadMiddleware::class ],
-    // [ JsonSchemaMiddleware::class, 'LessonCreateValidator' ],  
+    [ JsonSchemaMiddleware::class, "LessonCreateValidator" ],  
 ]);
 
 /**

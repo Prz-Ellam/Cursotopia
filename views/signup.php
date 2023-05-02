@@ -54,18 +54,7 @@
             </label>
             </div>
           </div>
-          <div class="text-center mb-4">
-            <input 
-              type="hidden" 
-              name="profilePicture" 
-              id="profile-picture-id" 
-              autocomplete="off"
-              <?php if ($this->session("profilePicture_id")): ?>
-              value=<?= $this->session("profilePicture_id") ?>
-              <?php endif ?>
-            >
-          </div>
-          <div class="row">
+          <div class="row mt-4">
             <div class="col-sm-6 col-12 mb-4">
               <label for="name" role="button" class="form-label">
                 <i class="fa-sm fa-solid fa-user"></i>
@@ -165,8 +154,10 @@
           </div>
   
           <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-primary rounded-pill" id="signup-btn">
-              Registrarse
+            <button type="submit" id="signup-btn"
+              class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
+              <div class="spinner d-none" id="signup-spinner"></div>
+              <span>Registrarse</span>
             </button>
           </div>
         </form>

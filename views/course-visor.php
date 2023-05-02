@@ -39,8 +39,11 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
     <div class="row mb-3">
       <div class="col-lg-8 col-sm-12 course-content mb-5">
         <h4 class="mt-3">Introducción y conocimientos previos</h4>
+        <?php $price = ($this->course["price"] > 0) ?>
+        <?php $isPaid = $this->enrollment["isPaid"] ?>
+        <?php $levelFree = $this->lesson["levelFree"] ?>
 
-        <?php if (!$this->enrollment["isPaid"] && !$this->lesson["levelFree"]): ?>
+        <?php if ($price && !$isPaid && !$levelFree): ?>
 
           <h5 class="text-center mt-3">
             <p>Lección bloqueada, es necesario comprar el curso</p>
@@ -62,12 +65,12 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         </p>
         <?php if ($this->lesson["imageId"]): ?>
         <h5 class="mt-3">Imágen</h5>
-        <img src="../client/assets/images/city.jpg" alt="" class="img-fluid">
+        <img src="/api/v1/images/<?= $this->lesson["imageId"] ?>" alt="" class="img-fluid">
         <?php endif ?>
         <?php if ($this->lesson["documentId"]): ?>
         <h5 class="mt-3">Documento</h5>
         <div class="d-flex">
-          <a href="#" class="text-primary d-flex align-items-center text-decoration-none"><i class='bx-sm bx bxs-file-pdf'></i>Archivo PDF</a>
+          <a href="/api/v1/documents/<?= $this->lesson["documentId"] ?>" target="_blank" class="text-primary d-flex align-items-center text-decoration-none"><i class='bx-sm bx bxs-file-pdf'></i>Archivo PDF</a>
         </div>
         <?php endif ?>
         <?php if ($this->lesson["linkId"]): ?>
@@ -93,7 +96,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
               <div class="list-group list-group-flush">
               <?php foreach ($level["lessons"] as $i => $lesson) : ?>
                 <a
-                  href="course-visor?course=<?= $this->course ?>&lesson=<?= $lesson["id"] ?>"
+                  href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $lesson["id"] ?>"
                   class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
                   role="button"
                 >

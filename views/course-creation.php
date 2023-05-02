@@ -68,15 +68,15 @@
             </label>
           </div>
 
-          <div class="mb-4" id="price-group">
+          <div class="mb-4" id="">
             <label class="form-label pt-2" for="price" role="button">Precio</label>
             <div class="input-group">
               <span class="input-group-text border-0 bg-light pe-0">$</span>
-              <input type="number" name="price" id="price" class="form-control" autocomplete="off" min="0.00" max="10000.00" step="0.01" value="0.00">
+              <input type="number" name="price" id="price" class="form-control" autocomplete="off" min="0.01" max="10000.00" step="0.01" value="0.01">
             </div>
           </div>
 
-          <div class="mb-3">
+          <div class="">
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category): ?>
@@ -87,7 +87,7 @@
             </select>
           </div>
 
-          <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
+          <div class="mt-4 col-sm-4 col-xs-4 col-md-5 col-xl-4">
             <button type="button" id="add-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto" data-bs-toggle="modal" data-bs-target="#category-create-modal">
               Añadir categoria
             </button>
@@ -105,6 +105,7 @@
             <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
+          <div id="image-error"></div>
         </div>
         <div class="d-flex mt-5 mb-5">
           <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Avanzar</button>
@@ -221,6 +222,10 @@
           </div>
 
           <h5>Recursos</h5>
+
+          <div>
+            <input type="hidden" name="resource">
+          </div>
 
           <div class="mb-4">
             <label for="" role="button">Video</label>

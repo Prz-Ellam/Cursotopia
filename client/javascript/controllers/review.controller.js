@@ -4,7 +4,6 @@ import { createReviewService, showMoreCommentsService, deleteReviewService } fro
 import { getOneUserService } from "../services/user.service";
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
-import { Toast } from "../utilities/toast";
 import { showErrorMessage } from '../utilities/show-error-message';
 
 export const submitReview = async function(event) {

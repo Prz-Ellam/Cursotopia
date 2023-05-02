@@ -132,7 +132,6 @@ class UserController {
         $session->set("profilePicture", $user->getProfilePicture());
 
         // Eliminar la información de intentos de login
-        // TODO: unset una variable que no existe
         $session->unset("loginIntentsEmail");
         $session->unset("loginIntentsCount");
 
@@ -251,19 +250,6 @@ class UserController {
             return;
         }
 
-        // Validar que la sessión actual tiene permisos de usar esa imagen
-        $session = $request->getSession();
-        /*
-        if ($session->get("profilePicture_id") !== $imageId) {
-            $session->unset("profilePicture_id");
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "Image ID not allowed"
-            ]);
-            return;
-        }
-        */
-
         // Hasheamos la contraseña antes de guardarla en la base de datos
         $hashedPassword = Crypto::bcrypt($password);
 
@@ -273,7 +259,7 @@ class UserController {
             "name" => $name,
             "lastName" => $lastName,
             "birthDate" => $birthDate,
-            "userRole" => $userRole,
+            "role" => $userRole,
             "gender" => $gender,
             "email" => $email,
             "password" => $hashedPassword,
@@ -450,7 +436,6 @@ class UserController {
             $user
                 ->setPassword($hashedPassword);
 
-        
             $status = $user->save();
             if (!$status) {
                 $response->setStatus(400)->json([
@@ -471,13 +456,6 @@ class UserController {
                 "message" => "Ocurrio un error al actualizar la contraseña"
             ]);
         }
-    }
-
-    public function remove(Request $request, Response $response) {
-        $response->setStatus(405)->json([
-            "status" => false,
-            "message" => "Método no permitido"
-        ]);
     }
 
     public function checkEmailExists(Request $request, Response $response) {

@@ -150,7 +150,7 @@ class ImageController {
         if (!$image) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "message" => "No se encontró la imagen"
+                "message" => "Imagen no encontrada"
             ]);
             return;
         }

@@ -112,14 +112,25 @@ $(() => {
         const priceGroup = document.getElementById('price-group');
         const price = document.getElementById('price');
         if (event.target.checked) {
-            priceGroup.classList.add('d-none');
-            price.setAttribute('disabled', 'disabled');
+            $('#price').attr('disabled', true);
+            $('#level-create-free').attr('disabled', true);
+            $('#level-create-free').attr('checked', true);
+            $('#level-update-free').attr('disabled', true);
+            $('#level-update-free').attr('checked', true);
+            $('#price').val("0.00");
+            //priceGroup.classList.add('d-none');
+            //price.setAttribute('disabled', 'disabled');
         }
         else {
-            priceGroup.classList.remove('d-none');
-            price.removeAttribute('disabled');
+            $('#price').attr('disabled', false);
+            $('#level-create-free').attr('disabled', false);
+            $('#level-create-free').attr('checked', false);
+            $('#level-update-free').attr('disabled', false);
+            $('#level-update-free').attr('checked', false);
+            //priceGroup.classList.remove('d-none');
+            //price.removeAttribute('disabled');
+            $('#price').val("0.01");
         }
-        $('#price').val("0.00");
     });
 
 

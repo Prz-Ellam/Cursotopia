@@ -5,7 +5,6 @@ import LevelService, { createLevelService } from '../services/level.service';
 import { createVideoService } from '../services/video.service';
 import { createDocumentService } from '../services/document.service';
 import { createImage } from '../services/image.service';
-import Swal from 'sweetalert2';
 import { Toast } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
 
@@ -17,10 +16,6 @@ export const submitLevelCreate = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('level-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
-
     const checkbox = document.getElementById('level-create-free');
     const formData = new FormData(this);
     const level = {
@@ -30,6 +25,11 @@ export const submitLevelCreate = async function(event) {
         courseId: Number.parseInt(formData.get('courseId'))
     };
     const response = await LevelService.create(level);
+
+    const modal = document.getElementById('level-create-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
     if (!response?.status) {
         showErrorMessage(response);
         return;
@@ -39,31 +39,20 @@ export const submitLevelCreate = async function(event) {
         icon: 'success',
         title: 'El nivel ha sido añadido con éxito'
     });
-/*
-    const levelsList = document.getElementById('levels-list');
-    if (levelsList.children.length === 1 && levelsList.children[0].value === '') {
-        levelsList.children[0].value = response.id;
-    }
-    else {
-        const levelId = document.createElement('input');
-        levelId.setAttribute('type', 'hidden');
-        levelId.setAttribute('name', 'levels[]');
-        levelId.setAttribute('autocomplete', 'off');
-        levelId.value = response.id;
-        levelsList.appendChild(levelId);
-    }
-*/
+
     LevelView.createLevelSection({ 
         id: response.id,
         title: level.title
     });
+
+    document.querySelector('#level-create-form').reset();
 }
 
 export const courseEditionCreateLevel = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -97,14 +86,10 @@ export const courseEditionCreateLevel = async function(event) {
 export const courseCreationUpdateLevel = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
-
-    const modal = document.getElementById('level-update-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
 
     const checkbox = document.getElementById('level-update-free');
     const formData = new FormData(this);
@@ -116,24 +101,13 @@ export const courseCreationUpdateLevel = async function(event) {
 
     const id = $('#level-update-id').val();
     const response = await LevelService.update(level, id);
+
+    const modal = document.getElementById('level-update-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
     if (!response?.status) {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        await showErrorMessage(response);
         return;
     }
 
@@ -146,13 +120,15 @@ export const courseCreationUpdateLevel = async function(event) {
         id,
         title: level.title
     });
+
+    document.querySelector('update-level-form').reset();
 }
 
 export const courseEditionUpdateLevel = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 

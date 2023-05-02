@@ -8,6 +8,7 @@ use Bloom\Http\Response\Response;
 use Closure;
 use Cursotopia\Entities\Document;
 use Cursotopia\Helpers\Validate;
+use Cursotopia\Models\DocumentModel;
 use Cursotopia\Repositories\DocumentRepository;
 use DateTime;
 use Ramsey\Uuid\Nonstandard\Uuid;
@@ -41,15 +42,14 @@ class DocumentController {
 
         move_uploaded_file($file->getTmpName(), $address);
 
-        $documentRepository = new DocumentRepository();
-        $document = new Document();
-        $document
-            ->setName($name)
-            ->setContentType($contentType)
-            ->setAddress($address);
+        $document = new DocumentModel([
+            "name" => $name,
+            "contentType" => $contentType,
+            "address" => $address
+        ]);
+        $isCreated = $document->save();
+        $documentId = $document->getId();
 
-        $rowsAffected = $documentRepository->create($document);
-        $pdfId = DB::lastInsertId();
         /*
         $response->json([
             "status" => true,
@@ -61,7 +61,7 @@ class DocumentController {
         if ($payload) {
             $payloadObj = json_decode($payload, true);
             if ($payloadObj) {
-                $payloadObj["documentId"] = $pdfId;
+                $payloadObj["documentId"] = $documentId;
                 $request->setBodyParam("payload", json_encode($payloadObj));
             }
         }
@@ -83,8 +83,14 @@ class DocumentController {
             return;
         }
 
-        $documentRepository = new DocumentRepository();
-        $document = $documentRepository->findById($id);
+        $document = DocumentModel::findById($id);
+        if (!$document) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Documento no encontrado"
+            ]);
+            return;
+        }
 
         $data = file_get_contents($document["address"]);
         

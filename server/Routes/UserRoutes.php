@@ -114,11 +114,6 @@ $app->patch("/api/v1/users/:id/password", [ UserController::class, "updatePasswo
 ]);
 
 /**
- * Elimina un usuario
- */
-$app->delete("/api/v1/users/:id", [ UserController::class, "remove" ]); // !!!
-
-/**
  * Verifica si un correo electrónico es usado por algun usuario
  */
 $app->post("/api/v1/users/email", [ UserController::class, "checkEmailExists" ]);
@@ -135,7 +130,6 @@ $app->put("/api/v1/users/:id/disable", [ UserController::class, "disableUser" ],
 /**
  * Desbloquear a un usuario
  */
-// Solo administradores
 $app->put("/api/v1/users/:id/enable", [ UserController::class, "enableUser" ], [
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]

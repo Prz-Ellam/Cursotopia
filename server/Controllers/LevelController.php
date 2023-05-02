@@ -71,7 +71,14 @@ class LevelController {
                 ->setDescription($description)
                 ->setFree($free);
 
-            $status = $level->save();
+            $isCreated = $level->save();
+            if (!$isCreated) {
+                $response->setStatus(400)->json([
+                    "status" => true,
+                    "message" => "El nível no se pudo actualizar"
+                ]);
+                return;
+            }
 
             $response->json([
                 "status" => true,

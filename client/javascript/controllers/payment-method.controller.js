@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 import { createEnrollmentService } from '../services/enrollment.service';
+import { showErrorMessage } from '../utilities/show-error-message';
 
 export const enroll = async function(event) {
     event.preventDefault();
@@ -13,32 +14,23 @@ export const enroll = async function(event) {
     };
     
     const response = await createEnrollmentService(payment);
-    if (response.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡El curso fue comprado con éxito!',
-            confirmButtonText: 'Ir al curso',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+    
+    await Swal.fire({
+        icon: 'success',
+        title: '¡El curso fue obtenido con éxito!',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
 
-        window.location.href = 'course-visor';
-    }
-    else {
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Parece que algo salió mal',
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
+    window.location.href = '/home';
 }
 
 export const payment = async function(event) {
@@ -57,30 +49,21 @@ export const payment = async function(event) {
     };
     
     const response = await createEnrollmentService(payment);
-    if (response.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡El curso fue comprado con éxito!',
-            confirmButtonText: 'Ir al curso',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+    
+    await Swal.fire({
+        icon: 'success',
+        title: '¡El curso fue comprado con éxito!',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
 
-        window.location.href = 'course-visor';
-    }
-    else {
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Parece que algo salió mal',
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
+    window.location.href = '/home';
 }

@@ -9,7 +9,7 @@ SELECT
     u.`profile_picture` AS `profile_picture`,
     e.`enrollment_enroll_date`,
     e.`enrollment_amount`,
-    pm.`payment_method_name`,
+    IFNULL(pm.`payment_method_name`, 'Version de prueba') AS `payment_method_name`,
     get_user_course_completion(u.`user_id`, c.`course_id`) AS `percentage_complete`,
     e.`enrollment_created_at`,
     e.`enrollment_modified_at`,
@@ -24,7 +24,7 @@ INNER JOIN
     `users` AS u
 ON 
     e.`student_id` = u.`user_id`
-INNER JOIN 
+LEFT JOIN 
     `payment_methods` AS pm
 ON 
     e.`payment_method_id` = pm.`payment_method_id`
@@ -34,6 +34,3 @@ WHERE
 GROUP BY
     c.`course_id`,
     u.`user_id`;
-
-
-

@@ -54,6 +54,10 @@ class LinkModel {
         return ($rowsAffected > 0) ? true : false;
     }
     
+    public static function findById(?int $id): ?array {
+        $linkRepository = new LinkRepository();
+        return $linkRepository->findById($id);
+    }
 
     /**
      * Get the value of id

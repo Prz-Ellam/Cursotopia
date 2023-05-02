@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { createMessageService } from '../services/chat-message.service';
 import { createComment } from '../views/comment.view';
 
+// TODO: este deberia ir en message
 export const sendMessage = async (event) => {
     const message = {
         content: document.getElementById('message').value

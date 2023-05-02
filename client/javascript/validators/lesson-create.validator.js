@@ -83,6 +83,9 @@ export default {
             trimming: true,
             maxlength: 255
         },
+        'resource': {
+            resource: true
+        }
         /*
         'video': {
             filesize: 4 * 1024,

@@ -19,7 +19,7 @@
   <script src="../node_modules/aos/dist/aos.js"></script>
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   
@@ -61,9 +61,10 @@
           <label for="remember" class="form-check-label" role="button">Recuérdame</label>
         </div> -->
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center"
-            id="btn-login">
-            <div class="spinner me-2 d-none" id="login-spinner"></div>Iniciar sesión
+          <button type="submit" id="login-btn"
+            class="btn btn-primary rounded-pill gap-2 d-flex justify-content-center">
+            <div class="spinner d-none" id="login-spinner"></div>
+            <span>Iniciar sesión</span>
           </button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>

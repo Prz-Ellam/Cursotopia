@@ -47,7 +47,7 @@ class CourseModel {
     // Obtener los mejor calificados
 
     // No todas las propiedades de los modelos son de la entidad per se
-    public static function findById(int $id): ?CourseModel {
+    public static function findById(?int $id): ?CourseModel {
         $courseRepository = new CourseRepository();
         $courseObject = $courseRepository->findById($id);
         if (!$courseObject) {

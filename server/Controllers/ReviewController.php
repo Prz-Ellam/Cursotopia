@@ -4,25 +4,26 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Review;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
+use Cursotopia\ValueObjects\Roles;
 use Exception;
 
 class ReviewController {
     public function paymentMethod(Request $request, Response $response): void {
         $courseId = $request->getQuery("courseId");
-        if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
-            $response->setStatus(404)->render('404');
+        if (!Validate::uint($courseId)) {
+            $response->setStatus(404)->render("404");
             return;
         }
     
         $courseRepository = new CourseRepository();
         $course = $courseRepository->findById($courseId);
         if (!$course) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
     
@@ -30,7 +31,6 @@ class ReviewController {
     }
     
     public function create(Request $request, Response $response): void {
-
         try{
             // Obtener el parametro del curso
             // TODO: Un usuario solo puede hacer una reseña?
@@ -57,7 +57,7 @@ class ReviewController {
 
             //Validar que el usuario haciendo la reseña tenga rol estudiante
 
-            if ($role!=3) {
+            if ($role !== /*Roles::STUDENT*/ 3) {
                 $response->setStatus(409)->json([
                     "status" => false,
                     "message" => "El usuario no tiene rol estudiante"
@@ -79,7 +79,7 @@ class ReviewController {
 
             // Validar que la persona que esta haciendo la reseña acabó el curso
 
-            if (!$enroll->getEnrollmentIsFinished()) {
+            if (!$enroll->getIsFinished()) {
                 $response->setStatus(409)->json([
                     "status" => false,
                     "message" => "El estudiante no ha concluido el curso"
@@ -89,7 +89,7 @@ class ReviewController {
 
             //Validar que no haya dejado una reseña al curso previamente
 
-            $userReview= ReviewModel::findOneByCourseAndUserId($courseId,$userId);
+            $userReview= ReviewModel::findOneByCourseAndUserId($courseId, $userId);
 
             if ($userReview) {
                 $response->setStatus(409)->json([

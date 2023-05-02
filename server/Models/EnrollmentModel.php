@@ -150,7 +150,7 @@ class EnrollmentModel {
     }
 
     /**
-     * Get the value of enrollmentIsFinished
+     * Get the value of isFinished
      */ 
     public function getIsFinished()
     {
@@ -158,7 +158,7 @@ class EnrollmentModel {
     }
 
     /**
-     * Set the value of enrollmentIsFinished
+     * Set the value of isFinished
      *
      * @return  self
      */ 

@@ -11,10 +11,6 @@ export const createLesson = async function(event) {
     if (!isFormValid) {
         return;
     }
-
-    const modal = document.getElementById('lesson-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
     
     const levelId = document.getElementById('create-lesson-level').value;
     const title = document.getElementById('create-lesson-title').value;
@@ -24,10 +20,14 @@ export const createLesson = async function(event) {
     const lesson = {
         title: formData.get('title'),
         description: formData.get('description'),
-        levelId: Number.parseInt(formData.get('levelId'))
+        levelId: Number.parseInt(formData.get('levelId')),
+        link: {
+            name: formData.get('link-title'),
+            url: formData.get('link-url')
+        }
     }
 
-    
+    console.log(lesson);
 
     const lessonForm = new FormData();
     lessonForm.append('payload', JSON.stringify(lesson));
@@ -39,14 +39,19 @@ export const createLesson = async function(event) {
     }
 
     if (imageFile.size > 0) {
-        lessonForm.append('video', imageFile);
+        lessonForm.append('image', imageFile);
     }
 
-    if (document.size > 0) {
-        lessonForm.append('video', documentFile);
+    if (documentFile.size > 0) {
+        lessonForm.append('document', documentFile);
     }
 
     const response = await LessonService.create(lessonForm);
+
+    const modal = document.getElementById('lesson-create-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
     if (!response?.status) {
         showErrorMessage(response);
         return;

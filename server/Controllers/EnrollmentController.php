@@ -41,7 +41,7 @@ class EnrollmentController {
         }
 
         
-        if (!$enrollment["enrollmentIsFinished"]) {
+        if (!$enrollment["isFinished"]) {
             $response->setStatus(404)->render("404");
             return;
         }

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-function readFileAsync(file) {
+export function readFileAsync(file) {
     return new Promise((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.onload = () => {
@@ -25,6 +25,7 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
+            $(selectorImage).attr('src', defaultImage);
             //inputFile.value = previousFile;
             return;
         }
@@ -42,10 +43,7 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
                 },
             });
             $(selectorInput).val('');
-            //pictureBox.src = defaultImage;
-            //profilePictureId.value = '';
-            //inputFile.value = previousFile;
-            //$(".user-form").validate().element('#profile-picture-id');
+            $(selectorImage).attr('src', defaultImage);
             return;
         }
 
@@ -61,21 +59,18 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
                 },
             });
             $(selectorInput).val('');
-            //pictureBox.src = defaultImage;
-            //profilePictureId.value = '';
-            //inputFile.value = previousFile;
-            //$(".user-form").validate().element('#profile-picture-id');
+            $(selectorImage).attr('src', defaultImage);
+            $("#signup-form").validate().element('#profile-picture');
             return;
         }
 
         const dataUrl = await readFileAsync(file);
-        //pictureBox.src = dataUrl;
         $(selectorImage).attr('src', dataUrl);
-        //previousFile = file;
-        
+        //$('#signup-form').validate().element(selectorInput);
     }
     catch (exception) {
         console.log(exception);
-        //pictureBox.src = defaultImage;
+        $(selectorInput).val('');
+        $(selectorImage).attr('src', defaultImage);
     }
 }

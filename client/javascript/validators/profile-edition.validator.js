@@ -5,10 +5,13 @@ $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';
 }, 'Please enter a valid');
 
-$.validator.addMethod("dateRange", function (value, element, parameter) {
-    return this.optional(element) ||
-        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
-}, 'Please enter a valid date');
+$.validator.addMethod('dateMax', function(value, element, parameter) {
+    return this.optional(element) || value <= parameter;
+}, 'Please enter a valid');
+
+$.validator.addMethod('dateMin', function(value, element, parameter) {
+    return this.optional(element) || value >= parameter;
+}, 'Please enter a valid');
 
 $.validator.addMethod('regex', function (value, element, parameter) {
     var regexp = new RegExp(parameter);
@@ -58,7 +61,8 @@ export default {
         'birthDate': {
             required: true,
             date: true,
-            dateRange: [ '1900-01-01', dateFormat ]
+            dateMin: '1900-01-01',
+            dateMax: dateFormat,
         },
         'email': {
             required: true,
@@ -100,7 +104,8 @@ export default {
         'birthDate': {
             required: 'La fecha de nacimiento es requerida',
             date: 'La fecha de nacimiento no tiene el formato requerido',
-            dateRange: 'Debes tener al menos 18 años para usar nuestro servicio'
+            dateMin: 'La fecha de nacimiento no es válida',
+            dateMax: 'Debes tener al menos 18 años para registrarte',
         },
         'email': {
             required: 'El correo electrónico es requerido',

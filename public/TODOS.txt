@@ -7,3 +7,5 @@ Regla
 
 
 Maxlength en los query params y tal vez route params
+
+Las categorías en cursos esta duplicada

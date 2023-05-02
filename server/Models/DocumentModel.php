@@ -58,6 +58,11 @@ class DocumentModel {
         }
         return ($rowsAffected > 0) ? true : false;
     }
+
+    public static function findById(?int $id): ?array {
+        $documentRepository = new DocumentRepository();
+        return $documentRepository->findById($id);
+    }
     
     public function getId(): ?int {
         return $this->id;

@@ -7,6 +7,7 @@
 @import '../configuration/fonts.css';
 @import '../partials/navbar.css';
 @import '../partials/forms.css';
+@import '../partials/spinner.css';
 
 main {
     margin: 0;

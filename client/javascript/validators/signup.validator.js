@@ -15,11 +15,11 @@ $.validator.addMethod('range', function(value, element, parameter) {
 
 $.validator.addMethod('dateMax', function(value, element, parameter) {
     return this.optional(element) || value <= parameter;
-});
+}, 'Please enter a valid');
 
 $.validator.addMethod('dateMin', function(value, element, parameter) {
     return this.optional(element) || value >= parameter;
-});
+}, 'Please enter a valid');
 
 $.validator.addMethod('enum', function(value, element, parameter) {
     return this.optional(element) || parameter.includes(value);

@@ -39,7 +39,6 @@ class VideoModel {
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
     
-
     public function save(): bool {
         $video = new Video();
         $video
@@ -69,4 +68,48 @@ class VideoModel {
         return ($rowsAffected > 0) ? true : false;
     }
     
+    public static function findById(?int $id): ?array {
+        $videoRepository = new VideoRepository();
+        return $videoRepository->findById($id);
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     */ 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */ 
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 }

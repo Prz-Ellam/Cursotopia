@@ -8,6 +8,7 @@ use Bloom\Http\Response\Response;
 use Closure;
 use Cursotopia\Entities\Video;
 use Cursotopia\Helpers\Validate;
+use Cursotopia\Models\VideoModel;
 use Cursotopia\Repositories\VideoRepository;
 use DateTime;
 use getID3;
@@ -52,15 +53,14 @@ class VideoController {
         
         move_uploaded_file($file->getTmpName(), $address);
 
-        $videoRepository = new VideoRepository();
-        $video = new Video();
-        $video
-            ->setName($name)
-            ->setDuration($time_string)
-            ->setContentType($contentType)
-            ->setAddress($address);
-        $rowsAffected = $videoRepository->create($video);
-        $videoId = DB::lastInsertId();
+        $video = new VideoModel([
+            "name" => $name,
+            "duration" => $time_string,
+            "contentType" => $contentType,
+            "address" => $address
+        ]);
+        $result = $video->save();
+        $videoId = $video->getId();
         /*
         $response->json([
             "status" => true,
@@ -94,8 +94,14 @@ class VideoController {
             return;
         }
 
-        $videoRepository = new VideoRepository();
-        $video = $videoRepository->findById($id);
+        $video = VideoModel::findById($id);
+        if (!$video) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Video no encontrado"
+            ]);
+            return;
+        }
 
         // que pasa si el video es eliminado? 
         // eso no deberia pasar pero hay que estar precavidos si pasa

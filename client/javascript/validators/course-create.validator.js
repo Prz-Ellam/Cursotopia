@@ -53,8 +53,11 @@ export default {
     errorElement: 'small',
     errorPlacement: function (error, element) {
         let targetElement = element;
-        if (element.attr('name') === 'levels[]' || element.attr('name') === 'price') {
+        if (element.attr('name') === 'categories[]' || element.attr('name') === 'price') {
             targetElement = element.parent();
+        }
+        if (element.attr('name') === 'image') {
+            targetElement = $('#image-error'); 
         }
         error.insertAfter(targetElement).addClass('text-danger').addClass('form-text').attr('id', element[0].id + '-error-label');
     },

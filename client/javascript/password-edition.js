@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import { passwordStrength, passwordToggle, updatePassword } from './controllers/user.controller';
-import passwordEditionValidator from './validators/password-edition.validator';
+import PasswordEditionValidator from './validators/password-edition.validator';
 
 $(() => {
     $('#new-password').on('input', function(event) {
@@ -21,6 +21,6 @@ $(() => {
         passwordToggle('#confirm-new-password', '#confirm-new-password-button i');
     });
 
-    $('#password-edition-form').validate(passwordEditionValidator);
+    $('#password-edition-form').validate(PasswordEditionValidator);
     $('#password-edition-form').on('submit', updatePassword);
 });

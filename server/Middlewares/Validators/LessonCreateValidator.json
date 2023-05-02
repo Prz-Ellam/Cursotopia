@@ -39,14 +39,19 @@
             
         },
         "link": {
-            "type": "object",
             "properties": {
                 "name": {
-
+                    "type": "string",
+                    "$error": {
+                        "type": "El nombre del enlace debe ser una cadena"
+                    }
                 },
                 "address": {
-
+                    "type": "string"
                 }
+            },
+            "$error": {
+                "type": "En enlace debe ser un objeto"
             }
         }
     },

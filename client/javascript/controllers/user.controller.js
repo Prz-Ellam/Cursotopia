@@ -2,66 +2,51 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-import { createImage, updateImageService } from '../services/image.service';
+import { updateImageService } from '../services/image.service';
 import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { ToastBottom } from '../utilities/toast';
+import { readFileAsync } from './image.controller';
 
 export const submitLogin = async function(event) {
     event.preventDefault();
+
     const validations = $(this).valid();
     if (!validations) {
         return;
     }
 
-    const btnSubmit = document.getElementById('btn-login');
-    btnSubmit.disabled = true;
-    const loginSpinner = document.getElementById('login-spinner');
-    loginSpinner.classList.remove('d-none');
-
     const formData = new FormData(this);
-    const user = {};
-    for (const [key, value] of formData) {
-        user[key] = value;
-    }
+    const user = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
     
+    $('#login-btn').prop('disabled', true);
+    $('#login-spinner').removeClass('d-none');
+
     const response = await loginUser(user);
-    loginSpinner.classList.add('d-none');
-    btnSubmit.disabled = false;
+    
+    $('#login-spinner').addClass('d-none');
+    $('#login-btn').prop('disabled', false);
 
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido de vuelta a Cursotopia! 😊',
-            confirmButtonText: 'Avanzar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
 
-        window.location.href = '/home';
-    }
-    else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
+    await Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido de vuelta a Cursotopia! 😊',
+        confirmButtonText: 'Avanzar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
 export const submitSignup = async function(event) {
@@ -91,24 +76,32 @@ export const submitSignup = async function(event) {
     userForm.append('image', formData.get('image'));
 
     // Envio de datos a la API
+    $('#signup-btn').prop('disabled', true);
+    $('#signup-spinner').removeClass('d-none');
+
     const response = await createUserService(userForm);
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido a Cursotopia! 😊',
-            text: 'Cuna de los mejores cursos de la tierra',
-            confirmButtonText: 'Comencemos',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
-        window.location.href = '/home';
+
+    $('#signup-spinner').addClass('d-none');
+    $('#signup-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
-    else {
-        showErrorMessage(response);
-    }
+    
+    await Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido a Cursotopia! 😊',
+        text: 'Cuna de los mejores cursos de la tierra',
+        confirmButtonText: 'Comencemos',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
 /**
@@ -170,9 +163,6 @@ export const passwordToggle = function(selectorInput, selectorIcon) {
     $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
     $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
 }
-
-
-
 
 
 // TODO: changeProfilePicture
@@ -297,38 +287,16 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        //const formData = new FormData();
-        //formData.append('image', file, file.name);
-        /*
-        if (!profilePictureId.value) {
-            const response = await createImage(formData);
-            if (!response?.status) {
-                ToastBottom.fire({
-                    icon: 'error',
-                    title: 'No se pudo cargar la imagen'
-                });
-                return;
-            }
-            const imageId = response.id;
-            profilePictureId.value = imageId;
-        }
-        else {
-            const response = await updateImageService(formData, profilePictureId.value);
-            
-        }
-        */
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
         $('.profile-picture').attr('src', dataUrl);
         previousFile = file;
-        
     }
     catch (exception) {
         console.log(exception);
         pictureBox.src = defaultImage;
     }
     //$(".user-form").validate().element('#profile-picture-id');
-
 }
 
 export const updateUser = async function(event) {
@@ -348,27 +316,31 @@ export const updateUser = async function(event) {
         email:      formData.get('email')
     };
 
-    //document.getElementById('submit-btn').disabled = false;
-    const response = await updateUserService(user, formData.get('id'));
-    //document.getElementById('submit-btn').disabled = true;
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: 'Tú perfil se actualizó exitosamente',
-            confirmButtonText: 'Continuar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    $('#profile-edition-btn').prop('disabled', true);
+    $('#profile-edition-spinner').removeClass('d-none');
 
-        // TODO: uri estatica
-        window.location.href = '/home';
+    const response = await updateUserService(user, formData.get('id'));
+
+    $('#profile-edition-spinner').addClass('d-none');
+    $('#profile-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
-    else {
-        showErrorMessage(response);
-    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú perfil se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
 export const updatePassword = async function(event) {
@@ -386,23 +358,29 @@ export const updatePassword = async function(event) {
         confirmNewPassword: formData.get('confirmNewPassword')
     };
 
-    //document.getElementById('btn-submit').disabled = false;
+    $('#password-edition-btn').prop('disabled', true);
+    $('#password-edition-spinner').removeClass('d-none');
+
     const response = await updateUserPasswordService(user, formData.get('id'));
-    //document.getElementById('btn-submit').disabled = true;
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: 'Tú contraseña se actualizó exitosamente',
-            confirmButtonText: 'Continuar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
-        window.location.href = '/home';
+
+    $('#password-edition-spinner').addClass('d-none');
+    $('#password-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
-    else {
-        showErrorMessage(response);
-    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú contraseña se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }

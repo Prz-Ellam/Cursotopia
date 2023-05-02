@@ -9,7 +9,7 @@ BEGIN
         `enrollment_id` AS `id`,
         `course_id` AS `courseId`,
         `student_id` AS `studentId`,
-        `enrollment_is_finished` AS `enrollmentIsFinished`,
+        `enrollment_is_finished` AS `isFinished`,
         `enrollment_enroll_date` AS `enrollDate`,
         `enrollment_finish_date` AS `finishDate`,
         `enrollment_certificate_uid` AS `certificateUid`,
@@ -398,7 +398,7 @@ END $$
 DELIMITER ;
 
 
-
+CALL `course_enrollments_report`(6, null, null, 100, 0);
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_enrollments_report` $$

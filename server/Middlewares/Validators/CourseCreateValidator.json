@@ -24,12 +24,12 @@
         "price": {
             "type": "number",
             "minimum": 0,
-            "multipleOf": 0.01,
+            
             "format": "currency",
             "$error": {
                 "type": "El precio debe ser un entero",
                 "minimum": "El precio no puede ser menor que 0.00",
-                "multipleOf": "El precio solo puede tener dos decimales",
+                
                 "format": "El precio no tiene formato de moneda"
             }
         },

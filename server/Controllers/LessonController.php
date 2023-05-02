@@ -7,12 +7,21 @@ use Bloom\Http\Response\Response;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
+use Cursotopia\Models\LinkModel;
 use Exception;
 
 class LessonController {
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
         $lesson = LessonModel::findById($id);
+        if (!$lesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
         $response->json($lesson->toObject());
     }
 
@@ -28,6 +37,7 @@ class LessonController {
                 "videoId" => $videoId,
                 "imageId" => $imageId,
                 "documentId" => $documentId,
+                "link" => $link
                 //"linkId" => $linkId
             ] = $request->getBody();
 
@@ -41,6 +51,25 @@ class LessonController {
                 return;
             }
 
+            $linkId = null;
+            if ($link["name"] !== "" && $link["url"] !== "") {
+                $link = new LinkModel([
+                    "name" => $link["name"],
+                    "address" => $link["url"]
+                ]);
+                $isCreated = $link->save();
+
+                if (!$isCreated) {
+                    $response->setStatus(400)->json([
+                        "status" => false,
+                        "message" => "No se pudo crear el enlace"
+                    ]);
+                    return;
+                }
+                $linkId = $link->getId();
+            }
+
+
             $lesson = new LessonModel([
                 "title" => $title,
                 "description" => $description,
@@ -48,7 +77,7 @@ class LessonController {
                 "videoId" => $videoId,
                 "imageId" => $imageId,
                 "documentId" => $documentId,
-                "linkId" => null
+                "linkId" => $linkId
             ]);
             $lesson->save();
             
