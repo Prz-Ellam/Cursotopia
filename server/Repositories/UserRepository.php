@@ -76,6 +76,24 @@ class UserRepository extends DB {
         )
     SQL;
 
+    private const ENABLE = <<<'SQL'
+        UPDATE
+        `users`
+        SET
+            `user_enabled` = TRUE
+        WHERE
+            `user_id` = :id;
+    SQL;
+
+    private const DISABLE = <<<'SQL'
+        UPDATE
+        `users`
+        SET
+            `user_enabled` = FALSE
+        WHERE
+            `user_id` = :id;
+    SQL;
+
     private const UPDATE = <<<'SQL'
         CALL user_update(
             :id, 
@@ -118,6 +136,10 @@ class UserRepository extends DB {
 
     private const FIND_BLOCKED = <<<'SQL'
         CALL `user_find_blocked`()
+    SQL;
+
+    private const FIND_UNBLOCKED = <<<'SQL'
+        CALL `user_find_unblocked`()
     SQL;
     
     public function create(User $user): int {
@@ -194,6 +216,20 @@ class UserRepository extends DB {
         return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, $parameters);
     }
 
+    public function enable(int $userId) {
+        $parameters = [
+            "id" => $userId
+        ];
+        return $this::executeNonQuery($this::ENABLE, $parameters);
+    }
+    
+    public function disable(int $userId) {
+        $parameters = [
+            "id" => $userId
+        ];
+        return $this::executeNonQuery($this::DISABLE, $parameters);
+    }
+
     public function findAll(string $name, int $role) {
         $parameters = [
             "name" => $name,
@@ -211,6 +247,10 @@ class UserRepository extends DB {
 
     public function findBlocked() {
         return $this::executeReader($this::FIND_BLOCKED, []);
+    }
+
+    public function findUnblocked() {
+        return $this::executeReader($this::FIND_UNBLOCKED, []);
     }
 
     public function lastInsertId2(): string {

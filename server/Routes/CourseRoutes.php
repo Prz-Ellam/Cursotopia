@@ -67,6 +67,8 @@ $app->get("/search", [ CourseController::class, "search" ]);
  */
 $app->get("/api/v1/courses/:id", [ CourseController::class, "getOne" ]);
 
+$app->get("/api/v1/courses", [ CourseController::class, "findByNotApproved" ]);
+
 /**
  * Crea un curso
  */
@@ -106,6 +108,14 @@ $app->put("/api/v1/courses/:id/confirm", [ CourseController::class, "confirm" ],
  * Aprueba un curso
  */
 $app->put("/api/v1/courses/:id/approve", [ CourseController::class, "approve" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ] 
+]);
+
+/**
+ * Denegar un curso
+ */
+$app->put("/api/v1/courses/:id/deny", [ CourseController::class, "deny" ], [
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ] 
 ]);

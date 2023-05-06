@@ -80,7 +80,60 @@ BEGIN
     ON
         c.`category_created_by` = u.`user_id`
     WHERE
-        `category_is_approved` = FALSE;
+        `category_is_approved` = FALSE
+        AND `category_active` = TRUE;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_not_active` $$
+CREATE PROCEDURE `category_find_not_active`()
+BEGIN
+    SELECT
+        c.`category_id` AS `id`,
+        c.`category_name` AS `name`,
+        c.`category_description` AS `description`,
+        c.`category_is_approved` AS `isApproved`,
+        c.`category_approved_by` AS `approvedBy`,
+        c.`category_created_by` AS `createdBy`,
+        c.`category_created_at` AS `createdAt`,
+        c.`category_modified_at` AS `modifiedAt`,
+        c.`category_active` AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
+    FROM
+        `categories` AS c
+    INNER JOIN
+        `users` AS u
+    ON
+        c.`category_created_by` = u.`user_id`
+    WHERE
+        `category_active` = FALSE;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_not_active` $$
+CREATE PROCEDURE `category_find_not_active`()
+BEGIN
+    SELECT
+        c.`category_id` AS `id`,
+        c.`category_name` AS `name`,
+        c.`category_description` AS `description`,
+        c.`category_is_approved` AS `isApproved`,
+        c.`category_approved_by` AS `approvedBy`,
+        c.`category_created_by` AS `createdBy`,
+        c.`category_created_at` AS `createdAt`,
+        c.`category_modified_at` AS `modifiedAt`,
+        c.`category_active` AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
+    FROM
+        `categories` AS c
+    INNER JOIN
+        `users` AS u
+    ON
+        c.`category_created_by` = u.`user_id`
+    WHERE
+        `category_active` = FALSE;
 END $$
 DELIMITER ;
 
@@ -98,7 +151,7 @@ BEGIN
     SET
         `category_is_approved` = TRUE,
         `category_approved_by` = _admin_id,
-        `category_created_by` = NOW()
+        `category_modified_at` = NOW()
     WHERE
         `category_id` = _category_id;
 END $$

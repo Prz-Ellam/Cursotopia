@@ -234,6 +234,28 @@ class UserModel {
         return $object;
     }
 
+    public static function findUnblocked(): ?array {
+        $repository = new UserRepository();
+        $object = $repository->findUnblocked();
+        return $object;
+    }
+
+    public static function findBlocked(): ?array {
+        $repository = new UserRepository();
+        $object = $repository->findBlocked();
+        return $object;
+    }
+
+    public static function disableUser($userId){
+        $repository = new UserRepository();
+        return $repository->disable($userId);
+    }
+
+    public static function enableUser($userId){
+        $repository = new UserRepository();
+        return $repository->enable($userId);
+    }
+
     public function toObject() : array {
         $members = get_object_vars($this);
         return json_decode(json_encode($members), true);

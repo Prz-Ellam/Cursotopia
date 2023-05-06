@@ -20,6 +20,32 @@ $app->get("/admin/categories", [ CategoryController::class, "categories" ], [
 $app->get("/api/v1/categories", [ CategoryController::class, "getAll" ]);
 
 /**
+ * Obtiene todas las categorías approvadas
+ */
+$app->get("/api/v1/categories/approved", [ CategoryController::class, "getApproved" ]);
+
+/**
+ * Obtiene todas las categorías no aprobadas
+ */
+$app->get("/api/v1/categories/notApproved", [ CategoryController::class, "getNotApproved" ]);
+
+/**
+ * Obtiene todas las categorías no activas
+ */
+$app->get("/api/v1/categories/notActive", [ CategoryController::class, "getNotActive" ]);
+
+/**
+ * Checa si una categoría existe por su nombre
+ */
+$app->post("/api/v1/categories/name", [ CategoryController::class, "checkNameExists" ]);
+
+/**
+ * Obtiene una categoría
+ */
+$app->get("/api/v1/categories/:id", [ CategoryController::class, "findById" ]);
+
+
+/**
  * Crea una categoría
  */
 $app->post("/api/v1/categories", [ CategoryController::class, "create" ], [ 
@@ -49,6 +75,26 @@ $app->put("/api/v1/categories/:id/approve", [ CategoryController::class, "approv
 ]);
 
 /**
- * Checa si una categoría existe por su nombre
+ * Denegar una categoría
  */
-$app->post("/api/v1/categories/name", [ CategoryController::class, "checkNameExists" ]);
+
+$app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], [
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+
+/**
+ * Activar una categoría
+ */
+
+ $app->put("/api/v1/categories/:id/activate", [ CategoryController::class, "activate" ], [
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+
+/**
+ * Desactivar una categoría
+ */
+
+ $app->put("/api/v1/categories/:id/deactivate", [ CategoryController::class, "deactivate" ], [
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+

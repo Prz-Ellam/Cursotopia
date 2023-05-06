@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../client/styles/pages/admin-categories.css">
   
+  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
   <?= $this->script("javascript/admin-categories.js") ?>
 </head>
 <body>
@@ -76,14 +78,14 @@
                       <th>Aceptar/Declinar</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <?php foreach($this->categories as $category): ?>
+                  <tbody id="notApprovedCategories">
+                    <?php foreach($this->notApprovedCategories as $category): ?>
                     <tr class="text-center">
                       <td data-title="Curso"><?= $category["name"] ?></td>
                       <td data-title="Usuario"><?= $category["user"] ?></td>
                       <td data-title="Aceptar/Declinar">
-                        <button class="btn border-0 approve-btn"><i class='bx bxs-check-circle'></i></button>
-                        <button class="btn border-0 denied-btn"><i class='bx bxs-x-circle'></i></button></td>
+                        <button class="btn border-0 approve-btn" id="<?= $category["id"] ?>"><i class='bx bxs-check-circle' ></i></button>
+                        <button class="btn border-0 denied-btn" id="<?= $category["id"] ?>"><i class='bx bxs-x-circle' ></i></button></td>
                     </tr>
                     <?php endforeach ?>
                   </tbody>
@@ -93,19 +95,16 @@
 
             <div class="col-md-3 col-sm-12 categories mt-4">
               <h4 class="text-center mb-4">Categorias</h4>
-              <div class="d-flex">
-                <p class="">Programación</p>
-                <button class="btn ms-auto update-category-btn text-success border-0">
-                  <i class='bx bxs-pencil'></i>
-                </button>
-                <button class="btn p-0"><i class='bx bxs-x-circle'></i></button>
-              </div>
-              <div class="d-flex">
-                <p class="">Cocina</p>
-                <button class="btn ms-auto update-category-btn text-success border-0">
-                  <i class='bx bxs-pencil'></i>
-                </button>
-                <button class="btn p-0"><i class='bx bxs-x-circle'></i></button>
+              <div id="approvedCategories">
+                <?php foreach($this->categories as $category): ?>
+                  <div class="d-flex">
+                    <p class=""><?= $category["name"] ?></p>
+                    <button class="btn ms-auto update-category-btn text-success border-0 edit-btn" id="<?= $category["id"] ?>">
+                      <i class='bx bxs-pencil'></i>
+                    </button>
+                    <button class="btn p-0 deactivate-btn" id="<?= $category["id"] ?>"><i class='bx bxs-x-circle'></i></button>
+                  </div>
+                <?php endforeach ?>
               </div>
             </div>
 
@@ -121,43 +120,21 @@
                       <th>Activar</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="inactiveCategories">
+                  <?php foreach($this->notActiveCategories as $category): ?>
                     <tr class="text-center">
-                      <td data-title="Categoría">BDM</td>
-                      <td data-title="Usuario">Denisse Cardoza</td>
+                      <td data-title="Categoría"><?= $category["name"] ?></td>
+                      <td data-title="Usuario"><?= $category["user"] ?></td>
                       <td data-title="Detalle">
-                        <button class="btn btn-secondary rounded-pill update-category-btn">
+                        <button class="btn btn-secondary rounded-pill update-category-btn details-btn" id="<?= $category["id"] ?>">
                           Ver detalles
                         </button>
                       </td>
                       <td data-title="Activar">
-                        <button class="btn btn-secondary rounded-pill">Activar</button>
+                        <button class="btn btn-secondary rounded-pill activate-btn" id="<?= $category["id"] ?>">Activar</button>
                       </td>
                     </tr>
-                    <tr class="text-center">
-                      <td data-title="Categoría">BDM</td>
-                      <td data-title="Usuario">Denisse Cardoza</td>
-                      <td data-title="Detalle">
-                        <button class="btn btn-secondary rounded-pill update-category-btn">
-                          Ver detalles
-                        </button>
-                      </td>
-                      <td data-title="Activar">
-                        <button class="btn btn-secondary rounded-pill">Activar</button>
-                      </td>
-                    </tr>
-                    <tr class="text-center">
-                      <td data-title="Categoría">BDM</td>
-                      <td data-title="Usuario">Denisse Cardoza</td>
-                      <td data-title="Detalle">
-                        <button class="btn btn-secondary rounded-pill update-category-btn">
-                          Ver detalles
-                        </button>
-                      </td>
-                      <td data-title="Activar">
-                        <button class="btn btn-secondary rounded-pill">Activar</button>
-                      </td>
-                    </tr>
+                  <?php endforeach ?>
                   </tbody>
                 </table>
               </div>
@@ -177,6 +154,9 @@
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+        <div class="mb-4">
+            <input type="text" class="form-control" id="category-id" name="id" hidden>
+          </div>
           <div class="mb-4">
             <label for="category-name" class="form-label" role="button">Nombre</label>
             <input type="text" class="form-control" id="category-name" name="name" autocomplete="off">

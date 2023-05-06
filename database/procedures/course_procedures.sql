@@ -120,7 +120,8 @@ BEGIN
     ON
         c.`instructor_id` = u.`user_id`
     WHERE
-        `course_approved` = FALSE;
+        `course_approved` = FALSE
+        AND `course_active` = TRUE;
 END $$
 DELIMITER ;
 

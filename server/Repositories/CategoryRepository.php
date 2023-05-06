@@ -45,7 +45,7 @@ class CategoryRepository {
             category_modified_at = NOW(),
             category_active = :active
         WHERE
-            id = :id
+            category_id = :id
     SQL;
 
     private const FIND_ONE = <<<'SQL'
@@ -83,6 +83,28 @@ class CategoryRepository {
         WHERE
             category_active = TRUE
             AND category_is_approved = TRUE
+    SQL;
+
+    private const FIND_NOT_ACTIVE = <<<'SQL'
+        SELECT
+            c.`category_id` AS `id`,
+            c.`category_name` AS `name`,
+            c.`category_description` AS `description`,
+            c.`category_is_approved` AS `isApproved`,
+            c.`category_approved_by` AS `approvedBy`,
+            c.`category_created_by` AS `createdBy`,
+            c.`category_created_at` AS `createdAt`,
+            c.`category_modified_at` AS `modifiedAt`,
+            c.`category_active` AS `active`,
+            CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
+        FROM
+            `categories` AS c
+        INNER JOIN
+            `users` AS u
+        ON
+            c.`category_created_by` = u.`user_id`
+        WHERE
+            category_active = FALSE;
     SQL;
 
     private const FIND_ALL_WITH_USER = <<<'SQL'
@@ -193,12 +215,40 @@ class CategoryRepository {
         return DB::executeReader($this::FIND_NOT_APPROVED, []);
     }
 
+    public function findNotActive(): array {
+        return DB::executeReader($this::FIND_NOT_ACTIVE, []);
+    }
+
     public function approve(int $categoryId, int $adminId): bool {
         $parameters = [
             "category_id" => $categoryId,
             "admin_id" => $adminId
         ];
         return DB::executeNonQuery($this::APPROVE, $parameters);
+    }
+
+    public function deny(int $categoryId): bool {
+        $parameters = [
+            "id" => $categoryId,
+            "active" => FALSE
+        ];
+        return DB::executeNonQuery($this::DELETE, $parameters);
+    }
+
+    public function activate(int $categoryId): bool {
+        $parameters = [
+            "id" => $categoryId,
+            "active" => TRUE
+        ];
+        return DB::executeNonQuery($this::DELETE, $parameters);
+    }
+
+    public function deactivate(int $categoryId): bool {
+        $parameters = [
+            "id" => $categoryId,
+            "active" => FALSE
+        ];
+        return DB::executeNonQuery($this::DELETE, $parameters);
     }
 
     public function findOneByName(?string $name): ?array {

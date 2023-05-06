@@ -68,11 +68,30 @@ class UserController {
     }
 
     public function blockedUsers(Request $request, Response $response): void {
-        $userRepository = new UserRepository();
-        $users = $userRepository->findBlocked();
+        $blockedUsers = UserModel::findBlocked();
+        $unblockedUsers = UserModel::findUnblocked();
 
         $response->render("blocked-users", [
-            "users" => $users
+            "blockedUsers" => $blockedUsers,
+            "users" => $unblockedUsers
+        ]);
+    }
+
+    public function findBlockedUsers(Request $request, Response $response): void {
+        $blockedUsers = UserModel::findBlocked();
+
+        $response->json([
+            "status" => true,
+            "blockedUsers" => $blockedUsers
+        ]);
+    }
+
+    public function findUnblockedUsers(Request $request, Response $response): void {
+        $unblockedUsers = UserModel::findUnblocked();
+
+        $response->json([
+            "status" => true,
+            "unblockedUsers" => $unblockedUsers
         ]);
     }
 
@@ -472,10 +491,60 @@ class UserController {
     }
 
     public function disableUser(Request $request, Response $response): void {
+        $id = intval($request->getParams("id"));
 
+        // Devuelve el usuario si lo encuentra, si no devuelve null
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El usuario no fue encontrado"
+            ]);
+            return;
+        }
+
+        $result= UserModel::disableUser($id);
+        if(!$result){
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => $result
+            ]);
+            return;
+        }
+
+        $response->json([
+            "status" => true,
+            "message" => "El usuario fue bloqueado con éxito"
+        ]);
+        return;
     }
 
     public function enableUser(Request $request, Response $response): void {
+        $id = intval($request->getParams("id"));
 
+        // Devuelve el usuario si lo encuentra, si no devuelve null
+        $user = UserModel::findById($id);
+        if (!$user) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El usuario no fue encontrado"
+            ]);
+            return;
+        }
+
+        $result= UserModel::enableUser($id);
+        if(!$result){
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => $result
+            ]);
+            return;
+        }
+
+        $response->json([
+            "status" => true,
+            "message" => "El usuario fue desbloqueado con éxito"
+        ]);
+        return;
     }
 }

@@ -14,6 +14,9 @@
   <!-- Boxicons -->
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+  <!-- SweetAlert -->
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
   <?= $this->link("styles/pages/admin-courses.css") ?>
@@ -78,13 +81,13 @@
                         <th>Aceptar/Declinar</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="notApprovedCourses">
                       <?php foreach($this->courses as $course): ?>
                       <tr class="text-center">
                         <td data-title="Curso"><?= $course["title"] ?></td>
                         <td data-title="Usuario"><?= $course["instructor"] ?></td>
                         <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="course-details">Ver detalles</a>
+                          <a class="btn btn-secondary rounded-pill" href="course-details?id=<?= $course["id"] ?>">Ver detalles</a>
                         </td>
                         <td data-title="Aceptar/Declinar">
                           <button data-id="<?= $course["id"] ?>" class="btn border-0 btn-approve">

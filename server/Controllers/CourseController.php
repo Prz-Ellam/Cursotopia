@@ -445,11 +445,107 @@ class CourseController {
         ] = $request->getBody();
 
         $adminId = $session->get("id");
+        $role = $session->get("role");
+
+        //Validar que el curso exista
+
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrad0"
+            ]);
+            return;
+        }
+
+        //Validar que el usuario sea administrador
+
+        if ($role!=1) {
+            $response->json([
+                "status" => false,
+                "message" => "Solo los administradores pueden aprobar cursos"
+            ]);
+            return;
+        }
 
         $result = CourseModel::approve($courseId, $adminId, $approve);
+
+        if(!$result){
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "No se pudo aprobar el curso"
+            ]);
+            return;
+        }
+
         $response->json([
             "status" => true,
             "message" => $result
         ]);
     }
+
+    public function deny(Request $request, Response $response): void {
+        $courseId = $request->getParams("id");
+        $session = $request->getSession();
+        $adminId = $session->get("id");
+        $role = $session->get("role");
+    
+        //Validar que el curso exista
+    
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+    
+        //Validar que el usuario sea administrador
+    
+        if ($role!=1) {
+            $response->json([
+                "status" => false,
+                "message" => "Solo los administradores pueden aprobar cursos"
+            ]);
+            return;
+        }
+    
+        $result = CourseModel::deny($courseId);
+    
+        if(!$result){
+            $response->json([
+                "status" => false,
+                "message" => "No se pudo denegar el curso"
+            ]);
+            return;
+        }
+    
+        $response->json([
+            "status" => true,
+            "message" => $result
+        ]);
+    }
+
+    public function findByNotApproved(Request $request, Response $response): void {
+        
+        $result = CourseModel::findByNotApproved();
+    
+        if(!$result){
+            $response->json([
+                "status" => false,
+                "message" => "No se pudo obtener los cursos"
+            ]);
+            return;
+        }
+    
+        $response->json([
+            "status" => true,
+            "courses" => $result
+        ]);
+    }
+
 }
+
+
+

@@ -131,3 +131,75 @@ export const getOneUserService = async (id) => {
     }
     return null;    
 };
+
+export const blockUserService = async (id) => {
+    try {
+        const configuration = {
+            method: 'PUT',
+            url: `/api/v1/users/${id}/block`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};
+
+export const unblockUserService = async (id) => {
+    try {
+        const configuration = {
+            method: 'PUT',
+            url: `/api/v1/users/${id}/unblock`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};
+
+export const findBlockedUsers = async (id) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users/blocked`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};
+
+export const findUnblockedUsers = async (id) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/users/unblocked`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        console.log(exception);
+    }
+    return null;    
+};

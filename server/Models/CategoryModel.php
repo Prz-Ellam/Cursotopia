@@ -147,7 +147,16 @@ class CategoryModel {
 
     public static function findById(?int $id) {
         $repository = new CategoryRepository();
+        /* $object = $repository->findById($id); */
+        return $repository->findById($id);
+    }
+
+    public static function findCategoryById(?int $id): ?CategoryModel {
+        $repository = new CategoryRepository();
         $object = $repository->findById($id);
+        if (!$object) {
+            return null;
+        }
         return new CategoryModel($object);
     }
 
@@ -159,5 +168,40 @@ class CategoryModel {
     public static function findAllWithUser(int $userId) {
         $repository = new CategoryRepository();
         return $repository->findAllWithUser($userId);
+    }
+
+    public static function findNotApproved() {
+        $repository = new CategoryRepository();
+        return $repository->findNotApproved();
+    }
+
+    public static function findNotActive() {
+        $repository = new CategoryRepository();
+        return $repository->findNotActive();
+    }
+
+    public static function findOneByName(string $name) {
+        $repository = new CategoryRepository();
+        return $repository->findOneByName($name);
+    }
+
+    public static function approve(int $adminId, int $categoryId) {
+        $repository = new CategoryRepository();
+        return $repository->approve($categoryId, $adminId);
+    }
+
+    public static function deny(int $categoryId) {
+        $repository = new CategoryRepository();
+        return $repository->deny($categoryId);
+    }
+
+    public static function activate(int $categoryId) {
+        $repository = new CategoryRepository();
+        return $repository->activate($categoryId);
+    }
+
+    public static function deactivate(int $categoryId) {
+        $repository = new CategoryRepository();
+        return $repository->deactivate($categoryId);
     }
 }
