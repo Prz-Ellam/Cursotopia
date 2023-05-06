@@ -1,9 +1,10 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-
+import { Toast } from '../utilities/toast';
+import { showBlockedUsers, showUnblockedUsers} from '../views/user.view';
 import { createImage, updateImageService } from '../services/image.service';
-import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
+import { updateUserService, loginUser, updateUserPasswordService, createUserService, blockUserService, unblockUserService, findBlockedUsers, findUnblockedUsers } from '../services/user.service';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { ToastBottom } from '../utilities/toast';
 
@@ -28,7 +29,7 @@ export const submitLogin = async function(event) {
     const response = await loginUser(user);
     loginSpinner.classList.add('d-none');
     btnSubmit.disabled = false;
-
+    console.log(response);
     if (response?.status) {
         await Swal.fire({
             icon: 'success',
@@ -92,6 +93,7 @@ export const submitSignup = async function(event) {
 
     // Envio de datos a la API
     const response = await createUserService(userForm);
+    console.log(response);
     if (response?.status) {
         await Swal.fire({
             icon: 'success',
@@ -169,6 +171,82 @@ export const passwordStrength = function(passwordInput, selectorMayus, selectorN
 export const passwordToggle = function(selectorInput, selectorIcon) {
     $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
     $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
+}
+
+export const blockUser = async function(userId) {
+
+    const response = await blockUserService(userId);
+    if (response?.status) {
+        $('#blockUsers').empty();
+        $('#unblockUsers').empty();
+        const blockedUsers = await findBlockedUsers();
+        const unblockedUsers = await findUnblockedUsers();
+        if (blockedUsers?.status && unblockedUsers?.status) {
+            const blocked = blockedUsers.blockedUsers;
+            const unblocked = unblockedUsers.unblockedUsers;
+            blocked.forEach(user => {
+                showBlockedUsers(user);
+            });
+            unblocked.forEach(user => {
+                showUnblockedUsers(user);
+            });
+        }
+        Toast.fire({
+            icon: 'success',
+            title: 'El usuario ha sido bloqueado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+}
+
+export const unblockUser = async function(userId) {
+
+    const response = await unblockUserService(userId);
+    if (response?.status) {
+        $('#blockUsers').empty();
+        $('#unblockUsers').empty();
+        const blockedUsers = await findBlockedUsers();
+        const unblockedUsers = await findUnblockedUsers();
+        if (blockedUsers?.status && unblockedUsers?.status) {
+            const blocked = blockedUsers.blockedUsers;
+            const unblocked = unblockedUsers.unblockedUsers;
+            blocked.forEach(user => {
+                showBlockedUsers(user);
+            });
+            unblocked.forEach(user => {
+                showUnblockedUsers(user);
+            });
+        }
+        Toast.fire({
+            icon: 'success',
+            title: 'El usuario ha sido desbloqueado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
 }
 
 

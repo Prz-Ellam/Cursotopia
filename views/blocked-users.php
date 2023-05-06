@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <?= $this->link("styles/pages/blocked-users.css") ?>
   <?= $this->script("javascript/blocked-users.js") ?>
+
+  <!-- SweetAlert -->
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -73,8 +76,8 @@
                       <th>Desbloquear</th>
                     </tr>
                   </thead>
-                    <tbody>
-                      <?php foreach($this->users as $user): ?>
+                    <tbody id="blockUsers">
+                      <?php foreach($this->blockedUsers as $user): ?>
                       <tr class="text-center">
                         <td data-title="Usuario">
                           <?= $user["name"] ?> <?= $user["lastName"] ?>
@@ -83,7 +86,7 @@
                           <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
                         </td>
                         <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Desbloquear</button>
+                          <button class="btn btn-secondary rounded-pill unblock-btn" id="<?= $user["id"] ?>">Desbloquear</button>
                         </td>
                       </tr>
                       <?php endforeach ?>
@@ -105,34 +108,18 @@
                         <th>Bloquear</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
-                        </td>
-                        <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Bloquear</button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
-                        </td>
-                        <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Bloquear</button>
-                        </td>
-                      </tr>
-                      <tr class="text-center">
-                        <td data-title="Usuario">Denisse Cardoza</td>
-                        <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
-                        </td>
-                        <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill">Bloquear</button>
-                        </td>
-                      </tr>
+                    <tbody id="unblockUsers">
+                      <?php foreach($this->users as $user): ?>
+                        <tr class="text-center">
+                          <td data-title="Usuario"><?= $user["name"] ?> <?= $user["lastName"] ?></td>
+                          <td data-title="Detalle">
+                            <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
+                          </td>
+                          <td data-title="Desbloquear">
+                            <button class="btn btn-secondary rounded-pill block-btn" id="<?= $user["id"] ?>">Bloquear</button>
+                          </td>
+                        </tr>
+                      <?php endforeach ?>
                     </tbody>
                   </table>
                 </div>

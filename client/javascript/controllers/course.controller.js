@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import CourseService, { courseConfirmService } from '../services/course.service';
+import { Toast } from '../utilities/toast';
+import CourseService, { courseConfirmService, approveCourseService, denyCourseService } from '../services/course.service';
+import { showNotApprovedCourses} from '../views/course.view';
 import { readFileAsync } from '../utilities/file-reader';
 import { showErrorMessage } from '../utilities/show-error-message';
 
@@ -266,4 +268,69 @@ export const submitConfirmCourse = async function(event) {
 
 export const findAllByInstructor = function(event) {
 
+}
+
+export const approveCourses = async function(courseId) {
+
+    const response = await approveCourseService(courseId);
+    if (response?.status) {
+        $('#notApprovedCourses').empty();
+        const notApprovedCourses = await CourseService.findnotApproved(courseId);
+        if (notApprovedCourses?.status) {
+            const coursesNotApproved = notApprovedCourses.courses;
+            console.log(coursesNotApproved);
+            coursesNotApproved.forEach(course => {
+                showNotApprovedCourses(course);
+            });
+        }
+        Toast.fire({
+            icon: 'success',
+            title: 'El curso ha sido aprobado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+}
+
+export const denyCourses = async function(courseId) {
+
+    const response = await denyCourseService(courseId);
+    if (response?.status) {
+        $('#notApprovedCourses').empty();
+        const notApprovedCourses = await CourseService.findnotApproved(courseId);
+        if (notApprovedCourses?.status) {
+            const coursesNotApproved = notApprovedCourses.courses;
+            coursesNotApproved.forEach(course => {
+                showNotApprovedCourses(course);
+            });
+        }
+        Toast.fire({
+            icon: 'error',
+            title: 'El curso ha sido denegado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
 }

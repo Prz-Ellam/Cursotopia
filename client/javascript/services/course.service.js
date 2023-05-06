@@ -17,6 +17,11 @@ class CourseService {
     static approve = async (approve, id) => {
         return await mainService('PUT', `/api/v1/courses/${id}/approve`, 'application/json', approve);
     }
+
+    static findnotApproved = async () => {
+        return await mainService('GET', `/api/v1/courses`, 'application/json');
+    }
+    
 }
 
 export default CourseService;
@@ -27,6 +32,14 @@ export const createCourseService = async (course) => {
 
 export const courseConfirmService = async (courseId) => {
     return await mainService('PUT', `/api/v1/courses/${courseId}/confirm`, 'application/json', {});
+}
+
+export const approveCourseService = async (courseId) => {
+    return await mainService('PUT', `/api/v1/courses/${courseId}/approve`, 'application/json', {"approve":true});
+}
+
+export const denyCourseService = async (courseId) => {
+    return await mainService('PUT', `/api/v1/courses/${courseId}/deny`, 'application/json');
 }
 
 export const updateCourse = async () => {

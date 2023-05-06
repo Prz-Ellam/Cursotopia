@@ -89,6 +89,18 @@ export const showMoreComments = async function(pageNum, courseId) {
         reviews.forEach(review => {
             showMoreReviews(review, userId, userRole);
         });
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
     }
 
 }
@@ -109,6 +121,18 @@ export const deleteReview = async function(reviewId) {
                 showMoreReviews(review, userId, userRole);
             });
         }
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
     }
 
 }

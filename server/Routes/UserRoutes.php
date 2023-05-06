@@ -78,6 +78,11 @@ $app->get("/api/v1/users", [ UserController::class, "getAll" ]);
  */
 $app->get("/api/v1/users/instructors", [ UserController::class, "getAllInstructors" ]);
 
+$app->get("/api/v1/users/blocked", [ UserController::class, "findBlockedUsers" ]);
+
+$app->get("/api/v1/users/unblocked", [ UserController::class, "findUnblockedUsers" ]);
+
+
 /**
  * Obtener un usuario en base a su identificador único
  */
@@ -85,6 +90,15 @@ $app->get("/api/v1/users/:id", [ UserController::class, "getOne" ], [
     [ ValidateIdMiddleware::class ]
 ]);
 
+$app->put("/api/v1/users/:id/block", [ UserController::class, "disableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+
+$app->put("/api/v1/users/:id/unblock", [ UserController::class, "enableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
 /**
  * Registro de usuarios
  */

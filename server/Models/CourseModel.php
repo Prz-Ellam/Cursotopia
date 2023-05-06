@@ -68,6 +68,12 @@ class CourseModel {
         return ($rowsAffected > 0) ? true : false;
     }
 
+    public static function deny(int $courseId) {
+        $courseRepository = new CourseRepository();
+        $rowsAffected = $courseRepository->delete($courseId);
+        return ($rowsAffected > 0) ? true : false;
+    }
+
     public static function findByNotApproved() {
         $courseRepository = new CourseRepository();
         return $courseRepository->findByNotApproved();
