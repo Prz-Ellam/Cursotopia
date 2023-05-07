@@ -89,11 +89,16 @@ class CourseController {
             return;
         }
 
-        $course = CourseModel::findById2($id);
-        
-        //var_dump($course);die;
+        $session = $request->getSession();
+        $userId = $session->get("id");
 
-        
+        $course = CourseModel::findById2($id);
+
+        if ($userId != $course["instructorId"]) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+            
         $categories = CategoryModel::findAll();
         $response->render("course-edition", [ 
             "course" => $course,

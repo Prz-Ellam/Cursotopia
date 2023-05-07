@@ -41,6 +41,12 @@ use Cursotopia\Helpers\Format;
           <p>Creado por: <a href="profile?id=<?= $this->course["instructorId"] ?>">
             <?= $this->course["instructorName"] ?></a>
           </p>
+          <?php if($this->session("id") == $this->course["instructorId"]): ?>
+          <a href="/course-edition?id=<?= $this->course["id"] ?>" 
+            class="btn btn-primary rounded-pill">
+            Editar
+          </a>
+          <?php endif ?>
         </div>
         <div class="ratio ratio-16x9 mb-4">
           <img 

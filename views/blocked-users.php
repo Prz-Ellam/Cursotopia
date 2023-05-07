@@ -76,8 +76,8 @@
                       <th>Desbloquear</th>
                     </tr>
                   </thead>
-                    <tbody id="blockUsers">
-                      <?php foreach($this->blockedUsers as $user): ?>
+                  <tbody id="blockUsers">
+                    <?php foreach($this->blockedUsers as $user): ?>
                       <tr class="text-center">
                         <td data-title="Usuario">
                           <?= $user["name"] ?> <?= $user["lastName"] ?>
@@ -111,9 +111,14 @@
                     <tbody id="unblockUsers">
                       <?php foreach($this->users as $user): ?>
                         <tr class="text-center">
-                          <td data-title="Usuario"><?= $user["name"] ?> <?= $user["lastName"] ?></td>
+                          <td data-title="Usuario">
+                            <?= $user["name"] ?> <?= $user["lastName"] ?>
+                          </td>
                           <td data-title="Detalle">
-                            <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
+                            <a class="btn btn-secondary rounded-pill" 
+                            href="/profile?id=<?= $user["id"] ?>">
+                              Ver perfil
+                            </a>
                           </td>
                           <td data-title="Desbloquear">
                             <button class="btn btn-secondary rounded-pill block-btn" id="<?= $user["id"] ?>">Bloquear</button>

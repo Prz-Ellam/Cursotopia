@@ -92,7 +92,7 @@ BEGIN
     INNER JOIN
         `course_category` AS cc
     ON
-        c.`course_id` = cc.`course_id`
+        c.`course_id` = cc.`course_id` AND cc.`course_category_active`= TRUE
     WHERE
         c.`course_id` = _course_id
     GROUP BY
@@ -133,50 +133,6 @@ END $$
 DELIMITER ;
 
 
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `instructor_courses_report` $$
-CREATE PROCEDURE `instructor_courses_report`(
-    IN _instructor_id           INT,
-    IN _category_id             INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _limit                   INT,
-    IN _offset                  INT
-)
-BEGIN
-    SELECT
-        ic.`id`,
-        ic.`title`,
-        ic.`imageId`,
-        ic.`enrollments`,
-        ic.`amount`,
-        ic.`averageLevel`,
-        ic.`instructorId`,
-        ic.`createdAt`
-    FROM
-        `instructor_courses` AS ic
-    WHERE
-        `instructorId` = _instructor_id
-        AND (ic.`createdAt` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
-        AND (
-            SELECT CASE
-            WHEN _category_id IS NULL THEN 1
-            ELSE EXISTS(
-                SELECT 1
-                FROM `course_category`
-                WHERE `course_id` = ic.`id`
-                AND `category_id` = _category_id
-                AND `course_category_active` = TRUE
-            )
-            END
-        )
-    LIMIT
-        _limit
-    OFFSET
-        _offset;
-END $$
-DELIMITER ;
 
 
 

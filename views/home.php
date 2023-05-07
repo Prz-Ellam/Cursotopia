@@ -87,7 +87,7 @@
             <i class="bx <?= $course["rate"] >= 3 ? "bxs-star": ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
             <i class="bx <?= $course["rate"] >= 4 ? "bxs-star": ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
             <i class="bx <?= $course["rate"] >= 5 ? "bxs-star": ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <?php endif ?>
+          <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
             <p class="mb-0"><i class='bx bxs-layer'></i> 

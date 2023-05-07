@@ -258,6 +258,14 @@ class CourseRepository extends DB {
         )
     SQL;
 
+    private const INSTRUCTOR_COURSES_SEEN_BY_OTHER = <<<'SQL'
+        CALL `instructor_courses_seen_by_others_report`(:instructor_id, :limit, :offset)
+    SQL;
+
+    private const INSTRUCTOR_COURSES_SEEN_BY_OTHER_TOTAL = <<<'SQL'
+        CALL `instructor_courses_seen_by_others_report_total`(:instructor_id)
+    SQL;
+
     private const INSTRUCTOR_TOTAL_REVENUE_REPORT = <<<'SQL'
         CALL `instructor_total_revenue_report`(
             :instructor_id
@@ -458,6 +466,22 @@ class CourseRepository extends DB {
             "course_id" => $courseId
         ];
         return DB::executeNonQuery($this::DELETE, $parameters);
+    }
+
+    public function instructorCoursesSeenByOtherReport(int $instructorId, int $limit = 100, int $offset = 0): array {
+        $parameters = [
+            "instructor_id" => $instructorId,
+            "limit" => $limit,
+            "offset" => $offset
+        ];
+        return DB::executeReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER, $parameters);
+    }
+    
+    public function instructorCoursesSeenByOtherTotal(int $instructorId): array {
+        $parameters = [
+            "instructor_id" => $instructorId
+        ];
+        return DB::executeOneReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER_TOTAL, $parameters);
     }
 
     public function lastInsertId2(): string {

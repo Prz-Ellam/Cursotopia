@@ -3,9 +3,10 @@ import 'jquery-validation';
 import Swal from 'sweetalert2';
 
 import { updateImageService } from '../services/image.service';
-import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
+import { updateUserService, loginUser, updateUserPasswordService, createUserService, blockUserService, findBlockedUsers, findUnblockedUsers, unblockUserService } from '../services/user.service';
 import { showErrorMessage } from '../utilities/show-error-message';
-import { ToastBottom } from '../utilities/toast';
+import { showUnblockedUsers, showBlockedUsers } from '../views/user.view';
+import { Toast, ToastBottom } from '../utilities/toast';
 import { readFileAsync } from './image.controller';
 
 export const submitLogin = async function(event) {

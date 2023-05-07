@@ -199,7 +199,8 @@ BEGIN
     FROM
         `users`
     WHERE
-        `user_enabled` = FALSE;
+        `user_enabled` = FALSE
+        AND `user_role` <> 1;
 END $$
 DELIMITER ;
 
@@ -224,6 +225,7 @@ BEGIN
     FROM
         `users`
     WHERE
-        `user_enabled` = TRUE;
+        `user_enabled` = TRUE
+        AND `user_role` <> 1;
 END $$
 DELIMITER ;

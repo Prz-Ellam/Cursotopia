@@ -141,7 +141,7 @@ class CategoryRepository {
         INNER JOIN
             course_category AS cc
         ON
-            c.category_id = cc.category_id
+            c.category_id = cc.category_id AND cc.course_category_active = TRUE
         WHERE
             cc.course_id = :course_id;
     SQL;
