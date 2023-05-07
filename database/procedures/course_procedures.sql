@@ -75,21 +75,28 @@ CREATE PROCEDURE `course_find_by_id`(
 )
 BEGIN
     SELECT
-        `course_id` AS `id`,
-        `course_title` AS `title`,
-        `course_description` AS `description`,
-        `course_price` AS `price`,
-        `course_image_id` AS `imageId`,
-        `instructor_id` AS `instructorId`,
-        `course_approved` AS `approved`,
-        `course_approved_by` AS `approvedBy`,
-        `course_created_at` AS `createdAt`,
-        `course_modified_at` AS `modifiedAt`,
-        `course_active` AS `active`
+        c.`course_id` AS `id`,
+        c.`course_title` AS `title`,
+        c.`course_description` AS `description`,
+        c.`course_price` AS `price`,
+        c.`course_image_id` AS `imageId`,
+        c.`instructor_id` AS `instructorId`,
+        c.`course_approved` AS `approved`,
+        c.`course_approved_by` AS `approvedBy`,
+        c.`course_created_at` AS `createdAt`,
+        c.`course_modified_at` AS `modifiedAt`,
+        c.`course_active` AS `active`,
+        GROUP_CONCAT(cc.`category_id`) AS `categories`
     FROM
-        `courses`
+        `courses` AS c
+    INNER JOIN
+        `course_category` AS cc
+    ON
+        c.`course_id` = cc.`course_id`
     WHERE
-        `course_id` = _course_id
+        c.`course_id` = _course_id
+    GROUP BY
+        c.`course_id`
     LIMIT
         1;
 END $$

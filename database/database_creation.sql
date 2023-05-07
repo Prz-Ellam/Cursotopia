@@ -67,9 +67,7 @@ CREATE TABLE IF NOT EXISTS `links`(
     `link_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `link_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `link_pk`
-        PRIMARY KEY (`link_id`),
-    CONSTRAINT `link_name_uniq`
-        UNIQUE (`link_name`)
+        PRIMARY KEY (`link_id`)
 );
 
 DROP TABLE IF EXISTS `roles`;

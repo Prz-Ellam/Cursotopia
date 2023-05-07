@@ -384,3 +384,79 @@ export const updatePassword = async function(event) {
 
     window.location.href = '/home';
 }
+
+export const blockUser = async function(userId) {
+
+    const response = await blockUserService(userId);
+    if (response?.status) {
+        $('#blockUsers').empty();
+        $('#unblockUsers').empty();
+        const blockedUsers = await findBlockedUsers();
+        const unblockedUsers = await findUnblockedUsers();
+        if (blockedUsers?.status && unblockedUsers?.status) {
+            const blocked = blockedUsers.blockedUsers;
+            const unblocked = unblockedUsers.unblockedUsers;
+            blocked.forEach(user => {
+                showBlockedUsers(user);
+            });
+            unblocked.forEach(user => {
+                showUnblockedUsers(user);
+            });
+        }
+        Toast.fire({
+            icon: 'success',
+            title: 'El usuario ha sido bloqueado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+}
+
+export const unblockUser = async function(userId) {
+
+    const response = await unblockUserService(userId);
+    if (response?.status) {
+        $('#blockUsers').empty();
+        $('#unblockUsers').empty();
+        const blockedUsers = await findBlockedUsers();
+        const unblockedUsers = await findUnblockedUsers();
+        if (blockedUsers?.status && unblockedUsers?.status) {
+            const blocked = blockedUsers.blockedUsers;
+            const unblocked = unblockedUsers.unblockedUsers;
+            blocked.forEach(user => {
+                showBlockedUsers(user);
+            });
+            unblocked.forEach(user => {
+                showUnblockedUsers(user);
+            });
+        }
+        Toast.fire({
+            icon: 'success',
+            title: 'El usuario ha sido desbloqueado'
+        });
+        return;
+    }else{
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: "Algo salió mal",
+            confirmButtonColor: "#de4f54",
+            background: "#EFEFEF",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+}

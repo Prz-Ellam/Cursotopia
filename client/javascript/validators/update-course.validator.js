@@ -40,9 +40,6 @@ $.validator.addMethod('lessonsVideo', function(value, element) {
 
 export default {
     rules: {
-        'course-cover': {
-            required: true
-        },
         'title': {
             required: true,
             trimming: true,
@@ -59,17 +56,9 @@ export default {
         'price': {
             required: true,
             number: true
-        },
-        'levels[]': {
-            required: true,
-            lessonsRequired: true,
-            lessonsVideo: true
         }
     },
     messages: {
-        'course-cover': {
-            required: 'La portada del curso es requerida'
-        },
         'title': {
             required: 'El nombre del curso es requerido',
             trimming: 'El nombre del curso es requerido',
@@ -87,11 +76,6 @@ export default {
             required: 'El precio es requerido',
             number: 'El precio no es válido',
             min: 'El precio del producto no puede ser negativo'
-        },
-        'levels[]': {
-            required: 'El curso necesita al menos un nivel',
-            lessonsRequired: 'Todos los niveles deben tener al menos una lección',
-            lessonsVideo: 'Cada nivel debe tener al menos una lección con video'
         }
     },
     errorElement: 'small',

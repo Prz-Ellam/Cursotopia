@@ -15,7 +15,7 @@ $(() => {
     // Update Course
     const updateCourseForm = document.getElementById('update-course-form-a');
     $(updateCourseForm).validate(updateCourseValidator);
-    updateCourseForm.addEventListener('submit', updateCourse);
+    $(updateCourseForm).on('submit', updateCourse);
 
 
     // Create Category
@@ -25,11 +25,11 @@ $(() => {
         modalInstance.show();
     });
 
-    const createCategoryForm = document.getElementById('create-category-form');
-    $(createCategoryForm).validate(createCategoryValidator);
-    createCategoryForm.addEventListener('submit', updateCourseCreateCategory);
+    //const createCategoryForm = document.getElementById('create-category-form');
+    //$(createCategoryForm).validate(createCategoryValidator);
+    //createCategoryForm.addEventListener('submit', updateCourseCreateCategory);
 
-
+/*
     // Create Level
     $('#create-level-btn').on('click', function() {
         const modal = document.getElementById('create-level-modal');
@@ -150,6 +150,7 @@ $(() => {
             EditLevelPriceGroup.classList.remove('d-none');
         }
     });
+    */
 
     $('#categories').multipleSelect({
         placeholder: 'Seleccionar',

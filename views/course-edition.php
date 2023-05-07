@@ -20,8 +20,8 @@
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
-  <link rel="stylesheet" href="../dist/assets/course-edition.css">
-  <script defer type="module" src="../dist/javascript/course-edition.js"></script>
+  <?= $this->link("styles/pages/course-edition.css") ?>
+  <?= $this->script("javascript/course-edition.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
@@ -35,18 +35,24 @@
       <div class="row mx-0">
         <div class="col-md-6 col-sm-12 col-xs-12">
 
+          <input type="hidden" name="courseId" value="<?= $this->course["id"] ?>">
+
           <div class="mb-4">
             <label for="update-course-title" class="form-label" role="button">Título</label>
-            <input type="text" name="title" id="update-course-title" class="form-control">
+            <input type="text" name="title" id="update-course-title" 
+              class="form-control" value="<?= $this->course["title"] ?>">
           </div>
 
           <div class="mb-4">
             <label for="update-course-description" class="form-label" role="button">Descripción</label>
-            <textarea name="description" id="update-course-description" cols="30" rows="3" class="form-control"></textarea>
+            <textarea name="description" id="update-course-description" 
+            cols="30" rows="3" class="form-control"><?= $this->course["description"] ?></textarea>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox" autocomplete="off">
+            <input class="form-check-input shadow-none" type="checkbox" value="" 
+            id="free-course-checkbox" autocomplete="off"
+            <?= ($this->course["price"] <= 0.0) ? "checked" : "" ?>>
             <label class="form-check-label" for="free-course-checkbox" role="button">El curso será gratis</label>
           </div>
 
@@ -54,7 +60,9 @@
             <label class="form-label pt-2" for="price" role="button">Precio</label>
             <div class="input-group">
               <span class="input-group-text border-0 bg-light pe-0">$</span>
-              <input type="number" name="price" id="update-course-price" class="form-control" min="0.00" max="10000.00" step="0.01" value="0.00">
+              <input type="number" name="price" id="update-course-price" 
+              class="form-control" min="0.00" max="10000.00" step="0.01" 
+              value="<?= $this->course["price"] ?>">
             </div>
           </div>
 
@@ -62,15 +70,18 @@
             <label for="categories" class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category) : ?>
-                <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+                <option value="<?= $category["id"] ?>"
+                  <?= in_array($category["id"], $this->course["categories"]) ? "selected" : ""  ?>>
+                  <?= $category["name"] ?>
+                </option>
               <?php endforeach ?>
             </select>
           </div>
           <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
             <button type="button" id="create-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto">Añadir
-              categoria</button>
+              categoria
+            </button>
           </div>
-
 
         </div>
 
@@ -83,17 +94,15 @@
                 <h3>Subir imagen</h3>
               </div>
             </div>
-            <img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
+            <img src="/api/v1/images/<?= $this->course["imageId"] ?>" alt=" " class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
           </label>
           <input type="text" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
         </div>
       </div>
 
-      <div id="levels-list">
-        <input type="hidden" name="levels[]" autocomplete="off">
-      </div>
-
+     
+      <!--
       <section class="my-5" id="levels-section">
         <div class="pb-2 d-flex">
           <h4 class="pe-4">Niveles</h4>
@@ -105,8 +114,12 @@
 
         </ul>
       </section>
-      <div class="d-flex">
-        <button type="submit" class="btn btn-primary rounded-pill w-100">Editar curso</button>
+      -->
+      
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary rounded-pill">
+          Editar curso
+        </button>
       </div>
     </form>
 

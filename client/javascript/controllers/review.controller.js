@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { createReviewService, showMoreCommentsService, deleteReviewService } from "../services/review.service";
+import ReviewService, { createReviewService, showMoreCommentsService, deleteReviewService } from "../services/review.service";
 import { getOneUserService } from "../services/user.service";
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
@@ -14,20 +14,28 @@ export const submitReview = async function(event) {
         return;
     }
 
+    const courseId = new URLSearchParams(window.location.search).get('id') ?? '';
     const formData = new FormData(this);
     const review = {
         message: formData.get('message'),
         rate: formData.get('rate'),
-        courseId: new URLSearchParams(window.location.search).get('id') || ''
+        courseId: courseId
     };
 
-    const response = await createReviewService(review);
+    $('#review-create-btn').prop('disabled', true);
+    $('#review-create-spinner').removeClass('d-none');
+
+    const response = await ReviewService.create(review);
+
+    $('#review-create-spinner').addClass('d-none');
+    $('#review-create-btn').prop('disabled', false);
+
     if (!response?.status) {
         showErrorMessage(response);
         return;
     }
 
-    let userId = parseInt(document.getElementById('userId').value);
+    let userId = Number.parseInt(document.getElementById('userId').value);
 
     if(!Number.isInteger(userId)){
 
@@ -47,7 +55,7 @@ export const submitReview = async function(event) {
 
     const user = await getOneUserService(userId);
 
-    if(user){
+    if (user) {
         const reviewView = {
             image: user['profilePicture'],
             username: user['name']+' '+user['lastName'],
@@ -56,8 +64,8 @@ export const submitReview = async function(event) {
         }
         
         createReview(reviewView);
-
-    }else{
+    }
+    else{
         await Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -71,7 +79,8 @@ export const submitReview = async function(event) {
         return;
     }
 
-    
+    $(this)[0].reset();
+    $('.rate-star').removeClass('bxs-star').addClass('bx-star');
 }
 
 let currentPage = 1;

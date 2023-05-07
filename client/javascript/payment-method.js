@@ -79,7 +79,7 @@ $(() => {
       return actions.payment.create({
         transactions: [{
           amount: {
-            total: 100,
+            total: PRICE,
             currency: 'MXN'
           }
         }]
@@ -88,7 +88,8 @@ $(() => {
     onAuthorize: function (data, actions) {
       return actions.payment.execute()
         .then(function () {
-          $('payment-method-form').on('submit');
+          
+          $('#payment-method-form').submit();
           //window.location = "<?php echo PayPalBaseUrl ?>orderDetails.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=<?php echo $productId; ?>";
         });
     }

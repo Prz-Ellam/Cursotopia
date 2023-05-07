@@ -29,6 +29,9 @@ use Cursotopia\Helpers\Format;
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   
   <?= $this->script("javascript/payment-method.js") ?>
+  <script>
+    const PRICE = <?=$this->course["price"]?>;
+  </script>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>

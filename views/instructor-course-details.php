@@ -1,3 +1,8 @@
+<?php
+
+use Cursotopia\Helpers\Format;
+
+?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
@@ -50,7 +55,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <h6><?= date_format(date_create($this->course["createdAt"]), 'd M Y') ?></h6>
+              <h6><?= Format::date($this->course["createdAt"]) ?></h6>
             </div>
           </div>
           <div class="row">
@@ -60,7 +65,10 @@
           </div>
           <div class="row mt-3">
             <div class="col-12">
-              <a href="course-edition" class="btn btn-secondary rounded-pill">Editar curso</a>
+              <a href="course-edition?id=<?= $this->course["id"] ?>" 
+                class="btn btn-secondary rounded-pill">
+                Editar curso
+              </a>
               <button type="button" 
                 class="btn btn-danger rounded-pill btn-delete-course">Deshabilitar</button>
             </div>
@@ -79,11 +87,8 @@
   </div>
 
   <section class="container" id="cards">
-    <?php
-
-                    use Cursotopia\Helpers\Format;
-
- foreach($this->enrollments as $enrollment): ?>
+  <?php $total = 0 ?>
+  <?php foreach($this->enrollments as $enrollment): ?>
     <div data-aos="fade-up">
       <a 
         href="/profile?id=<?= $enrollment["userId"] ?>"
@@ -112,6 +117,7 @@
                 <p class="card-text mb-0">
                   <i class="bx bx-money"></i>
                   <span>Precio pagado: <?= Format::money($enrollment["amount"]) ?></span>
+                  <?php $total += $enrollment["amount"] ?>
                 </p>
                 <p class="card-text mb-0">
                   <i class="bx bxs-credit-card"></i>
@@ -201,7 +207,7 @@
     <div class="row pt-4 pb-3">
       <div class="col-lg-12">
         <h3 class="ms-5 mb-3">Total de ingresos</h3>
-        <h4 class="ms-5">$5,000.00</h4>
+        <h4 class="ms-5"><?= Format::money($total) ?></h4>
       </div>
     </div>
   </div>

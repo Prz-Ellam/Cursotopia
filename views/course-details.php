@@ -228,7 +228,7 @@ use Cursotopia\Helpers\Format;
           <h2 class="fw-bold text-center">Comentarios</h2>
         </div>
         <hr>
-        <?php if($this->session("role") === 3): ?>
+        <?php if ($this->session("role") === 3): ?>
         <div>
           <label>Calificación: </label>
           <div class="rating d-inline">
@@ -245,8 +245,13 @@ use Cursotopia\Helpers\Format;
           <textarea class="bg-light form-control rounded-1 border-0 shadow-none" name="message" id="message-box" rows="5"
           placeholder="Escribe un comentario"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary rounded-5 border-0 shadow-none mb-4"
-          id="send-message">Publicar</button>
+        <div class="d-grid mb-4">
+          <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center gap-2"
+          id="review-create-btn">
+          <div class="spinner d-none" id="review-create-spinner"></div>
+          <span>Publicar</span>
+        </button>
+        </div>
         <?php endif ?>
         <div id="comment-section"></div>
       </form>

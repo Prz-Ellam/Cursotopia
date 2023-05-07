@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'bootstrap';
-import { blockUser, unblockUser} from './controllers/user.controller';
+import { blockUser, unblockUser } from './controllers/user.controller';
 
 $(() => {
     $(document).on('click', '.block-btn', async function() {

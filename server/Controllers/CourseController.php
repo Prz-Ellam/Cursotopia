@@ -83,8 +83,22 @@ class CourseController {
     }
 
     public function webUpdate(Request $request, Response $response): void {
+        $id = $request->getQuery("id");
+        if (!$id) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
+        $course = CourseModel::findById2($id);
+        
+        //var_dump($course);die;
+
+        
         $categories = CategoryModel::findAll();
-        $response->render("course-edition", [ "categories" => $categories ]);
+        $response->render("course-edition", [ 
+            "course" => $course,
+            "categories" => $categories 
+        ]);
     }
 
     public function visor(Request $request, Response $response): void {
