@@ -715,22 +715,25 @@ FROM `course_category` AS cc WHERE cc.`course_id` = 15
 AND cc.`category_id` = 1 AND cc.`course_category_active` = TRUE
 
 
-       SELECT
-            `course_id` AS `id`,
-            `course_title` AS `title`,
-            `course_price` AS `price`,
-            `course_image_id` AS `imageId`,
-            `instructor_name` AS `instructorName`,
-            `levels`,
-            `rate`,
-            `video_duration` AS `videoDuration`
-        FROM
-            `course_card`
-        WHERE
-            `course_active` = TRUE
-            AND `course_approved` = TRUE
-            AND `course_is_complete` = TRUE
-        ORDER BY
-            `course_created_at` DESC
-        LIMIT
-            15
+SELECT l.level_is_free, e.enrollment_is_paid, c.course_price FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 3
+INNER JOIN `courses` AS c
+ON e.course_id = c.course_id
+WHERE `video_id` = 3
+
+SELECT l.level_is_free, e.enrollment_is_paid FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 4
+WHERE `document_id` = 3
+
+SELECT l.level_is_free, e.enrollment_is_paid FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 4
+WHERE `link_id` = 3

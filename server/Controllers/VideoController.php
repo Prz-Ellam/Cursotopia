@@ -94,6 +94,44 @@ class VideoController {
             return;
         }
 
+        $userId = $request->getSession()->get("id");
+
+        $videoRepository = new VideoRepository();
+        $info = $videoRepository->video($userId, $id);
+        if (!$info) {
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "No estas autorizado"
+            ]);
+            return;
+        }
+
+        if ($info["free"] && $info["paid"]) {
+            // Si es gratis y pagado, entonces está disponible
+            $contentAvailable = true;
+        } elseif ($info["free"] && !$info["paid"]) {
+            // Si es gratis y no es pagado, entonces está disponible
+            $contentAvailable = true;
+        } elseif (!$info["free"] && $info["paid"]) {
+            // Si no es gratis pero es pagado, entonces está disponible
+            $contentAvailable = true;
+        } else {
+            // Si no es gratis y no es pagado, entonces no está disponible
+            $contentAvailable = false;
+        }
+
+        if ($info["price"] == 0.0) {
+            $contentAvailable = true;
+        }
+        
+        if (!$contentAvailable) {
+            $response->setStatus(401)->json([
+                "status" => false,
+                "message" => "No estás autorizado"
+            ]);
+            return;
+        }
+
         $video = VideoModel::findById($id);
         if (!$video) {
             $response->setStatus(404)->json([

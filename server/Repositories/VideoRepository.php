@@ -29,9 +29,32 @@ class VideoRepository extends DB {
         )
     SQL;
 
+    private const VIDEO = <<<'SQL'
+        SELECT 
+            l.level_is_free AS `free`, 
+            e.enrollment_is_paid AS `paid`,
+            c.course_price AS `price`
+        FROM `lessons` AS le
+        INNER JOIN `levels` AS l
+        ON le.level_id = l.level_id
+        INNER JOIN `enrollments` AS e
+        ON l.course_id = e.course_id AND e.student_id = :user_id
+        INNER JOIN `courses` AS c
+        ON e.course_id = c.course_id
+        WHERE `video_id` = :video_id  
+    SQL;
+
     private const FIND_BY_ID = <<<'SQL'
         CALL `video_find_by_id`(:id)
     SQL;
+
+    public function video(?int $userId, ?int $videoId): ?array {
+        $parameters = [
+            "user_id" => $userId,
+            "video_id" => $videoId
+        ];
+        return $this::executeOneReader($this::VIDEO, $parameters);
+    }
 
     public function create(Video $video): int {
         $parameters = [

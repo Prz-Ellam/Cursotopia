@@ -71,10 +71,10 @@ class CategoryController {
 
         $category = CategoryModel::findById($categoryId);
 
-        if(!$category){
-            $response->json([
+        if (!$category) {
+            $response->setStatus(404)->json([
                 "status" => true,
-                "category" => "no se encontró la categoria :C"
+                "category" => "No se encontró la categoria"
             ]);
         }
 
@@ -87,7 +87,7 @@ class CategoryController {
     public function create(Request $request, Response $response): void {
         // Para crear una categoría tiene que estar autenticado un instructor
         $session = $request->getSession();
-        // /^[A-Za-z0-9\s\-_,\.;:()]+$/
+        
         $id = $session->get("id");
         $role = $session->get("role");
         $body = $request->getBody();
@@ -99,21 +99,21 @@ class CategoryController {
 
         // Validar que el nombre de la categoria no se repita
 
-            $existingCategoryName = CategoryModel::findOneByName($name);
-            if ($existingCategoryName) {
-                $response->json([
-                    "status" => false,
-                    "message" => "Ya existe una categoría con ese nombre"
-                ]);
-                return;
-            }
+        $existingCategoryName = CategoryModel::findOneByName($name);
+        if ($existingCategoryName) {
+            $response->setStatus(409)->json([
+                "status" => false,
+                "message" => "Ya existe una categoría con ese nombre"
+            ]);
+            return;
+        }
 
         // Validar que el usuario es un instructor
 
-        if ($role!=1) {
+        if ($role != 1) {
             $response->json([
                 "status" => false,
-                "message" => "Solo los administradores pueden aprovar categorias"
+                "message" => "Solo los administradores pueden aprobar categorias"
             ]);
             return;
         }
@@ -215,7 +215,7 @@ class CategoryController {
         $userId = $session->get("id");
         $role = $session->get("role");
 
-        if ($role!=1) {
+        if ($role != 1) {
             $response->json([
                 "status" => false,
                 "message" => "Solo los administradores pueden aprobar categorias"
@@ -329,7 +329,7 @@ class CategoryController {
         $userId = $session->get("id");
         $role = $session->get("role");
 
-        if ($role!=1) {
+        if ($role != 1) {
             $response->json([
                 "status" => false,
                 "message" => "Solo los administradores pueden activar categorias"
@@ -386,7 +386,7 @@ class CategoryController {
         $userId = $session->get("id");
         $role = $session->get("role");
 
-        if ($role!=1) {
+        if ($role != 1) {
             $response->json([
                 "status" => false,
                 "message" => "Solo los administradores pueden activar categorias"

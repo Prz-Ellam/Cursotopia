@@ -163,6 +163,12 @@ use Cursotopia\Helpers\Format;
           <i class="bx <?= $this->course["rates"] >= 3 ? 'bxs-star': ($this->course["rates"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <i class="bx <?= $this->course["rates"] >= 4 ? 'bxs-star': ($this->course["rates"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <i class="bx <?= $this->course["rates"] >= 5 ? 'bxs-star': ($this->course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+          <?php else: ?>
+          <i class="bx bx-star rating-star"></i>
+          <i class="bx bx-star rating-star"></i>
+          <i class="bx bx-star rating-star"></i>
+          <i class="bx bx-star rating-star"></i>
+          <i class="bx bx-star rating-star"></i>
           <?php endif ?>
           <a href="#reviews" class="ms-1 text-white">
             <?= Format::pluralize($this->course["reviews"], "reseña") ?>
