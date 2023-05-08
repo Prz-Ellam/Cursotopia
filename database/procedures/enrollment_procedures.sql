@@ -267,7 +267,7 @@ BEGIN
         `instructor_id` AS `instructor_id`,
         `course_created_at` AS `createdAt`
     FROM
-        `instructor_courses`
+        `instructor_courses` AS ic
     WHERE
         `instructor_id` = _instructor_id
         AND `course_is_complete` = TRUE
@@ -276,7 +276,7 @@ BEGIN
         AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = ic.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL)
     LIMIT
@@ -299,7 +299,7 @@ BEGIN
     SELECT
         IFNULL(COUNT(`course_id`), 0) AS `total`
     FROM
-        `instructor_courses`
+        `instructor_courses` AS ic
     WHERE
         `instructor_id` = _instructor_id
         AND `course_is_complete` = TRUE
@@ -308,7 +308,7 @@ BEGIN
         AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = ic.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL);
 END $$
@@ -398,7 +398,7 @@ BEGIN
         `enrollment_certificate_uid` AS `certificateUid`,
         `enrollment_progress` AS `progress`
     FROM
-        `kardex`
+        `kardex` AS k
     WHERE
         `student_id` = _student_id
         AND `course_is_complete` = TRUE
@@ -408,7 +408,7 @@ BEGIN
         AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = k.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL
         )
@@ -435,7 +435,7 @@ BEGIN
     SELECT
         IFNULL(COUNT(`course_id`), 0) AS `total`
     FROM
-        `kardex`
+        `kardex` AS k
     WHERE
         `student_id` = _student_id
         AND `course_is_complete` = TRUE
@@ -445,7 +445,7 @@ BEGIN
         AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = k.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL
         );

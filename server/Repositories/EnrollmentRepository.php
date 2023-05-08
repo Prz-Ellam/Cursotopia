@@ -7,7 +7,12 @@ use Cursotopia\Entities\Enrollment;
 
 class EnrollmentRepository extends DB {
     private const CREATE = <<<'SQL'
-        CALL `enrollment_pay`(:course_id, :student_id, :amount, :payment_method_id)
+        CALL `enrollment_pay`(
+            :course_id, 
+            :student_id, 
+            :amount, 
+            :payment_method_id
+        )
     SQL;
 
     private const PAY = <<<'SQL'

@@ -69,3 +69,59 @@ BEGIN
         `lesson_id` = `_lesson_id`;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `lesson_find_by_id` $$
+CREATE PROCEDURE `lesson_find_by_id`(
+    IN `lesson_id`              INT
+)
+BEGIN
+    SELECT
+        `lesson_id` AS `id`,
+        `lesson_title` AS `title`,
+        `lesson_description` AS `description`,
+        `level_id` AS `levelId`,
+        `video_id` AS `videoId`,
+        `image_id` AS `imageId`,
+        `document_id` AS `documentId`,
+        `link_id` AS `linkId`,
+        `lesson_created_at` AS `createdAt`,
+        `lesson_modified_at` AS `modifiedAt`,
+        `lesson_active` AS `active`
+    FROM
+        `lessons`
+    WHERE
+        `lesson_id` = `lesson_id`
+        AND `lesson_active` = TRUE;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `lesson_find_by_level` $$
+CREATE PROCEDURE `lesson_find_by_level`(
+    IN `_level_id`              INT
+)
+BEGIN
+    SELECT
+        `lesson_id` AS `id`,
+        `lesson_title` AS `title`,
+        `lesson_description` AS `description`,
+        `level_id` AS `levelId`,
+        `video_id` AS `videoId`,
+        `image_id` AS `imageId`,
+        `document_id` AS `documentId`,
+        `link_id` AS `linkId`,
+        `lesson_created_at` AS `createdAt`,
+        `lesson_modified_at` AS `modifiedAt`,
+        `lesson_active` AS `active`
+    FROM
+        `lessons`
+    WHERE
+        `level_id` = `_level_id`
+        AND `lesson_active` = TRUE;
+END $$
+DELIMITER ;

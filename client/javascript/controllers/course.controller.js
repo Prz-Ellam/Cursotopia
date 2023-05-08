@@ -6,6 +6,7 @@ import CourseService, { courseConfirmService, approveCourseService, denyCourseSe
 import { showNotApprovedCourses} from '../views/course.view';
 import { readFileAsync } from '../utilities/file-reader';
 import { showErrorMessage } from '../utilities/show-error-message';
+import { changeImage } from './image.controller';
 
 let opacity;
 
@@ -54,6 +55,11 @@ export const createCourse = async function(event) {
     // Ahora actualizara el curso en lugar de crearlo
     $(this).off('submit');
     $(this).on('submit', updateCourse);
+    $('#course-cover-id').val(response.imageId);
+    $('#upload-image').off('change');
+    $('#upload-image').on('change', function(event) {
+        changeImage(event, '#upload-image', '#picture-box', '');
+    });
 
     const currentFs = $('#course-section');
     const nextFs = $('#levels-section');

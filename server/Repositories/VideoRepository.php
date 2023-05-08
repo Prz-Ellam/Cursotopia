@@ -43,7 +43,7 @@ class VideoRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update(Video $video): bool {
+    public function update(Video $video): int {
         $parameters = [
             "id" => $video->getId(),
             "name" => $video->getName(),

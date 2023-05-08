@@ -65,7 +65,11 @@ if ($id) {
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <?php foreach ($categories as $category): ?>
-              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <li>
+                <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
+                  <?= $category["name"] ?>
+                </a>
+              </li>
               <?php endforeach ?>
             </ul>
           </li>
@@ -97,7 +101,7 @@ if ($id) {
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
+                  <a class="dropdown-item" href="/profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider">
@@ -128,7 +132,11 @@ if ($id) {
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <?php foreach ($categories as $category): ?>
-              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <li>
+                <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
+                  <?= $category["name"] ?>
+                </a>
+              </li>
               <?php endforeach ?>
             </ul>
           </li>
@@ -160,7 +168,7 @@ if ($id) {
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
+                  <a class="dropdown-item" href="/profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider">
@@ -175,7 +183,7 @@ if ($id) {
       <?php elseif (Auth::auth(3)): ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
-            <a href="profile?id=<?= $_SESSION["id"] ?>" class="nav-link fw-bold text-light">
+            <a href="/profile?id=<?= $_SESSION["id"] ?>" class="nav-link fw-bold text-light">
               Mis cursos
             </a>
           </li>
@@ -191,7 +199,11 @@ if ($id) {
             </a>
             <ul class="dropdown-menu">
               <?php foreach ($categories as $category): ?>
-              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <li>
+                <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
+                  <?= $category["name"] ?>
+                </a>
+              </li>
               <?php endforeach ?>
             </ul>
           </li>    
@@ -223,7 +235,7 @@ if ($id) {
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                  <a class="dropdown-item" href="profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
+                  <a class="dropdown-item" href="/profile?id=<?= $_SESSION["id"] ?>">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider">

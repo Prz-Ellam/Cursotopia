@@ -39,6 +39,16 @@ class Format {
         return $formatDate;
     }
 
+    public static function datetime($datetime): string {
+        if (strtotime($datetime)) {
+            $formatDate = date('d M Y G:i', strtotime($datetime));
+        }
+        else {
+            $formatDate = "N/A";
+        }
+        return $formatDate;
+    }
+
     public static function pluralize(int $count, string $singularWord, ?string $pluralWord = null) {
         if (!$pluralWord) {
             $pluralWord = $singularWord . "s";

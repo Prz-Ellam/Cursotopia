@@ -5,6 +5,10 @@ export default class ReviewService {
     static create = async (review) => {
         return await mainService('POST', '/api/v1/reviews', 'application/json', review);
     };
+
+    static courseTotal = async (courseId) => {
+        return await mainService('GET', `/api/v1/courses/${courseId}/reviews/total`, 'application/json', {});
+    }
 }
 
 export const createReviewService = async (review) => {

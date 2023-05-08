@@ -7,82 +7,34 @@ use Cursotopia\Entities\Category;
 
 class CategoryRepository {
     private const CREATE = <<<'SQL'
-        INSERT INTO categories(
-            category_name,
-            category_description,
-            category_created_by
+        CALL `category_create`(
+            :name, 
+            :description, 
+            :created_by, 
+            @category_id
         )
-        SELECT
-            :name,
-            :description,
-            :created_by
-        FROM
-            DUAL
-        WHERE
-            :name IS NOT NULL
-            AND :description IS NOT NULL
-            AND :created_by IS NOT NULL
     SQL;
 
     private const UPDATE = <<<'SQL'
-        UPDATE
-            categories
-        SET
-            category_name =         IFNULL(:name, category_name),
-            category_description =  IFNULL(:description, category_description),
-            category_is_approved =     IFNULL(:approved, category_is_approved),
-            category_approved_by =  IFNULL(:approved_by, category_approved_by),
-            category_modified_at =  NOW(),
-            category_active =       IFNULL(:active, category_active)
-        WHERE
-            category_id = :id
-    SQL;
-
-    private const DELETE = <<<'SQL'
-        UPDATE
-            categories
-        SET
-            category_modified_at = NOW(),
-            category_active = :active
-        WHERE
-            category_id = :id
+        CALL `category_update`(
+            :id,
+            :name,
+            :description,
+            :approved,
+            :approved_by,
+            :created_by,
+            :created_at,
+            :modified_at,
+            :active
+        )
     SQL;
 
     private const FIND_ONE = <<<'SQL'
-        SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
-        FROM
-            categories
-        WHERE
-            category_id = :id
-        LIMIT
-            1
+        CALL `category_find_by_id`(:id)
     SQL;
 
     private const FIND_ALL = <<<'SQL'
-        SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
-        FROM
-            categories
-        WHERE
-            category_active = TRUE
-            AND category_is_approved = TRUE
+        CALL `category_find_all`()
     SQL;
 
     private const FIND_NOT_ACTIVE = <<<'SQL'
@@ -158,7 +110,7 @@ class CategoryRepository {
         CALL `category_find_one_by_name`(:name)
     SQL;
     
-    public function create(Category $category): int|string {
+    public function create(Category $category): int {
         $parameters = [
             "name" => $category->getName(),
             "description" => $category->getDescription(),
@@ -172,18 +124,29 @@ class CategoryRepository {
             "id" => $category->getId(),
             "name" => $category->getName(),
             "description" => $category->getDescription(),
-            "approved" => $category->getApproved(),
+            "approved" => $category->isApproved(),
             "approved_by" => $category->getApprovedBy(),
-            "active" => $category->getActive()
+            "created_by" => $category->getCreatedBy(),
+            "created_at" => $category->getCreatedAt(),
+            "modified_at" => $category->getModifiedAt(),
+            "active" => $category->isActive()
         ];
         return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function delete(int $id): int {
+    public function delete(?int $id): int {
         $parameters = [
-            "id" => $id
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => false
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findById(?int $id): ?array {
@@ -227,28 +190,49 @@ class CategoryRepository {
         return DB::executeNonQuery($this::APPROVE, $parameters);
     }
 
-    public function deny(int $categoryId): bool {
+    public function deny(int $id): bool {
         $parameters = [
-            "id" => $categoryId,
-            "active" => FALSE
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => false
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function activate(int $categoryId): bool {
+    public function activate(int $id): bool {
         $parameters = [
-            "id" => $categoryId,
-            "active" => TRUE
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => true
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function deactivate(int $categoryId): bool {
+    public function deactivate(int $id): bool {
         $parameters = [
-            "id" => $categoryId,
-            "active" => FALSE
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => false
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findOneByName(?string $name): ?array {

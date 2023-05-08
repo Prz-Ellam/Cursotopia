@@ -46,10 +46,12 @@ class ReviewRepository extends DB {
         );
     SQL;
 
+    private const FIND_TOTAL_BY_COURSE = <<<'SQL'
+        CALL `review_find_total_by_course`(:course_id)
+    SQL;
+
     private const FIND_ONE = <<<'SQL'
-        CALL `sp_get_review_by_id`(
-            :id
-        );
+        CALL `sp_get_review_by_id`(:id);
     SQL;
 
     private const DELETE = <<<'SQL'
@@ -92,6 +94,13 @@ class ReviewRepository extends DB {
             "pageSize" => $pageSize
         ];
         return $this->executeReader($this::FIND_BY_COURSE, $parameters);
+    }
+
+    public function findTotalByCourse(?int $courseId): ?array {
+        $parameters = [
+            "course_id" => $courseId
+        ];
+        return $this->executeOneReader($this::FIND_TOTAL_BY_COURSE, $parameters);
     }
 
     public function findOneByCourseAndUserId(int $courseId, int $userId) {

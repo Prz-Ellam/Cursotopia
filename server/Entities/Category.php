@@ -40,7 +40,7 @@ class Category {
         return $this;
     }
 
-    public function getApproved(): ?bool {
+    public function isApproved(): ?bool {
         return $this->approved ? 'true' : 'false';
     }
 
@@ -85,7 +85,7 @@ class Category {
         return $this;
     }
 
-    public function getActive(): ?bool {
+    public function isActive(): ?bool {
         return $this->active ? 'true' : 'false';
     }
 

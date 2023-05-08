@@ -21,6 +21,11 @@ class Validate {
         if (!((is_int($number) || ctype_digit(strval($number))) && intval($number) > 0)) {
             return false;
         }
+        
+        if (intval($number) > 2147483647) {
+            return false;
+        }
+
         return true;
     }
 }

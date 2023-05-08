@@ -104,6 +104,7 @@
             </div>
             <img src="" alt="" class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
+            <input type="hidden" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
           </label>
           <div id="image-error"></div>
         </div>

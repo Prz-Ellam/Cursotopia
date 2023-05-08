@@ -165,7 +165,7 @@ class CourseRepository extends DB {
         GROUP BY
             cc.`course_id`
         ORDER BY
-            COUNT(e.`enrollment_id`) DESC
+            COUNT(e.`enrollment_amount`) DESC
         LIMIT
             15
     SQL;
@@ -283,7 +283,7 @@ class CourseRepository extends DB {
         return DB::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update(Course $course): void {
+    public function update(Course $course): int {
         $parameters = [
             "course_id" => $course->getId(),
             "course_title" => $course->getTitle(),
@@ -299,7 +299,7 @@ class CourseRepository extends DB {
             "course_modified_at" => $course->getModifiedAt(),
             "course_active" => $course->getActive()
         ];
-        DB::executeNonQuery($this::UPDATE, $parameters);
+        return DB::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findById(?int $id): ?array {
@@ -309,29 +309,29 @@ class CourseRepository extends DB {
         return DB::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
-    public function confirm(int $id): bool {
+    public function confirm(?int $id): int {
         $parameters = [
             "id" => $id
         ];
         return DB::executeNonQuery($this::CONFIRM, $parameters);
     }
 
-    public function courseDetailsfindOneById(int $id): ?array {
+    public function courseDetailsfindOneById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
         return DB::executeOneReader($this::COURSE_DETAILS_FIND_ONE, $parameters);
     }
 
-    public function findAllOrderByCreatedAt(): array {
+    public function findAllOrderByCreatedAt(): ?array {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_CREATED_AT, []);
     }
 
-    public function findAllOrderByRates(): array {
+    public function findAllOrderByRates(): ?array {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_RATES, []);
     }
 
-    public function findAllOrderByEnrollments(): array {
+    public function findAllOrderByEnrollments(): ?array {
         return DB::executeReader($this::FIND_ALL_ORDER_BY_ENROLLMENTS, []);
     }
 

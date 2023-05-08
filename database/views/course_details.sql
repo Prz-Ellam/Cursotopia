@@ -25,19 +25,19 @@ AS
     INNER JOIN
         `levels` AS l
     ON
-        c.`course_id` = l.`course_id`
+        c.`course_id` = l.`course_id` AND l.`level_active` = TRUE
     INNER JOIN
         `lessons` AS le
     ON
-        l.`level_id` = le.`level_id`
+        l.`level_id` = le.`level_id` AND le.`lesson_active` = TRUE
     LEFT JOIN
         `videos` AS v
     ON
-        le.`video_id` = v.`video_id`
+        le.`video_id` = v.`video_id` AND v.`video_active` = TRUE
     LEFT JOIN
         `reviews` AS r
     ON
-        c.`course_id` = r.`course_id`
+        c.`course_id` = r.`course_id` AND r.`review_active` = TRUE
     INNER JOIN
         `users` AS u
     ON
@@ -45,6 +45,6 @@ AS
     LEFT JOIN
         `enrollments` AS e
     ON
-        c.`course_id` = e.`course_id`
+        c.`course_id` = e.`course_id` AND e.`enrollment_active` = TRUE
     GROUP BY
         c.`course_id`;

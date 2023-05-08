@@ -11,12 +11,10 @@ class CourseCategoryRepository extends DB {
             `course_id`,
             `category_id`
         )
-        SELECT
+        VALUES(
             :course_id,
             :category_id
-        WHERE
-            :course_id IS NOT NULL
-            AND :category_id IS NOT NULL
+        )
     SQL;
 
     private const DELETE_BY_COURSE = <<<'SQL'
@@ -31,7 +29,7 @@ class CourseCategoryRepository extends DB {
         return DB::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function deleteByCourse(?int $courseId): bool {
+    public function deleteByCourse(?int $courseId): int {
         $parameters = [
             "course_id" => $courseId
         ];

@@ -9,6 +9,10 @@ $(() => {
         mirror: false
     });
 
+    $('#instructors').on('input', function(event) {
+        $('#instructor').val('');
+    });
+
     $('#instructors').autocomplete({
         delay: 1,
         source: async function(request, response) {

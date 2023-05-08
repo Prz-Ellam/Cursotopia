@@ -56,6 +56,55 @@ DELIMITER ;
 
 
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `level_find_by_id` $$
+CREATE PROCEDURE `level_find_by_id`(
+    IN `_level_id`          INT
+)
+BEGIN
+    SELECT
+        `level_id` AS `id`,
+        `level_title` AS `title`,
+        `level_description` AS `description`,
+        `level_is_free` AS `free`,
+        `course_id` AS `courseId`,
+        `level_created_at` AS `createdAt`,
+        `level_modified_at` AS `modifiedAt`,
+        `level_active` AS `active`
+    FROM
+        `levels`
+    WHERE
+        `level_id` = `_level_id`
+        AND `level_active` = TRUE;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `level_find_by_course` $$
+CREATE PROCEDURE `level_find_by_course`(
+    IN `_course_id`             INT
+)
+BEGIN
+    SELECT
+        `level_id` AS `id`,
+        `level_title` AS `title`,
+        `level_description` AS `description`,
+        `level_is_free` AS `free`,
+        `course_id` AS `courseId`,
+        `level_created_at` AS `createdAt`,
+        `level_modified_at` AS `modifiedAt`,
+        `level_active` AS `active`
+    FROM
+        `levels`
+    WHERE
+        `course_id` = `_course_id`
+        AND `level_active` = TRUE;
+END $$
+DELIMITER ;
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_find_user_complete` $$

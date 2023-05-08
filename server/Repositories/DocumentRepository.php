@@ -7,7 +7,12 @@ use Cursotopia\Entities\Document;
 
 class DocumentRepository extends DB {
     private const CREATE = <<<'SQL'
-        CALL `document_create`(:name, :content_type, :address, @document_id)
+        CALL `document_create`(
+            :name, 
+            :content_type, 
+            :address, 
+            @document_id
+        )
     SQL;
 
     private const UPDATE = <<<'SQL'

@@ -44,7 +44,6 @@ $app->post("/api/v1/categories/name", [ CategoryController::class, "checkNameExi
  */
 $app->get("/api/v1/categories/:id", [ CategoryController::class, "findById" ]);
 
-
 /**
  * Crea una categoría
  */
@@ -66,7 +65,6 @@ $app->delete("/api/v1/categories/:id", [ CategoryController::class, "delete" ], 
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
 
-// TODO:
 /**
  * Aprobar una categoría
  */
@@ -77,7 +75,6 @@ $app->put("/api/v1/categories/:id/approve", [ CategoryController::class, "approv
 /**
  * Denegar una categoría
  */
-
 $app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
@@ -85,7 +82,6 @@ $app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], 
 /**
  * Activar una categoría
  */
-
  $app->put("/api/v1/categories/:id/activate", [ CategoryController::class, "activate" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
@@ -93,7 +89,6 @@ $app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], 
 /**
  * Desactivar una categoría
  */
-
  $app->put("/api/v1/categories/:id/deactivate", [ CategoryController::class, "deactivate" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);

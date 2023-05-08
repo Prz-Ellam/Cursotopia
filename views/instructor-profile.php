@@ -128,7 +128,10 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
         <select name="category" id="category" class="col-auto form-select w-50">
           <option value="" selected>Categorias</option>
           <?php foreach ($categories as $category) : ?>
-            <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+            <option value="<?= $category["id"] ?>"
+              <?= ($category["id"] == $categoryId) ? "selected" : "" ?>>
+              <?= $category["name"] ?>
+            </option>
           <?php endforeach ?>
         </select>
       </div>

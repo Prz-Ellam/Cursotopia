@@ -22,7 +22,9 @@ class CategoryController {
     }
 
     public function getAll(Request $request, Response $response): void {
-        
+        $session = $request->getSession();
+        $id = $session->get("id");
+
         $categories = CategoryModel::findAllWithUser($id);
 
         $response->json([
@@ -199,7 +201,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findById($id);
+        $category = CategoryModel::findCategoryById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -256,7 +258,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findById($id);
+        $category = CategoryModel::findCategoryById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -313,7 +315,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findById($id);
+        $category = CategoryModel::findCategoryById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -370,7 +372,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findById($id);
+        $category = CategoryModel::findCategoryById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,

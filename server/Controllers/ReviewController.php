@@ -9,6 +9,7 @@ use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
+use Cursotopia\Repositories\ReviewRepository;
 use Cursotopia\ValueObjects\Roles;
 use Exception;
 
@@ -149,7 +150,7 @@ class ReviewController {
 
         $requestedCourse = CourseModel::findById($courseId);
         if (!$requestedCourse) {
-            $response->json([
+            $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "El curso no existe"
             ]);
@@ -157,8 +158,8 @@ class ReviewController {
         }
 
         $review = new ReviewModel();
-        $reviews=$review->findByCourse($courseId,$pageNum,$pageSize);
-
+        $reviews = $review->findByCourse($courseId,$pageNum,$pageSize);
+        
         if(!$reviews){
             $response->json([
                 "status" => false,
@@ -173,6 +174,19 @@ class ReviewController {
             "reviews" => $reviews
         ]);
                 
+    }
+
+    public function getTotalCourseReviews(Request $request, Response $response): void {
+        $courseId = $request->getParams("courseId");
+        if (!$courseId) {
+            $response->json(0);
+            return;
+        }
+
+        $reviewRepository = new ReviewRepository();
+        $reviewsTotal = $reviewRepository->findTotalByCourse($courseId)["total"];
+   
+        $response->json($reviewsTotal);
     }
 
     public function update(Request $request, Response $response): void {

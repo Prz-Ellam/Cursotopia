@@ -7,13 +7,36 @@ use Cursotopia\Entities\Lesson;
 
 class LessonRepository extends DB {
     private const CREATE = <<<'SQL'
-        CALL `lesson_create`(:title, :description, :level_id, :video_id, :image_id,
-            :document_id, :link_id, @lesson_id);
+        CALL `lesson_create`(
+            :title, 
+            :description, 
+            :level_id, 
+            :video_id, 
+            :image_id,
+            :document_id, 
+            :link_id, 
+            @lesson_id
+        );
     SQL;
 
     private const UPDATE = <<<'SQL'
-        CALL `lesson_update`(:id, :title, :description, :level_id, :video_id, :image_id,
-            :document_id, :link_id, :created_at, :modified_at, :active)
+        CALL `lesson_update`(
+            :id, 
+            :title, 
+            :description, 
+            :level_id, 
+            :video_id, 
+            :image_id,
+            :document_id, 
+            :link_id, 
+            :created_at, 
+            :modified_at, 
+            :active
+        )
+    SQL;
+
+    private const FIND_ONE_BY_ID = <<<'SQL'
+        CALL `lesson_find_by_id`(:id)
     SQL;
 
     private const COURSE_VISOR_FIND_BY_ID = <<<'SQL'
@@ -37,43 +60,8 @@ class LessonRepository extends DB {
             `lesson_id` = :lesson_id
     SQL;
 
-    private const FIND_ONE_BY_ID = <<<'SQL'
-        SELECT
-            lesson_id AS `id`,
-            lesson_title AS `title`,
-            lesson_description AS `description`,
-            level_id AS `levelId`,
-            video_id AS `videoId`,
-            image_id AS `imageId`,
-            document_id AS `documentId`,
-            link_id AS `linkId`,
-            lesson_created_at AS `createdAt`,
-            lesson_modified_at AS `modifiedAt`,
-            lesson_active AS `active`
-        FROM
-            `lessons`
-        WHERE
-            `lesson_id` = :id
-    SQL;
-
     private const FIND_BY_LEVEL = <<<'SQL'
-        SELECT
-            lesson_id AS `id`,
-            lesson_title AS `title`,
-            lesson_description AS `description`,
-            level_id AS `levelId`,
-            video_id AS `videoId`,
-            image_id AS `imageId`,
-            document_id AS `documentId`,
-            link_id AS `linkId`,
-            lesson_created_at AS `createdAt`,
-            lesson_modified_at AS `modifiedAt`,
-            lesson_active AS `active`
-        FROM
-            lessons
-        WHERE
-            level_id = :level_id
-            AND `lesson_active` = TRUE
+        CALL `lesson_find_by_level`(:level_id)
     SQL;
 
     private const FIND_FIRST_NOT_VIEWED = <<<'SQL'

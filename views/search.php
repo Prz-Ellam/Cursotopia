@@ -42,15 +42,18 @@
         <select name="category" id="categories" class="form-select">
           <option value="">Seleccionar</option>
           <?php foreach($this->categories as $category): ?>
-          <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+          <option value="<?= $category["id"] ?>"
+            <?= ($category["id"] == $this->categoryId) ? "selected" : "" ?>>
+            <?= $category["name"] ?>
+          </option>
           <?php endforeach ?>
         </select>
       </div>
       
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
         <label for="instructors" role="button">Filtrar por instructor</label>
-        <input type="text" name="instructor_name" id="instructors"
-          value="<?= $_GET["instructor_name"] ?? "" ?>"
+        <input type="text" id="instructors"
+          value="<?= $this->instructorName ?>"
           class="form-control" placeholder="Ej. Jon Doe">
         <input type="hidden" name="instructor" id="instructor" 
           value="<?= ($this->instructorId == "NULL") ? "" : $this->instructorId ?>">

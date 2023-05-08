@@ -162,7 +162,7 @@ BEGIN
         `levels`,
         `video_duration` AS `videoDuration`
     FROM 
-        `course_card`
+        `course_card` AS vcc
     WHERE
         `course_is_complete` = TRUE
         AND `course_approved` = TRUE
@@ -174,7 +174,7 @@ BEGIN
         -- Por categoria
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = vcc.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL)
         -- Por instructor
@@ -202,7 +202,7 @@ BEGIN
     SELECT 
         IFNULL(COUNT(`course_id`), 0) AS `total`
     FROM 
-        `course_card`
+        `course_card` AS vcc
     WHERE
         `course_is_complete` = TRUE
         AND `course_approved` = TRUE
@@ -214,7 +214,7 @@ BEGIN
         -- Por categoria
         AND (EXISTS(
             SELECT `category_id` 
-            FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+            FROM `course_category` AS cc WHERE cc.`course_id` = vcc.`course_id` 
             AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL)
         -- Por instructor

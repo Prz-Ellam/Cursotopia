@@ -25,6 +25,9 @@ use Cursotopia\Helpers\Format;
   <!-- FontAwesome -->
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
+  <script>
+    let REVIEWS_TOTAL_PAGES = <?= $this->reviewsTotalPages ?>;
+  </script>
 
   <?= $this->link("styles/pages/course-details.css") ?>
   <?= $this->script("javascript/course-details.js") ?>
@@ -162,7 +165,7 @@ use Cursotopia\Helpers\Format;
           <i class="bx <?= $this->course["rates"] >= 5 ? 'bxs-star': ($this->course["rates"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
           <?php endif ?>
           <a href="#reviews" class="ms-1 text-white">
-            <?= Format::pluralize($this->course["reviews"], 'reseña') ?>
+            <?= Format::pluralize($this->course["reviews"], "reseña") ?>
           </a>
         </div>
 
@@ -173,12 +176,12 @@ use Cursotopia\Helpers\Format;
 
         <p class="text-white mb-0">
           <i class="h6 bx bx-layer"></i>
-          <?= Format::pluralize($this->course["levels"], 'nivel', 'níveles') ?>
+          <?= Format::pluralize($this->course["levels"], "nivel", "níveles") ?>
         </p>
 
         <p class="text-white mb-0">
           <i class="h6 bx bx-group"></i>
-          <?= Format::pluralize($this->course["students"], 'estudiante') ?>
+          <?= Format::pluralize($this->course["students"], "estudiante") ?>
         </p>
 
         <p class="text-white mb-0">Fecha de creación: <?= Format::date($this->course["createdAt"]) ?></p>
@@ -187,7 +190,7 @@ use Cursotopia\Helpers\Format;
         <h3 class="mt-4 text-white text-center">Categorías</h3>
         <?php foreach($this->categories as $category):  ?>
         <a
-          href="search"
+          href="/search?category=<?= $category["id"] ?>"
           class="badge bg-dark p-2 text-white rounded-pill text-decoration-none mb-3"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
@@ -268,18 +271,22 @@ use Cursotopia\Helpers\Format;
       <div id="review-section">
 
         <?php foreach($this->reviews as $review): ?>
-        <div class="card-body p-4">
-          <div class="d-flex flex-start">
+        <div class="card-body p-2 w-100">
+          <div class="d-flex">
             <img
               class="rounded-circle me-3" 
               src="api/v1/images/<?= $review["profilePicture"] ?>"
               alt="avatar" width="60" height="60" />
-            <div>
+            <div class="w-100">
               <div class="d-flex justify-content-between">
                 <div>
-                  <a class="fw-bold mb-1"><?= $review["userName"] ?></a>
+                  <a class="fw-bold mb-1" href="/profile?id=<?= $review["userId"] ?>">
+                    <?= Format::sanitize($review["userName"]) ?>
+                  </a>
                   <div class="d-flex align-items-center mb-1 gap-2">
-                    <small class="mb-0"><?= date('d M Y g:i', strtotime($review["createdAt"])) ?></small>
+                    <small class="mb-0">
+                      <?= Format::datetime($review["createdAt"]) ?>
+                    </small>
                     <span>
                       <i class="bx <?= $review["rate"] >= 1 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
                       <i class="bx <?= $review["rate"] >= 2 ? 'bxs-star': 'bx-star' ?> rating-star"></i>
@@ -290,7 +297,7 @@ use Cursotopia\Helpers\Format;
                   </div>
                 </div>
                 <?php if($this->session("role") == 1 || $this->session("id") == $review["userId"]): ?>
-                <a href="#"
+                <a
                   class="nav-link"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -298,25 +305,25 @@ use Cursotopia\Helpers\Format;
                   <i class="fas fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item delete-review" reviewId="<?= $review["id"] ?>">Eliminar</a></li>
+                  <li>
+                    <a class="dropdown-item delete-review" reviewId="<?= $review["id"] ?>">Eliminar</a>
+                  </li>
                 </ul>
                 <?php endif ?>
               </div>
               <p class="mb-0">
-                <?= $review["message"]  ?>
+                <?= Format::sanitize($review["message"])  ?>
               </p>
             </div>
           </div>
         </div>
         <hr>
         <?php endforeach ?>
-
-        <!-- <hr class="my-0"> -->
-
-        
       </div>
       <div class="d-grid">
-          <button id="show-more-comments" class="btn btn-primary w-100 rounded-pill" data-user-rol="<?= $this->session("role") ?>" data-user-id="<?=  $this->session("id") ?>">Mostrar más comentarios</button>
+        <button id="show-more-comments" class="btn btn-primary w-100 rounded-pill <?= ($this->reviewsTotalPages <= 1) ? 'd-none' : '' ?>" data-user-rol="<?= $this->session("role") ?>" data-user-id="<?=  $this->session("id") ?>">
+          Mostrar más comentarios
+        </button>
       </div>
     </section>
   </main>

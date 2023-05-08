@@ -14,41 +14,16 @@ class LevelRepository extends DB {
         CALL `level_update`(:id, :title, :description, :is_free, NULL, NULL, NULL, :active)
     SQL;
 
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            `level_id` AS `id`,
-            `level_title` AS `title`,
-            `level_description` AS `description`,
-            `level_is_free` AS `free`,
-            `course_id` AS `courseId`,
-            `level_created_at` AS `createdAt`,
-            `level_modified_at` AS `modifiedAt`,
-            `level_active` AS `active`
-        FROM
-            `levels`
-        WHERE
-            `level_id` = :id
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `level_find_by_id`(:id)
     SQL;
 
     private const FIND_BY_COURSE = <<<'SQL'
-        SELECT
-            `level_id` AS `id`,
-            `level_title` AS `title`,
-            `level_description` AS `description`,
-            `level_is_free` AS `free`,
-            `course_id` AS `courseId`,
-            `level_created_at` AS `createdAt`,
-            `level_modified_at` AS `modifiedAt`,
-            `level_active` AS `active`
-        FROM
-            `levels`
-        WHERE
-            `course_id` = :course_id
-            AND `level_active` = TRUE
+        CALL `level_find_by_course`(:course_id)
     SQL;
 
     private const FIND_ALL_USER_COMPLETE = <<<'SQL'
-        CALL level_find_user_complete(:course_id, :user_id)
+        CALL `level_find_user_complete`(:course_id, :user_id)
     SQL;
 
     private const FIND_ALL_BY_COURSE = <<<'SQL'
@@ -112,40 +87,33 @@ class LevelRepository extends DB {
             "title" => null,
             "description" => null,
             "is_free" => null,
-            "active" => true
+            "active" => false
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return $this::executeOneReader($this::FIND_ONE, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
-    public function findById(int $id): array {
-        $parameters = [
-            "id" => $id
-        ];
-        return $this::executeOneReader($this::FIND_ONE, $parameters);
-    }
-
-    public function findByCourse(int $courseId): array {
+    public function findByCourse(?int $courseId): ?array {
         $parameters = [
             "course_id" => $courseId
         ];
         return $this::executeReader($this::FIND_BY_COURSE, $parameters);
     }
 
-    public function findAllByCourse(?int $courseId): array {
+    public function findAllByCourse(?int $courseId): ?array {
         $parameters = [
             "course_id" => $courseId
         ];
         return $this::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 
-    public function findAllUserComplete(int $courseId, int $userId): array {
+    public function findAllUserComplete(?int $courseId, ?int $userId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "user_id" => $userId

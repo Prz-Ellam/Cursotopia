@@ -12,6 +12,7 @@ use Cursotopia\Models\CategoryModel;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
+use Cursotopia\Models\UserModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseCategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
@@ -37,12 +38,20 @@ class CourseController {
             return;
         }
 
+        $session = $request->getSession();
+        $role = $session->get("role");
+
         // verificar si compre o no el curso
 
         // TODO: Hay que validar cualquier id
         
         $courseRepository = new CourseRepository();
         $course = $courseRepository->courseDetailsfindOneById($id);
+
+        if (!$course["approved"] && $role != 1) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
         
         $categoryRepository = new CategoryRepository();
         $categories = $categoryRepository->findAllByCourse($id);
@@ -65,7 +74,12 @@ class CourseController {
         $enrollment = $enrollmentRepository->findOneByCourseAndStudent($id, $userId ?? -1);
 
         $reviewRepository = new ReviewRepository();
-        $reviews = $reviewRepository->findByCourse($id,1,10);
+        $pageNum = 1;
+        $pageSize = 10;
+        $reviews = $reviewRepository->findByCourse($id, $pageNum, $pageSize);
+
+        $reviewsTotal = $reviewRepository->findTotalByCourse($id)["total"];
+        $totalPages = ceil($reviewsTotal / $pageSize);
 
         if (!$course || !$categories || !$levels) {
             $response->setStatus(404)->render("404");
@@ -77,6 +91,7 @@ class CourseController {
             "categories" => $categories,
             "levels" => $levels,
             "reviews" => $reviews,
+            "reviewsTotalPages" => $totalPages,
             "enrollment" => $enrollment,
             "lesson" => $lesson
         ]);
@@ -211,6 +226,10 @@ class CourseController {
         $limit = $perPageElement;
         $offset = $start;
 
+        if (strlen($title ?? "") > 50) {
+            $title = null;
+        }
+
         if (!Validate::uint($instructorId)) {
             $instructorId = null;
         }
@@ -227,8 +246,16 @@ class CourseController {
             $endDate = null;
         }
 
+        $user = UserModel::findById2($instructorId);
+        if ($user) {
+            $userName = $user["name"] . " " . $user["lastName"];
+        }
+        else {
+            $userName = "";
+        }
+
         $total = CourseModel::findSearchTotal(
-            $title, 
+            $title,
             $instructorId, 
             $categoryId, 
             $startDate, 
@@ -247,15 +274,18 @@ class CourseController {
             $offset
         );
 
+
         $categories = CategoryModel::findAll();
 
         $response->render("search", [
             "courses" => $courses,
             "categories" => $categories,
+            "categoryId" => $categoryId,
             "title" => $title ?? "",
             "startDate" => $startDate ?? "",
             "endDate" => $endDate ?? "",
             "instructorId" => $instructorId,
+            "instructorName" => $userName,
             "page" => $page,
             "totalPages" => $totalPages,
             "totalButtons" => $totalPages > 5 ? 5 : $totalPages 
@@ -348,6 +378,7 @@ class CourseController {
         $response->json([
             "status" => true,
             "id" => $courseId,
+            "imageId" => $imageId,
             "message" => $rowsAffected
         ]);
     }

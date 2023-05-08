@@ -10,13 +10,16 @@ import { updateCourseCreateCategory } from './controllers/category.controller';
 import createLessonValidator from './validators/lesson-create.validator';
 import { courseEditionCreateLesson } from './controllers/lesson.controller';
 import Swal from 'sweetalert2';
+import { changeImage } from './controllers/image.controller';
 
 $(() => {
     // Update Course
-    const updateCourseForm = document.getElementById('update-course-form-a');
-    $(updateCourseForm).validate(updateCourseValidator);
-    $(updateCourseForm).on('submit', updateCourse);
+    $('#update-course-form').validate(updateCourseValidator);
+    $('#update-course-form').on('submit', updateCourse);
 
+    $('#upload-image').on('change', function(event) {
+        changeImage(event, '#upload-image', '#picture-box', '');
+    });
 
     // Create Category
     $('#create-category-btn').on('click', function() {

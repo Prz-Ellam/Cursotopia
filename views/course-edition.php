@@ -31,7 +31,7 @@
     <div class="row border-3 border-bottom border-primary text-center mb-3">
       <h1>Editar curso</h1>
     </div>
-    <form action="#" class="row" id="update-course-form-a">
+    <form action="#" class="row" id="update-course-form">
       <div class="row mx-0">
         <div class="col-md-6 col-sm-12 col-xs-12">
 
@@ -96,9 +96,11 @@
             </div>
             <img src="/api/v1/images/<?= $this->course["imageId"] ?>" alt=" " class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
+            <input type="hidden" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off" value="<?= $this->course["imageId"] ?>">
           </label>
-          <input type="text" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
+          <div id="image-error"></div>
         </div>
+
       </div>
 
      
@@ -116,7 +118,7 @@
       </section>
       -->
       
-      <div class="d-grid">
+      <div class="d-grid mt-4">
         <button type="submit" class="btn btn-primary rounded-pill">
           Editar curso
         </button>

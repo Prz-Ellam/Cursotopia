@@ -22,12 +22,14 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `get_course_reviews`;
+
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `get_course_reviews` $$
 CREATE PROCEDURE `get_course_reviews`(
-    IN   `course_id`    INT, 
-    IN   `page_num`     INT, 
-    IN   `page_size`    INT
+    IN   `course_id`            INT, 
+    IN   `page_num`             INT, 
+    IN   `page_size`            INT
 )
 BEGIN
     DECLARE offset_val INT;
@@ -54,52 +56,94 @@ BEGIN
         r.course_id = course_id AND r.review_active=1
     ORDER BY
         r.review_created_at DESC
-    LIMIT page_size OFFSET offset_val;
+    LIMIT 
+        page_size 
+    OFFSET
+        offset_val;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `review_find_total_by_course` $$
+CREATE PROCEDURE `review_find_total_by_course`(
+    IN _course_id               INT
+)
+BEGIN
+    SELECT
+        IFNULL(COUNT(r.`review_id`), 0) AS `total`
+    FROM
+        `reviews` AS r
+    INNER JOIN
+        `users` AS u
+    ON
+        r.`user_id` = u.`user_id`
+    WHERE
+        r.`course_id` = _course_id 
+        AND r.`review_active` = TRUE
+    ORDER BY
+        r.`review_created_at` DESC;
+END $$
+DELIMITER ;
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `find_user_review_in_course` $$
 CREATE PROCEDURE `find_user_review_in_course`(
-    IN `courseId` INT, 
-    IN `userId` INT
+    IN _course_id           INT, 
+    IN _user_id             INT
 )
 BEGIN
     SELECT
-        r.review_id AS `id`,
-        r.review_message AS `message`,
-        r.review_rate AS `rate`,
-        r.course_id AS `courseId`,
-        r.user_id AS `userId`,
-        r.review_created_at AS `createdAt`,
-        r.review_modified_at AS `modifiedAt`,
-        r.review_active AS `active`,
-        CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
-        u.profile_picture AS `profilePicture`
+        r.`review_id` AS `id`,
+        r.`review_message` AS `message`,
+        r.`review_rate` AS `rate`,
+        r.`course_id` AS `courseId`,
+        r.`user_id` AS `userId`,
+        r.`review_created_at` AS `createdAt`,
+        r.`review_modified_at` AS `modifiedAt`,
+        r.`review_active` AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
+        u.`profile_picture` AS `profilePicture`
     FROM
-        reviews AS r
+        `reviews` AS r
     INNER JOIN
-        users AS u
+        `users` AS u
     ON
-        r.user_id = u.user_id 
+        r.`user_id` = u.`user_id` 
     WHERE
-        course_id = courseId AND r.user_id = userId AND r.review_active=1;
+        r.`course_id` = _course_id 
+        AND r.`user_id` = _user_id 
+        AND r.`review_active` = TRUE;
 END;
 DELIMITER ;
 
+
+
 DELIMITER $$
-CREATE PROCEDURE `sp_update_review`(IN `id` INT, IN `message` VARCHAR(255), IN `rate` INT, IN `active` BOOLEAN)
+DROP PROCEDURE IF EXISTS `sp_update_review` $$
+CREATE PROCEDURE `sp_update_review`(
+    IN _review_id               INT, 
+    IN _message                 VARCHAR(255), 
+    IN _rate                    INT, 
+    IN _active                  BOOLEAN
+)
 BEGIN
-    UPDATE reviews
+    UPDATE 
+        `reviews`
     SET
-        review_message = IFNULL(message, review_message),
-        review_rate = IFNULL(rate, review_rate),
-        review_modified_at = NOW(),
-        review_active = IFNULL(active, review_active)
+        `review_message`        = IFNULL(_message, `review_message`),
+        `review_rate`           = IFNULL(_rate, `review_rate`),
+        `review_modified_at`    = NOW(),
+        `review_active`         = IFNULL(_active, `review_active`)
     WHERE
-        review_id = id;
+        `review_id` = _review_id;
 END$$
 DELIMITER ;
+
+
 
 DELIMITER $$
 CREATE PROCEDURE sp_get_course_reviews(IN course_id INT)
@@ -128,7 +172,10 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_get_review_by_course_and_user $$
 CREATE PROCEDURE sp_get_review_by_course_and_user(IN course_id INT, IN user_id INT)
 BEGIN
     SELECT
@@ -149,8 +196,10 @@ BEGIN
     ON
         r.user_id = u.user_id
     WHERE
-        r.course_id = course_id AND r.user_id = user_id;
-END$$
+        r.course_id = course_id 
+        AND r.review_active = TRUE
+        AND r.user_id = user_id;
+END $$
 DELIMITER ;
 
 DELIMITER $$

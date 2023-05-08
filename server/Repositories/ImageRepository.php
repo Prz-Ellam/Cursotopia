@@ -31,7 +31,7 @@ class ImageRepository extends DB {
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'
-        CALL `image_find_by_id`(:image_id)
+        CALL `image_find_by_id`(:id)
     SQL;
 
     private const FIND_ONE_BY_ID_AND_NOT_USER_ID = <<<'SQL'
@@ -67,11 +67,10 @@ class ImageRepository extends DB {
             "content_type" => PDO::PARAM_STR,
             "data" => PDO::PARAM_LOB,
         ];
-        $affectedRows = $this::executeNonQuery($this::CREATE, $parameters, $types);
-        return $affectedRows;
+        return $this::executeNonQuery($this::CREATE, $parameters, $types);
     }
 
-    public function update(Image $image) {
+    public function update(Image $image): int {
         $parameters = [
             "id" => $image->getId(),
             "name" => $image->getName(),
@@ -82,12 +81,12 @@ class ImageRepository extends DB {
             "modified_at" => $image->getModifiedAt(),
             "active" => $image->getActive()
         ];
-        return self::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findById(?int $id): ?array {
         $parameters = [
-            "image_id" => $id
+            "id" => $id
         ];
         return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
@@ -95,7 +94,7 @@ class ImageRepository extends DB {
     public function findOneByIdAndNotUserId(int $id): ?array {
         return $this::executeOneReader($this::FIND_ONE_BY_ID_AND_NOT_USER_ID, [
             "id" => $id
-        ]) ?? null;
+        ]);
     }
 
     public function lastInsertId2(): string {

@@ -1,25 +1,23 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `category_find_one_by_name` $$
-CREATE PROCEDURE `category_find_one_by_name`(
-    IN _category_name               VARCHAR(50)
+DROP PROCEDURE IF EXISTS `category_create` $$
+CREATE PROCEDURE `category_create`(
+    IN `_name`                  VARCHAR(50),
+    IN `_description`           VARCHAR(255),
+    IN `_created_by`            INT,
+    OUT `_category_id`          INT
 )
 BEGIN
-    SELECT
-        `category_id`,
+    INSERT INTO `categories` (
         `category_name`,
         `category_description`,
-        `category_is_approved`,
-        `category_approved_by`,
-        `category_created_by`,
-        `category_created_at`,
-        `category_modified_at`,
-        `category_active`
-    FROM
-        `categories`
-    WHERE
-        `category_name` = _category_name
-    LIMIT
-        1;
+        `category_created_by`
+    )
+    VALUES (
+        `_name`,
+        `_description`,
+        `_created_by`
+    );
+    SET `_category_id` = LAST_INSERT_ID();
 END $$
 DELIMITER ;
 
@@ -55,6 +53,85 @@ BEGIN
         `category_id` = `_category_id`;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_by_id` $$
+CREATE PROCEDURE `category_find_by_id`(
+    IN `_category_id`               INT
+)
+BEGIN
+    SELECT
+        `category_id` AS `id`,
+        `category_name` AS `name`,
+        `category_description` AS `description`,
+        `category_is_approved` AS `approved`,
+        `category_approved_by` AS `approvedBy`,
+        `category_created_by` AS `createdBy`,
+        `category_created_at` AS `createdAt`,
+        `category_modified_at` AS `modifiedAt`,
+        `category_active` AS `active`
+    FROM
+        `categories`
+    WHERE
+        `category_id` = `_category_id`
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_all` $$
+CREATE PROCEDURE `category_find_all`()
+BEGIN
+    SELECT
+        `category_id` AS `id`,
+        `category_name` AS `name`,
+        `category_description` AS `description`,
+        `category_is_approved` AS `approved`,
+        `category_approved_by` AS `approvedBy`,
+        `category_created_by` AS `createdBy`,
+        `category_created_at` AS `createdAt`,
+        `category_modified_at` AS `modifiedAt`,
+        `category_active` AS `active`
+    FROM
+        `categories`
+    WHERE
+        `category_active` = TRUE
+        AND `category_is_approved` = TRUE;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `category_find_one_by_name` $$
+CREATE PROCEDURE `category_find_one_by_name`(
+    IN _category_name               VARCHAR(50)
+)
+BEGIN
+    SELECT
+        `category_id`,
+        `category_name`,
+        `category_description`,
+        `category_is_approved`,
+        `category_approved_by`,
+        `category_created_by`,
+        `category_created_at`,
+        `category_modified_at`,
+        `category_active`
+    FROM
+        `categories`
+    WHERE
+        `category_name` = _category_name
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
 
 
 -- Obtiene todas las categorías que no han sido aprobadas

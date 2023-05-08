@@ -74,14 +74,14 @@ class ChatMessageRepository {
         return DB::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findAllByChat(int $chatId): array {
+    public function findAllByChat(?int $chatId): ?array {
         $parameters = [
             "chat_id" => $chatId
         ];
         return DB::executeReader($this::FIND_ALL_BY_CHAT_ID, $parameters);
     }
 
-    public function getUnreadMessages(int $userId): array {
+    public function getUnreadMessages(?int $userId): ?array {
         $parameters = [
             "user_id" => $userId
         ];

@@ -24,6 +24,7 @@ $app->post("/api/v1/reviews", [ ReviewController::class, "create" ], [
  * Busca las reseñas de un curso
  */
 $app->get("/api/v1/reviews/:courseId/:pageNum/:pageSize", [ ReviewController::class, "getMoreReviews" ]);
+$app->get("/api/v1/courses/:courseId/reviews/total", [ ReviewController::class, "getTotalCourseReviews" ]);
 
 /**
  * Elimina una reseña

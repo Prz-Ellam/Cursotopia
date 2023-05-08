@@ -692,3 +692,45 @@ SETasmr gibi magic
 `category_created_by` = NOW()
 
 SELECT `image_id` FROM `images`;
+
+
+CALL `course_search`(
+    null,
+    2,
+    1,
+    '2023-05-01',
+    '2023-05-02',
+    100,
+    0
+)
+
+SELECT (EXISTS(
+SELECT COUNT(`category_id`) 
+FROM `course_category` AS cc WHERE cc.`course_id` = 1 
+AND cc.`category_id` = 1 AND cc.`course_category_active` = TRUE) 
+OR 1 IS NULL)
+
+SELECT `category_id` 
+FROM `course_category` AS cc WHERE cc.`course_id` = 15
+AND cc.`category_id` = 1 AND cc.`course_category_active` = TRUE
+
+
+       SELECT
+            `course_id` AS `id`,
+            `course_title` AS `title`,
+            `course_price` AS `price`,
+            `course_image_id` AS `imageId`,
+            `instructor_name` AS `instructorName`,
+            `levels`,
+            `rate`,
+            `video_duration` AS `videoDuration`
+        FROM
+            `course_card`
+        WHERE
+            `course_active` = TRUE
+            AND `course_approved` = TRUE
+            AND `course_is_complete` = TRUE
+        ORDER BY
+            `course_created_at` DESC
+        LIMIT
+            15
