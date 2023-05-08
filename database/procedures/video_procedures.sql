@@ -59,7 +59,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `video_find_by_id` $$
 CREATE PROCEDURE `video_find_by_id`(
-    IN _video_id                INT
+    IN `_video_id`              INT
 )
 BEGIN
     SELECT
@@ -74,7 +74,8 @@ BEGIN
     FROM
         `videos`
     WHERE
-        `video_id` = _video_id
+        `video_id` = `_video_id`
+        AND `video_active` = TRUE
     LIMIT
         1;
 END $$

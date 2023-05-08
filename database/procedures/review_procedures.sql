@@ -223,7 +223,8 @@ BEGIN
     ON
         r.user_id = u.user_id
     WHERE
-        r.review_id = id;
+        r.review_id = id
+        AND r.review_active = TRUE;
 END$$
 DELIMITER ;
 

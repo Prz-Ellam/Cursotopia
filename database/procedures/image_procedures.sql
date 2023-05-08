@@ -59,7 +59,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `image_find_by_id` $$
 CREATE PROCEDURE `image_find_by_id`(
-    IN _image_id                INT
+    IN `_image_id`                  INT
 )
 BEGIN
     SELECT
@@ -74,8 +74,38 @@ BEGIN
     FROM
         `images`
     WHERE
-        `image_id` = _image_id
+        `image_id` = `_image_id`
+        AND `image_active` = TRUE
     LIMIT
         1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `image_find_one_profile_picture` $$
+CREATE PROCEDURE `image_find_one_profile_picture`(
+    IN `_image_id`                  INT
+)
+BEGIN
+    SELECT
+        i.`image_id` AS `id`,
+        i.`image_name` AS `name`,
+        i.`image_size` AS `size`,
+        i.`image_content_type` AS `contentType`,
+        i.`image_data` AS `data`,
+        i.`image_created_at` AS `createdAt`,
+        i.`image_modified_at` AS `modifiedAt`,
+        i.`image_active` AS `active`
+    FROM
+        `images` AS i
+    INNER JOIN
+        `users` AS u
+    ON
+        i.`image_id` = u.`profile_picture`
+    WHERE
+        i.`image_id` = `_image_id`
+        AND i.`image_active` = TRUE
 END $$
 DELIMITER ;

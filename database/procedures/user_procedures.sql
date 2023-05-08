@@ -49,7 +49,8 @@ BEGIN
         `users`
     WHERE
         CONCAT(`user_name`, ' ', `user_last_name`) LIKE CONCAT("%", _name, "%")
-        AND `user_role` = 2;
+        AND `user_role` = 2
+        AND `user_active` = TRUE;
 END $$
 DELIMITER ;
 

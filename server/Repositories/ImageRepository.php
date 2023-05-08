@@ -36,22 +36,22 @@ class ImageRepository extends DB {
 
     private const FIND_ONE_BY_ID_AND_NOT_USER_ID = <<<'SQL'
         SELECT
-            i.image_id AS `id`,
-            i.image_name AS `name`,
-            i.image_size AS `size`,
-            i.image_content_type AS `contentType`,
-            i.image_data AS `data`,
-            i.image_created_at AS `createdAt`,
-            i.image_modified_at AS `modifiedAt`,
-            i.image_active AS `active`
+            i.`image_id` AS `id`,
+            i.`image_name` AS `name`,
+            i.`image_size` AS `size`,
+            i.`image_content_type` AS `contentType`,
+            i.`image_data` AS `data`,
+            i.`image_created_at` AS `createdAt`,
+            i.`image_modified_at` AS `modifiedAt`,
+            i.`image_active` AS `active`
         FROM
-            images AS i
+            `images` AS i
         INNER JOIN
-            users AS u
+            `users` AS u
         ON
-            i.image_id = u.profile_picture
+            i.`image_id` = u.`profile_picture`
         WHERE
-            i.image_id = :id
+            i.`image_id` = :id
     SQL;
 
     public function create(Image $image): int {

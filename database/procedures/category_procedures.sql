@@ -26,15 +26,15 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_category` $$
 CREATE PROCEDURE `update_category`(
-    `_category_id`                  INT,
-    `_category_name`                VARCHAR(50),
-    `_category_description`         VARCHAR(255),
-    `_category_approved`            BOOLEAN,
-    `_category_approved_by`         INT,
-    `_category_created_by`          INT,
-    `_category_created_at`          TIMESTAMP,
-    `_category_modified_at`         TIMESTAMP,
-    `_category_active`              BOOLEAN
+    IN `_category_id`                  INT,
+    IN `_category_name`                VARCHAR(50),
+    IN `_category_description`         VARCHAR(255),
+    IN `_category_approved`            BOOLEAN,
+    IN `_category_approved_by`         INT,
+    IN `_category_created_by`          INT,
+    IN `_category_created_at`          TIMESTAMP,
+    IN `_category_modified_at`         TIMESTAMP,
+    IN `_category_active`              BOOLEAN
 )
 BEGIN
     UPDATE
@@ -76,6 +76,7 @@ BEGIN
         `categories`
     WHERE
         `category_id` = `_category_id`
+        AND `category_active` = TRUE
     LIMIT
         1;
 END $$
@@ -110,7 +111,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_find_one_by_name` $$
 CREATE PROCEDURE `category_find_one_by_name`(
-    IN _category_name               VARCHAR(50)
+    IN `_category_name`               VARCHAR(50)
 )
 BEGIN
     SELECT
@@ -126,7 +127,8 @@ BEGIN
     FROM
         `categories`
     WHERE
-        `category_name` = _category_name
+        `category_name` = `_category_name`
+        AND `category_active` = TRUE
     LIMIT
         1;
 END $$

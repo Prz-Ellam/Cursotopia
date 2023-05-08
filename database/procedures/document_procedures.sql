@@ -69,6 +69,7 @@ BEGIN
         `documents`
     WHERE
         `document_id` = `_document_id`
+        AND `document_active` = TRUE
     LIMIT
         1;
 END $$

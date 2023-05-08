@@ -49,7 +49,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `link_find_by_id` $$
 CREATE PROCEDURE `link_find_by_id`(
-    IN _link_id                 INT
+    IN `_link_id`               INT
 )
 BEGIN
     SELECT
@@ -62,7 +62,8 @@ BEGIN
     FROM
         `links`
     WHERE
-        `link_id` = _link_id
+        `link_id` = `_link_id`
+        AND `link_active` = TRUE
     LIMIT
         1;
 END $$

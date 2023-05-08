@@ -50,7 +50,7 @@ class ReviewRepository extends DB {
         CALL `review_find_total_by_course`(:course_id)
     SQL;
 
-    private const FIND_ONE = <<<'SQL'
+    private const FIND_BY_ID = <<<'SQL'
         CALL `sp_get_review_by_id`(:id);
     SQL;
 
@@ -111,11 +111,11 @@ class ReviewRepository extends DB {
         return $this->executeOneReader($this::FIND_ONE_BY_COURSE_AND_USER_ID, $parameters) ?? null;
     }
 
-    public function findById(int $id): ?array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return $this->executeOneReader($this::FIND_ONE, $parameters);
+        return $this->executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function delete(int $id): int {

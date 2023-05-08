@@ -71,7 +71,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_find_by_id` $$
 CREATE PROCEDURE `course_find_by_id`(
-    IN _course_id               INT
+    IN `_course_id`                 INT
 )
 BEGIN
     SELECT
@@ -94,7 +94,8 @@ BEGIN
     ON
         c.`course_id` = cc.`course_id` AND cc.`course_category_active`= TRUE
     WHERE
-        c.`course_id` = _course_id
+        c.`course_id` = `_course_id`
+        AND c.`course_active` = TRUE
     GROUP BY
         c.`course_id`
     LIMIT
