@@ -7,7 +7,19 @@ use Cursotopia\Entities\User;
 use PDO;
 
 class UserRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `user_find_by_id`(:id)
+    SQL;
+
+    private const FIND_ONE_2 = <<<'SQL'
+        CALL `user_find`(:id, :id_opt, :email, :email_opt);
+    SQL;
+
+    private const FIND_ONE_BY_EMAIL = <<<'SQL'
+        CALL `user_find_one_by_email`(:email)
+    SQL;
+
+    private const FIND_ONE_BY_EMAIL_AND_NOT_USER_ID = <<<'SQL'
         SELECT 
             `user_id` AS `id`, 
             `user_name` AS `name`, 
@@ -25,38 +37,7 @@ class UserRepository extends DB {
         FROM 
             `users` 
         WHERE
-            `user_id` = :id
-        LIMIT
-            1
-    SQL;
-
-    private const FIND_ONE_2 = <<<'SQL'
-        CALL `user_find`(:id, :id_opt, :email, :email_opt);
-    SQL;
-
-    private const FIND_ONE_BY_EMAIL = <<<'SQL'
-        CALL `user_find_one_by_email`(:email)
-    SQL;
-
-    private const FIND_ONE_BY_EMAIL_AND_NOT_USER_ID = <<<'SQL'
-        SELECT 
-            user_id AS `id`, 
-            user_name AS `name`, 
-            user_last_name AS `lastName`, 
-            user_birth_date AS `birthDate`, 
-            user_gender AS `gender`, 
-            user_email AS `email`, 
-            user_password AS `password`,
-            user_role AS `role`, 
-            profile_picture AS `profilePicture`,
-            `user_enabled` AS `enabled`,
-            `user_created_at` AS `createdAt`,
-            `user_modified_at` AS `modifiedAt`,
-            `user_active` AS `active`
-        FROM 
-            users 
-        WHERE
-            user_email = :email
+            `user_email` = :email
             AND user_id <> :id
         LIMIT
             1
@@ -195,7 +176,7 @@ class UserRepository extends DB {
     }
 
     public function findOne(?int $id) {
-        return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
+        return $this::executeOneReader($this::FIND_BY_ID, [ "id" => $id ]) ?? null;
     }
 
     public function findOne2(array $parameters) {

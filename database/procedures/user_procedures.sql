@@ -138,6 +138,61 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_by_id` $$
+CREATE PROCEDURE `user_find_by_id`(
+    IN `_user_id`                       INT
+)
+BEGIN
+    SELECT 
+        `user_id`                       AS `id`, 
+        `user_name`                     AS `name`, 
+        `user_last_name`                AS `lastName`, 
+        `user_birth_date`               AS `birthDate`, 
+        `user_gender`                   AS `gender`, 
+        `user_email`                    AS `email`, 
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`, 
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
+    FROM 
+        `users` 
+    WHERE
+        `user_id` = `_user_id`
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+        SELECT 
+            `user_id` AS `id`, 
+            `user_name` AS `name`, 
+            `user_last_name` AS `lastName`, 
+            `user_birth_date` AS `birthDate`, 
+            `user_gender` AS `gender`, 
+            `user_email` AS `email`, 
+            `user_password` AS `password`,
+            `user_role` AS `role`, 
+            `profile_picture` AS `profilePicture`,
+            `user_enabled` AS `enabled`,
+            `user_created_at` AS `createdAt`,
+            `user_modified_at` AS `modifiedAt`,
+            `user_active` AS `active`
+        FROM 
+            `users` 
+        WHERE
+            `user_email` = :email
+            AND user_id <> :id
+        LIMIT
+            1
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `user_find` $$
 CREATE PROCEDURE `user_find`(
     IN `_user_id`                       INT,
@@ -184,19 +239,19 @@ DROP PROCEDURE IF EXISTS `user_find_blocked` $$
 CREATE PROCEDURE `user_find_blocked`()
 BEGIN
     SELECT
-        `user_id` AS `id`,
-        `user_name` AS `name`,
-        `user_last_name` AS `lastName`,
-        `user_birth_date` AS `birthDate`,
-        `user_gender` AS `gender`,
-        `user_email` AS `email`,
-        `user_password` AS `password`,
-        `user_role` AS `role`,
-        `profile_picture` AS `profilePicture`,
-        `user_enabled` AS `enabled`,
-        `user_created_at` AS `createdAt`,
-        `user_modified_at` AS `modifiedAt`,
-        `user_active` AS `active`
+        `user_id`                       AS `id`,
+        `user_name`                     AS `name`,
+        `user_last_name`                AS `lastName`,
+        `user_birth_date`               AS `birthDate`,
+        `user_gender`                   AS `gender`,
+        `user_email`                    AS `email`,
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`,
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
     FROM
         `users`
     WHERE
@@ -205,24 +260,26 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `user_find_unblocked` $$
 CREATE PROCEDURE `user_find_unblocked`()
 BEGIN
     SELECT
-        `user_id` AS `id`,
-        `user_name` AS `name`,
-        `user_last_name` AS `lastName`,
-        `user_birth_date` AS `birthDate`,
-        `user_gender` AS `gender`,
-        `user_email` AS `email`,
-        `user_password` AS `password`,
-        `user_role` AS `role`,
-        `profile_picture` AS `profilePicture`,
-        `user_enabled` AS `enabled`,
-        `user_created_at` AS `createdAt`,
-        `user_modified_at` AS `modifiedAt`,
-        `user_active` AS `active`
+        `user_id`                       AS `id`,
+        `user_name`                     AS `name`,
+        `user_last_name`                AS `lastName`,
+        `user_birth_date`               AS `birthDate`,
+        `user_gender`                   AS `gender`,
+        `user_email`                    AS `email`,
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`,
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
     FROM
         `users`
     WHERE

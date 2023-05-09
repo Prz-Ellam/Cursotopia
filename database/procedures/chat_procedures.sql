@@ -1,8 +1,8 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `find_chat` $$
 CREATE PROCEDURE `find_chat`(
-    IN `_user_one`              INT,
-    IN `_user_two`              INT
+    IN `_user_one`                      INT,
+    IN `_user_two`                      INT
 )
 BEGIN
     SET @chat_id = (
@@ -29,12 +29,10 @@ BEGIN
         INSERT INTO `chats` VALUES();
         SET @chat_id = LAST_INSERT_ID();
 
-        INSERT INTO `chat_participants`(user_id, chat_id)
+        INSERT INTO `chat_participants`(`user_id`, `chat_id`)
         VALUES (`_user_one`, @chat_id), (`_user_two`, @chat_id);
     END IF;
 
     SELECT @chat_id AS `chatId`;
 END $$
 DELIMITER ;
-
-

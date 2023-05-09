@@ -9,14 +9,14 @@ BEGIN
     DECLARE main_resource VARCHAR(50);
     
     SELECT CASE
-        WHEN video_id IS NOT NULL THEN 'video'
-        WHEN image_id IS NOT NULL THEN 'image'
-        WHEN document_id IS NOT NULL THEN 'document'
-        WHEN link_id IS NOT NULL THEN 'link'
+        WHEN `video_id` IS NOT NULL THEN 'video'
+        WHEN `image_id` IS NOT NULL THEN 'image'
+        WHEN `document_id` IS NOT NULL THEN 'document'
+        WHEN `link_id` IS NOT NULL THEN 'link'
         ELSE NULL
     END INTO main_resource
-    FROM lessons
-    WHERE lesson_id = _lesson_id;
+    FROM `lessons`
+    WHERE `lesson_id` = _lesson_id;
     
     RETURN main_resource;
 END $$

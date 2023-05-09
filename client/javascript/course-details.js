@@ -2,7 +2,7 @@ import $ from 'jquery';
 import 'jquery-validation';
 import { enroll } from './controllers/payment-method.controller';
 import { submitReview, showMoreComments, deleteReview } from './controllers/review.controller';
-import createReviewValidator from './validators/create-review.validator';
+import createReviewValidator from './validators/review-create.validator';
 
 
 $(() => {

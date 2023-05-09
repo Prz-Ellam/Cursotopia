@@ -9,7 +9,7 @@ export default {
         'rate': {
             required: true,
             min: 1,
-            max: 10
+            max: 5
         },
         'message': {
             required: true,
@@ -21,7 +21,7 @@ export default {
         'rate': {
             required: 'La calificación es requerida',
             min: 'La calificación no puede ser menor que 1',
-            max: 'La calificación no puede ser mayor que 10'
+            max: 'La calificación no puede ser mayor que 5'
         },
         'message': {
             required: 'La reseña es requerida',

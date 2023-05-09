@@ -16,9 +16,9 @@ $app->get("/api/v1/images/:id", [ ImageController::class, "getOne" ], [
 /**
  * Crea una imagen
  */
-$app->post("/api/v1/images", [ ImageController::class, "create" ], [
-    
-]);
+//$app->post("/api/v1/images", [ ImageController::class, "create" ], [
+//    
+//]);
 
 /**
  * Actualiza una imagen

@@ -17,9 +17,9 @@ $app->get("/api/v1/videos/:id", [ VideoController::class, "getOne" ], [
 /**
  * Crea un video
  */
-$app->post("/api/v1/videos", [ VideoController::class, "create" ], [
-    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ]
-]);
+//$app->post("/api/v1/videos", [ VideoController::class, "create" ], [
+//    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ]
+//]);
 
 /**
  * Actualiza un video

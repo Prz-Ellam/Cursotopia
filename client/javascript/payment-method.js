@@ -24,23 +24,23 @@ $(() => {
     const value = event.target.value.toString();
     // adds 0 to month user input like 9 -> 09
     if (value.length === 1 && value > 1) {
-      event.target.value = "0" + value;
+      event.target.value = '0' + value;
     }
     // bounds
-    if (value === "00") {
-      event.target.value = "01";
+    if (value === '00') {
+      event.target.value = '01';
     } else if (value > 12) {
-      event.target.value = "12";
+      event.target.value = '12';
     }
     // if we have a filled input we jump to the year input
-    2 <= event.target.value.length && focusSibling(event.target, "nextElementSibling");
+    2 <= event.target.value.length && focusSibling(event.target, 'nextElementSibling');
     event.stopImmediatePropagation();
   });
 
   yearInput.addEventListener('keydown', (event) => {
     // if the year is empty jump to the month input
-    if (event.key === "Backspace" && event.target.selectionStart === 0) {
-      focusSibling(event.target, "previousElementSibling");
+    if (event.key === 'Backspace' && event.target.selectionStart === 0) {
+      focusSibling(event.target, 'previousElementSibling');
       event.stopImmediatePropagation();
     }
   });
@@ -60,7 +60,7 @@ $(() => {
     return e.metaKey || // cmd/ctrl
       e.which <= 0 || // arrow keys
       e.which == 8 || // delete key
-      match && match["0"] === match.input; // pattern regex isMatch - workaround for passing [0-9]* into RegExp
+      match && match['0'] === match.input; // pattern regex isMatch - workaround for passing [0-9]* into RegExp
   };
 
   document.querySelectorAll('input[data-pattern-validate]').forEach(el => el.addEventListener('keypress', e => {

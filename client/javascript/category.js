@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import categoryValidator from './validators/create-category.validator';
+import categoryValidator from './validators/category-create.validator';
 
 $(() => {
     $('#add-category').validate(categoryValidator);

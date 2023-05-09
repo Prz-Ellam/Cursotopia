@@ -4,7 +4,7 @@ import { passwordStrength, passwordToggle, updatePassword } from './controllers/
 import PasswordEditionValidator from './validators/password-edition.validator';
 
 $(() => {
-    $('#new-password').on('input', function(event) {
+    $('#new-password').on('input', function() {
         passwordStrength('#new-password', '#password-mayus', '#password-number', '#password-specialchar', '#password-length');
     });
 

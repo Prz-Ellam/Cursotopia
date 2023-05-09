@@ -1,8 +1,8 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `enrollment_find_one_by_course_and_student` $$
 CREATE PROCEDURE `enrollment_find_one_by_course_and_student`(
-    IN `_course_id`                 INT,
-    IN `_student_id`                INT
+    IN `_course_id`                     INT,
+    IN `_student_id`                    INT
 )
 BEGIN
     SELECT
@@ -35,10 +35,10 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `enrollment_pay` $$
 CREATE PROCEDURE `enrollment_pay`(
-    IN `_course_id`                 INT,
-    IN `_student_id`                INT,
-    IN `_amount`                    DECIMAL(10,2),
-    IN `_payment_method_id`         INT
+    IN `_course_id`                     INT,
+    IN `_student_id`                    INT,
+    IN `_amount`                        DECIMAL(10,2),
+    IN `_payment_method_id`             INT
 )
 BEGIN
     DECLARE num_rows INT;
@@ -181,8 +181,8 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `visit_lesson` $$
 CREATE PROCEDURE `visit_lesson`(
-    IN _student_id              INT,
-    IN _lesson_id               INT
+    IN _student_id                      INT,
+    IN _lesson_id                       INT
 )
 BEGIN
     DECLARE _level_id INT;
@@ -249,26 +249,26 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_sales_report` $$
 CREATE PROCEDURE `course_sales_report`(
-    IN _instructor_id           INT,
-    IN _category_id             INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _active                  BOOLEAN,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN _instructor_id                   INT,
+    IN _category_id                     INT,
+    IN _from                            DATE,
+    IN _to                              DATE,
+    IN _active                          BOOLEAN,
+    IN _limit                           INT,
+    IN _offset                          INT
 )
 BEGIN
     SELECT
-        `course_id` AS `id`,
-        `course_title` AS `title`,
-        `course_image_id` AS `imageId`,
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_image_id`               AS `imageId`,
         `enrollments`,
         `amount`,
-        `average_level` AS `averageLevel`,
-        `instructor_id` AS `instructor_id`,
-        `course_created_at` AS `createdAt`
+        `average_level`                 AS `averageLevel`,
+        `instructor_id`                 AS `instructor_id`,
+        `course_created_at`             AS `createdAt`
     FROM
-        `instructor_courses` AS ic
+        `instructor_courses`            AS ic
     WHERE
         `instructor_id` = _instructor_id
         AND `course_is_complete` = TRUE
@@ -290,15 +290,15 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_sales_report_total` $$
 CREATE PROCEDURE `course_sales_report_total`(
-    IN _instructor_id           INT,
-    IN _category_id             INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _active                  BOOLEAN
+    IN _instructor_id                   INT,
+    IN _category_id                     INT,
+    IN _from                            DATE,
+    IN _to                              DATE,
+    IN _active                          BOOLEAN
 )
 BEGIN
     SELECT
-        IFNULL(COUNT(`course_id`), 0) AS `total`
+        IFNULL(COUNT(`course_id`), 0)   AS `total`
     FROM
         `instructor_courses` AS ic
     WHERE
@@ -320,21 +320,21 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `instructor_courses_seen_by_others_report` $$
 CREATE PROCEDURE `instructor_courses_seen_by_others_report`(
-    IN _instructor_id           INT,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN _instructor_id                   INT,
+    IN _limit                           INT,
+    IN _offset                          INT
 )
 BEGIN
     SELECT
-        `course_id` AS `id`,
-        `course_title` AS `title`,
-        `course_image_id` AS `imageId`,
-        `course_price` AS `price`,
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_image_id`               AS `imageId`,
+        `course_price`                  AS `price`,
         `enrollments`,
         `amount`,
-        `rates` AS `rate`,
-        `instructor_id` AS `instructor_id`,
-        `course_created_at` AS `createdAt`
+        `rates`                         AS `rate`,
+        `instructor_id`                 AS `instructor_id`,
+        `course_created_at`             AS `createdAt`
     FROM
         `instructor_courses_seen_by_others`
     WHERE
@@ -354,7 +354,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `instructor_courses_seen_by_others_report_total` $$
 CREATE PROCEDURE `instructor_courses_seen_by_others_report_total`(
-    IN _instructor_id           INT
+    IN _instructor_id                   INT
 )
 BEGIN
     SELECT
@@ -374,29 +374,29 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `kardex_report` $$
 CREATE PROCEDURE `kardex_report`(
-    IN _student_id              INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _category_id             INT,
-    IN _complete                BOOLEAN,
-    IN _active                  BOOLEAN,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN _student_id                      INT,
+    IN _from                            DATE,
+    IN _to                              DATE,
+    IN _category_id                     INT,
+    IN _complete                        BOOLEAN,
+    IN _active                          BOOLEAN,
+    IN _limit                           INT,
+    IN _offset                          INT
 )
 BEGIN
     SELECT
-        `course_id` AS `id`,
-        `course_title` AS `title`,
-        `course_image_id` AS `imageId`,
-        `student_id` AS `studentId`,
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_image_id`               AS `imageId`,
+        `student_id`                    AS `studentId`,
         --`enrollment_enroll_date` AS `enrollDate`,
-        `enrollment_created_at` AS `enrollDate`,
-        `enrollment_last_time_checked` AS `lastTimeChecked`,
-        `enrollment_finish_date` AS `finishDate`,
-        `enrollment_is_finished` AS `isFinished`,
-        `enrollment_status` AS `status`,
-        `enrollment_certificate_uid` AS `certificateUid`,
-        `enrollment_progress` AS `progress`
+        `enrollment_created_at`         AS `enrollDate`,
+        `enrollment_last_time_checked`  AS `lastTimeChecked`,
+        `enrollment_finish_date`        AS `finishDate`,
+        `enrollment_is_finished`        AS `isFinished`,
+        `enrollment_status`             AS `status`,
+        `enrollment_certificate_uid`    AS `certificateUid`,
+        `enrollment_progress`           AS `progress`
     FROM
         `kardex` AS k
     WHERE
@@ -424,12 +424,12 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `kardex_report_total` $$
 CREATE PROCEDURE `kardex_report_total`(
-    IN _student_id              INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _category_id             INT,
-    IN _complete                BOOLEAN,
-    IN _active                  BOOLEAN
+    IN _student_id                      INT,
+    IN _from                            DATE,
+    IN _to                              DATE,
+    IN _category_id                     INT,
+    IN _complete                        BOOLEAN,
+    IN _active                          BOOLEAN
 )
 BEGIN
     SELECT
@@ -457,11 +457,11 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_enrollments_report` $$
 CREATE PROCEDURE `course_enrollments_report`(
-    IN _course_id               INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN _course_id                       INT,
+    IN _from                            DATE,
+    IN _to                              DATE,
+    IN _limit                           INT,
+    IN _offset                          INT
 )
 BEGIN
     SELECT 
@@ -491,9 +491,9 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_enrollments_report_total` $$
 CREATE PROCEDURE `course_enrollments_report_total`(
-    IN _course_id               INT,
-    IN _from                    DATE,
-    IN _to                      DATE
+    IN _course_id                       INT,
+    IN _from                            DATE,
+    IN _to                              DATE
 )
 BEGIN
     SELECT 

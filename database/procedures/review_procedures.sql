@@ -181,19 +181,22 @@ DELIMITER ;
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_get_review_by_course_and_user $$
-CREATE PROCEDURE sp_get_review_by_course_and_user(IN course_id INT, IN user_id INT)
+CREATE PROCEDURE sp_get_review_by_course_and_user(
+    IN course_id                        INT, 
+    IN user_id                          INT
+)
 BEGIN
     SELECT
-        r.review_id AS `id`,
-        r.review_message AS `message`,
-        r.review_rate AS `rate`,
-        r.course_id AS `courseId`,
-        r.user_id AS `userId`,
-        r.review_created_at AS `createdAt`,
-        r.review_modified_at AS `modifiedAt`,
-        r.review_active AS `active`,
+        r.review_id                     AS `id`,
+        r.review_message                AS `message`,
+        r.review_rate                   AS `rate`,
+        r.course_id                     AS `courseId`,
+        r.user_id                       AS `userId`,
+        r.review_created_at             AS `createdAt`,
+        r.review_modified_at            AS `modifiedAt`,
+        r.review_active                 AS `active`,
         CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
-        u.profile_picture AS `profilePicture`
+        u.profile_picture               AS `profilePicture`
     FROM
         reviews AS r
     INNER JOIN
@@ -241,7 +244,9 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE sp_deactivate_review(IN id INT)
+CREATE PROCEDURE sp_deactivate_review(
+    IN id                               INT
+)
 BEGIN
     UPDATE
         `reviews`

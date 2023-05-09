@@ -4,7 +4,7 @@ import 'multiple-select';
 import CourseCreateValidator from './validators/course-create.validator';
 import { backSection, createCourse, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
-import createCategoryValidator from './validators/create-category.validator';
+import createCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
 import createLessonValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';

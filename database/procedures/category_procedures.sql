@@ -1,10 +1,10 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_create` $$
 CREATE PROCEDURE `category_create`(
-    IN `_name`                  VARCHAR(50),
-    IN `_description`           VARCHAR(255),
-    IN `_created_by`            INT,
-    OUT `_category_id`          INT
+    IN  `_name`                         VARCHAR(50),
+    IN  `_description`                  VARCHAR(255),
+    IN  `_created_by`                   INT,
+    OUT `_category_id`                  INT
 )
 BEGIN
     INSERT INTO `categories` (
@@ -26,15 +26,15 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `update_category` $$
 CREATE PROCEDURE `update_category`(
-    IN `_category_id`                  INT,
-    IN `_category_name`                VARCHAR(50),
-    IN `_category_description`         VARCHAR(255),
-    IN `_category_approved`            BOOLEAN,
-    IN `_category_approved_by`         INT,
-    IN `_category_created_by`          INT,
-    IN `_category_created_at`          TIMESTAMP,
-    IN `_category_modified_at`         TIMESTAMP,
-    IN `_category_active`              BOOLEAN
+    IN `_category_id`                   INT,
+    IN `_category_name`                 VARCHAR(50),
+    IN `_category_description`          VARCHAR(255),
+    IN `_category_approved`             BOOLEAN,
+    IN `_category_approved_by`          INT,
+    IN `_category_created_by`           INT,
+    IN `_category_created_at`           TIMESTAMP,
+    IN `_category_modified_at`          TIMESTAMP,
+    IN `_category_active`               BOOLEAN
 )
 BEGIN
     UPDATE
@@ -59,19 +59,19 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_find_by_id` $$
 CREATE PROCEDURE `category_find_by_id`(
-    IN `_category_id`               INT
+    IN `_category_id`                   INT
 )
 BEGIN
     SELECT
-        `category_id` AS `id`,
-        `category_name` AS `name`,
-        `category_description` AS `description`,
-        `category_is_approved` AS `approved`,
-        `category_approved_by` AS `approvedBy`,
-        `category_created_by` AS `createdBy`,
-        `category_created_at` AS `createdAt`,
-        `category_modified_at` AS `modifiedAt`,
-        `category_active` AS `active`
+        `category_id`                   AS `id`,
+        `category_name`                 AS `name`,
+        `category_description`          AS `description`,
+        `category_is_approved`          AS `approved`,
+        `category_approved_by`          AS `approvedBy`,
+        `category_created_by`           AS `createdBy`,
+        `category_created_at`           AS `createdAt`,
+        `category_modified_at`          AS `modifiedAt`,
+        `category_active`               AS `active`
     FROM
         `categories`
     WHERE
@@ -111,7 +111,7 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_find_one_by_name` $$
 CREATE PROCEDURE `category_find_one_by_name`(
-    IN `_category_name`               VARCHAR(50)
+    IN `_category_name`                 VARCHAR(50)
 )
 BEGIN
     SELECT
@@ -142,15 +142,15 @@ DROP PROCEDURE IF EXISTS `category_find_not_approved` $$
 CREATE PROCEDURE `category_find_not_approved`()
 BEGIN
     SELECT
-        c.`category_id` AS `id`,
-        c.`category_name` AS `name`,
-        c.`category_description` AS `description`,
-        c.`category_is_approved` AS `isApproved`,
-        c.`category_approved_by` AS `approvedBy`,
-        c.`category_created_by` AS `createdBy`,
-        c.`category_created_at` AS `createdAt`,
-        c.`category_modified_at` AS `modifiedAt`,
-        c.`category_active` AS `active`,
+        c.`category_id`                 AS `id`,
+        c.`category_name`               AS `name`,
+        c.`category_description`        AS `description`,
+        c.`category_is_approved`        AS `isApproved`,
+        c.`category_approved_by`        AS `approvedBy`,
+        c.`category_created_by`         AS `createdBy`,
+        c.`category_created_at`         AS `createdAt`,
+        c.`category_modified_at`        AS `modifiedAt`,
+        c.`category_active`             AS `active`,
         CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
     FROM
         `categories` AS c
@@ -169,15 +169,15 @@ DROP PROCEDURE IF EXISTS `category_find_not_active` $$
 CREATE PROCEDURE `category_find_not_active`()
 BEGIN
     SELECT
-        c.`category_id` AS `id`,
-        c.`category_name` AS `name`,
-        c.`category_description` AS `description`,
-        c.`category_is_approved` AS `isApproved`,
-        c.`category_approved_by` AS `approvedBy`,
-        c.`category_created_by` AS `createdBy`,
-        c.`category_created_at` AS `createdAt`,
-        c.`category_modified_at` AS `modifiedAt`,
-        c.`category_active` AS `active`,
+        c.`category_id`                 AS `id`,
+        c.`category_name`               AS `name`,
+        c.`category_description`        AS `description`,
+        c.`category_is_approved`        AS `isApproved`,
+        c.`category_approved_by`        AS `approvedBy`,
+        c.`category_created_by`         AS `createdBy`,
+        c.`category_created_at`         AS `createdAt`,
+        c.`category_modified_at`        AS `modifiedAt`,
+        c.`category_active`             AS `active`,
         CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
     FROM
         `categories` AS c
@@ -197,15 +197,15 @@ DROP PROCEDURE IF EXISTS `category_find_not_active` $$
 CREATE PROCEDURE `category_find_not_active`()
 BEGIN
     SELECT
-        c.`category_id` AS `id`,
-        c.`category_name` AS `name`,
-        c.`category_description` AS `description`,
-        c.`category_is_approved` AS `isApproved`,
-        c.`category_approved_by` AS `approvedBy`,
-        c.`category_created_by` AS `createdBy`,
-        c.`category_created_at` AS `createdAt`,
-        c.`category_modified_at` AS `modifiedAt`,
-        c.`category_active` AS `active`,
+        c.`category_id`                 AS `id`,
+        c.`category_name`               AS `name`,
+        c.`category_description`        AS `description`,
+        c.`category_is_approved`        AS `isApproved`,
+        c.`category_approved_by`        AS `approvedBy`,
+        c.`category_created_by`         AS `createdBy`,
+        c.`category_created_at`         AS `createdAt`,
+        c.`category_modified_at`        AS `modifiedAt`,
+        c.`category_active`             AS `active`,
         CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `user`
     FROM
         `categories` AS c
@@ -224,17 +224,17 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_approve` $$
 CREATE PROCEDURE `category_approve`(
-    IN _category_id             INT,
-    IN _admin_id                INT
+    IN `_category_id`                   INT,
+    IN `_admin_id`                      INT
 )
 BEGIN
     UPDATE
         `categories`
     SET
         `category_is_approved` = TRUE,
-        `category_approved_by` = _admin_id,
+        `category_approved_by` = `_admin_id`,
         `category_modified_at` = NOW()
     WHERE
-        `category_id` = _category_id;
+        `category_id` = `_category_id`;
 END $$
 DELIMITER ;

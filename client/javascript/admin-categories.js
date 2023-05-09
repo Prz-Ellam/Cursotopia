@@ -1,6 +1,6 @@
 import $ from './jquery-global';
 import 'jquery-validation';
-import categoryValidator from './validators/create-category.validator';
+import categoryValidator from './validators/category-create.validator';
 import { updateCategory, approveCategory, denyCategory, activateCategory, deactivateCategory, showCategoryDetails} from './controllers/category.controller';
 import { Toast } from './utilities/toast';
 import { approveCategoryService } from './services/category.service';
