@@ -9,7 +9,7 @@ import createLevelValidator from './validators/level-create.validator';
 import createLessonValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';
 import { createLesson } from './controllers/lesson.controller';
-import { createCourseCreateCategory, submitCategory } from './controllers/category.controller';
+import { submitCategory } from './controllers/category.controller';
 import LevelService from './services/level.service';
 import { displayImageFile } from './controllers/image.controller';
 import LevelView from './views/level.view';

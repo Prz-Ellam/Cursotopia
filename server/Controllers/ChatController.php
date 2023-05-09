@@ -9,11 +9,14 @@ use Cursotopia\Repositories\ChatRepository;
 
 class ChatController {
     public function chat(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
         
         $chatRepository = new ChatRepository();
         $chats = $chatRepository->findAllByUserId($id);
+
+        if (!is_array($chats)) {
+            $chats = [];
+        }
         
         $response->render("chat", [
             "chats" => $chats
@@ -34,6 +37,17 @@ class ChatController {
         $response->json([
             "chatId" => $chat["chatId"],
             "user" => $user->toObject()
+        ]);
+    }
+
+    public function getUserChats(Request $request, Response $response): void {
+        $id = $request->getSession()->get("id");
+        
+        $chatRepository = new ChatRepository();
+        $chats = $chatRepository->findAllByUserId($id);
+
+        $response->render("/components/chat-drawer", [
+            "chats" => $chats
         ]);
     }
 }

@@ -1,25 +1,32 @@
 import { sendMessage } from './controllers/chat.controller';
 import { getAllChatMessageService } from './services/chat-message.service';
-import { findChatService } from './services/chat.service';
+import { findChatService, findUserChats } from './services/chat.service';
 import { getAllUsersService, getOneUserService } from './services/user.service';
 
-$(() => {
+$(async () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-    $('#message').on('keydown', function(event) {
+    $('#message').on('keydown', async function(event) {
         if (event.key === 'Enter') {
-            sendMessage(event);
+            sendMessage();
+            const chats = await findUserChats();
+            $('#chat-drawer').empty().append(chats);
         }
     });
 
-    $('#send-message').on('click', sendMessage);
+    $('#send-message').on('click', async function() {
+        sendMessage();
+        const chats = await findUserChats();
+        $('#chat-drawer').empty().append(chats);
+    });
 
-    $('.chat-drawer').on('click', async function(event) {
-        const id = $(this).attr('id');
+    $(document).on('click', '.chat-drawer', async function(event) {
+        const id = $(this).attr('data-id');
+        
         // TODO: Esto es raro
-        const srcImg = $(`#${$(this).attr('id')} a div img`).attr('src');
-        const name = $(`#${$(this).attr('id')} a div div p`).text();
+        const srcImg = $(`[data-id=${$(this).attr('data-id')}] a div img`).attr('src');
+        const name = $(`[data-id=${$(this).attr('data-id')}] a div div p`).text();
 
         $('.actual-chat-user-image').attr('src', srcImg);
         $('.actual-chat-user-name').text(name);
@@ -33,7 +40,7 @@ $(() => {
                     <small
                         class="${ chatMessages.userId === message.userId ? 'bg-primary' : 'bg-secondary' } text-light p-2 rounded-pill overflow-auto"
                         data-bs-toggle="tooltip"
-                        data-bs-placement="left"
+                        data-bs-placement="${ chatMessages.userId === message.userId ? 'left' : 'right' }"
                         data-bs-title="26 de enero de 2023 a las 02:21"
                     >
                     ${message.content}
@@ -41,7 +48,13 @@ $(() => {
                 </div>
                 `);
             });
+        $('#box-div').removeClass('d-none');
+        const chats = await findUserChats();
+        $('#chat-drawer').empty().append(chats);
 
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    
     });
 
     $("#search-users").autocomplete({
@@ -89,11 +102,19 @@ $(() => {
                 </div>
                 `);
             });
+            $('#box-div').removeClass('d-none');
+
+            const chats = await findUserChats();
+            $('#chat-drawer').empty().append(chats);
+
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        
         }
     })
     .data('ui-autocomplete')._renderItem = function(ul, item) {
         return $('<li></li>')
-            .data("item.autocomplete", item)
+            .data('item.autocomplete', item)
             .append(item.label)
             .appendTo(ul);
     };

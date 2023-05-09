@@ -1,15 +1,29 @@
 import $ from 'jquery';
 import { createMessageService } from '../services/chat-message.service';
+import { ToastBottom } from '../utilities/toast';
 import { createComment } from '../views/comment.view';
 
 // TODO: este deberia ir en message
-export const sendMessage = async (event) => {
+export const sendMessage = async () => {
     const message = {
-        content: document.getElementById('message').value
+        content: $('#message').val()
     }
-    const chatId = document.getElementById('actual-chat-id').value;
+    const chatId = $('#actual-chat-id').val();
 
-    if (message.content.trim() === '') return;
+    if (message.content.trim() === '') {
+        await ToastBottom.fire({
+            icon: 'error',
+            title: 'El mensaje no puede estar vacío'
+        });
+        return;
+    }
+    if (message.content.trim().length > 255) {
+        await ToastBottom.fire({
+            icon: 'error',
+            title: 'El mensaje no puede superar 255 caracteres'
+        });
+        return;
+    }
 
     const response = await createMessageService(message, chatId);
     

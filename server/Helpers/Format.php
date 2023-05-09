@@ -27,6 +27,10 @@ class Format {
     }
 
     public static function date($date): string {
+        if (empty($datetime)) {
+            return "N/A";
+        }
+        
         if (strtotime($date)) {
             $format = date_create($date);
             $formatDate = date_format($format, "d M Y");
@@ -40,6 +44,10 @@ class Format {
     }
 
     public static function datetime($datetime): string {
+        if (empty($datetime)) {
+            return "N/A";
+        }
+
         if (strtotime($datetime)) {
             $formatDate = date('d M Y G:i', strtotime($datetime));
         }
@@ -72,6 +80,9 @@ class Format {
     }
 
     public static function sanitize($value): string {
+        if (empty($value)) {
+            return "";
+        }
         if (is_array($value) || is_object($value)) {
             return "";
         }

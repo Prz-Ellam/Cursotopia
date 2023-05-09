@@ -71,7 +71,9 @@ class ChatRepository {
                 WHERE 
                     user_id = :user_id
             )
-            AND cp.user_id != :user_id;
+            AND cp.user_id != :user_id
+        ORDER BY
+            `lastMessageCreatedAt` DESC;
     SQL;
 
     public function create() {
@@ -86,7 +88,7 @@ class ChatRepository {
         return DB::executeOneReader($this::FIND_CHAT, $parameters);
     }
 
-    public function findAllByUserId(int $userId) {
+    public function findAllByUserId(?int $userId): ?array {
         $parameters = [
             "user_id" => $userId
         ];

@@ -17,6 +17,8 @@
   <!-- Boxicons --> 
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <?= $this->link("styles/pages/chat.css") ?>
@@ -36,8 +38,9 @@
           id="search-users"
         >
         
+        <div id="chat-drawer">
         <?php foreach ($this->chats as $chat): ?>
-        <div class="chat-drawer p-2 border-bottom" id="<?= $chat["id"] ?>">
+        <div class="chat-drawer p-2 border-bottom" data-id="<?= Format::sanitize($chat["id"]) ?>">
           <a
             href="#"
             class="text-decoration-none d-flex justify-content-between align-items-center"
@@ -57,17 +60,17 @@
                   <?= Format::sanitize($chat["user"]) ?>
                 </p>
                 <small class="text-primary mb-0 <?= $chat["unseenMessagesCount"] !== 0 ? 'fw-bold' : '' ?>">
-                  <?= $chat["lastMessageContent"] ?>
+                  <?= Format::sanitize($chat["lastMessageContent"]) ?>
                 </small>
               </div>
             </div>
             <div>
               <p class="small text-muted mb-1 text-end">
-                <?= date('d/m/y H:i', strtotime($chat["lastMessageCreatedAt"])) ?>
+                <?= Format::datetime($chat["lastMessageCreatedAt"]) ?>
               </p>
               <?php if ($chat["unseenMessagesCount"] !== 0): ?>
               <span class="badge rounded-pill bg-danger float-end">
-                <?= $chat["unseenMessagesCount"] ?>
+                <?= Format::sanitize($chat["unseenMessagesCount"]) ?>
               </span>
               <?php else: ?>
               <span style="visibility: hidden">s</span>
@@ -76,6 +79,7 @@
           </a>
         </div>
         <?php endforeach ?>
+        </div>
 
       </section>
       <section class="col-12 col-lg-8 rounded-0 card border-0 overflow-auto chat-section">
@@ -103,7 +107,7 @@
 
         </div>
         <hr class="mb-1 text-light">
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 d-none" id="box-div">
           <input type="text" id="message" class="bg-light form-control border-0 shadow-none" placeholder="Escribe un mensaje"
             aria-label="Enviar mensaje" aria-describedby="basic-addon2">
           <button class="btn btn-primary shadow-none" id="send-message"><i class="bx bxs-send"></i></button>
