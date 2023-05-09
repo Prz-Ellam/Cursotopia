@@ -29,14 +29,14 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `video_update` $$
 CREATE PROCEDURE `video_update`(
-    IN `_video_id`                     INT,
-    IN `_video_name`                   VARCHAR(255),
-    IN `_video_duration`               TIME,
-    IN `_video_content_type`           VARCHAR(30),
-    IN `_video_address`                VARCHAR(255),
-    IN `_video_created_at`             TIMESTAMP,
-    IN `_video_modified_at`            TIMESTAMP,
-    IN `_video_active`                 BOOLEAN
+    IN `_video_id`                      INT,
+    IN `_video_name`                    VARCHAR(255),
+    IN `_video_duration`                TIME,
+    IN `_video_content_type`            VARCHAR(30),
+    IN `_video_address`                 VARCHAR(255),
+    IN `_video_created_at`              TIMESTAMP,
+    IN `_video_modified_at`             TIMESTAMP,
+    IN `_video_active`                  BOOLEAN
 )
 BEGIN
     UPDATE
@@ -59,18 +59,18 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `video_find_by_id` $$
 CREATE PROCEDURE `video_find_by_id`(
-    IN `_video_id`              INT
+    IN `_video_id`                      INT
 )
 BEGIN
     SELECT
-        `video_id` AS `id`,
-        `video_name` AS `name`,
-        `video_duration` AS `duration`,
-        `video_content_type` AS `contentType`,
-        `video_address` AS `address`,
-        `video_created_at` AS `createdAt`,
-        `video_modified_at` AS `modifiedAt`,
-        `video_active` AS `active`
+        `video_id`                      AS `id`,
+        `video_name`                    AS `name`,
+        `video_duration`                AS `duration`,
+        `video_content_type`            AS `contentType`,
+        `video_address`                 AS `address`,
+        `video_created_at`              AS `createdAt`,
+        `video_modified_at`             AS `modifiedAt`,
+        `video_active`                  AS `active`
     FROM
         `videos`
     WHERE

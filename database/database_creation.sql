@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `reviews`(
         FOREIGN KEY (`user_id`) 
         REFERENCES `users`(`user_id`),
     CONSTRAINT `review_rate_chk`
-        CHECK (`review_rate` BETWEEN 1 AND 10)
+        CHECK (`review_rate` BETWEEN 1 AND 5)
 );
 
 DROP TABLE IF EXISTS `payment_methods`;

@@ -29,14 +29,14 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `image_update` $$
 CREATE PROCEDURE `image_update`(
-    IN `_image_id`                     INT,
-    IN `_image_name`                   VARCHAR(255),
-    IN `_image_size`                   INT,
-    IN `_image_content_type`           VARCHAR(30),
-    IN `_image_data`                   MEDIUMBLOB,
-    IN `_image_created_at`             TIMESTAMP,
-    IN `_image_modified_at`            TIMESTAMP,
-    IN `_image_active`                 BOOLEAN
+    IN `_image_id`                      INT,
+    IN `_image_name`                    VARCHAR(255),
+    IN `_image_size`                    INT,
+    IN `_image_content_type`            VARCHAR(30),
+    IN `_image_data`                    MEDIUMBLOB,
+    IN `_image_created_at`              TIMESTAMP,
+    IN `_image_modified_at`             TIMESTAMP,
+    IN `_image_active`                  BOOLEAN
 )
 BEGIN
     UPDATE
@@ -59,18 +59,18 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `image_find_by_id` $$
 CREATE PROCEDURE `image_find_by_id`(
-    IN `_image_id`                  INT
+    IN `_image_id`                      INT
 )
 BEGIN
     SELECT
-        `image_id` AS `id`,
-        `image_name` AS `name`,
-        `image_size` AS `size`,
-        `image_content_type` AS `contentType`,
-        `image_data` AS `data`,
-        `image_created_at` AS `createdAt`,
-        `image_modified_at` AS `modifiedAt`,
-        `image_active` AS `active`
+        `image_id`                      AS `id`,
+        `image_name`                    AS `name`,
+        `image_size`                    AS `size`,
+        `image_content_type`            AS `contentType`,
+        `image_data`                    AS `data`,
+        `image_created_at`              AS `createdAt`,
+        `image_modified_at`             AS `modifiedAt`,
+        `image_active`                  AS `active`
     FROM
         `images`
     WHERE
@@ -86,18 +86,18 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `image_find_one_profile_picture` $$
 CREATE PROCEDURE `image_find_one_profile_picture`(
-    IN `_image_id`                  INT
+    IN `_image_id`                      INT
 )
 BEGIN
     SELECT
-        i.`image_id` AS `id`,
-        i.`image_name` AS `name`,
-        i.`image_size` AS `size`,
-        i.`image_content_type` AS `contentType`,
-        i.`image_data` AS `data`,
-        i.`image_created_at` AS `createdAt`,
-        i.`image_modified_at` AS `modifiedAt`,
-        i.`image_active` AS `active`
+        i.`image_id`                    AS `id`,
+        i.`image_name`                  AS `name`,
+        i.`image_size`                  AS `size`,
+        i.`image_content_type`          AS `contentType`,
+        i.`image_data`                  AS `data`,
+        i.`image_created_at`            AS `createdAt`,
+        i.`image_modified_at`           AS `modifiedAt`,
+        i.`image_active`                AS `active`
     FROM
         `images` AS i
     INNER JOIN
@@ -106,6 +106,6 @@ BEGIN
         i.`image_id` = u.`profile_picture`
     WHERE
         i.`image_id` = `_image_id`
-        AND i.`image_active` = TRUE
+        AND i.`image_active` = TRUE;
 END $$
 DELIMITER ;

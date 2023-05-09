@@ -1,7 +1,5 @@
 <?php
-
-use Cursotopia\Helpers\Format;
-
+  use Cursotopia\Helpers\Format;
 ?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
@@ -19,6 +17,7 @@ use Cursotopia\Helpers\Format;
   <!-- Boxicons --> 
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -44,7 +43,7 @@ use Cursotopia\Helpers\Format;
           <p>Creado por: <a href="profile?id=<?= $this->course["instructorId"] ?>">
             <?= $this->course["instructorName"] ?></a>
           </p>
-          <?php if($this->session("id") == $this->course["instructorId"]): ?>
+          <?php if($this->session("id") == $this->course["instructorId"] && $this->course["active"]): ?>
           <a href="/course-edition?id=<?= $this->course["id"] ?>" 
             class="btn btn-primary rounded-pill">
             Editar
@@ -202,7 +201,7 @@ use Cursotopia\Helpers\Format;
           data-bs-placement="top"
           data-bs-title="<?= $category["description"] ?>"
         >
-          <?= $category["name"] ?>
+          <?= Format::sanitize($category["name"]) ?>
         </a>
         <?php endforeach ?>
       </div>
@@ -223,7 +222,7 @@ use Cursotopia\Helpers\Format;
               <?php foreach ($level["lessons"] as $lesson): ?>
               <li class="list-group-item d-flex justify-content-between">
                 <span>
-                  <i class='bx bxs-video'></i> <?= $lesson["title"] ?>
+                  <i class="bx bxs-video"></i><?= Format::sanitize($lesson["title"]) ?>
                 </span>
                 <span>
                   <?= $lesson["video_duration"] ?>
@@ -261,10 +260,10 @@ use Cursotopia\Helpers\Format;
           placeholder="Escribe un comentario"></textarea>
         </div>
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center gap-2"
+          <button type="submit" class="btn btn-primary rounded-pill"
           id="review-create-btn">
-          <div class="spinner d-none" id="review-create-spinner"></div>
-          <span>Publicar</span>
+          <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="review-create-spinner"></span>
+          Publicar
         </button>
         </div>
         <?php endif ?>

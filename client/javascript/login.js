@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import { passwordToggle, submitLogin } from './controllers/user.controller';
-import loginValidator from './validators/login.validator';
+import LoginValidator from './validators/login.validator';
 
 $(() => {
     AOS.init({
@@ -16,6 +16,6 @@ $(() => {
         passwordToggle('#password', '#password-button i');
     });
 
-    $('#login-form').validate(loginValidator);
+    $('#login-form').validate(LoginValidator);
     $('#login-form').on('submit', submitLogin);
 });

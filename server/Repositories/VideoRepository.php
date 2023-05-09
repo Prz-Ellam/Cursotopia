@@ -5,6 +5,9 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Video;
 
+/**
+ * Repositorio para manejar videos
+ */
 class VideoRepository extends DB {
     private const CREATE = <<<'SQL'
         CALL `video_create`(
@@ -29,7 +32,7 @@ class VideoRepository extends DB {
         )
     SQL;
 
-    private const VIDEO = <<<'SQL'
+    private const CHECK_RESOURCE_AVAILABILITY_BY_USER = <<<'SQL'
         SELECT 
             l.level_is_free AS `free`, 
             e.enrollment_is_paid AS `paid`,
@@ -53,7 +56,7 @@ class VideoRepository extends DB {
             "user_id" => $userId,
             "video_id" => $videoId
         ];
-        return $this::executeOneReader($this::VIDEO, $parameters);
+        return $this::executeOneReader($this::CHECK_RESOURCE_AVAILABILITY_BY_USER, $parameters);
     }
 
     public function create(Video $video): int {

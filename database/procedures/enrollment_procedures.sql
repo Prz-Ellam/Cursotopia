@@ -405,7 +405,7 @@ BEGIN
         AND `course_approved` = TRUE
         AND (`enrollment_is_finished` = TRUE OR _complete = FALSE)
         AND (`course_active` = TRUE OR _active = FALSE)
-        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (`enrollment_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
         AND (EXISTS(
             SELECT `category_id` 
             FROM `course_category` AS cc WHERE cc.`course_id` = k.`course_id` 
@@ -503,5 +503,30 @@ BEGIN
     WHERE
         ce.`course_id` = _course_id
         AND (ce.`enrollment_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'));
+END $$
+DELIMITER ;
+
+
+-- Bien hecho
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `certificate_find_one` $$
+CREATE PROCEDURE `certificate_find_one`(
+    IN `_student_id`                    INT,
+    IN `_course_id`                     INT
+)
+BEGIN
+    SELECT
+        `student`,
+        `instructor`,
+        `course_title` AS `course`,
+        `enrollment_finish_date` AS `finishDate`,
+        `enrollment_certificate_uid` AS `certificateId`
+    FROM
+        `certificate`
+    WHERE
+        `student_id` = `_student_id`
+        AND `course_id` = `_course_id`
+    LIMIT
+        1;
 END $$
 DELIMITER ;

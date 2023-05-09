@@ -62,13 +62,13 @@
         </div> -->
         <div class="d-grid mb-4">
           <button type="submit" id="login-btn"
-            class="btn btn-primary rounded-pill gap-2 d-flex justify-content-center">
-            <div class="spinner d-none" id="login-spinner"></div>
+            class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="login-spinner"></span>
             <span>Iniciar sesión</span>
           </button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>
-        <a href="signup" class="d-block text-center text-decoration-none text-primary">
+        <a href="/signup" class="d-block text-center text-decoration-none text-primary">
           ¡Registrate aquí!
         </a>
         <!-- <hr>

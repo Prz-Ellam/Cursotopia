@@ -110,13 +110,7 @@ class CategoryController {
 
         // Validar que el usuario es un instructor
 
-        if ($role != 1) {
-            $response->json([
-                "status" => false,
-                "message" => "Solo los administradores pueden aprobar categorias"
-            ]);
-            return;
-        }
+
 
         $category = new CategoryModel($body);
         $category->setCreatedBy($id);

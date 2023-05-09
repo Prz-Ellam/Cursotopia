@@ -1,5 +1,6 @@
 <?php 
   use Cursotopia\Helpers\Format;
+  use Cursotopia\ValueObjects\Roles;
 ?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
@@ -17,39 +18,53 @@
   <!-- Boxicons -->
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- OwlCarousel -->
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
+  
   <?= $this->link("styles/pages/home.css") ?>
   <?= $this->script("javascript/home.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
   <!-- Hero Section -->
-  <section class="d-flex flex-column justify-content-center mb-5" id="hero-section">
+  <section class="d-flex align-items-center justify-content-center mb-5" id="hero-section">
     <div class="container">
       <div class="row g-0">
-        <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up">
-          <div class="text-center text-lg-start">
-            <img src="../client/assets/images/logo.png" alt="Logo" width="128">
+        <div class="col-lg-6 d-flex flex-column justify-content-center text-center text-lg-start" data-aos="fade-up">
+          <div>
+            <img 
+              src="../client/assets/images/logo.png" 
+              alt="Logo" 
+              width="128"
+            >
           </div>
-          <h1 class="fw-bolder text-center text-lg-start">Cursotopia</h1>
-          <h5 class="text-center text-lg-start">Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
-          <h5 class="mb-4 text-center text-lg-start">Forjamos la sociedad del mañana con nuestros cursos</h5>
+          <h1 class="fw-bolder">Cursotopia</h1>
+          <h5>Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
+          <h5 class="mb-4">Forjamos la sociedad del mañana con nuestros cursos</h5>
           <div class="d-flex justify-content-lg-start justify-content-center">
-            <?php if ($this->id === "NULL"): ?>
-            <a href="signup" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea una cuenta gratis!</a>
-            <?php elseif($this->role === 2): ?>
-            <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-5 w-50">¡Crea un curso!</a>
-            <?php elseif($this->role === 3): ?>
-            <a href="search" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Explorar cursos!</a>
+            <?php if (!$this->session("id")): ?>
+            <a href="/signup" class="btn btn-primary rounded-pill w-50">
+              ¡Crea una cuenta gratis!
+            </a>
+            <?php elseif($this->session("role") === Roles::INSTRUCTOR->value): ?>
+            <a href="/course-creation" class="btn btn-primary rounded-pill w-50">
+              ¡Crea un curso!
+            </a>
+            <?php elseif($this->session("role") === Roles::STUDENT->value): ?>
+            <a href="/search" class="btn btn-primary rounded-pill w-50">
+              ¡Explorar cursos!
+            </a>
             <?php endif ?>
           </div>
         </div>
         <div class="col-lg-6" data-aos="zoom-in-up">
           <img
             src="../client/assets/images/hero-banner.svg"
-            class="img-fluid w-100 d-none d-lg-block"
+            class="img-fluid d-none d-lg-block"
             alt="Hero Banner"
           >
         </div>
@@ -63,7 +78,7 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->lastPublishedcourses as $course): ?>
       <a 
-        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
@@ -71,26 +86,33 @@
           <img 
             src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
             class="card-img-top img-cover"
-            alt="Curso">
+            alt="Curso"
+          >
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
-          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
+            <?= Format::sanitize($course["title"]) ?>
+          </h5>
+          <p class="card-text">
+            <?= Format::sanitize($course["instructorName"]) ?>
+          </p>
           <hr>
-          <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
+          <h6 class="card-text mb-0 fw-bold">
+            <?= Format::money($course["price"]) ?>
+          </h6>
           <p>
-          <?php if($course["rate"] == 0): ?>
+          <?php if ($course["rate"] == 0): ?>
             <span>No hay reseñas</span>
           <?php else: ?>
-            <i class="bx <?= $course["rate"] >= 1 ? "bxs-star": ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 2 ? "bxs-star": ($course["rate"] >= 1.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 3 ? "bxs-star": ($course["rate"] >= 2.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 4 ? "bxs-star": ($course["rate"] >= 3.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
-            <i class="bx <?= $course["rate"] >= 5 ? "bxs-star": ($course["rate"] >= 4.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 1 ? "bxs-star": ($course["rate"] >= 0.5 ? "bxs-star-half" : "bx-star") ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 2 ? "bxs-star": ($course["rate"] >= 1.5 ? "bxs-star-half" : "bx-star") ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 3 ? "bxs-star": ($course["rate"] >= 2.5 ? "bxs-star-half" : "bx-star") ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 4 ? "bxs-star": ($course["rate"] >= 3.5 ? "bxs-star-half" : "bx-star") ?> rating-star"></i>
+            <i class="bx <?= $course["rate"] >= 5 ? "bxs-star": ($course["rate"] >= 4.5 ? "bxs-star-half" : "bx-star") ?> rating-star"></i>
           <?php endif ?>
           </p>
           <div class="d-flex justify-content-between mb-0">
-            <p class="mb-0"><i class='bx bxs-layer'></i> 
+            <p class="mb-0"><i class="bx bxs-layer"></i> 
               <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
             </p>
             <p class="mb-0"><i class="bx bxs-time"></i> 
@@ -109,18 +131,20 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->topRatedCourses as $course): ?>
       <a 
-        href="course-details?id=<?= $course["id"] ?>" 
+        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= $course["imageId"] ?>"
+            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
+            <?= Format::sanitize($course["title"]) ?>
+          </h5>
           <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
@@ -155,19 +179,23 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->bestSellingCourses as $course): ?>
       <a 
-        href="course-details?id=<?= $course["id"] ?>" 
+        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= $course["imageId"] ?>"
+            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title"><?= Format::sanitize($course["title"]) ?></h5>
-          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
+            <?= Format::sanitize($course["title"]) ?>
+          </h5>
+          <p class="card-text">
+            <?= Format::sanitize($course["instructorName"]) ?>
+          </p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
@@ -200,24 +228,30 @@
       <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
         + de
         <p class="h1 fw-bold mb-0">
-          <i class='bx bxs-group'></i>
-          <span class="counter" data-val="<?= $this->stats["students"] ?>">0</span>
+          <i class="bx bxs-group"></i>
+          <span class="counter" data-val="<?= Format::sanitize($this->stats["students"]) ?>">
+            0
+          </span>
         </p>
         alumnos
       </div>
       <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
         + de
         <p class="h1 fw-bold mb-0">
-          <i class='bx bxs-chalkboard'></i>
-          <span class="counter" data-val="<?= $this->stats["instructors"] ?>">0</span>
+          <i class="bx bxs-chalkboard"></i>
+          <span class="counter" data-val="<?= Format::sanitize($this->stats["instructors"]) ?>">
+            0
+          </span>
         </p>
         instructores
       </div>
       <div class="h4 col-sm-4 col-12 mb-sm-0 mb-5">
         + de
         <p class="h1 fw-bold mb-0">
-          <i class='bx bxs-graduation' ></i>
-          <span class="counter" data-val="<?= $this->stats["courses"] ?>">0</span>
+          <i class="bx bxs-graduation"></i>
+          <span class="counter" data-val="<?= Format::sanitize($this->stats["courses"]) ?>">
+            0
+          </span>
         </p>
         cursos
       </div>
@@ -239,12 +273,12 @@
         
         <!-- Sin sesion -->
         <div class="d-flex justify-content-center justify-content-lg-start">
-          <?php if ($this->id === "NULL"): ?>
-          <a href="signup" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Crea una cuenta gratis!</a>
-          <?php elseif($this->role === 2): ?>
-          <a href="course-creation" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Crea un curso!</a>
-          <?php elseif($this->role === 3): ?>
-          <a href="search" class="btn btn-primary border-0 shadow-none rounded-pill w-50">¡Explorar cursos!</a>
+          <?php if (!$this->session("id")): ?>
+          <a href="/signup" class="btn btn-primary rounded-pill w-50">¡Crea una cuenta gratis!</a>
+          <?php elseif($this->session("role") === Roles::INSTRUCTOR->value): ?>
+          <a href="/course-creation" class="btn btn-primary rounded-pill w-50">¡Crea un curso!</a>
+          <?php elseif($this->session("role") === ROles::STUDENT->value): ?>
+          <a href="/search" class="btn btn-primary rounded-pill w-50">¡Explorar cursos!</a>
           <?php endif ?>
         </div>
       </div>

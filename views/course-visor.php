@@ -1,5 +1,6 @@
 <?php
 
+use Cursotopia\Helpers\Format;
 use Cursotopia\Models\EnrollmentModel;
 
 $id = $_SESSION["id"] ?? -1;
@@ -61,7 +62,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
           <a href="course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
         </div>
         <p class="mt-3" id="lesson-description">
-          <?= $this->lesson["description"] ?>
+          <?= Format::sanitize($this->lesson["description"]) ?>
         </p>
         <?php if ($this->lesson["imageId"]): ?>
         <h5 class="mt-3">Imágen</h5>
@@ -89,7 +90,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-heading<?= $i ?>">
               <button class="accordion-button collapsed shadow-none bg-white text-black" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?= $i ?>" aria-expanded="true" aria-controls="panelsStayOpen-collapse<?= $i ?>">
-                <?= $i + 1 ?> . <?= $level["title"] ?>
+                <?= $i + 1 ?> . <?= Format::sanitize($level["title"]) ?>
               </button>
             </h2>
             <div id="panelsStayOpen-collapse<?= $i ?>" class="accordion-collapse collapse <?= ($level["id"] === $this->lesson["levelId"]) ? 'show' : '' ?>" aria-labelledby="panelsStayOpen-heading<?= $i ?>">
@@ -102,7 +103,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
                 >
                   <p class="mb-0 fw-bold d-flex align-items-center">
                     <i class="bx-sm bx <?= $lesson["isComplete"] ? "bxs-checkbox-checked" : "bx-checkbox" ?>"></i>
-                    <span><?= $i + 1 ?> . <?= $lesson["title"] ?></span>
+                    <span><?= $i + 1 ?> . <?= Format::sanitize($lesson["title"]) ?></span>
                   </p>
                   <small class="d-flex align-items-center ms-2 mb-0">
                     <?php if($lesson["mainResource"] == "video"): ?>

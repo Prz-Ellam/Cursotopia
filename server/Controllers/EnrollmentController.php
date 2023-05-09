@@ -6,58 +6,30 @@ use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
-use Cursotopia\Models\CourseModel;
-use Cursotopia\Models\UserModel;
+use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Repositories\EnrollmentRepository;
 
 class EnrollmentController {
     public function certificate(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
-    
-        $user = UserModel::findById($id)->toObject();
-        $name = $user["name"] . " " . $user["lastName"];
-    
+        $id = $request->getSession()->get("id");
+
         $courseId = $request->getQuery("course");
         if (!$courseId) {
             $response->setStatus(404)->render("404");
             return;
         }
-    
-        // Validar tambien que el curso exists
-        $course = CourseModel::findById($courseId);
-        if (!$course) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-        $course = $course->toObject();
-        $courseTitle = $course["title"];
-    
-        $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $id);
-        if (!$enrollment) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
 
-        
-        if (!$enrollment["isFinished"]) {
+        $certificate = EnrollmentModel::findOneCertificate($id, $courseId);
+        if (!$certificate) {
             $response->setStatus(404)->render("404");
             return;
         }
-    
-        $instructor = UserModel::findById($course["instructorId"]);
-        if (!$instructor) {
-            $response->setStatus(404)->render("404");
-            return;
-        }
-        $instructor = $instructor->toObject();
-        $instructorName = $instructor["name"] . " " . $instructor["lastName"];
     
         // Cargar la imagen de plantilla
         // Definir la ubicación de la imagen y la fuente personalizada
         $imgPath = "certificate.png";
-        $fontPath = "Lato/Lato-Bold.ttf";
+        $fontBoldPath = "Lato/Lato-Bold.ttf";
+        $fontRegularPath = "Lato/Lato-Regular.ttf";
     
         // Crear una imagen a partir del archivo PNG
         $image = imagecreatefrompng($imgPath);
@@ -67,13 +39,12 @@ class EnrollmentController {
     
         // Establecer el tamaño de fuente deseado
         $fontSize = 25;
-        $text = $name;
     
         // Obtener las dimensiones de la imagen y del texto
         $imageWidth = imagesx($image);
         do {
             $fontSize--;
-            $fontBox = imagettfbbox($fontSize, 0, $fontPath, $text);
+            $fontBox = imagettfbbox($fontSize, 0, $fontRegularPath, $certificate["student"]);
             $textWidth = $fontBox[2] - $fontBox[0];
         } while ($textWidth > $imageWidth);
     
@@ -82,45 +53,44 @@ class EnrollmentController {
         $y = 289;
     
         // Escribir el texto en la imagen centrado
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $text);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontBoldPath, $certificate["student"]);
     
         $fontSize = 25;
         do {
             $fontSize--;
-            $fontBox = imagettfbbox($fontSize, 0, $fontPath, $courseTitle);
+            $fontBox = imagettfbbox($fontSize, 0, $fontBoldPath, $certificate["course"]);
             $textWidth = $fontBox[2] - $fontBox[0];
         } while ($textWidth > $imageWidth);
     
         $x = intval(($imageWidth - $textWidth) / 2);
         $y = 393;
     
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $courseTitle);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontBoldPath, $certificate["course"]);
 
         $color = imagecolorallocate($image, 215, 182, 89);
         $fontSize = 25;
         do {
             $fontSize--;
-            $fontBox = imagettfbbox($fontSize, 0, $fontPath, $instructorName);
+            $fontBox = imagettfbbox($fontSize, 0, $fontBoldPath, $certificate["instructor"]);
             $textWidth = $fontBox[2] - $fontBox[0];
         } while ($textWidth > $imageWidth);
     
         $x = intval(($imageWidth - $textWidth) / 2);
         $y = 510;
     
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $instructorName);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontBoldPath, $certificate["instructor"]);
     
         // UID
         $color = imagecolorallocate($image, 64, 64, 64);
         $fontSize = 18;
-        $fontPath = "Lato/Lato-Regular.ttf";
         $x = 480;
         $y = 670;
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $enrollment["certificateUid"]);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontRegularPath, $certificate["certificateId"]);
     
-        $finishDate = Format::date($enrollment["finishDate"]);
+        $finishDate = Format::date($certificate["finishDate"]);
         $x = 350;
         $y = 636;
-        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontPath, $finishDate);
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontRegularPath, $finishDate);
     
         // Mostrar la imagen en el navegador
         ob_start();

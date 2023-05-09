@@ -52,8 +52,8 @@ $(() => {
         }
     });
 
-    const observer = new IntersectionObserver(function(entries) {
-        if(entries[0].isIntersecting === true) {
+    const observer = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting === true) {
             const counters = document.getElementsByClassName('counter');
             Array.from(counters).forEach(counter => {
                 const intervalValue = 5000;

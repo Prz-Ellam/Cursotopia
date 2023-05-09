@@ -155,14 +155,14 @@
   
           <div class="d-grid mb-4">
             <button type="submit" id="signup-btn"
-              class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
-              <div class="spinner d-none" id="signup-spinner"></div>
+              class="btn btn-primary rounded-pill">
+              <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="signup-spinner"></span>
               <span>Registrarse</span>
             </button>
           </div>
         </form>
         <p class="text-center mb-0">¿Ya tienes cuenta?</p>
-        <a class="d-block text-center text-decoration-none text-primary" href="login">
+        <a class="d-block text-center text-decoration-none text-primary" href="/login">
           ¡Inicia sesión aquí!
         </a>
       </div>

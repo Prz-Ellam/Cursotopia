@@ -1,3 +1,8 @@
+<?php
+
+use Cursotopia\Helpers\Format;
+
+?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
@@ -80,7 +85,7 @@
                     <?php foreach($this->blockedUsers as $user): ?>
                       <tr class="text-center">
                         <td data-title="Usuario">
-                          <?= $user["name"] ?> <?= $user["lastName"] ?>
+                          <?= Format::sanitize($user["name"]) ?> <?= Format::sanitize($user["lastName"]) ?>
                         </td>
                         <td data-title="Detalle">
                           <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
@@ -112,7 +117,7 @@
                       <?php foreach($this->users as $user): ?>
                         <tr class="text-center">
                           <td data-title="Usuario">
-                            <?= $user["name"] ?> <?= $user["lastName"] ?>
+                            <?= Format::sanitize($user["name"]) ?> <?= Format::sanitize($user["lastName"]) ?>
                           </td>
                           <td data-title="Detalle">
                             <a class="btn btn-secondary rounded-pill" 

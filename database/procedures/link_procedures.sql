@@ -1,9 +1,9 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `link_create` $$
 CREATE PROCEDURE `link_create`(
-    IN  `_link_name`                   VARCHAR(255),
-    IN  `_link_address`                VARCHAR(255),
-    OUT `_link_id`                     INT
+    IN  `_link_name`                    VARCHAR(255),
+    IN  `_link_address`                 VARCHAR(255),
+    OUT `_link_id`                      INT
 )
 BEGIN
     INSERT INTO `links`(
@@ -23,12 +23,12 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `link_update` $$
 CREATE PROCEDURE `link_update`(
-    IN `_link_id`                      INT,
-    IN `_link_name`                    VARCHAR(255),
-    IN `_link_address`                 VARCHAR(255),
-    IN `_link_created_at`              TIMESTAMP,
-    IN `_link_modified_at`             TIMESTAMP,
-    IN `_link_active`                  BOOLEAN
+    IN `_link_id`                       INT,
+    IN `_link_name`                     VARCHAR(255),
+    IN `_link_address`                  VARCHAR(255),
+    IN `_link_created_at`               TIMESTAMP,
+    IN `_link_modified_at`              TIMESTAMP,
+    IN `_link_active`                   BOOLEAN
 )
 BEGIN
     UPDATE
@@ -49,16 +49,16 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `link_find_by_id` $$
 CREATE PROCEDURE `link_find_by_id`(
-    IN `_link_id`               INT
+    IN `_link_id`                       INT
 )
 BEGIN
     SELECT
-        `link_id` AS `id`,
-        `link_name` AS `name`,
-        `link_address` AS `address`,
-        `link_created_at` AS `createdAt`,
-        `link_modified_at` AS `modifiedAt`,
-        `link_active` AS `active`
+        `link_id`                       AS `id`,
+        `link_name`                     AS `name`,
+        `link_address`                  AS `address`,
+        `link_created_at`               AS `createdAt`,
+        `link_modified_at`              AS `modifiedAt`,
+        `link_active`                   AS `active`
     FROM
         `links`
     WHERE

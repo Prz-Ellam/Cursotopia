@@ -31,8 +31,14 @@ export const createCourse = async function(event) {
     courseForm.append('payload', JSON.stringify(course));
     courseForm.append('image', formData.get('image'));
 
+    $('#course-create-btn').prop('disabled', true);
+    $('#course-create-spinner').removeClass('d-none');
+
     const response = await CourseService.create(courseForm);
-    //const response = { status: true, id: 1 }
+
+    $('#course-create-spinner').addClass('d-none');
+    $('#course-create-btn').prop('disabled', false);
+    
     if (!response?.status) {
         await showErrorMessage(response);
         return;

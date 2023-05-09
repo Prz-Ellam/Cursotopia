@@ -28,14 +28,14 @@ class LevelRepository extends DB {
 
     private const FIND_ALL_BY_COURSE = <<<'SQL'
         SELECT
-            l.level_id AS `id`,
-            l.level_title AS `title`,
-            l.level_description AS `description`,
-            l.level_is_free AS `free`,
-            l.course_id AS `courseId`,
-            l.level_created_at AS `createdAt`,
-            l.level_modified_at AS `modifiedAt`,
-            l.level_active AS `active`,
+            l.`level_id` AS `id`,
+            l.`level_title` AS `title`,
+            l.`level_description` AS `description`,
+            l.`level_is_free` AS `free`,
+            l.`course_id` AS `courseId`,
+            l.`level_created_at` AS `createdAt`,
+            l.`level_modified_at` AS `modifiedAt`,
+            l.`level_active` AS `active`,
             CONCAT('[', GROUP_CONCAT(
                 JSON_OBJECT(
                     'id', le.lesson_id,
@@ -45,13 +45,13 @@ class LevelRepository extends DB {
                 )
             ), ']') AS `lessons`
         FROM
-            levels AS l
+            `levels` AS l
         INNER JOIN
-            lessons AS le
+            `lessons` AS le
         ON
             l.level_id = le.level_id
         INNER JOIN
-            videos AS v
+            `videos` AS v
         ON
             le.video_id = v.video_id
         WHERE

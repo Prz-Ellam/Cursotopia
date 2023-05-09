@@ -1,6 +1,5 @@
 <?php
-
-use Cursotopia\Helpers\Format;
+  use Cursotopia\Helpers\Format;
 ?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
@@ -91,17 +90,23 @@ use Cursotopia\Helpers\Format;
         </div>
         <div class="row">
           <div class="col-2">
-            <img class="product-img" src="api/v1/images/<?= $this->course["imageId"] ?>" alt="Curso">
+            <img class="product-img" src="api/v1/images/<?= Format::sanitize($this->course["imageId"]) ?>" alt="Curso">
           </div>
           <div class="col-8">
-            <label for="inputEmail4" class="form-label"><?= $this->course["title"] ?></label>
+            <label for="inputEmail4" class="form-label">
+              <?= Format::sanitize($this->course["title"]) ?>
+            </label>
           </div>
           <div class="col-2 ms-auto">
             <label for="inputEmail4" class="form-label"><?= Format::money($this->course["price"]) ?></label>
           </div>
         </div>
         <div class="d-flex mt-3">
-          <button type="submit" class="btn btn-primary rounded-pill w-100">Hacer pago</button>
+          <button type="submit" id="payment-btn"
+            class="btn btn-primary rounded-pill w-100">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="payment-spinner"></span>
+            Hacer pago
+          </button>
         </div>
       </form>
       <div class="col-lg-7 col-xxl-6 col-md-12">

@@ -1,11 +1,14 @@
-- El buscador de instructor tiene problemas para eliminar la busqueda debido al id incustrado
-- El kardex tiene errores con las fechas
-
+[x] El buscador de instructor tiene problemas para eliminar la busqueda debido al id incustrado
+[x] El kardex tiene errores con las fechas
+[x] Las categorías en cursos esta duplicada
+[] Edición de cursos validación de Precio
+[] Imagen de cursos agradable
+[] Editar lecciones
+[] Cambiar estilo de lecciones
+[] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas
 
 
 Maxlength en los query params y tal vez route params
-
-[x] Las categorías en cursos esta duplicada

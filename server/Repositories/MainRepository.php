@@ -13,7 +13,7 @@ class MainRepository {
                 AND course_approved = TRUE AND course_is_complete = TRUE) AS `courses`
     SQL;
 
-    public function homeStats() {
+    public function homeStats(): ?array {
         return DB::executeOneReader($this::HOME_STATS, []);
     }
 }

@@ -9,10 +9,6 @@ use Cursotopia\Repositories\MainRepository;
 
 class HomeController {
     public function home(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
-        $role = $session->get("role");
-
         $mainRepository = new MainRepository();
         $stats = $mainRepository->homeStats();
 
@@ -21,9 +17,7 @@ class HomeController {
         $coursesRates = $courseRepository->findAllOrderByRates();
         $bestSellingCourses = $courseRepository->findAllOrderByEnrollments();
 
-        $response->render('home', [
-            "id" => $id,
-            "role" => $role,
+        $response->render("home", [
             "lastPublishedcourses" => $courses,
             "topRatedCourses" => $coursesRates,
             "bestSellingCourses" => $bestSellingCourses,

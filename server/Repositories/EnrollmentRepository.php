@@ -37,6 +37,10 @@ class EnrollmentRepository extends DB {
         )
     SQL;
 
+    private const CERTIFICATE_FIND_ONE = <<<'SQL'
+        CALL `certificate_find_one`(:student_id, :course_id)
+    SQL;
+
     public function create(Enrollment $enrollment): int {
         $parameters = [
             "course_id" => $enrollment->getCourseId(),
@@ -69,6 +73,14 @@ class EnrollmentRepository extends DB {
             "lesson_id" => $lessonId
         ];
         return DB::executeNonQuery($this::VISIT_LESSON, $parameters);
+    }
+
+    public function certificateFindOne(?int $studentId, ?int $courseId): ?array {
+        $parameters = [
+            "student_id" => $studentId,
+            "course_id" => $courseId
+        ];
+        return DB::executeOneReader($this::CERTIFICATE_FIND_ONE, $parameters);
     }
 
     public function lastInsertId2(): string {

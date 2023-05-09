@@ -143,25 +143,25 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_search` $$
 CREATE PROCEDURE `course_search`(
-    IN _title                   VARCHAR(255),
-    IN _instructor_id           INT,
-    IN _category_id             INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN `_title`                         VARCHAR(255),
+    IN `_instructor_id`                 INT,
+    IN `_category_id`                   INT,
+    IN `_from`                          DATE,
+    IN `_to`                            DATE,
+    IN `_limit`                         INT,
+    IN `_offset`                        INT
 )
 BEGIN
     SELECT 
-        `course_id` AS `id`,
-        `course_title` AS `title`,
-        `course_price` AS `price`,
-        `course_image_id` AS `imageId`,
-        `instructor_id` AS `instructorId`,
-        `instructor_name` AS `instructorName`,
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_price`                  AS `price`,
+        `course_image_id`               AS `imageId`,
+        `instructor_id`                 AS `instructorId`,
+        `instructor_name`               AS `instructorName`,
         `rate`,
         `levels`,
-        `video_duration` AS `videoDuration`
+        `video_duration`                AS `videoDuration`
     FROM 
         `course_card` AS vcc
     WHERE
@@ -169,21 +169,22 @@ BEGIN
         AND `course_approved` = TRUE
         AND `course_active` = TRUE
         -- Filtro por titulo del curso
-        AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+        AND (`course_title` LIKE CONCAT('%', `_title` ,'%') OR `_title` IS NULL)
         -- Filtro por fecha
-        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (`course_created_at` BETWEEN IFNULL(`_from`, '1000-01-01') AND 
+                IFNULL(`_to`, '9999-12-31'))
         -- Por categoria
         AND (EXISTS(
             SELECT `category_id` 
             FROM `course_category` AS cc WHERE cc.`course_id` = vcc.`course_id` 
-            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+            AND cc.`category_id` = `_category_id` AND cc.`course_category_active` = TRUE) 
             OR _category_id IS NULL)
         -- Por instructor
-        AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
+        AND (`instructor_id` = `_instructor_id` OR `_instructor_id` IS NULL)
     LIMIT
-        _limit
+        `_limit`
     OFFSET
-        _offset;
+        `_offset`;
 END $$
 DELIMITER ;
 
@@ -191,13 +192,11 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `course_search_total` $$
 CREATE PROCEDURE `course_search_total`(
-    IN _title                   VARCHAR(255),
-    IN _instructor_id           INT,
-    IN _category_id             INT,
-    IN _from                    DATE,
-    IN _to                      DATE,
-    IN _limit                   INT,
-    IN _offset                  INT
+    IN `_title`                         VARCHAR(255),
+    IN `_instructor_id`                 INT,
+    IN `_category_id`                   INT,
+    IN `_from`                          DATE,
+    IN `_to`                            DATE
 )
 BEGIN
     SELECT 
@@ -209,21 +208,19 @@ BEGIN
         AND `course_approved` = TRUE
         AND `course_active` = TRUE
         -- Filtro por titulo del curso
-        AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+        AND (`course_title` LIKE CONCAT('%', `_title` ,'%') OR `_title` IS NULL)
         -- Filtro por fecha
-        AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+        AND (`course_created_at` BETWEEN IFNULL(`_from`, '1000-01-01') 
+            AND IFNULL(`_to`, '9999-12-31')
+        )
         -- Por categoria
         AND (EXISTS(
             SELECT `category_id` 
             FROM `course_category` AS cc WHERE cc.`course_id` = vcc.`course_id` 
-            AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
-            OR _category_id IS NULL)
+            AND cc.`category_id` = `_category_id` AND cc.`course_category_active` = TRUE) 
+            OR `_category_id` IS NULL)
         -- Por instructor
-        AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
-    LIMIT
-        _limit
-    OFFSET
-        _offset;
+        AND (`instructor_id` = `_instructor_id` OR `_instructor_id` IS NULL);
 END $$
 DELIMITER ;
 

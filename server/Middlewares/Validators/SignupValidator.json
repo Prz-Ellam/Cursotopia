@@ -84,15 +84,19 @@
         "userRole": {
             "type": "number",
             "minimum": 1,
+            "enum": [ 2, 3 ],
             "$error": {
-                "type": "El rol de usuario debe ser un número"
+                "type": "El rol de usuario debe ser un número",
+                "minimun": "El rol de usuario no es válido",
+                "enum": "El rol de usuario no es válido"
             }
         },
         "imageId": {
             "type": "number",
             "minimum": 1,
             "$error": {
-                "type": "La foto de perfil debe ser un número"
+                "type": "La foto de perfil debe ser un número",
+                "minimun": "La foto de perfil no es válida"
             }
         }
     },

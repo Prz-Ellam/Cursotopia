@@ -357,6 +357,11 @@ class EnrollmentModel {
         return new EnrollmentModel($object);
     }
 
+    public static function findOneCertificate(?int $studentId, ?int $courseId): ?array {
+        $repository = new EnrollmentRepository();
+        return $repository->certificateFindOne($studentId, $courseId);
+    }
+
     /**
      * Get the value of isPaid
      */ 

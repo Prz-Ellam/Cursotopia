@@ -38,7 +38,7 @@
           <h1>Editar contraseña</h1>
         </div>
 
-        <input type="hidden" name="id" value="<?= $_SESSION["id"] ?>">
+        <input type="hidden" name="id" value="<?= $this->session("id") ?>">
         <div class="mb-4">
           <label for="old-password" role="button" class="form-label">Contraseña anterior</label>
           <div class="input-group">
@@ -81,8 +81,8 @@
 
         <div class="d-grid mb-4">
           <button type="submit" id="password-edition-btn" 
-            class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
-            <div class="spinner d-none" id="password-edition-spinner"></div>
+            class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="password-edition-spinner"></span>
             <span>Actualizar contraseña</span>
           </button>
         </div>

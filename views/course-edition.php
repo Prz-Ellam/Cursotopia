@@ -15,6 +15,7 @@
   <!-- Boxicons --> 
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
   
+  <!-- Bootstrap -->
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- SweetAlert -->
@@ -77,11 +78,7 @@
               <?php endforeach ?>
             </select>
           </div>
-          <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-            <button type="button" id="create-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto">Añadir
-              categoria
-            </button>
-          </div>
+          
 
         </div>
 
@@ -104,20 +101,6 @@
       </div>
 
      
-      <!--
-      <section class="my-5" id="levels-section">
-        <div class="pb-2 d-flex">
-          <h4 class="pe-4">Niveles</h4>
-          <button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
-            Añadir nivel
-          </button>
-        </div>
-        <ul class="list-unstyled" id="levels-container">
-
-        </ul>
-      </section>
-      -->
-      
       <div class="d-grid mt-4">
         <button type="submit" class="btn btn-primary rounded-pill">
           Editar curso
@@ -323,31 +306,6 @@
       </form>
     </div>
 
-    <!-- Modal añadir categoría -->
-    <div class="modal fade animate__animated animate__bounceInDown" id="create-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
-          <div class="modal-header">
-            <h4>Añadir categoría</h4>
-            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-4">
-              <label for="category-name" class="form-label" role="button">Nombre</label>
-              <input type="text" class="form-control" id="category-name" name="name" autocomplete="off">
-            </div>
-            <div class="mb-4">
-              <label for="category-description" class="form-label" role="button">Descripción</label>
-              <textarea class="form-control" id="category-description" name="description" rows="5" placeholder="¿Qué clase de cursos contendrá?"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Cerrar</button>
-            <button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </section>
   <?= $this->render("partials/footer") ?>
 </body>

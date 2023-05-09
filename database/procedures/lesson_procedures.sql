@@ -1,8 +1,8 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `lesson_create` $$
 CREATE PROCEDURE `lesson_create`(
-    IN  `_title`                        VARCHAR(50),
-    IN  `_description`                  VARCHAR(255),
+    IN  `_lesson_title`                 VARCHAR(50),
+    IN  `_lesson_description`           VARCHAR(255),
     IN  `_level_id`                     INT,
     IN  `_video_id`                     INT,
     IN  `_image_id`                     INT,
@@ -21,8 +21,8 @@ BEGIN
         `link_id`
     )
     VALUES(
-        `_title`,
-        `_description`,
+        `_lesson_title`,
+        `_lesson_description`,
         `_level_id`,
         `_video_id`,
         `_image_id`,
@@ -38,17 +38,17 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `lesson_update` $$
 CREATE PROCEDURE `lesson_update`(
-    IN `_lesson_id`                  INT,
-    IN `_lesson_title`               VARCHAR(50),
-    IN `_lesson_description`         VARCHAR(255),
-    IN `_level_id`                   INT,
-    IN `_video_id`                   INT,
-    IN `_image_id`                   INT,
-    IN `_document_id`                INT,
-    IN `_link_id`                    INT,
-    IN `_lesson_created_at`          TIMESTAMP,
-    IN `_lesson_modified_at`         TIMESTAMP,
-    IN `_lesson_active`              BOOLEAN
+    IN `_lesson_id`                     INT,
+    IN `_lesson_title`                  VARCHAR(50),
+    IN `_lesson_description`            VARCHAR(255),
+    IN `_level_id`                      INT,
+    IN `_video_id`                      INT,
+    IN `_image_id`                      INT,
+    IN `_document_id`                   INT,
+    IN `_link_id`                       INT,
+    IN `_lesson_created_at`             TIMESTAMP,
+    IN `_lesson_modified_at`            TIMESTAMP,
+    IN `_lesson_active`                 BOOLEAN
 )
 BEGIN
     UPDATE
@@ -75,21 +75,21 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `lesson_find_by_id` $$
 CREATE PROCEDURE `lesson_find_by_id`(
-    IN `lesson_id`              INT
+    IN `lesson_id`                      INT
 )
 BEGIN
     SELECT
-        `lesson_id` AS `id`,
-        `lesson_title` AS `title`,
-        `lesson_description` AS `description`,
-        `level_id` AS `levelId`,
-        `video_id` AS `videoId`,
-        `image_id` AS `imageId`,
-        `document_id` AS `documentId`,
-        `link_id` AS `linkId`,
-        `lesson_created_at` AS `createdAt`,
-        `lesson_modified_at` AS `modifiedAt`,
-        `lesson_active` AS `active`
+        `lesson_id`                     AS `id`,
+        `lesson_title`                  AS `title`,
+        `lesson_description`            AS `description`,
+        `level_id`                      AS `levelId`,
+        `video_id`                      AS `videoId`,
+        `image_id`                      AS `imageId`,
+        `document_id`                   AS `documentId`,
+        `link_id`                       AS `linkId`,
+        `lesson_created_at`             AS `createdAt`,
+        `lesson_modified_at`            AS `modifiedAt`,
+        `lesson_active`                 AS `active`
     FROM
         `lessons`
     WHERE
@@ -103,21 +103,21 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `lesson_find_by_level` $$
 CREATE PROCEDURE `lesson_find_by_level`(
-    IN `_level_id`              INT
+    IN `_level_id`                      INT
 )
 BEGIN
     SELECT
-        `lesson_id` AS `id`,
-        `lesson_title` AS `title`,
-        `lesson_description` AS `description`,
-        `level_id` AS `levelId`,
-        `video_id` AS `videoId`,
-        `image_id` AS `imageId`,
-        `document_id` AS `documentId`,
-        `link_id` AS `linkId`,
-        `lesson_created_at` AS `createdAt`,
-        `lesson_modified_at` AS `modifiedAt`,
-        `lesson_active` AS `active`
+        `lesson_id`                     AS `id`,
+        `lesson_title`                  AS `title`,
+        `lesson_description`            AS `description`,
+        `level_id`                      AS `levelId`,
+        `video_id`                      AS `videoId`,
+        `image_id`                      AS `imageId`,
+        `document_id`                   AS `documentId`,
+        `link_id`                       AS `linkId`,
+        `lesson_created_at`             AS `createdAt`,
+        `lesson_modified_at`            AS `modifiedAt`,
+        `lesson_active`                 AS `active`
     FROM
         `lessons`
     WHERE

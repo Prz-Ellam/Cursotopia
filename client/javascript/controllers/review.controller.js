@@ -5,6 +5,7 @@ import { getOneUserService } from "../services/user.service";
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
 import { showErrorMessage } from '../utilities/show-error-message';
+import { Toast } from '../utilities/toast';
 
 let currentPage = 1;
 const pageSize = 10;
@@ -37,6 +38,11 @@ export const submitReview = async function(event) {
         showErrorMessage(response);
         return;
     }
+
+    Toast.fire({
+        icon: 'success',
+        title: 'La reseña ha sido añadida con éxito'
+    });
 
     $('#review-section').empty();
     const totalCourses = await ReviewService.courseTotal(courseId);
@@ -151,6 +157,10 @@ export const deleteReview = async function(reviewId) {
     
     const response = await deleteReviewService(reviewId);
     if (response?.status) {
+        Toast.fire({
+            icon: 'success',
+            title: 'La reseña ha sido eliminada con éxito'
+        });
         currentPage = 1;
         $('#review-section').empty();
         const courseId=new URLSearchParams(window.location.search).get('id') || '';

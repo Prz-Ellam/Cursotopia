@@ -39,6 +39,7 @@ class CourseController {
         }
 
         $session = $request->getSession();
+        $userId = $session->get("id");
         $role = $session->get("role");
 
         // verificar si compre o no el curso
@@ -72,6 +73,11 @@ class CourseController {
 
         $enrollmentRepository = new EnrollmentRepository();
         $enrollment = $enrollmentRepository->findOneByCourseAndStudent($id, $userId ?? -1);
+
+        if ((!$course["active"] && !$enrollment) && ($course["instructorId"] != $userId)) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
 
         $reviewRepository = new ReviewRepository();
         $pageNum = 1;
@@ -110,6 +116,11 @@ class CourseController {
         $course = CourseModel::findById2($id);
 
         if ($userId != $course["instructorId"]) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
+        if (!$course["active"]) {
             $response->setStatus(404)->render("404");
             return;
         }

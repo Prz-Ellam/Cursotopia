@@ -19,7 +19,6 @@
   
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <?= $this->link("styles/pages/search.css") ?>
   <?= $this->script("javascript/search.js") ?>
@@ -44,7 +43,7 @@
           <?php foreach($this->categories as $category): ?>
           <option value="<?= $category["id"] ?>"
             <?= ($category["id"] == $this->categoryId) ? "selected" : "" ?>>
-            <?= $category["name"] ?>
+            <?= Format::sanitize($category["name"]) ?>
           </option>
           <?php endforeach ?>
         </select>
@@ -56,7 +55,7 @@
           value="<?= $this->instructorName ?>"
           class="form-control" placeholder="Ej. Jon Doe">
         <input type="hidden" name="instructor" id="instructor" 
-          value="<?= ($this->instructorId == "NULL") ? "" : $this->instructorId ?>">
+          value="<?= (!$this->instructorId) ? "" : $this->instructorId ?>">
       </div>
 
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -93,12 +92,14 @@
             >
           </div>
           <div class="card-body text-center rounded-bottom">
-            <h5 class="card-title"><?= $course["title"] ?></h5>
-            <p class="card-text"><?= $course["instructorName"] ?></p>
+            <h5 class="card-title text-truncate text-nowrap">
+              <?= Format::sanitize($course["title"]) ?>
+            </h5>
+            <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
             <hr>
             <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
             <p>
-              <?php if($course["rate"] == 0): ?>
+              <?php if ($course["rate"] == 0): ?>
               <span>No hay reseñas</span>
               <?php else: ?>
               <i class="bx <?= $course["rate"] >= 1 ? 'bxs-star': ($course["rate"] >= 0.5 ? 'bxs-star-half' : 'bx-star') ?> rating-star"></i>
@@ -109,7 +110,7 @@
               <?php endif ?>
             </p>
             <div class="d-flex justify-content-between mb-0">
-              <p class="mb-0"><i class='bx bxs-layer'></i> 
+              <p class="mb-0"><i class="bx bxs-layer"></i> 
                 <?= Format::pluralize($course["levels"], "nivel", "niveles") ?>
               </p>
               <p class="mb-0"><i class="bx bxs-time"></i> 

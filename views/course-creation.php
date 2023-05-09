@@ -1,3 +1,6 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
@@ -57,8 +60,7 @@
           <div class="mb-4">
             <label for="description" class="form-label" role="button">Descripción</label>
             <textarea class="form-control" id="description" cols="30" rows="3" 
-              name="description" value="" placeholder="¿De que va a tratar tú curso?">
-            </textarea>
+              name="description" value="" placeholder="¿De que va a tratar tú curso?"></textarea>
           </div>
 
           <div class="form-check">
@@ -80,8 +82,8 @@
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category): ?>
-                <option value="<?= $category["id"] ?>">
-                  <?= $category["name"] ?>
+                <option value="<?= Format::sanitize($category["id"]) ?>">
+                  <?= Format::sanitize($category["name"]) ?>
                 </option>
               <?php endforeach ?>
             </select>
@@ -108,8 +110,13 @@
           </label>
           <div id="image-error"></div>
         </div>
-        <div class="d-flex mt-5 mb-5">
-          <button type="submit" id="create-course-btn" class="next btn btn-primary rounded-pill w-100">Avanzar</button>
+        
+        <div class="d-grid mt-5 mb-5">
+          <button type="submit" id="course-create-btn" 
+            class="next btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="course-create-spinner"></span>
+            <span>Avanzar</span>
+          </button>
         </div>
       </form>
     </fieldset>
@@ -338,8 +345,13 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Cerrar</button>
-          <button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar</button>
+          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+          <button id="category-create-btn" type="submit" class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="category-create-spinner"></span>
+            Agregar
+          </button>
         </div>
       </form>
     </div>

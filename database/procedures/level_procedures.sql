@@ -1,9 +1,9 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_create` $$
 CREATE PROCEDURE `level_create`(
-    IN  `_title`                        VARCHAR(50),
-    IN  `_description`                  VARCHAR(255),
-    IN  `_is_free`                      BOOLEAN,
+    IN  `_level_title`                  VARCHAR(50),
+    IN  `_level_description`            VARCHAR(255),
+    IN  `_level_is_free`                BOOLEAN,
     IN  `_course_id`                    INT,
     OUT `_level_id`                     INT
 )
@@ -15,9 +15,9 @@ BEGIN
         `course_id`
     )
     VALUES(
-        `_title`,
-        `_description`,
-        `_is_free`,
+        `_level_title`,
+        `_level_description`,
+        `_level_is_free`,
         `_course_id`
     );
     SET `_level_id` = LAST_INSERT_ID();
@@ -29,14 +29,14 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_update` $$
 CREATE PROCEDURE `level_update`(
-    `_level_id`                      INT,
-    `_level_title`                   VARCHAR(50),
-    `_level_description`             VARCHAR(255),
-    `_level_is_free`                 BOOLEAN,
-    `_course_id`                     INT,
-    `_level_created_at`              TIMESTAMP,
-    `_level_modified_at`             TIMESTAMP,
-    `_level_active`                  BOOLEAN
+    IN `_level_id`                      INT,
+    IN `_level_title`                   VARCHAR(50),
+    IN `_level_description`             VARCHAR(255),
+    IN `_level_is_free`                 BOOLEAN,
+    IN `_course_id`                     INT,
+    IN `_level_created_at`              TIMESTAMP,
+    IN `_level_modified_at`             TIMESTAMP,
+    IN `_level_active`                  BOOLEAN
 )
 BEGIN
     UPDATE
@@ -59,18 +59,18 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_find_by_id` $$
 CREATE PROCEDURE `level_find_by_id`(
-    IN `_level_id`          INT
+    IN `_level_id`                      INT
 )
 BEGIN
     SELECT
-        `level_id` AS `id`,
-        `level_title` AS `title`,
-        `level_description` AS `description`,
-        `level_is_free` AS `free`,
-        `course_id` AS `courseId`,
-        `level_created_at` AS `createdAt`,
-        `level_modified_at` AS `modifiedAt`,
-        `level_active` AS `active`
+        `level_id`                      AS `id`,
+        `level_title`                   AS `title`,
+        `level_description`             AS `description`,
+        `level_is_free`                 AS `free`,
+        `course_id`                     AS `courseId`,
+        `level_created_at`              AS `createdAt`,
+        `level_modified_at`             AS `modifiedAt`,
+        `level_active`                  AS `active`
     FROM
         `levels`
     WHERE
@@ -84,18 +84,18 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_find_by_course` $$
 CREATE PROCEDURE `level_find_by_course`(
-    IN `_course_id`             INT
+    IN `_course_id`                     INT
 )
 BEGIN
     SELECT
-        `level_id` AS `id`,
-        `level_title` AS `title`,
-        `level_description` AS `description`,
-        `level_is_free` AS `free`,
-        `course_id` AS `courseId`,
-        `level_created_at` AS `createdAt`,
-        `level_modified_at` AS `modifiedAt`,
-        `level_active` AS `active`
+        `level_id`                      AS `id`,
+        `level_title`                   AS `title`,
+        `level_description`             AS `description`,
+        `level_is_free`                 AS `free`,
+        `course_id`                     AS `courseId`,
+        `level_created_at`              AS `createdAt`,
+        `level_modified_at`             AS `modifiedAt`,
+        `level_active`                  AS `active`
     FROM
         `levels`
     WHERE
@@ -109,8 +109,8 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `level_find_user_complete` $$
 CREATE PROCEDURE `level_find_user_complete`(
-    IN _course_id           INT,
-    IN _user_id             INT
+    IN _course_id                       INT,
+    IN _user_id                         INT
 )
 BEGIN
     SELECT

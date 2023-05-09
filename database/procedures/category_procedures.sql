@@ -190,6 +190,8 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `category_find_not_active` $$
 CREATE PROCEDURE `category_find_not_active`()
@@ -215,6 +217,7 @@ BEGIN
         `category_active` = FALSE;
 END $$
 DELIMITER ;
+
 
 
 -- Aprueba una categoría

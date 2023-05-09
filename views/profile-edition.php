@@ -1,3 +1,5 @@
+<?php
+?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
@@ -90,8 +92,8 @@
           </div>
           <div class="d-grid mb-4">
             <button type="submit" id="profile-edition-btn"
-              class="btn btn-primary rounded-pill d-flex justify-content-center gap-2">
-              <div class="spinner d-none" id="profile-edition-spinner"></div>
+              class="btn btn-primary rounded-pill">
+              <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="profile-edition-spinner"></span>
               <span>Actualizar perfil</span>
             </button>
           </div>

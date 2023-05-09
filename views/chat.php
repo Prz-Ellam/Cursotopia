@@ -1,3 +1,6 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
@@ -50,7 +53,9 @@
                 class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
               >
               <div class="overflow-hidden text-nowrap">
-                <p class="h5 fw-bold mb-0"><?= $chat["user"] ?></p>
+                <p class="h5 fw-bold mb-0">
+                  <?= Format::sanitize($chat["user"]) ?>
+                </p>
                 <small class="text-primary mb-0 <?= $chat["unseenMessagesCount"] !== 0 ? 'fw-bold' : '' ?>">
                   <?= $chat["lastMessageContent"] ?>
                 </small>
@@ -90,7 +95,7 @@
             src="../client/assets/images/perfil.png"
             alt="Perfil"
           >
-          <span class="h5 mb-0 ms-2 text-black fw-bold actual-chat-user-name">Kevin Gold</span>
+          <span class="h5 mb-0 ms-2 text-black fw-bold actual-chat-user-name"></span>
           <input type="hidden" id="actual-chat-id">
         </div>
         <hr>

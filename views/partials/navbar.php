@@ -1,5 +1,6 @@
 <?php
 use Cursotopia\Helpers\Auth;
+use Cursotopia\Helpers\Format;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Repositories\ChatMessageRepository;
 
@@ -201,7 +202,7 @@ if ($id) {
               <?php foreach ($categories as $category): ?>
               <li>
                 <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
-                  <?= $category["name"] ?>
+                  <?= Format::sanitize($category["name"]) ?>
                 </a>
               </li>
               <?php endforeach ?>

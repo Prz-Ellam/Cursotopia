@@ -4,8 +4,9 @@ import Swal from 'sweetalert2';
 import CategoryService, {updateCategoryService, createCategory, approveCategoryService, denyCategoryService, activateCategoryService, deactivateCategoryService} from '../services/category.service';
 import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
 import { Toast } from '../utilities/toast';
+import { showErrorMessage } from '../utilities/show-error-message';
 
-export const createCourseCreateCategory = async function(event) {
+export const submitCategory = async function(event) {
     event.preventDefault();
 
     const isFormValid = $(this).valid();
@@ -13,30 +14,38 @@ export const createCourseCreateCategory = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('category-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
-
     const formData = new FormData(this);
     const category = {
         name: formData.get('name'),
         description: formData.get('description')
     };
     
+    $('#category-create-btn').prop('disabled', true);
+    $('#category-create-spinner').removeClass('d-none');
     const response = await createCategory(category);
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: 'La categoría fue añadida con éxito',
-            text: 'La categoría fue añadida, un administrador debe aprobarla primero, podrás usar la categoría para crear cursos pero estos no serán visibles hasta que un administrador apruebe la categoría',
-            confirmButtonText: 'Enterado',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    $('#category-create-spinner').addClass('d-none');
+    $('#category-create-btn').prop('disabled', false);
+
+    const modal = document.getElementById('category-create-modal');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
     }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'La categoría fue añadida con éxito',
+        text: 'La categoría fue añadida, un administrador debe aprobarla primero, podrás usar la categoría para crear cursos pero estos no serán visibles hasta que un administrador apruebe la categoría',
+        confirmButtonText: 'Enterado',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
 
     const categoryResponse = await CategoryService.findAll();
     if (categoryResponse?.status) {

@@ -1,6 +1,6 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `role_find_all_by_is_public` $$
-CREATE PROCEDURE `role_find_by_id_and_public`(
+CREATE PROCEDURE `role_find_all_by_is_public`(
     IN `_is_public`                 BOOLEAN
 )
 BEGIN

@@ -252,9 +252,7 @@ class CourseRepository extends DB {
             :instructor_id,
             :category_id,
             :from,
-            :to,
-            :limit,
-            :offset
+            :to
         )
     SQL;
 
@@ -434,9 +432,7 @@ class CourseRepository extends DB {
             "instructor_id" => $instructorId,
             "category_id" => $categoryId,
             "from" => $from,
-            "to" => $to,
-            "limit" => $limit,
-            "offset" => $offset
+            "to" => $to
         ];
         return DB::executeOneReader($this::COURSE_SEARCH_TOTAL, $parameters);
     }

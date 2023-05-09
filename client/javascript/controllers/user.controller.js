@@ -14,6 +14,10 @@ export const submitLogin = async function(event) {
 
     const validations = $(this).valid();
     if (!validations) {
+        await ToastBottom.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 

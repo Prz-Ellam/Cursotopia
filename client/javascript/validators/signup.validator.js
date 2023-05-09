@@ -64,13 +64,13 @@ export default {
             required: true,
             trimming: true,
             regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
-            maxlength: 255
+            maxlength: 50
         },
         'lastName': {
             required: true,
             trimming: true,
             regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
-            maxlength: 255
+            maxlength: 50
         },
         'userRole': {
             required: true,

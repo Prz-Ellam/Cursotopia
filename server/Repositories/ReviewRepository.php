@@ -16,7 +16,7 @@ class ReviewRepository extends DB {
     SQL;
 
     private const UPDATE = <<<'SQL'
-        CALL `sp_update_review`( 
+        CALL `review_update`( 
             :id, 
             :message, 
             :rate, 
@@ -51,7 +51,7 @@ class ReviewRepository extends DB {
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'
-        CALL `sp_get_review_by_id`(:id);
+        CALL `review_find_by_id`(:id);
     SQL;
 
     private const DELETE = <<<'SQL'
@@ -87,7 +87,7 @@ class ReviewRepository extends DB {
         return $this->executeReader($this::FIND_ALL_BY_COURSE, $parameters);
     }
 
-    public function findByCourse(int $courseId,int $pageNum,int $pageSize): array {
+    public function findByCourse(int $courseId,int $pageNum,int $pageSize): ?array {
         $parameters = [
             "courseId" => $courseId,
             "pageNum" => $pageNum,
@@ -103,7 +103,7 @@ class ReviewRepository extends DB {
         return $this->executeOneReader($this::FIND_TOTAL_BY_COURSE, $parameters);
     }
 
-    public function findOneByCourseAndUserId(int $courseId, int $userId) {
+    public function findOneByCourseAndUserId(int $courseId, int $userId): ?array {
         $parameters =[
             "courseId" => $courseId,
             "userId" => $userId
@@ -118,7 +118,7 @@ class ReviewRepository extends DB {
         return $this->executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
-    public function delete(int $id): int {
+    public function delete(?int $id): int {
         $parameters = [
             "id" => $id
         ];
