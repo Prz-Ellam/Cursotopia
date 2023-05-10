@@ -1,7 +1,7 @@
 import { sendMessage } from './controllers/chat.controller';
 import { getAllChatMessageService } from './services/chat-message.service';
 import { findChatService, findUserChats } from './services/chat.service';
-import { getAllUsersService, getOneUserService } from './services/user.service';
+import { getAllUsersService } from './services/user.service';
 
 $(async () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -9,14 +9,14 @@ $(async () => {
 
     $('#message').on('keydown', async function(event) {
         if (event.key === 'Enter') {
-            sendMessage();
+            await sendMessage();
             const chats = await findUserChats();
             $('#chat-drawer').empty().append(chats);
         }
     });
 
     $('#send-message').on('click', async function() {
-        sendMessage();
+        await sendMessage();
         const chats = await findUserChats();
         $('#chat-drawer').empty().append(chats);
     });
@@ -51,6 +51,12 @@ $(async () => {
         $('#box-div').removeClass('d-none');
         const chats = await findUserChats();
         $('#chat-drawer').empty().append(chats);
+
+        const messageBox = document.getElementById('message-box');
+        messageBox.scrollTo({
+            left: 0,
+            top: messageBox.scrollHeight
+        });
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -87,7 +93,7 @@ $(async () => {
             $('.actual-chat-user-name').text(`${ response.user.name } ${ response.user.lastName }`);
         
             const chatMessages = await getAllChatMessageService(response.chatId);
-            $('#message-box').html('');
+            $('#message-box').empty();
             chatMessages.messages.forEach(message => {
                 $('#message-box').append(`
                 <div class="d-flex ${ chatMessages.userId === message.userId ? 'justify-content-end' : 'justify-content-start' } my-3">
@@ -106,6 +112,10 @@ $(async () => {
 
             const chats = await findUserChats();
             $('#chat-drawer').empty().append(chats);
+            messageBox.scrollTo({
+                left: 0,
+                top: messageBox.scrollHeight
+            });
 
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

@@ -6,6 +6,7 @@ use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Repositories\EnrollmentRepository;
 
@@ -110,29 +111,41 @@ class EnrollmentController {
     }
     
     public function create(Request $request, Response $response): void {
-        $session = $request->getSession();
-
+        $studentId = $request->getSession()->get("id");
         $courseId = $request->getBody("courseId");
-        $studentId = $session->get("id");
         $amount = $request->getBody("amount");
         $paymentMethodId = $request->getBody("paymentMethodId");
 
         // Validar que el curso exista
+        $requestedCourse = CourseModel::findById($courseId);
+        if (!$requestedCourse) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El curso no existe"
+            ]);
+            return;
+        }
+
         // Validar que el método de pago existe
+        $enrollment = new EnrollmentModel([
+            "courseId" => $courseId,
+            "studentId" => $studentId,
+            "amount" => $amount,
+            "paymentMethodId" => $paymentMethodId
+        ]);
 
-        $enrollment = new Enrollment();
-        $enrollment
-            ->setCourseId($courseId)
-            ->setStudentId($studentId)
-            ->setAmount($amount)
-            ->setPaymentMethodId($paymentMethodId);
-
-        $enrollmentRepository = new EnrollmentRepository();
-        $rowsAffected = $enrollmentRepository->create($enrollment);
+        $isCreated = $enrollment->save();
+        if (!$isCreated) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "No se pudo crear la inscripción"
+            ]);
+            return;
+        }
 
         $response->json([
             "status" => true,
-            "message" => $rowsAffected
+            "message" => "La inscripción se creó éxitosamente"
         ]);
     }
 

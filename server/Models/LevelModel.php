@@ -68,13 +68,18 @@ class LevelModel {
         return new LevelModel($object);
     }
 
-    public static function findById(int $id): ?LevelModel {
+    public static function findById(?int $id): ?LevelModel {
         $levelRepository = new LevelRepository();
         $levelObject = $levelRepository->findById($id);
         if (!$levelObject) {
             return null;
         }
         return new LevelModel($levelObject);
+    }
+
+    public static function findObjById(?int $id): ?array {
+        $levelRepository = new LevelRepository();
+        return $levelRepository->findById($id);
     }
 
     public static function findByCourse(int $courseId): array {

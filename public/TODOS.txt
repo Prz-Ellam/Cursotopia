@@ -6,6 +6,9 @@
 [] Editar lecciones
 [] Cambiar estilo de lecciones
 [] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
+[] Crear un chat luego no se muestra el mensaje
+[] El buscador de chat no busca apellidos
+[] Solo el creador puede actualizar sus lecciones y niveles
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

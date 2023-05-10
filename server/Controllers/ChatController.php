@@ -46,6 +46,10 @@ class ChatController {
         $chatRepository = new ChatRepository();
         $chats = $chatRepository->findAllByUserId($id);
 
+        if (!is_array($chats)) {
+            $chats = [];
+        }
+
         $response->render("/components/chat-drawer", [
             "chats" => $chats
         ]);

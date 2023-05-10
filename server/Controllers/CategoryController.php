@@ -110,23 +110,22 @@ class CategoryController {
 
         // Validar que el usuario es un instructor
 
-
-
         $category = new CategoryModel($body);
         $category->setCreatedBy($id);
 
         try {
-            $result = $category->save();
-            if (!$result) {
+            $isCreated = $category->save();
+            if (!$isCreated) {
                 $response->setStatus(404)->json([
                     "status" => false,
-                    "message" => ""
+                    "message" => "La categoría no se pudo crear"
                 ]);
                 return;
             }
 
             $response->json([
                 "status" => true,
+                "message" => "La categoría se creó éxitosamente",
                 "id" => $category->getId()
             ]);
         }
@@ -137,13 +136,12 @@ class CategoryController {
             ]);
             return;
         }
-        //$response->json($categoryRepository->findOne(2));
     }
 
     public function update(Request $request, Response $response): void {
         // Solo los administradores pueden editar categorías
         // Este es el id de la categoría
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
 
         [
             "name" => $name,
@@ -159,21 +157,23 @@ class CategoryController {
             return;
         }
 
-        $category->setName($name);
-        $category->setDescription($description);
+        $category
+            ->setName($name)
+            ->setDescription($description);
 
         try {
-            $result = $category->save();
-            if (!$result) {
+            $isUpdated = $category->save();
+            if (!$isUpdated) {
                 $response->setStatus(404)->json([
                     "status" => false,
-                    "message" => ""
+                    "message" => "La categoría no se pudo actualizar"
                 ]);
                 return;
             }
 
             $response->json([
                 "status" => true,
+                "message" => "La categoría se actualizó éxitosamente",
                 "id" => $category->getId()
             ]);
         }

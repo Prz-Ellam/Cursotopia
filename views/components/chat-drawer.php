@@ -5,7 +5,13 @@
   <div class="chat-drawer p-2 border-bottom" data-id="<?= Format::sanitize($chat["id"]) ?>">
     <a href="#" class="text-decoration-none d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="chat-section" aria-expanded="false" aria-controls="collapseExample">
       <div class="d-flex flex-row flex-nowrap align-items-center overflow-hidden">
-        <img src="api/v1/images/<?= $chat["profilePicture"] ?>" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong">
+        <img 
+          src="api/v1/images/<?= $chat["profilePicture"] ?>" 
+          alt="avatar" 
+          width="60"
+          height="60"
+          class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+        >
         <div class="overflow-hidden text-nowrap">
           <p class="h5 fw-bold mb-0">
             <?= Format::sanitize($chat["user"]) ?>

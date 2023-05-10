@@ -53,6 +53,8 @@
               <img
                 src="api/v1/images/<?= $chat["profilePicture"] ?>"
                 alt="avatar"
+                width="60"
+                height="60"
                 class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
               >
               <div class="overflow-hidden text-nowrap">

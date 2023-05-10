@@ -61,21 +61,21 @@ class CategoryRepository {
 
     private const FIND_ALL_WITH_USER = <<<'SQL'
         SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
+            `category_id` AS `id`,
+            `category_name` AS `name`,
+            `category_description` AS `description`,
+            `category_is_approved` AS `approved`,
+            `category_approved_by` AS `approvedBy`,
+            `category_created_by` AS `createdBy`,
+            `category_created_at` AS `createdAt`,
+            `category_modified_at` AS `modifiedAt`,
+            `category_active` AS `active`
         FROM
-            categories
+            `categories`
         WHERE
-            category_active = TRUE
-            AND (category_is_approved = TRUE
-            OR category_created_by = :user_id)
+            `category_active` = TRUE
+            AND (`category_is_approved` = TRUE
+            OR `category_created_by` = :user_id)
     SQL;
 
     private const FIND_ALL_BY_COURSE = <<<'SQL'

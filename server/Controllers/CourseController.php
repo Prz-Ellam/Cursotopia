@@ -333,9 +333,8 @@ class CourseController {
             "categories" => $categories,
             "imageId" => $imageId
         ] = $request->getBody();
-            
-        $session = $request->getSession();
-        $instructorId = $session->get("id");
+
+        $instructorId =  $request->getSession()->get("id");
 
         // TODO
         // 1. Validar que las categorias que se solicitaron existan
@@ -363,22 +362,19 @@ class CourseController {
             "imageId" => $imageId
         ]);
 
-        $course = new Course();
-        $course
-            ->setTitle($title)
-            ->setDescription($description)
-            ->setPrice($price)
-            ->setInstructorId($instructorId)
-            ->setImageId($imageId);
-
-        $courseRepository = new CourseRepository();
-        $rowsAffected = $courseRepository->create($course);
-        $courseId = $courseRepository->lastInsertId2();
+        $isCreated = $course->save();
+        if (!$isCreated) {
+            $response->setStatus(400)->json([
+                "status" => true,
+                "message" => "El curso no se pudo crear"
+            ]);
+            return;
+        }
 
         foreach ($categories as $category) {
             $courseCategory = new CourseCategory();
             $courseCategory
-                ->setCourseId($courseId)
+                ->setCourseId($course->getId())
                 ->setCategoryId($category);
 
             $courseCategoryRepository = new CourseCategoryRepository();
@@ -388,14 +384,14 @@ class CourseController {
 
         $response->json([
             "status" => true,
-            "id" => $courseId,
+            "id" => $course->getId(),
             "imageId" => $imageId,
             "message" => $rowsAffected
         ]);
     }
 
     public function update(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
         [
             "title" => $title,
             "description" => $description,
@@ -420,7 +416,14 @@ class CourseController {
             ->setTitle($title)
             ->setDescription($description)
             ->setPrice($price);
-        $result = $course->save();
+        $isUpdated = $course->save();
+        if (!$isUpdated) {
+            $response->setStatus(400)->json([
+                "status" => true,
+                "message" => "El curso no se pudo actualizar"
+            ]);
+            return;
+        }
 
         $courseCategoryRepository = new CourseCategoryRepository();
         $courseCategoryRepository->deleteByCourse($id);
@@ -443,12 +446,33 @@ class CourseController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
         
-        $courseRepository = new CourseRepository();
-        $result = $courseRepository->delete($id);
+        $course = CourseModel::findById($id);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
 
-        $response->json([]);
+        $course
+            ->setActive(false);
+        
+        $isDeleted = $course->save();
+        if (!$isDeleted) {
+            $response->setStatus(400)->json([
+                "status" => true,
+                "message" => "El curso no se pudo eliminar"
+            ]);
+            return;
+        }
+
+        $response->json([
+            "status" => true,
+            "message" => "El curso se eliminó éxitosamente"
+        ]);
     }
 
     public function confirm(Request $request, Response $response): void {

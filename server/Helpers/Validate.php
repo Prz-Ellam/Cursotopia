@@ -28,4 +28,22 @@ class Validate {
 
         return true;
     }
+
+    public static function maxlength($value, int $maxlength): bool {
+        if (is_string($value) && strlen($value) <= $maxlength) {
+            return true;
+        }
+        elseif (is_array($value) && count($value) <= $maxlength) {
+            return true;
+        } 
+        elseif (is_int($value) && strlen(strval($value)) <= $maxlength)  {
+            return true;
+        }
+        elseif (is_float($value) && strlen(strval($value)) <= $maxlength) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

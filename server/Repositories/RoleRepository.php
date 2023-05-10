@@ -11,20 +11,7 @@ class RoleRepository extends DB {
     SQL;
 
     private const FIND_ONE_BY_ID_AND_PUBLIC = <<<'SQL'
-        SELECT
-            `role_id` AS `id`,
-            `role_name` AS `name`,
-            `role_is_public` AS `is_public`,
-            `role_created_at` AS `created_at`,
-            `role_modified_at` AS `modified_at`,
-            `role_active` AS `active`
-        FROM
-            `roles`
-        WHERE
-            `role_id` = :id
-            AND `role_is_public` = :is_public
-        LIMIT
-            1 
+        CALL `role_find_by_id_and_is_public`(:id, :is_public)
     SQL;
 
     /**

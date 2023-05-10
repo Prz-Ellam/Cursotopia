@@ -7,13 +7,10 @@ use Cursotopia\Entities\CourseCategory;
 
 class CourseCategoryRepository extends DB {
     private const CREATE = <<<'SQL'
-        INSERT INTO course_category(
-            `course_id`,
-            `category_id`
-        )
-        VALUES(
+        CALL `course_category_create`(
             :course_id,
-            :category_id
+            :category_id,
+            @course_category_id
         )
     SQL;
 

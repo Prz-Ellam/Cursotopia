@@ -38,8 +38,7 @@ class ReviewRepository extends DB {
     SQL;
 
     private const FIND_BY_COURSE = <<<'SQL'
-        CALL `get_course_reviews`
-        (
+        CALL `get_course_reviews`(
             :courseId,
             :pageNum, 
             :pageSize

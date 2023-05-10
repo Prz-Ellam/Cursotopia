@@ -12,8 +12,16 @@ class LevelController {
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
 
-        $level = LevelModel::findById($id);
-        $response->json($level->toObject());
+        $level = LevelModel::findObjById($id);
+        if (!$level) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Nível no encontrado"
+            ]);
+            return;
+        }
+
+        $response->json($level);
     }
 
     public function create(Request $request, Response $response): void {
@@ -40,11 +48,19 @@ class LevelController {
                 "free" => $free,
                 "courseId" => $courseId
             ]);
-            $level->save();
+            
+            $isCreated = $level->save();
+            if (!$isCreated) {
+                $response->setStatus(400)->json([
+                    "status" => true,
+                    "message" => "El nível no se pudo crear"
+                ]);
+                return;
+            }
             
             $response->setStatus(201)->json([
                 "status" => true,
-                "message" => "El nível fue agregado éxitosamente",
+                "message" => "El nível fue creado éxitosamente",
                 "id" => $level->getId()
             ]);
         }
@@ -66,13 +82,22 @@ class LevelController {
             ] = $request->getBody();
             
             $level = LevelModel::findById($id);
+
+            if (!$level) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Nível no encontrado"
+                ]);
+                return;
+            }
+
             $level
                 ->setTitle($title)
                 ->setDescription($description)
                 ->setFree($free);
 
-            $isCreated = $level->save();
-            if (!$isCreated) {
+            $isUpdated = $level->save();
+            if (!$isUpdated) {
                 $response->setStatus(400)->json([
                     "status" => true,
                     "message" => "El nível no se pudo actualizar"
@@ -98,14 +123,30 @@ class LevelController {
             $id = intval($request->getParams("id"));
 
             $level = LevelModel::findById($id);
+
+            if (!$level) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Nível no encontrado"
+                ]);
+                return;
+            }
+
             $level
                 ->setActive(false);
 
-            $status = $level->save();
+            $isDeleted = $level->save();
+            if (!$isDeleted) {
+                $response->setStatus(400)->json([
+                    "status" => true,
+                    "message" => "El nível no se pudo eliminar"
+                ]);
+                return;
+            }
 
             $response->json([
                 "status" => true,
-                "message" => $status
+                "message" => "El nível fue eliminado éxitosamente"
             ]);
         }
         catch (Exception $exception) {

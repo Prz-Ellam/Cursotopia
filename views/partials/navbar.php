@@ -2,15 +2,15 @@
 use Cursotopia\Helpers\Auth;
 use Cursotopia\Helpers\Format;
 use Cursotopia\Models\CategoryModel;
-use Cursotopia\Repositories\ChatMessageRepository;
+use Cursotopia\Repositories\MessageRepository;
 
 $id = $_SESSION["id"] ?? null;
 
 $categories = CategoryModel::findAll();
 $unreadMessages = 0;
 if ($id) {
-  $chatMessageRepository = new ChatMessageRepository();
-  $unreadMessages = $chatMessageRepository->getUnreadMessages($id);
+  $messageRepository = new MessageRepository();
+  $unreadMessages = $messageRepository->getUnreadMessages($id);
   $unreadMessages = $unreadMessages["unread_messages"];
 }
 ?>

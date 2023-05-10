@@ -221,8 +221,9 @@
             <ul class="list-group list-group-flush">
               <?php foreach ($level["lessons"] as $lesson): ?>
               <li class="list-group-item d-flex justify-content-between">
-                <span>
-                  <i class="bx bxs-video"></i><?= Format::sanitize($lesson["title"]) ?>
+                <span class="d-flex align-items-center">
+                  <i class="bx bxs-video me-2"></i>
+                  <?= Format::sanitize($lesson["title"]) ?>
                 </span>
                 <span>
                   <?= $lesson["video_duration"] ?>

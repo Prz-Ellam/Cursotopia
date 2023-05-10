@@ -11,7 +11,8 @@ class EnrollmentRepository extends DB {
             :course_id, 
             :student_id, 
             :amount, 
-            :payment_method_id
+            :payment_method_id,
+            @enrollment_id
         )
     SQL;
 
@@ -84,6 +85,6 @@ class EnrollmentRepository extends DB {
     }
 
     public function lastInsertId2(): string {
-        return $this::executeOneReader("SELECT @document_id AS documentId", [])["documentId"];
+        return $this::executeOneReader("SELECT @enrollment_id AS enrollmentId", [])["enrollmentId"];
     }
 }

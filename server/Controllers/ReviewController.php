@@ -21,14 +21,15 @@ class ReviewController {
             return;
         }
     
-        $courseRepository = new CourseRepository();
-        $course = $courseRepository->findById($courseId);
+        $course = CourseModel::findById($courseId);
         if (!$course) {
             $response->setStatus(404)->render("404");
             return;
         }
     
-        $response->render("payment-method", [ "course" => $course ]);
+        $response->render("payment-method", [ 
+            "course" => $course 
+        ]);
     }
     
     public function create(Request $request, Response $response): void {
@@ -45,7 +46,7 @@ class ReviewController {
 
             $requestedCourse = CourseModel::findById($courseId);
             if (!$requestedCourse) {
-                $response->json([
+                $response->setStatus(404)->json([
                     "status" => false,
                     "message" => "El curso no existe"
                 ]);
@@ -58,7 +59,7 @@ class ReviewController {
 
             //Validar que el usuario haciendo la reseña tenga rol estudiante
 
-            if ($role !== /*Roles::STUDENT*/ 3) {
+            if ($role !== Roles::STUDENT->value) {
                 $response->setStatus(409)->json([
                     "status" => false,
                     "message" => "El usuario no tiene rol estudiante"
@@ -68,7 +69,7 @@ class ReviewController {
 
             //Validar que esté inscrito al curso
 
-            $enroll= EnrollmentModel::findOneByCourseIdAndStudentId($courseId,$userId);
+            $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $userId);
 
             if (!$enroll) {
                 $response->setStatus(409)->json([
@@ -89,9 +90,7 @@ class ReviewController {
             }
 
             //Validar que no haya dejado una reseña al curso previamente
-
-            $userReview= ReviewModel::findOneByCourseAndUserId($courseId, $userId);
-
+            $userReview = ReviewModel::findOneByCourseAndUserId($courseId, $userId);
             if ($userReview) {
                 $response->setStatus(409)->json([
                     "status" => false,
@@ -106,7 +105,14 @@ class ReviewController {
                 "courseId"=>$courseId,
                 "userId"=>$userId
             ]);
-            $review->save();
+            $isCreated = $review->save();
+            if (!$isCreated) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "No se pudo crear la reseña"
+                ]);
+                return;
+            }
 
             $response->setStatus(201)->json([
                 "status" => true,
@@ -212,31 +218,31 @@ class ReviewController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $reviewId = $request->getParams("reviewId");
+        $reviewId = intval($request->getParams("reviewId"));
 
         // Validar que la reseña exista
-            $requestedReview = ReviewModel::findById($reviewId);
-            if (!$requestedReview) {
-                $response->json([
-                    "status" => false,
-                    "message" => "La reseña no existe"
-                ]);
-            }
+        $requestedReview = ReviewModel::findById($reviewId);
+        if (!$requestedReview) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "La reseña no existe"
+            ]);
+        }
 
         $reviewModel = new ReviewModel();
         $isDeleted = $reviewModel->delete($reviewId);
 
-        if($isDeleted){
-            $response->json([
-                "status" => true,
-                "message" => $isDeleted
-            ]);
-        }else{
-            $response->json([
+        if (!$isDeleted) {
+            $response->setStatus(400)->json([
                 "status" => false,
-                "message" => "No se pudo eliminar"
+                "message" => "No se pudo eliminar la reseña"
             ]);
-        }   
-        
+            return;
+        }
+
+        $response->json([
+            "status" => true,
+            "message" => "La reseña fue eliminada éxitosamente"
+        ]);  
     }
 }

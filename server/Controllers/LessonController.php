@@ -13,7 +13,8 @@ use Exception;
 class LessonController {
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
-        $lesson = LessonModel::findById($id);
+
+        $lesson = LessonModel::findObjById($id);
         if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -22,7 +23,7 @@ class LessonController {
             return;
         }
 
-        $response->json($lesson->toObject());
+        $response->json($lesson);
     }
 
     public function create(Request $request, Response $response): void {
@@ -79,7 +80,14 @@ class LessonController {
                 "documentId" => $documentId,
                 "linkId" => $linkId
             ]);
-            $lesson->save();
+            $isCreated = $lesson->save();
+            if (!$isCreated) {
+                $response->setStatus(400)->json([
+                    "status" => true,
+                    "message" => "La lección no se pudo crear"
+                ]);
+                return;
+            }
             
             $response->setStatus(201)->json([
                 "status" => true,
@@ -103,14 +111,29 @@ class LessonController {
         ] = $request->getBody();
 
         $lesson = LessonModel::findById($id);
+        if (!$lesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
         $lesson
             ->setTitle($title)
             ->setDescription($description);
         
-        $status = $lesson->save();
+        $isUpdated = $lesson->save();
+        if (!$isUpdated) {
+            $response->setStatus(400)->json([
+                "status" => true,
+                "message" => "La lección no se pudo actualizar"
+            ]);
+            return;
+        }
 
         $response->json([
-            "status" => $status,
+            "status" => true,
             "message" => "La lección se actualizó éxitosamente"
         ]);
     }
@@ -119,13 +142,28 @@ class LessonController {
         $id = intval($request->getParams("id"));
 
         $lesson = LessonModel::findById($id);
+        if (!$lesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
         $lesson
             ->setActive(false);
 
-        $status = $lesson->save();
+        $isDeleted = $lesson->save();
+        if (!$isDeleted) {
+            $response->setStatus(400)->json([
+                "status" => true,
+                "message" => "La lección no se pudo eliminar"
+            ]);
+            return;
+        }
 
         $response->json([
-            "status" => $status,
+            "status" => true,
             "message" => "La lección se eliminó éxitosamente"
         ]);
     }

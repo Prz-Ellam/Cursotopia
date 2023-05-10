@@ -38,7 +38,8 @@ CREATE PROCEDURE `enrollment_pay`(
     IN `_course_id`                     INT,
     IN `_student_id`                    INT,
     IN `_amount`                        DECIMAL(10,2),
-    IN `_payment_method_id`             INT
+    IN `_payment_method_id`             INT,
+    OUT `_enrollment_id`                INT
 )
 BEGIN
     DECLARE num_rows INT;
@@ -56,6 +57,7 @@ BEGIN
             `_amount`,
             `_payment_method_id`
         );
+        SET `_enrollment_id` = LAST_INSERT_ID();
     ELSE
         UPDATE
             `enrollments`

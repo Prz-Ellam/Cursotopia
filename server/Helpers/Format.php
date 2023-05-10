@@ -27,7 +27,7 @@ class Format {
     }
 
     public static function date($date): string {
-        if (empty($datetime)) {
+        if (empty($date)) {
             return "N/A";
         }
         

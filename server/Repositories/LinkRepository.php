@@ -11,7 +11,14 @@ class LinkRepository extends DB {
     SQL;
 
     private const UPDATE = <<<'SQL'
-        CALL `link_update`(:id, :name, :address, :created_at, :modified_at, :active)
+        CALL `link_update`(
+            :id, 
+            :name, 
+            :address, 
+            :created_at, 
+            :modified_at, 
+            :active
+        )
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'

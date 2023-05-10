@@ -5,7 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Message;
-use Cursotopia\Repositories\ChatMessageRepository;
+use Cursotopia\Repositories\MessageRepository;
 use Cursotopia\Repositories\MessageViewRepository;
 
 class MessageController {
@@ -13,8 +13,8 @@ class MessageController {
         $chatId = $request->getParams("chatId");
         $userId = $request->getSession()->get("id");
 
-        $chatMessageRepository = new ChatMessageRepository();
-        $messages = $chatMessageRepository->findAllByChat($chatId);
+        $messageRepository = new MessageRepository();
+        $messages = $messageRepository->findAllByChat($chatId);
 
         $messageViewRepository = new MessageViewRepository();
         $messageViewRepository->viewChat($chatId, $userId);
@@ -38,8 +38,8 @@ class MessageController {
             ->setUserId($userId)
             ->setChatId($chatId);
 
-        $chatMessageRepository = new ChatMessageRepository();
-        $rowsAffected = $chatMessageRepository->create($chatMessage);
+        $messageRepository = new MessageRepository();
+        $rowsAffected = $messageRepository->create($chatMessage);
 
         $response->json($rowsAffected);
     }
