@@ -53,7 +53,7 @@ export const createLesson = async function(event) {
     modalInstance.hide();
 
     if (!response?.status) {
-        showErrorMessage(response);
+        await showErrorMessage(response);
         return;
     }
 

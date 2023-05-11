@@ -1,21 +1,20 @@
 import $ from './jquery-global';
 import 'jquery-validation';
-import categoryValidator from './validators/category-create.validator';
+import CategoryUpdateValidator from './validators/category-update.validator';
 import { updateCategory, approveCategory, denyCategory, activateCategory, deactivateCategory, showCategoryDetails} from './controllers/category.controller';
-import { Toast } from './utilities/toast';
-import { approveCategoryService } from './services/category.service';
 
-$(() => {
+$(async () => {
+    $('#update-category-form').validate(CategoryUpdateValidator);
+    $('#update-category-form').on('submit', updateCategory);
+    
     $(document).on('click', '.update-category-btn', function() {
         const categoryId = $(this).attr('id');
         const modal = document.getElementById('update-category-modal');
         const modalInstance = new bootstrap.Modal(modal);
         showCategoryDetails(categoryId);
         modalInstance.show();
+        $('#update-category-form').validate();
     });
-    
-    $('#update-category-form').validate(categoryValidator);
-    $('#update-category-form').on('submit', updateCategory); 
     
     $(document).on('click', '.approve-btn', function() {
         const categoryId = $(this).attr('id');

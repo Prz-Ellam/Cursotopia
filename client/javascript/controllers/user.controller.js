@@ -393,75 +393,57 @@ export const updatePassword = async function(event) {
 export const blockUser = async function(userId) {
 
     const response = await blockUserService(userId);
-    if (response?.status) {
-        $('#blockUsers').empty();
-        $('#unblockUsers').empty();
-        const blockedUsers = await findBlockedUsers();
-        const unblockedUsers = await findUnblockedUsers();
-        if (blockedUsers?.status && unblockedUsers?.status) {
-            const blocked = blockedUsers.blockedUsers;
-            const unblocked = unblockedUsers.unblockedUsers;
-            blocked.forEach(user => {
-                showBlockedUsers(user);
-            });
-            unblocked.forEach(user => {
-                showUnblockedUsers(user);
-            });
-        }
-        Toast.fire({
-            icon: 'success',
-            title: 'El usuario ha sido bloqueado'
-        });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+    if (!response?.status) {
+        await showErrorMessage(response);
         return;
     }
+
+    const blockedUsers = await findBlockedUsers();
+    const unblockedUsers = await findUnblockedUsers();
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    if (blockedUsers?.status && unblockedUsers?.status) {
+        const blocked = blockedUsers.blockedUsers;
+        const unblocked = unblockedUsers.unblockedUsers;
+        blocked.forEach(user => {
+            showBlockedUsers(user);
+        });
+        unblocked.forEach(user => {
+            showUnblockedUsers(user);
+        });
+    }
+
+    await Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido bloqueado'
+    });
 }
 
 export const unblockUser = async function(userId) {
 
     const response = await unblockUserService(userId);
-    if (response?.status) {
-        $('#blockUsers').empty();
-        $('#unblockUsers').empty();
-        const blockedUsers = await findBlockedUsers();
-        const unblockedUsers = await findUnblockedUsers();
-        if (blockedUsers?.status && unblockedUsers?.status) {
-            const blocked = blockedUsers.blockedUsers;
-            const unblocked = unblockedUsers.unblockedUsers;
-            blocked.forEach(user => {
-                showBlockedUsers(user);
-            });
-            unblocked.forEach(user => {
-                showUnblockedUsers(user);
-            });
-        }
-        Toast.fire({
-            icon: 'success',
-            title: 'El usuario ha sido desbloqueado'
-        });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+    if (!response?.status) {
+        await showErrorMessage(response);
         return;
     }
+
+    const blockedUsers = await findBlockedUsers();
+    const unblockedUsers = await findUnblockedUsers();
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    if (blockedUsers?.status && unblockedUsers?.status) {
+        const blocked = blockedUsers.blockedUsers;
+        const unblocked = unblockedUsers.unblockedUsers;
+        blocked.forEach(user => {
+            showBlockedUsers(user);
+        });
+        unblocked.forEach(user => {
+            showUnblockedUsers(user);
+        });
+    }
+
+    await Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido desbloqueado'
+    });
 }

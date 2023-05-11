@@ -8,7 +8,6 @@ use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\EnrollmentModel;
-use Cursotopia\Repositories\EnrollmentRepository;
 
 class EnrollmentController {
     public function certificate(Request $request, Response $response): void {
@@ -112,9 +111,11 @@ class EnrollmentController {
     
     public function create(Request $request, Response $response): void {
         $studentId = $request->getSession()->get("id");
-        $courseId = $request->getBody("courseId");
-        $amount = $request->getBody("amount");
-        $paymentMethodId = $request->getBody("paymentMethodId");
+        [
+            "courseId" => $courseId,
+            "amount" => $amount,
+            "paymentMethodId" => $paymentMethodId
+        ] = $request->getBody();
 
         // Validar que el curso exista
         $requestedCourse = CourseModel::findById($courseId);
@@ -126,7 +127,7 @@ class EnrollmentController {
             return;
         }
 
-        // Validar que el método de pago existe
+        // TODO: Validar que el método de pago existe
         $enrollment = new EnrollmentModel([
             "courseId" => $courseId,
             "studentId" => $studentId,

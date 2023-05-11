@@ -5,7 +5,6 @@ namespace Cursotopia\Controllers;
 use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Course;
 use Cursotopia\Entities\CourseCategory;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CategoryModel;
@@ -23,12 +22,13 @@ use Cursotopia\Repositories\ReviewRepository;
 
 class CourseController {
     public function webCreate(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
     
         $categories = CategoryModel::findAllWithUser($id);
     
-        $response->render("course-creation", [ "categories" => $categories ]);
+        $response->render("course-creation", [ 
+            "categories" => $categories 
+        ]);
     }
 
     public function details(Request $request, Response $response): void {
@@ -48,6 +48,10 @@ class CourseController {
         
         $courseRepository = new CourseRepository();
         $course = $courseRepository->courseDetailsfindOneById($id);
+        if (!$course) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
 
         if (!$course["approved"] && $role != 1) {
             $response->setStatus(404)->render("404");
@@ -104,22 +108,23 @@ class CourseController {
     }
 
     public function webUpdate(Request $request, Response $response): void {
-        $id = $request->getQuery("id");
-        if (!$id) {
+        $courseId = $request->getQuery("id");
+        if (!Validate::uint($courseId)) {
             $response->setStatus(404)->render("404");
             return;
         }
 
-        $session = $request->getSession();
-        $userId = $session->get("id");
+        $userId = $request->getSession()->get("id");
 
-        $course = CourseModel::findById2($id);
+        $course = CourseModel::findObjById($courseId);
 
+        // Verificar que sea el creador del curso
         if ($userId != $course["instructorId"]) {
             $response->setStatus(404)->render("404");
             return;
         }
 
+        // Verificar que sea un curso activo
         if (!$course["active"]) {
             $response->setStatus(404)->render("404");
             return;
@@ -193,7 +198,7 @@ class CourseController {
     public function courseDetails(Request $request, Response $response): void {
         $courseId = $request->getQuery("course_id");
     
-        $page = $_GET["page"] ?? 1;
+        $page = $request->getQuery("page", 1);
     
         $perPageElement = 12;
         $start = ($page - 1) * $perPageElement;
@@ -201,7 +206,7 @@ class CourseController {
         $limit = $perPageElement;
         $offset = $start;
     
-        $course = CourseModel::findById($courseId);
+        $course = CourseModel::findObjById($courseId);
         if (!$course) {
             $response->setStatus(404)->render("404");
             return;
@@ -214,8 +219,8 @@ class CourseController {
     
         $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
     
-        $response->render('instructor-course-details', [ 
-            "course" => $course->toObject(), 
+        $response->render("instructor-course-details", [ 
+            "course" => $course, 
             "enrollments" => $enrollments,
             "totalPages" => $totalPages,
             "totalButtons" => $totalButtons,
@@ -237,7 +242,7 @@ class CourseController {
         $limit = $perPageElement;
         $offset = $start;
 
-        if (strlen($title ?? "") > 50) {
+        if (!Validate::maxlength($title, 50)) {
             $title = null;
         }
 
@@ -631,6 +636,3 @@ class CourseController {
     }
 
 }
-
-
-

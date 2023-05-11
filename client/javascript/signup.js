@@ -5,7 +5,7 @@ import { passwordStrength, passwordToggle, submitSignup } from './controllers/us
 import SignupValidator from './validators/signup.validator';
 import { displayImageFile } from './controllers/image.controller';
 
-$(() => {
+$(async () => {
     AOS.init({
         duration: 1000,
         easing: 'ease-in-out',

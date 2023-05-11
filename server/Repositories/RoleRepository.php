@@ -20,7 +20,7 @@ class RoleRepository extends DB {
      * @param boolean $isPublic
      * @return array
      */
-    public function findAllByIsPublic(bool $isPublic): ?array {
+    public function findAllByIsPublic(?bool $isPublic): ?array {
         $parameters = [
             "is_public" => $isPublic
         ];
@@ -37,7 +37,7 @@ class RoleRepository extends DB {
      * @param boolean $isPublic
      * @return array
      */
-    public function findOneByIdAndIsPublic(int $id, bool $isPublic): ?array {
+    public function findOneByIdAndIsPublic(?int $id, ?bool $isPublic): ?array {
         $parameters = [
             "id" => $id,
             "is_public" => $isPublic

@@ -24,7 +24,9 @@ export default {
         },
         'price': {
             required: true,
-            number: true
+            number: true,
+            min: 0.00,
+            max: 10000.00
         }
     },
     messages: {
@@ -34,7 +36,7 @@ export default {
         'title': {
             required: 'El nombre del curso es requerido',
             trimming: 'El nombre del curso es requerido',
-            maxlength:'El nombre del curso no puede contener más de 255 caracteres'
+            maxlength:'El nombre del curso no puede contener más de 50 caracteres'
         },
         'description': {
             required: 'La descripción del curso es requerido',
@@ -47,7 +49,8 @@ export default {
         'price': {
             required: 'El precio es requerido',
             number: 'El precio no es válido',
-            min: 'El precio del producto no puede ser negativo'
+            min: 'El precio del producto no puede ser negativo',
+            max: 'El precio del producto es muy elevado'
         }
     },
     errorElement: 'small',

@@ -2,11 +2,9 @@
 
 namespace Cursotopia\Controllers;
 
-use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Closure;
-use Cursotopia\Entities\Video;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\VideoModel;
 use Cursotopia\Repositories\VideoRepository;

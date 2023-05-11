@@ -737,3 +737,25 @@ ON le.level_id = l.level_id
 INNER JOIN `enrollments` AS e
 ON l.course_id = e.course_id AND e.student_id = 4
 WHERE `link_id` = 3
+
+
+        SELECT
+            `lesson_id` AS `id`,
+            `lesson_title` AS `title`,
+            `lesson_description` AS `description`,
+            `video_id` AS `videoId`,
+            `image_id` AS `imageId`,
+            `document_id` AS `documentId`,
+            `link_id` AS `linkId`,
+            `link_name` AS `linkName`,
+            `link_address` AS `linkAddress`,
+            `resource`,
+            `lesson_created_at` AS `createdAt`,
+            `lesson_modified_at` AS `modifiedAt`,
+            `lesson_active` AS `active`,
+            `level_id` AS `levelId`,
+            `level_is_free` AS `levelFree`
+        FROM
+            `course_visor`
+        WHERE
+            `lesson_id` = 31

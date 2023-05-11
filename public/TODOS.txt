@@ -6,9 +6,12 @@
 [] Editar lecciones
 [] Cambiar estilo de lecciones
 [] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
-[] Crear un chat luego no se muestra el mensaje
-[] El buscador de chat no busca apellidos
+[x] Crear un chat luego no se muestra el mensaje
+[x] El buscador de chat no busca apellidos
 [] Solo el creador puede actualizar sus lecciones y niveles
+[x] Editar curso el checkbox de gratis no funciona
+[] No hay que sanitizar los inputs <h1></h1>
+[] Categorias es opcional la descripción
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

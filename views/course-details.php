@@ -222,7 +222,15 @@
               <?php foreach ($level["lessons"] as $lesson): ?>
               <li class="list-group-item d-flex justify-content-between">
                 <span class="d-flex align-items-center">
+                  <?php if ($lesson["mainResource"] == "video"): ?>
                   <i class="bx bxs-video me-2"></i>
+                  <?php elseif ($lesson["mainResource"] == "image"): ?>
+                  <i class="bx bxs-image me-2"></i>
+                  <?php elseif ($lesson["mainResource"] == "document"): ?>
+                  <i class="bx bxs-file-pdf me-2"></i>
+                  <?php elseif ($lesson["mainResource"] == "link"): ?>
+                  <i class="bx bx-link-alt me-2"></i>
+                  <?php endif ?>
                   <?= Format::sanitize($lesson["title"]) ?>
                 </span>
                 <span>

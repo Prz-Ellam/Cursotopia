@@ -31,7 +31,7 @@ export const submitCategory = async function(event) {
     modalInstance.hide();
 
     if (!response?.status) {
-        showErrorMessage(response);
+        await showErrorMessage(response);
         return;
     }
 
@@ -80,6 +80,7 @@ export const updateCourseCreateCategory = async function(event) {
         description: formData.get('description')
     };
     const response = await createCategory(category);
+    
     if (response?.status) {
         Toast.fire({
             icon: 'success',
@@ -94,8 +95,8 @@ export const updateCourseCreateCategory = async function(event) {
 export const updateCategory = async function(event) {
     event.preventDefault();
     
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
 
@@ -110,39 +111,35 @@ export const updateCategory = async function(event) {
         id: formData.get('id')
     };
 
-    console.log(category);
-
     const response = await updateCategoryService(category);
-    console.log(response);
-    if (response?.status) {
-
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido actualizada con éxito'
-        });
-
-         $('#approvedCategories').empty();
-        const approvedCategories = await CategoryService.findApproved();
-        if (approvedCategories?.status) {
-            const categoriesApproved = approvedCategories.categories;
-            categoriesApproved.forEach(category => {
-                showApprovedCategories(category);
-            });
-        }
-
-    }else{
-        Toast.fire({
+    
+    if (!response?.status) {
+        await Toast.fire({
             icon: 'error',
             title: 'La categoría no se pudo actualizar'
         });
+        return;
     }
 
+    Toast.fire({
+        icon: 'success',
+        title: 'La categoría ha sido actualizada con éxito'
+    });
+
+    const approvedCategories = await CategoryService.findApproved();
+    $('#approvedCategories').empty();
+    if (approvedCategories?.status) {
+        const categoriesApproved = approvedCategories.categories;
+        categoriesApproved.forEach(category => {
+            showApprovedCategories(category);
+        });
+    }
 }
 
 export const showCategoryDetails = async function(categoryId) {
 
     const response = await CategoryService.findById(categoryId);
-    console.log(response);
+    
     if (response?.status) {
         const category = response.category;
         if(category.active==false){
@@ -159,190 +156,151 @@ export const showCategoryDetails = async function(categoryId) {
         $('#category-description').val(category.description);
         return;
     }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        showErrorMessage(response);
         return;
     }
 }
 
 export const approveCategory = async function(categoryId) {
-
     const response = await approveCategoryService(categoryId);
-    if (response?.status) {
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+
+    const approvedCategories = await CategoryService.findApproved();
+    const notApprovedCategories = await CategoryService.findnotApproved();
+    const notActiveCategories = await CategoryService.findnotActive();
+
+    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
         $('#notApprovedCategories').empty();
         $('#inactiveCategories').empty();
         $('#approvedCategories').empty();
-        const approvedCategories = await CategoryService.findApproved();
-        const notApprovedCategories = await CategoryService.findnotApproved();
-        const notActiveCategories = await CategoryService.findnotActive();
-        if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-            const categoriesApproved = approvedCategories.categories;
-            const categoriesNotApproved = notApprovedCategories.categories;
-            const categoriesNotActive = notActiveCategories.categories;
-            categoriesApproved.forEach(category => {
-                showApprovedCategories(category);
-            });
-            categoriesNotApproved.forEach(category => {
-                showNotApprovedCategories(category);
-            });
-            categoriesNotActive.forEach(category => {
-                showNotActiveCategories(category);
-            });
-        }
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido aprobada'
+
+        const categoriesApproved = approvedCategories.categories;
+        const categoriesNotApproved = notApprovedCategories.categories;
+        const categoriesNotActive = notActiveCategories.categories;
+
+        categoriesApproved.forEach(category => {
+            showApprovedCategories(category);
         });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
+
+        categoriesNotApproved.forEach(category => {
+            showNotApprovedCategories(category);
         });
-        return;
+
+        categoriesNotActive.forEach(category => {
+            showNotActiveCategories(category);
+        });
     }
+
+    Toast.fire({
+        icon: 'success',
+        title: 'La categoría ha sido aprobada'
+    });    
 }
 
 export const denyCategory = async function(categoryId) {
     const response = await denyCategoryService(categoryId);
-    if (response?.status) {
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+
+    const approvedCategories = await CategoryService.findApproved();
+    const notApprovedCategories = await CategoryService.findnotApproved();
+    const notActiveCategories = await CategoryService.findnotActive();
+    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
         $('#notApprovedCategories').empty();
         $('#inactiveCategories').empty();
         $('#approvedCategories').empty();
-        const approvedCategories = await CategoryService.findApproved();
-        const notApprovedCategories = await CategoryService.findnotApproved();
-        const notActiveCategories = await CategoryService.findnotActive();
-        if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-            const categoriesApproved = approvedCategories.categories;
-            const categoriesNotApproved = notApprovedCategories.categories;
-            const categoriesNotActive = notActiveCategories.categories;
-            categoriesApproved.forEach(category => {
-                showApprovedCategories(category);
-            });
-            categoriesNotApproved.forEach(category => {
-                showNotApprovedCategories(category);
-            });
-            categoriesNotActive.forEach(category => {
-                showNotActiveCategories(category);
-            });
-        }
-        Toast.fire({
-            icon: 'error',
-            title: 'La categoría ha sido rechazada'
+            
+        const categoriesApproved = approvedCategories.categories;
+        const categoriesNotApproved = notApprovedCategories.categories;
+        const categoriesNotActive = notActiveCategories.categories;
+        categoriesApproved.forEach(category => {
+            showApprovedCategories(category);
         });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
+        categoriesNotApproved.forEach(category => {
+            showNotApprovedCategories(category);
         });
-        return;
+        categoriesNotActive.forEach(category => {
+            showNotActiveCategories(category);
+        });
     }
+
+    await Toast.fire({
+        icon: 'error',
+        title: 'La categoría ha sido rechazada'
+    });
 }
 
 export const activateCategory = async function(categoryId) {
     const response = await activateCategoryService(categoryId);
-    if (response?.status) {
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const approvedCategories = await CategoryService.findApproved();
+    const notApprovedCategories = await CategoryService.findnotApproved();
+    const notActiveCategories = await CategoryService.findnotActive();
+    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
         $('#notApprovedCategories').empty();
         $('#inactiveCategories').empty();
         $('#approvedCategories').empty();
-        const approvedCategories = await CategoryService.findApproved();
-        const notApprovedCategories = await CategoryService.findnotApproved();
-        const notActiveCategories = await CategoryService.findnotActive();
-        if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-            const categoriesApproved = approvedCategories.categories;
-            const categoriesNotApproved = notApprovedCategories.categories;
-            const categoriesNotActive = notActiveCategories.categories;
-            categoriesApproved.forEach(category => {
-                showApprovedCategories(category);
-            });
-            categoriesNotApproved.forEach(category => {
-                showNotApprovedCategories(category);
-            });
-            categoriesNotActive.forEach(category => {
-                showNotActiveCategories(category);
-            });
-        }
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido activada'
+
+        const categoriesApproved = approvedCategories.categories;
+        const categoriesNotApproved = notApprovedCategories.categories;
+        const categoriesNotActive = notActiveCategories.categories;
+        categoriesApproved.forEach(category => {
+            showApprovedCategories(category);
         });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
+        categoriesNotApproved.forEach(category => {
+            showNotApprovedCategories(category);
         });
-        return;
+        categoriesNotActive.forEach(category => {
+            showNotActiveCategories(category);
+        });
     }
+        
+    await Toast.fire({
+        icon: 'success',
+        title: 'La categoría ha sido activada'
+    });
 }
 
 export const deactivateCategory = async function(categoryId) {
     const response = await deactivateCategoryService(categoryId);
-    console.log(response);
-    if (response?.status) {
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const approvedCategories = await CategoryService.findApproved();
+    const notApprovedCategories = await CategoryService.findnotApproved();
+    const notActiveCategories = await CategoryService.findnotActive();
+    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
         $('#notApprovedCategories').empty();
         $('#inactiveCategories').empty();
         $('#approvedCategories').empty();
-        const approvedCategories = await CategoryService.findApproved();
-        const notApprovedCategories = await CategoryService.findnotApproved();
-        const notActiveCategories = await CategoryService.findnotActive();
-        if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-            const categoriesApproved = approvedCategories.categories;
-            const categoriesNotApproved = notApprovedCategories.categories;
-            const categoriesNotActive = notActiveCategories.categories;
-            categoriesApproved.forEach(category => {
-                showApprovedCategories(category);
-            });
-            categoriesNotApproved.forEach(category => {
-                showNotApprovedCategories(category);
-            });
-            categoriesNotActive.forEach(category => {
-                showNotActiveCategories(category);
-            });
-        }
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido desactivada'
+            
+        const categoriesApproved = approvedCategories.categories;
+        const categoriesNotApproved = notApprovedCategories.categories;
+        const categoriesNotActive = notActiveCategories.categories;
+        categoriesApproved.forEach(category => {
+            showApprovedCategories(category);
         });
-        return;
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
+        categoriesNotApproved.forEach(category => {
+            showNotApprovedCategories(category);
         });
-        return;
+        categoriesNotActive.forEach(category => {
+            showNotActiveCategories(category);
+        });
     }
+
+    await Toast.fire({
+        icon: 'success',
+        title: 'La categoría ha sido desactivada'
+    });
 }

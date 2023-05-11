@@ -3,7 +3,7 @@ import 'jquery-validation';
 import { passwordStrength, passwordToggle, updatePassword } from './controllers/user.controller';
 import PasswordEditionValidator from './validators/password-edition.validator';
 
-$(() => {
+$(async () => {
     $('#new-password').on('input', function() {
         passwordStrength('#new-password', '#password-mayus', '#password-number', '#password-specialchar', '#password-length');
     });

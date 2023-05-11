@@ -150,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
     `level_is_free`                 BOOLEAN NOT NULL,
+    -- `level_price`                   DECIMAL(10, 2) NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -198,7 +199,7 @@ DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories`(
     `category_id`                   INT NOT NULL AUTO_INCREMENT,
     `category_name`                 VARCHAR(50) NOT NULL,
-    `category_description`          VARCHAR(255) NOT NULL,
+    `category_description`          VARCHAR(255),
     `category_is_approved`          BOOLEAN NOT NULL DEFAULT FALSE,
     `category_approved_by`          INT DEFAULT NULL,
     `category_created_by`           INT NOT NULL,

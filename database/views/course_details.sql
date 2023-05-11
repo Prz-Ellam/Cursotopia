@@ -50,6 +50,7 @@ LEFT JOIN
     `enrollments` AS e
 ON
     c.`course_id` = e.`course_id` 
+    AND e.`enrollment_is_paid` = TRUE
     AND e.`enrollment_active` = TRUE
 GROUP BY
     c.`course_id`;

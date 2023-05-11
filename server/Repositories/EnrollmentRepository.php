@@ -49,7 +49,7 @@ class EnrollmentRepository extends DB {
             "amount" => $enrollment->getAmount(),
             "payment_method_id" => $enrollment->getPaymentMethodId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
     public function findOneByCourseAndStudent(?int $courseId, ?int $studentId): ?array {
@@ -57,7 +57,7 @@ class EnrollmentRepository extends DB {
             "course_id" => $courseId,
             "student_id" => $studentId
         ];
-        return DB::executeOneReader($this::FIND_ONE_BY_COURSE_AND_STUDENT, $parameters);
+        return $this::executeOneReader($this::FIND_ONE_BY_COURSE_AND_STUDENT, $parameters);
     }
 
     public function completeLesson(int $userId, int $lessonId): int {
@@ -65,7 +65,7 @@ class EnrollmentRepository extends DB {
             "user_id" => $userId,
             "lesson_id" => $lessonId
         ];
-        return DB::executeNonQuery($this::COMPLETE_LESSON, $parameters);
+        return $this::executeNonQuery($this::COMPLETE_LESSON, $parameters);
     }
 
     public function visitLesson(int $userId, int $lessonId): int {
@@ -73,7 +73,7 @@ class EnrollmentRepository extends DB {
             "user_id" => $userId,
             "lesson_id" => $lessonId
         ];
-        return DB::executeNonQuery($this::VISIT_LESSON, $parameters);
+        return $this::executeNonQuery($this::VISIT_LESSON, $parameters);
     }
 
     public function certificateFindOne(?int $studentId, ?int $courseId): ?array {
@@ -81,7 +81,7 @@ class EnrollmentRepository extends DB {
             "student_id" => $studentId,
             "course_id" => $courseId
         ];
-        return DB::executeOneReader($this::CERTIFICATE_FIND_ONE, $parameters);
+        return $this::executeOneReader($this::CERTIFICATE_FIND_ONE, $parameters);
     }
 
     public function lastInsertId2(): string {

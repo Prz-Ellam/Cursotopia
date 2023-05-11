@@ -28,6 +28,22 @@ $(() => {
         modalInstance.show();
     });
 
+
+    const freeCourseCheckbox = document.getElementById('free-course-checkbox');
+    freeCourseCheckbox.addEventListener('change', function(event) {
+        const priceGroup = document.getElementById('price-group');
+        const price = document.getElementById('price');
+        console.log('h');
+        if (event.target.checked) {
+            $('#update-course-price').attr('disabled', true);
+            $('#update-course-price').val("0.00");
+        }
+        else {
+            $('#update-course-price').attr('disabled', false);
+            $('#update-course-price').val("0.01");
+        }
+    });
+
     //const createCategoryForm = document.getElementById('create-category-form');
     //$(createCategoryForm).validate(createCategoryValidator);
     //createCategoryForm.addEventListener('submit', updateCourseCreateCategory);

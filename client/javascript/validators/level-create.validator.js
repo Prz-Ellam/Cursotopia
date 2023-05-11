@@ -23,15 +23,14 @@ export default {
             required: 'El título es requerido',
             trimming: 'El título es requerido',
             minlenth: 'El título no puede estar vacío',
-            maxlength: 'El nombre del nivel no puede contener más de 255 caracteres'
+            maxlength: 'El título no puede contener más de 50 caracteres'
         },
         'description': {
             required: 'La descripción es requerida',
             trimming: 'La descripción es requerida',
             minlength: 'La descripción no puede estar vacía',
             maxlength: 'La descripción no puede contener más de 255 caracteres'
-        },
-        
+        }
     },
     errorElement: 'small',
     errorPlacement: function (error, element) {

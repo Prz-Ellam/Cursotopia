@@ -48,6 +48,8 @@ class LessonRepository extends DB {
             `image_id` AS `imageId`,
             `document_id` AS `documentId`,
             `link_id` AS `linkId`,
+            `link_name` AS `linkName`,
+            `link_address` AS `linkAddress`,
             `resource`,
             `lesson_created_at` AS `createdAt`,
             `lesson_modified_at` AS `modifiedAt`,
@@ -140,7 +142,7 @@ class LessonRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update(Lesson $lesson): void {
+    public function update(Lesson $lesson): int {
         $parameters = [
             "id" => $lesson->getId(),
             "title" => $lesson->getTitle(),
@@ -154,10 +156,9 @@ class LessonRepository extends DB {
             "modified_at" => $lesson->getModifiedAt(),
             "active" => $lesson->isActive()
         ];
-        $this::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
     
-
     public function delete(int $id): int {
         return 1;
     }
@@ -166,45 +167,45 @@ class LessonRepository extends DB {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
+        return $this::executeOneReader($this::FIND_ONE_BY_ID, $parameters);
     }
 
-    public function findByLevel(int $levelId): array {
+    public function findByLevel(?int $levelId): ?array {
         $parameters = [
             "level_id" => $levelId
         ];
-        return DB::executeReader($this::FIND_BY_LEVEL, $parameters);
+        return $this::executeReader($this::FIND_BY_LEVEL, $parameters);
     }
 
-    public function findFirstNotViewed(int $courseId, int $userId) {
+    public function findFirstNotViewed(?int $courseId, ?int $userId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "user_id" => $userId
         ];
-        return DB::executeOneReader($this::FIND_FIRST_NOT_VIEWED, $parameters);
+        return $this::executeOneReader($this::FIND_FIRST_NOT_VIEWED, $parameters);
     }
 
-    public function firstLessonPending(int $courseId, int $userId) {
+    public function firstLessonPending(int $courseId, int $userId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "user_id" => $userId
         ];
-        return DB::executeOneReader($this::FIRST_LESSON_PENDING, $parameters);
+        return $this::executeOneReader($this::FIRST_LESSON_PENDING, $parameters);
     }
 
-    public function firstLessonComplete(int $courseId, int $userId) {
+    public function firstLessonComplete(?int $courseId, ?int $userId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "user_id" => $userId
         ];
-        return DB::executeOneReader($this::FIRST_LESSON_COMPLETE, $parameters);
+        return $this::executeOneReader($this::FIRST_LESSON_COMPLETE, $parameters);
     }
 
     public function courseVisorFindById(?int $lessonId): ?array {
         $parameters = [
             "lesson_id" => $lessonId
         ];
-        return DB::executeOneReader($this::COURSE_VISOR_FIND_BY_ID, $parameters);
+        return $this::executeOneReader($this::COURSE_VISOR_FIND_BY_ID, $parameters);
     }
 
     public function lastInsertId2(): string {

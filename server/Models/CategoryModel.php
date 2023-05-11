@@ -180,9 +180,9 @@ class CategoryModel {
         return $repository->findNotActive();
     }
 
-    public static function findOneByName(string $name) {
+    public static function findOneByName(string $name, ?int $id = -1) {
         $repository = new CategoryRepository();
-        return $repository->findOneByName($name);
+        return $repository->findOneByName($name, $id);
     }
 
     public static function approve(int $adminId, int $categoryId) {

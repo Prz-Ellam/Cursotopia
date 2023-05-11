@@ -24,14 +24,21 @@ class ReviewRepository extends DB {
         );
     SQL;
 
+    private const DELETE = <<<'SQL'
+        CALL `review_update`( 
+            :id, 
+            NULL, 
+            NULL, 
+            FALSE
+        )
+    SQL;
+
     private const FIND_ALL_BY_COURSE = <<<'SQL'
-        CALL `sp_get_course_reviews`(
-            :course_id
-        );
+        CALL `review_find_all_by_course`(:course_id);
     SQL;
 
     private const FIND_ONE_BY_COURSE_AND_USER_ID = <<<'SQL'
-        CALL `sp_get_review_by_course_and_user`(
+        CALL `review_find_one_by_course_and_user`(
             :courseId, 
             :userId
         );
@@ -51,12 +58,6 @@ class ReviewRepository extends DB {
 
     private const FIND_BY_ID = <<<'SQL'
         CALL `review_find_by_id`(:id);
-    SQL;
-
-    private const DELETE = <<<'SQL'
-        CALL `sp_deactivate_review`(
-            :id
-        );
     SQL;
     
     public function create(Review $review): int {
@@ -79,7 +80,14 @@ class ReviewRepository extends DB {
         return $this->executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function findAllByCourse(int $courseId): array {
+    public function delete(?int $id): int {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this->executeNonQuery($this::DELETE, $parameters);
+    }
+
+    public function findAllByCourse(?int $courseId): ?array {
         $parameters = [
             "course_id" => $courseId
         ];
@@ -115,12 +123,5 @@ class ReviewRepository extends DB {
             "id" => $id
         ];
         return $this->executeOneReader($this::FIND_BY_ID, $parameters);
-    }
-
-    public function delete(?int $id): int {
-        $parameters = [
-            "id" => $id
-        ];
-        return $this->executeNonQuery($this::DELETE, $parameters);
     }
 }

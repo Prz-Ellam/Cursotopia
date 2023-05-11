@@ -151,62 +151,65 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE sp_get_course_reviews(IN course_id INT)
+DROP PROCEDURE IF EXISTS `review_find_all_by_course` $$
+CREATE PROCEDURE `review_find_all_by_course`(
+    IN course_id                        INT
+)
 BEGIN
     SELECT
-        r.review_id AS `id`,
-        r.review_message AS `message`,
-        r.review_rate AS `rate`,
-        r.course_id AS `courseId`,
-        r.user_id AS `userId`,
-        r.review_created_at AS `createdAt`,
-        r.review_modified_at AS `modifiedAt`,
-        r.review_active AS `active`,
-        CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
-        u.profile_picture AS `profilePicture`
+        r.`review_id`                   AS `id`,
+        r.`review_message`              AS `message`,
+        r.`review_rate`                 AS `rate`,
+        r.`course_id`                   AS `courseId`,
+        r.`user_id`                     AS `userId`,
+        r.`review_created_at`           AS `createdAt`,
+        r.`review_modified_at`          AS `modifiedAt`,
+        r.`review_active`               AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
+        u.`profile_picture`             AS `profilePicture`
     FROM
-        reviews AS r
+        `reviews` AS r
     INNER JOIN
-        users AS u
+        `users` AS u
     ON
         r.user_id = u.user_id
     WHERE
         r.course_id = course_id
     ORDER BY
-        review_created_at DESC;
+        `review_created_at` DESC;
 END$$
 DELIMITER ;
 
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS sp_get_review_by_course_and_user $$
-CREATE PROCEDURE sp_get_review_by_course_and_user(
-    IN course_id                        INT, 
-    IN user_id                          INT
+DROP PROCEDURE IF EXISTS `review_find_one_by_course_and_user` $$
+CREATE PROCEDURE `review_find_one_by_course_and_user`(
+    IN `_course_id`                     INT, 
+    IN `_user_id`                       INT
 )
 BEGIN
     SELECT
-        r.review_id                     AS `id`,
-        r.review_message                AS `message`,
-        r.review_rate                   AS `rate`,
-        r.course_id                     AS `courseId`,
-        r.user_id                       AS `userId`,
-        r.review_created_at             AS `createdAt`,
-        r.review_modified_at            AS `modifiedAt`,
-        r.review_active                 AS `active`,
-        CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
-        u.profile_picture               AS `profilePicture`
+        r.`review_id`                   AS `id`,
+        r.`review_message`              AS `message`,
+        r.`review_rate`                 AS `rate`,
+        r.`course_id`                   AS `courseId`,
+        r.`user_id`                     AS `userId`,
+        r.`review_created_at`           AS `createdAt`,
+        r.`review_modified_at`          AS `modifiedAt`,
+        r.`review_active`               AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
+        u.`profile_picture`             AS `profilePicture`
     FROM
-        reviews AS r
+        `reviews` AS r
     INNER JOIN
-        users AS u
+        `users` AS u
     ON
-        r.user_id = u.user_id
+        r.`user_id` = u.`user_id`
     WHERE
-        r.course_id = course_id 
-        AND r.review_active = TRUE
-        AND r.user_id = user_id;
+        r.`course_id` = `_course_id` 
+        AND r.`review_active` = TRUE
+        AND r.`user_id` = `_user_id`;
 END $$
 DELIMITER ;
 

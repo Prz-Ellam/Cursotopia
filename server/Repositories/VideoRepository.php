@@ -34,16 +34,16 @@ class VideoRepository extends DB {
 
     private const CHECK_RESOURCE_AVAILABILITY_BY_USER = <<<'SQL'
         SELECT 
-            l.level_is_free AS `free`, 
-            e.enrollment_is_paid AS `paid`,
-            c.course_price AS `price`
+            l.`level_is_free` AS `free`, 
+            e.`enrollment_is_paid` AS `paid`,
+            c.`course_price` AS `price`
         FROM `lessons` AS le
         INNER JOIN `levels` AS l
-        ON le.level_id = l.level_id
+        ON le.`level_id` = l.`level_id`
         INNER JOIN `enrollments` AS e
-        ON l.course_id = e.course_id AND e.student_id = :user_id
+        ON l.`course_id` = e.`course_id` AND e.`student_id` = :user_id
         INNER JOIN `courses` AS c
-        ON e.course_id = c.course_id
+        ON e.`course_id` = c.`course_id`
         WHERE `video_id` = :video_id  
     SQL;
 

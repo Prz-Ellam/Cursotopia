@@ -3,7 +3,7 @@ import 'jquery-validation';
 import { payment } from './controllers/payment-method.controller';
 import PayMethodValidator from './validators/pay-method.validator';
 
-$(() => {
+$(async () => {
   $('#payment-method-form').validate(PayMethodValidator);
   $('#payment-method-form').on('submit', payment);
 

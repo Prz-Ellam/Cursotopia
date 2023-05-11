@@ -57,10 +57,10 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         <?php else: ?>
         <button class="btn btn-primary rounded-pill" id="finish">Finalizar</button>
         <?php endif ?>
-        <div class="d-flex justify-content-center mt-2">
+        <!--div class="d-flex justify-content-center mt-2">
           <a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
           <a href="course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
-        </div>
+        </div-->
         <p class="mt-3" id="lesson-description">
           <?= Format::sanitize($this->lesson["description"]) ?>
         </p>
@@ -76,7 +76,10 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         <?php endif ?>
         <?php if ($this->lesson["linkId"]): ?>
         <h5 class="mt-3">Enlace</h5>
-        <a href="https://www.google.com" class="text-primary">Nombre del enlace</a>
+        <a href="<?= Format::sanitize($this->lesson["linkAddress"]) ?>"
+          target="_blank" class="text-primary">
+          <?= Format::sanitize($this->lesson["linkName"]) ?>  
+        </a>
         <?php endif ?>
         <br><br>
         <?php endif ?>

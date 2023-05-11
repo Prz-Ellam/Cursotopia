@@ -26,17 +26,16 @@ class ChatController {
     public function getChatByParticipants(Request $request, Response $response): void {
         //$userOne = $request->getBody("userOne");
         $userTwo = $request->getBody("userTwo");
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
 
         $chatRepository = new ChatRepository();
         $chat = $chatRepository->findChat($id, $userTwo);
 
-        $user = UserModel::findById($userTwo);
+        $user = UserModel::findObjById($userTwo);
 
         $response->json([
             "chatId" => $chat["chatId"],
-            "user" => $user->toObject()
+            "user" => $user
         ]);
     }
 

@@ -257,7 +257,11 @@ class CourseRepository extends DB {
     SQL;
 
     private const INSTRUCTOR_COURSES_SEEN_BY_OTHER = <<<'SQL'
-        CALL `instructor_courses_seen_by_others_report`(:instructor_id, :limit, :offset)
+        CALL `instructor_courses_seen_by_others_report`(
+            :instructor_id, 
+            :limit, 
+            :offset
+        )
     SQL;
 
     private const INSTRUCTOR_COURSES_SEEN_BY_OTHER_TOTAL = <<<'SQL'
@@ -278,7 +282,7 @@ class CourseRepository extends DB {
             "image_id" => $course->getImageId(),
             "instructor_id" => $course->getInstructorId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
     public function update(Course $course): int {
@@ -297,40 +301,40 @@ class CourseRepository extends DB {
             "course_modified_at" => $course->getModifiedAt(),
             "course_active" => $course->getActive()
         ];
-        return DB::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function findById(?int $id): ?array {
         $parameters = [
             "course_id" => $id
         ];
-        return DB::executeOneReader($this::FIND_BY_ID, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function confirm(?int $id): int {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeNonQuery($this::CONFIRM, $parameters);
+        return $this::executeNonQuery($this::CONFIRM, $parameters);
     }
 
     public function courseDetailsfindOneById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeOneReader($this::COURSE_DETAILS_FIND_ONE, $parameters);
+        return $this::executeOneReader($this::COURSE_DETAILS_FIND_ONE, $parameters);
     }
 
     public function findAllOrderByCreatedAt(): ?array {
-        return DB::executeReader($this::FIND_ALL_ORDER_BY_CREATED_AT, []);
+        return $this::executeReader($this::FIND_ALL_ORDER_BY_CREATED_AT, []);
     }
 
     public function findAllOrderByRates(): ?array {
-        return DB::executeReader($this::FIND_ALL_ORDER_BY_RATES, []);
+        return $this::executeReader($this::FIND_ALL_ORDER_BY_RATES, []);
     }
 
     public function findAllOrderByEnrollments(): ?array {
-        return DB::executeReader($this::FIND_ALL_ORDER_BY_ENROLLMENTS, []);
+        return $this::executeReader($this::FIND_ALL_ORDER_BY_ENROLLMENTS, []);
     }
 
     public function courseSalesReport(int $instructorId, 
@@ -345,7 +349,7 @@ class CourseRepository extends DB {
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::COURSE_SALES_REPORT,  $parameters);
+        return $this::executeReader($this::COURSE_SALES_REPORT,  $parameters);
     }
 
     public function courseSalesReportTotal(int $instructorId, ?int $categoryId = null,
@@ -357,7 +361,7 @@ class CourseRepository extends DB {
             "to" => $to,
             "active" => $active
         ];
-        return DB::executeOneReader($this::COURSE_SALES_REPORT_TOTAL,  $parameters);
+        return $this::executeOneReader($this::COURSE_SALES_REPORT_TOTAL,  $parameters);
     }
 
     public function kardexReport(int $studentId, 
@@ -373,7 +377,7 @@ class CourseRepository extends DB {
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::KARDEX_REPORT, $parameters);
+        return $this::executeReader($this::KARDEX_REPORT, $parameters);
     }
 
     public function kardexReportTotal(int $studentId, 
@@ -386,7 +390,7 @@ class CourseRepository extends DB {
             "complete" => $complete,
             "active" => $active
         ];
-        return DB::executeOneReader($this::KARDEX_REPORT_TOTAL, $parameters);
+        return $this::executeOneReader($this::KARDEX_REPORT_TOTAL, $parameters);
     }
 
     public function courseEnrollmentsReport(int $courseId, ?string $from = null, 
@@ -398,7 +402,7 @@ class CourseRepository extends DB {
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::COURSE_ENROLLMENTS_REPORT, $parameters);
+        return $this::executeReader($this::COURSE_ENROLLMENTS_REPORT, $parameters);
     }
 
     public function courseEnrollmentsReportTotal(int $courseId, ?string $from = null, 
@@ -408,7 +412,7 @@ class CourseRepository extends DB {
             "from" => $from,
             "to" => $to
         ];
-        return DB::executeOneReader($this::COURSE_ENROLLMENTS_REPORT_TOTAL, $parameters);
+        return $this::executeOneReader($this::COURSE_ENROLLMENTS_REPORT_TOTAL, $parameters);
     }
 
     public function courseSearch(?string $title, ?int $instructorId, ?int $categoryId,
@@ -422,7 +426,7 @@ class CourseRepository extends DB {
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::COURSE_SEARCH, $parameters);
+        return $this::executeReader($this::COURSE_SEARCH, $parameters);
     }
 
     public function courseSearchTotal(?string $title, ?int $instructorId, ?int $categoryId,
@@ -434,18 +438,18 @@ class CourseRepository extends DB {
             "from" => $from,
             "to" => $to
         ];
-        return DB::executeOneReader($this::COURSE_SEARCH_TOTAL, $parameters);
+        return $this::executeOneReader($this::COURSE_SEARCH_TOTAL, $parameters);
     }
 
     public function instructorTotalRevenueReport(int $instructorId): array {
         $parameters = [
             "instructor_id" => $instructorId
         ];
-        return DB::executeReader($this::INSTRUCTOR_TOTAL_REVENUE_REPORT, $parameters);
+        return $this::executeReader($this::INSTRUCTOR_TOTAL_REVENUE_REPORT, $parameters);
     }
 
     public function findByNotApproved(): array {
-        return DB::executeReader($this::FIND_BY_NOT_APPROVED, []);
+        return $this::executeReader($this::FIND_BY_NOT_APPROVED, []);
     }
 
     public function approve(int $courseId, int $adminId, bool $approve): int {
@@ -454,14 +458,14 @@ class CourseRepository extends DB {
             "admin_id" => $adminId,
             "approve" => $approve
         ];
-        return DB::executeNonQuery($this::APPROVE, $parameters);
+        return $this::executeNonQuery($this::APPROVE, $parameters);
     }
 
     public function delete(int $courseId): int {
         $parameters = [
             "course_id" => $courseId
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return $this::executeNonQuery($this::DELETE, $parameters);
     }
 
     public function instructorCoursesSeenByOtherReport(int $instructorId, int $limit = 100, int $offset = 0): array {
@@ -470,14 +474,14 @@ class CourseRepository extends DB {
             "limit" => $limit,
             "offset" => $offset
         ];
-        return DB::executeReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER, $parameters);
+        return $this::executeReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER, $parameters);
     }
     
     public function instructorCoursesSeenByOtherTotal(int $instructorId): array {
         $parameters = [
             "instructor_id" => $instructorId
         ];
-        return DB::executeOneReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER_TOTAL, $parameters);
+        return $this::executeOneReader($this::INSTRUCTOR_COURSES_SEEN_BY_OTHER_TOTAL, $parameters);
     }
 
     public function lastInsertId2(): string {

@@ -35,7 +35,7 @@ export const submitReview = async function(event) {
     $('#review-create-btn').prop('disabled', false);
 
     if (!response?.status) {
-        showErrorMessage(response);
+        await showErrorMessage(response);
         return;
     }
 

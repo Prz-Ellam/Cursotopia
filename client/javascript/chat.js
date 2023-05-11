@@ -1,5 +1,4 @@
-import { sendMessage } from './controllers/chat.controller';
-import { getAllChatMessageService } from './services/chat-message.service';
+import { loadMessages, sendMessage } from './controllers/chat.controller';
 import { findChatService, findUserChats } from './services/chat.service';
 import { getAllUsersService } from './services/user.service';
 
@@ -32,35 +31,7 @@ $(async () => {
         $('.actual-chat-user-name').text(name);
         
         $('#actual-chat-id').val(id);
-        $('#message-box').html('');
-        const chatMessages = await getAllChatMessageService(id);
-            chatMessages.messages.forEach(message => {
-                $('#message-box').append(`
-                <div class="d-flex ${ chatMessages.userId === message.userId ? 'justify-content-end' : 'justify-content-start' } my-3">
-                    <small
-                        class="${ chatMessages.userId === message.userId ? 'bg-primary' : 'bg-secondary' } text-light p-2 rounded-pill overflow-auto"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="${ chatMessages.userId === message.userId ? 'left' : 'right' }"
-                        data-bs-title="26 de enero de 2023 a las 02:21"
-                    >
-                    ${message.content}
-                    </small>
-                </div>
-                `);
-            });
-        $('#box-div').removeClass('d-none');
-        const chats = await findUserChats();
-        $('#chat-drawer').empty().append(chats);
-
-        const messageBox = document.getElementById('message-box');
-        messageBox.scrollTo({
-            left: 0,
-            top: messageBox.scrollHeight
-        });
-
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    
+        loadMessages(id);
     });
 
     $("#search-users").autocomplete({
@@ -92,34 +63,7 @@ $(async () => {
             $('.actual-chat-user-image').attr('src', `/api/v1/images/${ response.user.profilePicture }`);
             $('.actual-chat-user-name').text(`${ response.user.name } ${ response.user.lastName }`);
         
-            const chatMessages = await getAllChatMessageService(response.chatId);
-            $('#message-box').empty();
-            chatMessages.messages.forEach(message => {
-                $('#message-box').append(`
-                <div class="d-flex ${ chatMessages.userId === message.userId ? 'justify-content-end' : 'justify-content-start' } my-3">
-                    <small
-                        class="${ chatMessages.userId === message.userId ? 'bg-primary' : 'bg-secondary' } text-light p-2 rounded-pill overflow-auto"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        data-bs-title="26 de enero de 2023 a las 02:21"
-                    >
-                    ${message.content}
-                    </small>
-                </div>
-                `);
-            });
-            $('#box-div').removeClass('d-none');
-
-            const chats = await findUserChats();
-            $('#chat-drawer').empty().append(chats);
-            messageBox.scrollTo({
-                left: 0,
-                top: messageBox.scrollHeight
-            });
-
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-        
+            loadMessages(response.chatId);
         }
     })
     .data('ui-autocomplete')._renderItem = function(ul, item) {

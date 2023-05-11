@@ -9,4 +9,7 @@ use Cursotopia\Controllers\HomeController;
  */
 $app->get("/home", [ HomeController::class, "home" ]);
 
+/**
+ * Redireccion
+ */
 $app->get("/", [ HomeController::class, "redirect" ]);

@@ -5,7 +5,6 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Helpers\Validate;
-use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
@@ -21,7 +20,7 @@ class ReviewController {
             return;
         }
     
-        $course = CourseModel::findById($courseId);
+        $course = CourseModel::findObjById($courseId);
         if (!$course) {
             $response->setStatus(404)->render("404");
             return;
@@ -35,7 +34,6 @@ class ReviewController {
     public function create(Request $request, Response $response): void {
         try{
             // Obtener el parametro del curso
-            // TODO: Un usuario solo puede hacer una reseña?
             [
                 "message" => $message,
                 "rate" => $rate,

@@ -35,10 +35,10 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `enrollment_pay` $$
 CREATE PROCEDURE `enrollment_pay`(
-    IN `_course_id`                     INT,
-    IN `_student_id`                    INT,
-    IN `_amount`                        DECIMAL(10,2),
-    IN `_payment_method_id`             INT,
+    IN  `_course_id`                    INT,
+    IN  `_student_id`                   INT,
+    IN  `_amount`                       DECIMAL(10,2),
+    IN  `_payment_method_id`            INT,
     OUT `_enrollment_id`                INT
 )
 BEGIN
@@ -67,6 +67,7 @@ BEGIN
         WHERE
             `course_id` = `_course_id`
             AND `student_id` = `_student_id`;
+        SET `_enrollment_id` = (SELECT `enrollment_id` FROM `enrollments` WHERE `course_id` = `_course_id` AND `student_id` = `_student_id` LIMIT 1);
     END IF;
 
     UPDATE

@@ -85,6 +85,14 @@ export default {
         },
         'resource': {
             resource: true
+        },
+        'link-title': {
+            trimming: true,
+            maxlength: 255
+        },
+        'link-url': {
+            trimming: true,
+            maxlength: 255
         }
         /*
         'video': {
@@ -106,12 +114,14 @@ export default {
     },
     messages: {
         'title': {
-            required: 'El título de la lección es requerido',
-            trimming: 'El título de la lección es requerido'
+            required: 'El título es requerido',
+            trimming: 'El título es requerido',
+            maxlength: 'El título no puede contener más de 50 caracteres'
         },
         'description': {
-            required: 'La descripción de la lección es requerida',
-            trimming: 'La descripción de la lección es requerida'
+            required: 'La descri de la lecciónpción es requerida',
+            trimming: 'La descripción es requerida',
+            maxlength: 'La descripción no puede contener más de 255 caracteres'
         },
         /*
         'video': {

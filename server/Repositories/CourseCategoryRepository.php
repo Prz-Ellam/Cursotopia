@@ -23,7 +23,7 @@ class CourseCategoryRepository extends DB {
             "course_id" => $courseCategory->getCourseId(),
             "category_id" => $courseCategory->getCategoryId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
     public function deleteByCourse(?int $courseId): int {

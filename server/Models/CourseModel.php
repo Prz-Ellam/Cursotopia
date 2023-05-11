@@ -56,6 +56,13 @@ class CourseModel {
         return new CourseModel($courseObject);
     }
 
+    public static function findObjById(?int $id): ?array {
+        $courseRepository = new CourseRepository();
+        $courseObject = $courseRepository->findById($id);
+        $courseObject["categories"] = explode(",", $courseObject["categories"]);
+        return $courseObject;
+    }
+
     public static function findById2(?int $id): ?array {
         $courseRepository = new CourseRepository();
         $courseObject = $courseRepository->findById($id);

@@ -139,20 +139,26 @@ class CategoryController {
     }
 
     public function update(Request $request, Response $response): void {
-        // Solo los administradores pueden editar categorías
-        // Este es el id de la categoría
-        $id = intval($request->getParams("id"));
-
+        $categoryId = intval($request->getParams("id"));
         [
             "name" => $name,
             "description" => $description
         ] = $request->getBody();
 
-        $category = CategoryModel::findCategoryById($id);
+        $category = CategoryModel::findCategoryById($categoryId);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Categoría no encontrada"
+            ]);
+            return;
+        }
+
+        $existingCategoryName = CategoryModel::findOneByName($name, $categoryId);
+        if ($existingCategoryName) {
+            $response->setStatus(409)->json([
+                "status" => false,
+                "message" => "Ya existe una categoría con ese nombre"
             ]);
             return;
         }
@@ -163,6 +169,7 @@ class CategoryController {
 
         try {
             $isUpdated = $category->save();
+            /*
             if (!$isUpdated) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -170,6 +177,7 @@ class CategoryController {
                 ]);
                 return;
             }
+            */
 
             $response->json([
                 "status" => true,
@@ -419,10 +427,13 @@ class CategoryController {
     }
 
     public function checkNameExists(Request $request, Response $response): void {
-        $name = $request->getBody("name");
+        [
+            "id" => $id,
+            "name" => $name
+        ] = $request->getBody();
         
         $categoryRepository = new CategoryRepository();
-        $category = $categoryRepository->findOneByName($name);
+        $category = $categoryRepository->findOneByName($name, $id ?? -1);
 
         $response->json(!boolval($category));
     }

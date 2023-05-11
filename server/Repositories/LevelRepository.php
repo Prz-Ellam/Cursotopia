@@ -7,11 +7,39 @@ use Cursotopia\Entities\Level;
 
 class LevelRepository extends DB {
     private const CREATE = <<<'SQL'
-        CALL `level_create`(:title, :description, :is_free, :course_id, @level_id)
+        CALL `level_create`(
+            :title, 
+            :description, 
+            :is_free, 
+            :course_id, 
+            @level_id
+        )
     SQL;
 
     private const UPDATE = <<<'SQL'
-        CALL `level_update`(:id, :title, :description, :is_free, NULL, NULL, NULL, :active)
+        CALL `level_update`(
+            :id, 
+            :title, 
+            :description, 
+            :is_free, 
+            NULL, 
+            NULL, 
+            NULL, 
+            :active
+        )
+    SQL;
+
+    private const DELETE = <<<'SQL'
+        CALL `level_update`(
+            :id, 
+            NULL, 
+            NULL, 
+            NULL, 
+            NULL, 
+            NULL, 
+            NULL, 
+            FALSE
+        )
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'
@@ -38,10 +66,11 @@ class LevelRepository extends DB {
             l.`level_active` AS `active`,
             CONCAT('[', GROUP_CONCAT(
                 JSON_OBJECT(
-                    'id', le.lesson_id,
-                    'title', le.lesson_title, 
-                    'description', le.lesson_description,
-                    'video_duration', IF(v.video_duration >= 3600, v.video_duration, RIGHT(v.video_duration, 5))
+                    'id', le.`lesson_id`,
+                    'title', le.`lesson_title`, 
+                    'description', le.`lesson_description`,
+                    'mainResource', find_main_resource(le.`lesson_id`),
+                    'video_duration', IF(v.`video_duration` >= 3600, v.`video_duration`, RIGHT(v.`video_duration`, 5))
                 )
             ), ']') AS `lessons`
         FROM
@@ -49,15 +78,15 @@ class LevelRepository extends DB {
         INNER JOIN
             `lessons` AS le
         ON
-            l.level_id = le.level_id
-        INNER JOIN
+            l.`level_id` = le.`level_id`
+        LEFT JOIN
             `videos` AS v
         ON
-            le.video_id = v.video_id
+            le.`video_id` = v.`video_id`
         WHERE
-            course_id = :course_id
+            l.`course_id` = :course_id
         GROUP BY
-            l.level_id;
+            l.`level_id`;
     SQL;
 
     public function create(Level $level): int {
@@ -83,13 +112,9 @@ class LevelRepository extends DB {
 
     public function delete(?int $id): int {
         $parameters = [
-            "id" => $id,
-            "title" => null,
-            "description" => null,
-            "is_free" => null,
-            "active" => false
+            "id" => $id
         ];
-        return $this::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::DELETE, $parameters);
     }
 
     public function findById(?int $id): ?array {

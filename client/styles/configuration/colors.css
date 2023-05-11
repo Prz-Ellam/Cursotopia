@@ -40,3 +40,8 @@
 .colored-toast .swal2-html-container {
     color: white;
 }
+
+.dropdown-item:active {
+    background-color: var(--primary-color);
+}
+  

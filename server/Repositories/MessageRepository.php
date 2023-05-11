@@ -29,21 +29,21 @@ class MessageRepository extends DB {
             "user_id" => $chatMessage->getUserId(),
             "chat_id" => $chatMessage->getChatId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
     public function findAllByChat(?int $chatId): ?array {
         $parameters = [
             "chat_id" => $chatId
         ];
-        return DB::executeReader($this::FIND_ALL_BY_CHAT_ID, $parameters);
+        return $this::executeReader($this::FIND_ALL_BY_CHAT_ID, $parameters);
     }
 
     public function getUnreadMessages(?int $userId): ?array {
         $parameters = [
             "user_id" => $userId
         ];
-        return DB::executeOneReader($this::FIND_UNREAD_MESSAGES, $parameters);
+        return $this::executeOneReader($this::FIND_UNREAD_MESSAGES, $parameters);
     }
 
     public function lastInsertId2(): string {

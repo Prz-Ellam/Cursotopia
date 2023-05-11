@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class ChatRepository {
+class ChatRepository extends DB {
     private const CREATE = <<<'SQL'
         INSERT INTO `chats` VALUES();
     SQL;
@@ -17,22 +17,22 @@ class ChatRepository {
         CALL `find_all_by_user`(:user_id)
     SQL;
 
-    public function create() {
-        DB::executeNonQuery($this::CREATE, []);
+    public function create(): int {
+        return $this::executeNonQuery($this::CREATE, []);
     }
 
-    public function findChat(int $userOne, int $userTwo): array {
+    public function findChat(?int $userOne, ?int $userTwo): ?array {
         $parameters = [
             "user_one" => $userOne,
             "user_two" => $userTwo
         ];
-        return DB::executeOneReader($this::FIND_CHAT, $parameters);
+        return $this::executeOneReader($this::FIND_CHAT, $parameters);
     }
 
     public function findAllByUserId(?int $userId): ?array {
         $parameters = [
             "user_id" => $userId
         ];
-        return DB::executeReader($this::FIND_ALL_BY_USER, $parameters);
+        return $this::executeReader($this::FIND_ALL_BY_USER, $parameters);
     }
 }

@@ -62,7 +62,7 @@
                   <?= Format::sanitize($chat["user"]) ?>
                 </p>
                 <small class="text-primary mb-0 <?= $chat["unseenMessagesCount"] !== 0 ? 'fw-bold' : '' ?>">
-                  <?= Format::sanitize($chat["lastMessageContent"]) ?>
+                  <?= $chat["lastMessageContent"] ?>
                 </small>
               </div>
             </div>

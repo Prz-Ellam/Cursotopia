@@ -3,7 +3,7 @@ import 'jquery-validation';
 import { changeProfilePicture, updateUser } from './controllers/user.controller';
 import ProfileEditionValidator from './validators/profile-edition.validator';
 
-$(() => {
+$(async () => {
     $('#profile-picture').on('change', changeProfilePicture);
 
     $('#profile-edition-form').validate(ProfileEditionValidator);

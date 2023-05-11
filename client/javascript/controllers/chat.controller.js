@@ -1,7 +1,9 @@
 import $ from 'jquery';
-import { createMessageService } from '../services/chat-message.service';
+import { createMessageService, getAllChatMessageService } from '../services/chat-message.service';
+import { findUserChats } from '../services/chat.service';
 import { ToastBottom } from '../utilities/toast';
 import { createComment } from '../views/comment.view';
+import { createMessages } from '../views/message.view';
 
 // TODO: este deberia ir en message
 export const sendMessage = async () => {
@@ -35,4 +37,23 @@ export const sendMessage = async () => {
         top: messageBox.scrollHeight,
         behavior: 'smooth'
     });
+}
+
+export const loadMessages = async (chatId) => {
+    $('#message-box').html('');
+    const { messages, userId } = await getAllChatMessageService(chatId);
+    
+    createMessages(messages, userId);
+    $('#box-div').removeClass('d-none');
+    const chats = await findUserChats();
+    $('#chat-drawer').empty().append(chats);
+
+    const messageBox = document.getElementById('message-box');
+    messageBox.scrollTo({
+        left: 0,
+        top: messageBox.scrollHeight
+    });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 }

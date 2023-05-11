@@ -1,7 +1,5 @@
 <?php
-
-use Cursotopia\Helpers\Format;
-
+  use Cursotopia\Helpers\Format;
 ?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
@@ -126,7 +124,7 @@ use Cursotopia\Helpers\Format;
                             </a>
                           </td>
                           <td data-title="Desbloquear">
-                            <button class="btn btn-secondary rounded-pill block-btn" id="<?= $user["id"] ?>">Bloquear</button>
+                            <button class="btn btn-danger rounded-pill block-btn" id="<?= $user["id"] ?>">Bloquear</button>
                           </td>
                         </tr>
                       <?php endforeach ?>

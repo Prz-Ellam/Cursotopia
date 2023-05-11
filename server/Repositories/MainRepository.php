@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class MainRepository {
+class MainRepository extends DB {
     private const HOME_STATS = <<<'SQL'
         SELECT
             (SELECT COUNT(user_id) FROM users WHERE user_role = 2 AND user_active = TRUE) AS `instructors`,
@@ -14,6 +14,6 @@ class MainRepository {
     SQL;
 
     public function homeStats(): ?array {
-        return DB::executeOneReader($this::HOME_STATS, []);
+        return $this::executeOneReader($this::HOME_STATS, []);
     }
 }

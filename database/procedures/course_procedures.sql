@@ -130,7 +130,15 @@ BEGIN
         c.`instructor_id` = u.`user_id`
     WHERE
         `course_approved` = FALSE
-        AND `course_active` = TRUE;
+        AND `course_is_complete` = TRUE
+        AND `course_active` = TRUE
+        AND (
+            SELECT COUNT(c.`category_is_approved`) 
+            FROM `course_category` AS cc
+            INNER JOIN `categories` AS c ON cc.`category_id` = c.`category_id`
+            WHERE cc.`course_id` = c.`course_id` 
+            AND c.`category_is_approved` = FALSE
+        ) <= 0;
 END $$
 DELIMITER ;
 

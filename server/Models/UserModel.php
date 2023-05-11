@@ -201,6 +201,11 @@ class UserModel {
         return $repository->findOne($id);
     }
 
+    public static function findObjById(?int $id): ?array {
+        $repository = new UserRepository();
+        return $repository->findOne($id);
+    }
+
     public static function findOne(array $criteria): ?UserModel {
         $parameters = [];
         $valids = [ "id", "email" ];

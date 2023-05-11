@@ -1,7 +1,7 @@
 import AOS from 'aos';
 import { getAllInstructorsUsersService } from './services/user.service';
 
-$(() => {
+$(async () => {
     AOS.init({
         duration: 1000,
         easing: 'ease-in-out',

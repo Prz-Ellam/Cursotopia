@@ -45,9 +45,9 @@ $app->get("/password-edition", [ UserController::class, "passwordEdition" ], [
     [ AuthWebMiddleware::class ] 
 ]);
 
-// TODO
-// Solo administradores
-// Le faltan middlewares
+/**
+ * Bloquea usuarios
+ */
 $app->get("/blocked-users", [ UserController::class, "blockedUsers" ], [
     [ AuthWebMiddleware::class ] 
 ]);
@@ -132,7 +132,6 @@ $app->patch("/api/v1/users/:id/password", [ UserController::class, "updatePasswo
  */
 $app->post("/api/v1/users/email", [ UserController::class, "checkEmailExists" ]);
 
-// TODO:
 /**
  * Bloquear a un usuario
  */

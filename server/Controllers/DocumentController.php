@@ -2,14 +2,11 @@
 
 namespace Cursotopia\Controllers;
 
-use Bloom\Database\DB;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Closure;
-use Cursotopia\Entities\Document;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\DocumentModel;
-use Cursotopia\Repositories\DocumentRepository;
 use DateTime;
 use Ramsey\Uuid\Nonstandard\Uuid;
 

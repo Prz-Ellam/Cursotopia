@@ -103,7 +103,7 @@ class UserRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function update(User $user) {
+    public function update(User $user): int {
         $parameters = [
             "id" => $user->getId(),
             "name" => $user->getName(),
@@ -141,43 +141,44 @@ class UserRepository extends DB {
         
     }
 
-    public function findOne(?int $id) {
+    public function findOne(?int $id): ?array {
         return $this::executeOneReader($this::FIND_BY_ID, [ "id" => $id ]) ?? null;
     }
 
-    public function findOne2(array $parameters) {
+    public function findOne2(array $parameters): ?array {
         return $this::executeOneReader($this::FIND_ONE_2, $parameters) ?? null;
     }
 
-    public function findOneByEmailAndNotUserId(string $email, int $id) {
-        return $this::executeReader($this::FIND_ONE_BY_EMAIL_AND_NOT_USER_ID, [ 
+    public function findOneByEmailAndNotUserId(?string $email, ?int $id): ?array {
+        $parameters = [
             "email" => $email ,
             "id" => $id
-        ]) ?? null;
+        ];
+        return $this::executeOneReader($this::FIND_ONE_BY_EMAIL_AND_NOT_USER_ID, $parameters);
     }
 
-    public function findOneByEmail(string $email) {
+    public function findOneByEmail(?string $email): ?array {
         $parameters = [
             "email" => $email
         ];
         return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, $parameters);
     }
 
-    public function enable(int $userId) {
+    public function enable(?int $userId): int {
         $parameters = [
             "id" => $userId
         ];
         return $this::executeNonQuery($this::ENABLE, $parameters);
     }
     
-    public function disable(int $userId) {
+    public function disable(?int $userId): int {
         $parameters = [
             "id" => $userId
         ];
         return $this::executeNonQuery($this::DISABLE, $parameters);
     }
 
-    public function findAll(string $name, int $role) {
+    public function findAll(?string $name, ?int $role): ?array {
         $parameters = [
             "name" => $name,
             "role" => $role
@@ -185,18 +186,18 @@ class UserRepository extends DB {
         return $this::executeReader($this::FIND_ALL, $parameters);
     }
 
-    public function findAllInstructors(string $name) {
+    public function findAllInstructors(?string $name): ?array {
         $parameters = [
             "name" => $name
         ];
         return $this::executeReader($this::FIND_ALL_INSTRUCTORS, $parameters);
     }
 
-    public function findBlocked() {
+    public function findBlocked(): ?array {
         return $this::executeReader($this::FIND_BLOCKED, []);
     }
 
-    public function findUnblocked() {
+    public function findUnblocked(): ?array {
         return $this::executeReader($this::FIND_UNBLOCKED, []);
     }
 

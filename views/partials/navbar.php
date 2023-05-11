@@ -202,7 +202,7 @@ if ($id) {
               <?php foreach ($categories as $category): ?>
               <li>
                 <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
-                  <?= Format::sanitize($category["name"]) ?>
+                  <?= $category["name"] ?>
                 </a>
               </li>
               <?php endforeach ?>
@@ -262,7 +262,9 @@ if ($id) {
             </a>
             <ul class="dropdown-menu">
               <?php foreach ($categories as $category): ?>
-              <li><a class="dropdown-item" href="search"><?= $category["name"] ?></a></li>
+              <li><a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
+                <?= $category["name"] ?></a>
+              </li>
               <?php endforeach ?>
             </ul>
           </li>

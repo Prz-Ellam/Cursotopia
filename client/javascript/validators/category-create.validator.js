@@ -7,10 +7,10 @@ export default {
         'name': {
             required: true,
             trimming: true,
-            maxlength: 255,
+            maxlength: 50,
             remote: {
                 type: 'POST',
-                url: 'api/v1/categories/name',
+                url: '/api/v1/categories/name',
                 data: {
                     'name': function () { return $('#category-name').val() }
                 },
@@ -20,20 +20,20 @@ export default {
         'description': {
             required: true,
             trimming: true,
-            maxlength:255
+            maxlength: 255
         }
     },
     messages: {
         'name': {
             required: 'El nombre es requerido',
             trimming: 'El nombre es requerido',
-            maxlength: 'El nombre es demasiado largo',
+            maxlength: 'El nombre no puede contener más de 50 caracteres',
             remote: 'Ya existe una categoría con ese título'
         },
         'description': {
             required: 'La descripción es requerida',
             trimming: 'La descripción es requerida',
-            maxlength: 'La descripción es demasiado larga'
+            maxlength: 'La descripción no puede contener más de 255 caracteres'
         }
     },
     errorElement: 'small',

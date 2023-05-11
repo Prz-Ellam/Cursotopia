@@ -9,7 +9,7 @@ export const showUnblockedUsers = (user) => {
                 <a class="btn btn-secondary rounded-pill" href="instructor-profile-seen-by-others">Ver perfil</a>
             </td>
             <td data-title="Desbloquear">
-                <button class="btn btn-secondary rounded-pill block-btn" id="${ user.id }">Bloquear</button>
+                <button class="btn btn-danger rounded-pill block-btn" id="${ user.id }">Bloquear</button>
             </td>
         </tr>
       `;

@@ -82,14 +82,14 @@ $app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], 
 /**
  * Activar una categoría
  */
- $app->put("/api/v1/categories/:id/activate", [ CategoryController::class, "activate" ], [
+$app->put("/api/v1/categories/:id/activate", [ CategoryController::class, "activate" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
 
 /**
  * Desactivar una categoría
  */
- $app->put("/api/v1/categories/:id/deactivate", [ CategoryController::class, "deactivate" ], [
+$app->put("/api/v1/categories/:id/deactivate", [ CategoryController::class, "deactivate" ], [
     [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
 

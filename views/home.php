@@ -76,7 +76,7 @@
     <h2 class="text-center fw-bold">Últimos cursos publicados</h2>
     <hr>
     <div class="px-5 owl-carousel owl-theme">
-      <?php foreach($this->lastPublishedcourses as $course): ?>
+      <?php foreach($this->lastPublishedCourses as $course): ?>
       <a 
         href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
@@ -90,8 +90,8 @@
           >
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
-            <?= Format::sanitize($course["title"]) ?>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= $course["title"] ?>">
+            <?= $course["title"] ?>
           </h5>
           <p class="card-text">
             <?= Format::sanitize($course["instructorName"]) ?>
@@ -142,8 +142,8 @@
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
-            <?= Format::sanitize($course["title"]) ?>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= $course["title"] ?>">
+            <?= $course["title"] ?>
           </h5>
           <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
           <hr>
@@ -190,8 +190,8 @@
             alt="Curso">
         </div>
         <div class="card-body text-center rounded-bottom">
-          <h5 class="card-title text-truncate text-nowrap" title="<?= Format::sanitize($course["title"]) ?>">
-            <?= Format::sanitize($course["title"]) ?>
+          <h5 class="card-title text-truncate text-nowrap" title="<?= $course["title"] ?>">
+            <?= $course["title"] ?>
           </h5>
           <p class="card-text">
             <?= Format::sanitize($course["instructorName"]) ?>
