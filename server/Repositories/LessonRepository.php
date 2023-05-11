@@ -68,64 +68,66 @@ class LessonRepository extends DB {
 
     private const FIND_FIRST_NOT_VIEWED = <<<'SQL'
         SELECT
-            le.lesson_id AS `id`,
-            le.lesson_title AS `title`,
-            ule.user_lesson_is_complete AS `complete`
+            le.`lesson_id` AS `id`,
+            le.`lesson_title` AS `title`,
+            ule.`user_lesson_is_complete` AS `complete`
         FROM
-            lessons AS le
+            `lessons` AS le
         INNER JOIN
-            user_lesson AS ule
+            `user_lesson` AS ule
         ON
-            le.lesson_id = ule.lesson_id
+            le.`lesson_id` = ule.`lesson_id`
         INNER JOIN
-            levels AS l
+            `levels` AS l
         ON
-            le.level_id = l.level_id
+            le.`level_id` = l.`level_id`
         INNER JOIN
-            enrollments AS e
+            `enrollments` AS e
         ON
-            l.course_id = e.course_id
+            l.`course_id` = e.`course_id`
         WHERE
-            e.course_id = :course_id
-            AND ule.user_id = :user_id
-            AND ule.user_lesson_is_complete = FALSE
+            e.`course_id` = :course_id
+            AND ule.`user_id` = :user_id
+            AND ule.`user_lesson_is_complete` = FALSE
         ORDER BY
-            le.lesson_created_at ASC
+            le.`lesson_created_at` ASC
         LIMIT
             1;
     SQL;
 
     private const FIRST_LESSON_PENDING = <<<'SQL'
-        SELECT l.lesson_id AS `id` FROM user_lesson AS ul
-        INNER JOIN lessons AS l ON ul.lesson_id = l.lesson_id
-        WHERE ul.user_id = :user_id
-        AND ul.user_lesson_is_complete = FALSE
+        SELECT l.`lesson_id` AS `id` 
+        FROM `user_lesson` AS ul
+        INNER JOIN `lessons` AS l ON ul.`lesson_id` = l.`lesson_id`
+        WHERE ul.`user_id` = :user_id
+        AND ul.`user_lesson_is_complete` = FALSE
         AND (
-            SELECT courses.course_id
-            FROM courses
-            JOIN levels ON levels.course_id = courses.course_id
-            JOIN lessons ON lessons.level_id = levels.level_id
-            WHERE lessons.lesson_id = ul.lesson_id
+            SELECT `courses`.`course_id`
+            FROM `courses`
+            JOIN `levels` ON `levels`.`course_id` = `courses`.`course_id`
+            JOIN `lessons` ON `lessons`.`level_id` = `levels`.`level_id`
+            WHERE `lessons`.`lesson_id` = ul.`lesson_id`
             LIMIT 1
         ) = :course_id
-        ORDER BY l.lesson_created_at ASC
+        ORDER BY l.`lesson_created_at` ASC
         LIMIT 1
     SQL;
 
     private const FIRST_LESSON_COMPLETE = <<<'SQL'
-        SELECT l.lesson_id AS `id` FROM user_lesson AS ul
-        INNER JOIN lessons AS l ON ul.lesson_id = l.lesson_id
-        WHERE ul.user_id = :user_id
-        AND ul.user_lesson_is_complete = TRUE
+        SELECT l.`lesson_id` AS `id` 
+        FROM `user_lesson` AS ul
+        INNER JOIN `lessons` AS l ON ul.`lesson_id` = l.`lesson_id`
+        WHERE ul.`user_id` = :user_id
+        AND ul.`user_lesson_is_complete` = TRUE
         AND (
-            SELECT courses.course_id
-            FROM courses
-            JOIN levels ON levels.course_id = courses.course_id
-            JOIN lessons ON lessons.level_id = levels.level_id
-            WHERE lessons.lesson_id = ul.lesson_id
+            SELECT `courses`.`course_id`
+            FROM `courses`
+            JOIN `levels` ON `levels`.`course_id` = `courses`.`course_id`
+            JOIN `lessons` ON `lessons`.`level_id` = `levels`.`level_id`
+            WHERE `lessons`.`lesson_id` = ul.`lesson_id`
             LIMIT 1
         ) = :course_id
-        ORDER BY l.lesson_created_at ASC
+        ORDER BY l.`lesson_created_at` ASC
         LIMIT 1
     SQL;
 

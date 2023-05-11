@@ -18,8 +18,6 @@ export default {
             }
         },
         'description': {
-            required: true,
-            trimming: true,
             maxlength: 255
         }
     },
@@ -31,8 +29,6 @@ export default {
             remote: 'Ya existe una categoría con ese título'
         },
         'description': {
-            required: 'La descripción es requerida',
-            trimming: 'La descripción es requerida',
             maxlength: 'La descripción no puede contener más de 255 caracteres'
         }
     },

@@ -21,20 +21,20 @@ class UserController {
     }
 
     public function signup(Request $request, Response $response): void {
-        $userRoles = RoleModel::findAllByIsPublic(true);
-        $response->render("signup", [ "userRoles" => $userRoles ]);
+        $roles = RoleModel::findAllByIsPublic(true);
+        $response->render("signup", [ "roles" => $roles ]);
     }
 
     public function profile(Request $request, Response $response): void {
         $id = $request->getQuery("id");
         if (!Validate::uint($id)) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
     
         $user = UserModel::findById($id);
         if (!$user) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
     
@@ -45,16 +45,15 @@ class UserController {
             $isMe = true;
         }
         
-        $response->render('profile', [ "isMe" => $isMe, "user" => $user->toObject() ]);
+        $response->render("profile", [ "isMe" => $isMe, "user" => $user->toObject() ]);
     }
 
     public function profileEdition(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
     
         $user = UserModel::findById($id);
         if (!$user) {
-            $response->setStatus(404)->render('404');
+            $response->setStatus(404)->render("404");
             return;
         }
     
@@ -167,10 +166,9 @@ class UserController {
     }
 
     public function getAll(Request $request, Response $response): void {
-        $name = $request->getQuery("name");
+        $name = $request->getQuery("name", "");
         
-        $session = $request->getSession();
-        $role = $session->get("role");
+        $role = $request->getSession()->get("role");
 
         $userRepository = new UserRepository();
         $users = $userRepository->findAll($name, $role);
@@ -180,7 +178,6 @@ class UserController {
 
     public function getAllInstructors(Request $request, Response $response): void {
         $name = $request->getQuery("name", "");
-        
 
         $userRepository = new UserRepository();
         $users = $userRepository->findAllInstructors($name);
@@ -194,7 +191,7 @@ class UserController {
         $id = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findById($id);
+        $user = UserModel::findObjById($id);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -204,7 +201,7 @@ class UserController {
         }
 
         // Decirle que propiedades iran al objeto
-        $response->json($user->toObject());
+        $response->json($user);
     }
 
     public function create(Request $request, Response $response): void {
@@ -420,8 +417,8 @@ class UserController {
             $id = intval($request->getParams("id"));
             
             // Solo se puede actualizar la contraseña de tu usuario autenticado
-            $session = $request->getSession();
-            if ($id !== $session->get("id")) {
+            $userId = $request->getSession()->get("id");
+            if ($id !== $userId) {
                 $response->setStatus(401)->json([
                     "status" => false,
                     "message" => "No autorizado"
@@ -504,7 +501,7 @@ class UserController {
         }
 
         $result= UserModel::disableUser($id);
-        if(!$result){
+        if (!$result) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => $result

@@ -42,14 +42,14 @@ use Cursotopia\Helpers\Format;
   </div>
 
   <!-- Contenido -->
-  <div class="container">
-    <div class="row mt-4">
+  <div class="container vh-100">
+    <!--div class="row mt-4">
       <div class="col-12">
         <h3 class="fw-bold">Cursos aprobados</h3>
       </div>
     </div>
 
-    <div class="container mt-4">
+    <div-- class="container mt-4">
       <div data-aos="fade-up">
         <div class="card mb-4 bg-light border-0">
           <div class="row g-0">
@@ -229,8 +229,7 @@ use Cursotopia\Helpers\Format;
           <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-right'></i></a></li>
         </ul>
       </div>
-    </div>
-  </div>
+    </div-->
   </div>
 
 </main>

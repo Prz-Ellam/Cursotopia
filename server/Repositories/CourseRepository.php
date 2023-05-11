@@ -36,32 +36,22 @@ class CourseRepository extends DB {
     SQL;
 
     private const CONFIRM = <<<'SQL'
-        UPDATE
-            `courses`
-        SET
-            `course_is_complete` = TRUE
-        WHERE
-            `course_id` = :id;
+        CALL `course_update`(
+            :id, NULL, NULL, NULL, NULL, NULL, TRUE, NULL, NULL, NULL, NULL, NULL, NULL
+        )
     SQL;
 
     private const DELETE = <<<'SQL'
-        UPDATE
-            `courses`
-        SET
-            `course_active` = FALSE
-        WHERE
-            `course_id` = :course_id
+        CALL `course_update`(
+            :course_id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, FALSE
+        )
     SQL;
 
     private const APPROVE = <<<'SQL'
-        UPDATE
-            `courses`
-        SET
-            `course_approved` = :approve,
-            `course_approved_by` = :admin_id,
-            `course_approved_at` = NOW()
-        WHERE
-            `course_id` = :course_id
+        CALL `course_update`(
+            :course_id, NULL, NULL, NULL, NULL, NULL,
+            NULL, :approved, :admin_id, NULL, NULL, NULL, NULL
+        )
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'

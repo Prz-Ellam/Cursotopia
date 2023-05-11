@@ -78,8 +78,8 @@
               </label>
               <select name="userRole" id="user-role" class="form-select">
                 <option value="0" selected>Seleccionar</option>
-                <?php foreach($this->userRoles as $userRole): ?>
-                <option value="<?= $userRole["id"] ?>"><?= $userRole["name"] ?></option>
+                <?php foreach($this->roles as $role): ?>
+                <option value="<?= $role["id"] ?>"><?= $role["name"] ?></option>
                 <?php endforeach ?>
               </select>
             </div>

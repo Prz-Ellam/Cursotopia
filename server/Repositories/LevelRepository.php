@@ -31,14 +31,7 @@ class LevelRepository extends DB {
 
     private const DELETE = <<<'SQL'
         CALL `level_update`(
-            :id, 
-            NULL, 
-            NULL, 
-            NULL, 
-            NULL, 
-            NULL, 
-            NULL, 
-            FALSE
+            :id, NULL, NULL, NULL, NULL, NULL, NULL, FALSE
         )
     SQL;
 

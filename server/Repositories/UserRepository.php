@@ -56,21 +56,15 @@ class UserRepository extends DB {
     SQL;
     
     private const ENABLE = <<<'SQL'
-        UPDATE
-            `users`
-        SET
-            `user_enabled` = TRUE
-        WHERE
-            `user_id` = :id;
+        CALL `user_update`(
+            :id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, TRUE, NULL, NULL, NULL
+        )
     SQL;
 
     private const DISABLE = <<<'SQL'
-        UPDATE
-            `users`
-        SET
-            `user_enabled` = FALSE
-        WHERE
-            `user_id` = :id;
+        CALL `user_update`(
+            :id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, FALSE, NULL, NULL, NULL
+        )
     SQL;
 
     private const FIND_ALL = <<<'SQL'
