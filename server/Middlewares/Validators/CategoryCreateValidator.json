@@ -13,11 +13,9 @@
         },
         "description": {
             "type": "string",
-            "minLength": 1,
             "maxLength": 255,
             "$error": {
                 "type": "La descripción debe ser una cadena de texto",
-                "minLength": "La descripción no puede estar vacía",
                 "maxLength": "La descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
             }
         }

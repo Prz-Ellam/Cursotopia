@@ -75,6 +75,7 @@ BEGIN
         `categories`
     WHERE
         `category_id` = `_category_id`
+        AND `category_is_approved` = TRUE
         AND `category_active` = TRUE
     LIMIT
         1;
@@ -214,6 +215,7 @@ BEGIN
         c.`category_created_by` = u.`user_id`
     WHERE
         `category_is_approved` = FALSE
+        AND `category_approved_by` IS NULL
         AND `category_active` = TRUE;
 END $$
 DELIMITER ;
@@ -228,20 +230,20 @@ CREATE PROCEDURE `category_find_one_by_name`(
 )
 BEGIN
     SELECT
-        `category_id`,
-        `category_name`,
-        `category_description`,
-        `category_is_approved`,
-        `category_approved_by`,
-        `category_created_by`,
-        `category_created_at`,
-        `category_modified_at`,
-        `category_active`
+        `category_id`                   AS `id`,
+        `category_name`                 AS `name`,
+        `category_description`          AS `description`,
+        `category_is_approved`          AS `approved`,
+        `category_approved_by`          AS `approvedBy`,
+        `category_created_by`           AS `createdBy`,
+        `category_created_at`           AS `createdAt`,
+        `category_modified_at`          AS `modifiedAt`,
+        `category_active`               AS `active`
     FROM
         `categories`
     WHERE
         `category_name` = `_category_name`
-        AND `category_is_approved` = TRUE
+        --AND `category_is_approved` = TRUE
         AND `category_active` = TRUE
         AND `category_id` <> `_category_id`
     LIMIT

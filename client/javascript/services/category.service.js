@@ -101,9 +101,8 @@ export const createCategory = async (category) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data;
     }
-    return null;
 }
 
 export const approveCategoryService = async (categoryId) => {

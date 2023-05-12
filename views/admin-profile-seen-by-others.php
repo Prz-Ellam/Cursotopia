@@ -31,7 +31,7 @@ use Cursotopia\Helpers\Format;
             <div class="row mt-3">
               <?php if (isset($_SESSION["id"])): ?>
               <div class="col-12">
-                <a href="chat" class="btn btn-secondary rounded-pill">Mandar mensaje</a>
+                <a href="/chat" class="btn btn-secondary rounded-pill">Mandar mensaje</a>
               </div>
               <?php endif ?>
             </div>
@@ -77,7 +77,7 @@ use Cursotopia\Helpers\Format;
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ use Cursotopia\Helpers\Format;
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@ use Cursotopia\Helpers\Format;
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ use Cursotopia\Helpers\Format;
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -213,7 +213,7 @@ use Cursotopia\Helpers\Format;
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>

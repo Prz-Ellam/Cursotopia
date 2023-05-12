@@ -8,7 +8,9 @@ export const showApprovedCategories = (category) => {
         <button class="btn ms-auto update-category-btn text-success border-0 edit-btn" id="${ category.id }">
             <i class='bx bxs-pencil'></i>
         </button>
-        <button class="btn p-0 deactivate-btn" id="${ category.id }"><i class='bx bxs-x-circle'></i></button>
+        <!--button class="btn p-0 deactivate-btn" id="${ category.id }">
+            <i class='bx bxs-x-circle'></i>
+        </button-->
       </div>
       `;
       $('#approvedCategories').append(html);

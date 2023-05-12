@@ -86,7 +86,7 @@
         <!-- El curso es gratis y lo adquirio --> 
         <?php if ($free && $enroll): ?>
           <a
-            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            href="/course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
             class="btn btn-secondary w-100 my-1">
             Reanudar este curso
           </a>
@@ -98,7 +98,7 @@
             Obtener prueba gratuita
           </button>
           <a 
-            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            href="/payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
             class="btn btn-secondary w-100 my-1">
             Comprar este curso
           </a>
@@ -106,12 +106,12 @@
 
         <?php if(!$free && $demo && $enroll && !$isPaid): ?>
           <a
-            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            href="/course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
             class="btn btn-secondary w-100 my-1">
             Reanudar prueba gratuita
           </a>
           <a 
-            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            href="/payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
             class="btn btn-secondary w-100 my-1">
             Comprar este curso
           </a>
@@ -120,7 +120,7 @@
         <!-- El curso tiene prueba gratuita y esta pagado -->
         <?php if (!$free && $demo && $enroll && $isPaid): ?>
           <a
-            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            href="/course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
             class="btn btn-secondary w-100 my-1">
             Reanudar este curso
           </a>
@@ -128,7 +128,7 @@
 
         <?php if (!$free && !$demo && !$enroll && !$isPaid): ?>
           <a 
-            href="payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
+            href="/payment-method?courseId=<?= $this->course["id"] ?? "" ?>" 
             class="btn btn-secondary w-100 my-1">
             Comprar este curso
           </a>
@@ -136,7 +136,7 @@
 
         <?php if (!$free && !$demo && $enroll && $isPaid): ?>
           <a
-            href="course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
+            href="/course-visor?course=<?= $this->course["id"] ?? "" ?>&lesson=<?= $this->lesson["id"] ?? "" ?>"  
             class="btn btn-secondary w-100 my-1">
             Reanudar este curso
           </a>

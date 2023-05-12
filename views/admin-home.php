@@ -88,10 +88,10 @@
           <div>
             <h2 class="mt-3">Tú perfil</h2>
             <div class="col-12">
-              <a href="profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Editar perfil
               </a>
-              <a href="password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Cambiar contraseña</a>
             </div>
           </div>

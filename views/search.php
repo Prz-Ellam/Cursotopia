@@ -83,7 +83,7 @@
 
       <?php foreach($this->courses as $i => $course): ?>
       <article class=" col-12 col-md-6 col-lg-4 mb-5 art<?= ($i % 3) + 1 ?>" data-aos="fade-up">
-        <a href="course-details?id=<?= $course["id"] ?>" class="card bg-light border-0 mx-auto text-decoration-none text-dark">
+        <a href="/course-details?id=<?= $course["id"] ?>" class="card bg-light border-0 mx-auto text-decoration-none text-dark">
           <div class="ratio ratio-16x9">
             <img 
               src="api/v1/images/<?= $course["imageId"] ?>" 
@@ -93,9 +93,9 @@
           </div>
           <div class="card-body text-center rounded-bottom">
             <h5 class="card-title text-truncate text-nowrap">
-              <?= Format::sanitize($course["title"]) ?>
+              <?= $course["title"] ?>
             </h5>
-            <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
+            <p class="card-text"><?= $course["instructorName"] ?></p>
             <hr>
             <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
             <p>

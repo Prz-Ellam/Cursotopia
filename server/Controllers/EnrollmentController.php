@@ -6,10 +6,29 @@ use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\EnrollmentModel;
 
 class EnrollmentController {
+    public function paymentMethod(Request $request, Response $response): void {
+        $courseId = $request->getQuery("courseId");
+        if (!Validate::uint($courseId)) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        $course = CourseModel::findObjById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+    
+        $response->render("payment-method", [ 
+            "course" => $course 
+        ]);
+    }
+
     public function certificate(Request $request, Response $response): void {
         $id = $request->getSession()->get("id");
 

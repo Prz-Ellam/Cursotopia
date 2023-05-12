@@ -759,3 +759,30 @@ WHERE `link_id` = 3
             `course_visor`
         WHERE
             `lesson_id` = 31
+
+
+
+
+        SELECT
+            `id`,
+            `title`,
+            `description`,
+            `price`,
+            `imageId`,
+            `instructorId`,
+            `approved`,
+            `approvedBy`,
+            `createdAt`,
+            `modifiedAt`,
+            `active`,
+            `levels`,
+            `rates`,
+            `reviews`,
+            `instructor` AS `instructorName`,
+            `duration`,
+            `enrollments` AS `students`,
+            `levelFree`
+        FROM
+            `course_details`
+        WHERE
+            `id` = 13

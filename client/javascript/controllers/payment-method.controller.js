@@ -62,8 +62,8 @@ export const payment = async function(event) {
     
     const response = await createEnrollmentService(payment);
 
-    $('#payment-btn').prop('disabled', true);
-    $('#payment-spinner').removeClass('d-none');
+    $('#payment-spinner').addClass('d-none');
+    $('#payment-btn').prop('disabled', false);
     
     if (!response?.status) {
         await showErrorMessage(response);

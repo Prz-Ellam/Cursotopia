@@ -22,10 +22,9 @@ class CategoryController {
     }
 
     public function getAll(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $userId = $request->getSession()->get("id");
 
-        $categories = CategoryModel::findAllWithUser($id);
+        $categories = CategoryModel::findAllWithUser($userId);
 
         $response->json([
             "status" => true,
@@ -34,7 +33,6 @@ class CategoryController {
     }
 
     public function getApproved(Request $request, Response $response): void {
-        
         $categories = CategoryModel::findAll();
 
         $response->json([
@@ -44,7 +42,6 @@ class CategoryController {
     }
 
     public function getNotApproved(Request $request, Response $response): void {
-        
         $categories = CategoryModel::findNotApproved();
 
         $response->json([
@@ -53,8 +50,8 @@ class CategoryController {
         ]);
     }
 
+    // Deprecated
     public function getNotActive(Request $request, Response $response): void {
-
         $categories = CategoryModel::findNotActive();
 
         $response->json([
@@ -64,18 +61,16 @@ class CategoryController {
     }
 
     public function findById(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $categoryId = intval($request->getParams("id"));
 
-        $categoryId = $request->getParams("id");
-
-        $category = CategoryModel::findById($categoryId);
+        $category = CategoryModel::findObjById($categoryId);
 
         if (!$category) {
             $response->setStatus(404)->json([
-                "status" => true,
+                "status" => false,
                 "category" => "No se encontró la categoria"
             ]);
+            return;
         }
 
         $response->json([
@@ -103,15 +98,18 @@ class CategoryController {
         if ($existingCategoryName) {
             $response->setStatus(409)->json([
                 "status" => false,
-                "message" => "Ya existe una categoría con ese nombre"
+                "message" => "Esta categoría ya fue creada o está en solicitud de serlo"
             ]);
             return;
         }
 
         // Validar que el usuario es un instructor
 
-        $category = new CategoryModel($body);
-        $category->setCreatedBy($id);
+        $category = new CategoryModel([
+            "name" => $name,
+            "description" => $description,
+            "createdBy" => $id
+        ]);
 
         try {
             $isCreated = $category->save();
@@ -194,10 +192,6 @@ class CategoryController {
         }
     }
 
-    public function delete(Request $request, Response $response): void {
-
-    }
-
     public function approve(Request $request, Response $response): void {
         $id = intval($request->getParams("id"));
 
@@ -269,21 +263,10 @@ class CategoryController {
             return;
         }
 
-        //Validar que el usuario sea administrador
-        $session = $request->getSession();
-        $userId = $session->get("id");
-        $role = $session->get("role");
-
-        if ($role!=1) {
-            $response->json([
-                "status" => false,
-                "message" => "Solo los administradores pueden denegar categorias"
-            ]);
-            return;
-        }
+        $userId = $request->getSession()->get("id");
 
         try {
-            $result = $category->deny($id);
+            $result = $category->deny($userId, $id);
             if (!$result) {
                 $response->setStatus(404)->json([
                     "status" => false,

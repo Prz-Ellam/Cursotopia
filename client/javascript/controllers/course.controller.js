@@ -249,7 +249,7 @@ export const deleteCourse = async function(event) {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('course_id');
         await CourseService.delete(id);
-        window.location.href = 'home';
+        window.location.href = '/home';
     }
 }
 

@@ -68,6 +68,12 @@ class CategoryRepository extends DB {
             :category_id, NULL, NULL, TRUE, :admin_id, NULL, NULL, NULL, NULL
         )
     SQL;
+
+    private const DENY = <<<'SQL'
+        CALL `category_update`(
+            :category_id, NULL, NULL, FALSE, :admin_id, NULL, NULL, NULL, NULL
+        )
+    SQL;
     
     public function create(Category $category): int {
         $parameters = [
@@ -141,11 +147,12 @@ class CategoryRepository extends DB {
         return $this::executeNonQuery($this::APPROVE, $parameters);
     }
 
-    public function deny(?int $id): int {
+    public function deny(?int $adminId, ?int $categoryId): int {
         $parameters = [
-            "id" => $id
+            "admin_id" => $adminId,
+            "category_id" => $categoryId
         ];
-        return $this::executeNonQuery($this::DELETE, $parameters);
+        return $this::executeNonQuery($this::DENY, $parameters);
     }
 
     public function activate(?int $id): int {

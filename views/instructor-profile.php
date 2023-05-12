@@ -86,10 +86,10 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
           </div>
           <div class="row mt-3">
             <div class="col-12">
-              <a href="profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Editar perfil
               </a>
-              <a href="password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Cambiar contraseña</a>
             </div>
           </div>
@@ -187,7 +187,7 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
                   </div>
                 </div>
                 <a 
-                  href="instructor-course-details?course_id=<?= $course["id"] ?>" 
+                  href="/instructor-course-details?course_id=<?= $course["id"] ?>" 
                   class="btn btn-secondary rounded-5 border-0 shadow-none">
                   Ver detalles de curso
                 </a>

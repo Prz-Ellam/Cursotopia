@@ -58,8 +58,8 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         <button class="btn btn-primary rounded-pill" id="finish">Finalizar</button>
         <?php endif ?>
         <!--div class="d-flex justify-content-center mt-2">
-          <a href="course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
-          <a href="course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
+          <a href="/course-visor" class="btn btn-primary rounded-pill me-2">Anterior</a>
+          <a href="/course-visor" class="btn btn-primary rounded-pill">Siguiente</a>
         </div-->
         <p class="mt-3" id="lesson-description">
           <?= Format::sanitize($this->lesson["description"]) ?>
@@ -76,9 +76,9 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
         <?php endif ?>
         <?php if ($this->lesson["linkId"]): ?>
         <h5 class="mt-3">Enlace</h5>
-        <a href="<?= Format::sanitize($this->lesson["linkAddress"]) ?>"
+        <a href="<?= $this->lesson["linkAddress"] ?>"
           target="_blank" class="text-primary">
-          <?= Format::sanitize($this->lesson["linkName"]) ?>  
+          <?= $this->lesson["linkName"] ?>  
         </a>
         <?php endif ?>
         <br><br>
@@ -100,7 +100,7 @@ $result = EnrollmentModel::visitLesson($id, $lessonId);
               <div class="list-group list-group-flush">
               <?php foreach ($level["lessons"] as $i => $lesson) : ?>
                 <a
-                  href="course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $lesson["id"] ?>"
+                  href="/course-visor?course=<?= $this->course["id"] ?>&lesson=<?= $lesson["id"] ?>"
                   class="list-group-item hoverable <?= ($lesson["id"] == $this->lesson["id"]) ? 'selected-course-content' : '' ?>" 
                   role="button"
                 >

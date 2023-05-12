@@ -73,7 +73,7 @@ use Cursotopia\Helpers\Format;
                   </span>
                 </p>
                 <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>

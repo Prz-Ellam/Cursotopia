@@ -131,7 +131,7 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->topRatedCourses as $course): ?>
       <a 
-        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
@@ -179,7 +179,7 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->bestSellingCourses as $course): ?>
       <a 
-        href="course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >

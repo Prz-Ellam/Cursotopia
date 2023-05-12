@@ -12,7 +12,8 @@ export default {
                 type: 'POST',
                 url: '/api/v1/categories/name',
                 data: {
-                    'name': function () { return $('#category-name').val() }
+                    'name': function () { return $('#category-name').val() },
+                    'id': -1
                 },
                 dataType: 'json'
             }
@@ -26,7 +27,7 @@ export default {
             required: 'El nombre es requerido',
             trimming: 'El nombre es requerido',
             maxlength: 'El nombre no puede contener más de 50 caracteres',
-            remote: 'Ya existe una categoría con ese título'
+            remote: 'Esta categoría ya fue creada o está en solicitud de serlo'
         },
         'description': {
             maxlength: 'La descripción no puede contener más de 255 caracteres'

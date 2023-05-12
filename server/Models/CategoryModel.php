@@ -54,7 +54,7 @@ class CategoryModel {
             case EntityState::CREATE: {
                 $rowsAffected = $categoryRepository->create($category);
                 if ($rowsAffected) {
-                    $this->setId(intval(DB::lastInsertId()));
+                    $this->id = intval($categoryRepository->lastInsertId2());
                 }
                 break;
             }
@@ -147,7 +147,11 @@ class CategoryModel {
 
     public static function findById(?int $id) {
         $repository = new CategoryRepository();
-        /* $object = $repository->findById($id); */
+        return $repository->findById($id);
+    }
+
+    public static function findObjById(?int $id): ?array {
+        $repository = new CategoryRepository();
         return $repository->findById($id);
     }
 
@@ -160,12 +164,12 @@ class CategoryModel {
         return new CategoryModel($object);
     }
 
-    public static function findAll() {
+    public static function findAll(): ?array {
         $repository = new CategoryRepository();
         return $repository->findAll();
     }
 
-    public static function findAllWithUser(int $userId) {
+    public static function findAllWithUser(int $userId): ?array {
         $repository = new CategoryRepository();
         return $repository->findAllWithUser($userId);
     }
@@ -190,9 +194,9 @@ class CategoryModel {
         return $repository->approve($categoryId, $adminId);
     }
 
-    public static function deny(int $categoryId) {
+    public static function deny(int $adminId, int $categoryId): int {
         $repository = new CategoryRepository();
-        return $repository->deny($categoryId);
+        return $repository->deny($adminId, $categoryId);
     }
 
     public static function activate(int $categoryId) {

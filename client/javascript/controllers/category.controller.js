@@ -31,11 +31,11 @@ export const submitCategory = async function(event) {
     modalInstance.hide();
 
     if (!response?.status) {
-        await showErrorMessage(response);
+        showErrorMessage(response);
         return;
     }
 
-    await Swal.fire({
+    Swal.fire({
         icon: 'success',
         title: 'La categoría fue añadida con éxito',
         text: 'La categoría fue añadida, un administrador debe aprobarla primero, podrás usar la categoría para crear cursos pero estos no serán visibles hasta que un administrador apruebe la categoría',

@@ -26,7 +26,7 @@ export default {
         'message': {
             required: 'La reseña es requerida',
             trimming: 'La reseña es requerida',
-            maxlength: 'La reseña es demasiado larga'
+            maxlength: 'La reseña no puede contener más de 255 caracteres'
         }
     },
     errorElement: 'small',

@@ -15,9 +15,9 @@ SELECT
     c.`course_active` AS `active`,
     COUNT(DISTINCT l.`level_id`) AS `levels`,
     COUNT(DISTINCT r.`review_id`) AS `reviews`,
-    IF(AVG(r.`review_rate`) IS NULL, 'No hay reseñas', AVG(r.`review_rate`)) `rates`,
+    IFNULL(AVG(r.`review_rate`), 'No hay reseñas') `rates`,
     CONCAT(u.`user_name`, ' ', u.`user_last_name`) `instructor`,
-    SUM(TIME_TO_SEC(v.`video_duration`)) / 3600.0 AS `duration`,
+    IFNULL(get_course_video_duration(c.`course_id`), 0) AS `duration`,
     COUNT(DISTINCT e.`enrollment_id`) AS `enrollments`,
     IF(SUM(l.`level_is_free`) > 0, TRUE, FALSE) AS `levelFree`
 FROM
@@ -32,11 +32,6 @@ INNER JOIN
 ON
     l.`level_id` = le.`level_id` 
     AND le.`lesson_active` = TRUE
-LEFT JOIN
-    `videos` AS v
-ON
-    le.`video_id` = v.`video_id` 
-    AND v.`video_active` = TRUE
 LEFT JOIN
     `reviews` AS r
 ON

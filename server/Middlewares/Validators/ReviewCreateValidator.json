@@ -20,11 +20,20 @@
                 "minimum": "La calificación debe ser entre 1 y 5",
                 "maximum": "La calificación debe ser entre 1 y 5"
             }
+        },
+        "courseId": {
+            "type": "number",
+            "minimum": 1,
+            "$error": {
+                "type": "El id del curso debe ser un entero",
+                "minimum": "El id del curso debe ser un entero positivo"
+            }
         }
     },
     "required": [
         "message",
-        "rate"
+        "rate",
+        "courseId"
     ],
     "additionalProperties": false,
     "$error": {

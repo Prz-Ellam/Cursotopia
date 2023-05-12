@@ -79,7 +79,7 @@ class CourseRepository extends DB {
             `rates`,
             `reviews`,
             `instructor` AS `instructorName`,
-            `duration`,
+            `duration` AS `duration`,
             `enrollments` AS `students`,
             `levelFree`
         FROM

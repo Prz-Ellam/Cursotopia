@@ -67,6 +67,15 @@ class ReviewModel {
         return new ReviewModel($reviewObject);
     }
 
+    public static function findObjById(int $id): ?array {
+        $reviewRepository = new ReviewRepository();
+        $reviewObject = $reviewRepository->findById($id);
+        if (!$reviewObject) {
+            return null;
+        }
+        return new ReviewModel($reviewObject);
+    }
+
     public static function delete(int $id) {
         $reviewRepository = new ReviewRepository();
         $rowsAffected = $reviewRepository->delete($id);
@@ -83,5 +92,44 @@ class ReviewModel {
         $repository = new ReviewRepository();
         $object = $repository->findByCourse($courseId,$pageNum,$pageSize);
         return $object;
+    }
+
+    /**
+     * Get the value of userId
+     */ 
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
     }
 }

@@ -83,10 +83,10 @@ $categories = $categoryRepository->findAll();
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <a href="profile-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+                <a href="/profile-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
                   Editar perfil
                 </a>
-                <a href="password-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+                <a href="/password-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
                   Cambiar contraseña
                 </a>
               </div>
@@ -171,7 +171,7 @@ $categories = $categoryRepository->findAll();
               <?php foreach ($courses as $course) : ?>
                 <tr>
                   <td data-title="Curso">
-                    <a href="course-details?id=<?= $course["id"] ?>"
+                    <a href="/course-details?id=<?= $course["id"] ?>"
                       class="text-decoration-none">
                       <?= $course["title"] ?>
                     </a>
@@ -189,7 +189,7 @@ $categories = $categoryRepository->findAll();
                   <td data-title="Estado"><?= $course["status"] ?></td>
                   <td data-title="Certificado">
                     <?php if ($course["isFinished"]): ?>
-                    <a href="certificate?course=<?= $course["id"] ?>"
+                    <a href="/certificate?course=<?= $course["id"] ?>"
                       class="text-decoration-none">
                       Ver más
                     </a>

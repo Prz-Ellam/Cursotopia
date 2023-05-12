@@ -65,7 +65,7 @@ use Cursotopia\Helpers\Format;
           </div>
           <div class="row mt-3">
             <div class="col-12">
-              <a href="course-edition?id=<?= $this->course["id"] ?>" 
+              <a href="/course-edition?id=<?= $this->course["id"] ?>" 
                 class="btn btn-secondary rounded-pill">
                 Editar curso
               </a>

@@ -1,14 +1,13 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import ReviewService, { showMoreCommentsService, deleteReviewService } from "../services/review.service";
-import { getOneUserService } from "../services/user.service";
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { Toast } from '../utilities/toast';
 
 let currentPage = 1;
-const pageSize = 10;
+const pageSize = 5;
 
 export const submitReview = async function(event) {
     event.preventDefault();
@@ -22,8 +21,8 @@ export const submitReview = async function(event) {
     const formData = new FormData(this);
     const review = {
         message: formData.get('message'),
-        rate: formData.get('rate'),
-        courseId
+        rate: +formData.get('rate'),
+        courseId: +courseId
     };
 
     $('#review-create-btn').prop('disabled', true);
@@ -35,7 +34,7 @@ export const submitReview = async function(event) {
     $('#review-create-btn').prop('disabled', false);
 
     if (!response?.status) {
-        await showErrorMessage(response);
+        showErrorMessage(response);
         return;
     }
 
@@ -44,150 +43,76 @@ export const submitReview = async function(event) {
         title: 'La reseña ha sido añadida con éxito'
     });
 
-    $('#review-section').empty();
     const totalCourses = await ReviewService.courseTotal(courseId);
     REVIEWS_TOTAL_PAGES = Math.ceil(totalCourses / pageSize);
-    showMoreComments2(courseId, 1, currentPage * pageSize);
-    console.log(currentPage);
-    /*
-
-    let userId = Number.parseInt(document.getElementById('userId').value);
-
-    if(!Number.isInteger(userId)){
-
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-        return;
-
+    
+    showMoreComments(courseId, 1, currentPage * pageSize, true);
+    if (currentPage >= REVIEWS_TOTAL_PAGES) {
+        $('#show-more-comments').addClass('d-none');
     }
-
-    const user = await getOneUserService(userId);
-
-    if (user) {
-        const reviewView = {
-            image: user['profilePicture'],
-            username: user['name']+' '+user['lastName'],
-            message: document.getElementById('message-box').value,
-            rate: Number.parseInt(document.getElementById('rate').value)
-        }
-        
-        createReview(reviewView);
+    else {
+        $('#show-more-comments').removeClass('d-none');
     }
-    else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-        return;
-    }
-    */
-
+    
     $(this)[0].reset();
     $('.rate-star').removeClass('bxs-star').addClass('bx-star');
 }
 
-export const showMoreComments = async function(pageNum, courseId) {
+export const clickMoreComments = async function(event) {
+    const courseId = new URLSearchParams(window.location.search).get('id') ?? -1;
     currentPage++;
-    //courseId=new URLSearchParams(window.location.search).get('id') || '';
-    const pageSize = 1;
-    const response = await showMoreCommentsService(courseId,pageNum,pageSize);
-    if (response?.status) {
-        var userId = $("#show-more-comments").data('user-id');
-        var userRole = $("#show-more-comments").data('user-rol');
-        const reviews = response.reviews;
-        reviews.forEach(review => {
-            showMoreReviews(review, userId, userRole);
-        });
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-        return;
+    await showMoreComments(courseId, currentPage, pageSize);
+    if (currentPage >= REVIEWS_TOTAL_PAGES) {
+        $('#show-more-comments').addClass('d-none');
     }
-
-}
-
-export const showMoreComments2 = async function(courseId, pageNum, pageSize) {
-    //courseId=new URLSearchParams(window.location.search).get('id') || '';
-    const response = await showMoreCommentsService(courseId,pageNum,pageSize);
-    if (response?.status) {
-        var userId = $("#show-more-comments").data('user-id');
-        var userRole = $("#show-more-comments").data('user-rol');
-        const reviews = response.reviews;
-        reviews.forEach(review => {
-            showMoreReviews(review, userId, userRole);
-        });
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-        return;
+    else {
+        $('#show-more-comments').removeClass('d-none');
     }
 }
 
-export const deleteReview = async function(reviewId) {
+export const showMoreComments = async function(courseId, pageNum, pageSize, empty = false) {
+    const response = await showMoreCommentsService(courseId, pageNum, pageSize);
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
     
-    const response = await deleteReviewService(reviewId);
-    if (response?.status) {
-        Toast.fire({
-            icon: 'success',
-            title: 'La reseña ha sido eliminada con éxito'
-        });
-        currentPage = 1;
+    const userId = $("#show-more-comments").data('user-id');
+    const userRole = $("#show-more-comments").data('user-rol');
+    const reviews = response.reviews;
+
+    if (empty) {
         $('#review-section').empty();
-        const courseId=new URLSearchParams(window.location.search).get('id') || '';
-        const totalCourses = await ReviewService.courseTotal(courseId);
-        REVIEWS_TOTAL_PAGES = Math.ceil(totalCourses / pageSize);
-        const responseReviews = await showMoreCommentsService(courseId,1,1*currentPage);
-        if (responseReviews?.status) {
-            var userId = $("#show-more-comments").data('user-id');
-            var userRole = $("#show-more-comments").data('user-rol');
-            const reviews = responseReviews.reviews;
-            console.log(reviews);
-            reviews.forEach(review => {
-                showMoreReviews(review, userId, userRole);
-            });
-        }
-    }else{
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: "Algo salió mal",
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+    }
+
+    reviews.forEach(review => {
+        showMoreReviews(review, userId, userRole);
+    });
+}
+
+export const deleteReview = async function(reviewId) { 
+    const response = await deleteReviewService(reviewId);
+    if (!response?.status) {
+        showErrorMessage(response);
         return;
     }
 
+    Toast.fire({
+        icon: 'success',
+        title: 'La reseña ha sido eliminada con éxito'
+    });
+
+    const courseId = new URLSearchParams(window.location.search).get('id') ?? -1;
+
+    const totalCourses = await ReviewService.courseTotal(courseId);
+    REVIEWS_TOTAL_PAGES = Math.ceil(totalCourses / pageSize);
+
+    showMoreComments(courseId, 1, currentPage * pageSize, true);
+
+    if (currentPage >= REVIEWS_TOTAL_PAGES) {
+        $('#show-more-comments').addClass('d-none');
+    }
+    else {
+        $('#show-more-comments').removeClass('d-none');
+    }
 }

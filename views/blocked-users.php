@@ -35,25 +35,25 @@
 
           <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
             <li class="nav-item">
-              <a href="profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
+              <a href="/profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
                 <i class='bx bxs-home'></i>
                 Inicio
               </a>
             </li>
             <li>
-              <a href="admin-courses" class="nav-link text-white">
+              <a href="/admin-courses" class="nav-link text-white">
                 <i class='bx bxs-videos'></i>
                 Cursos
               </a>
             </li>
             <li>
-              <a href="admin/categories" class="nav-link text-white">
+              <a href="/admin/categories" class="nav-link text-white">
                 <i class='bx bxs-category'></i>
                 Categorias
               </a>
             </li>
             <li>
-              <a href="blocked-users" class="nav-link text-white active">
+              <a href="/blocked-users" class="nav-link text-white active">
                 <i class='bx bxs-group' ></i>
                 Usuarios
               </a>
@@ -86,7 +86,7 @@
                           <?= Format::sanitize($user["name"]) ?> <?= Format::sanitize($user["lastName"]) ?>
                         </td>
                         <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="student-profile-seen-by-others">Ver perfil</a>
+                          <a class="btn btn-secondary rounded-pill" href="/student-profile-seen-by-others">Ver perfil</a>
                         </td>
                         <td data-title="Desbloquear">
                           <button class="btn btn-secondary rounded-pill unblock-btn" id="<?= $user["id"] ?>">Desbloquear</button>

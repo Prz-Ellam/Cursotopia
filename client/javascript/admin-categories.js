@@ -26,6 +26,7 @@ $(async () => {
         denyCategory(categoryId);
     });
 
+    /*
     $(document).on('click', '.activate-btn', function() {
         const categoryId = $(this).attr('id');
         activateCategory(categoryId);
@@ -35,4 +36,5 @@ $(async () => {
         const categoryId = $(this).attr('id');
         deactivateCategory(categoryId);
     });
+    */
 });

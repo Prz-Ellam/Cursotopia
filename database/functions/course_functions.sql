@@ -42,3 +42,35 @@ BEGIN
   RETURN course_completion;
 END $$
 DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE FUNCTION get_course_video_duration(
+    course_id                     INT
+) 
+RETURNS DECIMAL(10,2)
+BEGIN
+    DECLARE total_duration DECIMAL(10,2);
+    
+    SELECT 
+        SUM(TIME_TO_SEC(v.`video_duration`)) / 3600.0
+    INTO 
+        total_duration
+    FROM 
+        `courses` AS c
+    INNER JOIN 
+        `levels` AS l ON c.`course_id` = l.`course_id` 
+        AND l.`level_active` = TRUE
+    INNER JOIN 
+        `lessons` AS le ON l.`level_id` = le.`level_id` 
+        AND le.`lesson_active` = TRUE
+    LEFT JOIN 
+        `videos` AS v ON le.`video_id` = v.`video_id` 
+        AND v.`video_active` = TRUE
+    WHERE 
+        c.`course_id` = course_id;
+        
+    RETURN total_duration;
+END$$
+DELIMITER ;

@@ -76,7 +76,7 @@ class Review {
     }
 
     public function getActive() {
-        return $this->active;
+        return $this->active ? 1 : 0;
     }
 
     public function setActive($active) {

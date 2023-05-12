@@ -10,7 +10,7 @@ SELECT
     CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `instructor_name`,
     IFNULL(AVG(r.`review_rate`), 0) `rate`,
     COUNT(DISTINCT l.`level_id`) AS `levels`,
-    SUM(TIME_TO_SEC(v.`video_duration`)) / 3600.0 AS `video_duration`,
+    get_course_video_duration(c.`course_id`) AS `video_duration`,
     c.`course_is_complete`,
     c.`course_approved`,
     c.`course_approved_by`,
@@ -39,10 +39,5 @@ INNER JOIN
 ON
     l.`level_id` = le.`level_id` 
     AND le.`lesson_active` = TRUE
-LEFT JOIN
-    `videos` AS v
-ON
-    le.`video_id` = v.`video_id` 
-    AND v.`video_active` = TRUE
 GROUP BY
     c.`course_id`;

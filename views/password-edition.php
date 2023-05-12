@@ -27,7 +27,7 @@
 
 <!-- 
     <div class="px-3 mt-3 mb-0 alert alert-secondary border-0 p-2" role="alert">
-      <a href="instructor-profile" class="text-decoration-none text-primary">
+      <a href="/instructor-profile" class="text-decoration-none text-primary">
         Mi cuenta
       </a> / Editar contraseña
     </div> -->

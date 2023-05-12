@@ -9,6 +9,13 @@ use Cursotopia\ValueObjects\Roles;
 
 // Web
 /**
+ * Página para comprar un curso
+ */
+$app->get("/payment-method", [ EnrollmentController::class, "paymentMethod" ], [
+    [ AuthWebMiddleware::class, true ]
+]);
+
+/**
  * Página del certificado del curso
  */
 $app->get("/certificate", [ EnrollmentController::class, "certificate" ], [

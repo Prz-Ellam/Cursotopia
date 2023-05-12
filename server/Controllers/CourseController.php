@@ -85,7 +85,7 @@ class CourseController {
 
         $reviewRepository = new ReviewRepository();
         $pageNum = 1;
-        $pageSize = 10;
+        $pageSize = 5;
         $reviews = $reviewRepository->findByCourse($id, $pageNum, $pageSize);
 
         $reviewsTotal = $reviewRepository->findTotalByCourse($id)["total"];
@@ -422,6 +422,7 @@ class CourseController {
             ->setDescription($description)
             ->setPrice($price);
         $isUpdated = $course->save();
+        /*
         if (!$isUpdated) {
             $response->setStatus(400)->json([
                 "status" => true,
@@ -429,6 +430,7 @@ class CourseController {
             ]);
             return;
         }
+        */
 
         $courseCategoryRepository = new CourseCategoryRepository();
         $courseCategoryRepository->deleteByCourse($id);

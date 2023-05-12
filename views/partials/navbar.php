@@ -75,7 +75,7 @@ if ($id) {
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat">
+            <a class="nav-link text-light" aria-current="page" href="/chat">
               <i class="bx-sm bx bxs-bell position-relative">
                 <?php if ($unreadMessages > 0): ?>
                 <span class="badge rounded-pill badge-notification bg-danger">
@@ -117,7 +117,7 @@ if ($id) {
       <?php elseif (Auth::auth(2)): ?>
         <ul class="navbar-nav ms-auto d-lg-flex align-items-lg-center me-2">
           <li class="nav-item">
-            <a href="course-creation" class="nav-link fw-bold text-light">
+            <a href="/course-creation" class="nav-link fw-bold text-light">
               Crear curso
             </a>
           </li>
@@ -142,7 +142,7 @@ if ($id) {
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat">
+            <a class="nav-link text-light" aria-current="page" href="/chat">
               <i class="bx-sm bx bxs-bell position-relative">
                 <?php if ($unreadMessages > 0): ?>
                 <span class="badge rounded-pill badge-notification bg-danger">
@@ -209,7 +209,7 @@ if ($id) {
             </ul>
           </li>    
           <li class="nav-item">
-            <a class="nav-link text-light" aria-current="page" href="chat">
+            <a class="nav-link text-light" aria-current="page" href="/chat">
               <i class="bx-sm bx bxs-bell position-relative">
                 <?php if ($unreadMessages > 0): ?>
                 <span class="badge rounded-pill badge-notification bg-danger">

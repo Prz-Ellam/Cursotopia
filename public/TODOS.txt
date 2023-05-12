@@ -12,6 +12,7 @@
 [x] Editar curso el checkbox de gratis no funciona
 [] No hay que sanitizar los inputs <h1></h1>
 [] Categorias es opcional la descripción
+[] Categorías no aprobadas duplicadas
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

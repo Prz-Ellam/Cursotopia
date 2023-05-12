@@ -87,7 +87,7 @@
                         <td data-title="Curso"><?= $course["title"] ?></td>
                         <td data-title="Usuario"><?= $course["instructor"] ?></td>
                         <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="course-details?id=<?= $course["id"] ?>">Ver detalles</a>
+                          <a class="btn btn-secondary rounded-pill" href="/course-details?id=<?= $course["id"] ?>">Ver detalles</a>
                         </td>
                         <td data-title="Aceptar/Declinar">
                           <button data-id="<?= $course["id"] ?>" class="btn border-0 btn-approve">

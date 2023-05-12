@@ -5,6 +5,8 @@ namespace Cursotopia\Routes;
 use Cursotopia\Controllers\CategoryController;
 use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\AuthWebMiddleware;
+use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
 use Cursotopia\ValueObjects\Roles;
 
 /**
@@ -22,17 +24,23 @@ $app->get("/api/v1/categories", [ CategoryController::class, "getAll" ]);
 /**
  * Obtiene todas las categorías approvadas
  */
-$app->get("/api/v1/categories/approved", [ CategoryController::class, "getApproved" ]);
+$app->get("/api/v1/categories/approved", [ CategoryController::class, "getApproved" ], [
+    [ AuthWebMiddleware::class, true, Roles::ADMIN->value ] 
+]);
 
 /**
  * Obtiene todas las categorías no aprobadas
  */
-$app->get("/api/v1/categories/notApproved", [ CategoryController::class, "getNotApproved" ]);
+$app->get("/api/v1/categories/notApproved", [ CategoryController::class, "getNotApproved" ], [
+    [ AuthWebMiddleware::class, true, Roles::ADMIN->value ] 
+]);
 
 /**
  * Obtiene todas las categorías no activas
  */
-$app->get("/api/v1/categories/notActive", [ CategoryController::class, "getNotActive" ]);
+$app->get("/api/v1/categories/notActive", [ CategoryController::class, "getNotActive" ], [
+    [ AuthWebMiddleware::class, true, Roles::ADMIN->value ] 
+]);
 
 /**
  * Checa si una categoría existe por su nombre
@@ -42,20 +50,16 @@ $app->post("/api/v1/categories/name", [ CategoryController::class, "checkNameExi
 /**
  * Obtiene una categoría
  */
-$app->get("/api/v1/categories/:id", [ CategoryController::class, "findById" ]);
+$app->get("/api/v1/categories/:id", [ CategoryController::class, "findById" ], [
+    [ ValidateIdMiddleware::class ]
+]);
 
 /**
  * Crea una categoría
  */
 $app->post("/api/v1/categories", [ CategoryController::class, "create" ], [ 
-    [ AuthApiMiddleware::class, true ] 
-]);
-
-/**
- * Actualiza una categoría
- */
-$app->put("/api/v1/categories/:id", [ CategoryController::class, "update" ], [
-    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+    [ AuthApiMiddleware::class, true ],
+    [ JsonSchemaMiddleware::class, "CategoryCreateValidator" ]
 ]);
 
 /**
