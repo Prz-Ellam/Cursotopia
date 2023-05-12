@@ -12,9 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  
   <!-- Bootstrap -->
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

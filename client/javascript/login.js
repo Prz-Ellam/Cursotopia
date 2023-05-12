@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import 'bootstrap';
+import AOS from 'aos';
 import { passwordToggle, submitLogin } from './controllers/user.controller';
 import LoginValidator from './validators/login.validator';
 

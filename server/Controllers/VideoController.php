@@ -83,11 +83,11 @@ class VideoController {
     }
 
     public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
         if (!Validate::uint($id)) {
             $response->setStatus(400)->json([
                 "status" => false,
-                "message" => "ID is not valid"
+                "message" => "Identificador no válido"
             ]);
             return;
         }

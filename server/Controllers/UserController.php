@@ -500,9 +500,9 @@ class UserController {
             return;
         }
 
-        $result= UserModel::disableUser($id);
+        $result = UserModel::disableUser($id);
         if (!$result) {
-            $response->setStatus(404)->json([
+            $response->setStatus(400)->json([
                 "status" => false,
                 "message" => $result
             ]);

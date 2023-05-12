@@ -123,11 +123,11 @@ export const approveCategoryService = async (categoryId) => {
     return null;
 }
 
-export const updateCategoryService = async (category) => {
+export const updateCategoryService = async (id, category) => {
     try {
         const configuration = {
             method: 'PUT',
-            url: `/api/v1/categories/${category.id}`,
+            url: `/api/v1/categories/${id}`,
             headers: {
                 'Content-Type': 'application/json'
             },

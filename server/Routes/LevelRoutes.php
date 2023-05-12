@@ -11,7 +11,9 @@ use Cursotopia\ValueObjects\Roles;
 /**
  * Obtiene un nivel en base a su identificador único
  */
-$app->get("/api/v1/levels/:id", [ LevelController::class, "getOne" ]);
+$app->get("/api/v1/levels/:id", [ LevelController::class, "getOne" ], [
+    [ ValidateIdMiddleware::class ]
+]);
 
 /**
  * Crea un nivel

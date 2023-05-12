@@ -14,15 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Boxicons -->
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <?= $this->link("styles/pages/blocked-users.css") ?>
   <?= $this->script("javascript/blocked-users.js") ?>
-
-  <!-- SweetAlert -->
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -139,7 +132,5 @@
       </div>
     </div>
   </div>
-
 </body>
-
 </html>

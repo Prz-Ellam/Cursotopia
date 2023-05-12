@@ -63,16 +63,20 @@ CREATE PROCEDURE `level_find_by_id`(
 )
 BEGIN
     SELECT
-        `level_id`                      AS `id`,
-        `level_title`                   AS `title`,
-        `level_description`             AS `description`,
-        `level_is_free`                 AS `free`,
-        `course_id`                     AS `courseId`,
-        `level_created_at`              AS `createdAt`,
-        `level_modified_at`             AS `modifiedAt`,
-        `level_active`                  AS `active`
+        l.`level_id`                    AS `id`,
+        l.`level_title`                 AS `title`,
+        l.`level_description`           AS `description`,
+        l.`level_is_free`               AS `free`,
+        l.`course_id`                   AS `courseId`,
+        l.`level_created_at`            AS `createdAt`,
+        l.`level_modified_at`           AS `modifiedAt`,
+        l.`level_active`                AS `active`,
+        c.`instructor_id`               AS `instructorId`,
+        c.`course_is_complete`          AS `courseIsComplete`
     FROM
-        `levels`
+        `levels` AS l
+    INNER JOIN
+        `courses` AS c ON l.`course_id` = c.`course_id`
     WHERE
         `level_id` = `_level_id`
         AND `level_active` = TRUE;

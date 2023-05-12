@@ -1,3 +1,4 @@
+import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
 import { createMessageService, getAllChatMessageService } from '../services/chat-message.service';
 import { findUserChats } from '../services/chat.service';
@@ -55,5 +56,5 @@ export const loadMessages = async (chatId) => {
     });
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 }

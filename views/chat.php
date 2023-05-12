@@ -14,12 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-  
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <?= $this->link("styles/pages/chat.css") ?>
   <?= $this->script("javascript/chat.js") ?>
@@ -98,7 +93,7 @@
           </button>
           <img
             class="img-fluid rounded-circle actual-chat-user-image"
-            src="../client/assets/images/perfil.png"
+            src="<?= $this->asset("assets/images/perfil.png") ?>"
             alt="Perfil"
           >
           <span class="h5 mb-0 ms-2 text-black fw-bold actual-chat-user-name"></span>
@@ -117,8 +112,4 @@
       </section>
     </div>
   </main>
-</body>
-<script src="../node_modules/jquery/dist/jquery.min.js"></script>
-<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

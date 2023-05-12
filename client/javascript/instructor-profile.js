@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import 'bootstrap';
+import AOS from 'aos';
 
 $(async () => {
     AOS.init({

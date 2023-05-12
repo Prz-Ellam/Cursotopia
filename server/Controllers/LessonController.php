@@ -104,14 +104,16 @@ class LessonController {
     }
 
     public function update(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
+        
         $id = intval($request->getParams("id"));
         [
             "title" => $title,
             "description" => $description
         ] = $request->getBody();
 
-        $lesson = LessonModel::findById($id);
-        if (!$lesson) {
+        $requestedLesson = LessonModel::findById($id);
+        if (!$requestedLesson) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Lección no encontrada"
@@ -119,18 +121,28 @@ class LessonController {
             return;
         }
 
-        $lesson
-            ->setTitle($title)
-            ->setDescription($description);
-        
-        $isUpdated = $lesson->save();
-        if (!$isUpdated) {
-            $response->setStatus(400)->json([
-                "status" => true,
-                "message" => "La lección no se pudo actualizar"
+        /*
+        if ($userId != $requestedLesson->getUserId()) {
+            $response->setStatus(403)->json([
+                "status" => false,
+                "message" => "No autorizado"
             ]);
             return;
         }
+        */
+
+        $requestedLesson
+            ->setTitle($title)
+            ->setDescription($description);
+        
+        $isUpdated = $requestedLesson->save();
+        // if (!$isUpdated) {
+        //     $response->setStatus(400)->json([
+        //         "status" => true,
+        //         "message" => "La lección no se pudo actualizar"
+        //     ]);
+        //     return;
+        // }
 
         $response->json([
             "status" => true,
@@ -204,5 +216,3 @@ class LessonController {
         $response->json([]);
     }
 }
-
-

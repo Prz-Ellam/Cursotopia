@@ -10,7 +10,15 @@ use Exception;
 
 class LevelController {
     public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
+
+        if ($id === 0) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Identificador invalido"
+            ]);
+            return;
+        }
 
         $level = LevelModel::findObjById($id);
         if (!$level) {
@@ -21,6 +29,7 @@ class LevelController {
             return;
         }
 
+        // TODO: Status
         $response->json($level);
     }
 
@@ -74,6 +83,7 @@ class LevelController {
 
     public function update(Request $request, Response $response): void {
         try {
+            $userId = $request->getSession()->get("id");
             $id = intval($request->getParams("id"));
             [
                 "title" => $title,
@@ -91,19 +101,29 @@ class LevelController {
                 return;
             }
 
+            /*
+            if ($userId != $requestedLesson->getUserId()) {
+                $response->setStatus(403)->json([
+                    "status" => false,
+                    "message" => "No autorizado"
+                ]);
+                return;
+            }
+            */
+
             $level
                 ->setTitle($title)
                 ->setDescription($description)
                 ->setFree($free);
 
             $isUpdated = $level->save();
-            if (!$isUpdated) {
-                $response->setStatus(400)->json([
-                    "status" => true,
-                    "message" => "El nível no se pudo actualizar"
-                ]);
-                return;
-            }
+            // if (!$isUpdated) {
+            //     $response->setStatus(400)->json([
+            //         "status" => true,
+            //         "message" => "El nível no se pudo actualizar"
+            //     ]);
+            //     return;
+            // }
 
             $response->json([
                 "status" => true,
@@ -120,6 +140,7 @@ class LevelController {
 
     public function delete(Request $request, Response $response): void {
         try {
+            $userId = $request->getSession()->get("id");
             $id = intval($request->getParams("id"));
 
             $level = LevelModel::findById($id);

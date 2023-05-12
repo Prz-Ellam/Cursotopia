@@ -75,7 +75,7 @@ class DocumentController {
         if (!Validate::uint($id)) {
             $response->setStatus(400)->json([
                 "status" => false,
-                "message" => "ID is not valid"
+                "message" => "Identificador no válido"
             ]);
             return;
         }

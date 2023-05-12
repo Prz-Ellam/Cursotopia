@@ -19,6 +19,9 @@ class LessonModel {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
+    // TODO:
+    // private ?int $userId = null;
+
     private EntityState $entityState;
 
     public function __construct(?array $object = null) {

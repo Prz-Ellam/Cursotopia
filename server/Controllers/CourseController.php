@@ -313,20 +313,21 @@ class CourseController {
         if (!Validate::uint($id)) {
             $response->setStatus(400)->json([
                 "status" => false,
-                "message" => "ID is not valid"
+                "message" => "Identificador no valido"
             ]);
             return;
         }
 
         $courseRepository = new CourseRepository();
         $course = $courseRepository->courseDetailsfindOneById($id);
-        // $course = CourseModel::findOneById($id);
-        /**
-         * if (!$course) {
-         *  // 404
-         * }
-         * 
-         */
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         $response->json($course);
     }
 
@@ -537,7 +538,6 @@ class CourseController {
         ] = $request->getBody();
 
         $adminId = $session->get("id");
-        $role = $session->get("role");
 
         //Validar que el curso exista
 
@@ -550,19 +550,9 @@ class CourseController {
             return;
         }
 
-        //Validar que el usuario sea administrador
-
-        if ($role!=1) {
-            $response->json([
-                "status" => false,
-                "message" => "Solo los administradores pueden aprobar cursos"
-            ]);
-            return;
-        }
-
         $result = CourseModel::approve($courseId, $adminId, $approve);
 
-        if(!$result){
+        if (!$result) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "No se pudo aprobar el curso"
@@ -580,7 +570,6 @@ class CourseController {
         $courseId = $request->getParams("id");
         $session = $request->getSession();
         $adminId = $session->get("id");
-        $role = $session->get("role");
     
         //Validar que el curso exista
     
@@ -589,16 +578,6 @@ class CourseController {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Curso no encontrado"
-            ]);
-            return;
-        }
-    
-        //Validar que el usuario sea administrador
-    
-        if ($role!=1) {
-            $response->json([
-                "status" => false,
-                "message" => "Solo los administradores pueden aprobar cursos"
             ]);
             return;
         }

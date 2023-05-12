@@ -1,4 +1,8 @@
+import $ from './jquery-global';
+import 'bootstrap';
+import 'boxicons';
 import AOS from 'aos';
+import 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
 import { getAllInstructorsUsersService } from './services/user.service';
 
 $(async () => {

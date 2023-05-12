@@ -146,7 +146,15 @@ class ImageController {
         // No deberia ver las imagenes de las lecciones porque solo los que compraron
         // el curso pueden verlas
         $id = intval($request->getParams("id"));
-        $image = ImageModel::findById($id);
+        if ($id === 0) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Identificador invalido"
+            ]);
+            return;
+        }
+
+        $image = ImageModel::findObjById($id);
         if (!$image) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -155,12 +163,12 @@ class ImageController {
             return;
         }
         
-        $response->setHeader("X-Image-Id", $image->getId());
-        $response->setHeader("Content-Length", $image->getSize());
-        $response->setContentType($image->getContentType());
-        $response->setHeader("Content-Disposition", 'inline; filename="' . $image->getName() . '"');
-        $dt = new DateTime($image->getModifiedAt());
+        $response->setHeader("X-Image-Id", $image["id"]);
+        $response->setHeader("Content-Length", $image["size"]);
+        $response->setContentType($image["contentType"]);
+        $response->setHeader("Content-Disposition", 'inline; filename="' . $image["name"] . '"');
+        $dt = new DateTime($image["modifiedAt"]);
         $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
-        $response->setBody($image->getData());
+        $response->setBody($image["data"]);
     }
 }

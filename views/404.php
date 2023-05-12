@@ -14,16 +14,8 @@
   <!-- Boxicons -->
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
-  <!-- AOS -->
-  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
-  <script src="../node_modules/aos/dist/aos.js"></script>
-
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
   <?= $this->link("styles/pages/404.css") ?>
-  <?= $this->script("javascript/instructor-profile.js") ?>
+  <?= $this->script("javascript/404.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
@@ -35,7 +27,11 @@
         <h2 class="text-sm-center text-md-start">No encontrado</h2>
       </div>
       <div class="col-sm-12 col-md-6">
-        <img src="../client/assets/images/404.svg" alt="404 Not Found" class="img-fluid">
+        <img 
+          src="<?= $this->asset("assets/images/404.svg" ) ?>"
+          alt="404 Not Found" 
+          class="img-fluid"
+        >
       </div>
     </section>
   </main>

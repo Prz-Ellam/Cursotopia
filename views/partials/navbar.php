@@ -19,7 +19,7 @@ if ($id) {
   <div class="container-fluid">
     <a class="navbar-brand text-white" href="/home">
       <img 
-        src="../client/assets/images/logo.png" 
+        src="<?= $this->asset("assets/images/logo.png") ?>" 
         alt="Logo" 
         width="34" 
         height="34" 

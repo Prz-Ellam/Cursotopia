@@ -5,7 +5,7 @@ use Bloom\Application;
 define("BLOOM_START", microtime(true));
 define("DEBUG_MODE", true);
 define("BASE_DIR", __DIR__);
-define("DOCUMENT_ROOT", $_SERVER["DOCUMENT_ROOT"]);
+define("DOCUMENT_ROOT", dirname($_SERVER["DOCUMENT_ROOT"]));
 define("UPLOADS_DIR", DOCUMENT_ROOT . "/uploads");
 // No funciona debido a la eliminacion del horario de verano
 //define("TIMEZONE", "America/Monterrey");

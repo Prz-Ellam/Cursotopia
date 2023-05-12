@@ -1,6 +1,5 @@
 <?php
-
-use Cursotopia\Helpers\Format;
+  use Cursotopia\Helpers\Format;
 ?>
 <main>
   <!-- Hero -->

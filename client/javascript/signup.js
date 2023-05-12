@@ -28,7 +28,7 @@ $(async () => {
 
     // Profile Picture
     $('#profile-picture').on('change', async (event) => {
-        await displayImageFile(event, '#profile-picture', '#picture-box', '../client/assets/images/perfil.png');
+        await displayImageFile(event, '#profile-picture', '#picture-box', PROFILE_PICTURE);
     });
     
     // Signup

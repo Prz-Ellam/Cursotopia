@@ -135,7 +135,7 @@ class ImageModel {
 
         $rowsAffected = $this->imageRepository->update($image);
         return ($rowsAffected > 0) ? true : false;
-}
+    }
 
     public static function findById(?int $id): ?ImageModel {
         $repository = new ImageRepository();
@@ -144,6 +144,11 @@ class ImageModel {
             return null;
         }
         return new ImageModel($object);
+    }
+
+    public static function findObjById(?int $id): ?array {
+        $repository = new ImageRepository();
+        return $repository->findById($id);
     }
 
     public static function findOneByIdAndNotUserId(int $id): ?array {

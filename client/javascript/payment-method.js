@@ -1,11 +1,20 @@
 import $ from './jquery-global';
 import 'jquery-validation';
+import 'bootstrap';
 import { payment } from './controllers/payment-method.controller';
 import PayMethodValidator from './validators/pay-method.validator';
 
 $(async () => {
   $('#payment-method-form').validate(PayMethodValidator);
   $('#payment-method-form').on('submit', payment);
+
+  $('#chk-paypal').on('click', function() {
+    $('#payment-btn').addClass('d-none');
+  });
+
+  $('#chk-card').on('click', function() {
+    $('#payment-btn').removeClass('d-none');
+  });
 
   const monthInput = document.querySelector('#month');
   const yearInput = document.querySelector('#year');
@@ -73,7 +82,7 @@ $(async () => {
   paypal.Button.render({
     env: 'sandbox',
     client: {
-      sandbox: 'AYRWL7VDLGBBSSSutwgu3nPO8ZDZKNGCiON9pO_X-dGx3lgkWMLL2xlQjDycSG5qA3bh4IRsjMMgHunl'
+      sandbox: PAYPAL
     },
     payment: function (data, actions) {
       return actions.payment.create({

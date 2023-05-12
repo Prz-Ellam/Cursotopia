@@ -12,16 +12,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-	<!-- AOS -->
-  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
-  <script src="../node_modules/aos/dist/aos.js"></script>
-
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
   <?= $this->link("styles/pages/student-profile.css") ?>
   <?= $this->link("styles/pages/student-profile-seen-by-others.css") ?>
   <?= $this->script("javascript/instructor-profile.js") ?>

@@ -46,9 +46,9 @@ class EnrollmentController {
     
         // Cargar la imagen de plantilla
         // Definir la ubicación de la imagen y la fuente personalizada
-        $imgPath = "certificate.png";
-        $fontBoldPath = "Lato/Lato-Bold.ttf";
-        $fontRegularPath = "Lato/Lato-Regular.ttf";
+        $imgPath = DOCUMENT_ROOT . "/server/Resources/certificate.png";
+        $fontBoldPath = DOCUMENT_ROOT . "/server/Resources/Lato/Lato-Bold.ttf";
+        $fontRegularPath = DOCUMENT_ROOT . "/server/Resources/Lato/Lato-Regular.ttf";
     
         // Crear una imagen a partir del archivo PNG
         $image = imagecreatefrompng($imgPath);

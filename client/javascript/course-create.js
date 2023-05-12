@@ -1,6 +1,7 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
+import 'bootstrap';
 import CourseCreateValidator from './validators/course-create.validator';
 import { backSection, createCourse, submitConfirmCourse } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
@@ -15,6 +16,7 @@ import { displayImageFile } from './controllers/image.controller';
 import LevelView from './views/level.view';
 import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
+import { Modal } from 'bootstrap';
 
 $(() => {
     // Crear curso
@@ -32,7 +34,7 @@ $(() => {
     // Create Category
     $('#create-category-btn').on('click', function() {
         const modal = document.getElementById('category-create-modal');
-        const modalInstance = new bootstrap.Modal(modal);
+        const modalInstance = new Modal(modal);
         modalInstance.show();
     });
 
@@ -43,7 +45,7 @@ $(() => {
     // Create Level
     $('#create-level-btn').on('click', function() {
         const modal = document.getElementById('level-create-modal');
-        const modalInstance = new bootstrap.Modal(modal);
+        const modalInstance = new Modal(modal);
         modalInstance.show();
     });
 
@@ -62,7 +64,7 @@ $(() => {
         $('#level-update-free').prop('checked', response.free);
 
         const modal = document.getElementById('level-update-modal');
-        const modalInstance = new bootstrap.Modal(modal);
+        const modalInstance = new Modal(modal);
         modalInstance.show();
     });
 
@@ -76,7 +78,7 @@ $(() => {
     // Create Lesson
     $(document).on('click', '.create-lesson-btn', function() {
         const modal = document.getElementById('lesson-create-modal');
-        const modalInstance = new bootstrap.Modal(modal);
+        const modalInstance = new Modal(modal);
         modalInstance.show();
 
         const createLessonLevel = document.getElementById('create-lesson-level');
@@ -97,7 +99,7 @@ $(() => {
         $('#edit-lesson-description').val(response.description);
 
         const modal = document.getElementById('lesson-update-modal');
-        const modalInstance = new bootstrap.Modal(modal);
+        const modalInstance = new Modal(modal);
         modalInstance.show();
     });
     $('#update-lesson-form').validate(createLessonValidator);

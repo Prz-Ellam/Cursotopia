@@ -15,16 +15,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   
-  <!-- Boxicons -->
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-
-  <!-- OwlCarousel -->
-  <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css">
-  
   <?= $this->link("styles/pages/home.css") ?>
   <?= $this->script("javascript/home.js") ?>
 </head>
@@ -37,7 +27,7 @@
         <div class="col-lg-6 d-flex flex-column justify-content-center text-center text-lg-start" data-aos="fade-up">
           <div>
             <img 
-              src="../client/assets/images/logo.png" 
+              src="<?= $this->asset("assets/images/logo.png") ?>" 
               alt="Logo" 
               width="128"
             >
@@ -63,7 +53,7 @@
         </div>
         <div class="col-lg-6" data-aos="zoom-in-up">
           <img
-            src="../client/assets/images/hero-banner.svg"
+            src="<?= $this->asset("assets/images/hero-banner.svg") ?>"
             class="img-fluid d-none d-lg-block"
             alt="Hero Banner"
           >
@@ -262,7 +252,7 @@
     <div class="row" data-aos="fade-up">
       <div class="col-lg-6 text-lg-start text-center">
         <img 
-          src="../client/assets/images/girl-working-on-laptop.svg"
+          src="<?= $this->asset("assets/images/girl-working-on-laptop.svg") ?>"
           alt="Mujer trabajando con una laptop"
           class="img-fluid"
         >

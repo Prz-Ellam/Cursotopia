@@ -1,10 +1,13 @@
+import $ from './jquery-global';
+import 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
+import { Tooltip } from 'bootstrap';
 import { loadMessages, sendMessage } from './controllers/chat.controller';
 import { findChatService, findUserChats } from './services/chat.service';
 import { getAllUsersService } from './services/user.service';
 
 $(async () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 
     $('#message').on('keydown', async function(event) {
         if (event.key === 'Enter') {

@@ -20,7 +20,6 @@ $app->get("/api/v1/documents/:id", [ DocumentController::class, "getOne" ], [
 //    [ AuthApiMiddleware::class, true ]
 //]);
 
-// TODO
 /**
  * Actualiza un documento
  */

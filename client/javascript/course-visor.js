@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'bootstrap';
 import Swal from 'sweetalert2';
 import LessonService from './services/lesson.service';
 

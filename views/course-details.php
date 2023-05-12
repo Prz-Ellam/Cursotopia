@@ -14,13 +14,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
   <!-- FontAwesome -->
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   

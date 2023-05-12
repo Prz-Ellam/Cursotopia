@@ -10,7 +10,7 @@ use Cursotopia\Models\LinkModel;
 
 class LinkController {
     public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $id = intval($request->getParams("id"));
         if (!Validate::uint($id)) {
             $response->setStatus(400)->json([
                 "status" => false,
@@ -20,6 +20,13 @@ class LinkController {
         }
 
         $link = LinkModel::findById($id);
+        if (!$link) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Enlace no encontrado"
+            ]);
+            return;
+        }
 
         $response->json($link);
     }
@@ -47,6 +54,6 @@ class LinkController {
     }
 
     public function delete(Request $request, Response $response): void {
-        
+        // Jubilado
     }
 }

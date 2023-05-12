@@ -14,19 +14,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/payment-method.css">
-
   <!-- PayPal -->
   <script src="https://www.paypal.com/sdk/js?client-id=AYRWL7VDLGBBSSSutwgu3nPO8ZDZKNGCiON9pO_X-dGx3lgkWMLL2xlQjDycSG5qA3bh4IRsjMMgHunl"></script>
   <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  
+  <?= $this->link("styles/pages/payment-method.css") ?>
   <?= $this->script("javascript/payment-method.js") ?>
   <script>
     const PRICE = <?=$this->course["price"]?>;
@@ -45,12 +37,16 @@
           <div class="col-12">
             <div class="form-check">
               <input checked autocomplete="off" class="form-check-input" name="paymentMethodId" type="radio" id="chk-card" data-bs-toggle="collapse" data-bs-target=".checkout-section" aria-expanded="false" aria-controls="checkout-section" value="1">
-              <label class="form-check-label" for="chk-card">Tarjeta de crédito/debito</label>
+              <label class="form-check-label" for="chk-card" role="button">
+                Tarjeta de crédito/debito
+              </label>
             </div>
             <div class="form-check">
               <input class="form-check-input" name="paymentMethodId" type="radio" id="chk-paypal" autocomplete="off" data-bs-toggle="collapse" data-bs-target=".checkout-section" aria-expanded="false" aria-controls="checkout-section" value="2">
               <!-- TODO: ID hardcodeados -->
-              <label class="form-check-label" for="chk-paypal">Paypal</label>
+              <label class="form-check-label" for="chk-paypal" role="button">
+                Paypal
+              </label>
             </div>
           </div>
         </div>
@@ -90,11 +86,11 @@
         </div>
         <div class="row">
           <div class="col-2">
-            <img class="product-img" src="api/v1/images/<?= Format::sanitize($this->course["imageId"]) ?>" alt="Curso">
+            <img class="product-img" src="api/v1/images/<?= $this->course["imageId"] ?>" alt="Curso">
           </div>
           <div class="col-8">
             <label for="inputEmail4" class="form-label">
-              <?= Format::sanitize($this->course["title"]) ?>
+              <?= $this->course["title"] ?>
             </label>
           </div>
           <div class="col-2 ms-auto">
@@ -110,11 +106,16 @@
         </div>
       </form>
       <div class="col-lg-7 col-xxl-6 col-md-12">
-        <img src="../client/assets/images/online-shopping.png" alt="Pago" class="img-fluid">
+        <img src="<?= $this->asset("assets/images/online-shopping.png") ?>" 
+          alt="Pago" 
+          class="img-fluid">
       </div>
     </div>
   </main>
 
   <?= $this->render("partials/footer") ?>
 </body>
+<script>
+  const PAYPAL = '<?= $this->env("PAYPAL") ?>'
+</script>
 </html>

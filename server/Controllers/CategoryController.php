@@ -60,11 +60,17 @@ class CategoryController {
         ]);
     }
 
-    public function findById(Request $request, Response $response): void {
+    public function getOne(Request $request, Response $response): void {
         $categoryId = intval($request->getParams("id"));
 
-        $category = CategoryModel::findObjById($categoryId);
+        if ($categoryId === 0) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "category" => "Identificador no válido"
+            ]);
+        }
 
+        $category = CategoryModel::findObjById($categoryId);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,

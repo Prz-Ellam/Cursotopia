@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import AOS from 'aos';
+import 'bootstrap';
 import { deleteCourse } from './controllers/course.controller';
 
 $(() => {

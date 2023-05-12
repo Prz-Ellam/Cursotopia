@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../client/styles/pages/admin-home.css">
+<?= $this->link("styles/pages/admin-home.css") ?>
 <?= $this->script("javascript/admin-home.js") ?>
 
 <main class="container-fluid">

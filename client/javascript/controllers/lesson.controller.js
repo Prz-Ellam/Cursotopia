@@ -1,3 +1,4 @@
+import { Modal } from "bootstrap";
 import Swal from "sweetalert2";
 import LessonService, { createLessonService } from "../services/lesson.service";
 import { showErrorMessage } from "../utilities/show-error-message";
@@ -49,7 +50,7 @@ export const createLesson = async function(event) {
     const response = await LessonService.create(lessonForm);
 
     const modal = document.getElementById('lesson-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     if (!response?.status) {
@@ -77,7 +78,7 @@ export const courseEditionCreateLesson = async function(event) {
     }
 
     const modal = document.getElementById('lesson-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
     
     const levelId = document.getElementById('create-lesson-level').value;
@@ -99,7 +100,7 @@ export const updateLesson = async function(event) {
     }
 
     const modal = document.getElementById('lesson-update-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     const id = /* ??? */ null;

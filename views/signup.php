@@ -11,9 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
   <!-- FontAwesome -->
   <script defer src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
   
@@ -35,7 +32,7 @@
               <img 
                 class="img img-fluid rounded-circle mb-1" 
                 id="picture-box" 
-                src="../client/assets/images/perfil.png"
+                src="<?= $this->asset("assets/images/perfil.png") ?>"
                 alt="Profile picture"
               >
             </div>
@@ -169,4 +166,7 @@
     </section>
   </main>
 </body>
+<script>
+  const PROFILE_PICTURE = '<?= $this->asset("assets/images/perfil.png") ?>';
+</script>
 </html>

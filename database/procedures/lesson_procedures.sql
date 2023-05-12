@@ -75,25 +75,31 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `lesson_find_by_id` $$
 CREATE PROCEDURE `lesson_find_by_id`(
-    IN `lesson_id`                      INT
+    IN `_lesson_id`                     INT
 )
 BEGIN
     SELECT
-        `lesson_id`                     AS `id`,
-        `lesson_title`                  AS `title`,
-        `lesson_description`            AS `description`,
-        `level_id`                      AS `levelId`,
-        `video_id`                      AS `videoId`,
-        `image_id`                      AS `imageId`,
-        `document_id`                   AS `documentId`,
-        `link_id`                       AS `linkId`,
-        `lesson_created_at`             AS `createdAt`,
-        `lesson_modified_at`            AS `modifiedAt`,
-        `lesson_active`                 AS `active`
+        le.`lesson_id`                  AS `id`,
+        le.`lesson_title`               AS `title`,
+        le.`lesson_description`         AS `description`,
+        le.`level_id`                   AS `levelId`,
+        le.`video_id`                   AS `videoId`,
+        le.`image_id`                   AS `imageId`,
+        le.`document_id`                AS `documentId`,
+        le.`link_id`                    AS `linkId`,
+        le.`lesson_created_at`          AS `createdAt`,
+        le.`lesson_modified_at`         AS `modifiedAt`,
+        le.`lesson_active`              AS `active`,
+        c.`instructor_id`               AS `instructorId`,
+        c.`course_is_complete`          AS `courseIsComplete`
     FROM
-        `lessons`
+        `lessons` AS le
+    INNER JOIN
+        `levels` AS l ON le.`level_id` = l.`level_id`
+    INNER JOIN
+        `courses` AS c ON l.`course_id` = c.`course_id`
     WHERE
-        `lesson_id` = `lesson_id`
+        `lesson_id` = `_lesson_id`
         AND `lesson_active` = TRUE;
 END $$
 DELIMITER ;

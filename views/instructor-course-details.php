@@ -1,7 +1,5 @@
 <?php
-
-use Cursotopia\Helpers\Format;
-
+  use Cursotopia\Helpers\Format;
 ?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
@@ -16,20 +14,7 @@ use Cursotopia\Helpers\Format;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Boxicons --> 
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/instructor-course-details.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- AOS -->
-  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
-  <script src="../node_modules/aos/dist/aos.js"></script>
-  
-  <!-- SweetAlert -->
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-
+  <?= $this->link("styles/pages/instructor-course-details.css") ?>
   <?= $this->script("javascript/instructor-course-details.js")  ?>
 </head>
 <body>

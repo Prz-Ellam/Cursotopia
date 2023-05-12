@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'bootstrap';
 import 'jquery-validation';
 import { passwordStrength, passwordToggle, updatePassword } from './controllers/user.controller';
 import PasswordEditionValidator from './validators/password-edition.validator';

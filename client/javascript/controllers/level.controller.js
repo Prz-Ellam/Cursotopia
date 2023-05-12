@@ -7,6 +7,7 @@ import { createDocumentService } from '../services/document.service';
 import { createImage } from '../services/image.service';
 import { Toast } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
+import { Modal } from 'bootstrap';
 
 export const submitLevelCreate = async function(event) {
     event.preventDefault();
@@ -27,7 +28,7 @@ export const submitLevelCreate = async function(event) {
     const response = await LevelService.create(level);
 
     const modal = document.getElementById('level-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     if (!response?.status) {
@@ -57,7 +58,7 @@ export const courseEditionCreateLevel = async function(event) {
     }
 
     const modal = document.getElementById('level-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     const checkbox = document.getElementById('level-update-free');
@@ -103,7 +104,7 @@ export const courseCreationUpdateLevel = async function(event) {
     const response = await LevelService.update(level, id);
 
     const modal = document.getElementById('level-update-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     if (!response?.status) {
@@ -133,7 +134,7 @@ export const courseEditionUpdateLevel = async function(event) {
     }
 
     const modal = document.getElementById('level-update-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 }
 

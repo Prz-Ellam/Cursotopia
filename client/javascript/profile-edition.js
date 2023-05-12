@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import 'bootstrap';
 import { changeProfilePicture, updateUser } from './controllers/user.controller';
 import ProfileEditionValidator from './validators/profile-edition.validator';
 

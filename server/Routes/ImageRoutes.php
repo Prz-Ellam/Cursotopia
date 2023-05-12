@@ -27,5 +27,3 @@ $app->put("/api/v1/images/:id", [ ImageController::class, "update" ], [
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true ]
 ]);
-
-//$app->delete('/api/v1/images/:id', [ ImageController::class, 'remove' ]);

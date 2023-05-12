@@ -1,15 +1,16 @@
 import $ from 'jquery';
 import 'jquery-validation';
+import 'bootstrap';
+import { Tooltip } from 'bootstrap';
 import { enroll } from './controllers/payment-method.controller';
-import { submitReview, showMoreComments, deleteReview, showMoreComments2, clickMoreComments } from './controllers/review.controller';
+import { submitReview, deleteReview, clickMoreComments } from './controllers/review.controller';
 import createReviewValidator from './validators/review-create.validator';
 
-
-$(() => {
+$(async () => {
     $('#enroll').on('click', enroll);
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 
     const rateStars = document.getElementsByClassName('rate-star');
     const arrayRateStars = Array.from(rateStars);

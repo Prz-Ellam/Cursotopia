@@ -5,6 +5,7 @@ import CategoryService, {updateCategoryService, createCategory, approveCategoryS
 import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
 import { Toast } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
+import { Modal } from 'bootstrap';
 
 export const submitCategory = async function(event) {
     event.preventDefault();
@@ -27,7 +28,7 @@ export const submitCategory = async function(event) {
     $('#category-create-btn').prop('disabled', false);
 
     const modal = document.getElementById('category-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     if (!response?.status) {
@@ -71,7 +72,7 @@ export const updateCourseCreateCategory = async function(event) {
     }
 
     const modal = document.getElementById('category-create-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     const formData = new FormData(this);
@@ -101,17 +102,17 @@ export const updateCategory = async function(event) {
     }
 
     const modal = document.getElementById('update-category-modal');
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = Modal.getInstance(modal);
     modalInstance.hide();
 
     const formData = new FormData(this);
+    const id = formData.get('id')
     const category = {
         name: formData.get('name'),
         description: formData.get('description'),
-        id: formData.get('id')
     };
 
-    const response = await updateCategoryService(category);
+    const response = await updateCategoryService(id, category);
     
     if (!response?.status) {
         await Toast.fire({

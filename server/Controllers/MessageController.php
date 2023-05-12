@@ -16,6 +16,10 @@ class MessageController {
         $messageRepository = new MessageRepository();
         $messages = $messageRepository->findAllByChat($chatId);
 
+        if (!is_array($messages)) {
+            $messages = [];
+        }
+
         $messageViewRepository = new MessageViewRepository();
         $messageViewRepository->viewChat($chatId, $userId);
 
@@ -26,8 +30,7 @@ class MessageController {
     }
 
     public function create(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $userId = $session->get("id");
+        $userId = $request->getSession()->get("id");
 
         $chatId = $request->getParams("chatId");
         $content = $request->getBody("content");

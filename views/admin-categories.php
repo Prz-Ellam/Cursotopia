@@ -11,17 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Boxicons -->
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-
-  <!-- SweetAlert -->
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../client/styles/pages/admin-categories.css">
-  
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+  <?= $this->link("styles/pages/admin-categories.css") ?>
   <?= $this->script("javascript/admin-categories.js") ?>
 </head>
 <body>
