@@ -14,9 +14,8 @@ export const createImage = async (image) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const updateImageService = async (image, id) => {
@@ -33,7 +32,6 @@ export const updateImageService = async (image, id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }

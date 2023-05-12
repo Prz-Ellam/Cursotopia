@@ -68,13 +68,13 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->lastPublishedCourses as $course): ?>
       <a 
-        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= $course["id"] ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
+            src="api/v1/images/<?= $course["imageId"] ?>"
             class="card-img-top img-cover"
             alt="Curso"
           >
@@ -84,7 +84,7 @@
             <?= $course["title"] ?>
           </h5>
           <p class="card-text">
-            <?= Format::sanitize($course["instructorName"]) ?>
+            <?= $course["instructorName"] ?>
           </p>
           <hr>
           <h6 class="card-text mb-0 fw-bold">
@@ -121,13 +121,13 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->topRatedCourses as $course): ?>
       <a 
-        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= $course["id"] ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
+            src="api/v1/images/<?= $course["imageId"] ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
@@ -135,7 +135,7 @@
           <h5 class="card-title text-truncate text-nowrap" title="<?= $course["title"] ?>">
             <?= $course["title"] ?>
           </h5>
-          <p class="card-text"><?= Format::sanitize($course["instructorName"]) ?></p>
+          <p class="card-text"><?= $course["instructorName"] ?></p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
           <p>
@@ -169,13 +169,13 @@
     <div class="px-5 owl-carousel owl-theme">
       <?php foreach($this->bestSellingCourses as $course): ?>
       <a 
-        href="/course-details?id=<?= Format::sanitize($course["id"]) ?>" 
+        href="/course-details?id=<?= $course["id"] ?>" 
         class="card my-3 text-decoration-none text-dark" 
         role="button"
       >
         <div class="ratio ratio-16x9">
           <img 
-            src="api/v1/images/<?= Format::sanitize($course["imageId"]) ?>"
+            src="api/v1/images/<?= $course["imageId"] ?>"
             class="card-img-top img-cover"
             alt="Curso">
         </div>
@@ -184,7 +184,7 @@
             <?= $course["title"] ?>
           </h5>
           <p class="card-text">
-            <?= Format::sanitize($course["instructorName"]) ?>
+            <?= $course["instructorName"] ?>
           </p>
           <hr>
           <h6 class="card-text mb-0 fw-bold"><?= Format::money($course["price"]) ?></h6>
@@ -219,7 +219,7 @@
         + de
         <p class="h1 fw-bold mb-0">
           <i class="bx bxs-group"></i>
-          <span class="counter" data-val="<?= Format::sanitize($this->stats["students"]) ?>">
+          <span class="counter" data-val="<?= $this->stats["students"] ?>">
             0
           </span>
         </p>
@@ -229,7 +229,7 @@
         + de
         <p class="h1 fw-bold mb-0">
           <i class="bx bxs-chalkboard"></i>
-          <span class="counter" data-val="<?= Format::sanitize($this->stats["instructors"]) ?>">
+          <span class="counter" data-val="<?= $this->stats["instructors"] ?>">
             0
           </span>
         </p>
@@ -239,7 +239,7 @@
         + de
         <p class="h1 fw-bold mb-0">
           <i class="bx bxs-graduation"></i>
-          <span class="counter" data-val="<?= Format::sanitize($this->stats["courses"]) ?>">
+          <span class="counter" data-val="<?= $this->stats["courses"] ?>">
             0
           </span>
         </p>

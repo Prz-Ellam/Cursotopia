@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-validation';
 
 $.validator.addMethod('notEqualTo', function(value, element, parameter) {
     const htmlElement = document.querySelector(parameter);

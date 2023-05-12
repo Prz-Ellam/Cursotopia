@@ -270,7 +270,7 @@ $totalRevenue = $courseRepository->instructorTotalRevenueReport($userId);
         <tbody>
           <?php foreach($totalRevenue as $revenue): ?>
           <tr>
-            <th scope="row"><?= Format::sanitize($revenue["paymentMethodName"]) ?></th>
+            <th scope="row"><?= $revenue["paymentMethodName"] ?></th>
             <td><?= Format::money($revenue["amount"]) ?></td>
           </tr>
           <?php endforeach ?>

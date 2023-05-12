@@ -3,7 +3,7 @@ import 'bootstrap';
 import Swal from 'sweetalert2';
 import LessonService from './services/lesson.service';
 
-$(function() {
+$(async () => {
   const params = new URLSearchParams(document.location.search);
   const lessonId = params.get('lesson') ?? null;
   $('#level-video').attr('src', `api/v1/videos/${ $('#level-video').attr('video-id') }`);

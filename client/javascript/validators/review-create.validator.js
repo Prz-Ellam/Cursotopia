@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-validation';
 
 $.validator.addMethod('trimming', function(value, element) {
     return this.optional(element) || value.trim() !== '';

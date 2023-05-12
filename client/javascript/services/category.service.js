@@ -118,9 +118,8 @@ export const approveCategoryService = async (categoryId) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const updateCategoryService = async (id, category) => {
@@ -137,9 +136,8 @@ export const updateCategoryService = async (id, category) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const denyCategoryService = async (categoryId) => {
@@ -155,9 +153,8 @@ export const denyCategoryService = async (categoryId) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const activateCategoryService = async (categoryId) => {
@@ -173,9 +170,8 @@ export const activateCategoryService = async (categoryId) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const deactivateCategoryService = async (categoryId) => {
@@ -191,9 +187,8 @@ export const deactivateCategoryService = async (categoryId) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;
 }
 
 export const getAllCategories = async (category) => {

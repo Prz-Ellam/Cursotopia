@@ -3,7 +3,7 @@ import AOS from 'aos';
 import 'bootstrap';
 import { deleteCourse } from './controllers/course.controller';
 
-$(() => {
+$(async () => {
     AOS.init({
         duration: 1000,
         easing: 'ease-in-out',

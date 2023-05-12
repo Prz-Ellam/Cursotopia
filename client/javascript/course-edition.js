@@ -12,7 +12,7 @@ import { courseEditionCreateLesson } from './controllers/lesson.controller';
 import Swal from 'sweetalert2';
 import { changeImage } from './controllers/image.controller';
 
-$(() => {
+$(async () => {
     // Update Course
     $('#update-course-form').validate(updateCourseValidator);
     $('#update-course-form').on('submit', updateCourse);

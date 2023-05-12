@@ -38,7 +38,7 @@
           <?php foreach($this->categories as $category): ?>
           <option value="<?= $category["id"] ?>"
             <?= ($category["id"] == $this->categoryId) ? "selected" : "" ?>>
-            <?= Format::sanitize($category["name"]) ?>
+            <?= $category["name"] ?>
           </option>
           <?php endforeach ?>
         </select>

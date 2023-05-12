@@ -194,7 +194,7 @@
           data-bs-placement="top"
           data-bs-title="<?= $category["description"] ?>"
         >
-          <?= Format::sanitize($category["name"]) ?>
+          <?= $category["name"] ?>
         </a>
         <?php endforeach ?>
       </div>
@@ -224,7 +224,7 @@
                   <?php elseif ($lesson["mainResource"] == "link"): ?>
                   <i class="bx bx-link-alt me-2"></i>
                   <?php endif ?>
-                  <?= Format::sanitize($lesson["title"]) ?>
+                  <?= $lesson["title"] ?>
                 </span>
                 <span>
                   <?= $lesson["video_duration"] ?>
@@ -288,7 +288,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <a class="fw-bold mb-1" href="/profile?id=<?= $review["userId"] ?>">
-                    <?= Format::sanitize($review["userName"]) ?>
+                    <?= $review["userName"] ?>
                   </a>
                   <div class="d-flex align-items-center mb-1 gap-2">
                     <small class="mb-0">
@@ -319,7 +319,7 @@
                 <?php endif ?>
               </div>
               <p class="mb-0">
-                <?= Format::sanitize($review["message"])  ?>
+                <?= $review["message"]  ?>
               </p>
             </div>
           </div>

@@ -18,7 +18,7 @@ import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
 import { Modal } from 'bootstrap';
 
-$(() => {
+$(async () => {
     // Crear curso
     $('#course-create-form').validate(CourseCreateValidator);
     $('#course-create-form').on('submit', createCourse);

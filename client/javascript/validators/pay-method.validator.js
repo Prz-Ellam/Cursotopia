@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import 'jquery-validation';
+
 $.validator.addMethod('latinos',function(value,element){
     var pattern=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/;
     return this.optional(element) || pattern.test(value);

@@ -1,6 +1,6 @@
 import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
-import { createMessageService, getAllChatMessageService } from '../services/chat-message.service';
+import { createMessageService, getAllChatMessageService } from '../services/message.service';
 import { findUserChats } from '../services/chat.service';
 import { ToastBottom } from '../utilities/toast';
 import { createComment } from '../views/comment.view';
@@ -14,14 +14,14 @@ export const sendMessage = async () => {
     const chatId = $('#actual-chat-id').val();
 
     if (message.content.trim() === '') {
-        await ToastBottom.fire({
+        ToastBottom.fire({
             icon: 'error',
             title: 'El mensaje no puede estar vacío'
         });
         return;
     }
     if (message.content.trim().length > 255) {
-        await ToastBottom.fire({
+        ToastBottom.fire({
             icon: 'error',
             title: 'El mensaje no puede superar 255 caracteres'
         });
@@ -29,7 +29,14 @@ export const sendMessage = async () => {
     }
 
     const response = await createMessageService(message, chatId);
-    
+    if (!response?.status) {
+        ToastBottom.fire({
+            icon: 'error',
+            title: 'No se pudo crear el mensaje'
+        });
+        return;
+    }
+
     createComment(message);
     $('#message').val('');
     let messageBox = document.getElementById('message-box');

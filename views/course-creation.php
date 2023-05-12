@@ -74,8 +74,8 @@
             <label class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category): ?>
-                <option value="<?= Format::sanitize($category["id"]) ?>">
-                  <?= Format::sanitize($category["name"]) ?>
+                <option value="<?= $category["id"] ?>">
+                  <?= $category["name"] ?>
                 </option>
               <?php endforeach ?>
             </select>

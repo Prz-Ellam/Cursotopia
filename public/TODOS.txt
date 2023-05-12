@@ -10,7 +10,7 @@
 [x] El buscador de chat no busca apellidos
 [] Solo el creador puede actualizar sus lecciones y niveles
 [x] Editar curso el checkbox de gratis no funciona
-[] No hay que sanitizar los inputs <h1></h1>
+[x] No hay que sanitizar los inputs <h1></h1>
 [x] Categorias es opcional la descripción
 [x] Categorías no aprobadas duplicadas
 [x] Se puede comprar un curso sin pasar por el paypal

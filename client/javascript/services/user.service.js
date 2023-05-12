@@ -127,9 +127,8 @@ export const getOneUserService = async (id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
-    }
-    return null;    
+        return exception.response.data
+    }  
 };
 
 export const blockUserService = async (id) => {
@@ -145,9 +144,8 @@ export const blockUserService = async (id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
-    }
-    return null;    
+        return exception.response.data
+    }  
 };
 
 export const unblockUserService = async (id) => {
@@ -163,9 +161,8 @@ export const unblockUserService = async (id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;    
 };
 
 export const findBlockedUsers = async (id) => {
@@ -181,9 +178,8 @@ export const findBlockedUsers = async (id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;    
 };
 
 export const findUnblockedUsers = async (id) => {
@@ -199,7 +195,6 @@ export const findUnblockedUsers = async (id) => {
         return response.data;
     }
     catch (exception) {
-        console.log(exception);
+        return exception.response.data
     }
-    return null;    
 };
