@@ -8,7 +8,7 @@ use Cursotopia\Entities\Video;
 /**
  * Repositorio para manejar videos
  */
-class VideoRepository extends DB {
+class VideoRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `video_create`(
             :name,

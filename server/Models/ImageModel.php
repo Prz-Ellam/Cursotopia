@@ -2,51 +2,54 @@
 
 namespace Cursotopia\Models;
 
-use Bloom\Database\DB;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Max;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\Image;
 use Cursotopia\Repositories\ImageRepository;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
-use Exception;
+use JsonSerializable;
 
-class ImageModel {
-    private ?int $id;
+class ImageModel implements JsonSerializable {
+    private static ?ImageRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
+    private ?int $id = null;
 
     #[Required("El nombre de la imagen es requerido")]
-    private ?string $name;
+    private ?string $name = null;
 
     #[Required("El tamaño de la imagen es requerido")]
     #[Max(8 * 1024 * 1024, "El tamaño de la imagen es muy grande")]
-    private ?int $size;
+    private ?int $size = null;
 
     #[Required("El tipo de la imagen es requerido")]
     #[Enum([ "image/jpg", "image/jpeg", "image/png" ], "El tipo de imagen no es válido")]
-    private ?string $contentType;
+    private ?string $contentType = null;
 
     #[Required("El contenido de la imagen es requerido")]
-    private ?string $data;
+    private ?string $data = null;
 
-    private ?string $createdAt;
-    private ?string $modifiedAt;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
-    private ?bool $active;
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
 
-    private ImageRepository $imageRepository;
-    private EntityState $entityState;
+            if ($name == '_ignores') {
+                continue;
+            }
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->name = $object["name"] ?? null;
-        $this->size = $object["size"] ?? null;
-        $this->contentType = $object["contentType"] ?? null;
-        $this->data = $object["data"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
         
-        $this->imageRepository = new ImageRepository();
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
 
@@ -109,14 +112,14 @@ class ImageModel {
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $this->imageRepository->create($image);
+                $rowsAffected = self::$repository->create($image);
                 if ($rowsAffected) {
-                    $this->id = intval($this->imageRepository->lastInsertId2());
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $this->imageRepository->update($image);
+                $rowsAffected = self::$repository->update($image);
                 break;
             }
         }
@@ -133,13 +136,12 @@ class ImageModel {
             ->setSize($this->size)
             ->setData($this->data);
 
-        $rowsAffected = $this->imageRepository->update($image);
+        $rowsAffected = self::$repository->update($image);
         return ($rowsAffected > 0) ? true : false;
     }
 
     public static function findById(?int $id): ?ImageModel {
-        $repository = new ImageRepository();
-        $object = $repository->findById($id);
+        $object = self::$repository->findById($id);
         if (!$object) {
             return null;
         }
@@ -147,13 +149,48 @@ class ImageModel {
     }
 
     public static function findObjById(?int $id): ?array {
-        $repository = new ImageRepository();
-        return $repository->findById($id);
+        return self::$repository->findById($id);
     }
 
     public static function findOneByIdAndNotUserId(int $id): ?array {
-        $repository = new ImageRepository();
-        return $repository->findOneByIdAndNotUserId($id);
+        return self::$repository->findOneByIdAndNotUserId($id);
+    }
+
+
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new ImageRepository();
+        }
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
     }
 
     public function toObject(): array {
@@ -166,3 +203,5 @@ class ImageModel {
         return array_keys(get_class_vars(self::class));
     }
 }
+
+ImageModel::init();

@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\CourseCategory;
 
-class CourseCategoryRepository extends DB {
+class CourseCategoryRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `course_category_create`(
             :course_id,

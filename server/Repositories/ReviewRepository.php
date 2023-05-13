@@ -5,13 +5,14 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Review;
 
-class ReviewRepository extends DB {
+class ReviewRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `review_create`(
             :message,
             :rate,
             :course_id,
-            :user_id
+            :user_id,
+            @review_id
         )
     SQL;
 
@@ -33,8 +34,8 @@ class ReviewRepository extends DB {
         )
     SQL;
 
-    private const FIND_ALL_BY_COURSE = <<<'SQL'
-        CALL `review_find_all_by_course`(:course_id);
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `review_find_by_id`(:id);
     SQL;
 
     private const FIND_ONE_BY_COURSE_AND_USER_ID = <<<'SQL'
@@ -55,10 +56,6 @@ class ReviewRepository extends DB {
     private const FIND_TOTAL_BY_COURSE = <<<'SQL'
         CALL `review_find_total_by_course`(:course_id)
     SQL;
-
-    private const FIND_BY_ID = <<<'SQL'
-        CALL `review_find_by_id`(:id);
-    SQL;
     
     public function create(Review $review): int {
         $parameters = [
@@ -75,7 +72,7 @@ class ReviewRepository extends DB {
             "id" => $review->getId(),
             "message" => $review->getMessage(),
             "rate" => $review->getRate(),
-            "active" => $review->getActive()
+            "active" => $review->isActive()
         ];
         return $this->executeNonQuery($this::UPDATE, $parameters);
     }
@@ -87,11 +84,11 @@ class ReviewRepository extends DB {
         return $this->executeNonQuery($this::DELETE, $parameters);
     }
 
-    public function findAllByCourse(?int $courseId): ?array {
+    public function findById(?int $reviewId): ?array {
         $parameters = [
-            "course_id" => $courseId
+            "id" => $reviewId
         ];
-        return $this->executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+        return $this->executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function findByCourse(int $courseId,int $pageNum,int $pageSize): ?array {
@@ -118,10 +115,7 @@ class ReviewRepository extends DB {
         return $this->executeOneReader($this::FIND_ONE_BY_COURSE_AND_USER_ID, $parameters) ?? null;
     }
 
-    public function findById(?int $id): ?array {
-        $parameters = [
-            "id" => $id
-        ];
-        return $this->executeOneReader($this::FIND_BY_ID, $parameters);
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @review_id AS reviewId", [])["reviewId"];
     }
 }

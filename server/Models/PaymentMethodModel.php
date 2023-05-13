@@ -2,21 +2,18 @@
 
 namespace Cursotopia\Models;
 
-use Cursotopia\Entities\Document;
-use Cursotopia\Repositories\DocumentRepository;
+use Cursotopia\Repositories\PaymentMethodRepository;
 use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
 use JsonSerializable;
 
-class DocumentModel implements JsonSerializable {
-    private static ?DocumentRepository $repository = null;
+class PaymentMethodModel implements JsonSerializable {
+    private static ?PaymentMethodRepository $repository = null;
     private EntityState $entityState;
     private array $_ignores = [];
 
     private ?int $id = null;
     private ?string $name = null;
-    private ?string $contentType = null;
-    private ?string $address = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
@@ -37,46 +34,13 @@ class DocumentModel implements JsonSerializable {
     
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
-    
-    public function save(): bool {
-        $document = new Document();
-        $document
-            ->setId($this->id)
-            ->setName($this->name)
-            ->setContentType($this->contentType)
-            ->setAddress($this->address)
-            ->setCreatedAt($this->createdAt)
-            ->setModifiedAt($this->modifiedAt)
-            ->setActive($this->active);
-    
-        $rowsAffected = 0;
-        switch ($this->entityState) {
-            case EntityState::CREATE: {
-                $rowsAffected = self::$repository->create($document);
-                if ($rowsAffected) {
-                    $this->id = intval(self::$repository->lastInsertId2());
-                }
-                break;
-            }
-            case EntityState::UPDATE: {
-                $rowsAffected = self::$repository->update($document);
-                break;
-            }
-        }
-        return ($rowsAffected > 0) ? true : false;
-    }
 
-    public static function findById(?int $id): ?array {
-        return self::$repository->findById($id);
-    }
-    
     public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId(?int $id) {
+    public function setId(?int $id): self {
         $this->id = $id;
-        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
@@ -84,26 +48,8 @@ class DocumentModel implements JsonSerializable {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): self {
         $this->name = $name;
-        return $this;
-    }
-
-    public function getContentType(): ?string {
-        return $this->contentType;
-    }
-
-    public function setContentType(?string $contentType) {
-        $this->contentType = $contentType;
-        return $this;
-    }
-
-    public function getAddress(): ?string {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address) {
-        $this->address = $address;
         return $this;
     }
 
@@ -111,7 +57,7 @@ class DocumentModel implements JsonSerializable {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?string $createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
@@ -120,7 +66,7 @@ class DocumentModel implements JsonSerializable {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt(?string $modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
@@ -129,16 +75,24 @@ class DocumentModel implements JsonSerializable {
         return $this->active;
     }
 
-    public function setActive(?bool $active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }
 
 
+    public static function findById(?int $id): ?PaymentMethodModel {
+        $paymentMethodObject = self::$repository->findById($id);
+        if (!$paymentMethodObject) {
+            return null;
+        }
+        return new PaymentMethodModel($paymentMethodObject);
+    }
+
 
     public static function init() {
         if (is_null(self::$repository)) {
-            self::$repository = new DocumentRepository();
+            self::$repository = new PaymentMethodRepository();
         }
     }
 
@@ -181,4 +135,4 @@ class DocumentModel implements JsonSerializable {
     }
 }
 
-DocumentModel::init();
+PaymentMethodModel::init();

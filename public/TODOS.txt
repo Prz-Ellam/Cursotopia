@@ -5,15 +5,16 @@
 [] Imagen de cursos agradable
 [] Editar lecciones
 [] Cambiar estilo de lecciones
-[] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
+[x] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
 [x] Crear un chat luego no se muestra el mensaje
 [x] El buscador de chat no busca apellidos
-[] Solo el creador puede actualizar sus lecciones y niveles
+[x] Solo el creador puede actualizar sus lecciones y niveles
 [x] Editar curso el checkbox de gratis no funciona
 [x] No hay que sanitizar los inputs <h1></h1>
 [x] Categorias es opcional la descripción
 [x] Categorías no aprobadas duplicadas
 [x] Se puede comprar un curso sin pasar por el paypal
+[x] Error si eliminas la unica reseña de un curso
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

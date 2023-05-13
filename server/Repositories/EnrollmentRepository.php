@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Enrollment;
 
-class EnrollmentRepository extends DB {
+class EnrollmentRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `enrollment_pay`(
             :course_id, 

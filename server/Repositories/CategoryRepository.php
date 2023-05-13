@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Category;
 
-class CategoryRepository extends DB {
+class CategoryRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `category_create`(
             :name, 
@@ -113,6 +113,14 @@ class CategoryRepository extends DB {
         return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
+    // TODO
+    public function findByIdNotApproved(?int $id): ?array {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);      
+    }
+
     public function findAll(): ?array {
         return $this::executeReader($this::FIND_ALL, []);
     }
@@ -137,22 +145,6 @@ class CategoryRepository extends DB {
 
     public function findNotActive(): ?array {
         return $this::executeReader($this::FIND_ALL_NOT_ACTIVE, []);
-    }
-
-    public function approve(?int $categoryId, ?int $adminId): int {
-        $parameters = [
-            "category_id" => $categoryId,
-            "admin_id" => $adminId
-        ];
-        return $this::executeNonQuery($this::APPROVE, $parameters);
-    }
-
-    public function deny(?int $adminId, ?int $categoryId): int {
-        $parameters = [
-            "admin_id" => $adminId,
-            "category_id" => $categoryId
-        ];
-        return $this::executeNonQuery($this::DENY, $parameters);
     }
 
     public function activate(?int $id): int {

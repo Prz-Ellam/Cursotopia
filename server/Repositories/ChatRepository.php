@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class ChatRepository extends DB {
+class ChatRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         INSERT INTO `chats` VALUES();
     SQL;

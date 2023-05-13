@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Level;
 
-class LevelRepository extends DB {
+class LevelRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `level_create`(
             :title, 
@@ -98,7 +98,7 @@ class LevelRepository extends DB {
             "title" => $level->getTitle(),
             "description" => $level->getDescription(),
             "is_free" => $level->isFree(),
-            "active" => $level->getActive()
+            "active" => $level->isActive()
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }

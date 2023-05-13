@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Course;
 
-class CourseRepository extends DB {
+class CourseRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `course_create`(
             :title,
@@ -33,25 +33,6 @@ class CourseRepository extends DB {
             :course_modified_at,
             :course_active
         ) 
-    SQL;
-
-    private const CONFIRM = <<<'SQL'
-        CALL `course_update`(
-            :id, NULL, NULL, NULL, NULL, NULL, TRUE, NULL, NULL, NULL, NULL, NULL, NULL
-        )
-    SQL;
-
-    private const DELETE = <<<'SQL'
-        CALL `course_update`(
-            :course_id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, FALSE
-        )
-    SQL;
-
-    private const APPROVE = <<<'SQL'
-        CALL `course_update`(
-            :course_id, NULL, NULL, NULL, NULL, NULL,
-            NULL, :approved, :admin_id, NULL, NULL, NULL, NULL
-        )
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'
@@ -88,78 +69,20 @@ class CourseRepository extends DB {
             `id` = :id
     SQL;
 
+    // Home
     private const FIND_ALL_ORDER_BY_CREATED_AT = <<<'SQL'
-        SELECT
-            `course_id` AS `id`,
-            `course_title` AS `title`,
-            `course_price` AS `price`,
-            `course_image_id` AS `imageId`,
-            `instructor_name` AS `instructorName`,
-            `levels`,
-            `rate`,
-            `video_duration` AS `videoDuration`
-        FROM
-            `course_card`
-        WHERE
-            `course_active` = TRUE
-            AND `course_approved` = TRUE
-            AND `course_is_complete` = TRUE
-        ORDER BY
-            `course_created_at` DESC
-        LIMIT
-            15
+        CALL `course_find_all_order_by_created_by`()
     SQL;
 
     private const FIND_ALL_ORDER_BY_RATES = <<<'SQL'
-        SELECT
-            `course_id` AS `id`,
-            `course_title` AS `title`,
-            `course_price` AS `price`,
-            `course_image_id` AS `imageId`,
-            `instructor_name` AS `instructorName`,
-            `levels`,
-            `rate`,
-            `video_duration` AS `videoDuration`
-        FROM
-            `course_card`
-        WHERE
-            `course_active` = TRUE
-            AND `course_approved` = TRUE
-            AND `course_is_complete` = TRUE
-        ORDER BY
-            `rate` DESC
-        LIMIT
-            15
+        CALL `course_find_all_order_by_rates`()
     SQL;
 
     private const FIND_ALL_ORDER_BY_ENROLLMENTS = <<<'SQL'
-        SELECT
-            cc.`course_id` AS `id`,
-            cc.`course_title` AS `title`,
-            cc.`course_price` AS `price`,
-            cc.`course_image_id` AS `imageId`,
-            cc.`instructor_name` AS `instructorName`,
-            cc.`levels`,
-            cc.`rate`,
-            cc.`video_duration` AS `videoDuration`
-        FROM
-            `course_card` AS cc
-        LEFT JOIN
-            `enrollments` AS e
-        ON
-            cc.`course_id` = e.`course_id`
-        WHERE
-            cc.`course_active` = TRUE
-            AND cc.`course_approved` = TRUE
-            AND cc.`course_is_complete` = TRUE
-        GROUP BY
-            cc.`course_id`
-        ORDER BY
-            COUNT(e.`enrollment_amount`) DESC
-        LIMIT
-            15
+        CALL `course_find_all_order_by_enrollments`()
     SQL;
 
+    // Reportes
     private const COURSE_SALES_REPORT = <<<'SQL'
         CALL `course_sales_report`(
             :instructor_id, 
@@ -284,12 +207,12 @@ class CourseRepository extends DB {
             "course_image_id" => $course->getImageId(),
             "instructor_id" => $course->getInstructorId(),
             "course_is_complete" => $course->getIsComplete(),
-            "course_approved" => $course->getApproved(),
+            "course_approved" => $course->isApproved(),
             "course_approved_by" => $course->getApprovedBy(),
             "course_approved_at" => $course->getApprovedAt(),
             "course_created_at" => $course->getCreatedAt(),
             "course_modified_at" => $course->getModifiedAt(),
-            "course_active" => $course->getActive()
+            "course_active" => $course->isActive()
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }
@@ -299,13 +222,6 @@ class CourseRepository extends DB {
             "course_id" => $id
         ];
         return $this::executeOneReader($this::FIND_BY_ID, $parameters);
-    }
-
-    public function confirm(?int $id): int {
-        $parameters = [
-            "id" => $id
-        ];
-        return $this::executeNonQuery($this::CONFIRM, $parameters);
     }
 
     public function courseDetailsfindOneById(?int $id): ?array {
@@ -438,24 +354,8 @@ class CourseRepository extends DB {
         return $this::executeReader($this::INSTRUCTOR_TOTAL_REVENUE_REPORT, $parameters);
     }
 
-    public function findByNotApproved(): array {
+    public function findByNotApproved(): ?array {
         return $this::executeReader($this::FIND_BY_NOT_APPROVED, []);
-    }
-
-    public function approve(int $courseId, int $adminId, bool $approve): int {
-        $parameters = [
-            "course_id" => $courseId,
-            "admin_id" => $adminId,
-            "approve" => $approve
-        ];
-        return $this::executeNonQuery($this::APPROVE, $parameters);
-    }
-
-    public function delete(int $courseId): int {
-        $parameters = [
-            "course_id" => $courseId
-        ];
-        return $this::executeNonQuery($this::DELETE, $parameters);
     }
 
     public function instructorCoursesSeenByOtherReport(int $instructorId, int $limit = 100, int $offset = 0): array {

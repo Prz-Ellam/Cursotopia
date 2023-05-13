@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Link;
 
-class LinkRepository extends DB {
+class LinkRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `link_create`(:name, :address, @link_id)
     SQL;
@@ -40,7 +40,7 @@ class LinkRepository extends DB {
             "address" => $link->getAddress(),
             "created_at" => $link->getCreatedAt(),
             "modified_at" => $link->getModifiedAt(),
-            "active" => $link->getActive()
+            "active" => $link->isActive()
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }

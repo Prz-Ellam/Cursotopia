@@ -10,7 +10,6 @@ export const enroll = async function(event) {
     const courseId = new URLSearchParams(window.location.search).get('id') ?? '';
     const payment = {
         courseId: Number.parseInt(courseId),
-        amount: null,
         paymentMethodId: null
     };
 
@@ -53,7 +52,6 @@ export const payment = async function(event) {
     const courseId = new URLSearchParams(window.location.search).get('courseId') ?? '';
     const payment = {
         courseId: Number.parseInt(courseId),
-        amount: Number.parseFloat(formData.get('amount')),
         paymentMethodId: Number.parseInt(formData.get('paymentMethodId'))
     };
 

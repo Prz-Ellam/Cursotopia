@@ -4,7 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\MainRepository;
 
 class HomeController {
@@ -19,10 +19,9 @@ class HomeController {
         $mainRepository = new MainRepository();
         $stats = $mainRepository->homeStats();
 
-        $courseRepository = new CourseRepository();
-        $lastPublishedCourses = $courseRepository->findAllOrderByCreatedAt();
-        $topRatedCourses = $courseRepository->findAllOrderByRates();
-        $bestSellingCourses = $courseRepository->findAllOrderByEnrollments();
+        $lastPublishedCourses = CourseModel::findAllOrderByCreatedAt();
+        $topRatedCourses = CourseModel::findAllOrderByRates();
+        $bestSellingCourses = CourseModel::findAllOrderByEnrollments();
 
         $response->render("home", [
             "lastPublishedCourses" => $lastPublishedCourses,

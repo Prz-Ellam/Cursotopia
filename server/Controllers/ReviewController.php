@@ -7,7 +7,6 @@ use Bloom\Http\Response\Response;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
-use Cursotopia\Repositories\ReviewRepository;
 use Cursotopia\ValueObjects\Roles;
 use Exception;
 
@@ -21,10 +20,9 @@ class ReviewController {
                 "courseId" => $courseId
             ] = $request->getBody();
 
-            //Validar que el curso existe
-
-            $requestedCourse = CourseModel::findObjById($courseId);
-            if (!$requestedCourse) {
+            // Verificar que el curso existe
+            $course = CourseModel::findById($courseId);
+            if (!$course) {
                 $response->setStatus(404)->json([
                     "status" => false,
                     "message" => "Curso no encontrado"
@@ -33,7 +31,6 @@ class ReviewController {
             }
 
             //Validar que esté inscrito al curso
-
             $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $userId);
             if (!$enroll) {
                 $response->setStatus(404)->json([
@@ -45,7 +42,7 @@ class ReviewController {
 
             // Validar que la persona que esta haciendo la reseña acabó el curso
             if (!$enroll->getIsFinished()) {
-                $response->setStatus(409)->json([
+                $response->setStatus(400)->json([
                     "status" => false,
                     "message" => "El estudiante no ha concluido el curso"
                 ]);
@@ -92,45 +89,54 @@ class ReviewController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $reviewId = intval($request->getParams("id"));
-        $userId = $request->getSession()->get("id");
-        $role = $request->getSession()->get("role");
+        try {
+            $reviewId = intval($request->getParams("id"));
+            $userId = $request->getSession()->get("id");
+            $role = $request->getSession()->get("role");
 
-        // Validar que la reseña exista
-        $requestedReview = ReviewModel::findById($reviewId);
-        if (!$requestedReview) {
-            $response->setStatus(404)->json([
-                "status" => false,
-                "message" => "La reseña no existe"
+            // Validar que la reseña exista
+            $review = ReviewModel::findById($reviewId);
+            if (!$review) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "La reseña no existe"
+                ]);
+                return;
+            }
+
+            // Solo los administradores o el usuario creador pueden borrar reseñas
+            if ($userId != $review->getUserId() && $role != Roles::ADMIN->value) {
+                $response->setStatus(403)->json([
+                    "status" => false,
+                    "message" => "No autorizado"
+                ]);
+                return;
+            }
+
+            $review
+                ->setActive(false);
+
+            $isDeleted = $review->save();
+
+            if (!$isDeleted) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "No se pudo eliminar la reseña"
+                ]);
+                return;
+            }
+
+            $response->json([
+                "status" => true,
+                "message" => "La reseña fue eliminada éxitosamente"
             ]);
-            return;
         }
-
-        if ($userId != $requestedReview->getUserId() && $role != Roles::ADMIN->value) {
-            $response->setStatus(403)->json([
+        catch (Exception $exception) {
+            $response->setStatus(500)->json([
                 "status" => false,
-                "message" => "No autorizado"
+                "message" => "Ocurrió un error en el servidor"
             ]);
-            return;
         }
-
-        $requestedReview
-            ->setActive(false);
-
-        $isDeleted = $requestedReview->save();
-
-        if (!$isDeleted) {
-            $response->setStatus(400)->json([
-                "status" => false,
-                "message" => "No se pudo eliminar la reseña"
-            ]);
-            return;
-        }
-
-        $response->json([
-            "status" => true,
-            "message" => "La reseña fue eliminada éxitosamente"
-        ]);  
     }
 
     public function getMoreReviews(Request $request, Response $response): void {
@@ -145,7 +151,7 @@ class ReviewController {
                 "message" => "El curso debe ser un entero positivo"
             ]);
             return;
-        } 
+        }
 
         if ($pageNum == false) {
             $response->json([
@@ -164,9 +170,8 @@ class ReviewController {
         } 
 
         //Validar que el curso exista
-
-        $requestedCourse = CourseModel::findById($courseId);
-        if (!$requestedCourse) {
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "El curso no existe"
@@ -175,13 +180,14 @@ class ReviewController {
         }
 
         $reviews = ReviewModel::findByCourse($courseId, $pageNum, $pageSize);
-        $reviewRepository = new ReviewRepository();
-        $reviewsTotal = $reviewRepository->findTotalByCourse($courseId)["total"];
-   
+        $reviewsTotal = ReviewModel::findTotalByCourse($courseId);
+
         if (!$reviews) {
-            $response->setStatus(404)->json([
-                "status" => false,
-                "message" => "No se encontraron más reseñas"
+            $response->json([
+                "status" => true,
+                "message" => "No se encontraron más reseñas",
+                "reviews" => [],
+                "total" => 0
             ]);
             return;
         }
@@ -192,19 +198,30 @@ class ReviewController {
             "reviews" => $reviews,
             "total" => $reviewsTotal
         ]);
-                
     }
 
     public function getTotalCourseReviews(Request $request, Response $response): void {
-        $courseId = $request->getParams("courseId");
-        if (!$courseId) {
-            $response->json(0);
+        $courseId = intval($request->getParams("courseId"));
+        if ($courseId == false) {
+            $response->json([
+                "status" => false,
+                "message" => "El curso debe ser un entero positivo"
+            ]);
             return;
         }
 
-        $reviewRepository = new ReviewRepository();
-        $reviewsTotal = $reviewRepository->findTotalByCourse($courseId)["total"];
-   
+        //Validar que el curso exista
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El curso no existe"
+            ]);
+            return;
+        }
+
+        $reviewsTotal = ReviewModel::findTotalByCourse($courseId);
+
         $response->json($reviewsTotal);
     }
 }

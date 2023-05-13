@@ -11,6 +11,7 @@ use Cursotopia\Models\CategoryModel;
 use Cursotopia\Models\CourseModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
+use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Repositories\CategoryRepository;
 use Cursotopia\Repositories\CourseCategoryRepository;
@@ -18,13 +19,12 @@ use Cursotopia\Repositories\CourseRepository;
 use Cursotopia\Repositories\EnrollmentRepository;
 use Cursotopia\Repositories\LessonRepository;
 use Cursotopia\Repositories\LevelRepository;
-use Cursotopia\Repositories\ReviewRepository;
 
 class CourseController {
     public function webCreate(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $userId = $request->getSession()->get("id");
     
-        $categories = CategoryModel::findAllWithUser($id);
+        $categories = CategoryModel::findAllWithUser($userId);
     
         $response->render("course-creation", [ 
             "categories" => $categories 
@@ -62,6 +62,7 @@ class CourseController {
         $categories = $categoryRepository->findAllByCourse($id);
         
         $levelRepository = new LevelRepository();
+        
         $levels = $levelRepository->findAllByCourse($id);
         foreach ($levels as &$level) {
             $level["lessons"] = json_decode($level["lessons"], true);
@@ -83,12 +84,12 @@ class CourseController {
             return;
         }
 
-        $reviewRepository = new ReviewRepository();
         $pageNum = 1;
         $pageSize = 5;
-        $reviews = $reviewRepository->findByCourse($id, $pageNum, $pageSize);
 
-        $reviewsTotal = $reviewRepository->findTotalByCourse($id)["total"];
+        $reviews = ReviewModel::findByCourse($id, $pageNum, $pageSize);
+        $reviewsTotal = ReviewModel::findTotalByCourse($id);
+
         $totalPages = ceil($reviewsTotal / $pageSize);
 
         if (!$course || !$categories || !$levels) {
@@ -108,24 +109,27 @@ class CourseController {
     }
 
     public function webUpdate(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
         $courseId = $request->getQuery("id");
         if (!Validate::uint($courseId)) {
             $response->setStatus(404)->render("404");
             return;
         }
 
-        $userId = $request->getSession()->get("id");
-
-        $course = CourseModel::findObjById($courseId);
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
 
         // Verificar que sea el creador del curso
-        if ($userId != $course["instructorId"]) {
+        if ($userId != $course->getInstructorId()) {
             $response->setStatus(404)->render("404");
             return;
         }
 
         // Verificar que sea un curso activo
-        if (!$course["active"]) {
+        if (!$course->isActive()) {
             $response->setStatus(404)->render("404");
             return;
         }
@@ -147,9 +151,7 @@ class CourseController {
         $courseId = $request->getQuery("course");
         $lessonId = $request->getQuery("lesson");
 
-        $course = CourseModel::findById($courseId);
-        if ($course)
-        $course = $course->toObject();
+        $course = CourseModel::findObjById($courseId);
 
         $enrollmentRepository = new EnrollmentRepository();
         $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $userId);
@@ -192,7 +194,9 @@ class CourseController {
 
     public function admin(Request $request, Response $response): void {
         $courses = CourseModel::findByNotApproved();
-        $response->render("admin-courses", [ "courses" => $courses ]);
+        $response->render("admin-courses", [ 
+            "courses" => $courses 
+        ]);
     }
 
     public function courseDetails(Request $request, Response $response): void {
@@ -206,7 +210,7 @@ class CourseController {
         $limit = $perPageElement;
         $offset = $start;
     
-        $course = CourseModel::findObjById($courseId);
+        $course = CourseModel::findById($courseId);
         if (!$course) {
             $response->setStatus(404)->render("404");
             return;
@@ -220,7 +224,7 @@ class CourseController {
         $enrollments = CourseModel::enrollmentsReport($courseId, null, null, $limit, $offset);
     
         $response->render("instructor-course-details", [ 
-            "course" => $course, 
+            "course" => $course->toArray(), 
             "enrollments" => $enrollments,
             "totalPages" => $totalPages,
             "totalButtons" => $totalButtons,
@@ -262,9 +266,9 @@ class CourseController {
             $endDate = null;
         }
 
-        $user = UserModel::findById2($instructorId);
+        $user = UserModel::findById($instructorId);
         if ($user) {
-            $userName = $user["name"] . " " . $user["lastName"];
+            $userName = $user->getName() . " " . $user->getLastName();
         }
         else {
             $userName = "";
@@ -289,7 +293,6 @@ class CourseController {
             $limit, 
             $offset
         );
-
 
         $categories = CategoryModel::findAll();
 
@@ -344,6 +347,7 @@ class CourseController {
 
         // TODO
         // 1. Validar que las categorias que se solicitaron existan
+        // 2. Las categorías que no han sido aprobadas tambien
         foreach ($categories as $categoryId) {
             $category = CategoryModel::findById($categoryId);
             if (!$category) {
@@ -397,6 +401,7 @@ class CourseController {
     }
 
     public function update(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
         $id = intval($request->getParams("id"));
         [
             "title" => $title,
@@ -416,8 +421,24 @@ class CourseController {
             }
         }
 
-        DB::beginTransaction();
+        //DB::beginTransaction();
         $course = CourseModel::findById($id);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
+        if ($userId != $course->getInstructorId()) {
+            $response->setStatus(403)->json([
+                "status" => false,
+                "message" => "No autorizado"
+            ]);
+            return;
+        }
+
         $course
             ->setTitle($title)
             ->setDescription($description)
@@ -443,7 +464,7 @@ class CourseController {
 
             $rowsAffected = $courseCategoryRepository->create($courseCategory);
         }
-        DB::commit();
+        //DB::commit();
 
         $response->json([
             "status" => true,
@@ -454,6 +475,7 @@ class CourseController {
     }
 
     public function delete(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
         $id = intval($request->getParams("id"));
         
         $course = CourseModel::findById($id);
@@ -461,6 +483,14 @@ class CourseController {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
+        if ($userId != $course->getInstructorId()) {
+            $response->setStatus(403)->json([
+                "status" => false,
+                "message" => "No autorizado"
             ]);
             return;
         }
@@ -484,7 +514,24 @@ class CourseController {
     }
 
     public function confirm(Request $request, Response $response): void {
-        $courseId = $request->getParams("id");
+        $courseId = intval($request->getParams("id"));
+
+        if ($courseId === 0) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Identificador no válido"
+            ]);
+            return;
+        }
+
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
 
         $levels = LevelModel::findByCourse($courseId);
         if (count($levels) < 1) {
@@ -520,37 +567,46 @@ class CourseController {
             }
         }
 
-        $result = CourseModel::confirm($courseId);
-        /*
-            
-        */
+        $result = $course
+            ->setIsComplete(true)
+            ->save();
+
+        if (!$result) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "El curso no pudo ser aprobado"
+            ]);
+        }
+
         $response->json([
             "status" => true,
-            "message" => $result
+            "message" => "El curso fue completado éxitosamente"
         ]);
     }
 
     public function approve(Request $request, Response $response): void {
         $courseId = $request->getParams("id");
-        $session = $request->getSession();
+        $adminId = $request->getSession()->get("id");
         [
             "approve" => $approve
         ] = $request->getBody();
 
-        $adminId = $session->get("id");
-
         //Validar que el curso exista
-
         $course = CourseModel::findById($courseId);
         if (!$course) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "message" => "Curso no encontrad0"
+                "message" => "Curso no encontrado"
             ]);
             return;
         }
 
-        $result = CourseModel::approve($courseId, $adminId, $approve);
+        $course
+            ->setApproved(true)
+            ->setApprovedBy($adminId)
+            ->setApprovedAt(date('Y-m-d H:i:s'));
+
+        $result = $course->save();
 
         if (!$result) {
             $response->setStatus(404)->json([
@@ -572,7 +628,6 @@ class CourseController {
         $adminId = $session->get("id");
     
         //Validar que el curso exista
-    
         $course = CourseModel::findById($courseId);
         if (!$course) {
             $response->setStatus(404)->json([
@@ -582,9 +637,14 @@ class CourseController {
             return;
         }
     
-        $result = CourseModel::deny($courseId);
+        $course
+            ->setApproved(false)
+            ->setApprovedBy($adminId)
+            ->setApprovedAt(date('Y-m-d H:i:s'));
+
+        $result = $course->save();
     
-        if(!$result){
+        if (!$result) {
             $response->json([
                 "status" => false,
                 "message" => "No se pudo denegar el curso"
@@ -594,7 +654,7 @@ class CourseController {
     
         $response->json([
             "status" => true,
-            "message" => $result
+            "message" => "El curso fue rechazado"
         ]);
     }
 
@@ -602,7 +662,7 @@ class CourseController {
         
         $result = CourseModel::findByNotApproved();
     
-        if(!$result){
+        if (!$result) {
             $response->json([
                 "status" => false,
                 "message" => "No se pudo obtener los cursos"

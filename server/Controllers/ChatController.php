@@ -31,11 +31,11 @@ class ChatController {
         $chatRepository = new ChatRepository();
         $chat = $chatRepository->findChat($userOne, $userTwo);
 
-        $user = UserModel::findObjById($userTwo);
+        $user = UserModel::findById($userTwo);
 
         $response->json([
             "chatId" => $chat["chatId"],
-            "user" => $user
+            "user" => $user->toArray()
         ]);
     }
 

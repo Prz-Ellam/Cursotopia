@@ -16,7 +16,6 @@ class Link {
 
     public function setId(?int $id) {
         $this->id = $id;
-
         return $this;
     }
 
@@ -56,7 +55,7 @@ class Link {
         return $this;
     }
 
-    public function getActive(): ?bool {
+    public function isActive(): ?bool {
         return $this->active;
     }
 

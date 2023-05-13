@@ -18,129 +18,129 @@ class Enrollment {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
 
-    public function getCourseId() {
+    public function getCourseId(): ?int {
         return $this->courseId;
     }
 
-    public function setCourseId($courseId) {
+    public function setCourseId(?int $courseId): self {
         $this->courseId = $courseId;
         return $this;
     }
 
-    public function getStudentId() {
+    public function getStudentId(): ?int {
         return $this->studentId;
     }
 
-    public function setStudentId($studentId) {
+    public function setStudentId(?int $studentId): self {
         $this->studentId = $studentId;
         return $this;
     }
 
-    public function getIsFinished() {
+    public function getIsFinished(): ?bool {
         return $this->isFinished;
     }
 
-    public function setIsFinished($isFinished) {
+    public function setIsFinished(?bool $isFinished): self {
         $this->isFinished = $isFinished;
         return $this;
     }
  
-    public function getEnrollDate() {
+    public function getEnrollDate(): ?string {
         return $this->enrollDate;
     }
  
-    public function setEnrollDate($enrollDate) {
+    public function setEnrollDate(?string $enrollDate): self {
         $this->enrollDate = $enrollDate;
         return $this;
     }
 
-    public function getFinishDate() {
+    public function getFinishDate(): ?string {
         return $this->finishDate;
     }
 
-    public function setFinishDate($finishDate) {
+    public function setFinishDate(?string $finishDate): self {
         $this->finishDate = $finishDate;
         return $this;
     }
  
-    public function getCertificateUid() {
+    public function getCertificateUid(): ?string {
         return $this->certificateUid;
     }
 
-    public function setCertificateUid($certificateUid) {
+    public function setCertificateUid(?string $certificateUid): self {
         $this->certificateUid = $certificateUid;
         return $this;
     }
  
-    public function getAmount() {
+    public function getAmount(): ?float {
         return $this->amount;
     }
 
-    public function setAmount($amount) {
+    public function setAmount(?float $amount): self {
         $this->amount = $amount;
         return $this;
     }
  
-    public function getPaymentMethodId() {
+    public function getPaymentMethodId(): ?int {
         return $this->paymentMethodId;
     }
 
-    public function setPaymentMethodId($paymentMethodId) {
+    public function setPaymentMethodId(?int $paymentMethodId): self {
         $this->paymentMethodId = $paymentMethodId;
         return $this;
     }
 
-    public function getLastTimeChecked() {
+    public function getIsPaid(): ?bool {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(?bool $isPaid): self {
+        $this->isPaid = $isPaid;
+        return $this;
+    }
+
+    public function getLastTimeChecked(): ?string {
         return $this->lastTimeChecked;
     }
 
-    public function setLastTimeChecked($lastTimeChecked) {
+    public function setLastTimeChecked(?string $lastTimeChecked): self {
         $this->lastTimeChecked = $lastTimeChecked;
         return $this;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
  
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getModifiedAt() {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
  
-    public function setModifiedAt($modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
 
-    public function getActive() {
+    public function isActive(): ?bool {
         return $this->active;
     }
  
-    public function setActive($active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
-        return $this;
-    }
-
-    public function getIsPaid() {
-        return $this->isPaid;
-    }
-
-    public function setIsPaid($isPaid) {
-        $this->isPaid = $isPaid;
         return $this;
     }
 }

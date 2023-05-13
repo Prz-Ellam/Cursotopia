@@ -2,6 +2,6 @@
 
 namespace Cursotopia\Repositories;
 
-class ChatParticipantRepository {
+class ChatParticipantRepository implements Repository {
 
 }

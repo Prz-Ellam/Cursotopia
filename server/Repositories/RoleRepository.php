@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use PDO;
 
-class RoleRepository extends DB {
+class RoleRepository extends DB implements Repository {
     private const FIND_ALL_BY_IS_PUBLIC = <<<'SQL'
         CALL `role_find_all_by_is_public`(:is_public)
     SQL;
@@ -24,10 +24,7 @@ class RoleRepository extends DB {
         $parameters = [
             "is_public" => $isPublic
         ];
-        $types = [
-            "is_public" => PDO::PARAM_BOOL
-        ];
-        return $this::executeReader($this::FIND_ALL_BY_IS_PUBLIC, $parameters, $types);
+        return $this::executeReader($this::FIND_ALL_BY_IS_PUBLIC, $parameters);
     }
 
     /**
@@ -42,13 +39,8 @@ class RoleRepository extends DB {
             "id" => $id,
             "is_public" => $isPublic
         ];
-        $types = [
-            "id" => PDO::PARAM_INT,
-            "is_public" => PDO::PARAM_BOOL
-        ];
         return $this::executeOneReader($this::FIND_ONE_BY_ID_AND_PUBLIC, 
-            $parameters,
-            $types
+            $parameters
         );
     }
 }

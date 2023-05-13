@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class MainRepository extends DB {
+class MainRepository extends DB implements Repository {
     private const HOME_STATS = <<<'SQL'
         SELECT
             (SELECT COUNT(`user_id`) FROM `users` WHERE `user_role` = 2 AND `user_active` = TRUE) AS `instructors`,

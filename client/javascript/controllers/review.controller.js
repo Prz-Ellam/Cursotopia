@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import ReviewService, { showMoreCommentsService, deleteReviewService } from "../services/review.service";
+import ReviewService from '../services/review.service';
 import { createReview, showMoreReviews } from '../views/review.view';
 import Swal from 'sweetalert2';
 import { showErrorMessage } from '../utilities/show-error-message';
@@ -61,7 +61,7 @@ export const submitReview = async function(event) {
 export const clickMoreComments = async function(event) {
     const courseId = new URLSearchParams(window.location.search).get('id') ?? -1;
     currentPage++;
-    await showMoreComments(courseId, currentPage, pageSize);
+    await ReviewService.showMoreComments(courseId, currentPage, pageSize);
     if (currentPage >= REVIEWS_TOTAL_PAGES) {
         $('#show-more-comments').addClass('d-none');
     }
@@ -71,7 +71,7 @@ export const clickMoreComments = async function(event) {
 }
 
 export const showMoreComments = async function(courseId, pageNum, pageSize, empty = false) {
-    const response = await showMoreCommentsService(courseId, pageNum, pageSize);
+    const response = await ReviewService.showMoreComments(courseId, pageNum, pageSize);
     if (!response?.status) {
         showErrorMessage(response);
         return;
@@ -91,7 +91,7 @@ export const showMoreComments = async function(courseId, pageNum, pageSize, empt
 }
 
 export const deleteReview = async function(reviewId) { 
-    const response = await deleteReviewService(reviewId);
+    const response = await ReviewService.delete(reviewId);
     if (!response?.status) {
         showErrorMessage(response);
         return;

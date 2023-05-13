@@ -5,6 +5,7 @@ namespace Cursotopia\Routes;
 use Cursotopia\Controllers\EnrollmentController;
 use Cursotopia\Middlewares\AuthApiMiddleware;
 use Cursotopia\Middlewares\AuthWebMiddleware;
+use Cursotopia\Middlewares\JsonSchemaMiddleware;
 use Cursotopia\ValueObjects\Roles;
 
 // Web
@@ -27,5 +28,6 @@ $app->get("/certificate", [ EnrollmentController::class, "certificate" ], [
  * Crea una inscripción
  */
 $app->post("/api/v1/enrollments", [ EnrollmentController::class, "create" ], [
-    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ]
+    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ],
+    [ JsonSchemaMiddleware::class, "EnrollmentCreateValidator" ]
 ]);

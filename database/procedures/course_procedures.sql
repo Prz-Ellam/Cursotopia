@@ -130,6 +130,7 @@ BEGIN
         c.`instructor_id` = u.`user_id`
     WHERE
         `course_approved` = FALSE
+        AND `course_approved_by` IS NULL
         AND `course_is_complete` = TRUE
         AND `course_active` = TRUE
         AND (
@@ -248,5 +249,95 @@ BEGIN
         `instructor_total_revenue`
     WHERE
         `user_id` = `_instructor_id`;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_find_all_order_by_created_by` $$
+CREATE PROCEDURE `course_find_all_order_by_created_by`()
+BEGIN
+    SELECT
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_price`                  AS `price`,
+        `course_image_id`               AS `imageId`,
+        `instructor_name`               AS `instructorName`,
+        `levels`,
+        `rate`,
+        `video_duration`                AS `videoDuration`
+    FROM
+        `course_card`
+    WHERE
+        `course_active` = TRUE
+        AND `course_approved` = TRUE
+        AND `course_is_complete` = TRUE
+    ORDER BY
+        `course_created_at` DESC
+    LIMIT
+        15;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_find_all_order_by_rates` $$
+CREATE PROCEDURE `course_find_all_order_by_rates`()
+BEGIN
+    SELECT
+        `course_id`                     AS `id`,
+        `course_title`                  AS `title`,
+        `course_price`                  AS `price`,
+        `course_image_id`               AS `imageId`,
+        `instructor_name`               AS `instructorName`,
+        `levels`,
+        `rate`,
+        `video_duration`                AS `videoDuration`
+    FROM
+        `course_card`
+    WHERE
+        `course_active` = TRUE
+        AND `course_approved` = TRUE
+        AND `course_is_complete` = TRUE
+    ORDER BY
+            `rate` DESC
+    LIMIT
+        15;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `course_find_all_order_by_enrollments` $$
+CREATE PROCEDURE `course_find_all_order_by_enrollments`()
+BEGIN
+    SELECT
+        cc.`course_id` AS `id`,
+        cc.`course_title` AS `title`,
+        cc.`course_price` AS `price`,
+        cc.`course_image_id` AS `imageId`,
+        cc.`instructor_name` AS `instructorName`,
+        cc.`levels`,
+        cc.`rate`,
+        cc.`video_duration` AS `videoDuration`
+    FROM
+        `course_card` AS cc
+    LEFT JOIN
+        `enrollments` AS e
+    ON
+        cc.`course_id` = e.`course_id`
+    WHERE
+        cc.`course_active` = TRUE
+        AND cc.`course_approved` = TRUE
+        AND cc.`course_is_complete` = TRUE
+    GROUP BY
+        cc.`course_id`
+    ORDER BY
+        COUNT(e.`enrollment_amount`) DESC
+    LIMIT
+        15;
 END $$
 DELIMITER ;

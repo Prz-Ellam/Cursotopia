@@ -74,18 +74,6 @@ class ImageController {
 
         $result = $image->save();
 
-        // Store the image id in the session
-        //$session = $request->getSession();
-        //$session->set("profilePicture_id", $image->getId());
-
-        /*
-        $response->setStatus(201)->json([
-            "status" => $result,
-            "id" => $image->getId(),
-            "message" => "La imagen se creó éxitosamente"
-        ]);
-        */
-
         // TODO: Checar
         $payload = $request->getBody("payload");
         if ($payload) {
@@ -119,6 +107,14 @@ class ImageController {
         $data = $file->getContent();
 
         $image = ImageModel::findById($id);
+        if (!$image) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Imagen no encontrada"
+            ]);
+            return;
+        }
+
         $image
             ->setName($name)
             ->setSize($size)
@@ -154,7 +150,7 @@ class ImageController {
             return;
         }
 
-        $image = ImageModel::findObjById($id);
+        $image = ImageModel::findById($id);
         if (!$image) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -163,12 +159,12 @@ class ImageController {
             return;
         }
         
-        $response->setHeader("X-Image-Id", $image["id"]);
-        $response->setHeader("Content-Length", $image["size"]);
-        $response->setContentType($image["contentType"]);
-        $response->setHeader("Content-Disposition", 'inline; filename="' . $image["name"] . '"');
-        $dt = new DateTime($image["modifiedAt"]);
+        $response->setHeader("X-Image-Id", $image->getId());
+        $response->setHeader("Content-Length", $image->getSize());
+        $response->setContentType($image->getContentType());
+        $response->setHeader("Content-Disposition", 'inline; filename="' . $image->getName() . '"');
+        $dt = new DateTime($image->getModifiedAt());
         $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
-        $response->setBody($image["data"]);
+        $response->setBody($image->getData());
     }
 }

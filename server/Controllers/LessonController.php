@@ -105,15 +105,14 @@ class LessonController {
 
     public function update(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        
         $id = intval($request->getParams("id"));
         [
             "title" => $title,
             "description" => $description
         ] = $request->getBody();
 
-        $requestedLesson = LessonModel::findById($id);
-        if (!$requestedLesson) {
+        $lesson = LessonModel::findById($id);
+        if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Lección no encontrada"
@@ -131,11 +130,11 @@ class LessonController {
         }
         */
 
-        $requestedLesson
+        $lesson
             ->setTitle($title)
             ->setDescription($description);
         
-        $isUpdated = $requestedLesson->save();
+        $isUpdated = $lesson->save();
         // if (!$isUpdated) {
         //     $response->setStatus(400)->json([
         //         "status" => true,

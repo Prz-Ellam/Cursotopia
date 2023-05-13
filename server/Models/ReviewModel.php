@@ -3,30 +3,110 @@
 namespace Cursotopia\Models;
 
 use Cursotopia\Entities\Review;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\Repositories\ReviewRepository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class ReviewModel {
+class ReviewModel implements JsonSerializable {
+    private static ?ReviewRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
     private ?int $id = null;
     private ?string $message = null;
     private ?int $rate = null;
-    private ?string $courseId = null;
+    private ?int $courseId = null;
     private ?int $userId = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    private EntityState $entityState;
+    public function getId(): ?int {
+        return $this->id;
+    }
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->message = $object["message"] ?? null;
-        $this->rate = $object["rate"] ?? null;
-        $this->courseId = $object["courseId"] ?? null;
-        $this->userId = $object["userId"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+    public function setId(?int $id): self {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getMessage(): ?string {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self {
+        $this->message = $message;
+        return $this;
+    }
+ 
+    public function getRate(): ?int {
+        return $this->rate;
+    }
+
+    public function setRate(?int $rate): self {
+        $this->rate = $rate;
+        return $this;
+    }
+
+    public function getCourseId(): ?int {
+        return $this->courseId;
+    }
+
+    public function setCourseId(?int $courseId): self {
+        $this->courseId = $courseId;
+        return $this;
+    }
+
+    public function getUserId(): ?int {
+        return $this->userId;
+    }
+
+    public function setUserId(?int $userId): self {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?string {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?string $createdAt): self {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getModifiedAt(): ?string {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?string $modifiedAt): self {
+        $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function isActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
+        return $this;
+    }
+
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
     
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -43,93 +123,92 @@ class ReviewModel {
             ->setModifiedAt($this->modifiedAt)
             ->setActive($this->active);
 
-        $reviewRepository = new ReviewRepository();
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $reviewRepository->create($review);
+                $rowsAffected = self::$repository->create($review);
+                if ($rowsAffected) {
+                    $this->id = intval(self::$repository->lastInsertId2());
+                }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $reviewRepository->update($review);
+                $rowsAffected = self::$repository->update($review);
                 break;
             }
         }
         return ($rowsAffected > 0) ? true : false;
     }
 
-    public static function findById(int $id) {
-        $reviewRepository = new ReviewRepository();
-        $reviewObject = $reviewRepository->findById($id);
+    public static function findById(?int $id): ?ReviewModel {
+        $reviewObject = self::$repository->findById($id);
         if (!$reviewObject) {
             return null;
         }
         return new ReviewModel($reviewObject);
     }
 
-    public static function findObjById(int $id): ?array {
-        $reviewRepository = new ReviewRepository();
-        $reviewObject = $reviewRepository->findById($id);
+    public static function findOneByCourseAndUserId(?int $courseId, ?int $userId): ?ReviewModel {
+        $reviewObject = self::$repository->findOneByCourseAndUserId($courseId, $userId);
         if (!$reviewObject) {
             return null;
         }
         return new ReviewModel($reviewObject);
     }
 
-    public static function delete(int $id) {
-        $reviewRepository = new ReviewRepository();
-        $rowsAffected = $reviewRepository->delete($id);
-        return ($rowsAffected > 0) ? true : false;
+    public static function findByCourse(int $courseId, int $pageNum, int $pageSize): ?array {
+        return self::$repository->findByCourse($courseId, $pageNum, $pageSize);
     }
 
-    public static function findOneByCourseAndUserId(int $courseId, int $userId): ?array {
-        $repository = new ReviewRepository();
-        $object = $repository->findOneByCourseAndUserId($courseId, $userId);
-        return $object;
+    public static function findTotalByCourse(int $courseId) {
+        return self::$repository->findTotalByCourse($courseId)["total"];
     }
 
-    public static function findByCourse(int $courseId,int $pageNum,int $pageSize): ?array {
-        $repository = new ReviewRepository();
-        $object = $repository->findByCourse($courseId,$pageNum,$pageSize);
-        return $object;
+    
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new ReviewRepository();
+        }
     }
 
-    /**
-     * Get the value of userId
-     */ 
-    public function getUserId()
-    {
-        return $this->userId;
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
     }
 
-    /**
-     * Set the value of userId
-     *
-     * @return  self
-     */ 
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
 
-        return $this;
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
-        return $this->active;
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
-        $this->active = $active;
-        return $this;
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
     }
 }
+
+ReviewModel::init();

@@ -14,224 +14,103 @@ class Lesson {
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+ 
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+    public function setId(?int $id): self {
         $this->id = $id;
-
         return $this;
     }
 
-    /**
-     * Get the value of title
-     */ 
-    public function getTitle()
-    {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */ 
-    public function setTitle($title)
-    {
+    public function setTitle(?string $title): self {
         $this->title = $title;
-
         return $this;
     }
 
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
+    public function setDescription(?string $description): self {
         $this->description = $description;
-
         return $this;
     }
 
-    /**
-     * Get the value of levelId
-     */ 
-    public function getLevelId()
-    {
+    public function getLevelId(): ?int {
         return $this->levelId;
     }
 
-    /**
-     * Set the value of levelId
-     *
-     * @return  self
-     */ 
-    public function setLevelId($levelId)
-    {
+    public function setLevelId(?int $levelId): self {
         $this->levelId = $levelId;
-
         return $this;
     }
 
-    /**
-     * Get the value of videoId
-     */ 
-    public function getVideoId()
-    {
+    public function getVideoId(): ?int {
         return $this->videoId;
     }
 
-    /**
-     * Set the value of videoId
-     *
-     * @return  self
-     */ 
-    public function setVideoId($videoId)
-    {
+    public function setVideoId(?int $videoId): self {
         $this->videoId = $videoId;
-
         return $this;
     }
-
-    /**
-     * Get the value of imageId
-     */ 
-    public function getImageId()
-    {
+ 
+    public function getImageId(): ?int {
         return $this->imageId;
     }
 
-    /**
-     * Set the value of imageId
-     *
-     * @return  self
-     */ 
-    public function setImageId($imageId)
-    {
+    public function setImageId(?int $imageId): self {
         $this->imageId = $imageId;
-
         return $this;
     }
 
-    /**
-     * Get the value of documentId
-     */ 
-    public function getDocumentId()
-    {
+    public function getDocumentId(): ?int {
         return $this->documentId;
     }
 
-    /**
-     * Set the value of documentId
-     *
-     * @return  self
-     */ 
-    public function setDocumentId($documentId)
-    {
+    public function setDocumentId(?int $documentId): self {
         $this->documentId = $documentId;
-
         return $this;
     }
 
-    /**
-     * Get the value of linkId
-     */ 
-    public function getLinkId()
-    {
+    public function getLinkId(): ?int {
         return $this->linkId;
     }
 
-    /**
-     * Set the value of linkId
-     *
-     * @return  self
-     */ 
-    public function setLinkId($linkId)
-    {
+    public function setLinkId(?int $linkId): self {
         $this->linkId = $linkId;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    /**
-     * Set the value of modifiedAt
-     *
-     * @return  self
-     */ 
-    public function setModifiedAt($modifiedAt)
-    {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function isActive()
-    {
-        return $this->active ? 1 : 0;
+    public function isActive(): ?bool {
+        return $this->active;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+    public function setActive(?bool $active): self {
         $this->active = $active;
-
         return $this;
     }
 }

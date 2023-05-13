@@ -48,38 +48,40 @@ END $$
 DELIMITER ;
 
 
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `get_course_reviews` $$
 CREATE PROCEDURE `get_course_reviews`(
-    IN   `course_id`            INT, 
-    IN   `page_num`             INT, 
-    IN   `page_size`            INT
+    IN   `course_id`                    INT, 
+    IN   `page_num`                     INT, 
+    IN   `page_size`                    INT
 )
 BEGIN
     DECLARE offset_val INT;
     SET offset_val = (page_num - 1) * page_size;
     
     SELECT
-        r.review_id AS `id`,
-        r.review_message AS `message`,
-        r.review_rate AS `rate`,
-        r.course_id AS `courseId`,
-        r.user_id AS `userId`,
-        r.review_created_at AS `createdAt`,
-        r.review_modified_at AS `modifiedAt`,
-        r.review_active AS `active`,
-        CONCAT(u.user_name, ' ', u.user_last_name) AS `userName`,
-        u.profile_picture AS `profilePicture`
+        r.`review_id`                   AS `id`,
+        r.`review_message`              AS `message`,
+        r.`review_rate`                 AS `rate`,
+        r.`course_id`                   AS `courseId`,
+        r.`user_id`                     AS `userId`,
+        r.`review_created_at`           AS `createdAt`,
+        r.`review_modified_at`          AS `modifiedAt`,
+        r.`review_active`               AS `active`,
+        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
+        u.`profile_picture`             AS `profilePicture`
     FROM
-        reviews AS r
+        `reviews` AS r
     INNER JOIN
-        users AS u
+        `users` AS u
     ON
-        r.user_id = u.user_id
+        r.`user_id` = u.`user_id`
     WHERE
-        r.course_id = course_id AND r.review_active=1
+        r.`course_id` = course_id 
+        AND r.`review_active` = TRUE
     ORDER BY
-        r.review_created_at DESC
+        r.`review_created_at` DESC
     LIMIT 
         page_size 
     OFFSET
@@ -109,75 +111,6 @@ BEGIN
     ORDER BY
         r.`review_created_at` DESC;
 END $$
-DELIMITER ;
-
-
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_user_review_in_course` $$
-CREATE PROCEDURE `find_user_review_in_course`(
-    IN _course_id           INT, 
-    IN _user_id             INT
-)
-BEGIN
-    SELECT
-        r.`review_id` AS `id`,
-        r.`review_message` AS `message`,
-        r.`review_rate` AS `rate`,
-        r.`course_id` AS `courseId`,
-        r.`user_id` AS `userId`,
-        r.`review_created_at` AS `createdAt`,
-        r.`review_modified_at` AS `modifiedAt`,
-        r.`review_active` AS `active`,
-        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
-        u.`profile_picture` AS `profilePicture`
-    FROM
-        `reviews` AS r
-    INNER JOIN
-        `users` AS u
-    ON
-        r.`user_id` = u.`user_id` 
-    WHERE
-        r.`course_id` = _course_id 
-        AND r.`user_id` = _user_id 
-        AND r.`review_active` = TRUE;
-END;
-DELIMITER ;
-
-
-
-
-
-
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `review_find_all_by_course` $$
-CREATE PROCEDURE `review_find_all_by_course`(
-    IN course_id                        INT
-)
-BEGIN
-    SELECT
-        r.`review_id`                   AS `id`,
-        r.`review_message`              AS `message`,
-        r.`review_rate`                 AS `rate`,
-        r.`course_id`                   AS `courseId`,
-        r.`user_id`                     AS `userId`,
-        r.`review_created_at`           AS `createdAt`,
-        r.`review_modified_at`          AS `modifiedAt`,
-        r.`review_active`               AS `active`,
-        CONCAT(u.`user_name`, ' ', u.`user_last_name`) AS `userName`,
-        u.`profile_picture`             AS `profilePicture`
-    FROM
-        `reviews` AS r
-    INNER JOIN
-        `users` AS u
-    ON
-        r.user_id = u.user_id
-    WHERE
-        r.course_id = course_id
-    ORDER BY
-        `review_created_at` DESC;
-END$$
 DELIMITER ;
 
 
@@ -240,22 +173,8 @@ BEGIN
         r.`user_id` = u.`user_id`
     WHERE
         r.`review_id` = `_id`
-        AND r.`review_active` = TRUE;
+        AND r.`review_active` = TRUE
+    LIMIT
+        1;
 END $$
-DELIMITER ;
-
-
-
-DELIMITER $$
-CREATE PROCEDURE sp_deactivate_review(
-    IN id                               INT
-)
-BEGIN
-    UPDATE
-        `reviews`
-    SET
-        `review_active` = FALSE
-    WHERE
-        `review_id` = id;
-END$$
 DELIMITER ;

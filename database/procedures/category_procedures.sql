@@ -7,12 +7,12 @@ CREATE PROCEDURE `category_create`(
     OUT `_category_id`                  INT
 )
 BEGIN
-    INSERT INTO `categories` (
+    INSERT INTO `categories`(
         `category_name`,
         `category_description`,
         `category_created_by`
     )
-    VALUES (
+    VALUES(
         `_name`,
         `_description`,
         `_created_by`
@@ -75,7 +75,6 @@ BEGIN
         `categories`
     WHERE
         `category_id` = `_category_id`
-        AND `category_is_approved` = TRUE
         AND `category_active` = TRUE
     LIMIT
         1;

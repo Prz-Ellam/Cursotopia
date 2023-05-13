@@ -14,7 +14,7 @@ class PayloadMiddleware implements Middleware {
             $payload = $request->getBody("payload", null);
             if ($payload) {
                 $bodyPayload = json_decode($payload, true);
-                if ($bodyPayload) {
+                if ($bodyPayload || is_array($bodyPayload)) {
                     $request->setBody($bodyPayload);
                     $next();
                     return;

@@ -2,34 +2,40 @@
 
 namespace Cursotopia\Models;
 
-use Bloom\Database\DB;
 use Cursotopia\Entities\Category;
 use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class CategoryModel {
-    private ?int $id;
-    private ?string $name;
-    private ?string $description;
-    private ?bool $approved;
-    private ?int $approvedBy;
-    private ?int $createdBy;
-    private ?string $createdAt;
-    private ?string $modifiedAt;
-    private ?bool $active;
-
+class CategoryModel implements JsonSerializable {
+    private static ?CategoryRepository $repository = null;
     private EntityState $entityState;
+    private array $_ignores = [];
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->name = $object["name"] ?? null;
-        $this->description = $object["description"] ?? null;
-        $this->approved = $object["approved"] ?? null;
-        $this->approvedBy = $object["approvedBy"] ?? null;
-        $this->createdBy = $object["createdBy"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $description = null;
+    private ?bool $approved = null;
+    private ?int $approvedBy = null;
+    private ?int $createdBy = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
+
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -86,78 +92,56 @@ class CategoryModel {
         return $this;
     }
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id): self {
+    public function setId(?int $id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
+    public function getName(): ?string {
         return $this->name;
     }
-
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */ 
-    public function setName($name)
-    {
+ 
+    public function setName(?string $name): self {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
+    public function setDescription(?string $description): self {
         $this->description = $description;
-
         return $this;
     }
 
-    public static function findById(?int $id) {
-        $repository = new CategoryRepository();
-        return $repository->findById($id);
+    public static function findById(?int $id): ?CategoryModel {
+        $object = self::$repository->findById($id);
+        if (!$object) {
+            return null;
+        }
+        return new CategoryModel($object);
+    }
+
+    public static function findOneByName(?string $name, ?int $id = -1): ?CategoryModel {
+        $object = self::$repository->findOneByName($name, $id);
+        if (!$object) {
+            return null;
+        }
+        return new CategoryModel($object);
     }
 
     public static function findObjById(?int $id): ?array {
-        $repository = new CategoryRepository();
-        return $repository->findById($id);
+        return self::$repository->findById($id);
     }
 
     public static function findCategoryById(?int $id): ?CategoryModel {
-        $repository = new CategoryRepository();
-        $object = $repository->findById($id);
+        $object = self::$repository->findById($id);
         if (!$object) {
             return null;
         }
@@ -165,47 +149,112 @@ class CategoryModel {
     }
 
     public static function findAll(): ?array {
-        $repository = new CategoryRepository();
-        return $repository->findAll();
+        return self::$repository->findAll();
     }
 
     public static function findAllWithUser(int $userId): ?array {
-        $repository = new CategoryRepository();
-        return $repository->findAllWithUser($userId);
+        return self::$repository->findAllWithUser($userId);
     }
 
     public static function findNotApproved() {
-        $repository = new CategoryRepository();
-        return $repository->findNotApproved();
+        return self::$repository->findNotApproved();
     }
 
     public static function findNotActive() {
-        $repository = new CategoryRepository();
-        return $repository->findNotActive();
-    }
-
-    public static function findOneByName(string $name, ?int $id = -1) {
-        $repository = new CategoryRepository();
-        return $repository->findOneByName($name, $id);
-    }
-
-    public static function approve(int $adminId, int $categoryId) {
-        $repository = new CategoryRepository();
-        return $repository->approve($categoryId, $adminId);
-    }
-
-    public static function deny(int $adminId, int $categoryId): int {
-        $repository = new CategoryRepository();
-        return $repository->deny($adminId, $categoryId);
+        return self::$repository->findNotActive();
     }
 
     public static function activate(int $categoryId) {
-        $repository = new CategoryRepository();
-        return $repository->activate($categoryId);
+        return self::$repository->activate($categoryId);
     }
 
     public static function deactivate(int $categoryId) {
-        $repository = new CategoryRepository();
-        return $repository->deactivate($categoryId);
+        return self::$repository->deactivate($categoryId);
+    }
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new CategoryRepository();
+        }
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
+
+    /**
+     * Get the value of approved
+     */ 
+    public function getApproved()
+    {
+        return $this->approved;
+    }
+
+    /**
+     * Set the value of approved
+     *
+     * @return  self
+     */ 
+    public function setApproved($approved)
+    {
+        $this->approved = $approved;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of approvedBy
+     */ 
+    public function getApprovedBy()
+    {
+        return $this->approvedBy;
+    }
+
+    /**
+     * Set the value of approvedBy
+     *
+     * @return  self
+     */ 
+    public function setApprovedBy($approvedBy)
+    {
+        $this->approvedBy = $approvedBy;
+
+        return $this;
     }
 }
+
+CategoryModel::init();

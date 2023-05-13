@@ -5,7 +5,6 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Models\CategoryModel;
-use Cursotopia\Repositories\CategoryRepository;
 use Exception;
 
 class CategoryController {
@@ -61,20 +60,29 @@ class CategoryController {
     }
 
     public function getOne(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
         $categoryId = intval($request->getParams("id"));
 
         if ($categoryId === 0) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "category" => "Identificador no válido"
+                "message" => "Identificador no válido"
             ]);
         }
 
-        $category = CategoryModel::findObjById($categoryId);
+        $category = CategoryModel::findById($categoryId);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "category" => "No se encontró la categoria"
+                "message" => "No se encontró la categoría"
+            ]);
+            return;
+        }
+
+        if (!$category->getApproved() && $category->getCreatedBy() != $userId) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "No se encontró la categoría"
             ]);
             return;
         }
@@ -90,9 +98,6 @@ class CategoryController {
         $session = $request->getSession();
         
         $id = $session->get("id");
-        $role = $session->get("role");
-        $body = $request->getBody();
-
         [
             "name" => $name,
             "description" => $description
@@ -108,8 +113,6 @@ class CategoryController {
             ]);
             return;
         }
-
-        // Validar que el usuario es un instructor
 
         $category = new CategoryModel([
             "name" => $name,
@@ -203,7 +206,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findCategoryById($id);
+        $category = CategoryModel::findById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -213,31 +216,25 @@ class CategoryController {
         }
 
         //Validar que el usuario sea administrador
-        $session = $request->getSession();
-        $userId = $session->get("id");
-        $role = $session->get("role");
-
-        if ($role != 1) {
-            $response->json([
-                "status" => false,
-                "message" => "Solo los administradores pueden aprobar categorias"
-            ]);
-            return;
-        }
+        $userId = $request->getSession()->get("id");
 
         try {
-            $result = $category->approve($userId, $id);
+            $category
+            ->setApproved(true)
+            ->setApprovedBy($userId);
+
+        $result = $category->save();
             if (!$result) {
                 $response->setStatus(404)->json([
                     "status" => false,
-                    "message" => $userId
+                    "message" => "No se pudo aprobar la categoría"
                 ]);
                 return;
             }
 
             $response->json([
                 "status" => true,
-                "id" => $category->getId()
+                "message" => "La categoría se aprobó éxitosamente" 
             ]);
         }
         catch (Exception $exception) {
@@ -259,8 +256,9 @@ class CategoryController {
         $id = intval($request->getParams("id"));
 
         //Validar que la categoria exista
+        $userId = $request->getSession()->get("id");
 
-        $category = CategoryModel::findCategoryById($id);
+        $category = CategoryModel::findById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -269,10 +267,12 @@ class CategoryController {
             return;
         }
 
-        $userId = $request->getSession()->get("id");
+        try { 
+            $category
+                ->setApproved(false)
+                ->setApprovedBy($userId);
 
-        try {
-            $result = $category->deny($userId, $id);
+            $result = $category->save();
             if (!$result) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -283,7 +283,7 @@ class CategoryController {
 
             $response->json([
                 "status" => true,
-                "id" => $category->getId()
+                "id" => "La categoría fue rechazada"
             ]);
         }
         catch (Exception $exception) {
@@ -421,9 +421,7 @@ class CategoryController {
             "name" => $name
         ] = $request->getBody();
         
-        $categoryRepository = new CategoryRepository();
-        $category = $categoryRepository->findOneByName($name, $id ?? -1);
-
+        $category = CategoryModel::findOneByName($name, $id ?? -1);
         $response->json(!boolval($category));
     }
 }

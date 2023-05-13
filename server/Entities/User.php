@@ -10,7 +10,7 @@ class User {
     private ?string $gender = null;
     private ?string $email = null;
     private ?string $password = null;
-    private ?int $userRole = null;
+    private ?int $role = null;
     private ?int $profilePicture = null;
     private ?bool $enabled = null;
     private ?string $createdAt = null;
@@ -80,12 +80,12 @@ class User {
         return $this;
     }
 
-    public function getUserRole(): ?int {
-        return $this->userRole;
+    public function getRole(): ?int {
+        return $this->role;
     }
 
-    public function setUserRole(?int $userRole): self {
-        $this->userRole = $userRole;
+    public function setRole(?int $role): self {
+        $this->role = $role;
         return $this;
     } 
 
@@ -125,7 +125,7 @@ class User {
         return $this;
     }
 
-    public function getActive(): ?bool {
+    public function isActive(): ?bool {
         return $this->active;
     }
 

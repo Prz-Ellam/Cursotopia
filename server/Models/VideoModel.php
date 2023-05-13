@@ -5,16 +5,22 @@ namespace Cursotopia\Models;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\Video;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\Repositories\VideoRepository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class VideoModel {
+class VideoModel implements JsonSerializable {
+    private static ?VideoRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
     private ?int $id = null;
     private ?string $name = null;
     
     #[Required("El tipo de la imagen es requerido")]
     #[Enum([ "video/mp4", "video/webm", "video/ogg" ], "El tipo de imagen no es válido")]
-    private ?string $contentType;
+    private ?string $contentType = null;
 
     private ?string $duration = null;
     private ?string $address = null;
@@ -22,20 +28,26 @@ class VideoModel {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    private VideoRepository $videoRepository;
-    private EntityState $entityState;
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new VideoRepository();
+        }
+    }
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->name = $object["name"] ?? null;
-        $this->contentType = $object["contentType"] ?? null;
-        $this->duration = $object["duration"] ?? null;
-        $this->address = $object["address"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
     
-        $this->videoRepository = new VideoRepository();
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
     
@@ -54,14 +66,14 @@ class VideoModel {
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $this->videoRepository->create($video);
+                $rowsAffected = self::$repository->create($video);
                 if ($rowsAffected) {
-                    $this->id = intval($this->videoRepository->lastInsertId2());
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $this->videoRepository->update($video);
+                $rowsAffected = self::$repository->update($video);
                 break;
             }
         }
@@ -69,47 +81,67 @@ class VideoModel {
     }
     
     public static function findById(?int $id): ?array {
-        $videoRepository = new VideoRepository();
-        return $videoRepository->findById($id);
+        return self::$repository->findById($id);
     }
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+ 
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
-
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
-
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */ 
-    public function setName($name)
-    {
+ 
+    public function setName($name) {
         $this->name = $name;
-
         return $this;
     }
+
+
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
 }
+
+VideoModel::init();

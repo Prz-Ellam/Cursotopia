@@ -18,15 +18,15 @@
 </head>
 <body>
 	<?= $this->render('partials/navbar') ?>
-  <?php if($this->user["userRole"] === 1 && $this->isMe): ?>
+  <?php if($this->user["role"] === 1 && $this->isMe): ?>
     <?= $this->render("admin-home") ?>
-	<?php elseif($this->user["userRole"] === 2 && $this->isMe): ?>
+	<?php elseif($this->user["role"] === 2 && $this->isMe): ?>
 		<?= $this->render('instructor-profile') ?>
-	<?php elseif($this->user["userRole"] === 3 && $this->isMe): ?>
+	<?php elseif($this->user["role"] === 3 && $this->isMe): ?>
 		<?= $this->render('student-profile') ?>
-  <?php elseif($this->user["userRole"] === 1): ?>
+  <?php elseif($this->user["role"] === 1): ?>
     <?= $this->render('admin-profile-seen-by-others') ?>
-	<?php elseif($this->user["userRole"] === 2): ?>
+	<?php elseif($this->user["role"] === 2): ?>
 		<?= $this->render('instructor-profile-seen-by-others') ?>
 	<?php else: ?>
 		<?= $this->render('student-profile-seen-by-others') ?>

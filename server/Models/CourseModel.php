@@ -4,9 +4,15 @@ namespace Cursotopia\Models;
 
 use Cursotopia\Entities\Course;
 use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class CourseModel {
+class CourseModel implements JsonSerializable {
+    private static ?CourseRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
     private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
@@ -20,131 +26,122 @@ class CourseModel {
     private ?bool $active = null;
     private ?bool $isComplete = null;
     private ?string $approvedAt = null;
-    private EntityState $entityState;
-    private CourseRepository $courseRepository;
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->title = $object["title"] ?? null;
-        $this->description = $object["description"] ?? null;
-        $this->price = $object["price"] ?? null;
-        $this->imageId = $object["imageId"] ?? null;
-        $this->instructorId = $object["instructorId"] ?? null;
-        $this->isComplete = $object["isComplete"] ?? null;
-        $this->approved = $object["approved"] ?? null;
-        $this->approvedBy = $object["approvedBy"] ?? null;
-        $this->approvedAt = $object["approvedAt"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
-        $this->courseRepository = new CourseRepository();
     }
 
-    // Obtener los mas vendidos
-    // Obtener los mas recientes
-    // Obtener los mejor calificados
-
-    // No todas las propiedades de los modelos son de la entidad per se
-    public static function findById(?int $id): ?CourseModel {
-        $courseRepository = new CourseRepository();
-        $courseObject = $courseRepository->findById($id);
-        if (!$courseObject) {
-            return null;
-        }
-        return new CourseModel($courseObject);
+    public function getId(): ?int {
+        return $this->id;
     }
 
-    public static function findObjById(?int $id): ?array {
-        $courseRepository = new CourseRepository();
-        $courseObject = $courseRepository->findById($id);
-        $courseObject["categories"] = explode(",", $courseObject["categories"]);
-        return $courseObject;
+    public function setId(?int $id): self {
+        $this->id = $id;
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
+        return $this;
     }
 
-    public static function findById2(?int $id): ?array {
-        $courseRepository = new CourseRepository();
-        $courseObject = $courseRepository->findById($id);
-        $courseObject["categories"] = explode(",", $courseObject["categories"]);
-        return $courseObject;
+    public function getTitle(): ?string {
+        return $this->title;
     }
 
-    public static function confirm(int $id) {
-        $courseRepository = new CourseRepository();
-        $rowsAffected = $courseRepository->confirm($id);
-        return ($rowsAffected > 0) ? true : false;
+    public function setTitle(?string $title): self {
+        $this->title = $title;
+        return $this;
     }
 
-    public static function approve(int $courseId, int $adminId, bool $approve) {
-        $courseRepository = new CourseRepository();
-        $rowsAffected = $courseRepository->approve($courseId, $adminId, $approve);
-        return ($rowsAffected > 0) ? true : false;
+    public function getDescription(): ?string {
+        return $this->description;
     }
 
-    public static function deny(int $courseId) {
-        $courseRepository = new CourseRepository();
-        $rowsAffected = $courseRepository->delete($courseId);
-        return ($rowsAffected > 0) ? true : false;
+    public function setDescription(?string $description): self {
+        $this->description = $description;
+        return $this;
     }
 
-    public static function findByNotApproved() {
-        $courseRepository = new CourseRepository();
-        return $courseRepository->findByNotApproved();
+    public function getPrice(): ?float {
+        return $this->price;
     }
 
-    public static function findSearch(?string $title, ?int $instructorId, ?int $categoryId,
-    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): array {
-        $courseRepository = new CourseRepository();
-        return $courseRepository->courseSearch($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+    public function setPrice(?float $price): self {
+        $this->price = $price;
+        return $this;
     }
 
-    public static function findSearchTotal(?string $title, ?int $instructorId, ?int $categoryId,
-    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): int {
-        $courseRepository = new CourseRepository();
-        $obj = $courseRepository->courseSearchTotal($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
-        return $obj["total"];
+    public function getImageId(): ?int {
+        return $this->imageId;
     }
 
-    public static function salesReport(int $instructorId, ?int $categoryId = null,
-    ?string $from = null, ?string $to = null, ?int $active = null,
-    int $limit = 100, int $offset = 0): array {
-        $courseRepository = new CourseRepository();
-        return $courseRepository->courseSalesReport($instructorId, $categoryId, $from, $to, $active, $limit, $offset);
-    }    
-    
-    public static function salesReportTotal(int $instructorId, ?int $categoryId = null,
-    ?string $from = null, ?string $to = null, ?int $active = null): int {
-        $courseRepository = new CourseRepository();
-        $obj = $courseRepository->courseSalesReportTotal($instructorId, $categoryId, $from, $to, $active);
-        return $obj["total"];
+    public function setImageId(?int $imageId): self {
+        $this->imageId = $imageId;
+        return $this;
     }
 
-    public static function kardexReport(int $studentId, ?int $categoryId = null,
-    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null,
-    int $limit = 100, int $offset = 0): array {
-        $courseRepository = new CourseRepository();
-        return $courseRepository->kardexReport($studentId, $from, $to, $categoryId, $complete, $active, $limit, $offset);
+    public function getInstructorId(): ?int {
+        return $this->instructorId;
     }
 
-    public static function kardexReportTotal(int $studentId, ?int $categoryId = null,
-    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null): int {
-        $courseRepository = new CourseRepository();
-        $obj = $courseRepository->kardexReportTotal($studentId, $from, $to, $categoryId, $complete, $active);
-        return $obj["total"];
+    public function setInstructorId(?int $instructorId): self {
+        $this->instructorId = $instructorId;
+        return $this;
     }
 
-    public static function enrollmentsReport(int $courseId, ?string $from = null,
-    ?string $to = null, int $limit = 100, int $offset = 0): array {
-        $courseRepository = new CourseRepository();
-        return $courseRepository->courseEnrollmentsReport($courseId, $from, $to, $limit, $offset);
+    public function isApproved(): ?bool {
+        return $this->approved;
     }
 
-    public static function enrollmentsReportTotal(int $courseId, ?string $from = null,
-    ?string $to = null): int {
-        $courseRepository = new CourseRepository();
-        $obj = $courseRepository->courseEnrollmentsReportTotal($courseId, $from, $to);
-        return $obj["total"];
+    public function setApproved(?bool $approved): self {
+        $this->approved = $approved;
+        return $this;
+    }
+
+    public function getApprovedBy(): ?int {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?int $approvedBy): self {
+        $this->approvedBy = $approvedBy;
+        return $this;
+    }
+
+    public function getIsComplete(): ?bool {
+        return $this->isComplete;
+    }
+
+    public function setIsComplete(?bool $isComplete): self {
+        $this->isComplete = $isComplete;
+        return $this;
+    }
+
+    public function getApprovedAt(): ?string {
+        return $this->approvedAt;
+    }
+
+    public function setApprovedAt(?string $approvedAt): self {
+        $this->approvedAt = $approvedAt;
+        return $this;
+    }
+
+    public function isActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
+        return $this;
     }
 
     public function save(): bool {
@@ -167,18 +164,136 @@ class CourseModel {
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $this->courseRepository->create($course);
+                $rowsAffected = self::$repository->create($course);
                 if ($rowsAffected) {
-                    $this->id = intval($this->courseRepository->lastInsertId2());
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $this->courseRepository->update($course);
+                $rowsAffected = self::$repository->update($course);
                 break;
             }
         }
         return ($rowsAffected > 0) ? true : false;
+    }
+    
+    // Obtener los mas vendidos
+    // Obtener los mas recientes
+    // Obtener los mejor calificados
+
+    // No todas las propiedades de los modelos son de la entidad per se
+    public static function findById(?int $id): ?CourseModel {
+        $courseObject = self::$repository->findById($id);
+        if (!$courseObject) {
+            return null;
+        }
+        return new CourseModel($courseObject);
+    }
+
+    public static function findObjById(?int $id): ?array {
+        $courseObject = self::$repository->findById($id);
+        $courseObject["categories"] = explode(",", $courseObject["categories"]);
+        return $courseObject;
+    }
+
+    public static function findByNotApproved(): ?array {
+        return self::$repository->findByNotApproved();
+    }
+
+    public static function findAllOrderByCreatedAt(): ?array {
+        return self::$repository->findAllOrderByCreatedAt();
+    }
+
+    public static function findAllOrderByRates(): ?array {
+        return self::$repository->findAllOrderByRates();
+    }
+
+    public static function findAllOrderByEnrollments(): ?array {
+        return self::$repository->findAllOrderByEnrollments();
+    }
+
+    public static function findSearch(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): array {
+        return self::$repository->courseSearch($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+    }
+
+    public static function findSearchTotal(?string $title, ?int $instructorId, ?int $categoryId,
+    ?string $from = null, ?string $to = null, int $limit = 100, int $offset = 0): int {
+        $obj = self::$repository->courseSearchTotal($title, $instructorId, $categoryId, $from, $to, $limit, $offset);
+        return $obj["total"];
+    }
+
+    public static function salesReport(int $instructorId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $active = null,
+    int $limit = 100, int $offset = 0): array {
+        return self::$repository->courseSalesReport($instructorId, $categoryId, $from, $to, $active, $limit, $offset);
+    }    
+    
+    public static function salesReportTotal(int $instructorId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $active = null): int {
+        $obj = self::$repository->courseSalesReportTotal($instructorId, $categoryId, $from, $to, $active);
+        return $obj["total"];
+    }
+
+    public static function kardexReport(int $studentId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null,
+    int $limit = 100, int $offset = 0): array {
+        return self::$repository->kardexReport($studentId, $from, $to, $categoryId, $complete, $active, $limit, $offset);
+    }
+
+    public static function kardexReportTotal(int $studentId, ?int $categoryId = null,
+    ?string $from = null, ?string $to = null, ?int $complete = null, ?int $active = null): int {
+        $obj = self::$repository->kardexReportTotal($studentId, $from, $to, $categoryId, $complete, $active);
+        return $obj["total"];
+    }
+
+    public static function enrollmentsReport(int $courseId, ?string $from = null,
+    ?string $to = null, int $limit = 100, int $offset = 0): array {
+        return self::$repository->courseEnrollmentsReport($courseId, $from, $to, $limit, $offset);
+    }
+
+    public static function enrollmentsReportTotal(int $courseId, ?string $from = null,
+    ?string $to = null): int {
+        $obj = self::$repository->courseEnrollmentsReportTotal($courseId, $from, $to);
+        return $obj["total"];
+    }
+
+    
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new CourseRepository();
+        }
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
     }
 
     public function toObject() : array {
@@ -189,124 +304,6 @@ class CourseModel {
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
     }
-
-    /**
-     * Get the value of title
-     */ 
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */ 
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of price
-     */ 
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set the value of price
-     *
-     * @return  self
-     */ 
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of instructorId
-     */ 
-    public function getInstructorId()
-    {
-        return $this->instructorId;
-    }
-
-    /**
-     * Set the value of instructorId
-     *
-     * @return  self
-     */ 
-    public function setInstructorId($instructorId)
-    {
-        $this->instructorId = $instructorId;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
 }
+
+CourseModel::init();

@@ -2,12 +2,17 @@
 
 namespace Cursotopia\Models;
 
-use Bloom\Database\DB;
 use Cursotopia\Entities\Enrollment;
 use Cursotopia\Repositories\EnrollmentRepository;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class EnrollmentModel {
+class EnrollmentModel implements JsonSerializable {
+    private static ?EnrollmentRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
     private ?int $id = null;
     private ?int $courseId = null;
     private ?int $studentId = null;
@@ -23,27 +28,24 @@ class EnrollmentModel {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    private EntityState $entityState;
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->courseId = $object["courseId"] ?? null;
-        $this->studentId = $object["studentId"] ?? null;
-        $this->isFinished = $object["isFinished"] ?? null;
-        $this->enrollDate = $object["enrollDate"] ?? null;
-        $this->certificateUid = $object["certificateUid"] ?? null;
-        $this->amount = $object["amount"] ?? null;
-        $this->paymentMethodId = $object["paymentMethodId"] ?? null;
-        $this->lastTimeChecked = $object["lastTimeChecked"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
 
     public function save(): bool {
-        $enrollmentRepository = new EnrollmentRepository();
         $enrollment = new Enrollment();
         $enrollment
             ->setId($this->id)
@@ -64,9 +66,9 @@ class EnrollmentModel {
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $enrollmentRepository->create($enrollment);
+                $rowsAffected = self::$repository->create($enrollment);
                 if ($rowsAffected) {
-                    $this->id = intval($enrollmentRepository->lastInsertId2());
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
@@ -79,278 +81,136 @@ class EnrollmentModel {
     }
     
     public static function completeLesson(int $userId, int $lessonId): bool {
-        $enrollmentRepository = new EnrollmentRepository();
-        $status = $enrollmentRepository->completeLesson($userId, $lessonId);
+        $status = self::$repository->completeLesson($userId, $lessonId);
         return $status ? true : false;
     }
 
     public static function visitLesson(int $userId, int $lessonId): bool {
-        $enrollmentRepository = new EnrollmentRepository();
-        $status = $enrollmentRepository->visitLesson($userId, $lessonId);
+        $status = self::$repository->visitLesson($userId, $lessonId);
         return $status ? true : false;
     }
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
     public function setId($id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    /**
-     * Get the value of courseId
-     */ 
-    public function getCourseId()
-    {
+    public function getCourseId() {
         return $this->courseId;
     }
 
-    /**
-     * Set the value of courseId
-     *
-     * @return  self
-     */ 
-    public function setCourseId($courseId)
-    {
+    public function setCourseId($courseId) {
         $this->courseId = $courseId;
-
         return $this;
     }
 
-    /**
-     * Get the value of studentId
-     */ 
-    public function getStudentId()
-    {
+    public function getStudentId() {
         return $this->studentId;
     }
 
-    /**
-     * Set the value of studentId
-     *
-     * @return  self
-     */ 
-    public function setStudentId($studentId)
-    {
+    public function setStudentId($studentId) {
         $this->studentId = $studentId;
-
         return $this;
     }
 
-    /**
-     * Get the value of isFinished
-     */ 
-    public function getIsFinished()
-    {
+    public function getIsFinished() {
         return $this->isFinished;
     }
 
-    /**
-     * Set the value of isFinished
-     *
-     * @return  self
-     */ 
-    public function setIsFinished($isFinished)
-    {
+    public function setIsFinished($isFinished) {
         $this->isFinished = $isFinished;
         return $this;
     }
 
-    /**
-     * Get the value of enrollDate
-     */ 
-    public function getEnrollDate()
-    {
+    public function getEnrollDate() {
         return $this->enrollDate;
     }
 
-    /**
-     * Set the value of enrollDate
-     *
-     * @return  self
-     */ 
-    public function setEnrollDate($enrollDate)
-    {
+    public function setEnrollDate($enrollDate) {
         $this->enrollDate = $enrollDate;
-
         return $this;
     }
 
-    /**
-     * Get the value of finishDate
-     */ 
-    public function getFinishDate()
-    {
+    public function getFinishDate() {
         return $this->finishDate;
     }
 
-    /**
-     * Set the value of finishDate
-     *
-     * @return  self
-     */ 
-    public function setFinishDate($finishDate)
-    {
+    public function setFinishDate($finishDate) {
         $this->finishDate = $finishDate;
-
         return $this;
     }
 
-    /**
-     * Get the value of finishDate
-     */ 
-    public function getCertificateUid()
-    {
+    public function getCertificateUid() {
         return $this->certificateUid;
     }
-
-    /**
-     * Set the value of finishDate
-     *
-     * @return  self
-     */ 
-    public function setCertificateUid($certificateUid)
-    {
+ 
+    public function setCertificateUid($certificateUid) {
         $this->certificateUid = $certificateUid;
-
         return $this;
     }
-
-    /**
-     * Get the value of amount
-     */ 
-    public function getAmount()
-    {
+ 
+    public function getAmount() {
         return $this->amount;
     }
-
-    /**
-     * Set the value of amount
-     *
-     * @return  self
-     */ 
-    public function setAmount($amount)
-    {
+ 
+    public function setAmount($amount) {
         $this->amount = $amount;
-
         return $this;
     }
 
-    /**
-     * Get the value of paymentMethod
-     */ 
-    public function getPaymentMethodId()
-    {
+    public function getPaymentMethodId() {
         return $this->paymentMethodId;
     }
-
-    /**
-     * Set the value of paymentMethod
-     *
-     * @return  self
-     */ 
-    public function setPaymentMethod($paymentMethodId)
-    {
+ 
+    public function setPaymentMethod($paymentMethodId) {
         $this->paymentMethodId = $paymentMethodId;
-
         return $this;
     }
 
-    /**
-     * Get the value of lastTimeChecked
-     */ 
-    public function getLastTimeChecked()
-    {
+    public function getLastTimeChecked() {
         return $this->lastTimeChecked;
     }
-
-    /**
-     * Set the value of lastTimeChecked
-     *
-     * @return  self
-     */ 
-    public function setLastTimeChecked($lastTimeChecked)
-    {
+ 
+    public function setLastTimeChecked($lastTimeChecked) {
         $this->lastTimeChecked = $lastTimeChecked;
 
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
-
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
+ 
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
-
         return $this;
     }
-
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+ 
+    public function getModifiedAt() {
         return $this->modifiedAt;
     }
-
-    /**
-     * Set the value of modifiedAt
-     *
-     * @return  self
-     */ 
-    public function setModifiedAt($modifiedAt)
-    {
+ 
+    public function setModifiedAt($modifiedAt) {
         $this->modifiedAt = $modifiedAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+    public function setActive($active) {
         $this->active = $active;
-
         return $this;
     }
 
     public static function findOneByCourseIdAndStudentId(int $courseId, int $studentId) {
-        $repository = new EnrollmentRepository();
-        $object = $repository->findOneByCourseAndStudent($courseId, $studentId);
+        $object = self::$repository->findOneByCourseAndStudent($courseId, $studentId);
         if (!$object) {
             return null;
         }
@@ -358,27 +218,63 @@ class EnrollmentModel {
     }
 
     public static function findOneCertificate(?int $studentId, ?int $courseId): ?array {
-        $repository = new EnrollmentRepository();
-        return $repository->certificateFindOne($studentId, $courseId);
+        return self::$repository->certificateFindOne($studentId, $courseId);
     }
-
-    /**
-     * Get the value of isPaid
-     */ 
-    public function getIsPaid()
-    {
+ 
+    public function getIsPaid() {
         return $this->isPaid;
     }
-
-    /**
-     * Set the value of isPaid
-     *
-     * @return  self
-     */ 
-    public function setIsPaid($isPaid)
-    {
+ 
+    public function setIsPaid($isPaid) {
         $this->isPaid = $isPaid;
-
         return $this;
     }
+
+
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new EnrollmentRepository();
+        }
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
 }
+
+EnrollmentModel::init();

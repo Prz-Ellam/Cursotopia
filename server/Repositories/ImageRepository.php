@@ -6,7 +6,7 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\Image;
 use PDO;
 
-class ImageRepository extends DB {
+class ImageRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `image_create`(
             :name, 
@@ -63,7 +63,7 @@ class ImageRepository extends DB {
             "data" => $image->getData(),
             "created_at" => $image->getCreatedAt(),
             "modified_at" => $image->getModifiedAt(),
-            "active" => $image->getActive()
+            "active" => $image->isActive()
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }

@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Lesson;
 
-class LessonRepository extends DB {
+class LessonRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `lesson_create`(
             :title, 

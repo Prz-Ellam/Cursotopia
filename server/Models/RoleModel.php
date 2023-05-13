@@ -3,13 +3,24 @@
 namespace Cursotopia\Models;
 
 use Cursotopia\Repositories\RoleRepository;
+use Cursotopia\ValueObjects\EntityState;
 
 class RoleModel {
-    private int $id;
-    private string $name;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private static ?RoleRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new RoleRepository();
+        }
+    }
 
     public function getId() {
         return $this->id;
@@ -45,12 +56,12 @@ class RoleModel {
     }
 
     public static function findAllByIsPublic(bool $isPublic): array {
-        $roleRepository = new RoleRepository();
-        return $roleRepository->findAllByIsPublic($isPublic);
+        return self::$repository->findAllByIsPublic($isPublic);
     }
 
     public static function findOneByIdAndIsPublic(int $id, bool $isPublic): ?array {
-        $userRoleRepository = new RoleRepository();
-        return $userRoleRepository->findOneByIdAndIsPublic($id, $isPublic);
+        return self::$repository->findOneByIdAndIsPublic($id, $isPublic);
     }
 }
+
+RoleModel::init();

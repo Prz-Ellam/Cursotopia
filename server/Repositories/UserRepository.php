@@ -6,7 +6,7 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\User;
 use PDO;
 
-class UserRepository extends DB {
+class UserRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `user_create`(
             :name,
@@ -15,7 +15,7 @@ class UserRepository extends DB {
             :gender,
             :email,
             :password,
-            :user_role,
+            :role,
             :profile_picture,
             @user_id
         )
@@ -55,18 +55,6 @@ class UserRepository extends DB {
         CALL `user_find_one_by_email_and_not_user_id`(:email, :id)
     SQL;
     
-    private const ENABLE = <<<'SQL'
-        CALL `user_update`(
-            :id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, TRUE, NULL, NULL, NULL
-        )
-    SQL;
-
-    private const DISABLE = <<<'SQL'
-        CALL `user_update`(
-            :id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, FALSE, NULL, NULL, NULL
-        )
-    SQL;
-
     private const FIND_ALL = <<<'SQL'
         CALL `user_find_all`(:name, :role)
     SQL;
@@ -91,7 +79,7 @@ class UserRepository extends DB {
             "gender" => $user->getGender(),
             "email" => $user->getEmail(),
             "password" => $user->getPassword(),
-            "user_role" => $user->getUserRole(),
+            "role" => $user->getRole(),
             "profile_picture" => $user->getProfilePicture()
         ];
         return $this::executeNonQuery($this::CREATE, $parameters);
@@ -113,30 +101,18 @@ class UserRepository extends DB {
             "modified_at" => null, 
             "active" => null
         ];
-        $types = [
-            "id" => PDO::PARAM_INT,
-            "name" => PDO::PARAM_STR,
-            "last_name" => PDO::PARAM_STR,
-            "birth_date" => PDO::PARAM_STR,
-            "gender" => PDO::PARAM_STR,
-            "email" => PDO::PARAM_STR,
-            "password" => PDO::PARAM_STR,
-            "user_role" => PDO::PARAM_NULL,
-            "profile_picture" => PDO::PARAM_NULL,
-            "enabled" => PDO::PARAM_BOOL,
-            "created_at" => PDO::PARAM_NULL, 
-            "modified_at" => PDO::PARAM_NULL, 
-            "active" => PDO::PARAM_NULL
-        ];
-        return $this::executeNonQuery($this::UPDATE, $parameters, $types);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
     public function delete() {
         
     }
 
-    public function findOne(?int $id): ?array {
-        return $this::executeOneReader($this::FIND_BY_ID, [ "id" => $id ]) ?? null;
+    public function findById(?int $id): ?array {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
     public function findOne2(array $parameters): ?array {
@@ -156,20 +132,6 @@ class UserRepository extends DB {
             "email" => $email
         ];
         return $this::executeOneReader($this::FIND_ONE_BY_EMAIL, $parameters);
-    }
-
-    public function enable(?int $userId): int {
-        $parameters = [
-            "id" => $userId
-        ];
-        return $this::executeNonQuery($this::ENABLE, $parameters);
-    }
-    
-    public function disable(?int $userId): int {
-        $parameters = [
-            "id" => $userId
-        ];
-        return $this::executeNonQuery($this::DISABLE, $parameters);
     }
 
     public function findAll(?string $name, ?int $role): ?array {

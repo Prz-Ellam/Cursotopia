@@ -50,12 +50,18 @@
           </div>
           <div class="row mt-3">
             <div class="col-12">
+              <?php if ($this->course["active"]): ?>
               <a href="/course-edition?id=<?= $this->course["id"] ?>" 
                 class="btn btn-secondary rounded-pill">
                 Editar curso
               </a>
               <button type="button" 
-                class="btn btn-danger rounded-pill btn-delete-course">Deshabilitar</button>
+                class="btn btn-danger rounded-pill btn-delete-course">
+                Deshabilitar
+              </button>
+              <?php else: ?>
+                Eliminado
+              <?php endif ?>
             </div>
           </div>
         </div>

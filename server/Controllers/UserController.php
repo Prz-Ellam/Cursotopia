@@ -11,7 +11,7 @@ use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\UserModel;
 use Cursotopia\Models\RoleModel;
-use Cursotopia\Repositories\UserRepository;
+use Cursotopia\ValueObjects\Roles;
 use DateTime;
 use Exception;
 
@@ -45,7 +45,10 @@ class UserController {
             $isMe = true;
         }
         
-        $response->render("profile", [ "isMe" => $isMe, "user" => $user->toObject() ]);
+        $response->render("profile", [ 
+            "isMe" => $isMe, 
+            "user" => $user->toArray() 
+        ]);
     }
 
     public function profileEdition(Request $request, Response $response): void {
@@ -58,7 +61,7 @@ class UserController {
         }
     
         $response->render("profile-edition", [ 
-            "user" => $user->toObject()
+            "user" => $user->toArray()
         ]);
     }
 
@@ -140,13 +143,13 @@ class UserController {
         if (!$user->getEnabled()) {
             $response->json([
                 "status" => false,
-                "message" => "Tu cuenta esta bloqueada"
+                "message" => "Tú cuenta esta bloqueada"
             ]);
             return;
         }
 
         $session->set("id", $user->getId());
-        $session->set("role", $user->getUserRole());
+        $session->set("role", $user->getRole());
         $session->set("profilePicture", $user->getProfilePicture());
 
         // Eliminar la información de intentos de login
@@ -155,7 +158,7 @@ class UserController {
 
         $response->json([
             "status" => true,
-            "message" => "User login successfully"
+            "message" => "Inicio de sesión éxitoso"
         ]);    
     }
 
@@ -167,11 +170,9 @@ class UserController {
 
     public function getAll(Request $request, Response $response): void {
         $name = $request->getQuery("name", "");
-        
         $role = $request->getSession()->get("role");
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->findAll($name, $role);
+        $users = UserModel::findAll($name, $role);
 
         $response->json($users);
     }
@@ -179,8 +180,7 @@ class UserController {
     public function getAllInstructors(Request $request, Response $response): void {
         $name = $request->getQuery("name", "");
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->findAllInstructors($name);
+        $users = UserModel::findAllInstructors($name);
 
         $response->json($users);
     }
@@ -191,7 +191,7 @@ class UserController {
         $id = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findObjById($id);
+        $user = UserModel::findById($id);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -201,6 +201,7 @@ class UserController {
         }
 
         // Decirle que propiedades iran al objeto
+        $user->setIgnores([ "password", "enabled", "active", "createdAt", "modifiedAt" ]);
         $response->json($user);
     }
 
@@ -295,7 +296,7 @@ class UserController {
 
             $session = $request->getSession();
             $session->set("id", $user->getId());
-            $session->set("role", $user->getUserRole());
+            $session->set("role", $user->getRole());
             $session->set("profilePicture", $user->getProfilePicture());
 
             $response->setStatus(201)->json([
@@ -316,8 +317,7 @@ class UserController {
         try {
             $id = intval($request->getParams("id"));
 
-            $session = $request->getSession();
-            $sessionUserId = $session->get("id");
+            $sessionUserId = $request->getSession()->get("id");
 
             // Solo se puede actualizar tu propio usuario
             if ($id !== $sessionUserId) {
@@ -500,7 +500,17 @@ class UserController {
             return;
         }
 
-        $result = UserModel::disableUser($id);
+        if ($user->getRole() === Roles::ADMIN->value) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "No se pueden bloquear administradores"
+            ]);
+            return;
+        }
+
+        $user->setEnabled(false);
+
+        $result = $user->save();
         if (!$result) {
             $response->setStatus(400)->json([
                 "status" => false,
@@ -529,8 +539,10 @@ class UserController {
             return;
         }
 
-        $result= UserModel::enableUser($id);
-        if(!$result){
+        $user->setEnabled(true);
+
+        $result = $user->save();
+        if (!$result) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => $result
@@ -542,6 +554,5 @@ class UserController {
             "status" => true,
             "message" => "El usuario fue desbloqueado con éxito"
         ]);
-        return;
     }
 }

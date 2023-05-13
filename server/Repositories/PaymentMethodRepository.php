@@ -4,7 +4,7 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 
-class PaymentMethodRepository extends DB {
+class PaymentMethodRepository extends DB implements Repository {
     const FIND_BY_ID = <<<'SQL'
         CALL `payment_method_find_by_id`(:id)
     SQL;

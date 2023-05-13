@@ -138,28 +138,28 @@ export const updateCategory = async function(event) {
 }
 
 export const showCategoryDetails = async function(categoryId) {
-
     const response = await CategoryService.findById(categoryId);
     
-    if (response?.status) {
-        const category = response.category;
-        if(category.active==false){
-            $('#category-name').prop('readonly', true);
-            $('#category-description').prop('readonly', true);
-            $('#save-btn').prop('disabled', true);
-        }else{
-            $('#category-name').prop('readonly', false);
-            $('#category-description').prop('readonly', false);
-            $('#save-btn').prop('disabled', false);
-        }
-        $('#category-id').val(category.id);
-        $('#category-name').val(category.name);
-        $('#category-description').val(category.description);
-        return;
-    }else{
+    if (!response?.status) {
         showErrorMessage(response);
         return;
     }
+
+    const category = response.category;
+    if (category.active == false) {
+        $('#category-name').prop('readonly', true);
+        $('#category-description').prop('readonly', true);
+        $('#save-btn').prop('disabled', true);
+    }
+    else {
+        $('#category-name').prop('readonly', false);
+        $('#category-description').prop('readonly', false);
+        $('#save-btn').prop('disabled', false);
+    }
+
+    $('#category-id').val(category.id);
+    $('#category-name').val(category.name);
+    $('#category-description').val(category.description);    
 }
 
 export const approveCategory = async function(categoryId) {

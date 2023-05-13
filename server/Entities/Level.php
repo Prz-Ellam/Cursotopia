@@ -12,74 +12,74 @@ class Level {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
  
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
  
-    public function setTitle($title) {
+    public function setTitle(?string $title): self {
         $this->title = $title;
         return $this;
     }
 
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    public function isFree() {
-        return $this->free ? 1 : 0;
+    public function isFree(): ?bool {
+        return $this->free;
     }
 
-    public function setFree($free) {
+    public function setFree(?bool $free): self {
         $this->free = $free;
         return $this;
     }
 
-    public function getCourseId() {
+    public function getCourseId(): ?int {
         return $this->courseId;
     }
 
-    public function setCourseId($courseId) {
+    public function setCourseId(?int $courseId): self {
         $this->courseId = $courseId;
         return $this;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getModifiedAt() {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt($modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
 
-    public function getActive() {
-        return $this->active ? 1 : 0;
+    public function isActive(): ?bool {
+        return $this->active;
     }
 
-    public function setActive($active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }

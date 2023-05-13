@@ -1,10 +1,26 @@
 {
     "type": "object",
     "properties": {
-        
+        "courseId": {
+            "type": "number",
+            "minimum": 1,
+            "$error": {
+                "type": "El id del curso debe ser un entero",
+                "minimum": "El id del curso debe ser un entero positivo"
+            }
+        },
+        "paymentMethodId": {
+            "type": "number",
+            "minimum": 1,
+            "$error": {
+                "type": "El id del método de pago debe ser un entero",
+                "minimum": "El id del método de pago debe ser un entero positivo"
+            }
+        }
     },
     "required": [
-        
+        "courseId",
+        "paymentMethodId"
     ],
     "additionalProperties": false,
     "$error": {

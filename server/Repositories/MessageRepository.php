@@ -5,7 +5,7 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Message;
 
-class MessageRepository extends DB {
+class MessageRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
         CALL `message_create`(
             :content,

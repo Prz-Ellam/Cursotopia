@@ -12,74 +12,74 @@ class UserLesson {
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
 
-    public function getUserId() {
+    public function getUserId(): ?int {
         return $this->userId;
     }
 
-    public function setUserId($userId) {
+    public function setUserId(?int $userId): self {
         $this->userId = $userId;
         return $this;
     }
 
-    public function getLessonId() {
+    public function getLessonId(): ?int {
         return $this->lessonId;
     }
 
-    public function setLessonId($lessonId) {
+    public function setLessonId(?int $lessonId): self {
         $this->lessonId = $lessonId;
         return $this;
     }
 
-    public function getIsComplete() {
+    public function getIsComplete(): ?bool {
         return $this->isComplete;
     }
 
-    public function setIsComplete($isComplete) {
+    public function setIsComplete(?bool $isComplete): self {
         $this->isComplete = $isComplete;
         return $this;
     }
 
-    public function getCompleteAt() {
+    public function getCompleteAt(): ?string {
         return $this->completeAt;
     }
 
-    public function setCompleteAt($completeAt) {
+    public function setCompleteAt(?string $completeAt): self {
         $this->completeAt = $completeAt;
         return $this;
     }
 
-    public function getLastTimeChecked() {
+    public function getLastTimeChecked(): ?string {
         return $this->lastTimeChecked;
     }
 
-    public function setLastTimeChecked($lastTimeChecked) {
+    public function setLastTimeChecked(?string $lastTimeChecked): self {
         $this->lastTimeChecked = $lastTimeChecked;
         return $this;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getModifiedAt() {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt($modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }

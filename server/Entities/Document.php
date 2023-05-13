@@ -15,7 +15,7 @@ class Document {
         return $this->id;
     }
 
-    public function setId(?int $id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
@@ -24,7 +24,7 @@ class Document {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): self {
         $this->name = $name;
         return $this;
     }
@@ -33,7 +33,7 @@ class Document {
         return $this->contentType;
     }
 
-    public function setContentType(?string $contentType) {
+    public function setContentType(?string $contentType): self {
         $this->contentType = $contentType;
         return $this;
     }
@@ -42,7 +42,7 @@ class Document {
         return $this->address;
     }
 
-    public function setAddress(?string $address) {
+    public function setAddress(?string $address): self {
         $this->address = $address;
         return $this;
     }
@@ -51,7 +51,7 @@ class Document {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?string $createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
@@ -60,7 +60,7 @@ class Document {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt(?string $modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
@@ -69,7 +69,7 @@ class Document {
         return $this->active;
     }
 
-    public function setActive(?bool $active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }

@@ -22,7 +22,7 @@ export const createCourse = async function(event) {
     const course = {
         title: formData.get('title'),
         description: formData.get('description'),
-        price: +Number.parseFloat($('#price').val()).toFixed(2),
+        price: $('#price').val(),
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
     }
 

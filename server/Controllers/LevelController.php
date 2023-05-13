@@ -20,7 +20,7 @@ class LevelController {
             return;
         }
 
-        $level = LevelModel::findObjById($id);
+        $level = LevelModel::findById($id);
         if (!$level) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -35,6 +35,7 @@ class LevelController {
 
     public function create(Request $request, Response $response): void {
         try {
+            $userId = $request->getSession()->get("id");
             [
                 "title" => $title,
                 "description" => $description,
@@ -42,11 +43,19 @@ class LevelController {
                 "courseId" => $courseId
             ] = $request->getBody();
 
-            $requestedCourse = CourseModel::findById($courseId);
-            if (!$requestedCourse) {
+            $course = CourseModel::findById($courseId);
+            if (!$course) {
                 $response->setStatus(404)->json([
                     "status" => false,
-                    "message" => "El curso no existe"
+                    "message" => "Curso no encontrado"
+                ]);
+                return;
+            }
+
+            if ($course->getInstructorId() != $userId) {
+                $response->setStatus(403)->json([
+                    "status" => false,
+                    "message" => "No autorizado"
                 ]);
                 return;
             }
@@ -92,7 +101,6 @@ class LevelController {
             ] = $request->getBody();
             
             $level = LevelModel::findById($id);
-
             if (!$level) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -101,15 +109,21 @@ class LevelController {
                 return;
             }
 
-            /*
-            if ($userId != $requestedLesson->getUserId()) {
+            if ($userId != $level->getInstructorId()) {
                 $response->setStatus(403)->json([
                     "status" => false,
                     "message" => "No autorizado"
                 ]);
                 return;
             }
-            */
+            
+            if ($level->getCourseIsComplete()) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "Este curso fue completado y no puede ser editado"
+                ]);
+                return;
+            }
 
             $level
                 ->setTitle($title)
@@ -144,11 +158,26 @@ class LevelController {
             $id = intval($request->getParams("id"));
 
             $level = LevelModel::findById($id);
-
             if (!$level) {
                 $response->setStatus(404)->json([
                     "status" => false,
                     "message" => "Nível no encontrado"
+                ]);
+                return;
+            }
+
+            if ($userId != $level->getInstructorId()) {
+                $response->setStatus(403)->json([
+                    "status" => false,
+                    "message" => "No autorizado"
+                ]);
+                return;
+            }
+            
+            if ($level->getCourseIsComplete()) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "Este curso fue completado y no puede ser eliminado"
                 ]);
                 return;
             }

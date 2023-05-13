@@ -1,5 +1,4 @@
 <?php
-
 namespace Cursotopia\Entities;
 
 class Course {
@@ -17,121 +16,120 @@ class Course {
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    public function getId()
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle($title) {
+    public function setTitle(?string $title): self {
         $this->title = $title;
         return $this;
     }
 
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    public function getPrice() {
+    public function getPrice(): ?float {
         return $this->price;
     }
 
-    public function setPrice($price) {
+    public function setPrice(?float $price): self {
         $this->price = $price;
         return $this;
     }
 
-    public function getImageId() {
+    public function getImageId(): ?int {
         return $this->imageId;
     }
 
-    public function setImageId($imageId) {
+    public function setImageId(?int $imageId): self {
         $this->imageId = $imageId;
         return $this;
     }
 
-    public function getInstructorId() {
+    public function getInstructorId(): ?int {
         return $this->instructorId;
     }
 
-    public function setInstructorId($instructorId) {
+    public function setInstructorId(?int $instructorId): self {
         $this->instructorId = $instructorId;
         return $this;
     }
 
-    public function getApproved() {
-        return $this->approved ? 1 : 0;
-    }
-
-    public function setApproved($approved) {
-        $this->approved = $approved;
-        return $this;
-    }
-
-    public function getApprovedBy() {
-        return $this->approvedBy;
-    }
-
-    public function setApprovedBy($approvedBy) {
-        $this->approvedBy = $approvedBy;
-        return $this;
-    }
- 
-    public function getCreatedAt() {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getModifiedAt() {
-        return $this->modifiedAt;
-    }
-
-    public function setModifiedAt($modifiedAt) {
-        $this->modifiedAt = $modifiedAt;
-        return $this;
-    }
-
-    public function getActive() {
-        return $this->active;
-    }
-
-    public function setActive($active) {
-        $this->active = $active;
-        return $this;
-    }
-
-    public function getIsComplete() {
+    public function getIsComplete(): ?bool {
         return $this->isComplete;
     }
 
-    public function setIsComplete($isComplete) {
+    public function setIsComplete(?bool $isComplete): self {
         $this->isComplete = $isComplete;
         return $this;
     }
 
-    public function getApprovedAt() {
+    public function isApproved(): ?bool {
+        return $this->approved;
+    }
+
+    public function setApproved(?bool $approved): self {
+        $this->approved = $approved;
+        return $this;
+    }
+
+    public function getApprovedBy(): ?int {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?int $approvedBy): self {
+        $this->approvedBy = $approvedBy;
+        return $this;
+    }
+
+    public function getApprovedAt(): ?string {
         return $this->approvedAt;
     }
 
-    public function setApprovedAt($approvedAt) {
+    public function setApprovedAt(?string $approvedAt): self {
         $this->approvedAt = $approvedAt;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?string {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?string $createdAt): self {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getModifiedAt(): ?string {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?string $modifiedAt): self {
+        $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function isActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
         return $this;
     }
 }

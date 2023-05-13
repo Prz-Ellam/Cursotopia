@@ -2,73 +2,111 @@
 
 namespace Cursotopia\Models;
 
-use Bloom\Database\DB;
 use Bloom\Validations\Rules\Email;
 use Bloom\Validations\Rules\Enum;
 use Bloom\Validations\Rules\Required;
 use Cursotopia\Entities\User;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\Repositories\UserRepository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class UserModel {
-    private UserRepository $userRepository;
+class UserModel implements JsonSerializable {
+    private static ?UserRepository $repository = null;
     private EntityState $entityState;
+    private array $_ignores = [];
 
-    private ?int $id;
+    private ?int $id = null;
 
     #[Required("El nombre del usuario es requerido")]
-    private ?string $name;
+    private ?string $name = null;
 
     #[Required("El apellido del usuario es requerido")]
-    private ?string $lastName;
+    private ?string $lastName = null;
 
     #[Required("La fecha de nacimiento es requerida")]
-    private ?string $birthDate;
+    private ?string $birthDate = null;
 
     #[Required("El género es requerido")]
     #[Enum(["Masculino", "Femenino", "Otro"], "El genero no es válido")]
-    private ?string $gender;
+    private ?string $gender = null;
 
     #[Required("El correo electrónico es requerido")]
     #[Email("El correo electrónico no tiene el formato correcto")]
-    private ?string $email;
+    private ?string $email = null;
 
     #[Required("La contraseña es requerida")]
-    private ?string $password;
+    private ?string $password = null;
 
-    private ?bool $enabled;
+    private ?bool $enabled = null;
 
     #[Required("El rol de usuario es requerido")]
-    private ?int $userRole;
+    private ?int $role = null;
     
     #[Required("La foto de perfil es requerida")]
-    private ?int $profilePicture;
+    private ?int $profilePicture = null;
 
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    public function __construct(?array $object = null) {
-        $this->userRepository = new UserRepository();
+    // !!!
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new UserRepository();
+        }
+    }
 
-        // foreach ($object as $key => $element) {
-        //     //$this->{$key} = $element;
-        //     var_dump(property_exists($this, $key));
-        // }
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
 
-        $this->id = $object["id"] ?? null;
-        $this->name = $object["name"] ?? null;
-        $this->lastName = $object["lastName"] ?? null;
-        $this->birthDate = $object["birthDate"] ?? null;
-        $this->gender = $object["gender"] ?? null;
-        $this->email = $object["email"] ?? null;
-        $this->password = $object["password"] ?? null;
-        $this->userRole = $object["role"] ?? null;
-        $this->profilePicture = $object["profilePicture"] ?? null;
+            if ($name == '_ignores') {
+                continue;
+            }
 
-        $this->enabled = $object["enabled"] ?? null;;
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
+    }
+
+    // !!!
+    public function save(): bool {
+        $user = new User();
+        $user
+            ->setId($this->id)
+            ->setName($this->name)
+            ->setLastName($this->lastName)
+            ->setBirthDate($this->birthDate)
+            ->setGender($this->gender)
+            ->setEmail($this->email)
+            ->setPassword($this->password)
+            ->setRole($this->role)
+            ->setProfilePicture($this->profilePicture)
+            ->setEnabled($this->enabled)
+            ->setCreatedAt($this->createdAt)
+            ->setModifiedAt($this->modifiedAt)
+            ->setActive($this->active);
+            
+        $rowsAffected = 0;
+        switch ($this->entityState) {
+            case EntityState::CREATE: {
+                $rowsAffected = self::$repository->create($user);
+                if ($rowsAffected) {
+                    $this->id = intval(self::$repository->lastInsertId2());
+                }
+                break;
+            }
+            case EntityState::UPDATE: {
+                $rowsAffected = self::$repository->update($user);
+                break;
+            }
+        }
+        return ($rowsAffected > 0) ? true : false;
     }
 
     public function getId(): ?int {
@@ -77,6 +115,7 @@ class UserModel {
 
     public function setId(?int $id): self {
         $this->id = $id;
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
@@ -134,12 +173,12 @@ class UserModel {
         return $this;
     }
 
-    public function getUserRole(): ?int {
-        return $this->userRole;
+    public function getRole(): ?int {
+        return $this->role;
     }
 
-    public function setUserRole(?int $userRole): self {
-        $this->userRole = $userRole;
+    public function setRole(?int $role): self {
+        $this->role = $role;
         return $this;
     }
 
@@ -152,58 +191,49 @@ class UserModel {
         return $this;
     }
 
-    public function save(): bool {
-        $user = new User();
-        $user
-            ->setId($this->id)
-            ->setName($this->name)
-            ->setLastName($this->lastName)
-            ->setBirthDate($this->birthDate)
-            ->setGender($this->gender)
-            ->setEmail($this->email)
-            ->setPassword($this->password)
-            ->setUserRole($this->userRole)
-            ->setProfilePicture($this->profilePicture)
-            ->setEnabled($this->enabled)
-            ->setCreatedAt($this->createdAt)
-            ->setModifiedAt($this->modifiedAt)
-            ->setActive($this->active);
-            
-        $rowsAffected = 0;
-        switch ($this->entityState) {
-            case EntityState::CREATE: {
-                $rowsAffected = $this->userRepository->create($user);
-                if ($rowsAffected) {
-                    $this->id = intval($this->userRepository->lastInsertId2());
-                }
-                break;
-            }
-            case EntityState::UPDATE: {
-                $rowsAffected = $this->userRepository->update($user);
-                break;
-            }
-        }
-        return ($rowsAffected > 0) ? true : false;
+    public function getEnabled(): ?bool {
+        return $this->enabled;
+    }
+
+    public function setEnabled(?bool $enabled): self {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?string {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?string $createdAt): self {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getModifiedAt(): ?string {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?string $modifiedAt): self {
+        $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function getActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
+        return $this;
     }
 
     public static function findById(?int $id): ?UserModel {
-        $repository = new UserRepository();
-        $object = $repository->findOne($id);
+        $object = self::$repository->findById($id);
         if (!$object) {
             return null;
         }
 
         return new UserModel($object);
-    }
-
-    public static function findById2(?int $id): ?array {
-        $repository = new UserRepository();
-        return $repository->findOne($id);
-    }
-
-    public static function findObjById(?int $id): ?array {
-        $repository = new UserRepository();
-        return $repository->findOne($id);
     }
 
     public static function findOne(array $criteria): ?UserModel {
@@ -229,8 +259,7 @@ class UserModel {
                 }
             }
         }
-        $repository = new UserRepository();
-        $object = $repository->findOne2($parameters);
+        $object = self::$repository->findOne2($parameters);
         if (!$object) {
             return null;
         }
@@ -239,31 +268,54 @@ class UserModel {
     }
 
     public static function findOneByEmail(string $email): ?array {
-        $repository = new UserRepository();
-        $object = $repository->findOneByEmail($email);
+        $object = self::$repository->findOneByEmail($email);
         return $object;
     }
 
     public static function findUnblocked(): ?array {
-        $repository = new UserRepository();
-        $object = $repository->findUnblocked();
+        $object = self::$repository->findUnblocked();
         return $object;
     }
 
     public static function findBlocked(): ?array {
-        $repository = new UserRepository();
-        $object = $repository->findBlocked();
-        return $object;
+        return self::$repository->findBlocked();
     }
 
-    public static function disableUser($userId){
-        $repository = new UserRepository();
-        return $repository->disable($userId);
+    public static function findAll($name, $role): ?array {
+        return self::$repository->findAll($name, $role);
     }
 
-    public static function enableUser($userId){
-        $repository = new UserRepository();
-        return $repository->enable($userId);
+    public static function findAllInstructors($name): ?array {
+        return self::$repository->findAllInstructors($name);
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
     }
 
     public function toObject() : array {
@@ -274,82 +326,6 @@ class UserModel {
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
     }
-
-    /**
-     * Get the value of enabled
-     */ 
-    public function getEnabled() {
-        return $this->enabled;
-    }
-
-    /**
-     * Set the value of enabled
-     *
-     * @return  self
-     */ 
-    public function setEnabled($enabled) {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
-        return $this->modifiedAt;
-    }
-
-    /**
-     * Set the value of modifiedAt
-     *
-     * @return  self
-     */ 
-    public function setModifiedAt($modifiedAt)
-    {
-        $this->modifiedAt = $modifiedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
 }
+
+UserModel::init();
