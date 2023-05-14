@@ -24,7 +24,20 @@ $app->get("/api/v1/videos/:id", [ VideoController::class, "getOne" ], [
 /**
  * Actualiza un video
  */
-$app->put("/api/v1/videos/:id", [ VideoController::class, "update" ], [
+$app->post("/api/v1/videos/:id", [ VideoController::class, "update" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ]
+]);
+
+/**
+ * Pone un video en una lección
+ */
+$app->post("/api/v1/lessons/:id/videos", [ VideoController::class, "putLessonVideo" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true ]
+]);
+
+$app->delete("/api/v1/videos/:id", [ VideoController::class, "delete" ], [
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ]
 ]);

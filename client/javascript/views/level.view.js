@@ -38,8 +38,8 @@ export default class LevelView {
   }
 
   static updateLevelSection = (level) => {
+    const levelList = $(`#level-list-${level.id}`).html();
     $(`.level-item[data-id="${level.id}"]`).html(`
-    <li class="level-item" data-id="${ level.id }">
       <div class="border-0 card shadow-none">
         <div class="rounded-top bg-light card-header">
           <div class="row align-items-center">
@@ -66,14 +66,14 @@ export default class LevelView {
       </div>
       <div class="collapse" id="collapse-${level.id}">
         <ul class="list-group list-group-flush lessons-container" id="level-list-${level.id}">
+          ${ levelList }
         </ul>
       </div>
-    </li>
   `)
   }
 
   static deleteLevelSection = (id) => {
-    $(`.level-item[data-id="${id}"]`).empty();
+    $(`.level-item[data-id="${id}"]`).remove();
   }
 }
 

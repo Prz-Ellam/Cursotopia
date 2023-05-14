@@ -17,4 +17,11 @@ export default class LinkService {
     static findById = async (id) => {
         return await mainService('GET', `/api/v1/links/${id}`, 'application/json', {});
     }
+
+    static putLessonLink = async (lessonId, link) => {
+        return await mainService('POST', 
+        `/api/v1/lessons/${ lessonId }/links`, 
+        'application/json', 
+        link);
+    }
 }

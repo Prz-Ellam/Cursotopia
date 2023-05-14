@@ -66,8 +66,12 @@ class DocumentModel implements JsonSerializable {
         return ($rowsAffected > 0) ? true : false;
     }
 
-    public static function findById(?int $id): ?array {
-        return self::$repository->findById($id);
+    public static function findById(?int $id): ?DocumentModel {
+        $videoObject = self::$repository->findById($id);
+        if (!$videoObject) {
+            return null;
+        }
+        return new DocumentModel($videoObject);
     }
     
     public function getId(): ?int {

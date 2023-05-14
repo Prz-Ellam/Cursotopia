@@ -19,8 +19,7 @@ export default class LessonView {
   }
 
   static updateLessonSection = (lesson) => {
-    $(`.lesson-item[data-id="${level.id}"]`).html(`
-    <li data-id="${ lesson.id }" class="lesson-item list-group-item d-flex align-items-center justify-content-between${(lesson.video) !== '' ? ' video' : ''}">
+    $(`.lesson-item[data-id="${lesson.id}"]`).html(`
       <span>${lesson.title}</span>
       <span>
         <button data-id="${ lesson.id }" type="button" class="update-lesson-btn btn text-success border-0 m-auto p-1">
@@ -30,12 +29,11 @@ export default class LessonView {
           <i class="bx bxs-trash-alt"></i>
         </button>
       </span>
-    </li>
     `);
   }
 
   static deleteLessonSection = (id) => {
-    $(`.lesson-item[data-id="${id}"]`).empty();
+    $(`.lesson-item[data-id="${id}"]`).remove();
   }
 }
 

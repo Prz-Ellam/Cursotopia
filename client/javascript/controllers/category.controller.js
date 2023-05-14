@@ -5,7 +5,7 @@ import CategoryService, {updateCategoryService, createCategory, approveCategoryS
 import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
 import { Toast } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
-import { Modal } from 'bootstrap';
+import { hideModal } from '../utilities/modal';
 
 export const submitCategory = async function(event) {
     event.preventDefault();
@@ -27,15 +27,13 @@ export const submitCategory = async function(event) {
     $('#category-create-spinner').addClass('d-none');
     $('#category-create-btn').prop('disabled', false);
 
-    const modal = document.getElementById('category-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
-
     if (!response?.status) {
         showErrorMessage(response);
         return;
     }
 
+    hideModal('#category-create-modal');
+    
     Swal.fire({
         icon: 'success',
         title: 'La categoría fue añadida con éxito',
@@ -71,9 +69,7 @@ export const updateCourseCreateCategory = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('category-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    hideModal('#category-create-modal');
 
     const formData = new FormData(this);
     const category = {
@@ -101,10 +97,6 @@ export const updateCategory = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('update-category-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
-
     const formData = new FormData(this);
     const id = formData.get('id')
     const category = {
@@ -113,7 +105,6 @@ export const updateCategory = async function(event) {
     };
 
     const response = await updateCategoryService(id, category);
-    
     if (!response?.status) {
         await Toast.fire({
             icon: 'error',
@@ -121,6 +112,8 @@ export const updateCategory = async function(event) {
         });
         return;
     }
+
+    hideModal('#update-category-modal');
 
     Toast.fire({
         icon: 'success',

@@ -60,7 +60,7 @@ class Video {
     public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
- 
+
     public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;

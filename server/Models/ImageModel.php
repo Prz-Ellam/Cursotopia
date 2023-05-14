@@ -97,6 +97,15 @@ class ImageModel implements JsonSerializable {
         return $this->modifiedAt;
     }
 
+    public function getActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
+        return $this;
+    }
+
     public function save(): bool {
         $image = new Image();
         $image
@@ -127,18 +136,7 @@ class ImageModel implements JsonSerializable {
     }
     
 
-    public function update(): bool {
-        $image = new Image();
-        $image
-            ->setId($this->id)
-            ->setName($this->name)
-            ->setContentType($this->contentType)
-            ->setSize($this->size)
-            ->setData($this->data);
 
-        $rowsAffected = self::$repository->update($image);
-        return ($rowsAffected > 0) ? true : false;
-    }
 
     public static function findById(?int $id): ?ImageModel {
         $object = self::$repository->findById($id);
@@ -146,10 +144,6 @@ class ImageModel implements JsonSerializable {
             return null;
         }
         return new ImageModel($object);
-    }
-
-    public static function findObjById(?int $id): ?array {
-        return self::$repository->findById($id);
     }
 
     public static function findOneByIdAndNotUserId(int $id): ?array {

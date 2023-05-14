@@ -3,7 +3,7 @@
 [x] Las categorías en cursos esta duplicada
 [x] Edición de cursos validación de Precio
 [] Imagen de cursos agradable
-[] Editar lecciones
+[x] Editar lecciones
 [] Cambiar estilo de lecciones
 [x] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
 [x] Crear un chat luego no se muestra el mensaje
@@ -15,6 +15,7 @@
 [x] Categorías no aprobadas duplicadas
 [x] Se puede comprar un curso sin pasar por el paypal
 [x] Error si eliminas la unica reseña de un curso
+[x] Otros instructores tienen el boton de mandar mensaje a instructores
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

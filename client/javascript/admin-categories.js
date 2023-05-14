@@ -11,9 +11,9 @@ import '../assets/images/work-with-the-best.png';
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'bootstrap';
-import { Modal } from 'bootstrap';
 import CategoryUpdateValidator from './validators/category-update.validator';
 import { updateCategory, approveCategory, denyCategory, activateCategory, deactivateCategory, showCategoryDetails} from './controllers/category.controller';
+import { showModal } from './utilities/modal';
 
 $(async () => {
     $('#update-category-form').validate(CategoryUpdateValidator);
@@ -21,10 +21,8 @@ $(async () => {
     
     $(document).on('click', '.update-category-btn', function() {
         const categoryId = $(this).attr('id');
-        const modal = document.getElementById('update-category-modal');
-        const modalInstance = new Modal(modal);
+        showModal('#update-category-modal');
         showCategoryDetails(categoryId);
-        modalInstance.show();
         $('#update-category-form').validate();
     });
     

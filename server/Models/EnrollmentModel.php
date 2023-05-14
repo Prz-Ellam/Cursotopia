@@ -90,95 +90,103 @@ class EnrollmentModel implements JsonSerializable {
         return $status ? true : false;
     }
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id): self {
+    public function setId(?int $id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    public function getCourseId() {
+    public function getCourseId(): ?int {
         return $this->courseId;
     }
 
-    public function setCourseId($courseId) {
+    public function setCourseId(?int $courseId): self {
         $this->courseId = $courseId;
         return $this;
     }
 
-    public function getStudentId() {
+    public function getStudentId(): ?int {
         return $this->studentId;
     }
 
-    public function setStudentId($studentId) {
+    public function setStudentId(?int $studentId): self {
         $this->studentId = $studentId;
         return $this;
     }
 
-    public function getIsFinished() {
+    public function getIsFinished(): ?bool {
         return $this->isFinished;
     }
 
-    public function setIsFinished($isFinished) {
+    public function setIsFinished(?bool $isFinished): self {
         $this->isFinished = $isFinished;
         return $this;
     }
 
-    public function getEnrollDate() {
+    public function getEnrollDate(): ?string {
         return $this->enrollDate;
     }
 
-    public function setEnrollDate($enrollDate) {
+    public function setEnrollDate(?string $enrollDate): self {
         $this->enrollDate = $enrollDate;
         return $this;
     }
 
-    public function getFinishDate() {
+    public function getFinishDate(): ?string {
         return $this->finishDate;
     }
 
-    public function setFinishDate($finishDate) {
+    public function setFinishDate(?string $finishDate): self {
         $this->finishDate = $finishDate;
         return $this;
     }
 
-    public function getCertificateUid() {
+    public function getCertificateUid(): ?string {
         return $this->certificateUid;
     }
  
-    public function setCertificateUid($certificateUid) {
+    public function setCertificateUid(?string $certificateUid): self {
         $this->certificateUid = $certificateUid;
         return $this;
     }
  
-    public function getAmount() {
+    public function getAmount(): ?float {
         return $this->amount;
     }
  
-    public function setAmount($amount) {
+    public function setAmount(?float $amount): self {
         $this->amount = $amount;
         return $this;
     }
 
-    public function getPaymentMethodId() {
+    public function getIsPaid(): ?bool {
+        return $this->isPaid;
+    }
+ 
+    public function setIsPaid(?bool $isPaid): self {
+        $this->isPaid = $isPaid;
+        return $this;
+    }
+
+    public function getPaymentMethodId(): ?int {
         return $this->paymentMethodId;
     }
  
-    public function setPaymentMethod($paymentMethodId) {
+    public function setPaymentMethod(?int $paymentMethodId): self {
         $this->paymentMethodId = $paymentMethodId;
         return $this;
     }
 
-    public function getLastTimeChecked() {
+    public function getLastTimeChecked(): ?string {
         return $this->lastTimeChecked;
     }
  
-    public function setLastTimeChecked($lastTimeChecked) {
+    public function setLastTimeChecked(?string $lastTimeChecked): self {
         $this->lastTimeChecked = $lastTimeChecked;
-
         return $this;
     }
 
@@ -209,7 +217,7 @@ class EnrollmentModel implements JsonSerializable {
         return $this;
     }
 
-    public static function findOneByCourseIdAndStudentId(int $courseId, int $studentId) {
+    public static function findOneByCourseIdAndStudentId(?int $courseId, ?int $studentId): ?EnrollmentModel {
         $object = self::$repository->findOneByCourseAndStudent($courseId, $studentId);
         if (!$object) {
             return null;
@@ -219,15 +227,6 @@ class EnrollmentModel implements JsonSerializable {
 
     public static function findOneCertificate(?int $studentId, ?int $courseId): ?array {
         return self::$repository->certificateFindOne($studentId, $courseId);
-    }
- 
-    public function getIsPaid() {
-        return $this->isPaid;
-    }
- 
-    public function setIsPaid($isPaid) {
-        $this->isPaid = $isPaid;
-        return $this;
     }
 
 
@@ -267,12 +266,12 @@ class EnrollmentModel implements JsonSerializable {
         $this->_ignores = $ignores;
     }
 
-    public function toObject() : array {
+    public function toObject(): array {
         $members = get_object_vars($this);
         return json_decode(json_encode($members), true);
     }
 
-    public static function getProperties() : array {
+    public static function getProperties(): array {
         return array_keys(get_class_vars(self::class));
     }
 }

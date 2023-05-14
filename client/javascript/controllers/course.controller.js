@@ -7,6 +7,10 @@ import { showNotApprovedCourses} from '../views/course.view';
 import { readFileAsync } from '../utilities/file-reader';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { changeImage } from './image.controller';
+import VideoService from '../services/video.service';
+import DocumentService from '../services/document.service';
+import ImageService, { updateImageService } from '../services/image.service';
+import LinkService from '../services/link.service';
 
 let opacity;
 
@@ -324,4 +328,132 @@ export const denyCourses = async function(courseId) {
         icon: 'error',
         title: 'El curso ha sido denegado'
     });
+}
+
+export const updateVideo = async function(event) {
+    const videoId = $('#delete-video-btn').attr('data-id');
+    const files = Array.from(event.target.files);
+    const video = files[0];
+
+    const form = new FormData();
+    form.append('video', video);
+
+    if (videoId) {
+        await VideoService.update(videoId, form);
+    }
+    else {
+        const lessonId = $('#lesson-update-id').val();
+        const response = await VideoService.putLessonVideo(lessonId, form);
+
+        if (response.status) {
+            $('#delete-video-btn').attr('data-id', response.id);
+        }
+    }
+    
+    console.log('Evento');
+}
+
+export const updateDocument = async function(event) {
+    const documentId = $('#delete-document-btn').attr('data-id');
+    const files = Array.from(event.target.files);
+    const document = files[0];
+
+    const form = new FormData();
+    form.append('document', document);
+
+    if (documentId) {
+        await DocumentService.update(documentId, form);
+    }
+    else {
+        const lessonId = $('#lesson-update-id').val();
+        const response = await DocumentService.putLessonDocument(lessonId, form);
+
+        if (response.status) {
+            $('#delete-document-btn').attr('data-id', response.id);
+        }
+    }
+    
+    console.log('Evento');
+}
+
+export const updateImage = async function(event) {
+    const imageId = $('#delete-image-btn').attr('data-id');
+    const files = Array.from(event.target.files);
+    const image = files[0];
+
+    const form = new FormData();
+    form.append('image', image);
+
+    if (imageId) {
+        await updateImageService(form, imageId);
+    }
+    else {
+        const lessonId = $('#lesson-update-id').val();
+        const response = await ImageService.putLessonImage(lessonId, form);
+
+        if (response.status) {
+            $('#delete-image-btn').attr('data-id', response.id);
+        }
+    }
+    
+    console.log('Evento');
+}
+
+export const updateLink = async function(event) {
+    const linkId = $('#delete-link-btn').attr('data-id');
+
+    console.log(linkId);
+
+    const title = $('#edit-lesson-link-title').val();
+    const address = $('#edit-lesson-link-address').val();
+    const link = {
+        name: title,
+        address
+    }
+
+    if (linkId) {
+        await LinkService.update(link, linkId);
+    }
+    else {
+        const lessonId = $('#lesson-update-id').val();
+        const response = await LinkService.putLessonLink(lessonId, link);
+
+        if (response.status) {
+            $('#delete-link-btn').attr('data-id', response.id);
+        }
+    }
+}
+
+export const deleteVideo = async function(event) {
+    const videoId = $('#delete-video-btn').attr('data-id');
+    const response = await VideoService.delete(videoId);
+    if (response.status) {
+        $('#delete-video-btn').attr('data-id', null);
+    }
+}
+
+export const deleteImage = async function(event) {
+    const imageId = $('#delete-image-btn').attr('data-id');
+    const response = await ImageService.delete(imageId);
+    if (response.status) {
+        $('#delete-image-btn').attr('data-id', null);
+    }
+}
+
+export const deleteDocument = async function(event) {
+    const documentId = $('#delete-document-btn').attr('data-id');
+    const response = await DocumentService.delete(documentId);
+    if (response.status) {
+        $('#delete-document-btn').attr('data-id', null);
+    }
+}
+
+export const deleteLink = async function(event) {
+    const linkId = $('#delete-link-btn').attr('data-id');
+    const response = await LinkService.delete(linkId);
+    if (response.status) {
+        $('#delete-link-btn').attr('data-id', null);
+        $('#edit-lesson-link-title').val('');
+        $('#edit-lesson-link-address').val('');
+    }
 }

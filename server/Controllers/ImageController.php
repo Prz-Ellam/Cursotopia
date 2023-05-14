@@ -7,6 +7,7 @@ use Bloom\Http\Response\Response;
 use Bloom\Validations\Validator;
 use Closure;
 use Cursotopia\Models\ImageModel;
+use Cursotopia\Models\LessonModel;
 use DateTime;
 use Ramsey\Uuid\Nonstandard\Uuid;
 
@@ -101,7 +102,7 @@ class ImageController {
 
         // No creo que sea necesaria actualizar el nombre pero si lo hacemos
         // tecnicamente no afectaria ya que todo se basa en el id
-        $name = "profilePicture-" . time();
+        $name = Uuid::uuid4()->toString();
         $size = $file->getSize();
         $contentType = $file->getType();
         $data = $file->getContent();
@@ -119,7 +120,8 @@ class ImageController {
             ->setName($name)
             ->setSize($size)
             ->setContentType($contentType)
-            ->setData($data);
+            ->setData($data)
+            ->setActive(true);
 
         $imageValidator = new Validator($image);
         if (!$imageValidator->validate()) {
@@ -130,11 +132,97 @@ class ImageController {
             return;
         }
 
-        $image->update();
+        $image->save();
 
         $response->json([
             "status" => true,
             "message" => "La imagen se actualizó éxitosamente"
+        ]);
+    }
+
+    public function putLessonImage(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
+        $lessonId = $request->getParams("id");
+
+        $file = $request->getFiles("image");
+        if (!$file) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Faltan parametros"
+            ]);
+            return;
+        }
+
+        $lesson = LessonModel::findById($lessonId);
+        if (!$lesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
+        $name = Uuid::uuid4()->toString();
+        $size = $file->getSize();
+        $contentType = $file->getType();
+        $data = $file->getContent();
+
+        $image = new ImageModel();
+        $image
+            ->setName($name)
+            ->setSize($size)
+            ->setContentType($contentType)
+            ->setData($data);
+
+        $imageValidator = new Validator($image);
+        if (!$imageValidator->validate()) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Imagen no válida"
+            ]);
+            return;
+        }
+
+        $result = $image->save();
+        if (!$result) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "No se pudo crear la imagen"
+            ]);
+            return;
+        }
+
+        $lesson->setImageId($image->getId());
+        $lesson->save();
+
+        $response->json([
+            "status" => true,
+            "message" => "Imagen cargada",
+            "id" => $lesson->getImageId()
+        ]);
+    }
+
+    public function delete(Request $request, Response $response): void {
+        $userId = $request->getSession()->get("id");
+        $imageId = $request->getParams("id");
+
+        $image = ImageModel::findById($imageId);
+        if (!$image) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Imagen no encontrado"
+            ]);
+            return;
+        }
+
+        $image
+            ->setActive(false);
+
+        $image->save();
+
+        $response->json([
+            "status" => true,
+            "message" => "La imágen fue eliminado"
         ]);
     }
 
@@ -158,7 +246,19 @@ class ImageController {
             ]);
             return;
         }
-        
+
+        if (!$image->getActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Imagen no encontrada"
+            ]);
+            return;
+        }
+
+        $expires = 60 * 60 * 24 * 7; // 1 week
+        header("Cache-Control: no-cache, no-store, must-revalidate");
+        header("Expires: 0");
+    
         $response->setHeader("X-Image-Id", $image->getId());
         $response->setHeader("Content-Length", $image->getSize());
         $response->setContentType($image->getContentType());

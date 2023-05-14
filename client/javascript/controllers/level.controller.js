@@ -7,7 +7,7 @@ import { createDocumentService } from '../services/document.service';
 import { createImage } from '../services/image.service';
 import { Toast } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
-import { Modal } from 'bootstrap';
+import { hideModal } from '../utilities/modal';
 
 export const submitLevelCreate = async function(event) {
     event.preventDefault();
@@ -25,16 +25,21 @@ export const submitLevelCreate = async function(event) {
         free: Boolean(checkbox.checked),
         courseId: Number.parseInt(formData.get('courseId'))
     };
+
+    $('#create-level-btn').prop('disabled', true);
+    $('#create-level-spinner').removeClass('d-none');
+
     const response = await LevelService.create(level);
 
-    const modal = document.getElementById('level-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    $('#create-level-spinner').addClass('d-none');
+    $('#create-level-btn').prop('disabled', false);
 
     if (!response?.status) {
-        await showErrorMessage(response);
+        showErrorMessage(response);
         return;
     }
+
+    hideModal('#level-create-modal');
 
     Toast.fire({
         icon: 'success',
@@ -57,9 +62,7 @@ export const courseEditionCreateLevel = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('level-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    hideModal('#level-create-modal');
 
     const checkbox = document.getElementById('level-update-free');
     const level = {};
@@ -101,16 +104,21 @@ export const courseCreationUpdateLevel = async function(event) {
     };
 
     const id = $('#level-update-id').val();
+
+    $('#update-level-btn').prop('disabled', true);
+    $('#update-level-spinner').removeClass('d-none');
+
     const response = await LevelService.update(level, id);
 
-    const modal = document.getElementById('level-update-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    $('#update-level-spinner').addClass('d-none');
+    $('#update-level-btn').prop('disabled', false);
 
     if (!response?.status) {
-        await showErrorMessage(response);
+        showErrorMessage(response);
         return;
     }
+
+    hideModal('#level-update-modal');
 
     Toast.fire({
         icon: 'success',
@@ -122,7 +130,7 @@ export const courseCreationUpdateLevel = async function(event) {
         title: level.title
     });
 
-    document.querySelector('update-level-form').reset();
+    document.querySelector('#update-level-form').reset();
 }
 
 export const courseEditionUpdateLevel = async function(event) {
@@ -133,9 +141,7 @@ export const courseEditionUpdateLevel = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('level-update-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    hideModal('#level-update-modal');
 }
 
 export const createLevelVideo = async function(event) {

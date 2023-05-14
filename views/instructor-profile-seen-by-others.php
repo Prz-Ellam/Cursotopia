@@ -47,13 +47,13 @@ $courses = $courseRepository->instructorCoursesSeenByOtherReport($id, $limit, $o
               </div>
             </div>
             <!-- Mandar mensaje solo sale para alumnos de ese instructor -->
-            <div class="row mt-3">
+            <!--div class="row mt-3">
               <?php if (isset($_SESSION["id"])): ?>
               <div class="col-12">
                 <a href="chat" class="btn btn-secondary rounded-pill">Mandar mensaje</a>
               </div>
               <?php endif ?>
-            </div>
+            </div-->
           </div>
         </div>
       </div>

@@ -3,20 +3,20 @@ import 'jquery-validation';
 import 'multiple-select';
 import 'bootstrap';
 import CourseCreateValidator from './validators/course-create.validator';
-import { backSection, createCourse, submitConfirmCourse } from './controllers/course.controller';
+import { backSection, createCourse, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
 import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
 import CreateCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
 import createLessonValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';
-import { createLesson } from './controllers/lesson.controller';
+import { createLesson, updateLesson } from './controllers/lesson.controller';
 import { submitCategory } from './controllers/category.controller';
 import LevelService from './services/level.service';
 import { displayImageFile } from './controllers/image.controller';
 import LevelView from './views/level.view';
 import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
-import { Modal } from 'bootstrap';
+import { showModal } from './utilities/modal';
 
 $(async () => {
     // Crear curso
@@ -33,9 +33,7 @@ $(async () => {
 
     // Create Category
     $('#create-category-btn').on('click', function() {
-        const modal = document.getElementById('category-create-modal');
-        const modalInstance = new Modal(modal);
-        modalInstance.show();
+        showModal('#category-create-modal');
     });
 
     $('#category-create-form').validate(CreateCategoryValidator);
@@ -44,9 +42,7 @@ $(async () => {
 
     // Create Level
     $('#create-level-btn').on('click', function() {
-        const modal = document.getElementById('level-create-modal');
-        const modalInstance = new Modal(modal);
-        modalInstance.show();
+        showModal('#level-create-modal');
     });
 
     $('#level-create-form').validate(createLevelValidator);
@@ -63,9 +59,7 @@ $(async () => {
         $('#level-update-description').val(response.description);
         $('#level-update-free').prop('checked', response.free);
 
-        const modal = document.getElementById('level-update-modal');
-        const modalInstance = new Modal(modal);
-        modalInstance.show();
+        showModal('#level-update-modal');
     });
 
     $('#update-level-form').validate(createLevelValidator);
@@ -77,9 +71,7 @@ $(async () => {
 
     // Create Lesson
     $(document).on('click', '.create-lesson-btn', function() {
-        const modal = document.getElementById('lesson-create-modal');
-        const modalInstance = new Modal(modal);
-        modalInstance.show();
+        showModal('#lesson-create-modal');
 
         const createLessonLevel = document.getElementById('create-lesson-level');
         createLessonLevel.value = this.getAttribute('ct-target');
@@ -93,17 +85,25 @@ $(async () => {
     $(document).on('click', '.update-lesson-btn', async function() {
 
         const id = $(this).attr('data-id');
+        console.log(id);
+
+        $('#lesson-update-id').val(id);
+
         const response = await LessonService.findById(id);
         console.log(response);
         $('#edit-lesson-title').val(response.title);
         $('#edit-lesson-description').val(response.description);
 
-        const modal = document.getElementById('lesson-update-modal');
-        const modalInstance = new Modal(modal);
-        modalInstance.show();
+        $('#delete-video-btn').attr('data-id', response.videoId);
+        $('#delete-image-btn').attr('data-id', response.imageId);
+        $('#delete-document-btn').attr('data-id', response.documentId);
+        $('#delete-link-btn').attr('data-id', response.linkId);
+
+        showModal('#lesson-update-modal');
     });
+    
     $('#update-lesson-form').validate(createLessonValidator);
-    $('#update-lesson-form').on('submit', e => e.preventDefault());
+    $('#update-lesson-form').on('submit', updateLesson);
 
 
     // Delete Lesson
@@ -183,7 +183,17 @@ $(async () => {
             LessonView.deleteLessonSection(id);
         }
     });
-        
+
+    $('#update-lesson-video').on('change', updateVideo);
+    $('#update-lesson-document').on('change', updateDocument);
+    $('#update-lesson-image').on('change', updateImage);
+    $('#update-link-btn').on('click', updateLink);
+
+    $('#delete-video-btn').on('click', deleteVideo);
+    $('#delete-document-btn').on('click', deleteDocument);
+    $('#delete-image-btn').on('click', deleteImage);
+    $('#delete-link-btn').on('click', deleteLink);
+
     $('#categories').multipleSelect({
         placeholder: 'Seleccionar',
         selectAll: false,

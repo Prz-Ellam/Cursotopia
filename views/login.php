@@ -38,8 +38,7 @@
           <div class="input-group">
             <input type="password" name="password" id="password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" 
-              id="password-button"
-              ct-target="password">
+              id="password-button">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>

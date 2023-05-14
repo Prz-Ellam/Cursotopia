@@ -9,14 +9,16 @@ use Cursotopia\Entities\CourseCategory;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CategoryModel;
 use Cursotopia\Models\CourseModel;
+use Cursotopia\Models\DocumentModel;
+use Cursotopia\Models\EnrollmentModel;
+use Cursotopia\Models\ImageModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\UserModel;
-use Cursotopia\Repositories\CategoryRepository;
+use Cursotopia\Models\VideoModel;
 use Cursotopia\Repositories\CourseCategoryRepository;
 use Cursotopia\Repositories\CourseRepository;
-use Cursotopia\Repositories\EnrollmentRepository;
 use Cursotopia\Repositories\LessonRepository;
 use Cursotopia\Repositories\LevelRepository;
 
@@ -58,8 +60,7 @@ class CourseController {
             return;
         }
         
-        $categoryRepository = new CategoryRepository();
-        $categories = $categoryRepository->findAllByCourse($id);
+        $categories = CategoryModel::findAllByCourse($id);
         
         $levelRepository = new LevelRepository();
         
@@ -76,12 +77,14 @@ class CourseController {
             $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
         }
 
-        $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($id, $userId ?? -1);
-
+        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($id, $userId);
         if ((!$course["active"] && !$enrollment) && ($course["instructorId"] != $userId)) {
             $response->setStatus(404)->render("404");
             return;
+        }
+
+        if ($enrollment) {
+            $enrollment = $enrollment->toArray();
         }
 
         $pageNum = 1;
@@ -136,7 +139,7 @@ class CourseController {
             
         $categories = CategoryModel::findAll();
         $response->render("course-edition", [ 
-            "course" => $course,
+            "course" => $course->toArray(),
             "categories" => $categories 
         ]);
     }
@@ -153,8 +156,7 @@ class CourseController {
 
         $course = CourseModel::findObjById($courseId);
 
-        $enrollmentRepository = new EnrollmentRepository();
-        $enrollment = $enrollmentRepository->findOneByCourseAndStudent($courseId, $userId);
+        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $userId);
 
         $lessonRepository = new LessonRepository();
         $lesson = $lessonRepository->courseVisorFindById($lessonId);
@@ -162,6 +164,23 @@ class CourseController {
             $response->setStatus(404)->render("404");
             return;
         }
+
+        $video = VideoModel::findById($lesson["videoId"]);
+        if (!$video || !$video->getActive()) {
+            $lesson["videoId"] = null;
+        }
+
+        $image = ImageModel::findById($lesson["imageId"]);
+        if (!$image || !$image->getActive()) {
+            $lesson["imageId"] = null;
+        }
+
+        $document = DocumentModel::findById($lesson["documentId"]);
+        if (!$document || !$document->isActive()) {
+            $lesson["documentId"] = null;
+        }
+
+
 
         $levelRepository = new LevelRepository();
         
@@ -188,7 +207,7 @@ class CourseController {
             "course" => $course,
             "levels" => $levels,
             "lesson" => $lesson,
-            "enrollment" => $enrollment
+            "enrollment" => $enrollment->toArray()
         ]);
     }
 

@@ -41,8 +41,6 @@ class CategoryModel implements JsonSerializable {
     }
 
     public function save(): bool {
-        $categoryRepository = new CategoryRepository();
-
         $category = new Category();
         $category
             ->setId($this->id)
@@ -58,38 +56,19 @@ class CategoryModel implements JsonSerializable {
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $categoryRepository->create($category);
+                $rowsAffected = self::$repository->create($category);
                 if ($rowsAffected) {
-                    $this->id = intval($categoryRepository->lastInsertId2());
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $categoryRepository->update($category);
+                $rowsAffected = self::$repository->update($category);
                 break;
             }
         }
 
         return ($rowsAffected > 0) ? true : false;
-    }
-
-    /**
-     * Get the value of createdBy
-     */ 
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set the value of createdBy
-     *
-     * @return  self
-     */ 
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-        return $this;
     }
 
     public function getId(): ?int {
@@ -120,6 +99,33 @@ class CategoryModel implements JsonSerializable {
         return $this;
     }
 
+    public function getCreatedBy(): ?int {
+        return $this->createdBy;
+    }
+ 
+    public function setCreatedBy(?int $createdBy): self {
+        $this->createdBy = $createdBy;
+        return $this;
+    }
+
+    public function getApproved(): ?bool {
+        return $this->approved;
+    }
+ 
+    public function setApproved(?bool $approved): self {
+        $this->approved = $approved;
+        return $this;
+    }
+
+    public function getApprovedBy(): ?int {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?int $approvedBy): self {
+        $this->approvedBy = $approvedBy;
+        return $this;
+    }
+
     public static function findById(?int $id): ?CategoryModel {
         $object = self::$repository->findById($id);
         if (!$object) {
@@ -136,20 +142,12 @@ class CategoryModel implements JsonSerializable {
         return new CategoryModel($object);
     }
 
-    public static function findObjById(?int $id): ?array {
-        return self::$repository->findById($id);
-    }
-
-    public static function findCategoryById(?int $id): ?CategoryModel {
-        $object = self::$repository->findById($id);
-        if (!$object) {
-            return null;
-        }
-        return new CategoryModel($object);
-    }
-
     public static function findAll(): ?array {
         return self::$repository->findAll();
+    }
+
+    public static function findAllByCourse(?int $courseId): ?array {
+        return self::$repository->findAllByCourse($courseId);
     }
 
     public static function findAllWithUser(int $userId): ?array {
@@ -164,13 +162,7 @@ class CategoryModel implements JsonSerializable {
         return self::$repository->findNotActive();
     }
 
-    public static function activate(int $categoryId) {
-        return self::$repository->activate($categoryId);
-    }
-
-    public static function deactivate(int $categoryId) {
-        return self::$repository->deactivate($categoryId);
-    }
+    
 
     public static function init() {
         if (is_null(self::$repository)) {
@@ -214,46 +206,6 @@ class CategoryModel implements JsonSerializable {
 
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
-    }
-
-    /**
-     * Get the value of approved
-     */ 
-    public function getApproved()
-    {
-        return $this->approved;
-    }
-
-    /**
-     * Set the value of approved
-     *
-     * @return  self
-     */ 
-    public function setApproved($approved)
-    {
-        $this->approved = $approved;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of approvedBy
-     */ 
-    public function getApprovedBy()
-    {
-        return $this->approvedBy;
-    }
-
-    /**
-     * Set the value of approvedBy
-     *
-     * @return  self
-     */ 
-    public function setApprovedBy($approvedBy)
-    {
-        $this->approvedBy = $approvedBy;
-
-        return $this;
     }
 }
 

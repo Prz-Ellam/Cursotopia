@@ -23,6 +23,18 @@ $app->get("/api/v1/documents/:id", [ DocumentController::class, "getOne" ], [
 /**
  * Actualiza un documento
  */
-$app->put("/api/v1/documents/:id", [ DocumentController::class, "update" ], [
+$app->post("/api/v1/documents/:id", [ DocumentController::class, "update" ], [
+    [ AuthApiMiddleware::class, true ]
+]);
+
+/**
+ * Pone un documento en una lección
+ */
+$app->post("/api/v1/lessons/:id/documents", [ DocumentController::class, "putLessonDocument" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true ]
+]);
+
+$app->delete("/api/v1/documents/:id", [ DocumentController::class, "delete" ], [
     [ AuthApiMiddleware::class, true ]
 ]);

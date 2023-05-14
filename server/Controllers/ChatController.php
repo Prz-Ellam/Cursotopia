@@ -4,15 +4,14 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Models\ChatModel;
 use Cursotopia\Models\UserModel;
-use Cursotopia\Repositories\ChatRepository;
 
 class ChatController {
     public function chat(Request $request, Response $response): void {
         $id = $request->getSession()->get("id");
         
-        $chatRepository = new ChatRepository();
-        $chats = $chatRepository->findAllByUserId($id);
+        $chats = ChatModel::findAllByUser($id);
 
         if (!is_array($chats)) {
             $chats = [];
@@ -28,10 +27,8 @@ class ChatController {
         $userOne = $request->getSession()->get("id");
         $userTwo = $request->getBody("userTwo");
 
-        $chatRepository = new ChatRepository();
-        $chat = $chatRepository->findChat($userOne, $userTwo);
-
         $user = UserModel::findById($userTwo);
+        $chat = ChatModel::findOneByUsers($userOne, $userTwo);
 
         $response->json([
             "chatId" => $chat["chatId"],
@@ -42,8 +39,7 @@ class ChatController {
     public function getUserChats(Request $request, Response $response): void {
         $id = $request->getSession()->get("id");
         
-        $chatRepository = new ChatRepository();
-        $chats = $chatRepository->findAllByUserId($id);
+        $chats = ChatModel::findAllByUser($id);
 
         if (!is_array($chats)) {
             $chats = [];

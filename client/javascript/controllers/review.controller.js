@@ -61,7 +61,8 @@ export const submitReview = async function(event) {
 export const clickMoreComments = async function(event) {
     const courseId = new URLSearchParams(window.location.search).get('id') ?? -1;
     currentPage++;
-    await ReviewService.showMoreComments(courseId, currentPage, pageSize);
+    // Este esta bien así
+    showMoreComments(courseId, currentPage, pageSize);
     if (currentPage >= REVIEWS_TOTAL_PAGES) {
         $('#show-more-comments').addClass('d-none');
     }

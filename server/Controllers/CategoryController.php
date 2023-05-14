@@ -95,9 +95,7 @@ class CategoryController {
 
     public function create(Request $request, Response $response): void {
         // Para crear una categoría tiene que estar autenticado un instructor
-        $session = $request->getSession();
-        
-        $id = $session->get("id");
+        $userId = $request->getSession()->get("id");
         [
             "name" => $name,
             "description" => $description
@@ -117,7 +115,7 @@ class CategoryController {
         $category = new CategoryModel([
             "name" => $name,
             "description" => $description,
-            "createdBy" => $id
+            "createdBy" => $userId
         ]);
 
         try {
@@ -152,7 +150,7 @@ class CategoryController {
             "description" => $description
         ] = $request->getBody();
 
-        $category = CategoryModel::findCategoryById($categoryId);
+        $category = CategoryModel::findById($categoryId);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -306,7 +304,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findCategoryById($id);
+        $category = CategoryModel::findById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -363,7 +361,7 @@ class CategoryController {
 
         //Validar que la categoria exista
 
-        $category = CategoryModel::findCategoryById($id);
+        $category = CategoryModel::findById($id);
         if (!$category) {
             $response->setStatus(404)->json([
                 "status" => false,

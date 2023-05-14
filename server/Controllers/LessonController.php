@@ -14,7 +14,7 @@ class LessonController {
     public function getOne(Request $request, Response $response): void {
         $id = $request->getParams("id");
 
-        $lesson = LessonModel::findObjById($id);
+        $lesson = LessonModel::findById($id);
         if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -23,7 +23,7 @@ class LessonController {
             return;
         }
 
-        $response->json($lesson);
+        $response->json($lesson->toArray());
     }
 
     public function create(Request $request, Response $response): void {
@@ -43,8 +43,8 @@ class LessonController {
             ] = $request->getBody();
 
             
-            $requestedLevel = LevelModel::findById($levelId);
-            if (!$requestedLevel) {
+            $level = LevelModel::findById($levelId);
+            if (!$level) {
                 $response->setStatus(404)->json([
                     "status" => false,
                     "message" => "El nível no existe"
@@ -80,6 +80,7 @@ class LessonController {
                 "documentId" => $documentId,
                 "linkId" => $linkId
             ]);
+
             $isCreated = $lesson->save();
             if (!$isCreated) {
                 $response->setStatus(400)->json([
@@ -120,15 +121,21 @@ class LessonController {
             return;
         }
 
-        /*
-        if ($userId != $requestedLesson->getUserId()) {
+        if (!$lesson->getImageId() && !$lesson->getVideoId() && !$lesson->getDocumentId()) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Falta añadir un recurso"
+            ]);
+            return;
+        }
+
+        if ($userId != $lesson->getInstructorId()) {
             $response->setStatus(403)->json([
                 "status" => false,
                 "message" => "No autorizado"
             ]);
             return;
         }
-        */
 
         $lesson
             ->setTitle($title)
@@ -180,12 +187,11 @@ class LessonController {
     }
 
     public function complete(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
         $lessonId = $request->getParams("id") ?? -1;
 
-        $requestedLesson = LessonModel::findById($lessonId);
-        if (!$requestedLesson) {
+        $lesson = LessonModel::findById($lessonId);
+        if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Lección no encontrada"
@@ -198,8 +204,7 @@ class LessonController {
     }
 
     public function visit(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $id = $session->get("id");
+        $id = $request->getSession()->get("id");
         $lessonId = $request->getParams("id") ?? -1;
 
         $requestedLesson = LessonModel::findById($lessonId);

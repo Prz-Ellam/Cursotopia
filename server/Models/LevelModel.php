@@ -71,11 +71,6 @@ class LevelModel implements JsonSerializable {
         return ($rowsAffected > 0) ? true : false;
     }
 
-    public static function findOneById(int $id) {
-        $object = self::$repository->findById($id);
-        return new LevelModel($object);
-    }
-
     public static function findById(?int $id): ?LevelModel {
         $levelObject = self::$repository->findById($id);
         if (!$levelObject) {
@@ -84,47 +79,43 @@ class LevelModel implements JsonSerializable {
         return new LevelModel($levelObject);
     }
 
-    public static function findObjById(?int $id): ?array {
-        return self::$repository->findById($id);
-    }
-
     public static function findByCourse(int $courseId): array {
         return self::$repository->findByCourse($courseId);
     }
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
  
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle($title) {
+    public function setTitle(?string $title): self {
         $this->title = $title;
         return $this;
     }
  
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    public function isFree() {
+    public function isFree(): ?bool {
         return $this->free;
     }
  
-    public function setFree($free) {
+    public function setFree(?bool $free): self {
         $this->free = $free;
         return $this;
     }

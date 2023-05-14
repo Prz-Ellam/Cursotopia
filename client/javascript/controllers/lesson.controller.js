@@ -1,6 +1,5 @@
-import { Modal } from "bootstrap";
-import Swal from "sweetalert2";
 import LessonService, { createLessonService } from "../services/lesson.service";
+import { hideModal } from "../utilities/modal";
 import { showErrorMessage } from "../utilities/show-error-message";
 import { Toast } from "../utilities/toast";
 import LessonView from "../views/lesson.view";
@@ -35,6 +34,7 @@ export const createLesson = async function(event) {
     const videoFile = formData.get('video');
     const imageFile = formData.get('image');
     const documentFile = formData.get('document');
+    
     if (videoFile.size > 0) {
         lessonForm.append('video', videoFile);
     }
@@ -47,16 +47,20 @@ export const createLesson = async function(event) {
         lessonForm.append('document', documentFile);
     }
 
+    $('#create-lesson-btn').prop('disabled', true);
+    $('#create-lesson-spinner').removeClass('d-none');
+
     const response = await LessonService.create(lessonForm);
 
-    const modal = document.getElementById('lesson-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    $('#create-lesson-spinner').addClass('d-none');
+    $('#create-lesson-btn').prop('disabled', false);
 
     if (!response?.status) {
-        await showErrorMessage(response);
+        showErrorMessage(response);
         return;
     }
+
+    hideModal('#lesson-create-modal');
 
     Toast.fire({
         icon: 'success',
@@ -65,8 +69,7 @@ export const createLesson = async function(event) {
 
     LessonView.createLessonSection({ id: response.id, level: levelId, title, video });
 
-    const createLessonForm = document.getElementById('create-lesson-form');
-    createLessonForm.reset();
+    document.querySelector('#create-lesson-form').reset();
 }
 
 export const courseEditionCreateLesson = async function(event) {
@@ -77,9 +80,7 @@ export const courseEditionCreateLesson = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('lesson-create-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
+    hideModal('#lesson-create-modal');
     
     const levelId = document.getElementById('create-lesson-level').value;
     const title = document.getElementById('create-lesson-title').value;
@@ -99,16 +100,37 @@ export const updateLesson = async function(event) {
         return;
     }
 
-    const modal = document.getElementById('lesson-update-modal');
-    const modalInstance = Modal.getInstance(modal);
-    modalInstance.hide();
-
-    const id = /* ??? */ null;
     const formData = new FormData(this);
+    const id = formData.get('id');
     const lesson = {
         title: formData.get('title'),
         description: formData.get('description')
     };
 
-    await LessonService.update(lesson, id);
+    $('#update-lesson-btn').prop('disabled', true);
+    $('#update-lesson-spinner').removeClass('d-none');
+
+    const response = await LessonService.update(lesson, id);
+
+    $('#update-lesson-spinner').addClass('d-none');
+    $('#update-lesson-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+
+    hideModal('#lesson-update-modal');
+
+    Toast.fire({
+        icon: 'success',
+        title: 'La lección ha sido actualizada con éxito'
+    });
+
+    LessonView.updateLessonSection({ 
+        id,
+        title: lesson.title
+    });
+
+    document.querySelector('#update-lesson-form').reset();
 }

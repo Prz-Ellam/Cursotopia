@@ -44,7 +44,7 @@ class VideoRepository extends DB implements Repository {
         ON l.`course_id` = e.`course_id` AND e.`student_id` = :user_id
         INNER JOIN `courses` AS c
         ON e.`course_id` = c.`course_id`
-        WHERE `video_id` = :video_id  
+        WHERE `video_id` = :video_id
     SQL;
 
     private const FIND_BY_ID = <<<'SQL'

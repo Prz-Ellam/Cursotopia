@@ -27,6 +27,8 @@ class CourseModel implements JsonSerializable {
     private ?bool $isComplete = null;
     private ?string $approvedAt = null;
 
+    private ?array $categories = null;
+
     public function __construct(?array $data = null) {
         $properties = get_object_vars($this);
         foreach ($properties as $name => $value) {
@@ -188,6 +190,7 @@ class CourseModel implements JsonSerializable {
         if (!$courseObject) {
             return null;
         }
+        $courseObject["categories"] = explode(",", $courseObject["categories"]);
         return new CourseModel($courseObject);
     }
 

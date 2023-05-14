@@ -64,60 +64,65 @@ class LinkModel implements JsonSerializable {
         return ($rowsAffected > 0) ? true : false;
     }
     
-    public static function findById(?int $id): ?array {
-        return self::$repository->findById($id);
+    public static function findById(?int $id): ?LinkModel {
+        $linkObject = self::$repository->findById($id);
+        if (!$linkObject) {
+            return null;
+        }
+        return new LinkModel($linkObject);
     }
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
  
-    public function setName($name) {
+    public function setName(?string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    public function getAddress() {
+    public function getAddress(): ?string {
         return $this->address;
     }
  
-    public function setAddress($address) {
+    public function setAddress(?string $address): self {
         $this->address = $address;
         return $this;
     }
  
-    public function getCreatedAt() {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
  
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getModifiedAt() {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt($modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
  
-    public function getActive() {
+    public function getActive(): ?bool {
         return $this->active;
     }
 
-    public function setActive($active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }
@@ -168,3 +173,5 @@ class LinkModel implements JsonSerializable {
         return array_keys(get_class_vars(self::class));
     }
 }
+
+LinkModel::init();

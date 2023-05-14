@@ -69,7 +69,11 @@ class Format {
         }
     }
 
-    public static function hours(float $number): string {
+    public static function hours($number): string {
+        if (is_null($number)) {
+            return "0 horas";
+        }
+
         if ($number < 1) {
             return "<1 hora";
         } 

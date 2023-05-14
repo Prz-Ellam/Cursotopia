@@ -36,7 +36,7 @@ $app->post("/api/v1/lessons", [ LessonController::class, "create" ], [
  * Actualiza una lección
  */
 $app->put("/api/v1/lessons/:id", [ LessonController::class, "update" ], [ 
-    [ JsonSchemaMiddleware::class, "LessonCreateValidator" ], 
+    [ JsonSchemaMiddleware::class, "LessonUpdateValidator" ], 
     [ ValidateIdMiddleware::class ],
     [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ] 
 ]);

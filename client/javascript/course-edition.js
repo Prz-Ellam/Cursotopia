@@ -11,6 +11,7 @@ import createLessonValidator from './validators/lesson-create.validator';
 import { courseEditionCreateLesson } from './controllers/lesson.controller';
 import Swal from 'sweetalert2';
 import { changeImage } from './controllers/image.controller';
+import { showModal } from './utilities/modal';
 
 $(async () => {
     // Update Course
@@ -23,9 +24,7 @@ $(async () => {
 
     // Create Category
     $('#create-category-btn').on('click', function() {
-        const modal = document.getElementById('create-category-modal');
-        const modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
+        showModal('#create-category-modal');
     });
 
 

@@ -1,7 +1,6 @@
 <?php
 
 use Bloom\Application;
-use Cursotopia\Repositories\Repository;
 
 define("BLOOM_START", microtime(true));
 define("DEBUG_MODE", true);

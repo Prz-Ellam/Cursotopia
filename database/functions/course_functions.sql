@@ -46,7 +46,7 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE FUNCTION get_course_video_duration(
+CREATE FUNCTION `get_course_video_duration`(
     course_id                     INT
 ) 
 RETURNS DECIMAL(10,2)

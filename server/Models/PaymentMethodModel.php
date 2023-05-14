@@ -41,6 +41,7 @@ class PaymentMethodModel implements JsonSerializable {
 
     public function setId(?int $id): self {
         $this->id = $id;
+        $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
@@ -80,7 +81,6 @@ class PaymentMethodModel implements JsonSerializable {
         return $this;
     }
 
-
     public static function findById(?int $id): ?PaymentMethodModel {
         $paymentMethodObject = self::$repository->findById($id);
         if (!$paymentMethodObject) {
@@ -88,6 +88,7 @@ class PaymentMethodModel implements JsonSerializable {
         }
         return new PaymentMethodModel($paymentMethodObject);
     }
+
 
 
     public static function init() {

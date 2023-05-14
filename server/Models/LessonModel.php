@@ -85,123 +85,115 @@ class LessonModel implements JsonSerializable {
         return new LessonModel($lessonObject);
     }
 
-    public static function findObjById(?int $id): ?array {
-        $lessonObject = self::$repository->findById($id);
-        if (!$lessonObject) {
-            return null;
-        }
-        return new LessonModel($lessonObject);
-    }
-
     public static function findByLevel(int $levelId) {
         return self::$repository->findByLevel($levelId);
     }
  
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId(?int $id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
  
-    public function setTitle($title) {
+    public function setTitle(?string $title): self {
         $this->title = $title;
         return $this;
     }
 
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    public function getLevelId() {
+    public function getLevelId(): ?int {
         return $this->levelId;
     }
 
-    public function setLevelId($levelId) {
+    public function setLevelId(?int $levelId): self {
         $this->levelId = $levelId;
         return $this;
     }
 
-    public function getVideoId() {
+    public function getVideoId(): ?int {
         return $this->videoId;
     }
 
-    public function setVideoId($videoId) {
+    public function setVideoId(?int $videoId): self {
         $this->videoId = $videoId;
         return $this;
     }
 
-    public function getImageId() {
+    public function getImageId(): ?int {
         return $this->imageId;
     }
 
-    public function setImageId($imageId) {
+    public function setImageId(?int $imageId): self {
         $this->imageId = $imageId;
         return $this;
     }
 
-    public function getDocumentId() {
+    public function getDocumentId(): ?int {
         return $this->documentId;
     }
  
-    public function setDocumentId($documentId) {
+    public function setDocumentId(?int $documentId): self {
         $this->documentId = $documentId;
         return $this;
     }
 
-    public function getLinkId() {
+    public function getLinkId(): ?int {
         return $this->linkId;
     }
 
-    public function setLinkId($linkId) {
+    public function setLinkId(?int $linkId): self {
         $this->linkId = $linkId;
         return $this;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getModifiedAt() {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    public function setModifiedAt($modifiedAt) {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
         return $this;
     }
 
-    public function getActive() {
+    public function getActive(): ?bool {
         return $this->active;
     }
 
-    public function setActive($active) {
+    public function setActive(?bool $active): self {
         $this->active = $active;
         return $this;
     }
 
-    public function getInstructorId() {
+    public function getInstructorId(): ?int {
         return $this->instructorId;
     }
 
-    public function getCourseIsComplete() {
+    public function getCourseIsComplete(): ?bool {
         return $this->courseIsComplete;
     }
 

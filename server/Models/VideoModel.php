@@ -80,8 +80,12 @@ class VideoModel implements JsonSerializable {
         return ($rowsAffected > 0) ? true : false;
     }
     
-    public static function findById(?int $id): ?array {
-        return self::$repository->findById($id);
+    public static function findById(?int $id): ?VideoModel {
+        $videoObject = self::$repository->findById($id);
+        if (!$videoObject) {
+            return null;
+        }
+        return new VideoModel($videoObject);
     }
  
     public function getId() {
@@ -100,6 +104,126 @@ class VideoModel implements JsonSerializable {
  
     public function setName($name) {
         $this->name = $name;
+        return $this;
+    }
+
+        /**
+     * Get the value of contentType
+     */ 
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * Set the value of contentType
+     *
+     * @return  self
+     */ 
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of duration
+     */ 
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * Set the value of duration
+     *
+     * @return  self
+     */ 
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of address
+     */ 
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of address
+     *
+     * @return  self
+     */ 
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     */ 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @return  self
+     */ 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of modifiedAt
+     */ 
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * Set the value of modifiedAt
+     *
+     * @return  self
+     */ 
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
+
         return $this;
     }
 
