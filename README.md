@@ -62,7 +62,7 @@ Cursotopia is a web application for online courses
     width="64"
     alt="Composer"
     style="margin-right: 4px" 
-/>              
+/>
 </p>
 
 ## Others
@@ -80,6 +80,7 @@ Cursotopia is a web application for online courses
 Clone the repository
 ```
 git clone https://github.com/Prz-Ellam/Cursotopia
+cd Cursotopia
 ```
 
 Initialize the dependencies for frontend and backend
@@ -89,6 +90,11 @@ npm install
 
 ```
 composer install
+```
+
+Transpile the frontend code into a dist for the web
+```
+npm run build
 ```
 
 If you use Apache, set the root of the project in the `httpd.conf`
@@ -101,6 +107,18 @@ DocumentRoot <This is where you root goes>
     Require all granted
     Allow from all
 </Directory>
+```
+
+Change configuration in the php.ini
+```
+php_value upload_max_filesize 500M
+php_value post_max_size 500M
+php_value max.execution_time 300
+```
+
+Enable Intl module in php.ini
+```
+extension=intl
 ```
 
 # Features

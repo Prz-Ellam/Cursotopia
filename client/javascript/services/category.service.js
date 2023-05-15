@@ -121,76 +121,72 @@ export default class CategoryService {
             return exception.response.data
         }
     }
-}
 
-export const approveCategoryService = async (categoryId) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/categories/${categoryId}/approve`,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
+    static approve = async (categoryId) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/categories/${categoryId}/approve`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
     }
-    catch (exception) {
-        return exception.response.data
-    }
-}
 
-export const denyCategoryService = async (categoryId) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/categories/${categoryId}/deny`,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
+    static deny = async (categoryId) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/categories/${categoryId}/deny`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
     }
-    catch (exception) {
-        return exception.response.data
-    }
-}
 
-export const activateCategoryService = async (categoryId) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/categories/${categoryId}/activate`,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
+    static activate = async (categoryId) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/categories/${categoryId}/activate`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
     }
-    catch (exception) {
-        return exception.response.data
-    }
-}
 
-export const deactivateCategoryService = async (categoryId) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/categories/${categoryId}/deactivate`,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
+    static deactivate = async (categoryId) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/categories/${categoryId}/deactivate`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
     }
-    catch (exception) {
-        return exception.response.data
-    }
-}
-
-export const getAllCategories = async (category) => {
-    
 }

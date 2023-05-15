@@ -3,7 +3,7 @@ import 'bootstrap';
 import 'boxicons';
 import AOS from 'aos';
 import 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
-import { getAllInstructorsUsersService } from './services/user.service';
+import UserService from '@/services/user.service';
 
 $(async () => {
     AOS.init({
@@ -20,7 +20,7 @@ $(async () => {
     $('#instructors').autocomplete({
         delay: 1,
         source: async function(request, response) {
-            const data = await getAllInstructorsUsersService(request.term);
+            const data = await UserService.findAllInstructors(request.term);
             response($.map(data, function(object) {
                 return {
                     label: `<div><img src="api/v1/images/${object.profilePicture}" style="object-fit: cover" class="rounded-circle" height="50" width="50">&nbsp;&nbsp;&nbsp; ` + object.name + ' ' + object.lastName + ' </div>',

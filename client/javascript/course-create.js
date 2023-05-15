@@ -4,7 +4,7 @@ import 'multiple-select';
 import 'bootstrap';
 import CourseCreateValidator from './validators/course-create.validator';
 import { backSection, createCourse, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
-import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
+import { courseCreationUpdateLevel, submitLevelCreate } from './controllers/level.controller';
 import CreateCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
 import createLessonValidator from './validators/lesson-create.validator';
@@ -135,11 +135,6 @@ $(async () => {
         }
     });
 
-
-    //$('#create-lesson-video').on('change', createLevelVideo);
-    //$('#create-lesson-image').on('change', createLevelImage);
-    //$('#create-lesson-pdf').on('change', createLevelPdf);
-
     $(document).on('click', '.delete-level-btn', async function() {
         const id = $(this).attr('data-id');
         const feedback = await Swal.fire({
@@ -157,7 +152,7 @@ $(async () => {
             }
         });
         if (feedback.isConfirmed) {
-            await LevelService.delete(id);
+            const response = await LevelService.delete(id);
             LevelView.deleteLevelSection(id);
         }
     });
@@ -179,7 +174,7 @@ $(async () => {
             }
         });
         if (feedback.isConfirmed) {
-            await LessonService.delete(id);
+            const response = await LessonService.delete(id);
             LessonView.deleteLessonSection(id);
         }
     });

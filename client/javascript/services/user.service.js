@@ -72,132 +72,131 @@ export default class UserService {
             return ex.response.data;
         }
     }
+
+    static logout = async (auth) => {
+        const response = await fetch('/api/v1/auth', {
+            method: 'DELETE'
+        });
+        const json = await response.json();
+        return json;
+    }
+
+    static findAll = async (name) => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/users?name=${name}`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }    
+    }
+
+    static findAllInstructors = async (name) => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/users/instructors?name=${name}`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }    
+    }
+
+    static findOne = async (id) => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/users/${ id }`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }  
+    };
+
+    static block = async (id) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/users/${id}/block`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }  
+    };
+
+    static unblock = async (id) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/users/${id}/unblock`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
+    }
+
+    static findBlocked = async () => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/users/blocked`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
+    }
+
+    static findUnblocked = async () => {
+        try {
+            const configuration = {
+                method: 'GET',
+                url: `/api/v1/users/unblocked`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
+    };
 }
-
-
-export const logoutUser = async (auth) => {
-    const response = await fetch('/api/v1/auth', {
-        method: 'DELETE'
-    });
-    const json = await response.json();
-    return json;
-}
-
-export const getAllUsersService = async (name) => {
-    try {
-        const configuration = {
-            method: 'GET',
-            url: `/api/v1/users?name=${name}`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data;
-    }    
-};
-
-export const getAllInstructorsUsersService = async (name) => {
-    try {
-        const configuration = {
-            method: 'GET',
-            url: `/api/v1/users/instructors?name=${name}`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data;
-    }    
-};
-
-export const getOneUserService = async (id) => {
-    try {
-        const configuration = {
-            method: 'GET',
-            url: `/api/v1/users/${ id }`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }  
-};
-
-export const blockUserService = async (id) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/users/${id}/block`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }  
-};
-
-export const unblockUserService = async (id) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/users/${id}/unblock`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }
-};
-
-export const findBlockedUsers = async (id) => {
-    try {
-        const configuration = {
-            method: 'GET',
-            url: `/api/v1/users/blocked`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }
-};
-
-export const findUnblockedUsers = async (id) => {
-    try {
-        const configuration = {
-            method: 'GET',
-            url: `/api/v1/users/unblocked`,
-            headers: { 
-                'Content-Type': 'application/json'
-            }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }
-};

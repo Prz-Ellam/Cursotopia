@@ -32,17 +32,3 @@ export default class ReviewService {
         return await mainService('GET', `/api/v1/courses/${courseId}/reviews/total`, 'application/json', {});
     }
 }
-
-export const createReviewService = async (review) => {
-    return await mainService('POST', '/api/v1/reviews', 'application/json', review);
-};
-
-export const showMoreCommentsService = async (courseId, pageNum, pageSize) => {
-    return await mainService('GET', `/api/v1/reviews/${courseId}/${pageNum}/${pageSize}`);
-};
-
-
-export const deleteReviewService = async (reviewId) => {
-    return await mainService('DELETE', `/api/v1/reviews/${reviewId}`);
-};
-

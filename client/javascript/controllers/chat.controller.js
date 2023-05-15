@@ -1,7 +1,7 @@
 import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
-import { createMessageService, getAllChatMessageService } from '../services/message.service';
-import { findUserChats } from '../services/chat.service';
+import MessageService from '@/services/message.service';
+import ChatService from '@/services/chat.service';
 import { ToastTopEnd } from '../utilities/toast';
 import { createComment } from '../views/comment.view';
 import { createMessages } from '../views/message.view';
@@ -28,7 +28,7 @@ export const sendMessage = async () => {
         return;
     }
 
-    const response = await createMessageService(message, chatId);
+    const response = await MessageService.create(message, chatId);
     if (!response?.status) {
         ToastTopEnd.fire({
             icon: 'error',
@@ -49,11 +49,11 @@ export const sendMessage = async () => {
 
 export const loadMessages = async (chatId) => {
     $('#message-box').html('');
-    const { messages, userId } = await getAllChatMessageService(chatId);
+    const { messages, userId } = await MessageService.findAllByChat(chatId);
     
     createMessages(messages, userId);
     $('#box-div').removeClass('d-none');
-    const chats = await findUserChats();
+    const chats = await ChatService.findAllByUser();
     $('#chat-drawer').empty().append(chats);
 
     const messageBox = document.getElementById('message-box');

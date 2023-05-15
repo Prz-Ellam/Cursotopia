@@ -2,8 +2,8 @@ import $ from './jquery-global';
 import 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
 import { Tooltip } from 'bootstrap';
 import { loadMessages, sendMessage } from './controllers/chat.controller';
-import { findChatService, findUserChats } from './services/chat.service';
-import { getAllUsersService } from './services/user.service';
+import ChatService from './services/chat.service';
+import UserService from './services/user.service';
 
 $(async () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -12,14 +12,14 @@ $(async () => {
     $('#message').on('keydown', async function(event) {
         if (event.key === 'Enter') {
             await sendMessage();
-            const chats = await findUserChats();
+            const chats = await ChatService.findAllByUser();
             $('#chat-drawer').empty().append(chats);
         }
     });
 
     $('#send-message').on('click', async function() {
         await sendMessage();
-        const chats = await findUserChats();
+        const chats = await ChatService.findAllByUser();
         $('#chat-drawer').empty().append(chats);
     });
 
@@ -40,7 +40,7 @@ $(async () => {
     $("#search-users").autocomplete({
         delay: 100,
         source: async function(request, response) {
-            const data = await getAllUsersService(request.term);
+            const data = await UserService.findAll(request.term);
             response($.map(data, function(object) {
                 return {
                     label: `<div><img src="api/v1/images/${object.profilePicture}" style="object-fit: cover" class="rounded-circle" height="50" width="50">&nbsp;&nbsp;&nbsp; ` + object.name + ' ' + object.lastName + ' </div>',
@@ -59,7 +59,7 @@ $(async () => {
             event.preventDefault();
             $(this).val(ui.item.name);
 
-            const response = await findChatService({ userTwo: ui.item.value });
+            const response = await ChatService.findOne({ userTwo: ui.item.value });
             console.log(response);
             $('#actual-chat-id').val(response.chatId);
 

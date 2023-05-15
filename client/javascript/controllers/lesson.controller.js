@@ -1,7 +1,7 @@
-import LessonService, { createLessonService } from "../services/lesson.service";
+import LessonService from "../services/lesson.service";
 import { hideModal } from "../utilities/modal";
 import { showErrorMessage } from "../utilities/show-error-message";
-import { Toast } from "../utilities/toast";
+import { Toast, ToastTopEnd } from "../utilities/toast";
 import LessonView from "../views/lesson.view";
 
 export const createLesson = async function(event) {
@@ -9,6 +9,10 @@ export const createLesson = async function(event) {
     
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
     
@@ -77,6 +81,10 @@ export const courseEditionCreateLesson = async function(event) {
     
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
@@ -97,6 +105,10 @@ export const updateLesson = async function(event) {
     
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
@@ -133,4 +145,28 @@ export const updateLesson = async function(event) {
     });
 
     document.querySelector('#update-lesson-form').reset();
+}
+
+export const completeLesson = async function() {
+    const params = new URLSearchParams(document.location.search);
+    const lessonId = params.get('lesson') ?? null;
+
+    const response = await LessonService.complete(lessonId);
+    if (!response?.status) {
+        showErrorMessage(response);
+        return;
+    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Lección completada',
+        confirmButtonText: 'Avanzar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    location.reload();
 }

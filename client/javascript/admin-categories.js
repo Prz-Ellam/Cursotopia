@@ -20,20 +20,20 @@ $(async () => {
     $('#update-category-form').on('submit', updateCategory);
     
     $(document).on('click', '.update-category-btn', function() {
-        const categoryId = $(this).attr('id');
+        const categoryId = $(this).attr('data-id');
         showModal('#update-category-modal');
         showCategoryDetails(categoryId);
         $('#update-category-form').validate();
     });
     
-    $(document).on('click', '.approve-btn', function() {
-        const categoryId = $(this).attr('id');
-        approveCategory(categoryId);
+    $(document).on('click', '.approve-btn', async function() {
+        const categoryId = $(this).attr('data-id');
+        await approveCategory(categoryId);
     });
     
-    $(document).on('click', '.denied-btn', function() {
-        const categoryId = $(this).attr('id');
-        denyCategory(categoryId);
+    $(document).on('click', '.denied-btn', async function() {
+        const categoryId = $(this).attr('data-id');
+        await denyCategory(categoryId);
     });
 
     /*

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { mainService } from './video.service';
 
-class CourseService {
+export default class CourseService {
     static create = async (course) => {
         return await mainService('POST', '/api/v1/courses', 'multipart/form-data', course);
     }
@@ -24,11 +24,6 @@ class CourseService {
     
 }
 
-export default CourseService;
-
-export const createCourseService = async (course) => {
-    return await mainService('POST', '/api/v1/courses', 'application/json', course);
-}
 
 export const courseConfirmService = async (courseId) => {
     return await mainService('PUT', `/api/v1/courses/${courseId}/confirm`, 'application/json', {});
@@ -40,12 +35,4 @@ export const approveCourseService = async (courseId) => {
 
 export const denyCourseService = async (courseId) => {
     return await mainService('PUT', `/api/v1/courses/${courseId}/deny`, 'application/json');
-}
-
-export const updateCourse = async () => {
-    
-}
-
-export const deleteCourse = (course) => {
-
 }

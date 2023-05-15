@@ -38,8 +38,8 @@ $(async () => {
 
     $('#show-more-comments').on('click', clickMoreComments);
 
-    $(document).on('click', '.delete-review', function() {
-        const reviewId = $(this).attr('reviewId');
-        deleteReview(reviewId);
+    $(document).on('click', '.delete-review', async function() {
+        const reviewId = $(this).attr('data-id');
+        await deleteReview(reviewId);
     });
 });

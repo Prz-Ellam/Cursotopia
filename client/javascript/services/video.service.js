@@ -19,14 +19,6 @@ export const mainService = async(method, url, contentType, data) => {
     }
 }
 
-export const createVideoService = async (video) => {
-    return await mainService('POST', 
-        '/api/v1/videos', 
-        'multipart/form-data', 
-        video
-    );
-}
-
 export default class VideoService {
     static update = async (id, video) => {
         return await mainService('POST', 
@@ -50,16 +42,4 @@ export default class VideoService {
         'multipart/form-data', 
         video);
     }
-}
-
-export const updateVideo = async (id, video) => {
-    return await mainService('POST', 
-        `/api/v1/videos/${ id }`, 
-        'multipart/form-data', 
-        video
-    );
-}
-
-export const deleteVideo = async (video) => {
-    return { ok: true };
 }

@@ -9,7 +9,7 @@ export const showUnblockedUsers = (user) => {
                 <a class="btn btn-secondary rounded-pill" href="/instructor-profile-seen-by-others">Ver perfil</a>
             </td>
             <td data-title="Desbloquear">
-                <button class="btn btn-danger rounded-pill block-btn" id="${ user.id }">Bloquear</button>
+                <button class="btn btn-danger rounded-pill block-btn" data-id="${ user.id }">Bloquear</button>
             </td>
         </tr>
       `;
@@ -29,7 +29,7 @@ export const showBlockedUsers = (user) => {
             <a class="btn btn-secondary rounded-pill" href="/student-profile-seen-by-others">Ver perfil</a>
         </td>
         <td data-title="Desbloquear">
-            <button class="btn btn-secondary rounded-pill unblock-btn" id="${ user.id }">Desbloquear</button>
+            <button class="btn btn-secondary rounded-pill unblock-btn" data-id="${ user.id }">Desbloquear</button>
         </td>
     </tr>
     `;

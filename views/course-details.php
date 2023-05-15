@@ -313,7 +313,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item delete-review" reviewId="<?= $review["id"] ?>">Eliminar</a>
+                    <a class="dropdown-item delete-review" data-id="<?= $review["id"] ?>">Eliminar</a>
                   </li>
                 </ul>
                 <?php endif ?>

@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 export const showNotApprovedCourses = (course) => {
-    console.log("view");
     const html = `
     <tr class="text-center">
         <td data-title="Curso">${course.title}</td>

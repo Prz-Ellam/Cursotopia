@@ -9,7 +9,7 @@ import { showErrorMessage } from '../utilities/show-error-message';
 import { changeImage } from './image.controller';
 import VideoService from '../services/video.service';
 import DocumentService from '../services/document.service';
-import ImageService, { updateImageService } from '../services/image.service';
+import ImageService from '../services/image.service';
 import LinkService from '../services/link.service';
 
 let opacity;
@@ -158,19 +158,6 @@ export const createCourseImage = async function(event) {
         }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
-/*
-        const formData = new FormData();
-        formData.append('image', file, file.name);
-
-        if (!courseCoverId.value) {
-            const response = await createImage(formData);
-            const imageId = response.id;
-            courseCoverId.value = imageId;
-        }
-        else {
-            const response = await updateImageService(formData, courseCoverId.value);
-        }
-        */
     }
     catch (exception) {
         pictureBox.src = defaultImage;
@@ -255,12 +242,27 @@ export const deleteCourse = async function(event) {
             cancelButton: 'btn btn-secondary shadow-none rounded-pill'
         }
     });
+
     if (feedback.isConfirmed) {
-        // TODO: uri estatica
-        // TODO: quitar el boton de deshabilitar si ya esta deshabilitado
         const params = new URLSearchParams(window.location.search);
         const id = params.get('course_id');
-        await CourseService.delete(id);
+        const response = await CourseService.delete(id);
+        if (!response?.status) {
+            showErrorMessage(response);
+            return;
+        }
+
+        await Swal.fire({
+            icon: 'success',
+            title: 'El curso ha sido eliminado',
+            confirmButtonText: 'Avanzar',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
         window.location.href = '/home';
     }
 }
@@ -294,7 +296,6 @@ export const findAllByInstructor = function(event) {
 }
 
 export const approveCourses = async function(courseId) {
-
     const response = await approveCourseService(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
@@ -302,15 +303,18 @@ export const approveCourses = async function(courseId) {
     }
 
     const notApprovedCourses = await CourseService.findnotApproved(courseId);
-    if (notApprovedCourses?.status) {
-        $('#notApprovedCourses').empty();
-        const coursesNotApproved = notApprovedCourses.courses;
-        coursesNotApproved.forEach(course => {
-            showNotApprovedCourses(course);
-        });
+    if (!notApprovedCourses?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
 
-    await Toast.fire({
+    $('#notApprovedCourses').empty();
+    const coursesNotApproved = notApprovedCourses.courses;
+    coursesNotApproved.forEach(course => {
+        showNotApprovedCourses(course);
+    });
+
+    Toast.fire({
         icon: 'success',
         title: 'El curso ha sido aprobado'
     });
@@ -324,15 +328,18 @@ export const denyCourses = async function(courseId) {
     }
 
     const notApprovedCourses = await CourseService.findnotApproved(courseId);
-    if (notApprovedCourses?.status) {
-        $('#notApprovedCourses').empty();
-        const coursesNotApproved = notApprovedCourses.courses;
-        coursesNotApproved.forEach(course => {
-            showNotApprovedCourses(course);
-        });
+    if (!notApprovedCourses?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
+    
+    $('#notApprovedCourses').empty();
+    const coursesNotApproved = notApprovedCourses.courses;
+    coursesNotApproved.forEach(course => {
+        showNotApprovedCourses(course);
+    });
 
-    await Toast.fire({
+    Toast.fire({
         icon: 'error',
         title: 'El curso ha sido denegado'
     });
@@ -393,7 +400,7 @@ export const updateImage = async function(event) {
     form.append('image', image);
 
     if (imageId) {
-        await updateImageService(form, imageId);
+        await ImageService.update(form, imageId);
     }
     else {
         const lessonId = $('#lesson-update-id').val();
