@@ -1,16 +1,27 @@
 import $ from 'jquery';
+import 'bootstrap';
 import 'jquery-validation';
-import { updatePassword } from './controllers/user.controller';
-import { passwordToggle } from './utilities/password-toggle';
-import passwordEditionValidator from './validators/password-edition.validator';
+import { passwordStrength, passwordToggle, submitUpdatePassword } from './controllers/user.controller';
+import PasswordEditionValidator from './validators/password-edition.validator';
 
-$('#password-edition-form').validate(passwordEditionValidator);
-$('#password-edition-form').on('submit', updatePassword);
+$(async () => {
+    $('#new-password').on('input', function() {
+        passwordStrength('#new-password', '#password-mayus', '#password-number', '#password-specialchar', '#password-length');
+    });
 
-const oldasswordButton = document.getElementById('old-password-button');
-const newPasswordButton = document.getElementById('new-password-button');
-const confirmNewPasswordButton = document.getElementById('confirm-new-password-button');
+    // Esconder y mostrar contraseña
+    $('#old-password-button').on('click', function() {
+        passwordToggle('#old-password', '#old-password-button i');
+    });
 
-oldasswordButton.addEventListener('click', passwordToggle);
-newPasswordButton.addEventListener('click', passwordToggle);
-confirmNewPasswordButton.addEventListener('click', passwordToggle);
+    $('#new-password-button').on('click', function() {
+        passwordToggle('#new-password', '#new-password-button i');
+    });
+
+    $('#confirm-new-password-button').on('click', function() {
+        passwordToggle('#confirm-new-password', '#confirm-new-password-button i');
+    });
+
+    $('#password-edition-form').validate(PasswordEditionValidator);
+    $('#password-edition-form').on('submit', submitUpdatePassword);
+});

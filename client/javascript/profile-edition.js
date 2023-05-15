@@ -1,14 +1,13 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { changeProfilePicture, updateUser } from './controllers/user.controller';
-import editProfileValidator from './validators/edit-profile.validator';
+import 'bootstrap';
+import { changeProfilePicture, submitUpdateUser } from './controllers/user.controller';
+import ProfileEditionValidator from './validators/profile-edition.validator';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const profilePicture = document.getElementById('profile-picture');
-    profilePicture.addEventListener('change', changeProfilePicture);
+$(async () => {
+    $('#profile-picture').on('change', changeProfilePicture);
 
-    const profileEditionForm = document.getElementById('profile-edition-form');
-    $(profileEditionForm).validate(editProfileValidator);
-    $(profileEditionForm).validate().element('#email');
-    profileEditionForm.addEventListener('submit', updateUser);
+    $('#profile-edition-form').validate(ProfileEditionValidator);
+    $('#profile-edition-form').validate().element('#email');
+    $('#profile-edition-form').on('submit', submitUpdateUser);
 });

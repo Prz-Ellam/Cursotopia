@@ -1,8 +1,4 @@
 {
-    "$error": {
-        "required": "Incluir las propiedades: [{missing}]",
-        "additionalProperties": "Propiedades extra: [{properties}]"
-    },
     "type": "object",
     "properties": {
         "name": {
@@ -47,12 +43,12 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 255,
-            "format": "email",
+            "pattern": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
             "$error": {
                 "type": "El correo electrónico no puede estar vacío",
                 "minLength": "El correo electrónico no puede estar vacío",
                 "maxLength": "El correo electrónico es muy largo, solo {max} caracteres son admitidos, se encontraron {length}",
-                "format": "El correo electrónico no tiene el formato requerido"
+                "pattern": "El correo electrónico no tiene el formato requerido"
             }
         }
     },
@@ -63,5 +59,9 @@
         "gender",
         "email"
     ],
-    "additionalProperties": false
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
 }

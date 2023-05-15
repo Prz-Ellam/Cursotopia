@@ -1,18 +1,35 @@
-import videojs from 'video.js';
+import $ from 'jquery';
+import 'bootstrap';
+import Swal from 'sweetalert2';
+import LessonService from './services/lesson.service';
 
-var myCollapse = document.getElementById('level-1-collapse')
-var bsCollapse = new bootstrap.Collapse(myCollapse, {
-  toggle: true
+$(async () => {
+    const params = new URLSearchParams(document.location.search);
+    const lessonId = params.get('lesson') ?? null;
+    $('#level-video').attr('src', `api/v1/videos/${$('#level-video').attr('video-id')}`);
+
+    $('#level-video').on('ended', async function () {
+        try {
+            await LessonService.complete(lessonId);
+            await Swal.fire({
+                text: 'Video finalizado'
+            });
+
+            location.reload();
+        } catch (exception) {
+            alert('Hubo errores');
+        }
+    });
+
+
+    $('#finish').on('click', async function () {
+        try {
+            await LessonService.complete(lessonId);
+            location.reload();
+        }
+        catch (exception) {
+            console.error('Hubo errores');
+        }
+    });
+
 });
-
-videojs('level-video', {
-    fluid: true
-});
-
-document.querySelector("#level-video").onended = function() {
-  if(this.played.end(0) - this.played.start(0) === this.duration) {
-    console.log("Played all");
-  }else {
-    console.log("Some parts were skipped");
-  }
-}

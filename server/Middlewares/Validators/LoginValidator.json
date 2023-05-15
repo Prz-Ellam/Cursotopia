@@ -1,8 +1,4 @@
 {
-    "$error": {
-        "required": "Incluir las propiedades: [{missing}]",
-        "additionalProperties": "Propiedades extra: [{properties}]"
-    },
     "type": "object",
     "properties": {
         "email": {
@@ -20,12 +16,21 @@
         "password": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 255
+            "maxLength": 255,
+            "$error": {
+                "type": "La contraseña debe ser una cadena de texto",
+                "minLength": "La contraseña no puede estar vacía",
+                "maxLength": "La contraseña es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
         }
     },
     "required": [
         "email",
         "password"
     ],
-    "additionalProperties": false
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
 }

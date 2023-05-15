@@ -2,32 +2,42 @@
 
 namespace Cursotopia\Models;
 
-use Bloom\Database\DB;
 use Cursotopia\Entities\Level;
 use Cursotopia\Repositories\LevelRepository;
+use Cursotopia\Repositories\Repository;
 use Cursotopia\ValueObjects\EntityState;
+use JsonSerializable;
 
-class LevelModel {
+class LevelModel implements JsonSerializable {
+    private static ?LevelRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
+    
     private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
-    private ?float $price = null;
+    private ?bool $free = null;
     private ?int $courseId = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    private EntityState $entityState;
+    private ?int $instructorId = null;
+    private ?bool $courseIsComplete = null;
 
-    public function __construct(?array $object = null) {
-        $this->id = $object["id"] ?? null;
-        $this->title = $object["title"] ?? null;
-        $this->description = $object["description"] ?? null;
-        $this->price = $object["price"] ?? null;
-        $this->courseId = $object["courseId"] ?? null;
-        $this->createdAt = $object["createdAt"] ?? null;
-        $this->modifiedAt = $object["modifiedAt"] ?? null;
-        $this->active = $object["active"] ?? null;
+    public function __construct(?array $data = null) {
+        $properties = get_object_vars($this);
+        foreach ($properties as $name => $value) {
+            if ($value instanceof Repository || $value instanceof EntityState) {
+                continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            $this->$name = (isset($data[$name])) ? $data[$name] : null;
+        }
 
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
     }
@@ -38,133 +48,140 @@ class LevelModel {
             ->setId($this->id)
             ->setTitle($this->title)
             ->setDescription($this->description)
-            ->setPrice($this->price)
+            ->setFree($this->free)
             ->setCourseId($this->courseId)
             ->setCreatedAt($this->createdAt)
             ->setModifiedAt($this->modifiedAt)
             ->setActive($this->active);
 
-        $levelRepository = new LevelRepository();
         $rowsAffected = 0;
         switch ($this->entityState) {
             case EntityState::CREATE: {
-                $rowsAffected = $levelRepository->create($level);
+                $rowsAffected = self::$repository->create($level);
                 if ($rowsAffected) {
-                    $this->setId(intval(DB::lastInsertId()));
+                    $this->id = intval(self::$repository->lastInsertId2());
                 }
                 break;
             }
             case EntityState::UPDATE: {
-                $rowsAffected = $levelRepository->update($level);
+                $rowsAffected = self::$repository->update($level);
                 break;
             }
         }
         return ($rowsAffected > 0) ? true : false;
     }
 
-    public static function findOneById(int $id) {
-        $levelRepository = new LevelRepository();
-        $object = $levelRepository->findOne($id);
-        return new LevelModel($object);
+    public static function findById(?int $id): ?LevelModel {
+        $levelObject = self::$repository->findById($id);
+        if (!$levelObject) {
+            return null;
+        }
+        return new LevelModel($levelObject);
     }
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public static function findByCourse(int $courseId): array {
+        return self::$repository->findByCourse($courseId);
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
-
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+ 
+    public function setId(?int $id): self {
         $this->id = $id;
         $this->entityState = (is_null($this->id)) ? EntityState::CREATE : EntityState::UPDATE;
         return $this;
     }
 
-    /**
-     * Get the value of title
-     */ 
-    public function getTitle()
-    {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */ 
-    public function setTitle($title)
-    {
+    public function setTitle(?string $title): self {
         $this->title = $title;
-
         return $this;
     }
-
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
+ 
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
+    public function setDescription(?string $description): self {
         $this->description = $description;
-
         return $this;
     }
 
-    /**
-     * Get the value of price
-     */ 
-    public function getPrice()
-    {
-        return $this->price;
+    public function isFree(): ?bool {
+        return $this->free;
     }
-
-    /**
-     * Set the value of price
-     *
-     * @return  self
-     */ 
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
+ 
+    public function setFree(?bool $free): self {
+        $this->free = $free;
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+    public function setActive($active) {
         $this->active = $active;
-
         return $this;
     }
+
+    public function getInstructorId() {
+        return $this->instructorId;
+    }
+
+    public function getCourseIsComplete() {
+        return $this->courseIsComplete;
+    }
+
+
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new LevelRepository();
+        }
+    }
+
+    public function toArray(): ?array {
+        return json_decode(json_encode($this), true);
+    }
+
+    public function jsonSerialize(): mixed {
+        $properties = get_object_vars($this);
+        $output = [];
+        
+        foreach ($properties as $name => $value) {
+            if (in_array($name, $this->_ignores)) {
+                 continue;
+            }
+
+            if ($name == '_ignores') {
+                continue;
+            }
+
+            if (!($value instanceof Repository) && !($value instanceof EntityState)) {
+                $output[$name] = $value;
+            }
+        }
+        
+        return $output;
+    }
+
+    public function setIgnores(array $ignores) {
+        $this->_ignores = $ignores;
+    }
+
+    public function toObject() : array {
+        $members = get_object_vars($this);
+        return json_decode(json_encode($members), true);
+    }
+
+    public static function getProperties() : array {
+        return array_keys(get_class_vars(self::class));
+    }
 }
+
+LevelModel::init();

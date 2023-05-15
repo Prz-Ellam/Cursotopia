@@ -1,15 +1,20 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
+  
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <?= $this->link("styles/pages/chat.css") ?>
   <?= $this->script("javascript/chat.js") ?>
@@ -28,8 +33,9 @@
           id="search-users"
         >
         
+        <div id="chat-drawer">
         <?php foreach ($this->chats as $chat): ?>
-        <div class="chat-drawer p-2 border-bottom" id="<?= $chat["id"] ?>">
+        <div class="chat-drawer p-2 border-bottom" data-id="<?= $chat["id"] ?>">
           <a
             href="#"
             class="text-decoration-none d-flex justify-content-between align-items-center"
@@ -42,10 +48,14 @@
               <img
                 src="api/v1/images/<?= $chat["profilePicture"] ?>"
                 alt="avatar"
+                width="60"
+                height="60"
                 class="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
               >
               <div class="overflow-hidden text-nowrap">
-                <p class="h5 fw-bold mb-0"><?= $chat["user"] ?></p>
+                <p class="h5 fw-bold mb-0">
+                  <?= $chat["user"] ?>
+                </p>
                 <small class="text-primary mb-0 <?= $chat["unseenMessagesCount"] !== 0 ? 'fw-bold' : '' ?>">
                   <?= $chat["lastMessageContent"] ?>
                 </small>
@@ -53,7 +63,7 @@
             </div>
             <div>
               <p class="small text-muted mb-1 text-end">
-                <?= date('d/m/y H:i', strtotime($chat["lastMessageCreatedAt"])) ?>
+                <?= Format::datetime($chat["lastMessageCreatedAt"]) ?>
               </p>
               <?php if ($chat["unseenMessagesCount"] !== 0): ?>
               <span class="badge rounded-pill bg-danger float-end">
@@ -66,6 +76,7 @@
           </a>
         </div>
         <?php endforeach ?>
+        </div>
 
       </section>
       <section class="col-12 col-lg-8 rounded-0 card border-0 overflow-auto chat-section">
@@ -82,10 +93,10 @@
           </button>
           <img
             class="img-fluid rounded-circle actual-chat-user-image"
-            src="../client/assets/images/perfil.png"
+            src="<?= $this->asset("assets/images/perfil.png") ?>"
             alt="Perfil"
           >
-          <span class="h5 mb-0 ms-2 text-black fw-bold actual-chat-user-name">Kevin Gold</span>
+          <span class="h5 mb-0 ms-2 text-black fw-bold actual-chat-user-name"></span>
           <input type="hidden" id="actual-chat-id">
         </div>
         <hr>
@@ -93,7 +104,7 @@
 
         </div>
         <hr class="mb-1 text-light">
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 d-none" id="box-div">
           <input type="text" id="message" class="bg-light form-control border-0 shadow-none" placeholder="Escribe un mensaje"
             aria-label="Enviar mensaje" aria-describedby="basic-addon2">
           <button class="btn btn-primary shadow-none" id="send-message"><i class="bx bxs-send"></i></button>
@@ -101,8 +112,4 @@
       </section>
     </div>
   </main>
-</body>
-<script src="../node_modules/jquery/dist/jquery.min.js"></script>
-<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

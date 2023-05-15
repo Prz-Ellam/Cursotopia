@@ -2,134 +2,210 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-import { createImage, updateImageService } from '../services/image.service';
-import { updateUserService, loginUser, updateUserPasswordService, createUserService } from '../services/user.service';
-import { ToastBottom } from '../utilities/toast';
+import { updateImageService } from '../services/image.service';
+import UserService, { blockUserService, findBlockedUsers, findUnblockedUsers, unblockUserService } from '@/services/user.service';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { showUnblockedUsers, showBlockedUsers } from '@/views/user.view';
+import { Toast, ToastBottom, ToastTopEnd } from '@/utilities/toast';
+import { readFileAsync } from './image.controller';
 
-export const login = async function(event) {
+export const submitLogin = async function(event) {
     event.preventDefault();
-    const validations = $(this).valid();
-    if (!validations) {
+
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
-
-    const btnSubmit = document.getElementById('btn-login');
-    btnSubmit.disabled = true;
-    const loginSpinner = document.getElementById('login-spinner');
-    loginSpinner.classList.remove('d-none');
 
     const formData = new FormData(this);
-    const user = {};
-    for (const [key, value] of formData) {
-        user[key] = value;
-    }
+    const user = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
     
-    const response = await loginUser(user);
-    loginSpinner.classList.add('d-none');
-    btnSubmit.disabled = false;
+    $('#login-btn').prop('disabled', true);
+    $('#login-spinner').removeClass('d-none');
 
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido de vuelta a Cursotopia! 😊',
-            confirmButtonText: 'Avanzar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
+    const response = await UserService.login(user);
+    
+    $('#login-spinner').addClass('d-none');
+    $('#login-btn').prop('disabled', false);
 
-        window.location.href = 'home';
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
-    else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido de vuelta a Cursotopia! 😊',
+        confirmButtonText: 'Avanzar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
-export const signup = async function(event) {
+export const submitSignup = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    // Validaciones del formulario
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
     
+    // Obtengo y formato de los datos del formulario
+    const formData = new FormData(this);
+    const user = {
+        name:               formData.get('name'),
+        lastName:           formData.get('lastName'),
+        birthDate:          formData.get('birthDate'),
+        gender:             formData.get('gender'),
+        userRole:           Number.parseInt(formData.get('role')),
+        email:              formData.get('email'),
+        password:           formData.get('password'),
+        confirmPassword:    formData.get('confirmPassword')
+    }
+
+    const userForm = new FormData();
+    userForm.append('payload', JSON.stringify(user));
+    userForm.append('image', formData.get('image'));
+
+    // Envio de datos a la API
+    $('#signup-btn').prop('disabled', true);
+    $('#signup-spinner').removeClass('d-none');
+
+    const response = await UserService.create(userForm);
+
+    $('#signup-spinner').addClass('d-none');
+    $('#signup-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+    
+    await Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido a Cursotopia! 😊',
+        text: 'Cuna de los mejores cursos de la tierra',
+        confirmButtonText: 'Comencemos',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
+}
+
+export const submitUpdateUser = async function(event) {
+    event.preventDefault();
+
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
+        return;
+    }
+
     const formData = new FormData(this);
     const user = {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
         birthDate:  formData.get('birthDate'),
         gender:     formData.get('gender'),
-        userRole:   parseInt(formData.get('userRole')),
-        email:      formData.get('email'),
-        password:   formData.get('password'),
-        confirmPassword: formData.get('confirmPassword'),
-        profilePicture: parseInt(formData.get('profilePicture'))
+        email:      formData.get('email')
+    };
+
+    $('#profile-edition-btn').prop('disabled', true);
+    $('#profile-edition-spinner').removeClass('d-none');
+
+    const response = await UserService.update(user, formData.get('id'));
+
+    $('#profile-edition-spinner').addClass('d-none');
+    $('#profile-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
 
-    const response = await createUserService(user);
-    console.log(response);
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido a Cursotopia! 😊',
-            text: 'Cuna de los mejores cursos de la tierra',
-            confirmButtonText: 'Comencemos',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
-        window.location.href = "home";
-    }
-    else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú perfil se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
-function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsDataURL(file);
+export const submitUpdatePassword = async function(event) {
+    event.preventDefault();
+
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
+        return;
+    }
+
+    const formData = new FormData(this);
+    const id = formData.get('id');
+    const user = {
+        oldPassword: formData.get('oldPassword'),
+        newPassword: formData.get('newPassword'),
+        confirmNewPassword: formData.get('confirmNewPassword')
+    };
+
+    $('#password-edition-btn').prop('disabled', true);
+    $('#password-edition-spinner').removeClass('d-none');
+
+    const response = await UserService.updatePassword(user, id);
+
+    $('#password-edition-spinner').addClass('d-none');
+    $('#password-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú contraseña se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
     });
+
+    window.location.href = '/home';
 }
 
 // TODO: changeProfilePicture
@@ -208,7 +284,6 @@ export const changeProfilePicture = async function(event) {
 export const uploadProfilePicture = async function(event) {    
     const pictureBox = document.getElementById('picture-box');
     const inputFile = document.getElementById('profile-picture');
-    const profilePictureId = document.getElementById('profile-picture-id');
     const defaultImage = '../client/assets/images/perfil.png';
 
     try {
@@ -255,145 +330,138 @@ export const uploadProfilePicture = async function(event) {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('image', file, file.name);
-
-        if (!profilePictureId.value) {
-            const response = await createImage(formData);
-            if (!response?.status) {
-                ToastBottom.fire({
-                    icon: 'error',
-                    title: 'No se pudo cargar la imagen'
-                });
-                return;
-            }
-            const imageId = response.id;
-            profilePictureId.value = imageId;
-        }
-        else {
-            const response = await updateImageService(formData, profilePictureId.value);
-            
-        }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
         $('.profile-picture').attr('src', dataUrl);
         previousFile = file;
-        
     }
     catch (exception) {
         console.log(exception);
         pictureBox.src = defaultImage;
-        profilePictureId.value = '';
     }
-    $(".user-form").validate().element('#profile-picture-id');
-
+    //$(".user-form").validate().element('#profile-picture-id');
 }
 
-export const updateUser = async function(event) {
-    event.preventDefault();
+export const blockUser = async function(userId) {
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const response = await blockUserService(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
         return;
     }
 
-    const formData = new FormData(this);
-    const user = {
-        name:       formData.get('name'),
-        lastName:   formData.get('lastName'),
-        birthDate:  formData.get('birthDate'),
-        gender:     formData.get('gender'),
-        email:      formData.get('email')
-    };
-
-    //document.getElementById('submit-btn').disabled = false;
-    const response = await updateUserService(user, formData.get('id'));
-    //document.getElementById('submit-btn').disabled = true;
-    if (response?.status) {
-        
-        await Swal.fire({
-            icon: 'success',
-            title: 'Tú perfil se actualizó exitosamente',
-            confirmButtonText: 'Continuar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
-
-        // TODO: uri estatica
-        window.location.href = 'home';
-    }
-    else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
-    }
-}
-
-export const updatePassword = async function(event) {
-    event.preventDefault();
-
-    const validations = $(this).valid();
-    if (!validations) {
+    const blockedUsers = await findBlockedUsers();
+    const unblockedUsers = await findUnblockedUsers();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
         return;
     }
 
-    const formData = new FormData(this);
-    const user = {
-        oldPassword: formData.get('oldPassword'),
-        newPassword: formData.get('newPassword'),
-        confirmNewPassword: formData.get('confirmNewPassword')
-    };
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
 
-    //document.getElementById('btn-submit').disabled = false;
-    const response = await updateUserPasswordService(user, formData.get('id'));
-    //document.getElementById('btn-submit').disabled = true;
-    if (response?.status) {
-        await Swal.fire({
-            icon: 'success',
-            title: 'Tú contraseña se actualizó exitosamente',
-            confirmButtonText: 'Continuar',
-            confirmButtonColor: '#5650DE',
-            background: '#FFFFFF',
-            customClass: {
-                confirmButton: 'btn btn-primary shadow-none rounded-pill'
-            },
-        });
-        window.location.href = "/home";
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido bloqueado'
+    });
+}
+
+export const unblockUser = async function(userId) {
+    const response = await unblockUserService(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const blockedUsers = await findBlockedUsers();
+    const unblockedUsers = await findUnblockedUsers();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido desbloqueado'
+    });
+}
+
+/**
+ * 
+ * @param {string} passwordInput 
+ * @param {string} selectorMayus 
+ * @param {string} selectorNumber 
+ * @param {string} selectorSpecialChar 
+ * @param {string} selectorLength 
+ * @returns 
+ */
+export const passwordStrength = function(passwordInput, selectorMayus, selectorNumber, selectorSpecialChar, selectorLength) {
+    const value = $(passwordInput).val();
+    
+    if (value === '') {
+        $(selectorMayus).removeClass('text-danger text-success');
+        $(selectorNumber).removeClass('text-danger text-success');
+        $(selectorSpecialChar).removeClass('text-danger text-success');
+        $(selectorLength).removeClass('text-danger text-success');
+        return;
+    }
+  
+    if (/[A-Z]/g.test(value)) {
+        $(selectorMayus).addClass('text-success').removeClass('text-danger');
     }
     else {
-        let text = response.message ?? 'Parece que algo salió mal';
-        if (response.message instanceof Object) {
-            text = '';
-            for (const [key, value] of Object.entries(response.message)) {
-                text += `${value}<br>`;
-            }
-        }
-        await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: text,
-            confirmButtonColor: "#de4f54",
-            background: "#EFEFEF",
-            customClass: {
-                confirmButton: 'btn btn-danger shadow-none rounded-pill'
-            },
-        });
+        $(selectorMayus).addClass('text-danger').removeClass('text-success')
     }
+  
+    if (/[0-9]/g.test(value)) {
+        $(selectorNumber).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorNumber).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
+        $(selectorSpecialChar).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorSpecialChar).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (value.length >= 8) {
+        $(selectorLength).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorLength).addClass('text-danger').removeClass('text-success');
+    }
+}
+
+/**
+ * Cambia de visible a no visible un input de contraseña
+ * 
+ * @param {string} selectorInput
+ * @param {string} selectorIcon
+ */
+export const passwordToggle = function(selectorInput, selectorIcon) {
+    $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
+    $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
 }

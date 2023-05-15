@@ -1,21 +1,23 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { login } from './controllers/user.controller';
-import { passwordToggle } from './utilities/password-toggle';
-import loginValidator from './validators/login.validator';
+import 'bootstrap';
+import AOS from 'aos';
+import { passwordToggle, submitLogin } from './controllers/user.controller';
+import LoginValidator from './validators/login.validator';
 
-document.addEventListener('DOMContentLoaded', () => {
+$(async () => {
     AOS.init({
         duration: 1000,
-        easing: "ease-in-out",
+        easing: 'ease-in-out',
         once: true,
         mirror: false
     });
 
-    const loginForm = document.getElementById('login-form');
-    $(loginForm).validate(loginValidator);
-    loginForm.addEventListener('submit', login);
-    
-    const passwordButton = document.getElementById('password-button');
-    passwordButton.addEventListener('click', passwordToggle);
+    // Esconder y mostrar contraseña
+    $('#password-button').on('click', () => {
+        passwordToggle('#password', '#password-button i');
+    });
+
+    $('#login-form').validate(LoginValidator);
+    $('#login-form').on('submit', submitLogin);
 });

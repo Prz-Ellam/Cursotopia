@@ -6,27 +6,9 @@ use Bloom\Database\DB;
 use Cursotopia\Entities\Image;
 use PDO;
 
-class ImageRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            `image_id` AS `id`,
-            `image_name` AS `name`,
-            `image_size` AS `size`,
-            `image_content_type` AS `contentType`,
-            `image_data` AS `data`,
-            `image_created_at` AS `createdAt`,
-            `image_modified_at` AS `modifiedAt`,
-            `image_active` AS `active`
-        FROM
-            `images`
-        WHERE
-            `image_id` = :id
-        LIMIT
-            1
-    SQL;
-
+class ImageRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
-        CALL `insert_image`(
+        CALL `image_create`(
             :name, 
             :size, 
             :content_type, 
@@ -34,29 +16,9 @@ class ImageRepository extends DB {
             @image_id
         )
     SQL;
-
-    private const FIND_ONE_BY_ID_AND_NOT_USER_ID = <<<'SQL'
-        SELECT
-            i.image_id AS `id`,
-            i.image_name AS `name`,
-            i.image_size AS `size`,
-            i.image_content_type AS `contentType`,
-            i.image_data AS `data`,
-            i.image_created_at AS `createdAt`,
-            i.image_modified_at AS `modifiedAt`,
-            i.image_active AS `active`
-        FROM
-            images AS i
-        INNER JOIN
-            users AS u
-        ON
-            i.image_id = u.profile_picture
-        WHERE
-            i.image_id = :id
-    SQL;
     
     private const UPDATE = <<<'SQL'
-        CALL update_image(
+        CALL `image_update`(
             :id, 
             :name, 
             :size, 
@@ -66,6 +28,14 @@ class ImageRepository extends DB {
             :modified_at, 
             :active
         )
+    SQL;
+
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `image_find_by_id`(:id)
+    SQL;
+
+    private const FIND_ONE_PROFILE_PICTURE = <<<'SQL'
+        CALL `image_find_one_profile_picture`(:id)
     SQL;
 
     public function create(Image $image): int {
@@ -81,32 +51,35 @@ class ImageRepository extends DB {
             "content_type" => PDO::PARAM_STR,
             "data" => PDO::PARAM_LOB,
         ];
-        $affectedRows = $this::executeNonQuery($this::CREATE, $parameters, $types);
-        return $affectedRows;
+        return $this::executeNonQuery($this::CREATE, $parameters, $types);
     }
 
-    public function update(Image $image) {
+    public function update(Image $image): int {
         $parameters = [
             "id" => $image->getId(),
             "name" => $image->getName(),
             "size" => $image->getSize(),
             "content_type" => $image->getContentType(),
             "data" => $image->getData(),
-            "created_at" => null,
-            "modified_at" => null,
-            "active" => null
+            "created_at" => $image->getCreatedAt(),
+            "modified_at" => $image->getModifiedAt(),
+            "active" => $image->isActive()
         ];
-        return self::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function findOneById(int $id): ?array {
-        return $this::executeOneReader($this::FIND_ONE, [ "id" => $id ]) ?? null;
-    }
-
-    public function findOneByIdAndNotUserId(int $id): ?array {
-        return $this::executeOneReader($this::FIND_ONE_BY_ID_AND_NOT_USER_ID, [
+    public function findById(?int $id): ?array {
+        $parameters = [
             "id" => $id
-        ]) ?? null;
+        ];
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
+    }
+
+    public function findOneByIdAndNotUserId(?int $id): ?array {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_ONE_PROFILE_PICTURE, $parameters);
     }
 
     public function lastInsertId2(): string {

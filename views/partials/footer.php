@@ -5,7 +5,15 @@
       <div class="col-md-3 mx-auto mb-3">
         <ul class="list-unstyled">
           <li class="my-2">
-            <a href=""><img src="../client/assets/images/logo.png" width="200" class="img-fluid" id="logo-banner" alt="Logo Banner"></a>
+            <a href="/home">
+              <img 
+                src="<?= $this->asset("assets/images/logo.png") ?>" 
+                width="200" 
+                class="img-fluid" 
+                id="logo-banner" 
+                alt="Logo Banner"
+              >
+            </a>
           </li>
         </ul>
       </div>
@@ -47,13 +55,6 @@
             </a>
           </li>
         </ul>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row pt-5 pb-3 d-flex align-items-center">
-        <div class="col-md-12  text-center">
-
-        </div>
       </div>
     </div>
     <div class="container text-center img-responsive">

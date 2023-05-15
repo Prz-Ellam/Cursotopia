@@ -77,3 +77,14 @@ module.exports = {
     Memoria disponible: Asegúrate de que tu servidor tenga suficiente memoria disponible para manejar las operaciones de carga y descarga de imágenes. Si necesitas trabajar con imágenes muy grandes, es posible que debas aumentar la cantidad de memoria disponible para PHP y MySQL.
 
     Extensión de PHP: Es posible que necesites habilitar la extensión php_mysqli o php_pdo_mysql en el archivo php.ini para permitir la conexión a la base de datos MySQL desde PHP.
+
+
+
+
+1. Validaciones de los JSON Schemas y los jQuery Validators
+2. Middlewares de acceso a las rutas y validacion de ID en uri
+3. Creación de queries para los diferentes servicios necesarios
+4. Creación de modelos que encapsulen los queries
+5. Validaciones en los modelos
+6. Creación de controladores
+7. Configuraciones de Apache

@@ -1,10 +1,57 @@
 <?php
 
+use Cursotopia\Helpers\Format;
+use Cursotopia\Helpers\Validate;
+use Cursotopia\Models\CourseModel;
 use Cursotopia\Repositories\CategoryRepository;
-use Cursotopia\Repositories\CourseRepository;
 
-$courseRepository = new CourseRepository();
-$courses = $courseRepository->kardexFindAllByUserId($this->user["id"]);
+$categoryId = $_GET["category"] ?? null;
+$startDate = $_GET["start_date"] ?? null;
+$endDate = $_GET["end_date"] ?? null;
+$complete = $_GET["complete"] ?? 0;
+$active = $_GET["active"] ?? 0;
+$page = $_GET["page"] ?? 1;
+
+$perPageElement = 12;
+$start = ($page - 1) * $perPageElement;
+
+$limit = $perPageElement;
+$offset = $start;
+
+if (!Validate::uint($categoryId)) {
+  $categoryId = null;
+}
+
+if (!Validate::date($startDate)) {
+  $startDate = null;
+}
+
+if (!Validate::date($endDate)) {
+  $endDate = null;
+}
+
+$total = CourseModel::kardexReportTotal(
+  $this->session("id"),
+  $categoryId,
+  $startDate,
+  $endDate,
+  $complete,
+  $active
+);
+
+$totalPages = ceil($total / $perPageElement);
+$totalButtons = $totalPages > 5 ? 5 : $totalPages;
+
+$courses = CourseModel::kardexReport(
+  $this->session("id"),
+  $categoryId,
+  $startDate,
+  $endDate,
+  $complete,
+  $active,
+  $limit,
+  $offset
+);
 
 $categoryRepository = new CategoryRepository();
 $categories = $categoryRepository->findAll();
@@ -31,15 +78,15 @@ $categories = $categoryRepository->findAll();
             </div>
             <div class="row">
               <div class="col-12">
-                <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+                <h6><?= Format::date($this->user["birthDate"]) ?></h6>
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <a href="profile-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+                <a href="/profile-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
                   Editar perfil
                 </a>
-                <a href="password-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
+                <a href="/password-edition" class="btn btn-secondary border-0 rounded-5 shadow-none">
                   Cambiar contraseña
                 </a>
               </div>
@@ -52,64 +99,63 @@ $categories = $categoryRepository->findAll();
 
   <!-- Contenido -->
   <div class="container">
-    <div class="row">
-      <div class="col-12 mt-4 d-flex">
-        <h3 class="fw-bold me-4">Kardex</h3>
+    <h3 class="fw-bold mt-4">Kardex</h3>
+    <h6 class="mt-3">Filtros</h6>
+
+    <form class="row" action="" method="GET">
+      <input type="hidden" name="id" value="<?= $_GET["id"] ?>">
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
+        <label for="start-date" class="col-auto col-form-label" role="button">
+          Fecha inicial:
+        </label>
+        <input type="date" value="<?= $startDate ?? "" ?>" name="start_date" 
+          class="col-auto form-control w-50" id="start-date">
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12 mt-3">
-        <h6>Filtros</h6>
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-date">
+        <label for="end-date" class="col-auto col-form-label" role="button">
+          Fecha final:
+        </label>
+        <input type="date" value="<?= $endDate ?? "" ?>" name="end_date" 
+          class="col-auto form-control w-50" id="end-date">
       </div>
-    </div>
-    <div class="row">
-      <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
-        <label for="" class="form-label me-3">Fecha inicial:</label>
-        <input type="date" class="form-control w-50">
-      </div>
-      <div class="d-flex col-xs-12 col-sm-6 col-md-6 col-lg-3 select-date">
-        <label for="" class="form-label me-3">Fecha final:</label>
-        <input type="date" class="form-control w-50">
-      </div>
-      <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 select-box">
-        <label for="" class="form-label">Categoria:</label>
-      </div>
-      <div class="col-lg-4 col-md-10 col-sm-10 col-xs-10 select-box">
-        <select class="form-select">
-          <option selected>Categorias</option>
+
+      <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-4 select-box">
+        <label for="category" class="col-auto col-form-label" role="button">
+          Categoria:
+        </label>
+        <select name="category" id="category" class="col-auto form-select w-50">
+          <option value="" selected>Categorias</option>
           <?php foreach ($categories as $category) : ?>
-            <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+            <option value="<?= $category["id"] ?>"
+              <?= ($category["id"] == $categoryId) ? "selected" : "" ?>>
+              <?= $category["name"] ?>
+            </option>
           <?php endforeach ?>
         </select>
       </div>
+
       <div class="col-lg-3 col-xxl-2 col-md-4 col-sm-5 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <input class="form-check-input" name="complete" type="checkbox" 
+            id="inlineCheckbox1" value="1" <?= $_GET["complete"] ?? "" ? "checked": "" ?>>
           <label class="form-check-label" for="inlineCheckbox1">Solo completados</label>
         </div>
       </div>
       <div class="col-lg-2 col-sm-4 mt-3 col-xs-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <input class="form-check-input" name="active" type="checkbox" id="inlineCheckbox2" 
+          value="1" <?= $_GET["active"] ?? "" ? "checked": "" ?>>
           <label class="form-check-label" for="inlineCheckbox2">Solo activos</label>
         </div>
       </div>
-    </div>
+      <div class="d-grid mt-2">
+        <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+      </div>
+    </form>
 
-
-    <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="kardex-tab" data-bs-toggle="tab" data-bs-target="#kardex-tab-pane" type="button" role="tab" aria-controls="kardex-tab-pane" aria-selected="true">Kardex</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-tab-pane" type="button" role="tab" aria-controls="list-tab-pane" aria-selected="false">Lista de cursos</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="kardex-tab-pane" role="tabpanel" aria-labelledby="kardex-tab" tabindex="0">
 
         <div class="row pt-3" id="no-more-tables">
-          <table class="table w-auto">
+          <table class="table w-100">
             <thead>
               <tr>
                 <th>Curso</th>
@@ -124,180 +170,93 @@ $categories = $categoryRepository->findAll();
             <tbody>
               <?php foreach ($courses as $course) : ?>
                 <tr>
-                  <td data-title="Curso"><?= $course["title"] ?></td>
-                  <td data-title="Progreso"><?= (new NumberFormatter('en_US', NumberFormatter::PERCENT))->format(0) ?></td>
-                  <td data-title="Fecha de inscripción"><?= $course["enrollDate"] ?></td>
-                  <td data-title="Último ingreso"><?= $course["lastTimeChecked"] ?></td>
-                  <td data-title="Terminado el"><?= $course["finishDate"] ?></td>
-                  <td data-title="Estado"><?= $course["isFinished"] ?></td>
-                  <td data-title="Certificado"><a href="certificate">Ver más</a></td>
+                  <td data-title="Curso">
+                    <a href="/course-details?id=<?= $course["id"] ?>"
+                      class="text-decoration-none">
+                      <?= $course["title"] ?>
+                    </a>
+                  </td>
+                  <td data-title="Progreso"><?= $course["progress"] ?>%</td>
+                  <td data-title="Fecha de inscripción">
+                    <?= Format::date($course["enrollDate"]) ?>
+                  </td>
+                  <td data-title="Último ingreso">
+                    <?= Format::date($course["lastTimeChecked"]) ?>
+                  </td>
+                  <td data-title="Terminado el">
+                    <?= Format::date($course["finishDate"]) ?>
+                  </td>
+                  <td data-title="Estado"><?= $course["status"] ?></td>
+                  <td data-title="Certificado">
+                    <?php if ($course["isFinished"]): ?>
+                    <a href="/certificate?course=<?= $course["id"] ?>"
+                      class="text-decoration-none">
+                      Ver más
+                    </a>
+                    <?php else: ?>
+                    <a style="visibility:hidden">.</a>
+                    <?php endif ?>
+                  </td>
                 </tr>
               <?php endforeach ?>
             </tbody>
           </table>
         </div>
 
+        <div class="d-flex justify-content-center mt-5" aria-label="Page navigation example">
+        <?php $queryParams = $_GET ?>
+        <ul class="pagination">
+        <?php
+            $isFirstPage = $page <= 1;
+            $queryParams["page"] = $page - 1;
+            $prevLink = "?" . http_build_query($queryParams);
+          ?>
+          <li class="page-item <?= $isFirstPage ? "disabled" : "" ?>">
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="<?= !$isFirstPage ? $prevLink : "" ?>"
+            >
+              <i class="bx bx-chevron-left"></i>
+            </a>
+          </li>
+
+          
+          <?php for($i = 1; $i <= $totalButtons; $i++): ?>
+          <li class="page-item <?= ($i == $page) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $i; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $i ?>
+            </a>
+          </li>
+          <?php endfor ?>
+
+          <?php if ($totalPages > $totalButtons): ?>
+          <li class="page-item disabled">
+            <a class="page-link border-0 bg-light shadow-none">
+              ...
+            </a>
+          </li>
+          <li class="page-item <?= ($totalPages == $page) ? "disabled" : "" ?>">
+          <?php $queryParams["page"] = $totalPages; ?>
+            <a class="page-link border-0 bg-light shadow-none" 
+              href="?<?= http_build_query($queryParams) ?>">
+              <?= $totalPages ?>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <li class="page-item <?= ($page + 1 > $totalPages) ? "disabled" : "" ?>">
+            <?php $queryParams["page"] = $page + 1; ?>
+            <a class="page-link border-0 bg-light shadow-none"
+              href="?<?= ($page + 1 <= $totalPages) ? http_build_query($queryParams) : '' ?>"
+            >
+              <i class="bx bx-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
-
-        <div class="container mt-4">
-
-          <div data-aos="fade-up">
-            <div class="card mb-4 bg-light border-0">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="ratio ratio-16x9 h-100">
-                    <img src="https://import.cdn.thinkific.com/220744/courses/1948561/HVgczjlDQjK5CIXpb57p_desarrollo-web-con-html-css-min.png" class="img-cover img-fluid rounded-start" alt="...">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h4 class="card-title">Crea páginas web con HTML y CSS</h4>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
-                    <div class="progress mb-3">
-                      <div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                      </div>
-                    </div>
-                    <a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
-                    <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div data-aos="fade-up">
-            <div class="card mb-4 bg-light border-0">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="ratio ratio-16x9 h-100">
-                    <img src="https://import.cdn.thinkific.com/220744/courses/557614/hr1BWk5LTF2jiAziFPH0_aprende-a-programar-de-cero-con-python-min.jpg" class="img-cover img-fluid rounded-start" alt="...">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h4 class="card-title">Introducción a la Programación</h4>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
-                    <div class="progress mb-3">
-                      <div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                      </div>
-                    </div>
-                    <a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
-                    <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div data-aos="fade-up">
-            <div class="card mb-4 bg-light border-0">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="ratio ratio-16x9 h-100">
-                    <img src="https://import.cdn.thinkific.com/220744/courses/881985/h20jls3OSdiMYPpYXpJC_Tu%20propio%20entorno%20de%20escritorio%20Arch%20linux-min.jpg" class="img-cover img-fluid rounded-start" alt="...">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h4 class="card-title">Crea tu propio entorno de desarrollo con Linux</h4>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
-                    <div class="progress mb-3">
-                      <div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                      </div>
-                    </div>
-                    <a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
-                    <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div data-aos="fade-up">
-            <div class="card mb-4 bg-light border-0">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="ratio ratio-16x9 h-100">
-                    <img src="https://pikuma.com/images/courses/nes.jpg" class="img-cover img-fluid rounded-start" alt="...">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h4 class="card-title">Programación en NES</h4>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
-                    <div class="progress mb-3">
-                      <div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                      </div>
-                    </div>
-                    <a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
-                    <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div data-aos="fade-up">
-            <div class="card mb-4 bg-light border-0">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="ratio ratio-16x9 h-100">
-                    <img src="https://pikuma.com/images/courses/2dgameengine.jpg" class="img-cover img-fluid rounded-start" alt="...">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h4 class="card-title">Desarrollo de videojuegos en C++</h4>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar me-1'></i>Fecha de inscripción: 22 sep 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-calendar-exclamation'></i>Último ingreso: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-calendar-check me-1'></i>Terminado el: 13 oct 2022</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-graduation me-1'></i>Estado: Finalizado</p>
-                    <p class="card-text mb-0 d-flex align-items-center"><i class='bx bx-chart me-1'></i> Progreso: 100%</p>
-                    <div class="progress mb-3">
-                      <div class="progress-bar w-100 bg-primary" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                      </div>
-                    </div>
-                    <a href="course-visor" class="btn btn-secondary rounded-5 border-0 shadow-none">Continuar curso</a>
-                    <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
 
-
-
-          <div class="d-flex justify-content-center" aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-left'></i></a></li>
-              <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">1</a></li>
-              <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">2</a></li>
-              <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#">3</a></li>
-              <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-right'></i></a></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
 
 

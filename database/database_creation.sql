@@ -1,3 +1,4 @@
+-- DROP DATABASE `cursotopia`;
 CREATE DATABASE IF NOT EXISTS `cursotopia`;
 
 USE `cursotopia`;
@@ -66,9 +67,7 @@ CREATE TABLE IF NOT EXISTS `links`(
     `link_modified_at`              TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `link_active`                   BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT `link_pk`
-        PRIMARY KEY (`link_id`),
-    CONSTRAINT `link_name_uniq`
-        UNIQUE (`link_name`)
+        PRIMARY KEY (`link_id`)
 );
 
 DROP TABLE IF EXISTS `roles`;
@@ -121,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `courses`(
     `course_price`                  DECIMAL(10, 2) NOT NULL,
     `course_image_id`               INT NOT NULL UNIQUE,
     `instructor_id`                 INT NOT NULL,
+    `course_is_complete`            BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved`               BOOLEAN NOT NULL DEFAULT FALSE,
     `course_approved_by`            INT DEFAULT NULL,
     `course_approved_at`            TIMESTAMP,
@@ -149,8 +149,8 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_id`                      INT NOT NULL AUTO_INCREMENT,
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
-    `level_price`                   DECIMAL(10, 2) NOT NULL,
-    `level_number`                  INT NOT NULL,
+    `level_is_free`                 BOOLEAN NOT NULL,
+    -- `level_price`                   DECIMAL(10, 2) NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -160,9 +160,7 @@ CREATE TABLE IF NOT EXISTS `levels`(
         PRIMARY KEY (`level_id`),
     CONSTRAINT `level_course_fk`
         FOREIGN KEY (`course_id`) 
-        REFERENCES `courses`(`course_id`),
-    CONSTRAINT `level_price_chk`
-        CHECK (`level_price` >= 0)
+        REFERENCES `courses`(`course_id`)
 );
 
 DROP TABLE IF EXISTS `lessons`;
@@ -170,7 +168,6 @@ CREATE TABLE IF NOT EXISTS `lessons`(
     `lesson_id`                     INT NOT NULL AUTO_INCREMENT,
     `lesson_title`                  VARCHAR(50) NOT NULL,
     `lesson_description`            VARCHAR(255) NOT NULL,
-    `lesson_number`                 INT NOT NULL,
     `level_id`                      INT NOT NULL,
     `video_id`                      INT DEFAULT NULL,
     `image_id`                      INT DEFAULT NULL,
@@ -202,7 +199,7 @@ DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories`(
     `category_id`                   INT NOT NULL AUTO_INCREMENT,
     `category_name`                 VARCHAR(50) NOT NULL,
-    `category_description`          VARCHAR(255) NOT NULL,
+    `category_description`          VARCHAR(255),
     `category_is_approved`          BOOLEAN NOT NULL DEFAULT FALSE,
     `category_approved_by`          INT DEFAULT NULL,
     `category_created_by`           INT NOT NULL,
@@ -241,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `reviews`(
         FOREIGN KEY (`user_id`) 
         REFERENCES `users`(`user_id`),
     CONSTRAINT `review_rate_chk`
-        CHECK (`review_rate` BETWEEN 1 AND 10)
+        CHECK (`review_rate` BETWEEN 1 AND 5)
 );
 
 DROP TABLE IF EXISTS `payment_methods`;
@@ -266,8 +263,10 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_enroll_date`        DATETIME,
     `enrollment_finish_date`        DATETIME,
     `enrollment_certificate_uid`    VARCHAR(36),
-    `enrollment_amount`             DECIMAL(10, 2) NOT NULL,
-    `payment_method_id`             INT NOT NULL,
+    `enrollment_amount`             DECIMAL(10, 2),
+    `payment_method_id`             INT,
+    --`enrollment_last_access_date`     TIMESTAMP
+    `enrollment_is_paid`            BOOLEAN DEFAULT FALSE,
     `enrollment_last_time_checked`  DATETIME,
     `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
     `enrollment_modified_at`        TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -318,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `user_lesson`(
     `lesson_id`                     INT NOT NULL,
     `user_lesson_is_complete`       BOOLEAN NOT NULL DEFAULT FALSE,
     `user_lesson_complete_at`       TIMESTAMP,
+    --`user_lesson_last_access_date`     TIMESTAMP
     `user_lesson_last_time_checked` DATETIME,
     `user_lesson_created_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_lesson_modified_at`       TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -384,9 +384,9 @@ CREATE TABLE IF NOT EXISTS `chat_participants`(
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages`(
     `message_id`                    INT NOT NULL AUTO_INCREMENT,
-    `message_content`               VARCHAR(255) NOT NULL,
     `user_id`                       INT NOT NULL,
     `chat_id`                       INT NOT NULL,
+    `message_content`               VARCHAR(255) NOT NULL,
     `message_created_at`            TIMESTAMP NOT NULL DEFAULT NOW(),
     `message_modified_at`           TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     `message_active`                BOOLEAN NOT NULL DEFAULT TRUE,

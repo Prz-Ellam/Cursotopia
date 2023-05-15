@@ -7,126 +7,60 @@ class ChatParticipant {
     private ?int $userId = null;
     private ?int $chatId = null;
     private ?string $createdAt = null;
-    private ?string $mdifiedAt = null;
-    private ?int $active = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+    public function setId(?int $id): self {
         $this->id = $id;
-
         return $this;
     }
 
-    /**
-     * Get the value of userId
-     */ 
-    public function getUserId()
-    {
+    public function getUserId(): ?int {
         return $this->userId;
     }
 
-    /**
-     * Set the value of userId
-     *
-     * @return  self
-     */ 
-    public function setUserId($userId)
-    {
+    public function setUserId(?int $userId): self {
         $this->userId = $userId;
-
         return $this;
     }
 
-    /**
-     * Get the value of chatId
-     */ 
-    public function getChatId()
-    {
+    public function getChatId(): ?int {
         return $this->chatId;
     }
 
-    /**
-     * Set the value of chatId
-     *
-     * @return  self
-     */ 
-    public function setChatId($chatId)
-    {
+    public function setChatId(?int $chatId): self {
         $this->chatId = $chatId;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of mdifiedAt
-     */ 
-    public function getMdifiedAt()
-    {
-        return $this->mdifiedAt;
+    public function getModifiedAt(): ?string {
+        return $this->modifiedAt;
     }
 
-    /**
-     * Set the value of mdifiedAt
-     *
-     * @return  self
-     */ 
-    public function setMdifiedAt($mdifiedAt)
-    {
-        $this->mdifiedAt = $mdifiedAt;
-
+    public function setModifiedAt(?string $modifiedAt): self {
+        $this->modifiedAt = $modifiedAt;
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function isActive(): ?bool {
         return $this->active;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+    public function setActive(?bool $active): self {
         $this->active = $active;
-
         return $this;
     }
 }

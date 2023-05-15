@@ -2,12 +2,6 @@
 
 namespace Cursotopia\Repositories;
 
-class ChatParticipantRepository {
-    private const CREATE = <<<'SQL'
+class ChatParticipantRepository implements Repository {
 
-    SQL;
-
-    public function create() {
-
-    }
 }

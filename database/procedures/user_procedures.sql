@@ -1,6 +1,90 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `insert_user` $$
-CREATE PROCEDURE `insert_user`(
+DROP PROCEDURE IF EXISTS `user_find_one_by_email` $$
+CREATE PROCEDURE `user_find_one_by_email`(
+    IN _email               VARCHAR(255)
+)
+BEGIN
+    SELECT
+        `user_id` AS `id`,
+        `user_name` AS `name`,
+        `user_last_name` AS `lastName`,
+        `user_birth_date` AS `birthDate`,
+        `user_gender` AS `gender`,
+        `user_email` AS `email`,
+        `user_password` AS `password`,
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`,
+        `user_enabled` AS `enabled`,
+        `user_created_at` AS `createdAt`,
+        `user_modified_at` AS `modifiedAt`,
+        `user_active` AS `active`
+    FROM
+        `users`
+    WHERE
+        `user_email` = _email
+        AND `user_active` = TRUE
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_all` $$
+CREATE PROCEDURE `user_find_all`(
+    IN `_name`                  VARCHAR(255),
+    IN `_role`                  INT
+)
+BEGIN
+    SELECT
+        `user_id` AS `id`, 
+        `user_name` AS `name`, 
+        `user_last_name` AS `lastName`, 
+        `user_birth_date` AS `birthDate`, 
+        `user_gender` AS `gender`, 
+        `user_email` AS `email`, 
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`
+    FROM
+        `users`
+    WHERE
+        CONCAT(`user_name`, ' ', `user_last_name`) LIKE CONCAT("%", `_name`, "%")
+        AND `user_role` <> `_role`;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_all_instructors` $$
+CREATE PROCEDURE `user_find_all_instructors`(
+    IN _name                VARCHAR(255)
+)
+BEGIN
+    SELECT
+        `user_id` AS `id`, 
+        `user_name` AS `name`, 
+        `user_last_name` AS `lastName`, 
+        `user_birth_date` AS `birthDate`, 
+        `user_gender` AS `gender`, 
+        `user_email` AS `email`, 
+        `user_role` AS `role`,
+        `profile_picture` AS `profilePicture`
+    FROM
+        `users`
+    WHERE
+        CONCAT(`user_name`, ' ', `user_last_name`) LIKE CONCAT("%", _name, "%")
+        AND `user_role` = 2
+        AND `user_active` = TRUE;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_create` $$
+CREATE PROCEDURE `user_create`(
     IN  `_user_name`                VARCHAR(50),
     IN  `_user_last_name`           VARCHAR(50),
     IN  `_user_birth_date`          DATE,
@@ -12,7 +96,7 @@ CREATE PROCEDURE `insert_user`(
     OUT `_user_id`                  INT
 )
 BEGIN
-    INSERT INTO users(
+    INSERT INTO `users`(
         `user_name`, 
         `user_last_name`, 
         `user_birth_date`,
@@ -36,22 +120,24 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `update_user` $$
-CREATE PROCEDURE `update_user`(
-    `_user_id`                      INT,
-    `_user_name`                    VARCHAR(50),
-    `_user_last_name`               VARCHAR(50),
-    `_user_birth_date`              DATE,
-    `_user_gender`                  ENUM('Masculino', 'Femenino', 'Otro'),
-    `_user_email`                   VARCHAR(255),
-    `_user_password`                VARCHAR(255),
-    `_user_role`                    INT,
-    `_profile_picture`              INT,
-    `_user_enabled`                 BOOLEAN,
-    `_user_created_at`              TIMESTAMP,
-    `_user_modified_at`             TIMESTAMP,
-    `_user_active`                  BOOLEAN
+DROP PROCEDURE IF EXISTS `user_update` $$
+CREATE PROCEDURE `user_update`(
+    IN `_user_id`                       INT,
+    IN `_user_name`                     VARCHAR(50),
+    IN `_user_last_name`                VARCHAR(50),
+    IN `_user_birth_date`               DATE,
+    IN `_user_gender`                   ENUM('Masculino', 'Femenino', 'Otro'),
+    IN `_user_email`                    VARCHAR(255),
+    IN `_user_password`                 VARCHAR(255),
+    IN `_user_role`                     INT,
+    IN `_profile_picture`               INT,
+    IN `_user_enabled`                  BOOLEAN,
+    IN `_user_created_at`               TIMESTAMP,
+    IN `_user_modified_at`              TIMESTAMP,
+    IN `_user_active`                   BOOLEAN
 )
 BEGIN
     UPDATE
@@ -68,7 +154,7 @@ BEGIN
         `profile_picture`               = IFNULL(`_profile_picture`, `profile_picture`),
         `user_enabled`                  = IFNULL(`_user_enabled`, `user_enabled`),
         `user_created_at`               = IFNULL(`_user_created_at`, `user_created_at`),
-        `user_modified_at`              = IFNULL(`_user_modified_at`, NOW()),
+        `user_modified_at`              = NOW(),
         `user_active`                   = IFNULL(`_user_active`, `user_active`)
     WHERE
         `user_id` = `_user_id`;
@@ -78,8 +164,72 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `find_users` $$
-CREATE PROCEDURE `find_users`(
+DROP PROCEDURE IF EXISTS `user_find_by_id` $$
+CREATE PROCEDURE `user_find_by_id`(
+    IN `_user_id`                       INT
+)
+BEGIN
+    SELECT 
+        `user_id`                       AS `id`, 
+        `user_name`                     AS `name`, 
+        `user_last_name`                AS `lastName`, 
+        `user_birth_date`               AS `birthDate`, 
+        `user_gender`                   AS `gender`, 
+        `user_email`                    AS `email`, 
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`, 
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
+    FROM 
+        `users` 
+    WHERE
+        `user_id` = `_user_id`
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_one_by_email_and_not_user_id` $$
+CREATE PROCEDURE `user_find_one_by_email_and_not_user_id`(
+    IN `_email`                         VARCHAR(255),
+    IN `_user_id`                       INT
+)
+BEGIN
+    SELECT 
+        `user_id`                       AS `id`, 
+        `user_name`                     AS `name`, 
+        `user_last_name`                AS `lastName`, 
+        `user_birth_date`               AS `birthDate`, 
+        `user_gender`                   AS `gender`, 
+        `user_email`                    AS `email`, 
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`, 
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
+    FROM 
+        `users` 
+    WHERE
+        `user_email` = `_email`
+        AND user_id <> `_user_id`
+    LIMIT
+        1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find` $$
+CREATE PROCEDURE `user_find`(
     IN `_user_id`                       INT,
     IN `_user_id_op`                    ENUM('=', '<>'),
     IN `_user_email`                    VARCHAR(255),
@@ -117,3 +267,58 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_blocked` $$
+CREATE PROCEDURE `user_find_blocked`()
+BEGIN
+    SELECT
+        `user_id`                       AS `id`,
+        `user_name`                     AS `name`,
+        `user_last_name`                AS `lastName`,
+        `user_birth_date`               AS `birthDate`,
+        `user_gender`                   AS `gender`,
+        `user_email`                    AS `email`,
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`,
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
+    FROM
+        `users`
+    WHERE
+        `user_enabled` = FALSE
+        AND `user_role` <> 1;
+END $$
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `user_find_unblocked` $$
+CREATE PROCEDURE `user_find_unblocked`()
+BEGIN
+    SELECT
+        `user_id`                       AS `id`,
+        `user_name`                     AS `name`,
+        `user_last_name`                AS `lastName`,
+        `user_birth_date`               AS `birthDate`,
+        `user_gender`                   AS `gender`,
+        `user_email`                    AS `email`,
+        `user_password`                 AS `password`,
+        `user_role`                     AS `role`,
+        `profile_picture`               AS `profilePicture`,
+        `user_enabled`                  AS `enabled`,
+        `user_created_at`               AS `createdAt`,
+        `user_modified_at`              AS `modifiedAt`,
+        `user_active`                   AS `active`
+    FROM
+        `users`
+    WHERE
+        `user_enabled` = TRUE
+        AND `user_role` <> 1;
+END $$
+DELIMITER ;

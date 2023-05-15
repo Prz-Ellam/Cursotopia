@@ -2,103 +2,148 @@
 
 namespace Cursotopia\Routes;
 
-use Cursotopia\Controllers\AuthController;
+use Cursotopia\Controllers\ImageController;
 use Cursotopia\Controllers\UserController;
-use Cursotopia\Middlewares\AuthMiddleware;
-use Cursotopia\Middlewares\HasAuthMiddleware;
-use Cursotopia\Middlewares\HasNotAuthMiddleware;
+use Cursotopia\Middlewares\AuthApiMiddleware;
+use Cursotopia\Middlewares\AuthWebMiddleware;
 use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\PayloadMiddleware;
 use Cursotopia\Middlewares\ValidateIdMiddleware;
-use Cursotopia\Models\UserModel;
-use Cursotopia\Models\RoleModel;
+use Cursotopia\ValueObjects\Roles;
 
-$app->get('/login', fn($request, $response) => $response->render('login'), 
-[ [ HasAuthMiddleware::class ] ]);
+// Web
+/**
+ * Página de inicio de sesión
+ */
+$app->get("/login", [ UserController::class, "loginWeb" ], [ 
+    [ AuthWebMiddleware::class, false ] 
+]);
 
-$app->get('/signup', function($request, $response) {
-    $userRoles = RoleModel::findAllByIsPublic(true);
-    $response->render('signup', [ "userRoles" => $userRoles ]);
-}, [ [ HasAuthMiddleware::class ] ]);
+/**
+ * Página del registro de usuarios
+ */
+$app->get("/signup", [ UserController::class, "signup" ], [ 
+    [ AuthWebMiddleware::class, false ] 
+]);
 
-$app->get('/profile', function($request, $response) {
-    $id = $request->getQuery("id");
-    if (!$id || !((is_int($id) || ctype_digit($id)) && (int)$id > 0)) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+/**
+ * Página de perfil de usuario
+ */
+$app->get("/profile", [ UserController::class, "profile" ]);
 
-    $user = UserModel::findOneById($id);
-    if (!$user) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+/**
+ * Página de edición de perfil
+ */
+$app->get("/profile-edition", [ UserController::class, "profileEdition" ], [ 
+    [ AuthWebMiddleware::class, true ] 
+]);
 
-    // Verificar si el usuario somos nosotros o no
-    $session = $request->getSession();
-    $isMe = false;
-    if ($session->get("id") === $user->getId()) {
-        $isMe = true;
-    }
-    
-    $response->render('profile', [ "isMe" => $isMe, "user" => $user->toObject() ]);
-});
+/**
+ * Página de edición de contraseña
+ */
+$app->get("/password-edition", [ UserController::class, "passwordEdition" ], [ 
+    [ AuthWebMiddleware::class ] 
+]);
 
-$app->get('/profile-edition', function($request, $response) {
-    $session = $request->getSession();
-    $id = $session->get("id");
+/**
+ * Bloquea usuarios
+ */
+$app->get("/blocked-users", [ UserController::class, "blockedUsers" ], [
+    [ AuthWebMiddleware::class ] 
+]);
 
-    $user = UserModel::findOneById($id);
-    if (!$user) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+// API
+/**
+ * Iniciar sesión
+ */
+$app->post("/api/v1/auth", [ UserController::class, "login" ], [
+    [ AuthApiMiddleware::class, false ],
+    [ JsonSchemaMiddleware::class, "LoginValidator" ] 
+]);
 
-    $response->render('profile-edition', [ 
-        "user" => $user->toObject()
-    ]);
-}, [ [ HasNotAuthMiddleware::class ] ]);
+/**
+ * Cerrar sessión
+ */
+$app->get("/api/v1/logout", [ UserController::class, "logout" ], [
+    [ AuthApiMiddleware::class ] 
+]);
 
-$app->get('/password-edition', fn($request, $response) => $response->render('password-edition'), 
-[ [ HasNotAuthMiddleware::class ] ]);
+/**
+ * Obtener todos los usuarios
+ */
+$app->get("/api/v1/users", [ UserController::class, "getAll" ]);
 
-$app->get('/blocked-users', fn($request, $response) => $response->render('blocked-users'));
+/**
+ * Obtener todos los usuarios con rol de instructor
+ */
+$app->get("/api/v1/users/instructors", [ UserController::class, "getAllInstructors" ]);
 
-$app->post('/api/v1/auth', [ AuthController::class, 'login' ], 
-    [ [ JsonSchemaMiddleware::class, 'LoginValidator' ] ]);
-$app->get('/api/v1/logout', [ AuthController::class, 'logout' ]);
+$app->get("/api/v1/users/blocked", [ UserController::class, "findBlockedUsers" ]);
 
-// Users
-$app->get("/api/v1/users", [ UserController::class, 'getAll' ]);
-$app->get('/api/v1/users/:id', [ UserController::class, 'getOne' ],
-[
+$app->get("/api/v1/users/unblocked", [ UserController::class, "findUnblockedUsers" ]);
+
+
+/**
+ * Obtener un usuario en base a su identificador único
+ */
+$app->get("/api/v1/users/:id", [ UserController::class, "getOne" ], [
     [ ValidateIdMiddleware::class ]
 ]);
 
-$app->post('/api/v1/users', [ UserController::class, 'create' ], 
-[ 
-    [ JsonSchemaMiddleware::class, 'SignupValidator' ] 
-]);
-
-$app->patch('/api/v1/users/:id', [ UserController::class, 'update' ],
-[ 
-    [ JsonSchemaMiddleware::class, 'UpdateUserValidator' ],
+$app->put("/api/v1/users/:id/block", [ UserController::class, "disableUser" ], [
     [ ValidateIdMiddleware::class ],
-    [ AuthMiddleware::class ]
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
 ]);
 
-$app->patch('/api/v1/users/:id/password', [ UserController::class, 'updatePassword' ],
-[
-    [ JsonSchemaMiddleware::class, 'UpdatePasswordValidator' ],
+$app->put("/api/v1/users/:id/unblock", [ UserController::class, "enableUser" ], [
     [ ValidateIdMiddleware::class ],
-    [ AuthMiddleware::class ]
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+/**
+ * Registro de usuarios
+ */
+$app->post("/api/v1/users", [ UserController::class, "create" ],  [
+    [ AuthApiMiddleware::class, false ], 
+    [ ImageController::class, "create" ],
+    [ PayloadMiddleware::class ],
+    [ JsonSchemaMiddleware::class, "SignupValidator" ] 
 ]);
 
+/**
+ * Actualiza un usuario
+ */
+$app->patch("/api/v1/users/:id", [ UserController::class, "update" ], [ 
+    [ AuthApiMiddleware::class ],
+    [ JsonSchemaMiddleware::class, "UpdateUserValidator" ],
+    [ ValidateIdMiddleware::class ]
+]);
 
-$app->delete('/api/v1/users/:id', [ UserController::class, 'remove' ]); // !!!
-$app->post('/api/v1/users/email', [ UserController::class, 'checkEmailExists' ]);
+/**
+ * Actualiza la contraseña de un usuario
+ */
+$app->patch("/api/v1/users/:id/password", [ UserController::class, "updatePassword" ], [
+    [ AuthApiMiddleware::class ],
+    [ JsonSchemaMiddleware::class, "UpdatePasswordValidator" ],
+    [ ValidateIdMiddleware::class ]
+]);
+
+/**
+ * Verifica si un correo electrónico es usado por algun usuario
+ */
+$app->post("/api/v1/users/email", [ UserController::class, "checkEmailExists" ]);
+
+/**
+ * Bloquear a un usuario
+ */
+$app->put("/api/v1/users/:id/disable", [ UserController::class, "disableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);
+
+/**
+ * Desbloquear a un usuario
+ */
+$app->put("/api/v1/users/:id/enable", [ UserController::class, "enableUser" ], [
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+]);

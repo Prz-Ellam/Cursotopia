@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $this->env("APP_NAME") ?></title>
@@ -10,15 +10,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-  
-  <!-- AOS -->
-  <link rel="stylesheet" href="../node_modules/aos/dist/aos.css">
-  <script src="../node_modules/aos/dist/aos.js"></script>
-
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
   
   <script src="https://kit.fontawesome.com/812dd4b211.js" crossorigin="anonymous"></script>
 
@@ -47,9 +38,8 @@
           <div class="input-group">
             <input type="password" name="password" id="password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" 
-              id="password-button"
-              ct-target="password">
-              <i class="fa-solid fa-eye-slash fa-eye"></i>
+              id="password-button">
+              <i class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>
@@ -58,13 +48,16 @@
           <label for="remember" class="form-check-label" role="button">Recuérdame</label>
         </div> -->
         <div class="d-grid mb-4">
-          <button type="submit" class="btn btn-primary rounded-pill d-flex justify-content-center"
-            id="btn-login">
-            <div class="spinner me-2 d-none" id="login-spinner"></div>Iniciar sesión
+          <button type="submit" id="login-btn"
+            class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="login-spinner"></span>
+            <span>Iniciar sesión</span>
           </button>
         </div>
         <p class="text-center mb-0">¿Aún no tienes una cuenta?</p>
-        <a href="signup" class="d-block text-center text-decoration-none text-primary">¡Registrate aquí!</a>
+        <a href="/signup" class="d-block text-center text-decoration-none text-primary">
+          ¡Registrate aquí!
+        </a>
         <!-- <hr>
         <a href="" class="d-block text-center text-decoration-none text-primary mt-3">¿Olvidaste tu contraseña?</a> -->
       </form>

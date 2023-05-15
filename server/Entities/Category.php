@@ -6,7 +6,7 @@ class Category {
     private ?int $id = null;
     private ?string $name = null;
     private ?string $description = null;
-    private ?bool $approved = false;
+    private ?bool $approved = null;
     private ?int $approvedBy = null;
     private ?int $createdBy = null;
     private ?string $createdAt = null;
@@ -40,8 +40,8 @@ class Category {
         return $this;
     }
 
-    public function getApproved(): ?bool {
-        return $this->approved ? 'true' : 'false';
+    public function isApproved(): ?bool {
+        return $this->approved;
     }
 
     public function setApproved(?bool $approved): self {
@@ -85,8 +85,8 @@ class Category {
         return $this;
     }
 
-    public function getActive(): ?bool {
-        return $this->active ? 'true' : 'false';;
+    public function isActive(): ?bool {
+        return $this->active;
     }
 
     public function setActive(?bool $active): self {

@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, 'client');
 export default defineConfig({
 	root: root,
 	build: {
-		outDir: path.resolve(__dirname, 'dist'),
+		outDir: path.resolve(__dirname, 'public', 'dist'),
 		manifest: true,
 		emptyOutDir: true,
 		sourcemap: true,
@@ -24,6 +24,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 		  	'css': path.resolve(__dirname, 'client', 'styles'),
+			'@': path.resolve(__dirname, 'client', 'javascript')
 		},
 	}
 });

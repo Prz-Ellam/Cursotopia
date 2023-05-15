@@ -3,28 +3,29 @@
 namespace Cursotopia\Routes;
 
 use Cursotopia\Controllers\ReviewController;
-use Cursotopia\Middlewares\AuthMiddleware;
-use Cursotopia\Repositories\CourseRepository;
+use Cursotopia\Middlewares\AuthApiMiddleware;
+use Cursotopia\Middlewares\JsonSchemaMiddleware;
+use Cursotopia\Middlewares\ValidateIdMiddleware;
+use Cursotopia\ValueObjects\Roles;
 
-$app->get('/payment-method', function($request, $response) {
-    $courseId = $request->getQuery("courseId");
-    if (!$courseId || !((is_int($courseId) || ctype_digit($courseId)) && (int)$courseId > 0)) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+/**
+ * Crea una reseña
+ */
+$app->post("/api/v1/reviews", [ ReviewController::class, "create" ], [ 
+    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ],
+    [ JsonSchemaMiddleware::class, "ReviewCreateValidator" ]
+]);
 
-    $courseRepository = new CourseRepository();
-    $course = $courseRepository->findOneById($courseId);
-    if (!$course) {
-        $response
-            ->setStatus(404)
-            ->render('404');
-        return;
-    }
+/**
+ * Busca las reseñas de un curso
+ */
+$app->get("/api/v1/reviews/:courseId/:pageNum/:pageSize", [ ReviewController::class, "getMoreReviews" ]);
+$app->get("/api/v1/courses/:courseId/reviews/total", [ ReviewController::class, "getTotalCourseReviews" ]);
 
-    $response->render("payment-method", [ "course" => $course ]);
-});
-
-$app->post('/api/v1/reviews', [ ReviewController::class, 'create' ], [ [ AuthMiddleware::class ] ]);
+/**
+ * Elimina una reseña
+ */
+$app->delete("/api/v1/reviews/:id", [ ReviewController::class, "delete" ], [
+    [ AuthApiMiddleware::class, true ],
+    [ ValidateIdMiddleware::class ]
+]);

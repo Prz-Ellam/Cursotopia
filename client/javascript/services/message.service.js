@@ -1,36 +1,23 @@
 import axios from 'axios';
+import { mainService } from './video.service';
 
-const createMessage = async (message) => {
-    const response = await fetch('/api/v1/messages', {
-        method: 'POST',
-        body: message
-    });
-    const json = await response.json();
-    return json;
-}
+export const createMessageService = async (message, chatId) => {
+    return await mainService('POST', `/api/v1/chats/${ chatId }/messages`, 'application/json', message);
+};
 
-const updateMessage = async (message) => {
-    const response = await fetch('/api/v1/messages', {
-        method: 'PUT',
-        body: message
-    });
-    const json = await response.json();
-    return json;
-}
-
-const deleteMessage = async (message) => {
-    const response = await fetch('/api/v1/messages', {
-        method: 'DELETE',
-        body: message
-    });
-    const json = await response.json();
-    return json;
-}
-
-const getAllByChat = async () => {
-    const response = await fetch('/api/v1/messages', {
-        method: 'GET'
-    });
-    const json = await response.json();
-    return json;
+export const getAllChatMessageService = async (chatId) => {
+    try {
+        const configuration = {
+            method: 'GET',
+            url: `/api/v1/chats/${ chatId }/messages`,
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await axios(configuration);
+        return response.data;
+    }
+    catch (exception) {
+        return exception.response.data
+    }
 }

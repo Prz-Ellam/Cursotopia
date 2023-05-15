@@ -16,11 +16,13 @@ export default {
             trimming: true,
             email5322: true,
             email: false,
+            minlength: 1,
             maxlength: 255
         },
         'password': {
             required: true,
             trimming: true,
+            minlength: 1,
             maxlength: 255
         }
     },
@@ -29,11 +31,13 @@ export default {
             required: 'El correo electrónico es requerido',
             trimming: 'El correo electrónico es requerido',
             email5322: 'El correo electrónico no tiene el formato correcto',
+            minlength: 'El correo electrónico no puede estar vacío',
             maxlength: 'El correo electrónico es demasiado largo'
         },
         'password': {
             required: 'La contraseña es requerida',
             trimming: 'La contraseña es requerida',
+            minlength: 'La contraseña no puede estar vacía',
             maxlength: 'La contraseña es demasiado larga'
         }
     },

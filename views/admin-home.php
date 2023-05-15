@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../client/styles/pages/admin-home.css">
+<?= $this->link("styles/pages/admin-home.css") ?>
 <?= $this->script("javascript/admin-home.js") ?>
 
 <main class="container-fluid">
@@ -8,25 +8,25 @@
 
         <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
           <li class="nav-item">
-            <a href="admin-home" class="nav-link text-white active">
+            <a href="/profile?id=<?= $this->session("id") ?>" class="nav-link text-white active" aria-current="page">
               <i class='bx bxs-home'></i>
-              Home
+              Inicio
             </a>
           </li>
           <li>
-            <a href="admin-courses" class="nav-link text-white">
+            <a href="/admin/courses" class="nav-link text-white">
               <i class='bx bxs-videos'></i>
               Cursos
             </a>
           </li>
           <li>
-            <a href="admin-categories" class="nav-link text-white">
+            <a href="/admin/categories" class="nav-link text-white">
               <i class='bx bxs-category'></i>
               Categorias
             </a>
           </li>
           <li>
-            <a href="blocked-users" class="nav-link text-white">
+            <a href="/blocked-users" class="nav-link text-white">
               <i class='bx bxs-group'></i>
               Usuarios
             </a>
@@ -88,10 +88,10 @@
           <div>
             <h2 class="mt-3">Tú perfil</h2>
             <div class="col-12">
-              <a href="profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/profile-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Editar perfil
               </a>
-              <a href="password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
+              <a href="/password-edition" class="btn btn-secondary shadow-none border-0 rounded-5">
                 Cambiar contraseña</a>
             </div>
           </div>

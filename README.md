@@ -56,7 +56,13 @@ Cursotopia is a web application for online courses
     width="64"
     alt="PHP"
     style="margin-right: 4px"
-/>     
+/>
+<img 
+    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/composer/composer-original.svg"
+    width="64"
+    alt="Composer"
+    style="margin-right: 4px" 
+/>              
 </p>
 
 ## Others
@@ -98,19 +104,14 @@ DocumentRoot <This is where you root goes>
 ```
 
 # Features
-- [ ] Auth
-- [ ] Users and roles
+- [x] Auth
+- [x] Users and roles
 - [ ] Courses
 - [ ] Levels (Sections)
-- [ ] Categories
-- [ ] Messages
-- [ ] Comments and reviews
-- [ ] Homepage
-- [ ] Certificates and progress
+- [x] Categories
+- [x] Messages
+- [x] Comments and reviews
+- [x] Homepage
+- [x] Certificates and progress
 - [ ] Sales reports
-- [ ] Browser
-
-
-
- /etc/my.cnf.
- max_allowed_packet=16M
+- [x] Browser

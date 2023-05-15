@@ -6,169 +6,81 @@ class Level {
     private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
-    private ?float $price = null;
+    private ?bool $free = null;
     private ?int $courseId = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+ 
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+    public function setId(?int $id): self {
         $this->id = $id;
-
         return $this;
     }
 
-    /**
-     * Get the value of title
-     */ 
-    public function getTitle()
-    {
+    public function getTitle(): ?string {
         return $this->title;
     }
-
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */ 
-    public function setTitle($title)
-    {
+ 
+    public function setTitle(?string $title): self {
         $this->title = $title;
-
         return $this;
     }
 
-    /**
-     * Get the value of description
-     */ 
-    public function getDescription()
-    {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */ 
-    public function setDescription($description)
-    {
+    public function setDescription(?string $description): self {
         $this->description = $description;
-
         return $this;
     }
 
-    /**
-     * Get the value of price
-     */ 
-    public function getPrice()
-    {
-        return $this->price;
+    public function isFree(): ?bool {
+        return $this->free;
     }
 
-    /**
-     * Set the value of price
-     *
-     * @return  self
-     */ 
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
+    public function setFree(?bool $free): self {
+        $this->free = $free;
         return $this;
     }
 
-    /**
-     * Get the value of courseId
-     */ 
-    public function getCourseId()
-    {
+    public function getCourseId(): ?int {
         return $this->courseId;
     }
 
-    /**
-     * Set the value of courseId
-     *
-     * @return  self
-     */ 
-    public function setCourseId($courseId)
-    {
+    public function setCourseId(?int $courseId): self {
         $this->courseId = $courseId;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
 
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
 
-    /**
-     * Set the value of modifiedAt
-     *
-     * @return  self
-     */ 
-    public function setModifiedAt($modifiedAt)
-    {
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
-        return $this->active ? 1 : 0;
+    public function isActive(): ?bool {
+        return $this->active;
     }
 
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+    public function setActive(?bool $active): self {
         $this->active = $active;
-
         return $this;
     }
 }

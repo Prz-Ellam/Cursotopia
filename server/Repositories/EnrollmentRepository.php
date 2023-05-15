@@ -3,49 +3,43 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\EnrollmentRepositoryInterface;
 use Cursotopia\Entities\Enrollment;
 
-class EnrollmentRepository implements EnrollmentRepositoryInterface {
+class EnrollmentRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
-        INSERT INTO enrollments(
-            course_id,
-            student_id,
-            enrollment_amount,
-            payment_method_id
+        CALL `enrollment_pay`(
+            :course_id, 
+            :student_id, 
+            :amount, 
+            :payment_method_id,
+            @enrollment_id
         )
-        SELECT
-            :course_id,
-            :student_id,
-            :amount,
-            :payment_method_id
-        WHERE
-            :course_id IS NOT NULL
-            AND :student_id IS NOT NULL
-            AND :amount IS NOT NULL
-            AND :payment_method_id IS NOT NULL
+    SQL;
+
+    private const PAY = <<<'SQL'
+        CALL `enrollment_pay`(:course_id, :student_id, :amount, :payment_method_id)
     SQL;
     
-    private const FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID = <<<'SQL'
-        SELECT
-            enrollment_id,
-            course_id,
-            student_id,
-            enrollment_is_finished,
-            enrollment_enroll_date,
-            enrollment_finish_date,
-            enrollment_certificate_uid,
-            enrollment_amount,
-            payment_method_id,
-            enrollment_last_time_checked,
-            enrollment_created_at,
-            enrollment_modified_at,
-            enrollment_active
-        FROM
-            enrollments
-        WHERE
-            course_id = :course_id
-            AND student_id = :student_id
+    private const FIND_ONE_BY_COURSE_AND_STUDENT = <<<'SQL'
+        CALL `enrollment_find_one_by_course_and_student`(:course_id, :student_id)
+    SQL;
+
+    private const COMPLETE_LESSON = <<<'SQL'
+        CALL `complete_lesson`(
+            :user_id,
+            :lesson_id
+        );
+    SQL;
+
+    private const VISIT_LESSON = <<<'SQL'
+        CALL `visit_lesson`(
+            :user_id,
+            :lesson_id
+        )
+    SQL;
+
+    private const CERTIFICATE_FIND_ONE = <<<'SQL'
+        CALL `certificate_find_one`(:student_id, :course_id)
     SQL;
 
     public function create(Enrollment $enrollment): int {
@@ -55,14 +49,42 @@ class EnrollmentRepository implements EnrollmentRepositoryInterface {
             "amount" => $enrollment->getAmount(),
             "payment_method_id" => $enrollment->getPaymentMethodId()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOneByCourseIdAndStudentId(int $courseId, int $studentId): array {
+    public function findOneByCourseAndStudent(?int $courseId, ?int $studentId): ?array {
         $parameters = [
             "course_id" => $courseId,
             "student_id" => $studentId
         ];
-        return DB::executeOneReader($this::FIND_ONE_BY_COURSE_ID_AND_STUDENT_ID, $parameters);
+        return $this::executeOneReader($this::FIND_ONE_BY_COURSE_AND_STUDENT, $parameters);
+    }
+
+    public function completeLesson(int $userId, int $lessonId): int {
+        $parameters = [
+            "user_id" => $userId,
+            "lesson_id" => $lessonId
+        ];
+        return $this::executeNonQuery($this::COMPLETE_LESSON, $parameters);
+    }
+
+    public function visitLesson(int $userId, int $lessonId): int {
+        $parameters = [
+            "user_id" => $userId,
+            "lesson_id" => $lessonId
+        ];
+        return $this::executeNonQuery($this::VISIT_LESSON, $parameters);
+    }
+
+    public function certificateFindOne(?int $studentId, ?int $courseId): ?array {
+        $parameters = [
+            "student_id" => $studentId,
+            "course_id" => $courseId
+        ];
+        return $this::executeOneReader($this::CERTIFICATE_FIND_ONE, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @enrollment_id AS enrollmentId", [])["enrollmentId"];
     }
 }

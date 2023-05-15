@@ -1,17 +1,42 @@
+import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
-import { createMessageService } from '../services/chat-message.service';
+import { createMessageService, getAllChatMessageService } from '../services/message.service';
+import { findUserChats } from '../services/chat.service';
+import { ToastTopEnd } from '../utilities/toast';
 import { createComment } from '../views/comment.view';
+import { createMessages } from '../views/message.view';
 
-export const sendMessage = async (event) => {
+// TODO: este deberia ir en message
+export const sendMessage = async () => {
     const message = {
-        content: document.getElementById('message').value
+        content: $('#message').val()
     }
-    const chatId = document.getElementById('actual-chat-id').value;
+    const chatId = $('#actual-chat-id').val();
 
-    if (message.content.trim() === '') return;
+    if (message.content.trim() === '') {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'El mensaje no puede estar vacío'
+        });
+        return;
+    }
+    if (message.content.trim().length > 255) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'El mensaje no puede superar 255 caracteres'
+        });
+        return;
+    }
 
     const response = await createMessageService(message, chatId);
-    
+    if (!response?.status) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'No se pudo crear el mensaje'
+        });
+        return;
+    }
+
     createComment(message);
     $('#message').val('');
     let messageBox = document.getElementById('message-box');
@@ -20,4 +45,23 @@ export const sendMessage = async (event) => {
         top: messageBox.scrollHeight,
         behavior: 'smooth'
     });
+}
+
+export const loadMessages = async (chatId) => {
+    $('#message-box').html('');
+    const { messages, userId } = await getAllChatMessageService(chatId);
+    
+    createMessages(messages, userId);
+    $('#box-div').removeClass('d-none');
+    const chats = await findUserChats();
+    $('#chat-drawer').empty().append(chats);
+
+    const messageBox = document.getElementById('message-box');
+    messageBox.scrollTo({
+        left: 0,
+        top: messageBox.scrollHeight
+    });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 }

@@ -3,63 +3,47 @@
 namespace Cursotopia\Models;
 
 use Cursotopia\Repositories\RoleRepository;
+use Cursotopia\ValueObjects\EntityState;
 
 class RoleModel {
-    private int $id;
-    private string $name;
-    private string $createdAt;
-    private string $modifiedAt;
-    private bool $active;
+    private static ?RoleRepository $repository = null;
+    private EntityState $entityState;
+    private array $_ignores = [];
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
+
+    public static function init() {
+        if (is_null(self::$repository)) {
+            self::$repository = new RoleRepository();
+        }
+    }
+
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    /**
-     * Set the value of name
-     *
-     * @return  self
-     */ 
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
-
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+ 
+    public function getModifiedAt() {
         return $this->modifiedAt;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
@@ -72,12 +56,12 @@ class RoleModel {
     }
 
     public static function findAllByIsPublic(bool $isPublic): array {
-        $roleRepository = new RoleRepository();
-        return $roleRepository->findAllByIsPublic($isPublic);
+        return self::$repository->findAllByIsPublic($isPublic);
     }
 
     public static function findOneByIdAndIsPublic(int $id, bool $isPublic): ?array {
-        $userRoleRepository = new RoleRepository();
-        return $userRoleRepository->findOneByIdAndIsPublic($id, $isPublic);
+        return self::$repository->findOneByIdAndIsPublic($id, $isPublic);
     }
 }
+
+RoleModel::init();

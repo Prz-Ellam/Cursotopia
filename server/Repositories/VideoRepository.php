@@ -5,46 +5,59 @@ namespace Cursotopia\Repositories;
 use Bloom\Database\DB;
 use Cursotopia\Entities\Video;
 
-class VideoRepository extends DB {
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            video_id AS `id`,
-            video_name AS `name`,
-            TIME_TO_SEC(video_duration) AS `duration`,
-            video_content_type AS `content_type`,
-            video_address AS `address`,
-            video_created_at AS `createdAt`,
-            video_modified_at AS `modifiedAt`,
-            video_active AS `active`
-        FROM
-            videos
-        WHERE
-            video_id = :id
-        LIMIT
-            1;
-    SQL;
-
+/**
+ * Repositorio para manejar videos
+ */
+class VideoRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
-        INSERT INTO videos(
-            video_name,
-            video_duration,
-            video_content_type,
-            video_address
-        )
-        SELECT
+        CALL `video_create`(
             :name,
             :duration,
             :content_type,
-            :address
-        FROM
-            dual
-        WHERE
-            :name IS NOT NULL
-            AND :duration IS NOT NULL
-            AND :content_type IS NOT NULL
-            AND :address IS NOT NULL
+            :address,
+            @video_id
+        )
     SQL;
-    private const UPDATE = "";
+
+    private const UPDATE = <<<'SQL'
+        CALL `video_update`(
+            :id,
+            :name,
+            :duration,
+            :content_type,
+            :address,
+            :created_at,
+            :modified_at,
+            :active
+        )
+    SQL;
+
+    private const CHECK_RESOURCE_AVAILABILITY_BY_USER = <<<'SQL'
+        SELECT 
+            l.`level_is_free` AS `free`, 
+            e.`enrollment_is_paid` AS `paid`,
+            c.`course_price` AS `price`
+        FROM `lessons` AS le
+        INNER JOIN `levels` AS l
+        ON le.`level_id` = l.`level_id`
+        INNER JOIN `enrollments` AS e
+        ON l.`course_id` = e.`course_id` AND e.`student_id` = :user_id
+        INNER JOIN `courses` AS c
+        ON e.`course_id` = c.`course_id`
+        WHERE `video_id` = :video_id
+    SQL;
+
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `video_find_by_id`(:id)
+    SQL;
+
+    public function video(?int $userId, ?int $videoId): ?array {
+        $parameters = [
+            "user_id" => $userId,
+            "video_id" => $videoId
+        ];
+        return $this::executeOneReader($this::CHECK_RESOURCE_AVAILABILITY_BY_USER, $parameters);
+    }
 
     public function create(Video $video): int {
         $parameters = [
@@ -56,10 +69,28 @@ class VideoRepository extends DB {
         return $this::executeNonQuery($this::CREATE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function update(Video $video): int {
+        $parameters = [
+            "id" => $video->getId(),
+            "name" => $video->getName(),
+            "duration" => $video->getDuration(),
+            "content_type" => $video->getContentType(),
+            "address" => $video->getAddress(),
+            "created_at" => $video->getCreatedAt(),
+            "modified_at" => $video->getModifiedAt(),
+            "active" => $video->isActive()
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
+    }
+    
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return $this::executeOneReader($this::FIND_ONE, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @video_id AS videoId", [])["videoId"];
     }
 }

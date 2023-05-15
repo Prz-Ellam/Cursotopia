@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-validation';
 
 $.validator.addMethod('notEqualTo', function(value, element, parameter) {
     const htmlElement = document.querySelector(parameter);
@@ -28,56 +29,6 @@ $.validator.addMethod('containsSpecialCharacter',function(value,element){
     const pattern=/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@\\])/;
     return this.optional(element) || pattern.test(value);
 }, 'Please enter a special character');
-
-$('#new-password').on('input', function() {
-
-    let value = $(this).val();
-
-    if (value === '') {
-        //$('.password-minus').removeClass('text-danger text-success');
-        $('#password-mayus').removeClass('text-danger text-success');
-        $('#password-number').removeClass('text-danger text-success');
-        $('#password-specialchar').removeClass('text-danger text-success');
-        $('#password-length').removeClass('text-danger text-success');
-        return;
-    }
-
-    // if (/[a-z]/g.test(value)) {
-    //     $('.pwd-lowercase').addClass('text-success').removeClass('text-danger');
-    // }
-    // else {
-    //     $('.pwd-lowercase').addClass('text-danger').removeClass('text-success')
-    // }
-
-    if (/[A-Z]/g.test(value)) {
-        $('#password-mayus').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-mayus').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (/[0-9]/g.test(value)) {
-        $('#password-number').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-number').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (/[¡”"#$%&;/=’¿?!:;,.\-_+*{}\[\]]/g.test(value)) {
-        $('#password-specialchar').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-specialchar').addClass('text-danger').removeClass('text-success')
-    }
-
-    if (value.length >= 8) {
-        $('#password-length').addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $('#password-length').addClass('text-danger').removeClass('text-success');
-    }
-
-});
 
 export default {
     rules: {

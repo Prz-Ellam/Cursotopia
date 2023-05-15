@@ -1,29 +1,37 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import { signup, uploadProfilePicture } from './controllers/user.controller';
-import { passwordToggle } from './utilities/password-toggle';
-import signupValidator from './validators/signup.validator';
+import AOS from 'aos';
+import { passwordStrength, passwordToggle, submitSignup } from './controllers/user.controller';
+import SignupValidator from './validators/signup.validator';
+import { displayImageFile } from './controllers/image.controller';
 
-document.addEventListener('DOMContentLoaded', () => {
+$(async () => {
     AOS.init({
         duration: 1000,
-        easing: "ease-in-out",
+        easing: 'ease-in-out',
         once: true,
         mirror: false
     });
+
+    $('#password').on('input', () => {
+        passwordStrength('#password', '#password-mayus', '#password-number', '#password-specialchar', '#password-length');
+    });
     
-    // Signup
-    const signupForm = document.getElementById('signup-form');
-    $(signupForm).validate(signupValidator);
-    signupForm.addEventListener('submit', signup);
+    // Esconder y mostrar contraseña
+    $('#password-button').on('click', () => {
+        passwordToggle('#password', '#password-button i');
+    });
+
+    $('#confirm-password-button').on('click', () => {
+        passwordToggle('#confirm-password', '#confirm-password-button i');
+    });
 
     // Profile Picture
-    const profilePicture = document.getElementById('profile-picture');
-    profilePicture.addEventListener('change', uploadProfilePicture);
-
-    // Password button
-    const passwordButton = document.getElementById('password-button');
-    passwordButton.addEventListener('click', passwordToggle);
-    const confirmPasswordButton = document.getElementById('confirm-password-button');
-    confirmPasswordButton.addEventListener('click', passwordToggle);
+    $('#profile-picture').on('change', async (event) => {
+        await displayImageFile(event, '#profile-picture', '#picture-box', PROFILE_PICTURE);
+    });
+    
+    // Signup
+    $('#signup-form').validate(SignupValidator);
+    $('#signup-form').on('submit', submitSignup);
 });

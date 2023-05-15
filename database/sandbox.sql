@@ -1,439 +1,163 @@
-SELECT * FROM images;
+SELECT * 
+FROM `courses`
+WHERE
+    `course_is_complete` = TRUE
+    AND `course_approved` = TRUE
+    AND `course_active` = TRUE
+    -- Filtro por titulo del curso
+    AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+    -- Filtro por fecha
+    AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    -- Por categoria
+    AND (EXISTS(
+        SELECT `category_id` 
+        FROM `course_category` AS cc 
+        WHERE cc.`course_id` = `course_id` 
+        AND cc.`category_id` = _category_id 
+        AND cc.`course_category_active` = TRUE
+    ) OR _category_id IS NULL)
+    -- Por instructor
+    AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
 
-INSERT INTO categories(
-    category_name,
-    category_description,
-    category_created_by
-)
-VALUES(
-    'Frontend',
-    'Las tecnologías para crear proyectos del lado del cliente',
-    2
-);
 
-INSERT INTO courses(
+
+SELECT 
+    `course_id`,
     `course_title`,
-    `course_description`,
     `course_price`,
-    `image_id`,
-    `instructor_id`
-)
-VALUES(
-    'Crea páginas web con HTML y CSS',
-    '¿Te gustaria aprender a desarrollar tus propias web? Pues el primer paso es aprender HTML y CSS y en este curso aprenderas las bases de estas tecnologías creando tu propio portafolio personal',
-    250.00,
-    3,
-    2
-);
-
-INSERT INTO course_category(
-    course_id, 
-    category_id
-)
-VALUES(
-    1,
-    1
-);
-
-UPDATE
-    courses
-SET
-    course_approved = TRUE,
-    course_approved_by = 1
+    `course_image_id`,
+    `instructor_id`,
+    `instructor_name`,
+    `rate`,
+    `levels`,
+    `video_duration`
+FROM 
+    `course_card`
 WHERE
-    course_id = 1;
-
-
--- Los niveles del curso
-INSERT INTO levels(
-    level_title,
-    level_description,
-    level_price,
-    course_id
-)
-VALUES
-(
-    '¿Qué vamos a aprender?',
-    'Introducción al curso, el entorno y los programas a descargar',
-    250.00,
-    1
-),
-(
-    'Introducción al HTML y CSS',
-    'Aquí aprenderemos todos los conceptos necesarios para entender estas dos tecnologías',
-    250.00,
-    1
-),
-(
-    'Finalizando nuestro portafolio',
-    'Aprenderemos conceptos más avanzados a la vez que hacemos un portafolio',
-    250.00,
-    1
-),
-(
-    'Publicamos nuestro portafolio',
-    'Aprenderemos como podemos publicar en internet una página web como la que hemos hecho',
-    250.00,
-    1
-);
+    `course_is_complete` = TRUE
+    AND `course_approved` = TRUE
+    AND `course_active` = TRUE
+    -- Filtro por titulo del curso
+    AND (`course_title` LIKE CONCAT('%', _title ,'%') OR _title IS NULL)
+    -- Filtro por fecha
+    AND (`course_created_at` BETWEEN IFNULL(_from, '1000-01-01') AND IFNULL(_to, '9999-12-31'))
+    -- Por categoria
+    AND (EXISTS(SELECT `category_id` 
+        FROM `course_category` AS cc WHERE cc.`course_id` = `course_id` 
+        AND cc.`category_id` = _category_id AND cc.`course_category_active` = TRUE) 
+        OR 2 IS NULL)
+    -- Por instructor
+    AND (`instructor_id` = _instructor_id OR _instructor_id IS NULL)
 
 
 
--- Ahora una leccion por cada nivel por ahora
--- Todas seran de video
-INSERT INTO lessons(
-    lesson_title,
-    lesson_description,
-    level_id,
-    video_id,
-    image_id,
-    document_id,
-    link_id
-)
-VALUES
-(
-    '¡Comenazamos!',
-    '',
-    1,
-    1,
-    NULL,
-    NULL,
-    NULL
-),
-(
-    'Una imagen de como se vera',
-    'Asi se va a ver',
-    1,
-    NULL,
-    4,
-    NULL,
-    NULL
-),
-(
-    'Breve historia del HTML y CSS!',
-    'Repasamos la evolución de HTML y CSS a lo largo del tiempo',
+-- Categorias no aprobadas
+SELECT * 
+FROM `categories`
+WHERE `category_is_approved` = FALSE;
+
+-- Aprobar una categoría
+UPDATE `categories`
+SETasmr gibi magic
+`category_is_approved` = TRUE,
+`category_approved_by` = :admin_id,
+`category_created_by` = NOW()
+
+SELECT `image_id` FROM `images`;
+
+
+CALL `course_search`(
+    null,
     2,
-    2,
-    NULL,
-    NULL,
-    NULL
-),
-(
-    '¿Qué nos queda por hacer?',
-    'Vamos a ver más cosas',
-    3,
-    3,
-    NULL,
-    NULL,
-    NULL
-),
-(
-    'Casi casi...¿terminamos?',
-    'Ya casi',
-    4,
-    4,
-    NULL,
-    NULL,
-    NULL
-);
-
-
-
-INSERT INTO reviews(
-    review_message,
-    review_rate,
-    course_id,
-    user_id
-)
-VALUES(
-    'Mensaje',
-    5,
     1,
-    2
-);
-
-
-INSERT INTO enrollments(
-    course_id,
-    student_id,
-    enrollment_amount,
-    payment_method_id
+    '2023-05-01',
+    '2023-05-02',
+    100,
+    0
 )
-VALUES(
-    1,
-    2,
-    200.00,
-    1
-);
+
+SELECT (EXISTS(
+SELECT COUNT(`category_id`) 
+FROM `course_category` AS cc WHERE cc.`course_id` = 1 
+AND cc.`category_id` = 1 AND cc.`course_category_active` = TRUE) 
+OR 1 IS NULL)
+
+SELECT `category_id` 
+FROM `course_category` AS cc WHERE cc.`course_id` = 15
+AND cc.`category_id` = 1 AND cc.`course_category_active` = TRUE
+
+
+SELECT l.level_is_free, e.enrollment_is_paid, c.course_price FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 3
+INNER JOIN `courses` AS c
+ON e.course_id = c.course_id
+WHERE `video_id` = 3
+
+SELECT l.level_is_free, e.enrollment_is_paid FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 4
+WHERE `document_id` = 3
+
+SELECT l.level_is_free, e.enrollment_is_paid FROM `lessons` AS le
+INNER JOIN `levels` AS l
+ON le.level_id = l.level_id
+INNER JOIN `enrollments` AS e
+ON l.course_id = e.course_id AND e.student_id = 4
+WHERE `link_id` = 3
+
+
+        SELECT
+            `lesson_id` AS `id`,
+            `lesson_title` AS `title`,
+            `lesson_description` AS `description`,
+            `video_id` AS `videoId`,
+            `image_id` AS `imageId`,
+            `document_id` AS `documentId`,
+            `link_id` AS `linkId`,
+            `link_name` AS `linkName`,
+            `link_address` AS `linkAddress`,
+            `resource`,
+            `lesson_created_at` AS `createdAt`,
+            `lesson_modified_at` AS `modifiedAt`,
+            `lesson_active` AS `active`,
+            `level_id` AS `levelId`,
+            `level_is_free` AS `levelFree`
+        FROM
+            `course_visor`
+        WHERE
+            `lesson_id` = 31
 
 
 
 
-SELECT
-    l.level_id AS `id`,
-    l.level_title AS `title`,
-    l.level_description AS `description`,
-    l.level_price AS `price`,
-    l.course_id AS `courseId`,
-    l.level_created_at AS `createdAt`,
-    l.level_modified_at AS `modifiedAt`,
-    l.level_active AS `active`,
-    (
-    SELECT 
-        GROUP_CONCAT(
-        '[',
-        JSON_OBJECT(
-            'title', le.lesson_title, 
-            'description', le.lesson_description,
-            'video', v.video_duration),
-        ']'
-    )
-    FROM 
-        lessons AS le
-    INNER JOIN
-        videos AS v
-    ON
-        le.video_id = v.video_id
-    WHERE 
-        level_id = l.level_id
-    GROUP BY
-        le.lesson_id
-    ) AS `lessons`
-FROM
-    levels AS l
-INNER JOIN
-    lessons AS le
-ON
-    l.level_id = le.level_id
-WHERE
-    course_id = 1
-GROUP BY
-    l.level_id;
-
-
-SELECT
-    le.lesson_title,
-    le.lesson_description,
-    v.video_duration
-FROM
-    lessons AS le
-INNER JOIN
-    videos AS v
-ON
-    le.video_id = v.video_id;
-
-
-
-
-SELECT
+        SELECT
             `id`,
             `title`,
             `description`,
             `price`,
             `imageId`,
+            `instructorId`,
+            `approved`,
+            `approvedBy`,
             `createdAt`,
             `modifiedAt`,
-            `instructorName`,
+            `active`,
+            `levels`,
             `rates`,
             `reviews`,
-            `students`,
-            `levels`,
-            `duration`
+            `instructor` AS `instructorName`,
+            `duration`,
+            `enrollments` AS `students`,
+            `levelFree`
         FROM
             `course_details`
         WHERE
-            `id` = 1
+            `id` = 13
 
 
-
-SELECT * FROM enrollments;
-
-SELECT * FROM user_level;
-
-
-SELECT
-    e.course_id,
-    e.student_id,
-    l.level_title,
-    le.lesson_title,
-    ule.user_lesson_is_complete
-FROM
-    user_lesson AS ule
-INNER JOIN
-    lessons AS le
-ON
-    ule.lesson_id = le.lesson_id
-INNER JOIN
-    user_level AS ul
-ON
-    ul.level_id = le.level_id
-INNER JOIN
-    levels AS l
-ON
-    le.level_id = l.level_id
-INNER JOIN
-    enrollments AS e
-ON
-    l.course_id = e.course_id;
-
-
-INSERT INTO chats VALUES();
-INSERT INTO chat_participants(user_id, chat_id) VALUES(2, 2), (6, 2);
-
-
-
-SELECT
-    c.chat_id AS `chatId`
-FROM
-    chats AS c
-LEFT JOIN
-    chat_participants AS cp
-ON
-    c.chat_id = cp.chat_id
-WHERE
-    cp.user_id = 2
-    OR cp.user_id = 6
-GROUP BY
-    c.chat_id
-HAVING
-    COUNT(cp.user_id) >= 2;
-
-
-INSERT INTO chats VALUES();
-INSERT INTO chat_participants(user_id, chat_id) VALUES(2, 2), (6, 2);
-
-
-
-SELECT
-    c.chat_id AS `chatId`, 
-    cp.user_id AS `userId`,
-    CONCAT(u.user_name, ' ', u.user_last_name) AS `user`,
-    u.profile_picture AS `profilePicture`
-FROM 
-    chats AS c 
-INNER JOIN 
-    chat_participants AS cp ON c.chat_id = cp.chat_id
-INNER JOIN 
-    users AS u ON cp.user_id = u.user_id
-WHERE
-    c.chat_id IN (
-        SELECT 
-            chat_id 
-        FROM 
-            chat_participants 
-        WHERE 
-            user_id = 6
-    )
-    AND cp.user_id != 6;
-
-
-
-SELECT
-    m.message_id,
-    m.message_content,
-    m.user_id,
-    m.chat_id,
-    m.message_created_at,
-    m.message_modified_at,
-    m.message_active,
-    mv.viewed_at
-FROM
-    messages AS m
-LEFT JOIN
-    message_views AS mv
-ON
-    m.message_id = mv.message_id
-WHERE
-    chat_id = 11;
-
-
-
-INSERT INTO message_views(
-    message_id, 
-    user_id
-)
-SELECT 
-    m.message_id,
-    6
-FROM 
-    messages m 
-WHERE 
-    m.chat_id = 11 
-    AND m.user_id != 6
-    AND NOT EXISTS (
-        SELECT 
-            1 
-        FROM 
-            message_views mv 
-        WHERE 
-            mv.message_id = m.message_id 
-            AND mv.user_id = 6
-    )
-
-
--- La esta que aun no ha sido vista
-SELECT
-    le.lesson_id,
-    le.lesson_title,
-    ule.user_lesson_is_complete
-FROM
-    lessons AS le
-INNER JOIN
-    user_lesson AS ule
-ON
-    le.lesson_id = ule.lesson_id
-INNER JOIN
-    levels AS l
-ON
-    le.level_id = l.level_id
-INNER JOIN
-    enrollments AS e
-ON
-    l.course_id = e.course_id
-WHERE
-    e.course_id = 5
-    AND ule.user_id = 6
-    AND ule.user_lesson_is_complete = FALSE
-LIMIT
-    1;
-
-
-
-
-
-SELECT
-    `user_id`,
-    `user_name`,
-    `user_last_name`,
-    `user_birth_date`,
-    `user_gender`,
-    `user_email`,
-    `user_password`,
-    `user_role`,
-    `profile_picture`,
-    `user_enabled`,
-    `user_created_at`,
-    `user_modified_at`,
-    `user_active`
-FROM
-    `users`
-WHERE
-    `user_id` = IFNULL(NULL, `user_id`)
-    AND `user_name` = IFNULL(NULL, `user_name`)
-    AND `user_last_name` = IFNULL(NULL, `user_last_name`)
-    AND `user_birth_date` = IFNULL(NULL, `user_birth_date`)
-    AND `user_gender` = IFNULL(NULL, `user_gender`)
-    AND `user_email` = IFNULL(NULL, `user_email`)
-    AND `user_password` = IFNULL(NULL, `user_password`)
-    AND `user_role` = IFNULL(NULL, `user_role`)
-    AND `profile_picture` = IFNULL(NULL, `profile_picture`)
-    AND `user_enabled` = IFNULL(NULL, `user_enabled`)
-    AND `user_created_at` = IFNULL(NULL, `user_created_at`)
-    AND `user_modified_at` = IFNULL(NULL, `user_modified_at`)
-    AND `user_active` = IFNULL(NULL, `user_active`);
-
-
-SELECT SUM(TIME_TO_SEC(video_duration)) AS total_time 
-FROM videos;
-
-
+SELECT * FROM `images` WHERE `image_id` = 27;

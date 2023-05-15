@@ -9,7 +9,7 @@ use Closure;
 use Opis\JsonSchema\Errors\ErrorFormatter;
 use Opis\JsonSchema\Validator;
 
-class JsonSchemaMiddleware {
+class JsonSchemaMiddleware implements Middleware {
     public function handle(Request $request, Response $response, Closure $next, array $args) {
         if (count($args) < 1) {
             $response

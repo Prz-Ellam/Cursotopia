@@ -1,0 +1,43 @@
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "El mensaje debe ser una cadena de texto",
+                "minLength": "El mensaje no puede estar vacío",
+                "maxLength": "El mensaje es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "rate": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "$error": {
+                "type": "La calificación debe ser un número",
+                "minimum": "La calificación debe ser entre 1 y 5",
+                "maximum": "La calificación debe ser entre 1 y 5"
+            }
+        },
+        "courseId": {
+            "type": "number",
+            "minimum": 1,
+            "$error": {
+                "type": "El id del curso debe ser un entero",
+                "minimum": "El id del curso debe ser un entero positivo"
+            }
+        }
+    },
+    "required": [
+        "message",
+        "rate",
+        "courseId"
+    ],
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
+}

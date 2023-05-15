@@ -1,3 +1,6 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <main>
   <!-- Hero -->
   <div class="Hero">
@@ -20,15 +23,17 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+                <h6><?= Format::date($this->user["birthDate"]) ?></h6>
               </div>
             </div>
             <!-- Mandar mensaje solo sale para alumnos de ese instructor -->
-            <div class="row mt-3">
+            <!--div class="row mt-3">
+              <?php if (isset($_SESSION["id"])): ?>
               <div class="col-12">
-                <a href="chat" class="btn btn-secondary rounded-pill">Mandar mensaje</a>
+                <a href="/chat" class="btn btn-secondary rounded-pill">Mandar mensaje</a>
               </div>
-            </div>
+              <?php endif ?>
+            </div-->
           </div>
         </div>
       </div>
@@ -36,14 +41,14 @@
   </div>
 
   <!-- Contenido -->
-  <div class="container">
-    <div class="row mt-4">
+  <div class="container vh-100">
+    <!--div class="row mt-4">
       <div class="col-12">
         <h3 class="fw-bold">Cursos aprobados</h3>
       </div>
     </div>
 
-    <div class="container mt-4">
+    <div-- class="container mt-4">
       <div data-aos="fade-up">
         <div class="card mb-4 bg-light border-0">
           <div class="row g-0">
@@ -71,7 +76,7 @@
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -105,7 +110,7 @@
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -139,7 +144,7 @@
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -173,7 +178,7 @@
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -207,7 +212,7 @@
                 <p class="card-text d-flex align-items-center">
                   <i class='bx bx-money me-1'></i>Precio: $200.00 MXN
                 </p>
-                <a href="course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-5 border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -223,8 +228,7 @@
           <li class="page-item"><a class="page-link border-0 bg-light shadow-none" href="#"><i class='bx bx-chevron-right'></i></a></li>
         </ul>
       </div>
-    </div>
-  </div>
+    </div-->
   </div>
 
 </main>

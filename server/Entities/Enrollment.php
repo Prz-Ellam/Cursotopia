@@ -12,268 +12,135 @@ class Enrollment {
     private ?string $certificateUid = null;
     private ?float $amount = null;
     private ?int $paymentMethodId = null;
+    private ?bool $isPaid = null;
     private ?string $lastTimeChecked = null;
     private ?string $createdAt = null;
     private ?string $modifiedAt = null;
     private ?bool $active = null;
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
+    public function setId(?int $id): self {
         $this->id = $id;
-
         return $this;
     }
 
-    /**
-     * Get the value of courseId
-     */ 
-    public function getCourseId()
-    {
+    public function getCourseId(): ?int {
         return $this->courseId;
     }
 
-    /**
-     * Set the value of courseId
-     *
-     * @return  self
-     */ 
-    public function setCourseId($courseId)
-    {
+    public function setCourseId(?int $courseId): self {
         $this->courseId = $courseId;
-
         return $this;
     }
 
-    /**
-     * Get the value of studentId
-     */ 
-    public function getStudentId()
-    {
+    public function getStudentId(): ?int {
         return $this->studentId;
     }
 
-    /**
-     * Set the value of studentId
-     *
-     * @return  self
-     */ 
-    public function setStudentId($studentId)
-    {
+    public function setStudentId(?int $studentId): self {
         $this->studentId = $studentId;
-
         return $this;
     }
 
-    /**
-     * Get the value of isFinished
-     */ 
-    public function getIsFinished()
-    {
+    public function getIsFinished(): ?bool {
         return $this->isFinished;
     }
 
-    /**
-     * Set the value of isFinished
-     *
-     * @return  self
-     */ 
-    public function setIsFinished($isFinished)
-    {
+    public function setIsFinished(?bool $isFinished): self {
         $this->isFinished = $isFinished;
-
         return $this;
     }
-
-    /**
-     * Get the value of enrollDate
-     */ 
-    public function getEnrollDate()
-    {
+ 
+    public function getEnrollDate(): ?string {
         return $this->enrollDate;
     }
-
-    /**
-     * Set the value of enrollDate
-     *
-     * @return  self
-     */ 
-    public function setEnrollDate($enrollDate)
-    {
+ 
+    public function setEnrollDate(?string $enrollDate): self {
         $this->enrollDate = $enrollDate;
-
         return $this;
     }
 
-    /**
-     * Get the value of finishDate
-     */ 
-    public function getFinishDate()
-    {
+    public function getFinishDate(): ?string {
         return $this->finishDate;
     }
 
-    /**
-     * Set the value of finishDate
-     *
-     * @return  self
-     */ 
-    public function setFinishDate($finishDate)
-    {
+    public function setFinishDate(?string $finishDate): self {
         $this->finishDate = $finishDate;
-
         return $this;
     }
-
-    /**
-     * Get the value of certificateUid
-     */ 
-    public function getCertificateUid()
-    {
+ 
+    public function getCertificateUid(): ?string {
         return $this->certificateUid;
     }
 
-    /**
-     * Set the value of certificateUid
-     *
-     * @return  self
-     */ 
-    public function setCertificateUid($certificateUid)
-    {
+    public function setCertificateUid(?string $certificateUid): self {
         $this->certificateUid = $certificateUid;
-
         return $this;
     }
-
-    /**
-     * Get the value of amount
-     */ 
-    public function getAmount()
-    {
+ 
+    public function getAmount(): ?float {
         return $this->amount;
     }
 
-    /**
-     * Set the value of amount
-     *
-     * @return  self
-     */ 
-    public function setAmount($amount)
-    {
+    public function setAmount(?float $amount): self {
         $this->amount = $amount;
-
         return $this;
     }
-
-    /**
-     * Get the value of paymentMethodId
-     */ 
-    public function getPaymentMethodId()
-    {
+ 
+    public function getPaymentMethodId(): ?int {
         return $this->paymentMethodId;
     }
 
-    /**
-     * Set the value of paymentMethodId
-     *
-     * @return  self
-     */ 
-    public function setPaymentMethodId($paymentMethodId)
-    {
+    public function setPaymentMethodId(?int $paymentMethodId): self {
         $this->paymentMethodId = $paymentMethodId;
-
         return $this;
     }
 
-    /**
-     * Get the value of lastTimeChecked
-     */ 
-    public function getLastTimeChecked()
-    {
+    public function getIsPaid(): ?bool {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(?bool $isPaid): self {
+        $this->isPaid = $isPaid;
+        return $this;
+    }
+
+    public function getLastTimeChecked(): ?string {
         return $this->lastTimeChecked;
     }
 
-    /**
-     * Set the value of lastTimeChecked
-     *
-     * @return  self
-     */ 
-    public function setLastTimeChecked($lastTimeChecked)
-    {
+    public function setLastTimeChecked(?string $lastTimeChecked): self {
         $this->lastTimeChecked = $lastTimeChecked;
-
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     */ 
-    public function getCreatedAt()
-    {
+    public function getCreatedAt(): ?string {
         return $this->createdAt;
     }
-
-    /**
-     * Set the value of createdAt
-     *
-     * @return  self
-     */ 
-    public function setCreatedAt($createdAt)
-    {
+ 
+    public function setCreatedAt(?string $createdAt): self {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of modifiedAt
-     */ 
-    public function getModifiedAt()
-    {
+    public function getModifiedAt(): ?string {
         return $this->modifiedAt;
     }
-
-    /**
-     * Set the value of modifiedAt
-     *
-     * @return  self
-     */ 
-    public function setModifiedAt($modifiedAt)
-    {
+ 
+    public function setModifiedAt(?string $modifiedAt): self {
         $this->modifiedAt = $modifiedAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of active
-     */ 
-    public function getActive()
-    {
+    public function isActive(): ?bool {
         return $this->active;
     }
-
-    /**
-     * Set the value of active
-     *
-     * @return  self
-     */ 
-    public function setActive($active)
-    {
+ 
+    public function setActive(?bool $active): self {
         $this->active = $active;
-
         return $this;
     }
 }

@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= LANG ?>">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="<?= CHARSET ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= $this->env("APP_NAME") ?></title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../node_modules/boxicons/css/boxicons.min.css">
 
+  <!-- Bootstrap -->
   <script defer src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- SweetAlert -->
   <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
-  <link rel="stylesheet" href="../dist/assets/course-edition.css">
-  <script defer type="module" src="../dist/javascript/course-edition.js"></script>
+  <?= $this->link("styles/pages/course-edition.css") ?>
+  <?= $this->script("javascript/course-edition.js") ?>
 </head>
 <body>
   <?= $this->render("partials/navbar") ?>
@@ -26,22 +29,28 @@
     <div class="row border-3 border-bottom border-primary text-center mb-3">
       <h1>Editar curso</h1>
     </div>
-    <form action="#" class="row" id="update-course-form-a">
+    <form action="#" class="row" id="update-course-form">
       <div class="row mx-0">
         <div class="col-md-6 col-sm-12 col-xs-12">
 
+          <input type="hidden" name="courseId" value="<?= $this->course["id"] ?>">
+
           <div class="mb-4">
             <label for="update-course-title" class="form-label" role="button">Título</label>
-            <input type="text" name="title" id="update-course-title" class="form-control">
+            <input type="text" name="title" id="update-course-title" 
+              class="form-control" value="<?= $this->course["title"] ?>">
           </div>
 
           <div class="mb-4">
             <label for="update-course-description" class="form-label" role="button">Descripción</label>
-            <textarea name="description" id="update-course-description" cols="30" rows="3" class="form-control"></textarea>
+            <textarea name="description" id="update-course-description" 
+            cols="30" rows="3" class="form-control"><?= $this->course["description"] ?></textarea>
           </div>
 
           <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="free-course-checkbox" autocomplete="off">
+            <input class="form-check-input shadow-none" type="checkbox" value="" 
+            id="free-course-checkbox" autocomplete="off"
+            <?= ($this->course["price"] <= 0.0) ? "checked" : "" ?>>
             <label class="form-check-label" for="free-course-checkbox" role="button">El curso será gratis</label>
           </div>
 
@@ -49,7 +58,9 @@
             <label class="form-label pt-2" for="price" role="button">Precio</label>
             <div class="input-group">
               <span class="input-group-text border-0 bg-light pe-0">$</span>
-              <input type="number" name="price" id="update-course-price" class="form-control" min="0.00" max="10000.00" step="0.01" value="0.00">
+              <input type="number" name="price" id="update-course-price" 
+              class="form-control" min="0.00" max="10000.00" step="0.01" 
+              value="<?= $this->course["price"] ?>">
             </div>
           </div>
 
@@ -57,15 +68,14 @@
             <label for="categories" class="form-label" role="button">Categorías</label>
             <select class="" id="categories" name="categories[]" multiple="multiple" placeholder="Seleccionar">
               <?php foreach ($this->categories as $category) : ?>
-                <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+                <option value="<?= $category["id"] ?>"
+                  <?= in_array($category["id"], $this->course["categories"]) ? "selected" : ""  ?>>
+                  <?= $category["name"] ?>
+                </option>
               <?php endforeach ?>
             </select>
           </div>
-          <div class="col-sm-4 col-xs-4 col-md-5 col-xl-4">
-            <button type="button" id="create-category-btn" class="btn btn-secondary rounded-pill btn-sm m-auto">Añadir
-              categoria</button>
-          </div>
-
+          
 
         </div>
 
@@ -78,30 +88,20 @@
                 <h3>Subir imagen</h3>
               </div>
             </div>
-            <img src="" alt=" " class="img-fluid rounded-3" id="picture-box">
+            <img src="/api/v1/images/<?= $this->course["imageId"] ?>" alt=" " class="img-fluid rounded-3" id="picture-box">
             <input id="upload-image" type="file" accept="image/png, image/gif, image/jpeg, image/jpg" class="d-none form-control mt-3" autocomplete="off">
+            <input type="hidden" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off" value="<?= $this->course["imageId"] ?>">
           </label>
-          <input type="text" name="course-cover" id="course-cover-id" class="d-none" autocomplete="off">
+          <div id="image-error"></div>
         </div>
+
       </div>
 
-      <div id="levels-list">
-        <input type="hidden" name="levels[]" autocomplete="off">
-      </div>
-
-      <section class="my-5" id="levels-section">
-        <div class="pb-2 d-flex">
-          <h4 class="pe-4">Niveles</h4>
-          <button id="create-level-btn" type="button" class="btn btn-secondary rounded-pill btn-sm">
-            Añadir nivel
-          </button>
-        </div>
-        <ul class="list-unstyled" id="levels-container">
-
-        </ul>
-      </section>
-      <div class="d-flex">
-        <button type="submit" class="btn btn-primary rounded-pill w-100">Editar curso</button>
+     
+      <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-primary rounded-pill">
+          Editar curso
+        </button>
       </div>
     </form>
 
@@ -303,31 +303,6 @@
       </form>
     </div>
 
-    <!-- Modal añadir categoría -->
-    <div class="modal fade animate__animated animate__bounceInDown" id="create-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <form class="modal-content rounded-1 border-0 shadow-sm" id="create-category-form">
-          <div class="modal-header">
-            <h4>Añadir categoría</h4>
-            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-4">
-              <label for="category-name" class="form-label" role="button">Nombre</label>
-              <input type="text" class="form-control" id="category-name" name="name" autocomplete="off">
-            </div>
-            <div class="mb-4">
-              <label for="category-description" class="form-label" role="button">Descripción</label>
-              <textarea class="form-control" id="category-description" name="description" rows="5" placeholder="¿Qué clase de cursos contendrá?"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Cerrar</button>
-            <button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Agregar</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </section>
   <?= $this->render("partials/footer") ?>
 </body>

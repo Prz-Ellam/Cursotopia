@@ -3,115 +3,85 @@
 namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
-use Cursotopia\Contracts\CategoryRepositoryInterface;
 use Cursotopia\Entities\Category;
 
-class CategoryRepository implements CategoryRepositoryInterface {
+class CategoryRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
-        INSERT INTO categories(
-            category_name,
-            category_description,
-            category_created_by
+        CALL `category_create`(
+            :name, 
+            :description, 
+            :created_by, 
+            @category_id
         )
-        SELECT
-            :name,
-            :description,
-            :created_by
-        FROM
-            DUAL
-        WHERE
-            :name IS NOT NULL
-            AND :description IS NOT NULL
-            AND :created_by IS NOT NULL
     SQL;
 
     private const UPDATE = <<<'SQL'
-        UPDATE
-            categories
-        SET
-            category_name =         IFNULL(:name, category_name),
-            category_description =  IFNULL(:description, category_description),
-            category_is_approved =     IFNULL(:approved, category_is_approved),
-            category_approved_by =  IFNULL(:approved_by, category_approved_by),
-            category_modified_at =  NOW(),
-            category_active =       IFNULL(:active, category_active)
-        WHERE
-            category_id = :id
+        CALL `category_update`(
+            :id,
+            :name,
+            :description,
+            :approved,
+            :approved_by,
+            :created_by,
+            :created_at,
+            :modified_at,
+            :active
+        )
     SQL;
 
     private const DELETE = <<<'SQL'
-        UPDATE
-            categories
-        SET
-            category_modified_at = NOW(),
-            category_active = :active
-        WHERE
-            id = :id
+        CALL `category_update`(
+            :id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, TRUE
+        )
     SQL;
 
-    private const FIND_ONE = <<<'SQL'
-        SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
-        FROM
-            categories
-        WHERE
-            category_id = :id
-        LIMIT
-            1
+    private const FIND_BY_ID = <<<'SQL'
+        CALL `category_find_by_id`(:id)
     SQL;
 
     private const FIND_ALL = <<<'SQL'
-        SELECT
-            category_id AS `id`,
-            category_name AS `name`,
-            category_description AS `description`,
-            category_is_approved AS `approved`,
-            category_approved_by AS `approvedBy`,
-            category_created_by AS `createdBy`,
-            category_created_at AS `createdAt`,
-            category_modified_at AS `modifiedAt`,
-            category_active AS `active`
-        FROM
-            categories
-        WHERE
-            category_active = TRUE
+        CALL `category_find_all`()
+    SQL;
+
+    private const FIND_ALL_BY_USER = <<<'SQL'
+        CALL `category_find_all_by_user`(:user_id)
     SQL;
 
     private const FIND_ALL_BY_COURSE = <<<'SQL'
-        SELECT
-            c.category_id AS `id`,
-            c.category_name AS `name`,
-            c.category_description AS `description`,
-            c.category_is_approved AS `approved`,
-            c.category_approved_by AS `approvedBy`,
-            c.category_created_at AS `createdAt`,
-            c.category_modified_at AS `modifiedAt`,
-            c.category_active AS `active`
-        FROM
-            categories AS c
-        INNER JOIN
-            course_category AS cc
-        ON
-            c.category_id = cc.category_id
-        WHERE
-            cc.course_id = :course_id;
+        CALL `category_find_all_by_course`(:course_id)
+    SQL;
+
+    private const FIND_ALL_NOT_ACTIVE = <<<'SQL'
+        CALL `category_find_all_not_active`()
+    SQL;
+
+    private const FIND_ALL_NOT_APPROVED = <<<'SQL'
+        CALL `category_find_all_not_approved`()
+    SQL;
+
+    private const FIND_ONE_BY_NAME = <<<'SQL'
+        CALL `category_find_one_by_name`(:name, :id)
+    SQL;
+
+    private const APPROVE = <<<'SQL'
+        CALL `category_update`(
+            :category_id, NULL, NULL, TRUE, :admin_id, NULL, NULL, NULL, NULL
+        )
+    SQL;
+
+    private const DENY = <<<'SQL'
+        CALL `category_update`(
+            :category_id, NULL, NULL, FALSE, :admin_id, NULL, NULL, NULL, NULL
+        )
     SQL;
     
-    public function create(Category $category): int|string {
+    public function create(Category $category): int {
         $parameters = [
             "name" => $category->getName(),
             "description" => $category->getDescription(),
             "created_by" => $category->getCreatedBy()
         ];
-        return DB::executeNonQuery($this::CREATE, $parameters);
+        return $this::executeNonQuery($this::CREATE, $parameters);
     }
     
     public function update(Category $category): int {
@@ -119,35 +89,103 @@ class CategoryRepository implements CategoryRepositoryInterface {
             "id" => $category->getId(),
             "name" => $category->getName(),
             "description" => $category->getDescription(),
-            "approved" => $category->getApproved(),
+            "approved" => $category->isApproved(),
             "approved_by" => $category->getApprovedBy(),
-            "active" => $category->getActive()
+            "created_by" => $category->getCreatedBy(),
+            "created_at" => $category->getCreatedAt(),
+            "modified_at" => $category->getModifiedAt(),
+            "active" => $category->isActive()
         ];
-        return DB::executeNonQuery($this::UPDATE, $parameters);
+        return $this::executeNonQuery($this::UPDATE, $parameters);
     }
 
-    public function delete(int $id): int {
+    public function delete(?int $id): int {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeNonQuery($this::DELETE, $parameters);
+        return $this::executeNonQuery($this::DELETE, $parameters);
     }
 
-    public function findOne(int $id): array {
+    public function findById(?int $id): ?array {
         $parameters = [
             "id" => $id
         ];
-        return DB::executeOneReader($this::FIND_ONE, $parameters);
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);
     }
 
-    public function findAll(): array {
-        return DB::executeReader($this::FIND_ALL, []);
+    // TODO
+    public function findByIdNotApproved(?int $id): ?array {
+        $parameters = [
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_BY_ID, $parameters);      
     }
 
-    public function findAllByCourse(int $courseId): array {
+    public function findAll(): ?array {
+        return $this::executeReader($this::FIND_ALL, []);
+    }
+
+    public function findAllWithUser(int $userId): ?array {
+        $parameters = [
+            "user_id" => $userId
+        ];
+        return $this::executeReader($this::FIND_ALL_BY_USER, $parameters);
+    }
+
+    public function findAllByCourse(int $courseId): ?array {
         $parameters = [
             "course_id" => $courseId
         ];
-        return DB::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+        return $this::executeReader($this::FIND_ALL_BY_COURSE, $parameters);
+    }
+
+    public function findNotApproved(): ?array {
+        return $this::executeReader($this::FIND_ALL_NOT_APPROVED, []);
+    }
+
+    public function findNotActive(): ?array {
+        return $this::executeReader($this::FIND_ALL_NOT_ACTIVE, []);
+    }
+
+    public function activate(?int $id): int {
+        $parameters = [
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => true
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
+    }
+
+    public function deactivate(?int $id): int {
+        $parameters = [
+            "id" => $id,
+            "name" => null,
+            "description" => null,
+            "approved" => null,
+            "approved_by" => null,
+            "created_by" => null,
+            "created_at" => null,
+            "modified_at" => null,
+            "active" => false
+        ];
+        return $this::executeNonQuery($this::UPDATE, $parameters);
+    }
+
+    public function findOneByName(?string $name, ?int $id = -1): ?array {
+        $parameters = [
+            "name" => $name,
+            "id" => $id
+        ];
+        return $this::executeOneReader($this::FIND_ONE_BY_NAME, $parameters);
+    }
+
+    public function lastInsertId2(): string {
+        return $this::executeOneReader("SELECT @category_id AS categoryId", [])["categoryId"];
     }
 }

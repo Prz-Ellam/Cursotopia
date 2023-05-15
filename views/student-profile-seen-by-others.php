@@ -1,3 +1,6 @@
+<?php
+  use Cursotopia\Helpers\Format;
+?>
 <main>
   <!-- Hero -->
   <div class="Hero">
@@ -20,7 +23,7 @@
             </div>
             <div class="row">
               <div class="col-12">
-                <h6><?= date_format(date_create($this->user["birthDate"]), 'd M Y') ?></h6>
+                <h6><?= Format::date($this->user["birthDate"]) ?></h6>
               </div>
             </div>
             <!-- Solo aparece si lo está viendo el administrador -->
@@ -36,14 +39,14 @@
   </div>
 
   <!-- Contenido -->
-  <div class="container">
+  <div class="container vh-100">
+    <!--
     <div class="row mt-4">
       <div class="col-12">
         <h3 class="fw-bold">Cursos a los que está inscrito</h3>
       </div>
     </div>
 
-    <!-- Cards -->
     <div class="container mt-4">
 
       <div data-aos="fade-up">
@@ -69,127 +72,7 @@
                   </span>
                 </p>
                 <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-aos="fade-up">
-        <div class="card mb-4 bg-light border-0">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <div class="ratio ratio-16x9 h-100">
-                <img src="https://import.cdn.thinkific.com/220744/courses/1652554/m8sF2qn5R7WkrFrvDAJe_Seguridad%20pc-min.jpg" class=" img-cover img-fluid rounded-start" alt="...">
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h4 class="card-title">Como protegerse en la red</h4>
-                <hr>
-                <p class="card-text mb-0 d-flex align-items-center"><i class="bx bxs-chalkboard me-1"></i>Instructor: Kike Gandia</p>
-                <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-like me-1'></i>Puntuación:
-                  <span>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                  </span>
-                </p>
-                <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-aos="fade-up">
-        <div class="card mb-4 bg-light border-0">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <div class="ratio ratio-16x9 h-100">
-                <img src="https://import.cdn.thinkific.com/220744/courses/1948561/HVgczjlDQjK5CIXpb57p_desarrollo-web-con-html-css-min.png" class=" img-cover img-fluid rounded-start" alt="...">
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h4 class="card-title">Crea páginas web con HTML y CSS</h4>
-                <hr>
-                <p class="card-text mb-0 d-flex align-items-center"><i class="bx bxs-chalkboard me-1"></i>Instructor: Paco Gomez Arnal</p>
-                <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-like me-1'></i> Puntuación:
-                  <span>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                  </span>
-                </p>
-                <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-aos="fade-up">
-        <div class="card mb-4 bg-light border-0">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <div class="ratio ratio-16x9 h-100">
-                <img src="https://import.cdn.thinkific.com/220744/courses/881985/h20jls3OSdiMYPpYXpJC_Tu%20propio%20entorno%20de%20escritorio%20Arch%20linux-min.jpg" class=" img-cover img-fluid rounded-start" alt="...">
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h4 class="card-title">Crea tu propio entorno de desarrollo con Linux</h4>
-                <hr>
-                <p class="card-text mb-0 d-flex align-items-center"><i class="bx bxs-chalkboard me-1"></i>Instructor: Antonio Sarosi</p>
-                <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-like me-1'></i> Puntuación:
-                  <span>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                  </span>
-                </p>
-                <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-aos="fade-up">
-        <div class="card mb-4 bg-light border-0">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <div class="ratio ratio-16x9 h-100">
-                <img src="https://pikuma.com/images/courses/nes.jpg" class=" img-cover img-fluid rounded-start" alt="...">
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h4 class="card-title">Programación en NES</h4>
-                <hr>
-                <p class="card-text mb-0 d-flex align-items-center"><i class="bx bxs-chalkboard me-1"></i>Instructor: Pikuma</p>
-                <p class="card-text mb-0 d-flex align-items-center"><i class='bx bxs-like me-1'></i> Puntuación:
-                  <span>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                    <i class="bx bxs-star rating-star"></i>
-                  </span>
-                </p>
-                <p class="card-text d-flex align-items-center"><i class="bx bx-money me-1"></i>Precio: $350.00 MXN</p>
-                <a href="course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
+                <a href="/course-details" class="btn btn-secondary rounded-pill border-0 shadow-none">Ver detalles del curso</a>
               </div>
             </div>
           </div>
@@ -206,6 +89,6 @@
         </ul>
       </div>
     </div>
+    -->
   </div>
-
 </main>

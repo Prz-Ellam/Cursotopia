@@ -1,0 +1,64 @@
+{
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "$error": {
+                "type": "El título debe ser una cadena de texto",
+                "minLength": "El título no puede estar vacío",
+                "maxLength": "El título es muy largo, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "$error": {
+                "type": "La descripción debe ser una cadena de texto",
+                "minLength": "La descripción no puede estar vacía",
+                "maxLength": "La descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
+            }
+        },
+        "price": {
+            "type": "number",
+            "minimum": 0,
+            
+            "format": "currency",
+            "$error": {
+                "type": "El precio debe ser un entero",
+                "minimum": "El precio no puede ser menor que 0.00",
+                
+                "format": "El precio no tiene formato de moneda"
+            }
+        },
+        "categories": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "number",
+                "minimum": 0,
+                "$error": {
+                    "type": "Todas las categorías deben ser un entero",
+                    "minimum": "Todas las categorías deben ser un entero positivo"
+                }
+            },
+            "$error": {
+                "type": "Las categorías deben ser un arreglo",
+                "minItems": "Las categorías no pueden estar vacías"
+            }
+        }
+    },
+    "required": [
+        "title",
+        "description",
+        "price",
+        "categories"
+    ],
+    "additionalProperties": false,
+    "$error": {
+        "required": "Incluir las propiedades: [{missing}]",
+        "additionalProperties": "Propiedades extra: [{properties}]"
+    }
+}

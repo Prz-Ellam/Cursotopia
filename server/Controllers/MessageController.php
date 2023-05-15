@@ -4,8 +4,8 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Message;
-use Cursotopia\Repositories\ChatMessageRepository;
+use Cursotopia\Models\MessageModel;
+use Cursotopia\Repositories\MessageRepository;
 use Cursotopia\Repositories\MessageViewRepository;
 
 class MessageController {
@@ -13,8 +13,12 @@ class MessageController {
         $chatId = $request->getParams("chatId");
         $userId = $request->getSession()->get("id");
 
-        $chatMessageRepository = new ChatMessageRepository();
-        $messages = $chatMessageRepository->findAllByChat($chatId);
+        $messageRepository = new MessageRepository();
+        $messages = $messageRepository->findAllByChat($chatId);
+
+        if (!is_array($messages)) {
+            $messages = [];
+        }
 
         $messageViewRepository = new MessageViewRepository();
         $messageViewRepository->viewChat($chatId, $userId);
@@ -26,21 +30,30 @@ class MessageController {
     }
 
     public function create(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $userId = $session->get("id");
-
+        $userId = $request->getSession()->get("id");
         $chatId = $request->getParams("chatId");
-        $content = $request->getBody("content");
+        [
+            "content" => $content
+        ] = $request->getBody();
 
-        $chatMessage = new Message();
-        $chatMessage
-            ->setContent($content)
-            ->setUserId($userId)
-            ->setChatId($chatId);
+        $chat = new MessageModel([
+            "content" => $content,
+            "userId" => $userId,
+            "chatId" => $chatId
+        ]);
 
-        $chatMessageRepository = new ChatMessageRepository();
-        $rowsAffected = $chatMessageRepository->create($chatMessage);
+        $isCreated = $chat->save();
+        if (!$isCreated) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "El mensaje no se pudo crear"
+            ]);
+            return;
+        }
 
-        $response->json($rowsAffected);
+        $response->json([
+            "status" => true,
+            "message" => "El mensaje fue creado éxitosamente"
+        ]);
     }
 }

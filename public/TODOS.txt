@@ -1,0 +1,29 @@
+[x] El buscador de instructor tiene problemas para eliminar la busqueda debido al id incustrado
+[x] El kardex tiene errores con las fechas
+[x] Las categorías en cursos esta duplicada
+[x] Edición de cursos validación de Precio
+[] Imagen de cursos agradable
+[x] Editar lecciones
+[] Cambiar estilo de lecciones
+[x] Si un curso esta deshabilitado, rehabilitarlo en instructor-course-details
+[x] Crear un chat luego no se muestra el mensaje
+[x] El buscador de chat no busca apellidos
+[x] Solo el creador puede actualizar sus lecciones y niveles
+[x] Editar curso el checkbox de gratis no funciona
+[x] No hay que sanitizar los inputs <h1></h1>
+[x] Categorias es opcional la descripción
+[x] Categorías no aprobadas duplicadas
+[x] Se puede comprar un curso sin pasar por el paypal
+[x] Error si eliminas la unica reseña de un curso
+[x] Otros instructores tienen el boton de mandar mensaje a instructores
+[] Validar que esta lección pueda ser completada si es que pago
+
+Regla
+- Los métodos de los controladores deben ir en orden a como se definen las rutas
+
+
+Maxlength en los query params y tal vez route params
+
+
+ /etc/my.cnf.
+ max_allowed_packet=16M

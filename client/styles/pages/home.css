@@ -1,8 +1,13 @@
 /* Libraries */
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../../../node_modules/owl.carousel/dist/assets/owl.carousel.min.css';
+@import '../../../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css';
+@import 'https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css';
+
 @import '../third-party/background.css';
 @import '../third-party/button.css';
 @import '../third-party/bootstrap.css';
+@import 'https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css';
 
 @import '../../../node_modules/aos/dist/aos.css';
 
@@ -42,8 +47,6 @@
 h1 {
     font-size: 60px;
 }
-
-
 
 .owl-prev {
     background-color: var(--primary-color) !important;
