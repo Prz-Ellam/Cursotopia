@@ -73,7 +73,7 @@ export default {
             regex: /^[a-zA-Z \u00C0-\u00FF]+$/,
             maxlength: 50
         },
-        'userRole': {
+        'role': {
             required: true,
             range: [ 2, 3 ]
         },
@@ -134,7 +134,7 @@ export default {
             regex: 'El nombre no tiene el formato requerido',
             maxlength: 'El nombre es demasiado largo'
         },
-        'userRole': {
+        'role': {
             required: 'El rol de usuario es requerido',
             range: 'El rol de usuario es requerido'
         },

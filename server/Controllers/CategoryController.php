@@ -4,6 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CategoryModel;
 use Exception;
 
@@ -63,11 +64,12 @@ class CategoryController {
         $userId = $request->getSession()->get("id");
         $categoryId = intval($request->getParams("id"));
 
-        if ($categoryId === 0) {
+        if (!Validate::uint($categoryId)) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Identificador no válido"
             ]);
+            return;
         }
 
         $category = CategoryModel::findById($categoryId);
@@ -203,7 +205,6 @@ class CategoryController {
         $id = intval($request->getParams("id"));
 
         //Validar que la categoria exista
-
         $category = CategoryModel::findById($id);
         if (!$category) {
             $response->setStatus(404)->json([
@@ -218,12 +219,12 @@ class CategoryController {
 
         try {
             $category
-            ->setApproved(true)
-            ->setApprovedBy($userId);
+                ->setApproved(true)
+                ->setApprovedBy($userId);
 
-        $result = $category->save();
+            $result = $category->save();
             if (!$result) {
-                $response->setStatus(404)->json([
+                $response->setStatus(400)->json([
                     "status" => false,
                     "message" => "No se pudo aprobar la categoría"
                 ]);
@@ -327,7 +328,8 @@ class CategoryController {
         }
 
         try {
-            $result = $category->activate($id);
+            //$result = $category->activate($id);
+            $result = $category->setActive(true)->save();
             if (!$result) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -384,7 +386,7 @@ class CategoryController {
         }
 
         try {
-            $result = $category->deactivate($id);
+            $result = $category->setActive(false)->save();
             if (!$result) {
                 $response->setStatus(404)->json([
                     "status" => false,

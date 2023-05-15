@@ -37,7 +37,7 @@ BEGIN
         `link_name`                     = IFNULL(`_link_name`, `link_name`),
         `link_address`                  = IFNULL(`_link_address`, `link_address`),
         `link_created_at`               = IFNULL(`_link_created_at`, `link_created_at`),
-        `link_modified_at`              = IFNULL(`_link_modified_at`, NOW()),
+        `link_modified_at`              = NOW(),
         `link_active`                   = IFNULL(`_link_active`, `link_active`)
     WHERE
         `link_id` = `_link_id`;

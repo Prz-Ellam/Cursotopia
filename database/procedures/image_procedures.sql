@@ -47,7 +47,7 @@ BEGIN
         `image_content_type`            = IFNULL(`_image_content_type`, `image_content_type`),
         `image_data`                    = IFNULL(`_image_data`, `image_data`),
         `image_created_at`              = IFNULL(`_image_created_at`, `image_created_at`),
-        `image_modified_at`             = IFNULL(`_image_modified_at`, NOW()),
+        `image_modified_at`             = NOW(),
         `image_active`                  = IFNULL(`_image_active`, `image_active`)
     WHERE
         `image_id` = `_image_id`;

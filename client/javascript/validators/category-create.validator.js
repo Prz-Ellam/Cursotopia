@@ -15,7 +15,7 @@ export default {
                 type: 'POST',
                 url: '/api/v1/categories/name',
                 data: {
-                    'name': function () { return $('#category-name').val() },
+                    'name': function () { return $('#category-name').val().trim() },
                     'id': -1
                 },
                 dataType: 'json'

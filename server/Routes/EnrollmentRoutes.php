@@ -29,5 +29,13 @@ $app->get("/certificate", [ EnrollmentController::class, "certificate" ], [
  */
 $app->post("/api/v1/enrollments", [ EnrollmentController::class, "create" ], [
     [ AuthApiMiddleware::class, true, Roles::STUDENT->value ],
-    [ JsonSchemaMiddleware::class, "EnrollmentCreateValidator" ]
+    //[ JsonSchemaMiddleware::class, "EnrollmentCreateValidator" ]
+]);
+
+/**
+ * Paga un curso
+ */
+$app->post("/api/v1/enrollments/pay", [ EnrollmentController::class, "pay" ], [
+    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ],
+    //[ JsonSchemaMiddleware::class, "EnrollmentCreateValidator" ]
 ]);

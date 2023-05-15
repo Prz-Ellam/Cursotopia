@@ -47,7 +47,7 @@ BEGIN
         `level_is_free`                 = IFNULL(`_level_is_free`, `level_is_free`),
         `course_id`                     = IFNULL(`_course_id`, `course_id`),
         `level_created_at`              = IFNULL(`_level_created_at`, `level_created_at`),
-        `level_modified_at`             = IFNULL(`_level_modified_at`, NOW()),
+        `level_modified_at`             = NOW(),
         `level_active`                  = IFNULL(`_level_active`, `level_active`)
     WHERE
         `level_id` = `_level_id`;

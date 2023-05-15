@@ -1,6 +1,42 @@
 import axios from 'axios';
 
 export default class CategoryService {
+    static create = async (category) => {
+        try {
+            const configuration = {
+                method: 'POST',
+                url: `/api/v1/categories`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(category)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
+    }
+
+    static update = async (id, category) => {
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/categories/${id}`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(category)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
+    }
+
     static findAll = async () => {
         try {
             const configuration = {
@@ -87,24 +123,6 @@ export default class CategoryService {
     }
 }
 
-export const createCategory = async (category) => {
-    try {
-        const configuration = {
-            method: 'POST',
-            url: `/api/v1/categories`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data : JSON.stringify(category)
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data;
-    }
-}
-
 export const approveCategoryService = async (categoryId) => {
     try {
         const configuration = {
@@ -113,24 +131,6 @@ export const approveCategoryService = async (categoryId) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        };
-        const response = await axios(configuration);
-        return response.data;
-    }
-    catch (exception) {
-        return exception.response.data
-    }
-}
-
-export const updateCategoryService = async (id, category) => {
-    try {
-        const configuration = {
-            method: 'PUT',
-            url: `/api/v1/categories/${id}`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data : JSON.stringify(category)
         };
         const response = await axios(configuration);
         return response.data;

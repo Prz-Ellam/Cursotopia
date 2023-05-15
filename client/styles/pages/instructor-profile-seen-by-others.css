@@ -1,5 +1,8 @@
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../../../node_modules/aos/dist/aos.css';
 @import 'https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css';
+
+@import '../third-party/button.css';
 
 @import '../configuration/fonts.css';
 @import '../partials/navbar.css';
@@ -9,6 +12,8 @@
 @import '../third-party/background.css';
 @import '../configuration/breakpoints.css';
 @import '../partials/hero.css';
+
+@import '../third-party/bootstrap.css';
 
 .card {
     border: none;

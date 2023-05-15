@@ -1,10 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import ReviewService from '../services/review.service';
-import { createReview, showMoreReviews } from '../views/review.view';
-import Swal from 'sweetalert2';
+import ReviewService from '@/services/review.service';
+import { showMoreReviews } from '@/views/review.view';
 import { showErrorMessage } from '../utilities/show-error-message';
-import { Toast } from '../utilities/toast';
+import { Toast, ToastTopEnd } from '../utilities/toast';
 
 let currentPage = 1;
 const pageSize = 5;
@@ -14,6 +13,10 @@ export const submitReview = async function(event) {
 
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 

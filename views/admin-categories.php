@@ -24,25 +24,25 @@
           <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
             <li class="nav-item">
               <a href="/profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
-                <i class='bx bxs-home'></i>
+                <i class="bx bxs-home"></i>
                 Inicio
               </a>
             </li>
             <li>
-              <a href="/admin-courses" class="nav-link text-white">
-                <i class='bx bxs-videos'></i>
+              <a href="/admin/courses" class="nav-link text-white">
+                <i class="bx bxs-videos"></i>
                 Cursos
               </a>
             </li>
             <li>
               <a href="/admin/categories" class="nav-link text-white active">
-                <i class='bx bxs-category'></i>
+                <i class="bx bxs-category"></i>
                 Categorias
               </a>
             </li>
             <li>
               <a href="/blocked-users" class="nav-link text-white">
-                <i class='bx bxs-group'></i>
+                <i class="bx bxs-group"></i>
                 Usuarios
               </a>
             </li>
@@ -147,7 +147,7 @@
           <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <div class="mb-4">
+          <div class="">
             <input type="text" class="form-control" id="category-id" name="id" hidden>
           </div>
           <div class="mb-4">
@@ -161,8 +161,13 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-          <button id="save-btn" type="submit" class="btn btn-primary rounded-pill">Save changes</button>
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+          <button id="category-update-btn" type="submit" class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="category-update-spinner"></span>
+            Actualizar
+          </button>
         </div>
       </form>
     </div>

@@ -154,7 +154,7 @@ BEGIN
         `profile_picture`               = IFNULL(`_profile_picture`, `profile_picture`),
         `user_enabled`                  = IFNULL(`_user_enabled`, `user_enabled`),
         `user_created_at`               = IFNULL(`_user_created_at`, `user_created_at`),
-        `user_modified_at`              = IFNULL(`_user_modified_at`, NOW()),
+        `user_modified_at`              = NOW(),
         `user_active`                   = IFNULL(`_user_active`, `user_active`)
     WHERE
         `user_id` = `_user_id`;

@@ -198,7 +198,7 @@ if ($id) {
             >
               Categorías
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end">
               <?php foreach ($categories as $category): ?>
               <li>
                 <a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
@@ -260,7 +260,7 @@ if ($id) {
             >
               Categorías
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end">
               <?php foreach ($categories as $category): ?>
               <li><a class="dropdown-item" href="/search?category=<?= $category["id"] ?>">
                 <?= $category["name"] ?></a>
@@ -270,12 +270,12 @@ if ($id) {
           </li>
           <li class="nav-item">
             <a href="signup" class="nav-link fw-bold text-light d-flex align-items-center">
-              <i class='bx-sm bx bxs-user-plus'></i>Registrarse
+              <i class="bx-sm bx bxs-user-plus"></i>Registrarse
             </a>
           </li>
           <li class="nav-item">
             <a href="login" class="nav-link fw-bold text-light d-flex align-items-center">
-              <i class='bx-sm bx bxs-user-check' ></i>Iniciar sesión
+              <i class="bx-sm bx bxs-user-check"></i>Iniciar sesión
             </a>
           </li>
         </ul>

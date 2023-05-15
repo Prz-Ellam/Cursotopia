@@ -63,7 +63,7 @@ BEGIN
         `document_id`                   = IFNULL(`_document_id`, `document_id`),
         `link_id`                       = IFNULL(`_link_id`, `link_id`),
         `lesson_created_at`             = IFNULL(`_lesson_created_at`, `lesson_created_at`),
-        `lesson_modified_at`            = IFNULL(`_lesson_modified_at`, NOW()),
+        `lesson_modified_at`            = NOW(),
         `lesson_active`                 = IFNULL(`_lesson_active`, `lesson_active`)
     WHERE
         `lesson_id` = `_lesson_id`;

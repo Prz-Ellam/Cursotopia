@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import CategoryService, {updateCategoryService, createCategory, approveCategoryService, denyCategoryService, activateCategoryService, deactivateCategoryService} from '../services/category.service';
+import CategoryService, { approveCategoryService, denyCategoryService, activateCategoryService, deactivateCategoryService} from '../services/category.service';
 import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
-import { Toast } from '../utilities/toast';
+import { Toast, ToastTopEnd } from '../utilities/toast';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { hideModal } from '../utilities/modal';
 
@@ -12,18 +12,24 @@ export const submitCategory = async function(event) {
 
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
     const formData = new FormData(this);
     const category = {
-        name: formData.get('name'),
-        description: formData.get('description')
+        name:           formData.get('name'),
+        description:    formData.get('description')
     };
     
     $('#category-create-btn').prop('disabled', true);
     $('#category-create-spinner').removeClass('d-none');
-    const response = await createCategory(category);
+
+    const response = await CategoryService.create(category);
+
     $('#category-create-spinner').addClass('d-none');
     $('#category-create-btn').prop('disabled', false);
 
@@ -55,28 +61,25 @@ export const submitCategory = async function(event) {
             `);
         });
         $('#categories').multipleSelect('refresh');
-    } 
+    }
 
-    const createCategoryForm = document.getElementById('category-create-form');
-    createCategoryForm.reset();
+    document.querySelector('#category-create-form').reset();
 }
 
 export const updateCourseCreateCategory = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
         return;
     }
-
-    hideModal('#category-create-modal');
 
     const formData = new FormData(this);
     const category = {
         name: formData.get('name'),
         description: formData.get('description')
     };
-    const response = await createCategory(category);
+    const response = await CategoryService.create(category);
     
     if (response?.status) {
         Toast.fire({
@@ -85,8 +88,9 @@ export const updateCourseCreateCategory = async function(event) {
         });
     }
 
-    const createCategoryForm = document.getElementById('category-create-form');
-    createCategoryForm.reset();
+    hideModal('#category-create-modal');
+
+    document.querySelector('#category-create-form').reset();
 }
 
 export const updateCategory = async function(event) {
@@ -94,6 +98,10 @@ export const updateCategory = async function(event) {
     
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
@@ -104,12 +112,16 @@ export const updateCategory = async function(event) {
         description: formData.get('description'),
     };
 
-    const response = await updateCategoryService(id, category);
+    $('#category-update-btn').prop('disabled', true);
+    $('#category-update-spinner').removeClass('d-none');
+
+    const response = await CategoryService.update(id, category);
+    
+    $('#category-update-spinner').addClass('d-none');
+    $('#category-update-btn').prop('disabled', false);
+
     if (!response?.status) {
-        await Toast.fire({
-            icon: 'error',
-            title: 'La categoría no se pudo actualizar'
-        });
+        showErrorMessage(response);
         return;
     }
 
@@ -138,17 +150,12 @@ export const showCategoryDetails = async function(categoryId) {
         return;
     }
 
-    const category = response.category;
-    if (category.active == false) {
-        $('#category-name').prop('readonly', true);
-        $('#category-description').prop('readonly', true);
-        $('#save-btn').prop('disabled', true);
-    }
-    else {
-        $('#category-name').prop('readonly', false);
-        $('#category-description').prop('readonly', false);
-        $('#save-btn').prop('disabled', false);
-    }
+    
+    const { category } = response;
+    const readonly = !category.active;
+    $('#category-name').prop('readonly', readonly);
+    $('#category-description').prop('readonly', readonly);
+    $('#save-btn').prop('disabled', readonly);
 
     $('#category-id').val(category.id);
     $('#category-name').val(category.name);
@@ -166,27 +173,30 @@ export const approveCategory = async function(categoryId) {
     const notApprovedCategories = await CategoryService.findnotApproved();
     const notActiveCategories = await CategoryService.findnotActive();
 
-    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-        $('#notApprovedCategories').empty();
-        $('#inactiveCategories').empty();
-        $('#approvedCategories').empty();
-
-        const categoriesApproved = approvedCategories.categories;
-        const categoriesNotApproved = notApprovedCategories.categories;
-        const categoriesNotActive = notActiveCategories.categories;
-
-        categoriesApproved.forEach(category => {
-            showApprovedCategories(category);
-        });
-
-        categoriesNotApproved.forEach(category => {
-            showNotApprovedCategories(category);
-        });
-
-        categoriesNotActive.forEach(category => {
-            showNotActiveCategories(category);
-        });
+    if (!approvedCategories?.status || !notApprovedCategories?.status || !notActiveCategories?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
+
+    $('#notApprovedCategories').empty();
+    $('#inactiveCategories').empty();
+    $('#approvedCategories').empty();
+
+    const categoriesApproved = approvedCategories.categories;
+    const categoriesNotApproved = notApprovedCategories.categories;
+    const categoriesNotActive = notActiveCategories.categories;
+
+    categoriesApproved.forEach(category => {
+        showApprovedCategories(category);
+    });
+
+    categoriesNotApproved.forEach(category => {
+        showNotApprovedCategories(category);
+    });
+
+    categoriesNotActive.forEach(category => {
+        showNotActiveCategories(category);
+    });
 
     Toast.fire({
         icon: 'success',

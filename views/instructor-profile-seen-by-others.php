@@ -22,6 +22,7 @@ $totalButtons = $totalPages > 5 ? 5 : $totalPages;
 $courses = $courseRepository->instructorCoursesSeenByOtherReport($id, $limit, $offset);
 ?>
 <main>
+  <?= $this->link("styles/pages/instructor-profile-seen-by-others.css") ?>
   <!-- Hero -->
   <div class="Hero">
     <div class="container-fluid bg-light shadow-sm">

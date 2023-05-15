@@ -25,6 +25,11 @@ class EnrollmentController {
             return;
         }
 
+        if (!$course->getIsComplete() || !$course->isActive() || !$course->isApproved()) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
         $response->render("payment-method", [ 
             "course" => $course->toArray()
         ]);
@@ -148,17 +153,7 @@ class EnrollmentController {
             return;
         }
 
-        $paymentMethod = PaymentMethodModel::findById($paymentMethodId);
-        if (!$paymentMethod) {
-            $response->setStatus(404)->json([
-                "status" => false,
-                "message" => "El método de pago no fue encontrado"
-            ]);
-            return;
-        }
-
         $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
-        /*
         if ($enroll) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -166,14 +161,13 @@ class EnrollmentController {
             ]);
             return;
         }
-        */
 
         // TODO: Validar que el método de pago existe
         $enrollment = new EnrollmentModel([
             "courseId" => $courseId,
             "studentId" => $studentId,
-            "amount" => $course->getPrice(),
-            "paymentMethodId" => $paymentMethodId
+            "amount" => null,
+            "paymentMethodId" => null
         ]);
 
         $isCreated = $enrollment->save();
@@ -195,15 +189,61 @@ class EnrollmentController {
         $studentId = $request->getSession()->get("id");
         [
             "courseId" => $courseId,
-            "amount" => $amount,
             "paymentMethodId" => $paymentMethodId
         ] = $request->getBody();
+
+        // Validar que el curso exista
+        $course = CourseModel::findById($courseId);
+        if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El curso no fue encontrado"
+            ]);
+            return;
+        }
+
+        // Validar que el método de pago exista
+        $paymentMethod = PaymentMethodModel::findById($paymentMethodId);
+        if (!$paymentMethod) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El método de pago no fue encontrado"
+            ]);
+            return;
+        }
+
+        // Checar si el usuario ya tiene una inscripción
+        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
+        if (!$enrollment) {
+            // Si no tiene le creamos una
+            $enrollment = new EnrollmentModel([
+                "courseId" => $courseId,
+                "studentId" => $studentId,
+                "amount" => $course->getPrice(),
+                "paymentMethodId" => $paymentMethodId
+            ]);
+        }
+        else {
+            // En caso de que si tenga validamos si fue pagado
+            if ($enrollment->getIsPaid()) {
+                $response->setStatus(409)->json([
+                    "status" => false,
+                    "message" => "El curso ya fue pagado"
+                ]);
+                return;
+            }
+
+            $enrollment
+                ->setAmount($course->getPrice())
+                ->setPaymentMethod($paymentMethodId)
+                ->setIsPaid(true);
+        }
+
+        $enrollment->save();
         
-        $enrollment = new Enrollment();
-        $enrollment
-            ->setCourseId($courseId)
-            ->setStudentId($studentId)
-            ->setAmount($amount)
-            ->setPaymentMethodId($paymentMethodId);
+        $response->json([
+            "status" => true,
+            "message" => "La inscripción fue pagada"
+        ]);
     }
 }

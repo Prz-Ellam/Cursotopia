@@ -42,6 +42,4 @@ $(async () => {
         const reviewId = $(this).attr('reviewId');
         deleteReview(reviewId);
     });
-
 });
-

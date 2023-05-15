@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'bootstrap';
 import 'jquery-validation';
-import { passwordStrength, passwordToggle, updatePassword } from './controllers/user.controller';
+import { passwordStrength, passwordToggle, submitUpdatePassword } from './controllers/user.controller';
 import PasswordEditionValidator from './validators/password-edition.validator';
 
 $(async () => {
@@ -23,5 +23,5 @@ $(async () => {
     });
 
     $('#password-edition-form').validate(PasswordEditionValidator);
-    $('#password-edition-form').on('submit', updatePassword);
+    $('#password-edition-form').on('submit', submitUpdatePassword);
 });

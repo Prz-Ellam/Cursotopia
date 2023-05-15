@@ -34,7 +34,7 @@
               </a>
             </li>
             <li>
-              <a href="/admin-courses" class="nav-link text-white">
+              <a href="/admin/courses" class="nav-link text-white">
                 <i class='bx bxs-videos'></i>
                 Cursos
               </a>
@@ -59,7 +59,6 @@
         <div class="container">
           <h2 class="fw-bold">Usuarios</h2>
           
-    
           <div class="row">
             <div class="blocked-users-table col-12 me-3 mt-2">
               <h4>Usuarios bloqueados</h4>
@@ -79,7 +78,9 @@
                           <?= $user["name"] ?> <?= $user["lastName"] ?>
                         </td>
                         <td data-title="Detalle">
-                          <a class="btn btn-secondary rounded-pill" href="/student-profile-seen-by-others">Ver perfil</a>
+                          <a class="btn btn-secondary rounded-pill" href="/profile?id=<?= $user["id"] ?>">
+                            Ver perfil
+                          </a>
                         </td>
                         <td data-title="Desbloquear">
                           <button class="btn btn-secondary rounded-pill unblock-btn" id="<?= $user["id"] ?>">Desbloquear</button>

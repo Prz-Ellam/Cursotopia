@@ -4,6 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Entities\Enrollment;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
@@ -186,8 +187,9 @@ class LessonController {
         ]);
     }
 
+    // TODO:
     public function complete(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $userId = $request->getSession()->get("id");
         $lessonId = $request->getParams("id") ?? -1;
 
         $lesson = LessonModel::findById($lessonId);
@@ -199,10 +201,25 @@ class LessonController {
             return;
         }
 
-        $result = EnrollmentModel::completeLesson($id, $lessonId);
+        $levelId = $lesson->getLevelId();
+        $level = LevelModel::findById($levelId);
+        if (!$lesson) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Nível de la lección no encontrado"
+            ]);
+            return;
+        }
+
+        //$enrollment = EnrollmentModel::findOneByCourseIdAndStudentId();
+
+        // TODO: Validar que esta lección pueda ser completada si es que pago
+
+        $result = EnrollmentModel::completeLesson($userId, $lessonId);
         $response->json([]);
     }
 
+    // TODO:
     public function visit(Request $request, Response $response): void {
         $id = $request->getSession()->get("id");
         $lessonId = $request->getParams("id") ?? -1;

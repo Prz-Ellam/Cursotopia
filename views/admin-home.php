@@ -14,7 +14,7 @@
             </a>
           </li>
           <li>
-            <a href="/admin-courses" class="nav-link text-white">
+            <a href="/admin/courses" class="nav-link text-white">
               <i class='bx bxs-videos'></i>
               Cursos
             </a>

@@ -145,14 +145,16 @@ class CourseController {
     }
 
     public function visor(Request $request, Response $response): void {
-        $session = $request->getSession();
-        $userId = $session->get("id");
+        $userId = $request->getSession()->get("id");
         // La ultima lección que viste
         // El enrollment es necesario
         // No puedes verlo si no has pagado
                 
         $courseId = $request->getQuery("course");
         $lessonId = $request->getQuery("lesson");
+
+
+        $result = EnrollmentModel::visitLesson($userId, $lessonId);
 
         $course = CourseModel::findObjById($courseId);
 

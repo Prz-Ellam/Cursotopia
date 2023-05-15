@@ -3,7 +3,21 @@ import { mainService } from './video.service';
 
 export default class ReviewService {
     static create = async (review) => {
-        return await mainService('POST', '/api/v1/reviews', 'application/json', review);
+        try {
+            const configuration = {
+                method: 'POST',
+                url: '/api/v1/reviews',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(review)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     };
 
     static delete = async (reviewId) => {

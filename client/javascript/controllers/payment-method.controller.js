@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { createEnrollmentService } from '../services/enrollment.service';
+import { createEnrollmentService, payEnrollmentService } from '../services/enrollment.service';
 import { showErrorMessage } from '../utilities/show-error-message';
+import { ToastTopEnd } from '../utilities/toast';
 
 export const enroll = async function(event) {
     event.preventDefault();
@@ -45,6 +46,10 @@ export const payment = async function(event) {
 
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
@@ -58,7 +63,7 @@ export const payment = async function(event) {
     $('#payment-btn').prop('disabled', true);
     $('#payment-spinner').removeClass('d-none');
     
-    const response = await createEnrollmentService(payment);
+    const response = await payEnrollmentService(payment);
 
     $('#payment-spinner').addClass('d-none');
     $('#payment-btn').prop('disabled', false);

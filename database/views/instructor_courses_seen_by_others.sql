@@ -27,5 +27,6 @@ LEFT JOIN
     `reviews` AS r
 ON
     c.`course_id` = r.`course_id`
+    AND r.`review_active` = TRUE
 GROUP BY
     c.`course_id`;

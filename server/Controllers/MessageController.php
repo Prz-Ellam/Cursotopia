@@ -4,7 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Message;
+use Cursotopia\Models\MessageModel;
 use Cursotopia\Repositories\MessageRepository;
 use Cursotopia\Repositories\MessageViewRepository;
 
@@ -31,19 +31,29 @@ class MessageController {
 
     public function create(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-
         $chatId = $request->getParams("chatId");
-        $content = $request->getBody("content");
+        [
+            "content" => $content
+        ] = $request->getBody();
 
-        $chatMessage = new Message();
-        $chatMessage
-            ->setContent($content)
-            ->setUserId($userId)
-            ->setChatId($chatId);
+        $chat = new MessageModel([
+            "content" => $content,
+            "userId" => $userId,
+            "chatId" => $chatId
+        ]);
 
-        $messageRepository = new MessageRepository();
-        $rowsAffected = $messageRepository->create($chatMessage);
+        $isCreated = $chat->save();
+        if (!$isCreated) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "El mensaje no se pudo crear"
+            ]);
+            return;
+        }
 
-        $response->json($rowsAffected);
+        $response->json([
+            "status" => true,
+            "message" => "El mensaje fue creado éxitosamente"
+        ]);
     }
 }

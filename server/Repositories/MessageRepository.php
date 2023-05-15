@@ -47,6 +47,6 @@ class MessageRepository extends DB implements Repository {
     }
 
     public function lastInsertId2(): string {
-        return $this::executeOneReader("SELECT @image_id AS imageId", [])["imageId"];
+        return $this::executeOneReader("SELECT @message_id AS messageId", [])["messageId"] ?? -1;
     }
 }

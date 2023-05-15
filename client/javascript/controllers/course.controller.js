@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { Toast } from '../utilities/toast';
+import { Toast, ToastTopEnd } from '../utilities/toast';
 import CourseService, { courseConfirmService, approveCourseService, denyCourseService } from '../services/course.service';
 import { showNotApprovedCourses} from '../views/course.view';
 import { readFileAsync } from '../utilities/file-reader';
@@ -19,6 +19,10 @@ export const createCourse = async function(event) {
 
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 
@@ -180,6 +184,10 @@ export const updateCourse = async function(event) {
 
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
 

@@ -33,7 +33,7 @@
             >
           </div>
           <h1 class="fw-bolder">Cursotopia</h1>
-          <h5>Aprende todo lo que tu quieras, ¡al alcance de un click!</h5>
+          <h5>Aprende todo lo que tú quieras, ¡al alcance de un click!</h5>
           <h5 class="mb-4">Forjamos la sociedad del mañana con nuestros cursos</h5>
           <div class="d-flex justify-content-lg-start justify-content-center">
             <?php if (!$this->session("id")): ?>

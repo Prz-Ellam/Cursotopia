@@ -207,6 +207,15 @@ class CategoryModel implements JsonSerializable {
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
     }
+
+    public function getActive(): ?bool {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self {
+        $this->active = $active;
+        return $this;
+    }
 }
 
 CategoryModel::init();

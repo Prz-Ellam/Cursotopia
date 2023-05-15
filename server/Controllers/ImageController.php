@@ -256,15 +256,19 @@ class ImageController {
         }
 
         $expires = 60 * 60 * 24 * 7; // 1 week
-        header("Cache-Control: no-cache, no-store, must-revalidate");
-        header("Expires: 0");
-    
+        //header("Cache-Control: no-cache, no-store, must-revalidate");
+        $dt = new DateTime();
+        //header("Expires: " . $dt->format('D, d M Y H:i:s \C\S\T'));
+        //header("Cache-Control: max-age=3600");
+
         $response->setHeader("X-Image-Id", $image->getId());
         $response->setHeader("Content-Length", $image->getSize());
         $response->setContentType($image->getContentType());
         $response->setHeader("Content-Disposition", 'inline; filename="' . $image->getName() . '"');
         $dt = new DateTime($image->getModifiedAt());
         $response->setHeader("Last-Modified", $dt->format('D, d M Y H:i:s \C\S\T'));
+        $response->setHeader("Cache-Control", "no-cache");
+        //$response->setHeader("ETag", md5($image->getName()));
         $response->setBody($image->getData());
     }
 }

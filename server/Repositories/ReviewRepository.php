@@ -25,15 +25,6 @@ class ReviewRepository extends DB implements Repository {
         );
     SQL;
 
-    private const DELETE = <<<'SQL'
-        CALL `review_update`( 
-            :id, 
-            NULL, 
-            NULL, 
-            FALSE
-        )
-    SQL;
-
     private const FIND_BY_ID = <<<'SQL'
         CALL `review_find_by_id`(:id);
     SQL;
@@ -75,13 +66,6 @@ class ReviewRepository extends DB implements Repository {
             "active" => $review->isActive()
         ];
         return $this->executeNonQuery($this::UPDATE, $parameters);
-    }
-
-    public function delete(?int $id): int {
-        $parameters = [
-            "id" => $id
-        ];
-        return $this->executeNonQuery($this::DELETE, $parameters);
     }
 
     public function findById(?int $reviewId): ?array {

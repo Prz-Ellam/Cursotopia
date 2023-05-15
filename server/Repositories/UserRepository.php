@@ -4,7 +4,6 @@ namespace Cursotopia\Repositories;
 
 use Bloom\Database\DB;
 use Cursotopia\Entities\User;
-use PDO;
 
 class UserRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
@@ -95,11 +94,11 @@ class UserRepository extends DB implements Repository {
             "email" => $user->getEmail(),
             "password" => $user->getPassword(),
             "user_role" => null,
-            "profile_picture" => null,
+            "profile_picture" => $user->getProfilePicture(),
             "enabled" => $user->getEnabled(),
-            "created_at" => null, 
-            "modified_at" => null, 
-            "active" => null
+            "created_at" => $user->getCreatedAt(), 
+            "modified_at" => $user->getModifiedAt(), 
+            "active" => $user->isActive()
         ];
         return $this::executeNonQuery($this::UPDATE, $parameters);
     }

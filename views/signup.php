@@ -37,18 +37,18 @@
               >
             </div>
             <div>
-            <input 
-              type="file" 
-              accept="image/png, image/jpeg, image/jpg"
-              class="form-control position-absolute" 
-              name="image" 
-              id="profile-picture"
-              autocomplete="off"
-            >
-            <label for="profile-picture" role="button" class="">
-              <i class="fa-sm fa-solid fa-image"></i>
-              <span>Foto de perfil</span>
-            </label>
+              <input 
+                type="file" 
+                accept="image/png, image/jpeg, image/jpg"
+                class="form-control position-absolute" 
+                name="image" 
+                id="profile-picture"
+                autocomplete="off"
+              >
+              <label for="profile-picture" role="button" class="">
+                <i class="fa-sm fa-solid fa-image"></i>
+                <span>Foto de perfil</span>
+              </label>
             </div>
           </div>
           <div class="row mt-4">
@@ -73,7 +73,7 @@
                 <i class="fa-sm fa-solid fa-cubes"></i>
                 <span>Rol de usuario</span>
               </label>
-              <select name="userRole" id="user-role" class="form-select">
+              <select name="role" id="user-role" class="form-select">
                 <option value="0" selected>Seleccionar</option>
                 <?php foreach($this->roles as $role): ?>
                 <option value="<?= $role["id"] ?>"><?= $role["name"] ?></option>
@@ -122,7 +122,7 @@
               <div class="input-group">
                 <input type="password" name="password" id="password" class="form-control">
                 <button type="button" class="btn btn-primary btn-password" id="password-button"
-                  ct-target="password">
+                  >
                   <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
@@ -142,8 +142,7 @@
               <div class="input-group">
                 <input type="password" name="confirmPassword" id="confirm-password"
                   class="form-control">
-                <button type="button" class="btn btn-primary btn-password" id="confirm-password-button"
-                  ct-target="confirm-password">
+                <button type="button" class="btn btn-primary btn-password" id="confirm-password-button">
                   <i class="fa-solid fa-eye-slash fa-eye"></i>
                 </button>
               </div>

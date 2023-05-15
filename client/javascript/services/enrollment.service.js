@@ -8,3 +8,11 @@ export const createEnrollmentService = async (enrollment) => {
         enrollment
     );
 }
+
+export const payEnrollmentService = async (enrollment) => {
+    return await mainService('POST', 
+        '/api/v1/enrollments/pay', 
+        'application/json', 
+        enrollment
+    );
+}

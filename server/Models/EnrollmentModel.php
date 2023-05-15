@@ -73,7 +73,7 @@ class EnrollmentModel implements JsonSerializable {
                 break;
             }
             case EntityState::UPDATE: {
-                //$rowsAffected = $this->enrollmentRepository->update($enrollment);
+                $rowsAffected = self::$repository->create($enrollment);
                 break;
             }
         }

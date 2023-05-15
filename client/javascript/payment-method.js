@@ -5,102 +5,102 @@ import { payment } from './controllers/payment-method.controller';
 import PayMethodValidator from './validators/pay-method.validator';
 
 $(async () => {
-  $('#payment-method-form').validate(PayMethodValidator);
-  $('#payment-method-form').on('submit', payment);
+    $('#payment-method-form').validate(PayMethodValidator);
+    $('#payment-method-form').on('submit', payment);
 
-  $('#chk-paypal').on('click', function() {
-    $('#payment-btn').addClass('d-none');
-  });
+    $('#chk-paypal').on('click', function () {
+        $('#payment-btn').addClass('d-none');
+    });
 
-  $('#chk-card').on('click', function() {
-    $('#payment-btn').removeClass('d-none');
-  });
+    $('#chk-card').on('click', function () {
+        $('#payment-btn').removeClass('d-none');
+    });
 
-  const monthInput = document.querySelector('#month');
-  const yearInput = document.querySelector('#year');
+    const monthInput = document.querySelector('#month');
+    const yearInput = document.querySelector('#year');
 
-  const focusSibling = function (target, direction, callback) {
-    const nextTarget = target[direction];
-    nextTarget && nextTarget.focus();
-    // if callback is supplied we return the sibling target which has focus
-    callback && callback(nextTarget);
-  }
-
-  // input event only fires if there is space in the input for entry. 
-  // If an input of x length has x characters, keyboard press will not fire this input event.
-  monthInput.addEventListener('input', (event) => {
-
-    const value = event.target.value.toString();
-    // adds 0 to month user input like 9 -> 09
-    if (value.length === 1 && value > 1) {
-      event.target.value = '0' + value;
+    const focusSibling = function (target, direction, callback) {
+        const nextTarget = target[direction];
+        nextTarget && nextTarget.focus();
+        // if callback is supplied we return the sibling target which has focus
+        callback && callback(nextTarget);
     }
-    // bounds
-    if (value === '00') {
-      event.target.value = '01';
-    } else if (value > 12) {
-      event.target.value = '12';
-    }
-    // if we have a filled input we jump to the year input
-    2 <= event.target.value.length && focusSibling(event.target, 'nextElementSibling');
-    event.stopImmediatePropagation();
-  });
 
-  yearInput.addEventListener('keydown', (event) => {
-    // if the year is empty jump to the month input
-    if (event.key === 'Backspace' && event.target.selectionStart === 0) {
-      focusSibling(event.target, 'previousElementSibling');
-      event.stopImmediatePropagation();
-    }
-  });
+    // input event only fires if there is space in the input for entry. 
+    // If an input of x length has x characters, keyboard press will not fire this input event.
+    monthInput.addEventListener('input', (event) => {
 
-  const inputMatchesPattern = function (e) {
-    const {
-      value,
-      selectionStart,
-      selectionEnd,
-      pattern
-    } = e.target;
+        const value = event.target.value.toString();
+        // adds 0 to month user input like 9 -> 09
+        if (value.length === 1 && value > 1) {
+            event.target.value = '0' + value;
+        }
+        // bounds
+        if (value === '00') {
+            event.target.value = '01';
+        } 
+        else if (value > 12) {
+            event.target.value = '12';
+        }
+        // if we have a filled input we jump to the year input
+        2 <= event.target.value.length && focusSibling(event.target, 'nextElementSibling');
+        event.stopImmediatePropagation();
+    });
 
-    const character = String.fromCharCode(e.which);
-    const proposedEntry = value.slice(0, selectionStart) + character + value.slice(selectionEnd);
-    const match = proposedEntry.match(pattern);
+    yearInput.addEventListener('keydown', (event) => {
+        // if the year is empty jump to the month input
+        if (event.key === 'Backspace' && event.target.selectionStart === 0) {
+            focusSibling(event.target, 'previousElementSibling');
+            event.stopImmediatePropagation();
+        }
+    });
 
-    return e.metaKey || // cmd/ctrl
-      e.which <= 0 || // arrow keys
-      e.which == 8 || // delete key
-      match && match['0'] === match.input; // pattern regex isMatch - workaround for passing [0-9]* into RegExp
-  };
+    const inputMatchesPattern = function (e) {
+        const {
+            value,
+            selectionStart,
+            selectionEnd,
+            pattern
+        } = e.target;
 
-  document.querySelectorAll('input[data-pattern-validate]').forEach(el => el.addEventListener('keypress', e => {
-    if (!inputMatchesPattern(e)) {
-      return e.preventDefault();
-    }
-  }));
+        const character = String.fromCharCode(e.which);
+        const proposedEntry = value.slice(0, selectionStart) + character + value.slice(selectionEnd);
+        const match = proposedEntry.match(pattern);
 
+        return e.metaKey || // cmd/ctrl
+            e.which <= 0 || // arrow keys
+            e.which == 8 || // delete key
+            match && match['0'] === match.input; // pattern regex isMatch - workaround for passing [0-9]* into RegExp
+    };
 
-  paypal.Button.render({
-    env: 'sandbox',
-    client: {
-      sandbox: PAYPAL
-    },
-    payment: function (data, actions) {
-      return actions.payment.create({
-        transactions: [{
-          amount: {
-            total: PRICE,
-            currency: 'MXN'
-          }
-        }]
-      });
-    },
-    onAuthorize: function (data, actions) {
-      return actions.payment.execute()
-        .then(function () {
-          
-          $('#payment-method-form').submit();
-          //window.location = "<?php echo PayPalBaseUrl ?>orderDetails.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=<?php echo $productId; ?>";
-        });
-    }
-  }, '#paypal-section');
+    document.querySelectorAll('input[data-pattern-validate]').forEach(el => el.addEventListener('keypress', e => {
+        if (!inputMatchesPattern(e)) {
+            return e.preventDefault();
+        }
+    }));
+
+    paypal.Button.render({
+        env: 'sandbox',
+        client: {
+            sandbox: PAYPAL
+        },
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: PRICE,
+                        currency: 'MXN'
+                    }
+                }]
+            });
+        },
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute()
+                .then(function () {
+
+                    $('#payment-method-form').submit();
+                    //window.location = "<?php echo PayPalBaseUrl ?>orderDetails.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=<?php echo $productId; ?>";
+                });
+        }
+    }, '#paypal-section');
 });

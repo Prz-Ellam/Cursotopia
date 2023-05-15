@@ -46,7 +46,7 @@ BEGIN
         `category_approved_by`          = IFNULL(`_category_approved_by`, `category_approved_by`),
         `category_created_by`           = IFNULL(`_category_created_by`, `category_created_by`),
         `category_created_at`           = IFNULL(`_category_created_at`, `category_created_at`),
-        `category_modified_at`          = IFNULL(`_category_modified_at`, `category_modified_at`),
+        `category_modified_at`          = NOW(),
         `category_active`               = IFNULL(`_category_active`, `category_active`)
     WHERE
         `category_id` = `_category_id`;

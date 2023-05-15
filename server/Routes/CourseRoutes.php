@@ -44,7 +44,7 @@ $app->get("/course-visor", [ CourseController::class, "visor" ], [
  * Página del administrador para gestionar cursos
  */
 // Solo administradores
-$app->get("/admin-courses", [ CourseController::class, "admin" ], [
+$app->get("/admin/courses", [ CourseController::class, "admin" ], [
     [ AuthWebMiddleware::class, true, Roles::ADMIN->value ] 
 ]);
 

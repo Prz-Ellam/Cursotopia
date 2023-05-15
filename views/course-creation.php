@@ -361,7 +361,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
             Cerrar
           </button>
           <button id="category-create-btn" type="submit" class="btn btn-primary rounded-pill">

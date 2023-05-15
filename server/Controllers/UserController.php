@@ -389,14 +389,7 @@ class UserController {
             DB::beginTransaction();
             $status = $user->save();
             DB::commit();
-            if (!$status) {
-                $response->setStatus(400)->json([
-                    "status" => false,
-                    "message" => "El usuario no pudo ser actualizado"
-                ]);
-                return;
-            }
-
+            
             $response->json([
                 "status" => true,
                 "message" => "El usuario se actualizó éxitosamente"

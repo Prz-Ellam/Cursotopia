@@ -20,10 +20,10 @@ export const submitLevelCreate = async function(event) {
     const checkbox = document.getElementById('level-create-free');
     const formData = new FormData(this);
     const level = {
-        title: formData.get('title'),
-        description: formData.get('description'),
-        free: Boolean(checkbox.checked),
-        courseId: Number.parseInt(formData.get('courseId'))
+        title:          formData.get('title'),
+        description:    formData.get('description'),
+        free:           Boolean(checkbox.checked),
+        courseId:       Number.parseInt(formData.get('courseId'))
     };
 
     $('#create-level-btn').prop('disabled', true);

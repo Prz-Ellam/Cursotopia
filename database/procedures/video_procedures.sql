@@ -47,7 +47,7 @@ BEGIN
         `video_content_type`            = IFNULL(`_video_content_type`, `video_content_type`),
         `video_address`                 = IFNULL(`_video_address`, `video_address`),
         `video_created_at`              = IFNULL(`_video_created_at`, `video_created_at`),
-        `video_modified_at`             = IFNULL(`_video_modified_at`, NOW()),
+        `video_modified_at`             = NOW(),
         `video_active`                  = IFNULL(`_video_active`, `video_active`)
     WHERE
         `video_id` = `_video_id`;

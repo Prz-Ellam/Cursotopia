@@ -42,7 +42,7 @@ BEGIN
         `document_content_type`         = IFNULL(`_document_content_type`, `document_content_type`),
         `document_address`              = IFNULL(`_document_address`, `document_address`),
         `document_created_at`           = IFNULL(`_document_created_at`, `document_created_at`),
-        `document_modified_at`          = IFNULL(`_document_modified_at`, NOW()),
+        `document_modified_at`          = NOW(),
         `document_active`               = IFNULL(`_document_active`, `document_active`)
     WHERE
         `document_id` = `_document_id`;

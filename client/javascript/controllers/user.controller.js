@@ -3,18 +3,18 @@ import 'jquery-validation';
 import Swal from 'sweetalert2';
 
 import { updateImageService } from '../services/image.service';
-import { updateUserService, loginUser, updateUserPasswordService, createUserService, blockUserService, findBlockedUsers, findUnblockedUsers, unblockUserService } from '../services/user.service';
-import { showErrorMessage } from '../utilities/show-error-message';
-import { showUnblockedUsers, showBlockedUsers } from '../views/user.view';
-import { Toast, ToastBottom } from '../utilities/toast';
+import UserService, { blockUserService, findBlockedUsers, findUnblockedUsers, unblockUserService } from '@/services/user.service';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { showUnblockedUsers, showBlockedUsers } from '@/views/user.view';
+import { Toast, ToastBottom, ToastTopEnd } from '@/utilities/toast';
 import { readFileAsync } from './image.controller';
 
 export const submitLogin = async function(event) {
     event.preventDefault();
 
-    const validations = $(this).valid();
-    if (!validations) {
-        await ToastBottom.fire({
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
             icon: 'error',
             title: 'Formulario no válido'
         });
@@ -30,7 +30,7 @@ export const submitLogin = async function(event) {
     $('#login-btn').prop('disabled', true);
     $('#login-spinner').removeClass('d-none');
 
-    const response = await loginUser(user);
+    const response = await UserService.login(user);
     
     $('#login-spinner').addClass('d-none');
     $('#login-btn').prop('disabled', false);
@@ -60,6 +60,10 @@ export const submitSignup = async function(event) {
     // Validaciones del formulario
     const isFormValid = $(this).valid();
     if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
     
@@ -70,7 +74,7 @@ export const submitSignup = async function(event) {
         lastName:           formData.get('lastName'),
         birthDate:          formData.get('birthDate'),
         gender:             formData.get('gender'),
-        userRole:           Number.parseInt(formData.get('userRole')),
+        userRole:           Number.parseInt(formData.get('role')),
         email:              formData.get('email'),
         password:           formData.get('password'),
         confirmPassword:    formData.get('confirmPassword')
@@ -84,7 +88,7 @@ export const submitSignup = async function(event) {
     $('#signup-btn').prop('disabled', true);
     $('#signup-spinner').removeClass('d-none');
 
-    const response = await createUserService(userForm);
+    const response = await UserService.create(userForm);
 
     $('#signup-spinner').addClass('d-none');
     $('#signup-btn').prop('disabled', false);
@@ -109,66 +113,100 @@ export const submitSignup = async function(event) {
     window.location.href = '/home';
 }
 
-/**
- * 
- * @param {string} passwordInput 
- * @param {string} selectorMayus 
- * @param {string} selectorNumber 
- * @param {string} selectorSpecialChar 
- * @param {string} selectorLength 
- * @returns 
- */
-export const passwordStrength = function(passwordInput, selectorMayus, selectorNumber, selectorSpecialChar, selectorLength) {
-    const value = $(passwordInput).val();
-    
-    if (value === '') {
-        $(selectorMayus).removeClass('text-danger text-success');
-        $(selectorNumber).removeClass('text-danger text-success');
-        $(selectorSpecialChar).removeClass('text-danger text-success');
-        $(selectorLength).removeClass('text-danger text-success');
+export const submitUpdateUser = async function(event) {
+    event.preventDefault();
+
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
         return;
     }
-  
-    if (/[A-Z]/g.test(value)) {
-        $(selectorMayus).addClass('text-success').removeClass('text-danger');
+
+    const formData = new FormData(this);
+    const user = {
+        name:       formData.get('name'),
+        lastName:   formData.get('lastName'),
+        birthDate:  formData.get('birthDate'),
+        gender:     formData.get('gender'),
+        email:      formData.get('email')
+    };
+
+    $('#profile-edition-btn').prop('disabled', true);
+    $('#profile-edition-spinner').removeClass('d-none');
+
+    const response = await UserService.update(user, formData.get('id'));
+
+    $('#profile-edition-spinner').addClass('d-none');
+    $('#profile-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
     }
-    else {
-        $(selectorMayus).addClass('text-danger').removeClass('text-success')
-    }
-  
-    if (/[0-9]/g.test(value)) {
-        $(selectorNumber).addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $(selectorNumber).addClass('text-danger').removeClass('text-success')
-    }
-  
-    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
-        $(selectorSpecialChar).addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $(selectorSpecialChar).addClass('text-danger').removeClass('text-success')
-    }
-  
-    if (value.length >= 8) {
-        $(selectorLength).addClass('text-success').removeClass('text-danger');
-    }
-    else {
-        $(selectorLength).addClass('text-danger').removeClass('text-success');
-    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú perfil se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
 }
 
-/**
- * Cambia de visible a no visible un input de contraseña
- * 
- * @param {string} selectorInput
- * @param {string} selectorIcon
- */
-export const passwordToggle = function(selectorInput, selectorIcon) {
-    $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
-    $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
-}
+export const submitUpdatePassword = async function(event) {
+    event.preventDefault();
 
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
+        return;
+    }
+
+    const formData = new FormData(this);
+    const id = formData.get('id');
+    const user = {
+        oldPassword: formData.get('oldPassword'),
+        newPassword: formData.get('newPassword'),
+        confirmNewPassword: formData.get('confirmNewPassword')
+    };
+
+    $('#password-edition-btn').prop('disabled', true);
+    $('#password-edition-spinner').removeClass('d-none');
+
+    const response = await UserService.updatePassword(user, id);
+
+    $('#password-edition-spinner').addClass('d-none');
+    $('#password-edition-btn').prop('disabled', false);
+
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    await Swal.fire({
+        icon: 'success',
+        title: 'Tú contraseña se actualizó exitosamente',
+        confirmButtonText: 'Continuar',
+        confirmButtonColor: '#5650DE',
+        background: '#FFFFFF',
+        customClass: {
+            confirmButton: 'btn btn-primary shadow-none rounded-pill'
+        },
+    });
+
+    window.location.href = '/home';
+}
 
 // TODO: changeProfilePicture
 let previousFile = '';
@@ -304,92 +342,6 @@ export const uploadProfilePicture = async function(event) {
     //$(".user-form").validate().element('#profile-picture-id');
 }
 
-export const updateUser = async function(event) {
-    event.preventDefault();
-
-    const isFormValid = $(this).valid();
-    if (!isFormValid) {
-        return;
-    }
-
-    const formData = new FormData(this);
-    const user = {
-        name:       formData.get('name'),
-        lastName:   formData.get('lastName'),
-        birthDate:  formData.get('birthDate'),
-        gender:     formData.get('gender'),
-        email:      formData.get('email')
-    };
-
-    $('#profile-edition-btn').prop('disabled', true);
-    $('#profile-edition-spinner').removeClass('d-none');
-
-    const response = await updateUserService(user, formData.get('id'));
-
-    $('#profile-edition-spinner').addClass('d-none');
-    $('#profile-edition-btn').prop('disabled', false);
-
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    await Swal.fire({
-        icon: 'success',
-        title: 'Tú perfil se actualizó exitosamente',
-        confirmButtonText: 'Continuar',
-        confirmButtonColor: '#5650DE',
-        background: '#FFFFFF',
-        customClass: {
-            confirmButton: 'btn btn-primary shadow-none rounded-pill'
-        },
-    });
-
-    window.location.href = '/home';
-}
-
-export const updatePassword = async function(event) {
-    event.preventDefault();
-
-    const isFormValid = $(this).valid();
-    if (!isFormValid) {
-        return;
-    }
-
-    const formData = new FormData(this);
-    const user = {
-        oldPassword: formData.get('oldPassword'),
-        newPassword: formData.get('newPassword'),
-        confirmNewPassword: formData.get('confirmNewPassword')
-    };
-
-    $('#password-edition-btn').prop('disabled', true);
-    $('#password-edition-spinner').removeClass('d-none');
-
-    const response = await updateUserPasswordService(user, formData.get('id'));
-
-    $('#password-edition-spinner').addClass('d-none');
-    $('#password-edition-btn').prop('disabled', false);
-
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    await Swal.fire({
-        icon: 'success',
-        title: 'Tú contraseña se actualizó exitosamente',
-        confirmButtonText: 'Continuar',
-        confirmButtonColor: '#5650DE',
-        background: '#FFFFFF',
-        customClass: {
-            confirmButton: 'btn btn-primary shadow-none rounded-pill'
-        },
-    });
-
-    window.location.href = '/home';
-}
-
 export const blockUser = async function(userId) {
 
     const response = await blockUserService(userId);
@@ -400,27 +352,30 @@ export const blockUser = async function(userId) {
 
     const blockedUsers = await findBlockedUsers();
     const unblockedUsers = await findUnblockedUsers();
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-    if (blockedUsers?.status && unblockedUsers?.status) {
-        const blocked = blockedUsers.blockedUsers;
-        const unblocked = unblockedUsers.unblockedUsers;
-        blocked.forEach(user => {
-            showBlockedUsers(user);
-        });
-        unblocked.forEach(user => {
-            showUnblockedUsers(user);
-        });
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
 
-    await Toast.fire({
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
         icon: 'success',
         title: 'El usuario ha sido bloqueado'
     });
 }
 
 export const unblockUser = async function(userId) {
-
     const response = await unblockUserService(userId);
     if (!response?.status) {
         await showErrorMessage(response);
@@ -429,21 +384,84 @@ export const unblockUser = async function(userId) {
 
     const blockedUsers = await findBlockedUsers();
     const unblockedUsers = await findUnblockedUsers();
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-    if (blockedUsers?.status && unblockedUsers?.status) {
-        const blocked = blockedUsers.blockedUsers;
-        const unblocked = unblockedUsers.unblockedUsers;
-        blocked.forEach(user => {
-            showBlockedUsers(user);
-        });
-        unblocked.forEach(user => {
-            showUnblockedUsers(user);
-        });
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
 
-    await Toast.fire({
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
         icon: 'success',
         title: 'El usuario ha sido desbloqueado'
     });
+}
+
+/**
+ * 
+ * @param {string} passwordInput 
+ * @param {string} selectorMayus 
+ * @param {string} selectorNumber 
+ * @param {string} selectorSpecialChar 
+ * @param {string} selectorLength 
+ * @returns 
+ */
+export const passwordStrength = function(passwordInput, selectorMayus, selectorNumber, selectorSpecialChar, selectorLength) {
+    const value = $(passwordInput).val();
+    
+    if (value === '') {
+        $(selectorMayus).removeClass('text-danger text-success');
+        $(selectorNumber).removeClass('text-danger text-success');
+        $(selectorSpecialChar).removeClass('text-danger text-success');
+        $(selectorLength).removeClass('text-danger text-success');
+        return;
+    }
+  
+    if (/[A-Z]/g.test(value)) {
+        $(selectorMayus).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorMayus).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (/[0-9]/g.test(value)) {
+        $(selectorNumber).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorNumber).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (/([°|¬!"#$%&/()=?¡'¿¨*\]´+}~`{[^;:_,.\-<>@])/.test(value)) {
+        $(selectorSpecialChar).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorSpecialChar).addClass('text-danger').removeClass('text-success')
+    }
+  
+    if (value.length >= 8) {
+        $(selectorLength).addClass('text-success').removeClass('text-danger');
+    }
+    else {
+        $(selectorLength).addClass('text-danger').removeClass('text-success');
+    }
+}
+
+/**
+ * Cambia de visible a no visible un input de contraseña
+ * 
+ * @param {string} selectorInput
+ * @param {string} selectorIcon
+ */
+export const passwordToggle = function(selectorInput, selectorIcon) {
+    $(selectorIcon).toggleClass('fa-eye fa-eye-slash');
+    $(selectorInput).prop('type', ($(selectorInput).prop('type') === 'password') ? 'text' : 'password')
 }

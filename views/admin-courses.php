@@ -30,7 +30,7 @@
               </a>
             </li>
             <li>
-              <a href="/admin-courses" class="nav-link text-white active">
+              <a href="/admin/courses" class="nav-link text-white active">
                 <i class='bx bxs-videos'></i>
                 Cursos
               </a>
