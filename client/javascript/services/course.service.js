@@ -21,11 +21,38 @@ export default class CourseService {
     }
 
     static update = async (id, course) => {
-        return await mainService('PUT', `/api/v1/courses/${ id }`, 'application/json', course);
+        try {
+            const configuration = {
+                method: 'PUT',
+                url: `/api/v1/courses/${ id }`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(course)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     }
 
     static delete = async (id) => {
-        return await mainService('DELETE', `/api/v1/courses/${id}`, 'application/json', {});
+        try {
+            const configuration = {
+                method: 'DELETE',
+                url: `/api/v1/courses/${ id }`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     }
 
     static approve = async (approve, id) => {

@@ -35,7 +35,6 @@
     "jquery-validation": "^1.19.5",
     "multiple-select": "^1.5.2",
     "owl.carousel": "^2.3.4",
-    "rollup-plugin-copy": "^3.4.0",
     "sweetalert2": "^11.4.8"
   },
   "devDependencies": {

@@ -1,9 +1,22 @@
 import axios from 'axios';
-import { mainService } from './video.service';
 
 export default class MessageService {
     static create = async (message, chatId) => {
-        return await mainService('POST', `/api/v1/chats/${ chatId }/messages`, 'application/json', message);
+        try {
+            const configuration = {
+                method: 'POST',
+                url: `/api/v1/chats/${ chatId }/messages`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(message)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data
+        }
     }
 
     static findAllByChat = async (chatId) => {

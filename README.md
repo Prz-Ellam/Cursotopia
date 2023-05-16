@@ -131,5 +131,5 @@ extension=intl
 - [x] Comments and reviews
 - [x] Homepage
 - [x] Certificates and progress
-- [ ] Sales reports
+- [x] Sales reports
 - [x] Browser
