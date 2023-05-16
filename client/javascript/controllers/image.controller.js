@@ -1,18 +1,8 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { ToastBottom } from '../utilities/toast';
-
-export function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsDataURL(file);
-    });
-}
+import { ToastBottom } from '@/utilities/toast';
+import { readFileAsync } from '@/utilities/file-reader';
 
 /**
  * 
@@ -80,7 +70,6 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
 export const changeImage = async function(event, selectorInput, selectorImage, defaultImage) {
     const inputFile = $(selectorInput);
     const profilePictureId = $('#course-cover-id').val();
-    console.log(profilePictureId);
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {

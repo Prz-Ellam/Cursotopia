@@ -2,9 +2,9 @@ import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
 import MessageService from '@/services/message.service';
 import ChatService from '@/services/chat.service';
-import { ToastTopEnd } from '../utilities/toast';
-import { createComment } from '../views/comment.view';
-import { createMessages } from '../views/message.view';
+import { ToastTopEnd } from '@/utilities/toast';
+import { createComment } from '@/views/comment.view';
+import { createMessages } from '@/views/message.view';
 
 // TODO: este deberia ir en message
 export const sendMessage = async () => {

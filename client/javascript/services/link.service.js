@@ -3,7 +3,7 @@ import { mainService } from './video.service';
 
 export default class LinkService {
     static create = async (link) => {
-        return await mainService('POST', '/api/v1/links', 'application/json', linj);
+        return await mainService('POST', '/api/v1/links', 'application/json', link);
     }
 
     static update = async (link, id) => {

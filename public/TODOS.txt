@@ -16,7 +16,7 @@
 [x] Se puede comprar un curso sin pasar por el paypal
 [x] Error si eliminas la unica reseña de un curso
 [x] Otros instructores tienen el boton de mandar mensaje a instructores
-[] Validar que esta lección pueda ser completada si es que pago
+[x] Validar que esta lección pueda ser completada si es que pago
 
 Regla
 - Los métodos de los controladores deben ir en orden a como se definen las rutas

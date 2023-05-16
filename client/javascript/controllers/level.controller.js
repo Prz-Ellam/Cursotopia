@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import 'jquery-validation';
-import LevelView, { courseCreationCreateLevelSection } from '../views/level.view';
-import LevelService from '../services/level.service';
-import { Toast, ToastTopEnd } from '../utilities/toast';
-import { showErrorMessage } from '../utilities/show-error-message';
-import { hideModal } from '../utilities/modal';
+import LevelView, { courseCreationCreateLevelSection } from '@/views/level.view';
+import LevelService from '@/services/level.service';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { hideModal } from '@/utilities/modal';
 
 export const submitLevelCreate = async function(event) {
     event.preventDefault();

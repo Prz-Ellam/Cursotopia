@@ -4,7 +4,7 @@ import 'bootstrap';
 import { Tooltip } from 'bootstrap';
 import { enroll } from './controllers/payment-method.controller';
 import { submitReview, deleteReview, clickMoreComments } from './controllers/review.controller';
-import createReviewValidator from './validators/review-create.validator';
+import CreateReviewValidator from './validators/review-create.validator';
 
 $(async () => {
     $('#enroll').on('click', enroll);
@@ -27,20 +27,19 @@ $(async () => {
                     rateStar.classList.add('bx-star');
                 }
             });
-            const rate = document.getElementById('rate');
-            rate.value = parseInt(starNumber);
+            const starValue = Number.parseInt(starNumber);
+            $('#rate').val(starValue);
             $('#rate').valid();
         });
     });
 
-    $('#create-review-form').validate(createReviewValidator);
+    $('#create-review-form').validate(CreateReviewValidator);
     $('#create-review-form').on('submit', submitReview);
 
     $('#show-more-comments').on('click', clickMoreComments);
 
     $(document).on('click', '.delete-review', async function() {
         const reviewId = $(this).attr('data-id');
-        console.log(reviewId);
         await deleteReview(reviewId);
     });
 });

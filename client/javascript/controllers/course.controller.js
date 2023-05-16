@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { Toast, ToastTopEnd } from '../utilities/toast';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
 import CourseService from '@/services/course.service';
-import { showNotApprovedCourses} from '../views/course.view';
-import { readFileAsync } from '../utilities/file-reader';
-import { showErrorMessage } from '../utilities/show-error-message';
+import { showNotApprovedCourses} from '@/views/course.view';
+import { readFileAsync } from '@/utilities/file-reader';
+import { showErrorMessage } from '@/utilities/show-error-message';
 import { changeImage } from './image.controller';
 import VideoService from '@/services/video.service';
 import DocumentService from '@/services/document.service';
@@ -350,6 +350,34 @@ export const updateVideo = async function(event) {
     const files = Array.from(event.target.files);
     const video = files[0];
 
+    const allowedExtensions = [ 'video/mp4' ];
+    if (!allowedExtensions.includes(video.type)) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+
+    const maxFilesize = 1 * 1024 * 1024 * 1024;
+    if (image.size > maxFilesize) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El video es muy pesado',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+
     const form = new FormData();
     form.append('video', video);
 
@@ -373,6 +401,34 @@ export const updateDocument = async function(event) {
     const files = Array.from(event.target.files);
     const document = files[0];
 
+    const allowedExtensions = [ 'application/json' ];
+    if (!allowedExtensions.includes(document.type)) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+
+    const maxFilesize = 8 * 1024 * 1024;
+    if (document.size > maxFilesize) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'La imagen es muy pesada',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+
     const form = new FormData();
     form.append('document', document);
 
@@ -395,6 +451,34 @@ export const updateImage = async function(event) {
     const imageId = $('#delete-image-btn').attr('data-id');
     const files = Array.from(event.target.files);
     const image = files[0];
+
+    const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+    if (!allowedExtensions.includes(image.type)) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
+
+    const maxFilesize = 8 * 1024 * 1024;
+    if (image.size > maxFilesize) {
+        await Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'La imagen es muy pesada',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        return;
+    }
 
     const form = new FormData();
     form.append('image', image);

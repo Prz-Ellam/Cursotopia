@@ -3,9 +3,9 @@ import 'jquery-validation';
 import Swal from 'sweetalert2';
 import CategoryService from '@/services/category.service';
 import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
-import { Toast, ToastTopEnd } from '../utilities/toast';
-import { showErrorMessage } from '../utilities/show-error-message';
-import { hideModal } from '../utilities/modal';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { hideModal } from '@/utilities/modal';
 
 export const submitCategory = async function(event) {
     event.preventDefault();

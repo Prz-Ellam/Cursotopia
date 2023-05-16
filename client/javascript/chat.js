@@ -1,9 +1,9 @@
 import $ from './jquery-global';
-import 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
+import 'jquery-ui/dist/jquery-ui';
 import { Tooltip } from 'bootstrap';
-import { loadMessages, sendMessage } from './controllers/chat.controller';
-import ChatService from './services/chat.service';
-import UserService from './services/user.service';
+import { loadMessages, sendMessage } from '@/controllers/chat.controller';
+import ChatService from '@/services/chat.service';
+import UserService from '@/services/user.service';
 
 $(async () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -26,7 +26,6 @@ $(async () => {
     $(document).on('click', '.chat-drawer', async function(event) {
         const id = $(this).attr('data-id');
         
-        // TODO: Esto es raro
         const srcImg = $(`[data-id=${$(this).attr('data-id')}] a div img`).attr('src');
         const name = $(`[data-id=${$(this).attr('data-id')}] a div div p`).text();
 
@@ -60,13 +59,13 @@ $(async () => {
             $(this).val(ui.item.name);
 
             const response = await ChatService.findOne({ userTwo: ui.item.value });
-            console.log(response);
-            $('#actual-chat-id').val(response.chatId);
+            const { chatId, user } = response;
 
-            $('.actual-chat-user-image').attr('src', `/api/v1/images/${ response.user.profilePicture }`);
-            $('.actual-chat-user-name').text(`${ response.user.name } ${ response.user.lastName }`);
+            $('#actual-chat-id').val(chatId);
+            $('.actual-chat-user-image').attr('src', `/api/v1/images/${ user.profilePicture }`);
+            $('.actual-chat-user-name').text(`${ user.name } ${ user.lastName }`);
         
-            loadMessages(response.chatId);
+            loadMessages(chatId);
         }
     })
     .data('ui-autocomplete')._renderItem = function(ul, item) {

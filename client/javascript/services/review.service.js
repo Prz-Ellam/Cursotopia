@@ -21,7 +21,20 @@ export default class ReviewService {
     };
 
     static delete = async (reviewId) => {
-        return await mainService('DELETE', `/api/v1/reviews/${reviewId}`);
+        try {
+            const configuration = {
+                method: 'DELETE',
+                url: `/api/v1/reviews/${reviewId}`,
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     };
 
     static showMoreComments = async (courseId, pageNum, pageSize) => {

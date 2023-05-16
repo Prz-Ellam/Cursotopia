@@ -2,11 +2,11 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-import UserService from '@/services/user.service';
+import { readFileAsync } from '@/utilities/file-reader';
 import { showErrorMessage } from '@/utilities/show-error-message';
 import { showUnblockedUsers, showBlockedUsers } from '@/views/user.view';
 import { Toast, ToastBottom, ToastTopEnd } from '@/utilities/toast';
-import { readFileAsync } from './image.controller';
+import UserService from '@/services/user.service';
 import ImageService from '@/services/image.service';
 
 export const submitLogin = async function(event) {
@@ -208,6 +208,69 @@ export const submitUpdatePassword = async function(event) {
     window.location.href = '/home';
 }
 
+export const blockUser = async function(userId) {
+    const response = await UserService.block(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const blockedUsers = await UserService.findBlocked();
+    const unblockedUsers = await UserService.findUnblocked();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido bloqueado'
+    });
+}
+
+export const unblockUser = async function(userId) {
+    const response = await UserService.unblock(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const blockedUsers = await UserService.findBlocked();
+    const unblockedUsers = await UserService.findUnblocked();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido desbloqueado'
+    });
+}
+
 // TODO: changeProfilePicture
 let previousFile = '';
 export const changeProfilePicture = async function(event) {
@@ -280,68 +343,6 @@ export const changeProfilePicture = async function(event) {
     }
 }
 
-export const blockUser = async function(userId) {
-    const response = await UserService.block(userId);
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    const blockedUsers = await UserService.findBlocked();
-    const unblockedUsers = await UserService.findUnblocked();
-    if (!blockedUsers?.status || !unblockedUsers?.status) {
-        showErrorMessage({ message: 'Ocurrio un error inesperado' });
-        return;
-    }
-
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-
-    const blocked = blockedUsers.blockedUsers;
-    const unblocked = unblockedUsers.unblockedUsers;
-    blocked.forEach(user => {
-        showBlockedUsers(user);
-    });
-    unblocked.forEach(user => {
-        showUnblockedUsers(user);
-    });
-
-    Toast.fire({
-        icon: 'success',
-        title: 'El usuario ha sido bloqueado'
-    });
-}
-
-export const unblockUser = async function(userId) {
-    const response = await UserService.unblock(userId);
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    const blockedUsers = await UserService.findBlocked();
-    const unblockedUsers = await UserService.findUnblocked();
-    if (!blockedUsers?.status || !unblockedUsers?.status) {
-        showErrorMessage({ message: 'Ocurrio un error inesperado' });
-        return;
-    }
-
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-    const blocked = blockedUsers.blockedUsers;
-    const unblocked = unblockedUsers.unblockedUsers;
-    blocked.forEach(user => {
-        showBlockedUsers(user);
-    });
-    unblocked.forEach(user => {
-        showUnblockedUsers(user);
-    });
-
-    Toast.fire({
-        icon: 'success',
-        title: 'El usuario ha sido desbloqueado'
-    });
-}
 
 /**
  * 

@@ -23,7 +23,7 @@ export default class ChatService {
         try {
             const configuration = {
                 method: 'GET',
-                url: '/api/v1/users/chat',
+                url: '/api/v1/users/chats',
                 headers: { 
                     'Content-Type': 'application/json'
                 }
