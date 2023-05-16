@@ -4,7 +4,6 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CourseModel;
@@ -153,7 +152,7 @@ class EnrollmentController {
             return;
         }
 
-        $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
+        $enroll = EnrollmentModel::findOneByCourseAndStudent($courseId, $studentId);
         if ($enroll) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -213,7 +212,7 @@ class EnrollmentController {
         }
 
         // Checar si el usuario ya tiene una inscripción
-        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
+        $enrollment = EnrollmentModel::findOneByCourseAndStudent($courseId, $studentId);
         if (!$enrollment) {
             // Si no tiene le creamos una
             $enrollment = new EnrollmentModel([

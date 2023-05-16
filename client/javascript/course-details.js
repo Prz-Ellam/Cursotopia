@@ -40,6 +40,7 @@ $(async () => {
 
     $(document).on('click', '.delete-review', async function() {
         const reviewId = $(this).attr('data-id');
+        console.log(reviewId);
         await deleteReview(reviewId);
     });
 });

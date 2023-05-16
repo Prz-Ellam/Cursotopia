@@ -11,13 +11,13 @@ import '../assets/images/work-with-the-best.png';
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'bootstrap';
-import CategoryUpdateValidator from './validators/category-update.validator';
-import { updateCategory, approveCategory, denyCategory, activateCategory, deactivateCategory, showCategoryDetails} from './controllers/category.controller';
-import { showModal } from './utilities/modal';
+import CategoryUpdateValidator from '@/validators/category-update.validator';
+import { approveCategory, denyCategory, showCategoryDetails, submitUpdateCategory} from '@/controllers/category.controller';
+import { showModal } from '@/utilities/modal';
 
 $(async () => {
     $('#update-category-form').validate(CategoryUpdateValidator);
-    $('#update-category-form').on('submit', updateCategory);
+    $('#update-category-form').on('submit', submitUpdateCategory);
     
     $(document).on('click', '.update-category-btn', function() {
         const categoryId = $(this).attr('data-id');
@@ -35,16 +35,4 @@ $(async () => {
         const categoryId = $(this).attr('data-id');
         await denyCategory(categoryId);
     });
-
-    /*
-    $(document).on('click', '.activate-btn', function() {
-        const categoryId = $(this).attr('id');
-        activateCategory(categoryId);
-    });
-
-    $(document).on('click', '.deactivate-btn', function() {
-        const categoryId = $(this).attr('id');
-        deactivateCategory(categoryId);
-    });
-    */
 });

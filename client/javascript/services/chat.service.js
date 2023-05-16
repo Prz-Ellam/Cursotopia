@@ -1,12 +1,38 @@
-//import axios from 'axios';
-import { mainService } from './video.service';
+import axios from 'axios';
 
 export default class ChatService {
     static findOne = async (chat) => {
-        return await mainService('POST', '/api/v1/chats/find', 'application/json', chat);
+        try {
+            const configuration = {
+                method: 'POST',
+                url: '/api/v1/chats/find',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(chat)
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     }
 
     static findAllByUser = async () => {
-        return await mainService('GET', '/api/v1/users/chats', 'application/json', {});
+        try {
+            const configuration = {
+                method: 'GET',
+                url: '/api/v1/users/chat',
+                headers: { 
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     }
 }

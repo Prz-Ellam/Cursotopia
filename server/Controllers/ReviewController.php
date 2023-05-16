@@ -7,13 +7,14 @@ use Bloom\Http\Response\Response;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
+use Cursotopia\Models\UserModel;
 use Cursotopia\ValueObjects\Roles;
 use Exception;
 
 class ReviewController {    
     public function create(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             [
                 "message" => $message,
                 "rate" => $rate,
@@ -30,8 +31,17 @@ class ReviewController {
                 return;
             }
 
+            $user = UserModel::findById($userId);
+            if (!$user) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Usuario no encontrado"
+                ]);
+                return;
+            }
+
             //Validar que esté inscrito al curso
-            $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $userId);
+            $enroll = EnrollmentModel::findOneByCourseAndStudent($courseId, $userId);
             if (!$enroll) {
                 $response->setStatus(404)->json([
                     "status" => false,
@@ -50,7 +60,7 @@ class ReviewController {
             }
 
             //Validar que no haya dejado una reseña al curso previamente
-            $userReview = ReviewModel::findOneByCourseAndUserId($courseId, $userId);
+            $userReview = ReviewModel::findOneByCourseAndUser($courseId, $userId);
             if ($userReview) {
                 $response->setStatus(409)->json([
                     "status" => false,
@@ -91,7 +101,7 @@ class ReviewController {
     public function delete(Request $request, Response $response): void {
         try {
             $reviewId = intval($request->getParams("id"));
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             $role = $request->getSession()->get("role");
 
             // Validar que la reseña exista
@@ -117,7 +127,6 @@ class ReviewController {
                 ->setActive(false);
 
             $isDeleted = $review->save();
-
             if (!$isDeleted) {
                 $response->setStatus(400)->json([
                     "status" => false,
@@ -202,8 +211,8 @@ class ReviewController {
 
     public function getTotalCourseReviews(Request $request, Response $response): void {
         $courseId = intval($request->getParams("courseId"));
-        if ($courseId == false) {
-            $response->json([
+        if ($courseId === 0) {
+            $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "El curso debe ser un entero positivo"
             ]);
@@ -221,7 +230,6 @@ class ReviewController {
         }
 
         $reviewsTotal = ReviewModel::findTotalByCourse($courseId);
-
         $response->json($reviewsTotal);
     }
 }

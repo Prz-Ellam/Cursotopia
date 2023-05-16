@@ -1,8 +1,9 @@
-import LessonService from "../services/lesson.service";
-import { hideModal } from "../utilities/modal";
-import { showErrorMessage } from "../utilities/show-error-message";
-import { Toast, ToastTopEnd } from "../utilities/toast";
-import LessonView from "../views/lesson.view";
+import Swal from 'sweetalert2';
+import LessonService from '@/services/lesson.service';
+import { hideModal } from '@/utilities/modal';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
+import LessonView from '@/views/lesson.view';
 
 export const createLesson = async function(event) {
     event.preventDefault();

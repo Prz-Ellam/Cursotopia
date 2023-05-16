@@ -121,8 +121,8 @@ class LinkController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $linkId = $request->getParams("id");
+        $userId = intval($request->getSession()->get("id"));
+        $linkId = intval($request->getParams("id"));
 
         $link = LinkModel::findById($linkId);
         if (!$link) {

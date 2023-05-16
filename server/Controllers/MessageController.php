@@ -10,8 +10,8 @@ use Cursotopia\Repositories\MessageViewRepository;
 
 class MessageController {
     public function getAllByChat(Request $request, Response $response): void {
-        $chatId = $request->getParams("chatId");
-        $userId = $request->getSession()->get("id");
+        $chatId = intval($request->getParams("chatId"));
+        $userId = intval($request->getSession()->get("id"));
 
         $messageRepository = new MessageRepository();
         $messages = $messageRepository->findAllByChat($chatId);
@@ -30,8 +30,8 @@ class MessageController {
     }
 
     public function create(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $chatId = $request->getParams("chatId");
+        $userId = intval($request->getSession()->get("id"));
+        $chatId = intval($request->getParams("chatId"));
         [
             "content" => $content
         ] = $request->getBody();

@@ -9,10 +9,9 @@ use Cursotopia\Models\UserModel;
 
 class ChatController {
     public function chat(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $userId = intval($request->getSession()->get("id"));
         
-        $chats = ChatModel::findAllByUser($id);
-
+        $chats = ChatModel::findAllByUser($userId);
         if (!is_array($chats)) {
             $chats = [];
         }
@@ -24,10 +23,18 @@ class ChatController {
 
     public function getChatByParticipants(Request $request, Response $response): void {
         //$userOne = $request->getBody("userOne");
-        $userOne = $request->getSession()->get("id");
+        $userOne = intval($request->getSession()->get("id"));
         $userTwo = $request->getBody("userTwo");
 
         $user = UserModel::findById($userTwo);
+        if (!$user) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Usuario no encontrado"
+            ]);
+            return;
+        }
+
         $chat = ChatModel::findOneByUsers($userOne, $userTwo);
 
         $response->json([

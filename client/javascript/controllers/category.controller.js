@@ -53,51 +53,23 @@ export const submitCategory = async function(event) {
     });
 
     const categoryResponse = await CategoryService.findAll();
-    if (categoryResponse?.status) {
-        $('#categories').html('');
-        categoryResponse.categories.forEach(category => {
-            $('#categories').append(`
-                <option value="${category.id}">${category.name}</option>
-            `);
-        });
-        $('#categories').multipleSelect('refresh');
-    }
-
-    document.querySelector('#category-create-form').reset();
-}
-
-export const updateCourseCreateCategory = async function(event) {
-    event.preventDefault();
-
-    const isFormValid = $(this).valid();
-    if (!isFormValid) {
-        ToastTopEnd.fire({
-            icon: 'error',
-            title: 'Formulario no válido'
-        });
+    if (!categoryResponse?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
         return;
     }
 
-    const formData = new FormData(this);
-    const category = {
-        name: formData.get('name'),
-        description: formData.get('description')
-    };
-    const response = await CategoryService.create(category);
-    
-    if (response?.status) {
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido añadida con éxito'
-        });
-    }
-
-    hideModal('#category-create-modal');
+    $('#categories').html('');
+    categoryResponse.categories.forEach(category => {
+        $('#categories').append(`
+            <option value="${category.id}">${category.name}</option>
+        `);
+    });
+    $('#categories').multipleSelect('refresh');
 
     document.querySelector('#category-create-form').reset();
 }
 
-export const updateCategory = async function(event) {
+export const submitUpdateCategory = async function(event) {
     event.preventDefault();
     
     const isFormValid = $(this).valid();
@@ -137,13 +109,47 @@ export const updateCategory = async function(event) {
     });
 
     const approvedCategories = await CategoryService.findApproved();
+    if (!approvedCategories?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
     $('#approvedCategories').empty();
-    if (approvedCategories?.status) {
-        const categoriesApproved = approvedCategories.categories;
-        categoriesApproved.forEach(category => {
-            showApprovedCategories(category);
+    const categoriesApproved = approvedCategories.categories;
+    categoriesApproved.forEach(category => {
+        showApprovedCategories(category);
+    });
+}
+
+export const updateCourseCreateCategory = async function(event) {
+    event.preventDefault();
+
+    const isFormValid = $(this).valid();
+    if (!isFormValid) {
+        ToastTopEnd.fire({
+            icon: 'error',
+            title: 'Formulario no válido'
+        });
+        return;
+    }
+
+    const formData = new FormData(this);
+    const category = {
+        name: formData.get('name'),
+        description: formData.get('description')
+    };
+    const response = await CategoryService.create(category);
+    
+    if (response?.status) {
+        Toast.fire({
+            icon: 'success',
+            title: 'La categoría ha sido añadida con éxito'
         });
     }
+
+    hideModal('#category-create-modal');
+
+    document.querySelector('#category-create-form').reset();
 }
 
 export const showCategoryDetails = async function(categoryId) {
@@ -153,8 +159,7 @@ export const showCategoryDetails = async function(categoryId) {
         showErrorMessage(response);
         return;
     }
-
-    
+ 
     const { category } = response;
     const readonly = !category.active;
     $('#category-name').prop('readonly', readonly);
@@ -314,7 +319,7 @@ export const deactivateCategory = async function(categoryId) {
         });
     }
 
-    await Toast.fire({
+    Toast.fire({
         icon: 'success',
         title: 'La categoría ha sido desactivada'
     });

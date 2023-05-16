@@ -3,7 +3,21 @@ import { mainService } from './video.service';
 
 export default class CourseService {
     static create = async (course) => {
-        return await mainService('POST', '/api/v1/courses', 'multipart/form-data', course);
+        try {
+            const configuration = {
+                method: 'POST',
+                url: '/api/v1/courses',
+                headers: { 
+                    'Content-Type': 'multipart/form-data'
+                },
+                data : course
+            };
+            const response = await axios(configuration);
+            return response.data;
+        }
+        catch (exception) {
+            return exception.response.data;
+        }
     }
 
     static update = async (id, course) => {
@@ -21,18 +35,16 @@ export default class CourseService {
     static findnotApproved = async () => {
         return await mainService('GET', `/api/v1/courses`, 'application/json');
     }
+
+    static confirm = async (courseId) => {
+        return await mainService('PUT', `/api/v1/courses/${courseId}/confirm`, 'application/json', {});
+    }
     
-}
+    static approve = async (courseId) => {
+        return await mainService('PUT', `/api/v1/courses/${courseId}/approve`, 'application/json', {"approve":true});
+    }
 
-
-export const courseConfirmService = async (courseId) => {
-    return await mainService('PUT', `/api/v1/courses/${courseId}/confirm`, 'application/json', {});
-}
-
-export const approveCourseService = async (courseId) => {
-    return await mainService('PUT', `/api/v1/courses/${courseId}/approve`, 'application/json', {"approve":true});
-}
-
-export const denyCourseService = async (courseId) => {
-    return await mainService('PUT', `/api/v1/courses/${courseId}/deny`, 'application/json');
+    static deny = async (courseId) => {
+        return await mainService('PUT', `/api/v1/courses/${courseId}/deny`, 'application/json');
+    }
 }

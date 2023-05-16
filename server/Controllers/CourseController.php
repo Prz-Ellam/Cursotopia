@@ -77,7 +77,7 @@ class CourseController {
             $lesson = $lessonRepository->firstLessonComplete($id, $userId ?? -1);
         }
 
-        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($id, $userId);
+        $enrollment = EnrollmentModel::findOneByCourseAndStudent($id, $userId);
         if ((!$course["active"] && !$enrollment) && ($course["instructorId"] != $userId)) {
             $response->setStatus(404)->render("404");
             return;
@@ -158,7 +158,7 @@ class CourseController {
 
         $course = CourseModel::findObjById($courseId);
 
-        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $userId);
+        $enrollment = EnrollmentModel::findOneByCourseAndStudent($courseId, $userId);
 
         $lessonRepository = new LessonRepository();
         $lesson = $lessonRepository->courseVisorFindById($lessonId);

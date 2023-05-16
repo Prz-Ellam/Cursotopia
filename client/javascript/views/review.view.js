@@ -97,7 +97,7 @@ export const showMoreReviews = (review, userId, userRol) => {
               <i class="fas fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item delete-review" reviewId=${review.id}>Eliminar</a></li>
+              <li><a class="dropdown-item delete-review" data-id=${review.id}>Eliminar</a></li>
             </ul>` : ''
             }
           </div>

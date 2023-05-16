@@ -14,7 +14,6 @@ export const mainService = async(method, url, contentType, data) => {
         return response.data;
     }
     catch (exception) {
-        //console.log(exception);
         return exception.response.data;
     }
 }

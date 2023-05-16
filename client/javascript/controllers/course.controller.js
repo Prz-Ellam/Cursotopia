@@ -2,19 +2,19 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 import { Toast, ToastTopEnd } from '../utilities/toast';
-import CourseService, { courseConfirmService, approveCourseService, denyCourseService } from '../services/course.service';
+import CourseService from '@/services/course.service';
 import { showNotApprovedCourses} from '../views/course.view';
 import { readFileAsync } from '../utilities/file-reader';
 import { showErrorMessage } from '../utilities/show-error-message';
 import { changeImage } from './image.controller';
-import VideoService from '../services/video.service';
-import DocumentService from '../services/document.service';
-import ImageService from '../services/image.service';
-import LinkService from '../services/link.service';
+import VideoService from '@/services/video.service';
+import DocumentService from '@/services/document.service';
+import ImageService from '@/services/image.service';
+import LinkService from '@/services/link.service';
 
 let opacity;
 
-export const createCourse = async function(event) {
+export const submitCreateCourse = async function(event) {
     event.preventDefault();
 
     const isFormValid = $(this).valid();
@@ -271,7 +271,7 @@ export const submitConfirmCourse = async function(event) {
     event.preventDefault();
 
     const courseId = document.getElementById('create-level-course-id').value;
-    const response = await courseConfirmService(courseId);
+    const response = await CourseService.confirm(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
@@ -296,7 +296,7 @@ export const findAllByInstructor = function(event) {
 }
 
 export const approveCourses = async function(courseId) {
-    const response = await approveCourseService(courseId);
+    const response = await CourseService.approve(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
@@ -321,7 +321,7 @@ export const approveCourses = async function(courseId) {
 }
 
 export const denyCourses = async function(courseId) {
-    const response = await denyCourseService(courseId);
+    const response = await CourseService.deny(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;

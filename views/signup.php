@@ -121,8 +121,7 @@
               </label>
               <div class="input-group">
                 <input type="password" name="password" id="password" class="form-control">
-                <button type="button" class="btn btn-primary btn-password" id="password-button"
-                  >
+                <button type="button" class="btn btn-primary btn-password" id="password-button">
                   <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
@@ -143,7 +142,7 @@
                 <input type="password" name="confirmPassword" id="confirm-password"
                   class="form-control">
                 <button type="button" class="btn btn-primary btn-password" id="confirm-password-button">
-                  <i class="fa-solid fa-eye-slash fa-eye"></i>
+                  <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
             </div>

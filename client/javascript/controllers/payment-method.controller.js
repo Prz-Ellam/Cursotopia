@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { createEnrollmentService, payEnrollmentService } from '../services/enrollment.service';
-import { showErrorMessage } from '../utilities/show-error-message';
-import { ToastTopEnd } from '../utilities/toast';
+import EnrollmentService from '@/services/enrollment.service';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { ToastTopEnd } from '@/utilities/toast';
 
 export const enroll = async function(event) {
     event.preventDefault();
@@ -17,7 +17,7 @@ export const enroll = async function(event) {
     $('#payment-btn').prop('disabled', true);
     $('#payment-spinner').removeClass('d-none');
     
-    const response = await createEnrollmentService(payment);
+    const response = await EnrollmentService.create(payment);
 
     $('#payment-spinner').addClass('d-none');
     $('#payment-btn').prop('disabled', false);
@@ -63,7 +63,7 @@ export const payment = async function(event) {
     $('#payment-btn').prop('disabled', true);
     $('#payment-spinner').removeClass('d-none');
     
-    const response = await payEnrollmentService(payment);
+    const response = await EnrollmentService.pay(payment);
 
     $('#payment-spinner').addClass('d-none');
     $('#payment-btn').prop('disabled', false);

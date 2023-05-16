@@ -3,7 +3,7 @@ import 'jquery-validation';
 import 'multiple-select';
 import 'bootstrap';
 import CourseCreateValidator from './validators/course-create.validator';
-import { backSection, createCourse, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
+import { backSection, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, submitCreateCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
 import { courseCreationUpdateLevel, submitLevelCreate } from './controllers/level.controller';
 import CreateCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
@@ -21,7 +21,7 @@ import { showModal } from './utilities/modal';
 $(async () => {
     // Crear curso
     $('#course-create-form').validate(CourseCreateValidator);
-    $('#course-create-form').on('submit', createCourse);
+    $('#course-create-form').on('submit', submitCreateCourse);
 
     $('#upload-image').on('change', async function(event) {
         await displayImageFile(event, '#upload-image', '#picture-box', '');

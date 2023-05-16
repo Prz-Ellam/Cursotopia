@@ -159,5 +159,3 @@ WHERE `link_id` = 3
         WHERE
             `id` = 13
 
-
-SELECT * FROM `images` WHERE `image_id` = 27;
