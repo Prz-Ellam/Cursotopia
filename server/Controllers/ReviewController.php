@@ -4,6 +4,7 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\ReviewModel;
 use Cursotopia\Models\CourseModel;
@@ -211,7 +212,7 @@ class ReviewController {
 
     public function getTotalCourseReviews(Request $request, Response $response): void {
         $courseId = intval($request->getParams("courseId"));
-        if ($courseId === 0) {
+        if (!Validate::uint($courseId)) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "El curso debe ser un entero positivo"

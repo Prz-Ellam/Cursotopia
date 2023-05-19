@@ -245,8 +245,8 @@ class LessonController {
 
     // TODO:
     public function complete(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id") ?? -1;
+        $userId = intval($request->getSession()->get("id"));
+        $lessonId = intval($request->getParams("id")) ?? -1;
 
         $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {
@@ -294,7 +294,7 @@ class LessonController {
     // TODO:
     public function visit(Request $request, Response $response): void {
         $id = intval($request->getSession()->get("id"));
-        $lessonId = $request->getParams("id") ?? -1;
+        $lessonId = intval($request->getParams("id")) ?? -1;
 
         $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {

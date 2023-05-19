@@ -35,9 +35,9 @@ class EnrollmentController {
     }
 
     public function certificate(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $id = intval($request->getSession()->get("id"));
 
-        $courseId = $request->getQuery("course");
+        $courseId = intval($request->getQuery("course"));
         if (!$courseId) {
             $response->setStatus(404)->render("404");
             return;

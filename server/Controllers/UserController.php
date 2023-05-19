@@ -26,22 +26,22 @@ class UserController {
     }
 
     public function profile(Request $request, Response $response): void {
-        $id = $request->getQuery("id");
-        if (!Validate::uint($id)) {
+        $userId = intval($request->getQuery("id"));
+        $authUserId = intval($request->getSession()->get("id"));
+        if (!Validate::uint($userId)) {
             $response->setStatus(404)->render("404");
             return;
         }
     
-        $user = UserModel::findById($id);
+        $user = UserModel::findById($userId);
         if (!$user) {
             $response->setStatus(404)->render("404");
             return;
         }
     
         // Verificar si el usuario somos nosotros o no
-        $session = $request->getSession();
         $isMe = false;
-        if ($session->get("id") === $user->getId()) {
+        if ($authUserId === $user->getId()) {
             $isMe = true;
         }
         
@@ -52,9 +52,9 @@ class UserController {
     }
 
     public function profileEdition(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $userId = intval($request->getSession()->get("id"));
     
-        $user = UserModel::findById($id);
+        $user = UserModel::findById($userId);
         if (!$user) {
             $response->setStatus(404)->render("404");
             return;
@@ -188,10 +188,10 @@ class UserController {
     public function getOne(Request $request, Response $response): void {
         // Cualquier usuario puede ver la información de cualquiera, excepto contraseña
         // obviamente
-        $id = intval($request->getParams("id"));
+        $userId = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findById($id);
+        $user = UserModel::findById($userId);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -200,7 +200,7 @@ class UserController {
             return;
         }
 
-        // Decirle que propiedades iran al objeto
+        // Decirle que propiedades no iran al objeto
         $user->setIgnores([ "password", "enabled", "active", "createdAt", "modifiedAt" ]);
         $response->json($user);
     }
@@ -481,10 +481,10 @@ class UserController {
     }
 
     public function disableUser(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $userId = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findById($id);
+        $user = UserModel::findById($userId);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -520,10 +520,10 @@ class UserController {
     }
 
     public function enableUser(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $userId = intval($request->getParams("id"));
 
         // Devuelve el usuario si lo encuentra, si no devuelve null
-        $user = UserModel::findById($id);
+        $user = UserModel::findById($userId);
         if (!$user) {
             $response->setStatus(404)->json([
                 "status" => false,

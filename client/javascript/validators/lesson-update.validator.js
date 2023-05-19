@@ -125,6 +125,14 @@ export default {
         },
         'resource': {
             resource: 'Debe agregar al menos un recurso'
+        },
+        'link-title': {
+            trimming: 'El nombre del enlace no puede contener solo espacios',
+            maxlength: 'El nombre del enlace no puede contener más de 255 caracteres'
+        },
+        'link-url': {
+            trimming: 'La url del enlace no puede contener solo espacios',
+            maxlength: 'La url del enlace no puede contener más de 255 caracteres'
         }
         /*
         'video': {

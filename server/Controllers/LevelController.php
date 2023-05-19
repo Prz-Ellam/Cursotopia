@@ -51,7 +51,7 @@ class LevelController {
 
     public function create(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             [
                 "title" => $title,
                 "description" => $description,
@@ -108,7 +108,7 @@ class LevelController {
 
     public function update(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             $id = intval($request->getParams("id"));
             [
                 "title" => $title,

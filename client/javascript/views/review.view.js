@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 export const createReview = (review) => {
-
   const date = new Date();
   const options = {
     day: '2-digit',
@@ -109,5 +108,4 @@ export const showMoreReviews = (review, userId, userRol) => {
   `;
 
   $('#review-section').append(html);
-
 }

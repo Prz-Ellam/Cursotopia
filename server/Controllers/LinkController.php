@@ -79,9 +79,7 @@ class LinkController {
     }
 
     public function putLessonLink(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id");
-
+        $lessonId = intval($request->getParams("id"));
         [
             "name" => $name,
             "address" => $address
@@ -121,7 +119,6 @@ class LinkController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $userId = intval($request->getSession()->get("id"));
         $linkId = intval($request->getParams("id"));
 
         $link = LinkModel::findById($linkId);

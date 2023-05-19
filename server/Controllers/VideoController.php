@@ -107,7 +107,7 @@ class VideoController {
     }
 
     public function update(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $videoId = intval($request->getParams("id"));
         $file = $request->getFiles("video");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -134,7 +134,7 @@ class VideoController {
         
         move_uploaded_file($file->getTmpName(), $address);
 
-        $video = VideoModel::findById($id);
+        $video = VideoModel::findById($videoId);
         if (!$video) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -160,7 +160,7 @@ class VideoController {
 
     public function putLessonVideo(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id");
+        $lessonId = intval($request->getParams("id"));
 
         $file = $request->getFiles("video");
         if (!$file) {
@@ -225,7 +225,7 @@ class VideoController {
 
     public function delete(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        $videoId = $request->getParams("id");
+        $videoId = intval($request->getParams("id"));
 
         $video = VideoModel::findById($videoId);
         if (!$video) {
@@ -248,8 +248,8 @@ class VideoController {
     }
 
     public function getOne(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
-        if (!Validate::uint($id)) {
+        $videoId = intval($request->getParams("id"));
+        if (!Validate::uint($videoId)) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Identificador no válido"
@@ -295,7 +295,7 @@ class VideoController {
             return;
         }
 */
-        $video = VideoModel::findById($id);
+        $video = VideoModel::findById($videoId);
         if (!$video) {
             $response->setStatus(404)->json([
                 "status" => false,

@@ -47,7 +47,7 @@ class DocumentController {
             return;
         }
 
-        if ($file->getSize() > 1 * 1024 * 1024 * 1024) {
+        if ($file->getSize() > 8 * 1024 * 1024) {
             $payload = $request->getBody("payload");
             if ($payload) {
                 $payloadObj = json_decode($payload, true);
