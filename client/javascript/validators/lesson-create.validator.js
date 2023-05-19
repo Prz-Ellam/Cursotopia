@@ -21,8 +21,8 @@ $.validator.addMethod('image', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
@@ -33,8 +33,8 @@ $.validator.addMethod('document', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(pdf)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'application/pdf' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
@@ -45,8 +45,8 @@ $.validator.addMethod('video', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(mp4)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'video/mp4' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
@@ -119,10 +119,13 @@ export default {
             maxlength: 'El título no puede contener más de 50 caracteres'
         },
         'description': {
-            required: 'La descri de la lecciónpción es requerida',
+            required: 'La descripción de la lección es requerida',
             trimming: 'La descripción es requerida',
             maxlength: 'La descripción no puede contener más de 255 caracteres'
         },
+        'resource': {
+            resource: 'Debe agregar al menos un recurso'
+        }
         /*
         'video': {
             filesize: 'El video no puede pesar más de 4GB',

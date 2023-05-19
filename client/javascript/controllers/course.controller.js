@@ -187,7 +187,7 @@ export const updateCourse = async function(event) {
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
     }
 
-    const response = await CourseService.update(id, JSON.stringify(course));
+    const response = await CourseService.update(id, course);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
@@ -291,10 +291,6 @@ export const submitConfirmCourse = async function(event) {
     window.location.href = '/home';
 }
 
-export const findAllByInstructor = function(event) {
-
-}
-
 export const approveCourses = async function(courseId) {
     const response = await CourseService.approve(courseId);
     if (!response?.status) {
@@ -365,7 +361,7 @@ export const updateVideo = async function(event) {
     }
 
     const maxFilesize = 1 * 1024 * 1024 * 1024;
-    if (image.size > maxFilesize) {
+    if (video.size > maxFilesize) {
         await Swal.fire({
             icon: 'error',
             title: '¡Error!',
@@ -401,7 +397,7 @@ export const updateDocument = async function(event) {
     const files = Array.from(event.target.files);
     const document = files[0];
 
-    const allowedExtensions = [ 'application/json' ];
+    const allowedExtensions = [ 'application/pdf' ];
     if (!allowedExtensions.includes(document.type)) {
         await Swal.fire({
             icon: 'error',
@@ -528,6 +524,7 @@ export const deleteVideo = async function(event) {
     const response = await VideoService.delete(videoId);
     if (response.status) {
         $('#delete-video-btn').attr('data-id', null);
+        document.getElementById('update-lesson-video').value = null;
     }
 }
 
@@ -536,6 +533,7 @@ export const deleteImage = async function(event) {
     const response = await ImageService.delete(imageId);
     if (response.status) {
         $('#delete-image-btn').attr('data-id', null);
+        document.getElementById('update-lesson-image').value = null;
     }
 }
 
@@ -544,6 +542,7 @@ export const deleteDocument = async function(event) {
     const response = await DocumentService.delete(documentId);
     if (response.status) {
         $('#delete-document-btn').attr('data-id', null);
+        document.getElementById('update-lesson-document').value = null;
     }
 }
 

@@ -156,7 +156,9 @@
           </div>
         </div>
         <footer class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="create-level-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="create-level-spinner"></span>
             Agregar nivel
@@ -194,7 +196,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="edit-level-close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="edit-level-close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="update-level-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="update-level-spinner"></span>
             Guardar cambios
@@ -260,7 +264,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="create-lesson-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="create-lesson-spinner"></span>
             Agregar lección
@@ -332,7 +338,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="edit-lesson-close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="edit-lesson-close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="update-lesson-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="update-lesson-spinner"></span>
             Guardar cambios

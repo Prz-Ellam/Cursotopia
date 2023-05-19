@@ -1,15 +1,8 @@
 import $ from './jquery-global';
 import 'jquery-validation';
 import 'multiple-select';
-import { createCourseImage, updateCourse } from './controllers/course.controller';
+import { updateCourse } from './controllers/course.controller';
 import updateCourseValidator from './validators/course-update.validator';
-import { courseEditionCreateLevel, courseEditionUpdateLevel } from './controllers/level.controller';
-import createLevelValidator from './validators/level-create.validator';
-import createCategoryValidator from './validators/category-create.validator';
-import { updateCourseCreateCategory } from './controllers/category.controller';
-import createLessonValidator from './validators/lesson-create.validator';
-import { courseEditionCreateLesson } from './controllers/lesson.controller';
-import Swal from 'sweetalert2';
 import { changeImage } from './controllers/image.controller';
 import { showModal } from './utilities/modal';
 

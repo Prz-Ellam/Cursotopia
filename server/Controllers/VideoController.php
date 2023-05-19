@@ -35,6 +35,33 @@ class VideoController {
             return;
         }
 
+        $allowedExtensions = [ "video/mp4" ];
+        if (!in_array($file->getType(), $allowedExtensions)) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["videoId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
+        if ($file->getSize() > 1 * 1024 * 1024 * 1024) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["videoId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
         $getID3 = new getID3();
         $fileinfo = $getID3->analyze($file->getTmpName());
 

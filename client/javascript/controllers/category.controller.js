@@ -2,7 +2,7 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 import CategoryService from '@/services/category.service';
-import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '../views/category.view';
+import { showApprovedCategories, showNotApprovedCategories, showNotActiveCategories} from '@/views/category.view';
 import { Toast, ToastTopEnd } from '@/utilities/toast';
 import { showErrorMessage } from '@/utilities/show-error-message';
 import { hideModal } from '@/utilities/modal';
@@ -58,7 +58,7 @@ export const submitCategory = async function(event) {
         return;
     }
 
-    $('#categories').html('');
+    $('#categories').empty();
     categoryResponse.categories.forEach(category => {
         $('#categories').append(`
             <option value="${category.id}">${category.name}</option>
@@ -119,37 +119,8 @@ export const submitUpdateCategory = async function(event) {
     categoriesApproved.forEach(category => {
         showApprovedCategories(category);
     });
-}
 
-export const updateCourseCreateCategory = async function(event) {
-    event.preventDefault();
-
-    const isFormValid = $(this).valid();
-    if (!isFormValid) {
-        ToastTopEnd.fire({
-            icon: 'error',
-            title: 'Formulario no válido'
-        });
-        return;
-    }
-
-    const formData = new FormData(this);
-    const category = {
-        name: formData.get('name'),
-        description: formData.get('description')
-    };
-    const response = await CategoryService.create(category);
-    
-    if (response?.status) {
-        Toast.fire({
-            icon: 'success',
-            title: 'La categoría ha sido añadida con éxito'
-        });
-    }
-
-    hideModal('#category-create-modal');
-
-    document.querySelector('#category-create-form').reset();
+    document.querySelector('#category-update-form').reset();
 }
 
 export const showCategoryDetails = async function(categoryId) {
@@ -265,26 +236,33 @@ export const activateCategory = async function(categoryId) {
     const approvedCategories = await CategoryService.findApproved();
     const notApprovedCategories = await CategoryService.findnotApproved();
     const notActiveCategories = await CategoryService.findnotActive();
-    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-        $('#notApprovedCategories').empty();
-        $('#inactiveCategories').empty();
-        $('#approvedCategories').empty();
 
-        const categoriesApproved = approvedCategories.categories;
-        const categoriesNotApproved = notApprovedCategories.categories;
-        const categoriesNotActive = notActiveCategories.categories;
-        categoriesApproved.forEach(category => {
-            showApprovedCategories(category);
-        });
-        categoriesNotApproved.forEach(category => {
-            showNotApprovedCategories(category);
-        });
-        categoriesNotActive.forEach(category => {
-            showNotActiveCategories(category);
-        });
+    if (!approvedCategories?.status || !notActiveCategories?.status || !notActiveCategories?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
+
+    $('#notApprovedCategories').empty();
+    $('#inactiveCategories').empty();
+    $('#approvedCategories').empty();
+
+    const categoriesApproved = approvedCategories.categories;
+    const categoriesNotApproved = notApprovedCategories.categories;
+    const categoriesNotActive = notActiveCategories.categories;
         
-    await Toast.fire({
+    categoriesApproved.forEach(category => {
+        showApprovedCategories(category);
+    });
+
+    categoriesNotApproved.forEach(category => {
+        showNotApprovedCategories(category);
+    });
+
+    categoriesNotActive.forEach(category => {
+        showNotActiveCategories(category);
+    });
+        
+    Toast.fire({
         icon: 'success',
         title: 'La categoría ha sido activada'
     });
@@ -300,24 +278,30 @@ export const deactivateCategory = async function(categoryId) {
     const approvedCategories = await CategoryService.findApproved();
     const notApprovedCategories = await CategoryService.findnotApproved();
     const notActiveCategories = await CategoryService.findnotActive();
-    if (approvedCategories?.status && notApprovedCategories?.status && notActiveCategories?.status) {
-        $('#notApprovedCategories').empty();
-        $('#inactiveCategories').empty();
-        $('#approvedCategories').empty();
-            
-        const categoriesApproved = approvedCategories.categories;
-        const categoriesNotApproved = notApprovedCategories.categories;
-        const categoriesNotActive = notActiveCategories.categories;
-        categoriesApproved.forEach(category => {
-            showApprovedCategories(category);
-        });
-        categoriesNotApproved.forEach(category => {
-            showNotApprovedCategories(category);
-        });
-        categoriesNotActive.forEach(category => {
-            showNotActiveCategories(category);
-        });
+    if (!approvedCategories?.status || !notApprovedCategories?.status || !notActiveCategories?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
+
+    $('#notApprovedCategories').empty();
+    $('#inactiveCategories').empty();
+    $('#approvedCategories').empty();
+            
+    const categoriesApproved = approvedCategories.categories;
+    const categoriesNotApproved = notApprovedCategories.categories;
+    const categoriesNotActive = notActiveCategories.categories;
+
+    categoriesApproved.forEach(category => {
+        showApprovedCategories(category);
+    });
+
+    categoriesNotApproved.forEach(category => {
+        showNotApprovedCategories(category);
+    });
+
+    categoriesNotActive.forEach(category => {
+        showNotActiveCategories(category);
+    });
 
     Toast.fire({
         icon: 'success',

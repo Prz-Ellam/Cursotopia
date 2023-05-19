@@ -32,6 +32,33 @@ class DocumentController {
             $next();
             return;
         }
+
+        $allowedExtensions = [ "application/pdf" ];
+        if (!in_array($file->getType(), $allowedExtensions)) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["documentId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
+        if ($file->getSize() > 1 * 1024 * 1024 * 1024) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["documentId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
         
         $name = Uuid::uuid4()->toString();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);

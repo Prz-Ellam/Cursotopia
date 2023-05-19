@@ -43,10 +43,6 @@
             </button>
           </div>
         </div>
-        <!-- <div class="form-check mb-4">
-          <input type="checkbox" name="remember" id="remember" class="form-check-input shadow-none rounded-1">
-          <label for="remember" class="form-check-label" role="button">Recuérdame</label>
-        </div> -->
         <div class="d-grid mb-4">
           <button type="submit" id="login-btn"
             class="btn btn-primary rounded-pill">
@@ -58,8 +54,6 @@
         <a href="/signup" class="d-block text-center text-decoration-none text-primary">
           ¡Registrate aquí!
         </a>
-        <!-- <hr>
-        <a href="" class="d-block text-center text-decoration-none text-primary mt-3">¿Olvidaste tu contraseña?</a> -->
       </form>
     </section>
   </main>

@@ -258,9 +258,11 @@ export const unblockUser = async function(userId) {
     $('#unblockUsers').empty();
     const blocked = blockedUsers.blockedUsers;
     const unblocked = unblockedUsers.unblockedUsers;
+
     blocked.forEach(user => {
         showBlockedUsers(user);
     });
+    
     unblocked.forEach(user => {
         showUnblockedUsers(user);
     });

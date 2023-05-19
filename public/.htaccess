@@ -22,24 +22,24 @@ php_value max.execution_time 300
     RewriteRule ^ index.php [NC,L,QSA]
 </IfModule>
 
-<IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires 0
-</IfModule>
+# <IfModule mod_headers.c>
+#     Header set Cache-Control "no-cache, no-store, must-revalidate"
+#     Header set Pragma "no-cache"
+#     Header set Expires 0
+# </IfModule>
 
-<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|mp3|png|pdf|swf|txt)$">
-    <IfModule mod_expires.c>
-        ExpiresActive Off
-    </IfModule>
-    <IfModule mod_headers.c>
-        FileETag None
-        Header unset ETag
-        Header unset Pragma
-        Header unset Cache-Control
-        Header unset Last-Modified
-        Header set Pragma "no-cache"
-        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-        Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
-    </IfModule>
-</FilesMatch>
+# <FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|mp3|png|pdf|swf|txt)$">
+#     <IfModule mod_expires.c>
+#         ExpiresActive Off
+#     </IfModule>
+#     <IfModule mod_headers.c>
+#         FileETag None
+#         Header unset ETag
+#         Header unset Pragma
+#         Header unset Cache-Control
+#         Header unset Last-Modified
+#         Header set Pragma "no-cache"
+#         Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#         Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
+#     </IfModule>
+# </FilesMatch>

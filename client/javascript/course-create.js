@@ -17,6 +17,7 @@ import LevelView from './views/level.view';
 import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
 import { showModal } from './utilities/modal';
+import axios from 'axios';
 
 $(async () => {
     // Crear curso
@@ -99,6 +100,129 @@ $(async () => {
         $('#delete-document-btn').attr('data-id', response.documentId);
         $('#delete-link-btn').attr('data-id', response.linkId);
 
+        if (response.imageId) {
+            axios({
+                url: `/api/v1/images/${ response.imageId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+            .then(response => {
+
+                const contentDisposition = response.headers['content-disposition'];
+        
+                const filenameRegex = new RegExp(/\"(.+)\"/);
+                const filename = filenameRegex.exec(contentDisposition)[1];
+                const contentType = response.headers['content-type'];
+                const contentLength = response.headers['content-length'];
+                const lastModified = response.headers['last-modified'];
+            
+                // Use the metadata as needed
+                console.log('Filename:', filename);
+                console.log('Content Type:', contentType);
+                console.log('Content Length:', contentLength);
+                console.log('Last Modified:', lastModified);
+
+                const file = new File([response], filename, {
+                    type: contentType,
+                    lastModified: new Date(lastModified)
+                });
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('update-lesson-image').files = dataTransfer.files;
+                // Use the file as needed (e.g., display it, upload it, etc.)
+            })
+            .catch(error => {
+                console.error('Error retrieving the image:', error);
+            });
+        }
+
+        if (response.videoId) {
+            axios({
+                url: `/api/v1/videos/${ response.videoId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+            .then(response => {
+
+                const contentDisposition = response.headers['content-disposition'];
+        
+                const filenameRegex = new RegExp(/\"(.+)\"/);
+                const filename = filenameRegex.exec(contentDisposition)[1];
+                const contentType = response.headers['content-type'];
+                const contentLength = response.headers['content-length'];
+                const lastModified = response.headers['last-modified'];
+            
+                // Use the metadata as needed
+                console.log('Filename:', filename);
+                console.log('Content Type:', contentType);
+                console.log('Content Length:', contentLength);
+                console.log('Last Modified:', lastModified);
+
+                const file = new File([response], filename, {
+                    type: contentType,
+                    lastModified: new Date(lastModified)
+                });
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('update-lesson-video').files = dataTransfer.files;
+                // Use the file as needed (e.g., display it, upload it, etc.)
+            })
+            .catch(error => {
+                console.error('Error retrieving the image:', error);
+            });
+        }
+
+        if (response.documentId) {
+            axios({
+                url: `/api/v1/documents/${ response.documentId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+            .then(response => {
+
+                const contentDisposition = response.headers['content-disposition'];
+        
+                const filenameRegex = new RegExp(/\"(.+)\"/);
+                const filename = filenameRegex.exec(contentDisposition)[1];
+                const contentType = response.headers['content-type'];
+                const contentLength = response.headers['content-length'];
+                const lastModified = response.headers['last-modified'];
+            
+                // Use the metadata as needed
+                console.log('Filename:', filename);
+                console.log('Content Type:', contentType);
+                console.log('Content Length:', contentLength);
+                console.log('Last Modified:', lastModified);
+
+                const file = new File([response], filename, {
+                    type: contentType,
+                    lastModified: new Date(lastModified)
+                });
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('update-lesson-document').files = dataTransfer.files;
+                // Use the file as needed (e.g., display it, upload it, etc.)
+            })
+            .catch(error => {
+                console.error('Error retrieving the image:', error);
+            });
+        }
+        
+        if (response.linkId) {
+            axios({
+                url: `/api/v1/links/${ response.linkId }`,
+                method: 'GET',
+            })
+            .then(response => {
+                const data = response.data;
+                $('#edit-lesson-link-title').val(data.name);
+                $('#edit-lesson-link-address').val(data.address);
+            });
+        }
+
         showModal('#lesson-update-modal');
     });
     
@@ -178,6 +302,126 @@ $(async () => {
             LessonView.deleteLessonSection(id);
         }
     });
+
+
+    $('#create-lesson-video').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const video = files[0];
+
+        const allowedExtensions = [ 'video/mp4' ];
+        if (!allowedExtensions.includes(video.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 1 * 1024 * 1024 * 1024;
+        if (video.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El video es muy pesado',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+    $('#create-lesson-image').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const image = files[0];
+
+        const allowedExtensions = [ 'image/jpeg', 'image/jpg', 'image/png' ];
+        if (!allowedExtensions.includes(image.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 8 * 1024 * 1024;
+        if (image.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+    $('#create-lesson-pdf').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const document = files[0];
+        const allowedExtensions = [ 'application/pdf' ];
+        if (!allowedExtensions.includes(document.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 8 * 1024 * 1024;
+        if (document.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El documento es muy pesado',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+
+
 
     $('#update-lesson-video').on('change', updateVideo);
     $('#update-lesson-document').on('change', updateDocument);
