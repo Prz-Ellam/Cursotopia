@@ -242,7 +242,6 @@ BEGIN
         `categories`
     WHERE
         `category_name` = `_category_name`
-        --AND `category_is_approved` = TRUE
         AND `category_active` = TRUE
         AND `category_id` <> `_category_id`
     LIMIT
