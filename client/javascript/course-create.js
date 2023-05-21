@@ -101,105 +101,83 @@ $(async () => {
         $('#delete-link-btn').attr('data-id', response.linkId);
 
         if (response.imageId) {
-            axios({
+            const imageResponse = await axios({
                 url: `/api/v1/images/${ response.imageId }`,
                 method: 'GET',
                 responseType: 'arraybuffer' // Specify the response type as arraybuffer
             })
-            .then(response => {
 
-                const contentDisposition = response.headers['content-disposition'];
-        
-                const filenameRegex = new RegExp(/\"(.+)\"/);
-                const filename = filenameRegex.exec(contentDisposition)[1];
-                const contentType = response.headers['content-type'];
-                const lastModified = response.headers['last-modified'];
+            const contentDisposition = imageResponse .headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = imageResponse .headers['content-type'];
+            const lastModified = imageResponse .headers['last-modified'];
 
-                const file = new File([response], filename, {
-                    type: contentType,
-                    lastModified: new Date(lastModified)
-                });
-
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                document.getElementById('update-lesson-image').files = dataTransfer.files;
-                // Use the file as needed (e.g., display it, upload it, etc.)
-            })
-            .catch(error => {
-                console.error('Error retrieving the image:', error);
+            const file = new File([imageResponse ], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
             });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-image').files = dataTransfer.files;
         }
 
         if (response.videoId) {
-            axios({
+            const videoResponse = await axios({
                 url: `/api/v1/videos/${ response.videoId }`,
                 method: 'GET',
                 responseType: 'arraybuffer' // Specify the response type as arraybuffer
             })
-            .then(response => {
 
-                const contentDisposition = response.headers['content-disposition'];
-        
-                const filenameRegex = new RegExp(/\"(.+)\"/);
-                const filename = filenameRegex.exec(contentDisposition)[1];
-                const contentType = response.headers['content-type'];
-                const lastModified = response.headers['last-modified'];
+            const contentDisposition = videoResponse.headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = videoResponse.headers['content-type'];
+            const lastModified = videoResponse.headers['last-modified'];
             
-                const file = new File([response], filename, {
-                    type: contentType,
-                    lastModified: new Date(lastModified)
-                });
-
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                document.getElementById('update-lesson-video').files = dataTransfer.files;
-                // Use the file as needed (e.g., display it, upload it, etc.)
-            })
-            .catch(error => {
-                console.error('Error retrieving the image:', error);
+            const file = new File([videoResponse], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
             });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-video').files = dataTransfer.files;
         }
 
         if (response.documentId) {
-            axios({
+            const documentResponse = await axios({
                 url: `/api/v1/documents/${ response.documentId }`,
                 method: 'GET',
                 responseType: 'arraybuffer' // Specify the response type as arraybuffer
             })
-            .then(response => {
+            
+            const contentDisposition = documentResponse.headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = documentResponse.headers['content-type'];
+            const lastModified = documentResponse.headers['last-modified'];
 
-                const contentDisposition = response.headers['content-disposition'];
-        
-                const filenameRegex = new RegExp(/\"(.+)\"/);
-                const filename = filenameRegex.exec(contentDisposition)[1];
-                const contentType = response.headers['content-type'];
-                const lastModified = response.headers['last-modified'];
-
-                const file = new File([response], filename, {
-                    type: contentType,
-                    lastModified: new Date(lastModified)
-                });
-
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                document.getElementById('update-lesson-document').files = dataTransfer.files;
-                // Use the file as needed (e.g., display it, upload it, etc.)
-            })
-            .catch(error => {
-                console.error('Error retrieving the image:', error);
+            const file = new File([documentResponse], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
             });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-document').files = dataTransfer.files;
         }
         
         if (response.linkId) {
-            axios({
+            const linkResponse = await axios({
                 url: `/api/v1/links/${ response.linkId }`,
                 method: 'GET',
-            })
-            .then(response => {
-                const data = response.data;
-                $('#edit-lesson-link-title').val(data.name);
-                $('#edit-lesson-link-address').val(data.address);
             });
+
+            const data = linkResponse.data;
+            $('#edit-lesson-link-title').val(data.name);
+            $('#edit-lesson-link-address').val(data.address);
         }
 
         showModal('#lesson-update-modal');

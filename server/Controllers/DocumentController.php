@@ -241,7 +241,7 @@ class DocumentController {
             ]);
             return;
         }
-
+/*
         $documentRepository = new DocumentRepository();
         $info = $documentRepository->checkAvailabityByUser($userId, $documentId);
         if (!$info) {
@@ -277,7 +277,7 @@ class DocumentController {
             ]);
             return;
         }
-
+*/
         $data = file_get_contents($document->getAddress());
         
         $response->setContentType("application/pdf");

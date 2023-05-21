@@ -258,7 +258,7 @@ class VideoController {
         }
 
         $userId = $request->getSession()->get("id");
-
+/*
         $videoRepository = new VideoRepository();
         $info = $videoRepository->video($userId, $videoId);
         if (!$info) {
@@ -294,7 +294,7 @@ class VideoController {
             ]);
             return;
         }
-
+*/
         $video = VideoModel::findById($videoId);
         if (!$video) {
             $response->setStatus(404)->json([
