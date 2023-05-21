@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
+import ImageService from '@/services/image.service';
 import { ToastBottom } from '@/utilities/toast';
 import { readFileAsync } from '@/utilities/file-reader';
 
@@ -126,7 +127,9 @@ export const changeImage = async function(event, selectorInput, selectorImage, d
 
         const dataUrl = await readFileAsync(file);
         $('#picture-box').attr('src', dataUrl);
-        $('.profile-picture').attr('src', dataUrl);
+        if (window.location.pathname === '/profile-edition') {
+            $('.profile-picture').attr('src', dataUrl);
+        }
         ToastBottom.fire({
             icon: 'success',
             title: 'Se ha actualizado la imagen'

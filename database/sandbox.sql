@@ -159,3 +159,4 @@ WHERE `link_id` = 3
         WHERE
             `id` = 13
 
+SELECT * FROM `kardex`;

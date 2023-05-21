@@ -152,6 +152,14 @@ class EnrollmentController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         $enroll = EnrollmentModel::findOneByCourseAndStudent($courseId, $studentId);
         if ($enroll) {
             $response->setStatus(404)->json([
@@ -197,6 +205,14 @@ class EnrollmentController {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "El curso no fue encontrado"
+            ]);
+            return;
+        }
+
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
             ]);
             return;
         }

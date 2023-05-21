@@ -6,7 +6,7 @@ use Bloom\Database\DB;
 
 class ChatRepository extends DB implements Repository {
     private const CREATE = <<<'SQL'
-        INSERT INTO `chats` VALUES();
+        CALL `chat_insert`();
     SQL;
 
     private const FIND_CHAT = <<<'SQL'

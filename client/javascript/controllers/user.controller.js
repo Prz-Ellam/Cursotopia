@@ -126,6 +126,7 @@ export const submitUpdateUser = async function(event) {
     }
 
     const formData = new FormData(this);
+    const id = formData.get('id');
     const user = {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
@@ -137,7 +138,7 @@ export const submitUpdateUser = async function(event) {
     $('#profile-edition-btn').prop('disabled', true);
     $('#profile-edition-spinner').removeClass('d-none');
 
-    const response = await UserService.update(user, formData.get('id'));
+    const response = await UserService.update(user, id);
 
     $('#profile-edition-spinner').addClass('d-none');
     $('#profile-edition-btn').prop('disabled', false);
@@ -227,9 +228,11 @@ export const blockUser = async function(userId) {
 
     const blocked = blockedUsers.blockedUsers;
     const unblocked = unblockedUsers.unblockedUsers;
+
     blocked.forEach(user => {
         showBlockedUsers(user);
     });
+    
     unblocked.forEach(user => {
         showUnblockedUsers(user);
     });

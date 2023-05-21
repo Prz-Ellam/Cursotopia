@@ -117,7 +117,11 @@ export const updateLesson = async function(event) {
     const id = formData.get('id');
     const lesson = {
         title: formData.get('title'),
-        description: formData.get('description')
+        description: formData.get('description'),
+        link: {
+            name: formData.get('link-title'),
+            url: formData.get('link-url')
+        }
     };
 
     $('#update-lesson-btn').prop('disabled', true);

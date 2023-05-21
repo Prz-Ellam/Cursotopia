@@ -53,11 +53,11 @@ $.validator.addMethod('video', function (value, element) {
 }, 'Please enter a valid file');
 
 $.validator.addMethod('resource', function(value, element) {
-    const video = document.getElementById('create-lesson-video');
-    const image = document.getElementById('create-lesson-image');
-    const pdf = document.getElementById('create-lesson-pdf');
-    const linkTitle = document.getElementById('create-lesson-link-title');
-    const linkUrl = document.getElementById('create-lesson-link-url');
+    const video = document.getElementById('update-lesson-video');
+    const image = document.getElementById('update-lesson-image');
+    const pdf = document.getElementById('update-lesson-document');
+    const linkTitle = document.getElementById('edit-lesson-link-title');
+    const linkUrl = document.getElementById('edit-lesson-link-address');
 
     let result;
     if (video.value === '' && image.value === '' && pdf.value === '' && 
@@ -69,6 +69,13 @@ $.validator.addMethod('resource', function(value, element) {
     }
 
     return result;
+}, 'Please enter a valid');
+
+$.validator.addMethod('linkValid', function() {
+    const linkTitle = $('#edit-lesson-link-title').val();
+    const linkUrl = $('#edit-lesson-link-address').val();
+    console.log(linkTitle !== '' ^ linkUrl !== '')
+    return (linkTitle !== '' ^ linkUrl !== '') ? false : true;
 }, 'Please enter a valid');
 
 export default {
@@ -92,7 +99,8 @@ export default {
         },
         'link-url': {
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
+            linkValid: true
         }
         /*
         'video': {
@@ -132,7 +140,8 @@ export default {
         },
         'link-url': {
             trimming: 'La url del enlace no puede contener solo espacios',
-            maxlength: 'La url del enlace no puede contener más de 255 caracteres'
+            maxlength: 'La url del enlace no puede contener más de 255 caracteres',
+            linkValid: 'Es necesario añadir tanto nombre como url'
         }
         /*
         'video': {

@@ -1,4 +1,12 @@
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `chat_insert` $$
+CREATE PROCEDURE `chat_insert`()
+BEGIN
+    INSERT INTO `chats` VALUES();
+END $$
+DELIMITER ;
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `find_chat` $$
 CREATE PROCEDURE `find_chat`(
     IN `_user_one`                      INT,

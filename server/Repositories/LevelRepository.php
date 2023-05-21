@@ -71,7 +71,7 @@ class LevelRepository extends DB implements Repository {
         INNER JOIN
             `lessons` AS le
         ON
-            l.`level_id` = le.`level_id`
+            l.`level_id` = le.`level_id` AND le.`lesson_active` = TRUE
         LEFT JOIN
             `videos` AS v
         ON

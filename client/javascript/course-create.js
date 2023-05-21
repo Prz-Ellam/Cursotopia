@@ -7,7 +7,7 @@ import { backSection, deleteDocument, deleteImage, deleteLink, deleteVideo, subm
 import { courseCreationUpdateLevel, submitLevelCreate } from './controllers/level.controller';
 import CreateCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
-import createLessonValidator from './validators/lesson-create.validator';
+import LessonCreateValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';
 import { createLesson, updateLesson } from './controllers/lesson.controller';
 import { submitCategory } from './controllers/category.controller';
@@ -18,6 +18,7 @@ import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
 import { showModal } from './utilities/modal';
 import axios from 'axios';
+import lessonUpdateValidator from './validators/lesson-update.validator';
 
 $(async () => {
     // Crear curso
@@ -39,7 +40,6 @@ $(async () => {
 
     $('#category-create-form').validate(CreateCategoryValidator);
     $('#category-create-form').on('submit', submitCategory);
-
 
     // Create Level
     $('#create-level-btn').on('click', function() {
@@ -79,7 +79,7 @@ $(async () => {
         console.log(createLessonLevel.value);
     });
 
-    $('#create-lesson-form').validate(createLessonValidator);
+    $('#create-lesson-form').validate(LessonCreateValidator);
     $('#create-lesson-form').on('submit', createLesson);
 
     // Update Lesson
@@ -92,8 +92,8 @@ $(async () => {
 
         const response = await LessonService.findById(id);
         console.log(response);
-        $('#edit-lesson-title').val(response.title);
-        $('#edit-lesson-description').val(response.description);
+        $('#lesson-update-title').val(response.title);
+        $('#lesson-update-description').val(response.description);
 
         $('#delete-video-btn').attr('data-id', response.videoId);
         $('#delete-image-btn').attr('data-id', response.imageId);
@@ -113,14 +113,7 @@ $(async () => {
                 const filenameRegex = new RegExp(/\"(.+)\"/);
                 const filename = filenameRegex.exec(contentDisposition)[1];
                 const contentType = response.headers['content-type'];
-                const contentLength = response.headers['content-length'];
                 const lastModified = response.headers['last-modified'];
-            
-                // Use the metadata as needed
-                console.log('Filename:', filename);
-                console.log('Content Type:', contentType);
-                console.log('Content Length:', contentLength);
-                console.log('Last Modified:', lastModified);
 
                 const file = new File([response], filename, {
                     type: contentType,
@@ -150,15 +143,8 @@ $(async () => {
                 const filenameRegex = new RegExp(/\"(.+)\"/);
                 const filename = filenameRegex.exec(contentDisposition)[1];
                 const contentType = response.headers['content-type'];
-                const contentLength = response.headers['content-length'];
                 const lastModified = response.headers['last-modified'];
             
-                // Use the metadata as needed
-                console.log('Filename:', filename);
-                console.log('Content Type:', contentType);
-                console.log('Content Length:', contentLength);
-                console.log('Last Modified:', lastModified);
-
                 const file = new File([response], filename, {
                     type: contentType,
                     lastModified: new Date(lastModified)
@@ -187,14 +173,7 @@ $(async () => {
                 const filenameRegex = new RegExp(/\"(.+)\"/);
                 const filename = filenameRegex.exec(contentDisposition)[1];
                 const contentType = response.headers['content-type'];
-                const contentLength = response.headers['content-length'];
                 const lastModified = response.headers['last-modified'];
-            
-                // Use the metadata as needed
-                console.log('Filename:', filename);
-                console.log('Content Type:', contentType);
-                console.log('Content Length:', contentLength);
-                console.log('Last Modified:', lastModified);
 
                 const file = new File([response], filename, {
                     type: contentType,
@@ -226,7 +205,7 @@ $(async () => {
         showModal('#lesson-update-modal');
     });
     
-    $('#update-lesson-form').validate(createLessonValidator);
+    $('#update-lesson-form').validate(lessonUpdateValidator);
     $('#update-lesson-form').on('submit', updateLesson);
 
 

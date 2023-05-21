@@ -20,6 +20,22 @@
                 "minLength": "La descripción no puede estar vacía",
                 "maxLength": "El descripción es muy larga, solo {max} caracteres son admitidos, se encontraron {length}"
             }
+        },
+        "link": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "$error": {
+                        "type": "El nombre del enlace debe ser una cadena"
+                    }
+                },
+                "address": {
+                    "type": "string"
+                }
+            },
+            "$error": {
+                "type": "En enlace debe ser un objeto"
+            }
         }
     },
     "required": [

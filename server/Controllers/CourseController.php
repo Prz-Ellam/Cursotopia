@@ -125,6 +125,11 @@ class CourseController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->render("404");
+            return;
+        }
+
         // Verificar que sea el creador del curso
         if ($userId != $course->getInstructorId()) {
             $response->setStatus(404)->render("404");
@@ -452,6 +457,14 @@ class CourseController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         if ($userId != $course->getInstructorId()) {
             $response->setStatus(403)->json([
                 "status" => false,
@@ -508,6 +521,14 @@ class CourseController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         if ($userId != $course->getInstructorId()) {
             $response->setStatus(403)->json([
                 "status" => false,
@@ -547,6 +568,14 @@ class CourseController {
 
         $course = CourseModel::findById($courseId);
         if (!$course) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
+        if (!$course->isActive()) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Curso no encontrado"
@@ -622,6 +651,14 @@ class CourseController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         $course
             ->setApproved(true)
             ->setApprovedBy($adminId)
@@ -657,6 +694,14 @@ class CourseController {
             ]);
             return;
         }
+
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
     
         $course
             ->setApproved(false)
@@ -683,12 +728,9 @@ class CourseController {
         
         $result = CourseModel::findByNotApproved();
     
+        // Si no hay que mande vacio
         if (!$result) {
-            $response->json([
-                "status" => false,
-                "message" => "No se pudo obtener los cursos"
-            ]);
-            return;
+            $result = [];
         }
     
         $response->json([

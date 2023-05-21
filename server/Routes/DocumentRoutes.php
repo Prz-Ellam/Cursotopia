@@ -14,13 +14,6 @@ $app->get("/api/v1/documents/:id", [ DocumentController::class, "getOne" ], [
 ]);
 
 /**
- * Crea un documento
- */
-//$app->post("/api/v1/documents", [ DocumentController::class, "create" ], [
-//    [ AuthApiMiddleware::class, true ]
-//]);
-
-/**
  * Actualiza un documento
  */
 $app->post("/api/v1/documents/:id", [ DocumentController::class, "update" ], [

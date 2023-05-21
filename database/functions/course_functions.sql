@@ -51,9 +51,9 @@ BEGIN
     INTO course_completion
         FROM `user_lesson` AS ule
     INNER JOIN 
-        `lessons` AS le ON ule.`lesson_id` = le.`lesson_id`
+        `lessons` AS le ON ule.`lesson_id` = le.`lesson_id` AND le.lesson_active = TRUE
     INNER JOIN 
-        `levels` AS l ON le.`level_id` = l.`level_id`
+        `levels` AS l ON le.`level_id` = l.`level_id` AND l.level_active = TRUE
     WHERE 
         `user_id` = `_user_id` 
         AND l.`course_id` = `_course_id`;

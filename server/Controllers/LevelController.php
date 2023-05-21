@@ -68,6 +68,14 @@ class LevelController {
                 return;
             }
 
+            if (!$course->isActive()) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Curso no encontrado"
+                ]);
+                return;
+            }
+
             if ($course->getInstructorId() != $userId) {
                 $response->setStatus(403)->json([
                     "status" => false,

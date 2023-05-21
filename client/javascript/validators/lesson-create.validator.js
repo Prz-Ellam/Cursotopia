@@ -52,7 +52,7 @@ $.validator.addMethod('video', function (value, element) {
     return true;
 }, 'Please enter a valid file');
 
-$.validator.addMethod('resource', function(value, element) {
+$.validator.addMethod('createResource', function(value, element) {
     const video = document.getElementById('create-lesson-video');
     const image = document.getElementById('create-lesson-image');
     const pdf = document.getElementById('create-lesson-pdf');
@@ -71,6 +71,13 @@ $.validator.addMethod('resource', function(value, element) {
     return result;
 }, 'Please enter a valid');
 
+$.validator.addMethod('linkValid2', function(value, element) {
+    const linkTitle = $('#create-lesson-link-title').val();
+    const linkUrl = $('#create-lesson-link-url').val();
+    console.log(linkTitle !== '' ^ linkUrl !== '')
+    return (linkTitle !== '' ^ linkUrl !== '') ? false : true;
+}, 'Please enter a valid');
+
 export default {
     rules: {
         'title': {
@@ -84,15 +91,16 @@ export default {
             maxlength: 255
         },
         'resource': {
-            resource: true
+            createResource: true
         },
         'link-title': {
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
         },
         'link-url': {
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
+            linkValid2: true
         }
         /*
         'video': {
@@ -124,7 +132,16 @@ export default {
             maxlength: 'La descripción no puede contener más de 255 caracteres'
         },
         'resource': {
-            resource: 'Debe agregar al menos un recurso'
+            createResource: 'Debe agregar al menos un recurso'
+        },
+        'link-title': {
+            trimming: 'El nombre del enlace no puede contener solo espacios',
+            maxlength: 'El nombre del enlace no puede contener más de 255 caracteres',
+        },
+        'link-url': {
+            trimming: 'La url del enlace no puede contener solo espacios',
+            maxlength: 'La url del enlace no puede contener más de 255 caracteres',
+            linkValid2: 'Es necesario añadir tanto nombre como url'
         }
         /*
         'video': {

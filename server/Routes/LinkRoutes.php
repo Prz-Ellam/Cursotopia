@@ -9,13 +9,6 @@ use Cursotopia\ValueObjects\Roles;
 
 $app->get("/api/v1/links/:id", [ LinkController::class, "getOne" ]);
 
-/**
- * Crea un enlace
- */
-//$app->post("/api/v1/links", [ LinkController::class, "create" ], [
-//    [ AuthApiMiddleware::class, true ]
-//]);
-
 // TODO:
 /**
  * Actualiza un enlace

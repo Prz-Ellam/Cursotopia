@@ -89,7 +89,7 @@ npm install
 ```
 
 ```
-composer install
+composer update --no-dev
 ```
 
 Transpile the frontend code into a dist for the web

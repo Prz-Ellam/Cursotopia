@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Enrollment;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
@@ -22,6 +23,13 @@ class LessonController {
     public function getOne(Request $request, Response $response): void {
         $lessonId = intval($request->getParams("id"));
         $userId = intval($request->getSession()->get("id"));
+        if (!Validate::uint($lessonId)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Identificador no válido"
+            ]);
+            return;
+        }
 
         $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {
@@ -139,7 +147,8 @@ class LessonController {
         $lessonId = intval($request->getParams("id"));
         [
             "title" => $title,
-            "description" => $description
+            "description" => $description,
+            "link" => $link
         ] = $request->getBody();
 
         $lesson = LessonModel::findById($lessonId);
@@ -149,6 +158,36 @@ class LessonController {
                 "message" => "Lección no encontrada"
             ]);
             return;
+        }
+
+        // Vacio
+        if ($link["name"] === "" || $link["url"] === "") {
+            $linkId = $lesson->getLinkId();
+
+            $link = LinkModel::findById($linkId);
+            if ($link) {
+                $link
+                    ->setActive(false);
+
+                $link->save();
+
+                $lesson->setLinkId(null);
+                $lesson->save();
+            }
+        }
+
+        // Ambos llenos
+        else if ($link["name"] !== "" && $link["url"] !== "") {
+            $linkModel = new LinkModel([
+                "name" => $link["name"],
+                "address" => $link["url"]
+            ]);
+            $isCreated = $linkModel->save();
+
+            if ($isCreated) {
+                $lesson->setLinkId($linkModel->getId());
+                $lesson->save();
+            }
         }
 
         if (!$lesson->getImageId() && !$lesson->getVideoId() 

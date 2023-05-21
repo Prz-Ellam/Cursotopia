@@ -203,6 +203,11 @@ export const updateCourse = async function(event) {
             confirmButton: 'btn btn-primary shadow-none rounded-pill'
         },
     });
+
+    if (window.location.pathname === '/course-edition') {
+        window.location.href = '/home';
+        return;
+    }
     
     const currentFs = $('#course-section');
     const nextFs = $('#levels-section');
@@ -348,7 +353,7 @@ export const updateVideo = async function(event) {
 
     const allowedExtensions = [ 'video/mp4' ];
     if (!allowedExtensions.includes(video.type)) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'El tipo de archivo que selecciono no es admitido',
@@ -357,12 +362,13 @@ export const updateVideo = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
     const maxFilesize = 1 * 1024 * 1024 * 1024;
     if (video.size > maxFilesize) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'El video es muy pesado',
@@ -371,6 +377,7 @@ export const updateVideo = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
@@ -399,7 +406,7 @@ export const updateDocument = async function(event) {
 
     const allowedExtensions = [ 'application/pdf' ];
     if (!allowedExtensions.includes(document.type)) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'El tipo de archivo que selecciono no es admitido',
@@ -408,12 +415,13 @@ export const updateDocument = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
     const maxFilesize = 8 * 1024 * 1024;
     if (document.size > maxFilesize) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'La imagen es muy pesada',
@@ -422,6 +430,7 @@ export const updateDocument = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
@@ -450,7 +459,7 @@ export const updateImage = async function(event) {
 
     const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
     if (!allowedExtensions.includes(image.type)) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'El tipo de archivo que selecciono no es admitido',
@@ -459,12 +468,13 @@ export const updateImage = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
     const maxFilesize = 8 * 1024 * 1024;
     if (image.size > maxFilesize) {
-        await Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: '¡Error!',
             text: 'La imagen es muy pesada',
@@ -473,6 +483,7 @@ export const updateImage = async function(event) {
                 confirmButton: 'btn btn-danger shadow-none rounded-pill'
             },
         });
+        $(this).val('');
         return;
     }
 
@@ -488,6 +499,9 @@ export const updateImage = async function(event) {
 
         if (response.status) {
             $('#delete-image-btn').attr('data-id', response.id);
+        }
+        else {
+            showErrorMessage({ message: 'No hay una imagen actualmente' });
         }
     }
     

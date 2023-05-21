@@ -27,13 +27,13 @@ export const submitLevelCreate = async function(event) {
         courseId:       Number.parseInt(formData.get('courseId'))
     };
 
-    $('#create-level-btn').prop('disabled', true);
-    $('#create-level-spinner').removeClass('d-none');
+    $('#level-create-btn').prop('disabled', true);
+    $('#level-create-spinner').removeClass('d-none');
 
     const response = await LevelService.create(level);
 
-    $('#create-level-spinner').addClass('d-none');
-    $('#create-level-btn').prop('disabled', false);
+    $('#level-create-spinner').addClass('d-none');
+    $('#level-create-btn').prop('disabled', false);
 
     if (!response?.status) {
         showErrorMessage(response);

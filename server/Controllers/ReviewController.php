@@ -32,6 +32,14 @@ class ReviewController {
                 return;
             }
 
+            if (!$course->isActive()) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Curso no encontrado"
+                ]);
+                return;
+            }
+
             $user = UserModel::findById($userId);
             if (!$user) {
                 $response->setStatus(404)->json([
@@ -189,6 +197,14 @@ class ReviewController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         $reviews = ReviewModel::findByCourse($courseId, $pageNum, $pageSize);
         $reviewsTotal = ReviewModel::findTotalByCourse($courseId);
 
@@ -225,7 +241,15 @@ class ReviewController {
         if (!$course) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "message" => "El curso no existe"
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
             ]);
             return;
         }
