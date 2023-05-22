@@ -13,45 +13,37 @@
 @import '../third-party/bootstrap.css';
 @import '../third-party/button.css';
 
-footer{
-    margin-left: 310px;
-}
 
-.content{
-    width:100%;
-    margin-left: 310px;
-    margin-right: 30px;
-}
 
-.table{
+.table {
     background-color: #fff;
     border-radius: 20px;
 }
 
-.categories-table{
+.categories-table {
     background-color: #fff;
     border-radius: 20px;
     padding: 20px;
 }
 
-.disabled-categories-table{
+.disabled-categories-table {
     background-color: #fff;
     border-radius: 20px;
     padding: 20px;
 }
 
-.categories{
+.categories {
     background-color: #fff;
     border-radius: 20px;
     padding: 20px;
 }
 
-.bxs-check-circle{
+.bxs-check-circle {
     color: #79b18f;
     font-size: 20px;
 }
 
-.bxs-x-circle{
+.bxs-x-circle {
     color: #de4f54;
     font-size: 20px;
 }

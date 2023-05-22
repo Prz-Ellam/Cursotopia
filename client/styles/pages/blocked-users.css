@@ -13,16 +13,6 @@
 @import '../third-party/bootstrap.css';
 @import '../third-party/button.css';
 
-footer{
-    margin-left: 310px;
-}
-
-.content{
-    width:100%;
-    margin-left: 310px;
-    margin-right: 30px;
-}
-
 .table{
     background-color: #fff;
     border-radius: 20px;
