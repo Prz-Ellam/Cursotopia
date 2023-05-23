@@ -258,7 +258,7 @@ class VideoController {
         }
 
         $userId = $request->getSession()->get("id");
-/*
+
         $videoRepository = new VideoRepository();
         $info = $videoRepository->video($userId, $videoId);
         if (!$info) {
@@ -268,7 +268,7 @@ class VideoController {
             ]);
             return;
         }
-
+/*
         if ($info["free"] && $info["paid"]) {
             // Si es gratis y pagado, entonces está disponible
             $contentAvailable = true;

@@ -183,7 +183,7 @@ export const updateCourse = async function(event) {
     const course = {
         title: formData.get('title'),
         description: formData.get('description'),
-        price: Number.parseFloat(formData.get('price')),
+        price: Number.parseFloat(formData.get('price') ?? 0.00),
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
     }
 

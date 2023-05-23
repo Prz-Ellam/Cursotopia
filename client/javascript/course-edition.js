@@ -22,6 +22,11 @@ $(async () => {
 
 
     const freeCourseCheckbox = document.getElementById('free-course-checkbox');
+    if (freeCourseCheckbox.checked) {
+        $('#update-course-price').attr('disabled', true);
+        $('#update-course-price').val("0.00");
+    }
+
     freeCourseCheckbox.addEventListener('change', function(event) {
         const priceGroup = document.getElementById('price-group');
         const price = document.getElementById('price');
