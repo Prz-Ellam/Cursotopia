@@ -77,6 +77,9 @@ Cursotopia is a web application for online courses
 />
 </p>
 
+#
+![](.screenshoots/course_details.png)
+
 # Setup
 
 Clone the repository
