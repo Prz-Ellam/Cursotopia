@@ -122,6 +122,9 @@ $(async () => {
             dataTransfer.items.add(file);
             document.getElementById('update-lesson-image').files = dataTransfer.files;
         }
+        else {
+            document.getElementById('update-lesson-image').value = null;
+        }
 
         if (response.videoId) {
             const videoResponse = await axios({
@@ -144,6 +147,9 @@ $(async () => {
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             document.getElementById('update-lesson-video').files = dataTransfer.files;
+        }
+        else {
+            document.getElementById('update-lesson-video').value = null;
         }
 
         if (response.documentId) {
@@ -168,6 +174,9 @@ $(async () => {
             dataTransfer.items.add(file);
             document.getElementById('update-lesson-document').files = dataTransfer.files;
         }
+        else {
+            document.getElementById('update-lesson-document').value = null;
+        }
         
         if (response.linkId) {
             const linkResponse = await axios({
@@ -178,6 +187,10 @@ $(async () => {
             const data = linkResponse.data;
             $('#edit-lesson-link-title').val(data.name);
             $('#edit-lesson-link-address').val(data.address);
+        }
+        else {
+            $('#edit-lesson-link-title').val('');
+            $('#edit-lesson-link-address').val('');
         }
 
         showModal('#lesson-update-modal');

@@ -241,7 +241,7 @@ class DocumentController {
             ]);
             return;
         }
-/*
+
         $documentRepository = new DocumentRepository();
         $info = $documentRepository->checkAvailabityByUser($userId, $documentId);
         if (!$info) {
@@ -251,7 +251,7 @@ class DocumentController {
             ]);
             return;
         }
-
+/*
         if ($info["free"] && $info["paid"]) {
             // Si es gratis y pagado, entonces está disponible
             $contentAvailable = true;

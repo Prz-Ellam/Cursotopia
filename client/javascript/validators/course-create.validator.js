@@ -26,7 +26,7 @@ export default {
         'price': {
             required: true,
             number: true,
-            min: 0.00,
+            min: 0.01,
             max: 10000.00
         }
     },
@@ -50,7 +50,7 @@ export default {
         'price': {
             required: 'El precio es requerido',
             number: 'El precio no es válido',
-            min: 'El precio del producto no puede ser negativo',
+            min: 'El precio del producto no puede ser menor o igual a 0',
             max: 'El precio del producto es muy elevado'
         }
     },

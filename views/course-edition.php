@@ -42,7 +42,7 @@
 
           <div class="form-check">
             <input class="form-check-input shadow-none" type="checkbox" value="" 
-            id="free-course-checkbox" autocomplete="off"
+            id="free-course-checkbox" autocomplete="off" disabled
             <?= ($this->course["price"] <= 0.0) ? "checked" : "" ?>>
             <label class="form-check-label" for="free-course-checkbox" role="button">El curso será gratis</label>
           </div>
