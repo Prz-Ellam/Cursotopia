@@ -4,7 +4,6 @@ namespace Cursotopia\Controllers;
 
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
-use Cursotopia\Entities\Enrollment;
 use Cursotopia\Helpers\Format;
 use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\CourseModel;
@@ -36,9 +35,9 @@ class EnrollmentController {
     }
 
     public function certificate(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
+        $id = intval($request->getSession()->get("id"));
 
-        $courseId = $request->getQuery("course");
+        $courseId = intval($request->getQuery("course"));
         if (!$courseId) {
             $response->setStatus(404)->render("404");
             return;
@@ -153,7 +152,15 @@ class EnrollmentController {
             return;
         }
 
-        $enroll = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
+        $enroll = EnrollmentModel::findOneByCourseAndStudent($courseId, $studentId);
         if ($enroll) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -202,6 +209,14 @@ class EnrollmentController {
             return;
         }
 
+        if (!$course->isActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Curso no encontrado"
+            ]);
+            return;
+        }
+
         // Validar que el método de pago exista
         $paymentMethod = PaymentMethodModel::findById($paymentMethodId);
         if (!$paymentMethod) {
@@ -213,7 +228,7 @@ class EnrollmentController {
         }
 
         // Checar si el usuario ya tiene una inscripción
-        $enrollment = EnrollmentModel::findOneByCourseIdAndStudentId($courseId, $studentId);
+        $enrollment = EnrollmentModel::findOneByCourseAndStudent($courseId, $studentId);
         if (!$enrollment) {
             // Si no tiene le creamos una
             $enrollment = new EnrollmentModel([

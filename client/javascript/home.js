@@ -70,9 +70,9 @@ $(async () => {
                     }, duration);   
                 }
             });
-            observer.unobserve(document.querySelector("#info-section"));
+            observer.unobserve(document.querySelector('#info-section'));
         }
     }, { threshold: [0] });
 
-    observer.observe(document.querySelector("#info-section"));
+    observer.observe(document.querySelector('#info-section'));
 });

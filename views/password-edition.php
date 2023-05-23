@@ -39,18 +39,18 @@
           <div class="input-group">
             <input type="password" name="oldPassword" id="old-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="old-password-button"
-              ct-target="old-password" role="button">
+              role="button">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>
     
         <div class="mb-4">
-          <label for="new-password" role="button" class="form-label">Confirmar contraseña</label>
+          <label for="new-password" role="button" class="form-label">Nueva contraseña</label>
           <div class="input-group">
             <input type="password" name="newPassword" id="new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="new-password-button"
-              ct-target="new-password" role="button">
+              role="button">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
@@ -64,11 +64,11 @@
         </div>
     
         <div class="mb-4">
-          <label for="confirm-new-password" role="button" class="form-label">Confirmar contraseña</label>
+          <label for="confirm-new-password" role="button" class="form-label">Confirmar nueva contraseña</label>
           <div class="input-group">
             <input type="password" name="confirmNewPassword" id="confirm-new-password" class="form-control">
             <button type="button" class="btn btn-primary btn-password" id="confirm-new-password-button"
-              ct-target="confirm-new-password" role="button">
+              role="button">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
@@ -81,10 +81,6 @@
             <span>Actualizar contraseña</span>
           </button>
         </div>
-
-        <!--
-        <a href="" class="d-block text-primary text-center text-decoration-none">¿Olvidaste tú contraseña?</a>
-        -->
       </form>
     </div>
   </main>

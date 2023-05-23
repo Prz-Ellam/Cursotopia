@@ -150,7 +150,6 @@ CREATE TABLE IF NOT EXISTS `levels`(
     `level_title`                   VARCHAR(50) NOT NULL,
     `level_description`             VARCHAR(255) NOT NULL,
     `level_is_free`                 BOOLEAN NOT NULL,
-    -- `level_price`                   DECIMAL(10, 2) NOT NULL,
     `course_id`                     INT NOT NULL,
     `level_created_at`              TIMESTAMP NOT NULL DEFAULT NOW(),
     `level_modified_at`             TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
@@ -265,7 +264,6 @@ CREATE TABLE IF NOT EXISTS `enrollments`(
     `enrollment_certificate_uid`    VARCHAR(36),
     `enrollment_amount`             DECIMAL(10, 2),
     `payment_method_id`             INT,
-    --`enrollment_last_access_date`     TIMESTAMP
     `enrollment_is_paid`            BOOLEAN DEFAULT FALSE,
     `enrollment_last_time_checked`  DATETIME,
     `enrollment_created_at`         TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -317,7 +315,6 @@ CREATE TABLE IF NOT EXISTS `user_lesson`(
     `lesson_id`                     INT NOT NULL,
     `user_lesson_is_complete`       BOOLEAN NOT NULL DEFAULT FALSE,
     `user_lesson_complete_at`       TIMESTAMP,
-    --`user_lesson_last_access_date`     TIMESTAMP
     `user_lesson_last_time_checked` DATETIME,
     `user_lesson_created_at`        TIMESTAMP NOT NULL DEFAULT NOW(),
     `user_lesson_modified_at`       TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),

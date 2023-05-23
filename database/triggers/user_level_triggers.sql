@@ -14,6 +14,7 @@ BEGIN
     FROM
         `lessons`
     WHERE
-        `level_id` = new.`level_id`;
+        `level_id` = new.`level_id`
+        AND `lesson_active` = TRUE;
 END $$
 DELIMITER ;

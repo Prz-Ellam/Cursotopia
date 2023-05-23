@@ -192,7 +192,7 @@
           class="badge bg-dark p-2 text-white rounded-pill text-decoration-none mb-3"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          data-bs-title="<?= $category["description"] ?>"
+          data-bs-title="<?= $category["description"] !== "" ? $category["description"] : "No hay descripcion" ?>"
         >
           <?= $category["name"] ?>
         </a>
@@ -313,7 +313,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item delete-review" reviewId="<?= $review["id"] ?>">Eliminar</a>
+                    <a class="dropdown-item delete-review" data-id="<?= $review["id"] ?>">Eliminar</a>
                   </li>
                 </ul>
                 <?php endif ?>

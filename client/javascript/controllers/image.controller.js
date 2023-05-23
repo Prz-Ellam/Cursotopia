@@ -1,19 +1,9 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { updateImageService } from '../services/image.service';
-import { ToastBottom } from '../utilities/toast';
-
-export function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsDataURL(file);
-    });
-}
+import ImageService from '@/services/image.service';
+import { ToastBottom } from '@/utilities/toast';
+import { readFileAsync } from '@/utilities/file-reader';
 
 /**
  * 
@@ -27,8 +17,8 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
+            $(selectorInput).val('');
             $(selectorImage).attr('src', defaultImage);
-            //inputFile.value = previousFile;
             return;
         }
         const file = files[0];
@@ -46,11 +36,12 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
             });
             $(selectorInput).val('');
             $(selectorImage).attr('src', defaultImage);
+            $("#signup-form").validate().element('#profile-picture');
             return;
         }
 
-        const size = Number.parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
-        if (size > 8.0) {
+        const maxFilesize = 8 * 1024 * 1024;
+        if (file.size > maxFilesize) {
             await Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
@@ -80,7 +71,6 @@ export const displayImageFile = async function(event, selectorInput, selectorIma
 export const changeImage = async function(event, selectorInput, selectorImage, defaultImage) {
     const inputFile = $(selectorInput);
     const profilePictureId = $('#course-cover-id').val();
-    console.log(profilePictureId);
     try {
         const files = Array.from(event.target.files);
         if (files.length === 0) {
@@ -123,7 +113,7 @@ export const changeImage = async function(event, selectorInput, selectorImage, d
         //spinner.style.visibility = 'visible';
         //$('.profile-picture-label').css('visibility', 'hidden');
 
-        const response = await updateImageService(formData, profilePictureId);
+        const response = await ImageService.update(formData, profilePictureId);
         //spinner.style.visibility = 'hidden';
         //$('.profile-picture-label').css('visibility', 'visible');
 
@@ -137,7 +127,9 @@ export const changeImage = async function(event, selectorInput, selectorImage, d
 
         const dataUrl = await readFileAsync(file);
         $('#picture-box').attr('src', dataUrl);
-        $('.profile-picture').attr('src', dataUrl);
+        if (window.location.pathname === '/profile-edition') {
+            $('.profile-picture').attr('src', dataUrl);
+        }
         ToastBottom.fire({
             icon: 'success',
             title: 'Se ha actualizado la imagen'

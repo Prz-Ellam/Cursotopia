@@ -98,7 +98,6 @@ BEGIN
         AND cc.`course_category_active`= TRUE
     WHERE
         c.`course_id` = `_course_id`
-        AND c.`course_active` = TRUE
     GROUP BY
         c.`course_id`
     LIMIT

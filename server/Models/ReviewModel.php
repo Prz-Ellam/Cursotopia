@@ -148,7 +148,7 @@ class ReviewModel implements JsonSerializable {
         return new ReviewModel($reviewObject);
     }
 
-    public static function findOneByCourseAndUserId(?int $courseId, ?int $userId): ?ReviewModel {
+    public static function findOneByCourseAndUser(?int $courseId, ?int $userId): ?ReviewModel {
         $reviewObject = self::$repository->findOneByCourseAndUserId($courseId, $userId);
         if (!$reviewObject) {
             return null;

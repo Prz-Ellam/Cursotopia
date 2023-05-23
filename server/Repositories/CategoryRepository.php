@@ -62,18 +62,6 @@ class CategoryRepository extends DB implements Repository {
     private const FIND_ONE_BY_NAME = <<<'SQL'
         CALL `category_find_one_by_name`(:name, :id)
     SQL;
-
-    private const APPROVE = <<<'SQL'
-        CALL `category_update`(
-            :category_id, NULL, NULL, TRUE, :admin_id, NULL, NULL, NULL, NULL
-        )
-    SQL;
-
-    private const DENY = <<<'SQL'
-        CALL `category_update`(
-            :category_id, NULL, NULL, FALSE, :admin_id, NULL, NULL, NULL, NULL
-        )
-    SQL;
     
     public function create(Category $category): int {
         $parameters = [

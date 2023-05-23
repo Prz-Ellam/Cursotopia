@@ -94,9 +94,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
-
-              
+              </div>              
             </div>
           </div>
         </div>
@@ -105,15 +103,6 @@
   </section>
 
   <!-- Footer -->
-  <div class="container-fluid mt-auto bg-primary">
-    <footer class="py-3 footer">
-      <div class="col-md-4 d-flex align-items-center">
-        <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
-      </div>
-    </footer>
-  </div>
-
-  </div>
-
+  <?= $this->render("partials/footer") ?>
 </body>
 </html>

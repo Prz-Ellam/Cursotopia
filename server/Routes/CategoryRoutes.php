@@ -58,7 +58,7 @@ $app->get("/api/v1/categories/:id", [ CategoryController::class, "getOne" ], [
  * Crea una categoría
  */
 $app->post("/api/v1/categories", [ CategoryController::class, "create" ], [ 
-    [ AuthApiMiddleware::class, true ],
+    [ AuthApiMiddleware::class, true, Roles::INSTRUCTOR->value ],
     [ JsonSchemaMiddleware::class, "CategoryCreateValidator" ]
 ]);
 
@@ -71,37 +71,17 @@ $app->put("/api/v1/categories/:id", [ CategoryController::class, "update" ], [
 ]);
 
 /**
- * Elimina una categoría
- */
-//$app->delete("/api/v1/categories/:id", [ CategoryController::class, "delete" ], [
-//    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
-//]);
-
-/**
  * Aprobar una categoría
  */
 $app->put("/api/v1/categories/:id/approve", [ CategoryController::class, "approve" ], [
-    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ],
+    [ ValidateIdMiddleware::class ]
 ]);
 
 /**
  * Denegar una categoría
  */
 $app->put("/api/v1/categories/:id/deny", [ CategoryController::class, "deny" ], [
-    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
+    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ],
+    [ ValidateIdMiddleware::class ]
 ]);
-
-/**
- * Activar una categoría
- */
-//$app->put("/api/v1/categories/:id/activate", [ CategoryController::class, "activate" ], [
-//    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
-//]);
-
-/**
- * Desactivar una categoría
- */
-//$app->put("/api/v1/categories/:id/deactivate", [ CategoryController::class, "deactivate" ], [
-//    [ AuthApiMiddleware::class, true, Roles::ADMIN->value ]
-//]);
-

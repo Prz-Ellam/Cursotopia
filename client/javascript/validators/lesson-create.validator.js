@@ -21,8 +21,8 @@ $.validator.addMethod('image', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(jpg|jpeg|png|gif)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
@@ -33,8 +33,8 @@ $.validator.addMethod('document', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(pdf)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'application/pdf' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
@@ -45,14 +45,14 @@ $.validator.addMethod('video', function (value, element) {
         return true;
     }
     const file = element.files[0];
-    const allowedExtensions = /(mp4)$/i;
-    if (!allowedExtensions.exec(file.type)) {
+    const allowedExtensions = [ 'video/mp4' ];
+    if (!allowedExtensions.includes(file.type)) {
         return false;
     }
     return true;
 }, 'Please enter a valid file');
 
-$.validator.addMethod('resource', function(value, element) {
+$.validator.addMethod('createResource', function(value, element) {
     const video = document.getElementById('create-lesson-video');
     const image = document.getElementById('create-lesson-image');
     const pdf = document.getElementById('create-lesson-pdf');
@@ -71,6 +71,13 @@ $.validator.addMethod('resource', function(value, element) {
     return result;
 }, 'Please enter a valid');
 
+$.validator.addMethod('linkValid2', function(value, element) {
+    const linkTitle = $('#create-lesson-link-title').val();
+    const linkUrl = $('#create-lesson-link-url').val();
+    console.log(linkTitle !== '' ^ linkUrl !== '')
+    return (linkTitle !== '' ^ linkUrl !== '') ? false : true;
+}, 'Please enter a valid');
+
 export default {
     rules: {
         'title': {
@@ -84,15 +91,16 @@ export default {
             maxlength: 255
         },
         'resource': {
-            resource: true
+            createResource: true
         },
         'link-title': {
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
         },
         'link-url': {
             trimming: true,
-            maxlength: 255
+            maxlength: 255,
+            linkValid2: true
         }
         /*
         'video': {
@@ -119,10 +127,22 @@ export default {
             maxlength: 'El título no puede contener más de 50 caracteres'
         },
         'description': {
-            required: 'La descri de la lecciónpción es requerida',
+            required: 'La descripción de la lección es requerida',
             trimming: 'La descripción es requerida',
             maxlength: 'La descripción no puede contener más de 255 caracteres'
         },
+        'resource': {
+            createResource: 'Debe agregar al menos un recurso'
+        },
+        'link-title': {
+            trimming: 'El nombre del enlace no puede contener solo espacios',
+            maxlength: 'El nombre del enlace no puede contener más de 255 caracteres',
+        },
+        'link-url': {
+            trimming: 'La url del enlace no puede contener solo espacios',
+            maxlength: 'La url del enlace no puede contener más de 255 caracteres',
+            linkValid2: 'Es necesario añadir tanto nombre como url'
+        }
         /*
         'video': {
             filesize: 'El video no puede pesar más de 4GB',

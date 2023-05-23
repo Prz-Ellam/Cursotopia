@@ -156,9 +156,11 @@
           </div>
         </div>
         <footer class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-          <button id="create-level-btn" type="submit" class="btn btn-primary rounded-pill">
-            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="create-level-spinner"></span>
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+          <button id="level-create-btn" type="submit" class="btn btn-primary rounded-pill">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="level-create-spinner"></span>
             Agregar nivel
           </button>
         </footer>
@@ -194,7 +196,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="edit-level-close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="edit-level-close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="update-level-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="update-level-spinner"></span>
             Guardar cambios
@@ -260,7 +264,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="create-lesson-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="create-lesson-spinner"></span>
             Agregar lección
@@ -284,33 +290,39 @@
 
           <div class="mb-4">
             <label class="form-label" role="button">Título</label>
-            <input type="text" name="title" id="edit-lesson-title" class="form-control">
+            <input type="text" name="title" id="lesson-update-title" class="form-control">
           </div>
 
           <div class="mb-4">
             <label for="" role="button">Información adicional</label>
-            <textarea name="description" id="edit-lesson-description" cols="30" rows="5" class="form-control"></textarea>
+            <textarea name="description" id="lesson-update-description" cols="30" rows="5" class="form-control"></textarea>
+          </div>
+
+          <h5>Recursos</h5>
+
+          <div>
+            <input type="hidden" name="resource">
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">Video (dejar vacío para mantener el video anterior)</label>
-            <div class="btn-group">
+            <label for="" role="button">Video</label>
+            <div class="btn-group w-100">
               <input type="file" name="video" id="update-lesson-video" class="form-control" accept="video/mp4">
               <button id="delete-video-btn" type="button" class="btn btn-danger rounded-end">Eliminar</button>
             </div>
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">Imagen (dejar vacío para mantener la imagen anterior)</label>
-            <div class="btn-group">
+            <label for="" role="button">Imagen</label>
+            <div class="btn-group w-100">
               <input type="file" name="image" id="update-lesson-image" class="form-control" accept="image/png, image/gif, image/jpeg, image/jpg">
               <button id="delete-image-btn" type="button" class="btn btn-danger rounded-end">Eliminar</button>
             </div>
           </div>
 
           <div class="mb-4">
-            <label for="" role="button">PDF (dejar vacío para mantener el documento anterior)</label>
-            <div class="btn-group">
+            <label for="" role="button">PDF</label>
+            <div class="btn-group w-100">
               <input type="file" name="document" id="update-lesson-document" class="form-control" accept="application/pdf">
               <button id="delete-document-btn" type="button" class="btn btn-danger rounded-end">Eliminar</button>
             </div>
@@ -324,15 +336,14 @@
             </div>
             <div class="mb-4">
               <label for="" role="button">URL</label>
-              <input type="url" name="link" id="edit-lesson-link-address" class="form-control" placeholder="https://example.com">
+              <input type="url" name="link-url" id="edit-lesson-link-address" class="form-control" placeholder="https://example.com">
             </div>
-
-            <button type="button" class="btn btn-danger rounded-pill" id="delete-link-btn">Eliminar</button>
-            <button type="button" class="btn btn-primary rounded-pill" id="update-link-btn">Actualizar</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="edit-lesson-close-btn" type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+          <button id="edit-lesson-close-btn" type="button" class="btn btn-gray rounded-pill" data-bs-dismiss="modal">
+            Cerrar
+          </button>
           <button id="update-lesson-btn" type="submit" class="btn btn-primary rounded-pill">
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="update-lesson-spinner"></span>
             Guardar cambios

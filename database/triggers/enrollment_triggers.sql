@@ -14,6 +14,7 @@ BEGIN
     FROM
         `levels`
     WHERE
-        `course_id` = new.`course_id`;
+        `course_id` = new.`course_id`
+        AND `level_active` = TRUE;
 END $$
 DELIMITER ;

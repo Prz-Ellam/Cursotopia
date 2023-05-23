@@ -30,7 +30,7 @@ class ChatModel {
         return self::$repository->findChat($userOne, $userTwo);
     }
 
-    public static function findAllByUser($userId) {
+    public static function findAllByUser(?int $userId): ?array {
         return self::$repository->findAllByUserId($userId);
     }
 

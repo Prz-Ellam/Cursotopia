@@ -1,20 +1,20 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
-import { Toast, ToastTopEnd } from '../utilities/toast';
-import CourseService, { courseConfirmService, approveCourseService, denyCourseService } from '../services/course.service';
-import { showNotApprovedCourses} from '../views/course.view';
-import { readFileAsync } from '../utilities/file-reader';
-import { showErrorMessage } from '../utilities/show-error-message';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
+import CourseService from '@/services/course.service';
+import { showNotApprovedCourses} from '@/views/course.view';
+import { readFileAsync } from '@/utilities/file-reader';
+import { showErrorMessage } from '@/utilities/show-error-message';
 import { changeImage } from './image.controller';
-import VideoService from '../services/video.service';
-import DocumentService from '../services/document.service';
-import ImageService, { updateImageService } from '../services/image.service';
-import LinkService from '../services/link.service';
+import VideoService from '@/services/video.service';
+import DocumentService from '@/services/document.service';
+import ImageService from '@/services/image.service';
+import LinkService from '@/services/link.service';
 
 let opacity;
 
-export const createCourse = async function(event) {
+export const submitCreateCourse = async function(event) {
     event.preventDefault();
 
     const isFormValid = $(this).valid();
@@ -158,19 +158,6 @@ export const createCourseImage = async function(event) {
         }
         const dataUrl = await readFileAsync(file);
         pictureBox.src = dataUrl;
-/*
-        const formData = new FormData();
-        formData.append('image', file, file.name);
-
-        if (!courseCoverId.value) {
-            const response = await createImage(formData);
-            const imageId = response.id;
-            courseCoverId.value = imageId;
-        }
-        else {
-            const response = await updateImageService(formData, courseCoverId.value);
-        }
-        */
     }
     catch (exception) {
         pictureBox.src = defaultImage;
@@ -200,7 +187,7 @@ export const updateCourse = async function(event) {
         categories: formData.getAll('categories[]').map(category => Number.parseInt(category)),
     }
 
-    const response = await CourseService.update(id, JSON.stringify(course));
+    const response = await CourseService.update(id, course);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
@@ -216,6 +203,11 @@ export const updateCourse = async function(event) {
             confirmButton: 'btn btn-primary shadow-none rounded-pill'
         },
     });
+
+    if (window.location.pathname === '/course-edition') {
+        window.location.href = '/home';
+        return;
+    }
     
     const currentFs = $('#course-section');
     const nextFs = $('#levels-section');
@@ -255,12 +247,27 @@ export const deleteCourse = async function(event) {
             cancelButton: 'btn btn-secondary shadow-none rounded-pill'
         }
     });
+
     if (feedback.isConfirmed) {
-        // TODO: uri estatica
-        // TODO: quitar el boton de deshabilitar si ya esta deshabilitado
         const params = new URLSearchParams(window.location.search);
         const id = params.get('course_id');
-        await CourseService.delete(id);
+        const response = await CourseService.delete(id);
+        if (!response?.status) {
+            showErrorMessage(response);
+            return;
+        }
+
+        await Swal.fire({
+            icon: 'success',
+            title: 'El curso ha sido eliminado',
+            confirmButtonText: 'Avanzar',
+            confirmButtonColor: '#5650DE',
+            background: '#FFFFFF',
+            customClass: {
+                confirmButton: 'btn btn-primary shadow-none rounded-pill'
+            },
+        });
+
         window.location.href = '/home';
     }
 }
@@ -269,7 +276,7 @@ export const submitConfirmCourse = async function(event) {
     event.preventDefault();
 
     const courseId = document.getElementById('create-level-course-id').value;
-    const response = await courseConfirmService(courseId);
+    const response = await CourseService.confirm(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
@@ -289,50 +296,51 @@ export const submitConfirmCourse = async function(event) {
     window.location.href = '/home';
 }
 
-export const findAllByInstructor = function(event) {
-
-}
-
 export const approveCourses = async function(courseId) {
-
-    const response = await approveCourseService(courseId);
+    const response = await CourseService.approve(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
     }
 
     const notApprovedCourses = await CourseService.findnotApproved(courseId);
-    if (notApprovedCourses?.status) {
-        $('#notApprovedCourses').empty();
-        const coursesNotApproved = notApprovedCourses.courses;
-        coursesNotApproved.forEach(course => {
-            showNotApprovedCourses(course);
-        });
+    if (!notApprovedCourses?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
 
-    await Toast.fire({
+    $('#notApprovedCourses').empty();
+    const coursesNotApproved = notApprovedCourses.courses;
+    coursesNotApproved.forEach(course => {
+        showNotApprovedCourses(course);
+    });
+
+    Toast.fire({
         icon: 'success',
         title: 'El curso ha sido aprobado'
     });
 }
 
 export const denyCourses = async function(courseId) {
-    const response = await denyCourseService(courseId);
+    const response = await CourseService.deny(courseId);
     if (!response?.status) {
         await showErrorMessage(response);
         return;
     }
 
     const notApprovedCourses = await CourseService.findnotApproved(courseId);
-    if (notApprovedCourses?.status) {
-        $('#notApprovedCourses').empty();
-        const coursesNotApproved = notApprovedCourses.courses;
-        coursesNotApproved.forEach(course => {
-            showNotApprovedCourses(course);
-        });
+    if (!notApprovedCourses?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
     }
+    
+    $('#notApprovedCourses').empty();
+    const coursesNotApproved = notApprovedCourses.courses;
+    coursesNotApproved.forEach(course => {
+        showNotApprovedCourses(course);
+    });
 
-    await Toast.fire({
+    Toast.fire({
         icon: 'error',
         title: 'El curso ha sido denegado'
     });
@@ -342,6 +350,36 @@ export const updateVideo = async function(event) {
     const videoId = $('#delete-video-btn').attr('data-id');
     const files = Array.from(event.target.files);
     const video = files[0];
+
+    const allowedExtensions = [ 'video/mp4' ];
+    if (!allowedExtensions.includes(video.type)) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
+
+    const maxFilesize = 1 * 1024 * 1024 * 1024;
+    if (video.size > maxFilesize) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El video es muy pesado',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
 
     const form = new FormData();
     form.append('video', video);
@@ -366,6 +404,36 @@ export const updateDocument = async function(event) {
     const files = Array.from(event.target.files);
     const document = files[0];
 
+    const allowedExtensions = [ 'application/pdf' ];
+    if (!allowedExtensions.includes(document.type)) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
+
+    const maxFilesize = 8 * 1024 * 1024;
+    if (document.size > maxFilesize) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'La imagen es muy pesada',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
+
     const form = new FormData();
     form.append('document', document);
 
@@ -389,11 +457,41 @@ export const updateImage = async function(event) {
     const files = Array.from(event.target.files);
     const image = files[0];
 
+    const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
+    if (!allowedExtensions.includes(image.type)) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'El tipo de archivo que selecciono no es admitido',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
+
+    const maxFilesize = 8 * 1024 * 1024;
+    if (image.size > maxFilesize) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'La imagen es muy pesada',
+            confirmButtonColor: "#dc3545",
+            customClass: {
+                confirmButton: 'btn btn-danger shadow-none rounded-pill'
+            },
+        });
+        $(this).val('');
+        return;
+    }
+
     const form = new FormData();
     form.append('image', image);
 
     if (imageId) {
-        await updateImageService(form, imageId);
+        await ImageService.update(form, imageId);
     }
     else {
         const lessonId = $('#lesson-update-id').val();
@@ -401,6 +499,9 @@ export const updateImage = async function(event) {
 
         if (response.status) {
             $('#delete-image-btn').attr('data-id', response.id);
+        }
+        else {
+            showErrorMessage({ message: 'No hay una imagen actualmente' });
         }
     }
     
@@ -437,6 +538,7 @@ export const deleteVideo = async function(event) {
     const response = await VideoService.delete(videoId);
     if (response.status) {
         $('#delete-video-btn').attr('data-id', null);
+        document.getElementById('update-lesson-video').value = null;
     }
 }
 
@@ -445,6 +547,7 @@ export const deleteImage = async function(event) {
     const response = await ImageService.delete(imageId);
     if (response.status) {
         $('#delete-image-btn').attr('data-id', null);
+        document.getElementById('update-lesson-image').value = null;
     }
 }
 
@@ -453,6 +556,7 @@ export const deleteDocument = async function(event) {
     const response = await DocumentService.delete(documentId);
     if (response.status) {
         $('#delete-document-btn').attr('data-id', null);
+        document.getElementById('update-lesson-document').value = null;
     }
 }
 

@@ -53,12 +53,14 @@ $app->delete("/api/v1/lessons/:id", [ LessonController::class, "delete" ], [
  * Marca como completada una lección
  */
 $app->put("/api/v1/lessons/:id/complete", [ LessonController::class, "complete" ], [
-    [ ValidateIdMiddleware::class ]
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ] 
 ]);
 
 /**
  * Marca como visitada una lección
  */
 $app->put("/api/v1/lessons/:id/visit", [ LessonController::class, "visit" ], [
-    [ ValidateIdMiddleware::class ]
+    [ ValidateIdMiddleware::class ],
+    [ AuthApiMiddleware::class, true, Roles::STUDENT->value ] 
 ]);

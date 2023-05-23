@@ -35,6 +35,33 @@ class VideoController {
             return;
         }
 
+        $allowedExtensions = [ "video/mp4" ];
+        if (!in_array($file->getType(), $allowedExtensions)) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["videoId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
+        if ($file->getSize() > 1 * 1024 * 1024 * 1024) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["videoId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
         $getID3 = new getID3();
         $fileinfo = $getID3->analyze($file->getTmpName());
 
@@ -80,7 +107,7 @@ class VideoController {
     }
 
     public function update(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $videoId = intval($request->getParams("id"));
         $file = $request->getFiles("video");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -107,7 +134,7 @@ class VideoController {
         
         move_uploaded_file($file->getTmpName(), $address);
 
-        $video = VideoModel::findById($id);
+        $video = VideoModel::findById($videoId);
         if (!$video) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -133,7 +160,7 @@ class VideoController {
 
     public function putLessonVideo(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id");
+        $lessonId = intval($request->getParams("id"));
 
         $file = $request->getFiles("video");
         if (!$file) {
@@ -198,7 +225,7 @@ class VideoController {
 
     public function delete(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        $videoId = $request->getParams("id");
+        $videoId = intval($request->getParams("id"));
 
         $video = VideoModel::findById($videoId);
         if (!$video) {
@@ -221,8 +248,8 @@ class VideoController {
     }
 
     public function getOne(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
-        if (!Validate::uint($id)) {
+        $videoId = intval($request->getParams("id"));
+        if (!Validate::uint($videoId)) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Identificador no válido"
@@ -233,7 +260,7 @@ class VideoController {
         $userId = $request->getSession()->get("id");
 /*
         $videoRepository = new VideoRepository();
-        $info = $videoRepository->video($userId, $id);
+        $info = $videoRepository->video($userId, $videoId);
         if (!$info) {
             $response->setStatus(401)->json([
                 "status" => false,
@@ -268,7 +295,7 @@ class VideoController {
             return;
         }
 */
-        $video = VideoModel::findById($id);
+        $video = VideoModel::findById($videoId);
         if (!$video) {
             $response->setStatus(404)->json([
                 "status" => false,

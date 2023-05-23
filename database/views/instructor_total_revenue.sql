@@ -32,4 +32,4 @@ LEFT JOIN (
         e.`payment_method_id`) AS p
 ON
     u.`user_id` = p.`user_id` 
-    AND pm.`payment_method_id` = p.`payment_method_id`
+    AND pm.`payment_method_id` = p.`payment_method_id`;

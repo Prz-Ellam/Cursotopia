@@ -10,9 +10,10 @@ use Exception;
 
 class LevelController {
     public function getOne(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $levelId = intval($request->getParams("id"));
+        $userId = intval($request->getSession()->get("id"));
 
-        if ($id === 0) {
+        if ($levelId === 0) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Identificador invalido"
@@ -20,7 +21,7 @@ class LevelController {
             return;
         }
 
-        $level = LevelModel::findById($id);
+        $level = LevelModel::findById($levelId);
         if (!$level) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -29,13 +30,28 @@ class LevelController {
             return;
         }
 
-        // TODO: Status
-        $response->json($level);
+        if (!$level->getActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
+        if ($level->getInstructorId() !== $userId) {
+            $response->setStatus(403)->json([
+                "status" => false,
+                "message" => "No autorizado"
+            ]);
+            return;
+        }
+
+        $response->json($level->toArray());
     }
 
     public function create(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             [
                 "title" => $title,
                 "description" => $description,
@@ -45,6 +61,14 @@ class LevelController {
 
             $course = CourseModel::findById($courseId);
             if (!$course) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Curso no encontrado"
+                ]);
+                return;
+            }
+
+            if (!$course->isActive()) {
                 $response->setStatus(404)->json([
                     "status" => false,
                     "message" => "Curso no encontrado"
@@ -92,7 +116,7 @@ class LevelController {
 
     public function update(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
+            $userId = intval($request->getSession()->get("id"));
             $id = intval($request->getParams("id"));
             [
                 "title" => $title,
@@ -154,10 +178,10 @@ class LevelController {
 
     public function delete(Request $request, Response $response): void {
         try {
-            $userId = $request->getSession()->get("id");
-            $id = intval($request->getParams("id"));
+            $userId = intval($request->getSession()->get("id"));
+            $levelId = intval($request->getParams("id"));
 
-            $level = LevelModel::findById($id);
+            $level = LevelModel::findById($levelId);
             if (!$level) {
                 $response->setStatus(404)->json([
                     "status" => false,

@@ -182,6 +182,26 @@ class LevelModel implements JsonSerializable {
     public static function getProperties() : array {
         return array_keys(get_class_vars(self::class));
     }
+
+    /**
+     * Get the value of courseId
+     */ 
+    public function getCourseId()
+    {
+        return $this->courseId;
+    }
+
+    /**
+     * Set the value of courseId
+     *
+     * @return  self
+     */ 
+    public function setCourseId($courseId)
+    {
+        $this->courseId = $courseId;
+
+        return $this;
+    }
 }
 
 LevelModel::init();

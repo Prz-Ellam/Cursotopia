@@ -3,11 +3,11 @@ import 'jquery-validation';
 import 'multiple-select';
 import 'bootstrap';
 import CourseCreateValidator from './validators/course-create.validator';
-import { backSection, createCourse, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
-import { courseCreationUpdateLevel, createLevelImage, createLevelPdf, createLevelVideo, submitLevelCreate } from './controllers/level.controller';
+import { backSection, deleteDocument, deleteImage, deleteLink, deleteVideo, submitConfirmCourse, submitCreateCourse, updateDocument, updateImage, updateLink, updateVideo } from './controllers/course.controller';
+import { courseCreationUpdateLevel, submitLevelCreate } from './controllers/level.controller';
 import CreateCategoryValidator from './validators/category-create.validator';
 import createLevelValidator from './validators/level-create.validator';
-import createLessonValidator from './validators/lesson-create.validator';
+import LessonCreateValidator from './validators/lesson-create.validator';
 import Swal from 'sweetalert2';
 import { createLesson, updateLesson } from './controllers/lesson.controller';
 import { submitCategory } from './controllers/category.controller';
@@ -17,11 +17,13 @@ import LevelView from './views/level.view';
 import LessonService from './services/lesson.service';
 import LessonView from './views/lesson.view';
 import { showModal } from './utilities/modal';
+import axios from 'axios';
+import lessonUpdateValidator from './validators/lesson-update.validator';
 
 $(async () => {
     // Crear curso
     $('#course-create-form').validate(CourseCreateValidator);
-    $('#course-create-form').on('submit', createCourse);
+    $('#course-create-form').on('submit', submitCreateCourse);
 
     $('#upload-image').on('change', async function(event) {
         await displayImageFile(event, '#upload-image', '#picture-box', '');
@@ -38,7 +40,6 @@ $(async () => {
 
     $('#category-create-form').validate(CreateCategoryValidator);
     $('#category-create-form').on('submit', submitCategory);
-
 
     // Create Level
     $('#create-level-btn').on('click', function() {
@@ -78,7 +79,7 @@ $(async () => {
         console.log(createLessonLevel.value);
     });
 
-    $('#create-lesson-form').validate(createLessonValidator);
+    $('#create-lesson-form').validate(LessonCreateValidator);
     $('#create-lesson-form').on('submit', createLesson);
 
     // Update Lesson
@@ -91,18 +92,98 @@ $(async () => {
 
         const response = await LessonService.findById(id);
         console.log(response);
-        $('#edit-lesson-title').val(response.title);
-        $('#edit-lesson-description').val(response.description);
+        $('#lesson-update-title').val(response.title);
+        $('#lesson-update-description').val(response.description);
 
         $('#delete-video-btn').attr('data-id', response.videoId);
         $('#delete-image-btn').attr('data-id', response.imageId);
         $('#delete-document-btn').attr('data-id', response.documentId);
         $('#delete-link-btn').attr('data-id', response.linkId);
 
+        if (response.imageId) {
+            const imageResponse = await axios({
+                url: `/api/v1/images/${ response.imageId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+
+            const contentDisposition = imageResponse .headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = imageResponse .headers['content-type'];
+            const lastModified = imageResponse .headers['last-modified'];
+
+            const file = new File([imageResponse ], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-image').files = dataTransfer.files;
+        }
+
+        if (response.videoId) {
+            const videoResponse = await axios({
+                url: `/api/v1/videos/${ response.videoId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+
+            const contentDisposition = videoResponse.headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = videoResponse.headers['content-type'];
+            const lastModified = videoResponse.headers['last-modified'];
+            
+            const file = new File([videoResponse], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-video').files = dataTransfer.files;
+        }
+
+        if (response.documentId) {
+            const documentResponse = await axios({
+                url: `/api/v1/documents/${ response.documentId }`,
+                method: 'GET',
+                responseType: 'arraybuffer' // Specify the response type as arraybuffer
+            })
+            
+            const contentDisposition = documentResponse.headers['content-disposition'];
+            const filenameRegex = new RegExp(/\"(.+)\"/);
+            const filename = filenameRegex.exec(contentDisposition)[1];
+            const contentType = documentResponse.headers['content-type'];
+            const lastModified = documentResponse.headers['last-modified'];
+
+            const file = new File([documentResponse], filename, {
+                type: contentType,
+                lastModified: new Date(lastModified)
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('update-lesson-document').files = dataTransfer.files;
+        }
+        
+        if (response.linkId) {
+            const linkResponse = await axios({
+                url: `/api/v1/links/${ response.linkId }`,
+                method: 'GET',
+            });
+
+            const data = linkResponse.data;
+            $('#edit-lesson-link-title').val(data.name);
+            $('#edit-lesson-link-address').val(data.address);
+        }
+
         showModal('#lesson-update-modal');
     });
     
-    $('#update-lesson-form').validate(createLessonValidator);
+    $('#update-lesson-form').validate(lessonUpdateValidator);
     $('#update-lesson-form').on('submit', updateLesson);
 
 
@@ -135,11 +216,6 @@ $(async () => {
         }
     });
 
-
-    //$('#create-lesson-video').on('change', createLevelVideo);
-    //$('#create-lesson-image').on('change', createLevelImage);
-    //$('#create-lesson-pdf').on('change', createLevelPdf);
-
     $(document).on('click', '.delete-level-btn', async function() {
         const id = $(this).attr('data-id');
         const feedback = await Swal.fire({
@@ -157,7 +233,7 @@ $(async () => {
             }
         });
         if (feedback.isConfirmed) {
-            await LevelService.delete(id);
+            const response = await LevelService.delete(id);
             LevelView.deleteLevelSection(id);
         }
     });
@@ -179,10 +255,130 @@ $(async () => {
             }
         });
         if (feedback.isConfirmed) {
-            await LessonService.delete(id);
+            const response = await LessonService.delete(id);
             LessonView.deleteLessonSection(id);
         }
     });
+
+
+    $('#create-lesson-video').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const video = files[0];
+
+        const allowedExtensions = [ 'video/mp4' ];
+        if (!allowedExtensions.includes(video.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 1 * 1024 * 1024 * 1024;
+        if (video.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El video es muy pesado',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+    $('#create-lesson-image').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const image = files[0];
+
+        const allowedExtensions = [ 'image/jpeg', 'image/jpg', 'image/png' ];
+        if (!allowedExtensions.includes(image.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 8 * 1024 * 1024;
+        if (image.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'La imagen es muy pesada',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+    $('#create-lesson-pdf').on('change', async function(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) {
+            $(this).val('');
+            return;
+        }
+        const document = files[0];
+        const allowedExtensions = [ 'application/pdf' ];
+        if (!allowedExtensions.includes(document.type)) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El tipo de archivo que selecciono no es admitido',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+
+        const maxFilesize = 8 * 1024 * 1024;
+        if (document.size > maxFilesize) {
+            await Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'El documento es muy pesado',
+                confirmButtonColor: "#dc3545",
+                customClass: {
+                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
+                },
+            });
+            $(this).val('');
+            return;
+        }
+    });
+
+
+
 
     $('#update-lesson-video').on('change', updateVideo);
     $('#update-lesson-document').on('change', updateDocument);

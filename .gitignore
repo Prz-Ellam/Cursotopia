@@ -5,3 +5,4 @@
 /uploads/*
 /docs/videos/*
 .env
+/database/cursotopia.sql

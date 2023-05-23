@@ -16,10 +16,6 @@ class EnrollmentRepository extends DB implements Repository {
         )
     SQL;
 
-    private const PAY = <<<'SQL'
-        CALL `enrollment_pay`(:course_id, :student_id, :amount, :payment_method_id)
-    SQL;
-    
     private const FIND_ONE_BY_COURSE_AND_STUDENT = <<<'SQL'
         CALL `enrollment_find_one_by_course_and_student`(:course_id, :student_id)
     SQL;

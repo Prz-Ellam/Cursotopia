@@ -1,6 +1,3 @@
-<?php
-  use Cursotopia\Helpers\Format;
-?>
 <!DOCTYPE html>
 <html lang="<?= LANG ?>">
 <head>
@@ -25,7 +22,6 @@
     <div class="row flex-nowrap">
       <div class="col-auto collapse d-lg-block col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
         <div class="text-white">
-
           <ul class="nav nav-pills flex-column mb-auto nav-list sidebar">
             <li class="nav-item">
               <a href="/profile?id=<?= $this->session("id") ?>" class="nav-link text-white" aria-current="page">
@@ -56,7 +52,7 @@
       </div>
       <div class="col py-3">
         
-        <div class="container">
+        <div class="content container mt-3">
           <h2 class="fw-bold">Usuarios</h2>
           
           <div class="row">
@@ -83,7 +79,7 @@
                           </a>
                         </td>
                         <td data-title="Desbloquear">
-                          <button class="btn btn-secondary rounded-pill unblock-btn" id="<?= $user["id"] ?>">Desbloquear</button>
+                          <button class="btn btn-secondary rounded-pill unblock-btn" data-id="<?= $user["id"] ?>">Desbloquear</button>
                         </td>
                       </tr>
                       <?php endforeach ?>
@@ -118,7 +114,7 @@
                             </a>
                           </td>
                           <td data-title="Desbloquear">
-                            <button class="btn btn-danger rounded-pill block-btn" id="<?= $user["id"] ?>">Bloquear</button>
+                            <button class="btn btn-danger rounded-pill block-btn" data-id="<?= $user["id"] ?>">Bloquear</button>
                           </td>
                         </tr>
                       <?php endforeach ?>
@@ -127,11 +123,11 @@
                 </div>
               </div>
             </div>
-    
           </div>
-        
+        </div>
       </div>
     </div>
   </div>
+  <?= $this->render("partials/footer") ?>
 </body>
 </html>

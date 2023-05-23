@@ -2,8 +2,8 @@ import $ from 'jquery';
 import 'jquery-validation';
 import ReviewService from '@/services/review.service';
 import { showMoreReviews } from '@/views/review.view';
-import { showErrorMessage } from '../utilities/show-error-message';
-import { Toast, ToastTopEnd } from '../utilities/toast';
+import { showErrorMessage } from '@/utilities/show-error-message';
+import { Toast, ToastTopEnd } from '@/utilities/toast';
 
 let currentPage = 1;
 const pageSize = 5;

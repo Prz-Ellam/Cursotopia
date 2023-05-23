@@ -37,7 +37,7 @@
             <li>
               <a href="/admin/categories" class="nav-link text-white active">
                 <i class="bx bxs-category"></i>
-                Categorias
+                Categorías
               </a>
             </li>
             <li>
@@ -51,7 +51,7 @@
       </div>
 
       <div class="col py-3">
-        <div class="mt-3">
+        <div class="content mt-3">
           <h2 class="fw-bold">Categorías</h2>
 
           <div class="row">
@@ -63,8 +63,7 @@
                   <thead class="border-bottom text-center">
                     <tr>
                       <th>Curso</th>
-                      <th>Usario</th>
-                      
+                      <th>Usario</th>           
                       <th>Aceptar/Declinar</th>
                     </tr>
                   </thead>
@@ -74,8 +73,8 @@
                       <td data-title="Curso"><?= $category["name"] ?></td>
                       <td data-title="Usuario"><?= $category["user"] ?></td>
                       <td data-title="Aceptar/Declinar">
-                        <button class="btn border-0 approve-btn" id="<?= $category["id"] ?>"><i class='bx bxs-check-circle' ></i></button>
-                        <button class="btn border-0 denied-btn" id="<?= $category["id"] ?>"><i class='bx bxs-x-circle' ></i></button>
+                        <button class="btn border-0 approve-btn" data-id="<?= $category["id"] ?>"><i class='bx bxs-check-circle' ></i></button>
+                        <button class="btn border-0 denied-btn" data-id="<?= $category["id"] ?>"><i class='bx bxs-x-circle' ></i></button>
                       </td>
                     </tr>
                     <?php endforeach ?>
@@ -90,48 +89,16 @@
                 <?php foreach($this->categories as $category): ?>
                   <div class="d-flex">
                     <p class=""><?= $category["name"] ?></p>
-                    <button class="btn ms-auto update-category-btn text-success border-0 edit-btn" id="<?= $category["id"] ?>">
+                    <button class="btn ms-auto update-category-btn text-success border-0 edit-btn" data-id="<?= $category["id"] ?>">
                       <i class='bx bxs-pencil'></i>
                     </button>
-                    <!--button class="btn p-0 deactivate-btn" id="<?= $category["id"] ?>">
+                    <!--button class="btn p-0 deactivate-btn" data-id="<?= $category["id"] ?>">
                       <i class='bx bxs-x-circle'></i>
                     </button-->
                   </div>
                 <?php endforeach ?>
               </div>
             </div>
-
-            <!--div class="col-12 disabled-categories-table me-3 mt-4 mb-4">
-              <h4>Categorias desactivadas</h4>
-              <div class="row pt-3" id="no-more-tables">
-                <table class="table table-borderless">
-                  <thead class="border-bottom text-center">
-                    <tr>
-                      <th>Categoría</th>
-                      <th>Usario</th>
-                      <th>Detalle</th>
-                      <th>Activar</th>
-                    </tr>
-                  </thead>
-                  <tbody id="inactiveCategories">
-                  <?php foreach($this->notActiveCategories as $category): ?>
-                    <tr class="text-center">
-                      <td data-title="Categoría"><?= $category["name"] ?></td>
-                      <td data-title="Usuario"><?= $category["user"] ?></td>
-                      <td data-title="Detalle">
-                        <button class="btn btn-secondary rounded-pill update-category-btn details-btn" id="<?= $category["id"] ?>">
-                          Ver detalles
-                        </button>
-                      </td>
-                      <td data-title="Activar">
-                        <button class="btn btn-secondary rounded-pill activate-btn" id="<?= $category["id"] ?>">Activar</button>
-                      </td>
-                    </tr>
-                  <?php endforeach ?>
-                  </tbody>
-                </table>
-              </div>
-            </div-->
           </div>
         </div>
       </div>
@@ -174,12 +141,6 @@
   </div>
 
   <!-- Footer -->
-  <div class="container-fluid mt-auto bg-primary">
-    <footer class="py-3 footer">
-      <div class="col-md-4 d-flex align-items-center">
-        <span class="mb-3 mb-md-0">&copy; 2023 Cursotopia. Todos los derechos reservados.</span>
-      </div>
-    </footer>
-  </div>
+  <?= $this->render("partials/footer") ?>
 </body>
 </html>

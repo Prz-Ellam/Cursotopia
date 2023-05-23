@@ -3,25 +3,14 @@
 namespace Cursotopia\Entities;
 
 class Image {
-    private ?int $id;
-    private ?string $name;
-    private ?int $size;
-    private ?string $contentType;
-    private ?string $data;
-    private ?string $createdAt;
-    private ?string $modifiedAt;
-    private ?bool $active;
-
-    public function __construct(?array $data = null) {
-        $this->id = $data["id"] ?? null;
-        $this->name = $data["name"] ?? null;
-        $this->size = $data["size"] ?? null;
-        $this->contentType = $data["contentType"] ?? null;
-        $this->data = $data["data"] ?? null;
-        $this->createdAt = $data["createdAt"] ?? null;
-        $this->modifiedAt = $data["modifiedAt"] ?? null;
-        $this->active = $data["active"] ?? null;
-    }
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?int $size = null;
+    private ?string $contentType = null;
+    private ?string $data = null;
+    private ?string $createdAt = null;
+    private ?string $modifiedAt = null;
+    private ?bool $active = null;
 
     public function getId(): ?int {
         return $this->id;

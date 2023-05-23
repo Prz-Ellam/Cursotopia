@@ -33,6 +33,33 @@ class DocumentController {
             $next();
             return;
         }
+
+        $allowedExtensions = [ "application/pdf" ];
+        if (!in_array($file->getType(), $allowedExtensions)) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["documentId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
+
+        if ($file->getSize() > 8 * 1024 * 1024) {
+            $payload = $request->getBody("payload");
+            if ($payload) {
+                $payloadObj = json_decode($payload, true);
+                if ($payloadObj) {
+                    $payloadObj["documentId"] = null;
+                    $request->setBodyParam("payload", json_encode($payloadObj));
+                }
+            }
+            $next();
+            return;
+        }
         
         $name = Uuid::uuid4()->toString();
         $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
@@ -69,7 +96,7 @@ class DocumentController {
     }
 
     public function update(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        $documentId = intval($request->getParams("id"));
         $file = $request->getFiles("document");
         if (!$file) {
             $response->setStatus(400)->json([
@@ -86,7 +113,7 @@ class DocumentController {
 
         move_uploaded_file($file->getTmpName(), $address);
 
-        $document = DocumentModel::findById($id);
+        $document = DocumentModel::findById($documentId);
         if (!$document) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -110,8 +137,8 @@ class DocumentController {
     }
 
     public function putLessonDocument(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id");
+        $userId = intval($request->getSession()->get("id"));
+        $lessonId = intval($request->getParams("id"));
 
         $file = $request->getFiles("document");
         if (!$file) {
@@ -148,7 +175,7 @@ class DocumentController {
         if (!$isCreated) {
             $response->setStatus(400)->json([
                 "status" => false,
-                "message" => "No se pudo crear la imagen"
+                "message" => "No se pudo crear el documento"
             ]);
             return;
         }
@@ -158,20 +185,20 @@ class DocumentController {
 
         $response->json([
             "status" => true,
-            "message" => "Imagen cargada",
-            "id" => $lesson->getImageId()
+            "message" => "Documento cargado",
+            "id" => $document->getId()
         ]);
     }
 
     public function delete(Request $request, Response $response): void {
         $userId = $request->getSession()->get("id");
-        $documentId = $request->getParams("id");
+        $documentId = intval($request->getParams("id"));
 
         $document = DocumentModel::findById($documentId);
         if (!$document) {
             $response->setStatus(404)->json([
                 "status" => false,
-                "message" => "Video no encontrado"
+                "message" => "Documento no encontrado"
             ]);
             return;
         }
@@ -188,9 +215,9 @@ class DocumentController {
     }
 
     public function getOne(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $id = $request->getParams("id");
-        if (!Validate::uint($id)) {
+        $userId = intval($request->getSession()->get("id"));
+        $documentId = intval($request->getParams("id"));
+        if (!Validate::uint($documentId)) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Identificador no válido"
@@ -198,7 +225,7 @@ class DocumentController {
             return;
         }
 
-        $document = DocumentModel::findById($id);
+        $document = DocumentModel::findById($documentId);
         if (!$document) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -216,7 +243,7 @@ class DocumentController {
         }
 /*
         $documentRepository = new DocumentRepository();
-        $info = $documentRepository->checkAvailabityByUser($userId, $id);
+        $info = $documentRepository->checkAvailabityByUser($userId, $documentId);
         if (!$info) {
             $response->setStatus(401)->json([
                 "status" => false,

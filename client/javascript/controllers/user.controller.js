@@ -2,12 +2,12 @@ import $ from 'jquery';
 import 'jquery-validation';
 import Swal from 'sweetalert2';
 
-import { updateImageService } from '../services/image.service';
-import UserService, { blockUserService, findBlockedUsers, findUnblockedUsers, unblockUserService } from '@/services/user.service';
+import { readFileAsync } from '@/utilities/file-reader';
 import { showErrorMessage } from '@/utilities/show-error-message';
 import { showUnblockedUsers, showBlockedUsers } from '@/views/user.view';
 import { Toast, ToastBottom, ToastTopEnd } from '@/utilities/toast';
-import { readFileAsync } from './image.controller';
+import UserService from '@/services/user.service';
+import ImageService from '@/services/image.service';
 
 export const submitLogin = async function(event) {
     event.preventDefault();
@@ -126,6 +126,7 @@ export const submitUpdateUser = async function(event) {
     }
 
     const formData = new FormData(this);
+    const id = formData.get('id');
     const user = {
         name:       formData.get('name'),
         lastName:   formData.get('lastName'),
@@ -137,7 +138,7 @@ export const submitUpdateUser = async function(event) {
     $('#profile-edition-btn').prop('disabled', true);
     $('#profile-edition-spinner').removeClass('d-none');
 
-    const response = await UserService.update(user, formData.get('id'));
+    const response = await UserService.update(user, id);
 
     $('#profile-edition-spinner').addClass('d-none');
     $('#profile-edition-btn').prop('disabled', false);
@@ -208,6 +209,73 @@ export const submitUpdatePassword = async function(event) {
     window.location.href = '/home';
 }
 
+export const blockUser = async function(userId) {
+    const response = await UserService.block(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const blockedUsers = await UserService.findBlocked();
+    const unblockedUsers = await UserService.findUnblocked();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido bloqueado'
+    });
+}
+
+export const unblockUser = async function(userId) {
+    const response = await UserService.unblock(userId);
+    if (!response?.status) {
+        await showErrorMessage(response);
+        return;
+    }
+
+    const blockedUsers = await UserService.findBlocked();
+    const unblockedUsers = await UserService.findUnblocked();
+    if (!blockedUsers?.status || !unblockedUsers?.status) {
+        showErrorMessage({ message: 'Ocurrio un error inesperado' });
+        return;
+    }
+
+    $('#blockUsers').empty();
+    $('#unblockUsers').empty();
+    const blocked = blockedUsers.blockedUsers;
+    const unblocked = unblockedUsers.unblockedUsers;
+
+    blocked.forEach(user => {
+        showBlockedUsers(user);
+    });
+    
+    unblocked.forEach(user => {
+        showUnblockedUsers(user);
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: 'El usuario ha sido desbloqueado'
+    });
+}
+
 // TODO: changeProfilePicture
 let previousFile = '';
 export const changeProfilePicture = async function(event) {
@@ -255,7 +323,7 @@ export const changeProfilePicture = async function(event) {
         spinner.style.visibility = 'visible';
         $('.profile-picture-label').css('visibility', 'hidden');
 
-        const response = await updateImageService(formData, profilePictureId.value);
+        const response = await ImageService.update(formData, profilePictureId.value);
         spinner.style.visibility = 'hidden';
         $('.profile-picture-label').css('visibility', 'visible');
 
@@ -280,131 +348,6 @@ export const changeProfilePicture = async function(event) {
     }
 }
 
-
-export const uploadProfilePicture = async function(event) {    
-    const pictureBox = document.getElementById('picture-box');
-    const inputFile = document.getElementById('profile-picture');
-    const defaultImage = '../client/assets/images/perfil.png';
-
-    try {
-        const files = Array.from(event.target.files);
-        if (files.length === 0) {
-            inputFile.value = previousFile;
-            return;
-        }
-        const file = files[0];
-
-        const allowedExtensions = [ 'image/jpg', 'image/jpeg', 'image/png' ];
-        if (!allowedExtensions.includes(file.type)) {
-            await Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: 'El tipo de archivo que selecciono no es admitido',
-                confirmButtonColor: "#dc3545",
-                customClass: {
-                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
-                },
-            });
-            //pictureBox.src = defaultImage;
-            //profilePictureId.value = '';
-            inputFile.value = previousFile;
-            //$(".user-form").validate().element('#profile-picture-id');
-            return;
-        }
-
-        const size = parseFloat((file.size / 1024.0 / 1024.0).toFixed(2));
-        if (size > 8.0) {
-            await Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: 'La imagen es muy pesada',
-                confirmButtonColor: "#dc3545",
-                customClass: {
-                    confirmButton: 'btn btn-danger shadow-none rounded-pill'
-                },
-            });
-            //pictureBox.src = defaultImage;
-            //profilePictureId.value = '';
-            inputFile.value = previousFile;
-            //$(".user-form").validate().element('#profile-picture-id');
-            return;
-        }
-
-        const dataUrl = await readFileAsync(file);
-        pictureBox.src = dataUrl;
-        $('.profile-picture').attr('src', dataUrl);
-        previousFile = file;
-    }
-    catch (exception) {
-        console.log(exception);
-        pictureBox.src = defaultImage;
-    }
-    //$(".user-form").validate().element('#profile-picture-id');
-}
-
-export const blockUser = async function(userId) {
-
-    const response = await blockUserService(userId);
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    const blockedUsers = await findBlockedUsers();
-    const unblockedUsers = await findUnblockedUsers();
-    if (!blockedUsers?.status || !unblockedUsers?.status) {
-        showErrorMessage({ message: 'Ocurrio un error inesperado' });
-        return;
-    }
-
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-
-    const blocked = blockedUsers.blockedUsers;
-    const unblocked = unblockedUsers.unblockedUsers;
-    blocked.forEach(user => {
-        showBlockedUsers(user);
-    });
-    unblocked.forEach(user => {
-        showUnblockedUsers(user);
-    });
-
-    Toast.fire({
-        icon: 'success',
-        title: 'El usuario ha sido bloqueado'
-    });
-}
-
-export const unblockUser = async function(userId) {
-    const response = await unblockUserService(userId);
-    if (!response?.status) {
-        await showErrorMessage(response);
-        return;
-    }
-
-    const blockedUsers = await findBlockedUsers();
-    const unblockedUsers = await findUnblockedUsers();
-    if (!blockedUsers?.status || !unblockedUsers?.status) {
-        showErrorMessage({ message: 'Ocurrio un error inesperado' });
-        return;
-    }
-
-    $('#blockUsers').empty();
-    $('#unblockUsers').empty();
-    const blocked = blockedUsers.blockedUsers;
-    const unblocked = unblockedUsers.unblockedUsers;
-    blocked.forEach(user => {
-        showBlockedUsers(user);
-    });
-    unblocked.forEach(user => {
-        showUnblockedUsers(user);
-    });
-
-    Toast.fire({
-        icon: 'success',
-        title: 'El usuario ha sido desbloqueado'
-    });
-}
 
 /**
  * 

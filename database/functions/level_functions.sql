@@ -2,9 +2,11 @@
 DELIMITER $$
 DROP FUNCTION IF EXISTS `find_main_resource` $$
 CREATE FUNCTION `find_main_resource`(
-    _lesson_id       INT
+    `_lesson_id`                        INT
 )
 RETURNS VARCHAR(50)
+DETERMINISTIC
+READS SQL DATA
 BEGIN
     DECLARE main_resource VARCHAR(50);
     
@@ -16,7 +18,7 @@ BEGIN
         ELSE NULL
     END INTO main_resource
     FROM `lessons`
-    WHERE `lesson_id` = _lesson_id;
+    WHERE `lesson_id` = `_lesson_id`;
     
     RETURN main_resource;
 END $$

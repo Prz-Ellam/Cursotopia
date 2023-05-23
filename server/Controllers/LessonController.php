@@ -5,6 +5,7 @@ namespace Cursotopia\Controllers;
 use Bloom\Http\Request\Request;
 use Bloom\Http\Response\Response;
 use Cursotopia\Entities\Enrollment;
+use Cursotopia\Helpers\Validate;
 use Cursotopia\Models\EnrollmentModel;
 use Cursotopia\Models\LessonModel;
 use Cursotopia\Models\LevelModel;
@@ -12,14 +13,45 @@ use Cursotopia\Models\LinkModel;
 use Exception;
 
 class LessonController {
+    /**
+     * Obtiene una lección
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
     public function getOne(Request $request, Response $response): void {
-        $id = $request->getParams("id");
+        $lessonId = intval($request->getParams("id"));
+        $userId = intval($request->getSession()->get("id"));
+        if (!Validate::uint($lessonId)) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Identificador no válido"
+            ]);
+            return;
+        }
 
-        $lesson = LessonModel::findById($id);
+        $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
+        if (!$lesson->getActive()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "Lección no encontrada"
+            ]);
+            return;
+        }
+
+        if ($lesson->getInstructorId() !== $userId) {
+            $response->setStatus(403)->json([
+                "status" => false,
+                "message" => "No autorizado"
             ]);
             return;
         }
@@ -43,7 +75,6 @@ class LessonController {
                 //"linkId" => $linkId
             ] = $request->getBody();
 
-            
             $level = LevelModel::findById($levelId);
             if (!$level) {
                 $response->setStatus(404)->json([
@@ -70,7 +101,6 @@ class LessonController {
                 }
                 $linkId = $link->getId();
             }
-
 
             $lesson = new LessonModel([
                 "title" => $title,
@@ -105,15 +135,23 @@ class LessonController {
         }
     }
 
+    /**
+     * Actualiza una lección
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
     public function update(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $id = intval($request->getParams("id"));
+        $userId = intval($request->getSession()->get("id"));
+        $lessonId = intval($request->getParams("id"));
         [
             "title" => $title,
-            "description" => $description
+            "description" => $description,
+            "link" => $link
         ] = $request->getBody();
 
-        $lesson = LessonModel::findById($id);
+        $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -122,7 +160,38 @@ class LessonController {
             return;
         }
 
-        if (!$lesson->getImageId() && !$lesson->getVideoId() && !$lesson->getDocumentId()) {
+        // Vacio
+        if ($link["name"] === "" || $link["url"] === "") {
+            $linkId = $lesson->getLinkId();
+
+            $link = LinkModel::findById($linkId);
+            if ($link) {
+                $link
+                    ->setActive(false);
+
+                $link->save();
+
+                $lesson->setLinkId(null);
+                $lesson->save();
+            }
+        }
+
+        // Ambos llenos
+        else if ($link["name"] !== "" && $link["url"] !== "") {
+            $linkModel = new LinkModel([
+                "name" => $link["name"],
+                "address" => $link["url"]
+            ]);
+            $isCreated = $linkModel->save();
+
+            if ($isCreated) {
+                $lesson->setLinkId($linkModel->getId());
+                $lesson->save();
+            }
+        }
+
+        if (!$lesson->getImageId() && !$lesson->getVideoId() 
+            && !$lesson->getDocumentId() && !$lesson->getLinkId()) {
             $response->setStatus(400)->json([
                 "status" => false,
                 "message" => "Falta añadir un recurso"
@@ -138,18 +207,19 @@ class LessonController {
             return;
         }
 
+        if ($lesson->getCourseIsComplete()) {
+            $response->setStatus(400)->json([
+                "status" => false,
+                "message" => "Este curso fue completado y no puede ser editado"
+            ]);
+            return;
+        }
+
         $lesson
             ->setTitle($title)
             ->setDescription($description);
         
         $isUpdated = $lesson->save();
-        // if (!$isUpdated) {
-        //     $response->setStatus(400)->json([
-        //         "status" => true,
-        //         "message" => "La lección no se pudo actualizar"
-        //     ]);
-        //     return;
-        // }
 
         $response->json([
             "status" => true,
@@ -158,39 +228,64 @@ class LessonController {
     }
 
     public function delete(Request $request, Response $response): void {
-        $id = intval($request->getParams("id"));
+        try {
+            $userId = intval($request->getSession()->get("id"));
+            $lessonId = intval($request->getParams("id"));
 
-        $lesson = LessonModel::findById($id);
-        if (!$lesson) {
-            $response->setStatus(404)->json([
-                "status" => false,
-                "message" => "Lección no encontrada"
-            ]);
-            return;
-        }
+            $lesson = LessonModel::findById($lessonId);
+            if (!$lesson) {
+                $response->setStatus(404)->json([
+                    "status" => false,
+                    "message" => "Lección no encontrada"
+                ]);
+                return;
+            }
 
-        $lesson
-            ->setActive(false);
+            if ($userId != $lesson->getInstructorId()) {
+                $response->setStatus(403)->json([
+                    "status" => false,
+                    "message" => "No autorizado"
+                ]);
+                return;
+            }
 
-        $isDeleted = $lesson->save();
-        if (!$isDeleted) {
-            $response->setStatus(400)->json([
+            if ($lesson->getCourseIsComplete()) {
+                $response->setStatus(400)->json([
+                    "status" => false,
+                    "message" => "Este curso fue completado y no puede ser eliminado"
+                ]);
+                return;
+            }
+
+            $lesson
+                ->setActive(false);
+
+            $isDeleted = $lesson->save();
+            if (!$isDeleted) {
+                $response->setStatus(400)->json([
+                    "status" => true,
+                    "message" => "La lección no se pudo eliminar"
+                ]);
+                return;
+            }
+
+            $response->json([
                 "status" => true,
-                "message" => "La lección no se pudo eliminar"
+                "message" => "La lección se eliminó éxitosamente"
             ]);
-            return;
         }
-
-        $response->json([
-            "status" => true,
-            "message" => "La lección se eliminó éxitosamente"
-        ]);
+        catch (Exception $exception) {
+            $response->setStatus(500)->json([
+                "status" => false,
+                "message" => "Ocurrió un error en el servidor"
+            ]);
+        }
     }
 
     // TODO:
     public function complete(Request $request, Response $response): void {
-        $userId = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id") ?? -1;
+        $userId = intval($request->getSession()->get("id"));
+        $lessonId = intval($request->getParams("id")) ?? -1;
 
         $lesson = LessonModel::findById($lessonId);
         if (!$lesson) {
@@ -201,8 +296,7 @@ class LessonController {
             return;
         }
 
-        $levelId = $lesson->getLevelId();
-        $level = LevelModel::findById($levelId);
+        $level = LevelModel::findById($lesson->getLevelId());
         if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
@@ -211,21 +305,38 @@ class LessonController {
             return;
         }
 
-        //$enrollment = EnrollmentModel::findOneByCourseIdAndStudentId();
+        $enrollment = EnrollmentModel::findOneByCourseAndStudent($level->getCourseId(), $userId);
+        if (!$enrollment) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El usuario no esta suscrito al curso"
+            ]);
+            return;
+        }
 
-        // TODO: Validar que esta lección pueda ser completada si es que pago
+        if (!$enrollment->getIsPaid() && !$level->isFree()) {
+            $response->setStatus(404)->json([
+                "status" => false,
+                "message" => "El usuario no ha pagado por esta lección"
+            ]);
+            return;
+        }
 
-        $result = EnrollmentModel::completeLesson($userId, $lessonId);
-        $response->json([]);
+        EnrollmentModel::completeLesson($userId, $lessonId);
+        
+        $response->json([
+            "status" => true,
+            "message" => "La lección fue completada"
+        ]);
     }
 
     // TODO:
     public function visit(Request $request, Response $response): void {
-        $id = $request->getSession()->get("id");
-        $lessonId = $request->getParams("id") ?? -1;
+        $id = intval($request->getSession()->get("id"));
+        $lessonId = intval($request->getParams("id")) ?? -1;
 
-        $requestedLesson = LessonModel::findById($lessonId);
-        if (!$requestedLesson) {
+        $lesson = LessonModel::findById($lessonId);
+        if (!$lesson) {
             $response->setStatus(404)->json([
                 "status" => false,
                 "message" => "Lección no encontrada"
@@ -234,6 +345,10 @@ class LessonController {
         }
 
         $result = EnrollmentModel::visitLesson($id, $lessonId);
-        $response->json([]);
+
+        $response->json([
+            "status" => true,
+            "message" => "Le lección fue vista"
+        ]);
     }
 }

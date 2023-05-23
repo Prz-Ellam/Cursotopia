@@ -217,7 +217,7 @@ class EnrollmentModel implements JsonSerializable {
         return $this;
     }
 
-    public static function findOneByCourseIdAndStudentId(?int $courseId, ?int $studentId): ?EnrollmentModel {
+    public static function findOneByCourseAndStudent(?int $courseId, ?int $studentId): ?EnrollmentModel {
         $object = self::$repository->findOneByCourseAndStudent($courseId, $studentId);
         if (!$object) {
             return null;

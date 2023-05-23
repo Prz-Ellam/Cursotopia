@@ -143,7 +143,7 @@ BEGIN
     INNER JOIN `user_level` AS ul
     ON l.level_id = ul.level_id AND ul.user_id = _user_id
     INNER JOIN `lessons` AS le
-    ON l.level_id = le.level_id
+    ON l.level_id = le.level_id AND le.lesson_active = TRUE
     INNER JOIN `user_lesson` AS ule
     ON le.lesson_id = ule.lesson_id AND ule.user_id = _user_id
     LEFT JOIN `videos` AS v

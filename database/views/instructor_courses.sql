@@ -24,4 +24,3 @@ ON
     c.`course_id` = e.`course_id`
 GROUP BY
     c.`course_id`;
-

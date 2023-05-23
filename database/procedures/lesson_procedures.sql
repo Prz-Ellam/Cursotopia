@@ -90,6 +90,7 @@ BEGIN
         le.`lesson_created_at`          AS `createdAt`,
         le.`lesson_modified_at`         AS `modifiedAt`,
         le.`lesson_active`              AS `active`,
+        c.`course_id`                   AS `courseId`,
         c.`instructor_id`               AS `instructorId`,
         c.`course_is_complete`          AS `courseIsComplete`
     FROM
