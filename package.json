@@ -2,7 +2,7 @@
   "name": "cursotopia",
   "version": "1.0.0",
   "description": "Web application for online courses",
-  "main": "client/index.js",
+  "main": "client/home.js",
   "type": "module",
   "directories": {
     "doc": "docs",

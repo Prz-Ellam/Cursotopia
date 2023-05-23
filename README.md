@@ -97,11 +97,13 @@ Transpile the frontend code into a dist for the web
 npm run build
 ```
 
-If you use Apache, set the root of the project in the `httpd.conf`
-```
-DocumentRoot <This is where you root goes>
+This will generate a `dist` folder in `public`
 
-<Directory "<This is where you root goes>">
+If you use Apache, set the public folder of the project in the `httpd.conf`
+```
+DocumentRoot <This is where your public folder path goes>
+
+<Directory "<This is where your public folder path>">
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
@@ -109,7 +111,7 @@ DocumentRoot <This is where you root goes>
 </Directory>
 ```
 
-Change configuration in the php.ini
+Change configuration in the php.ini to support video upload
 ```
 php_value upload_max_filesize 500M
 php_value post_max_size 500M
@@ -121,11 +123,31 @@ Enable Intl module in php.ini
 extension=intl
 ```
 
+Go to the folder `/database` and execute php script
+```
+php build.php
+```
+
+This is gonna create a `cursotopia.sql`, in your RDBMS execute the script and this will create the entire cursotopia.sql (tables, stored procedures, triggers, views, functions and initial data)
+
+Create a `.env` file in the root folder (you can duplicate the `.env.example` and rename it)
+Fill it with your database
+
+Recomended values:
+```
+APP_NAME=Cursotopia
+APP_DEBUG=false
+APP_TIMEZONE=Etc/GMT-6
+APP_LANG=es-MX
+APP_LOCALE=es_MX.UTF-8
+APP_CHARSET=UTF-8
+```
+
 # Features
 - [x] Auth
 - [x] Users and roles
-- [ ] Courses
-- [ ] Levels (Sections)
+- [x] Courses
+- [x] Levels (Sections)
 - [x] Categories
 - [x] Messages
 - [x] Comments and reviews
