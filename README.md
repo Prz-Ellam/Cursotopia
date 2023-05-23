@@ -2,6 +2,8 @@
 
 Cursotopia is a web application for online courses
 
+![](.screenshoots/hero_banner.png)
+
 # Technologies:
 ## Frontend
 <p align="left">
